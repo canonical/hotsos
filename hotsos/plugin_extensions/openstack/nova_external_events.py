@@ -1,9 +1,11 @@
 from hotsos.core.ycheck.events import CallbackHelper
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     SearchDef,
     FileSearcher,
 )
+from hotsos.core.search.constraints import SearchConstraintSearchSince
 from hotsos.core.plugins.openstack.common import OpenstackEventChecksBase
+from hotsos.core.plugins.openstack.openstack import OPENSTACK_LOGS_TS_EXPR
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                           ['Preparing', 'Received',
@@ -36,7 +38,8 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
         events = {}
         events_found = {}
 
-        s = FileSearcher()
+        c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
+        s = FileSearcher(constraint=c)
         for result in event.results:
             instance_id = result.get(1)
             event_id = result.get(3)

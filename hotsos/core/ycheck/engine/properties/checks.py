@@ -1,5 +1,7 @@
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.searchtools import FileSearcher
+from hotsos.core.search import FileSearcher
+from hotsos.core.search.constraints import SearchConstraintSearchSince
 from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
     YPropertyOverrideBase,
@@ -11,7 +13,10 @@ from hotsos.core.ycheck.engine.properties.common import (
 from hotsos.core.ycheck.engine.properties.requires.requires import (
     YPropertyRequires
 )
-from hotsos.core.ycheck.engine.properties.search import YPropertySearch
+from hotsos.core.ycheck.engine.properties.search import (
+    YPropertySearch,
+    COMMON_LOG_DATETIME_EXPRS,
+)
 from hotsos.core.ycheck.engine.properties.input import YPropertyInput
 
 
@@ -121,15 +126,30 @@ class YPropertyChecks(YPropertyOverrideBase):
         self.check_context = YDefsContext({'vars': vars})
 
         log.debug("loading checks searchdefs into filesearcher")
-        s = FileSearcher()
+
+        if HotSOSConfig.USE_ALL_LOGS:
+            hours = 24 * HotSOSConfig.MAX_LOGROTATE_DEPTH
+        else:
+            hours = 24
+
+        c = SearchConstraintSearchSince(exprs=COMMON_LOG_DATETIME_EXPRS,
+                                        hours=hours)
+        s = FileSearcher(constraint=c)
         # first load all the search definitions into the searcher
         for c in self._checks:
             if c.search:
                 # local takes precedence over global
                 _input = c.input or input
+                if _input.command:
+                    # don't apply constraints to command outputs
+                    allow_constraints = False
+                else:
+                    allow_constraints = True
+
                 for path in _input.paths:
                     log.debug("loading searches for check %s", c.check_name)
-                    c.search.load_searcher(s, path)
+                    c.search.load_searcher(s, path,
+                                           allow_constraints=allow_constraints)
 
         # provide results to each check object using global context
         log.debug("executing check searches")

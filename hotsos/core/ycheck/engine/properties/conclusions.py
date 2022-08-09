@@ -76,7 +76,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         corresponding values from searchresult and use them to format the
         message. Returns formatted message.
 
-        @param searchresult: a searchtools.SearchResult object.
+        @param searchresult: a search.searchtools.SearchResult object.
         """
         if not self.format_groups:
             return self.message

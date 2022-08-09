@@ -30,6 +30,11 @@ node   0   1
 """.splitlines(keepends=True)  # noqa
 
 
+LXCFS_ERROR = """
+Jun  4 06:25:10 host-name kernel: [47841183.622537] lxcfs[1925937]: segfault at 0 ip 00007f1ba005d4ea sp 00007f1b7cfc1b10 error 4 in liblxcfs.so [7f1ba0055000+f000]
+"""  # noqa
+
+
 class SystemTestsBase(utils.BaseTestCase):
 
     def setUp(self):
@@ -157,28 +162,25 @@ class TestSystemScenarioChecks(SystemTestsBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @utils.create_data_root({'var/log/kern.log': 'Jun  4 06:25:10 host-name\
-                                kernel: [47841183.622537] lxcfs[1925937]:\
-                                segfault at 0 ip 00007f1ba005d4ea sp \
-                               00007f1b7cfc1b10 error 4 in liblxcfs.so\
-                               [7f1ba0055000+f000]',
+    @utils.create_data_root({'var/log/kern.log': LXCFS_ERROR,
                              'sos_commands/dpkg/dpkg_-l': 'ii  lxcfs \
                                3.0.3-0ubuntu1~18.04.1 \
                                amd64        FUSE based filesystem \
-                               for LXC'})
+                               for LXC'},
+                            copy_from_original=['sos_commands/date/date'])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('lxcfs.yaml'))
     def test_lxcfs_segfault(self):
         YScenarioChecker()()
-        msg = ('Segfault detected in LXCFS, LXD/LXC containers will likely'
-               ' need to be restarted. The "lxcfs" package should be '
-               'upgraded immediately to version 3.0.3-0ubuntu1~18.04.3'
-               ' or better.')
+        msg = ('Segfault detected in LXCFS, LXD/LXC containers will likely '
+               'need to be restarted. The "lxcfs" package should be '
+               'upgraded immediately to version 3.0.3-0ubuntu1~18.04.3 '
+               'or better.')
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-        msg = ("Installed package 'lxcfs' with version 3.0.3-0ubuntu1~18.04.1"
-               ' has a known critical bug which causes segfaults. '
+        msg = ("Installed package 'lxcfs' with version 3.0.3-0ubuntu1~18.04.1 "
+               'has a known critical bug which causes segfaults. '
                'If this environment is using LXD it should be '
                'upgraded ASAP.')
         issues = list(IssuesManager().load_bugs().values())[0]

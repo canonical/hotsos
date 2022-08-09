@@ -15,12 +15,12 @@ from hotsos.core.plugins.storage import (
 from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
 
 MON_ELECTION_LOGS = """
-2022-01-02 06:24:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
-2022-02-02 06:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
-2022-02-02 06:26:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
-2022-02-02 06:27:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
-2022-02-02 06:28:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
-2022-02-02 06:29:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-01-08 9:24:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-08 10:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-08 10:26:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-08 10:27:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-08 10:28:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+2022-02-08 10:29:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
 """  # noqa
 
 OSD_SLOW_HEARTBEATS = """
@@ -469,7 +469,11 @@ class TestMonCephEventChecks(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mon/monlogs.yaml'))
-    def test_get_ceph_daemon_log_checker(self):
+    @mock.patch('hotsos.core.search.constraints.CLIHelper')
+    def test_get_ceph_daemon_log_checker(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        # ensure log file contents are within allowed timeframe ("since")
+        mock_cli.return_value.date.return_value = "2022-02-10 00:00:00"
         result = {'osd-reported-failed': {'osd.41': {'2022-02-08': 23},
                                           'osd.85': {'2022-02-08': 4}},
                   'long-heartbeat-pings': {'2022-02-09': 4},
@@ -494,7 +498,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_data_root({'var/log/ceph/ceph.log': MON_ELECTION_LOGS})
+    @utils.create_data_root({'var/log/ceph/ceph.log': MON_ELECTION_LOGS},
+                            copy_from_original=['sos_commands/date/date'])
     def test_scenario_mon_reelections(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -508,7 +513,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         # Since we have enabled machine readable we should get some context so
         # test that as well.
         logpath = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/ceph/ceph.log')
-        context = {logpath: 2,
+        context = {logpath: 3,
                    'ops': 'truth',
                    'passes': True,
                    'property': ('hotsos.core.plugins.storage.ceph.'
@@ -524,7 +529,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_SLOW_HEARTBEATS})
+    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_SLOW_HEARTBEATS},
+                            copy_from_original=['sos_commands/date/date'])
     def test_scenario_osd_slow_heartbeats(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -561,7 +567,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_SLOW_OPS})
+    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_SLOW_OPS},
+                            copy_from_original=['sos_commands/date/date'])
     def test_scenario_osd_slow_ops(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -591,7 +598,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_FLAPPING})
+    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_FLAPPING},
+                            copy_from_original=['sos_commands/date/date'])
     def test_scenario_osd_flapping(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True

@@ -6,7 +6,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.host_helpers.config import ConfigBase
 from hotsos.core.plugins.storage import StorageBase
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     FileSearcher,
     SequenceSearchDef,
     SearchDef

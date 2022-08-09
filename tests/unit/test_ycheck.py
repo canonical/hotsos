@@ -10,7 +10,7 @@ from . import utils
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import setup_config, HotSOSConfig
-from hotsos.core.searchtools import FileSearcher, SearchDef
+from hotsos.core.search import FileSearcher, SearchDef
 from hotsos.core.host_helpers.config import SectionalConfigBase
 from hotsos.core.ycheck import (
     events,

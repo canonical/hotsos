@@ -63,9 +63,10 @@ class ThreadProtectedObject(abc.ABC):
 
 class SearchDefBase(ThreadProtectedObject):
 
-    def __init__(self):
+    def __init__(self, constraints=None):
         # preload
         self.id
+        self.constraints = {c.id: c for c in constraints or {}}
         # do this last
         super().__init__()
 
@@ -74,13 +75,32 @@ class SearchDefBase(ThreadProtectedObject):
         """
         A unique identifier for this search definition.
         """
-        return uuid.uuid4()
+        return str(uuid.uuid4())
+
+    @property
+    def thread_safe_attributes(self):
+        return []
+
+    def apply_constraints(self, line):
+        """
+        Apply any constraints for this searchdef.
+        """
+        if not self.constraints:
+            return True
+
+        for c in self.constraints.values():
+            if c.apply_to_line(line):
+                continue
+
+            return False
+
+        return True
 
 
 class SearchDef(SearchDefBase):
 
     def __init__(self, pattern, tag=None, hint=None,
-                 store_result_contents=True):
+                 store_result_contents=True, **kwargs):
         """
         Add a search definition.
 
@@ -107,11 +127,11 @@ class SearchDef(SearchDefBase):
             self.hint = None
 
         # do this last
-        super().__init__()
+        super().__init__(**kwargs)
 
     @property
     def thread_safe_attributes(self):
-        return []
+        return super().thread_safe_attributes
 
     def run(self, line):
         """Execute search patterns against line and return first match."""
@@ -131,7 +151,7 @@ class SearchDef(SearchDefBase):
 
 class SequenceSearchDef(SearchDefBase):
 
-    def __init__(self, start, tag, end=None, body=None):
+    def __init__(self, start, tag, end=None, body=None, **kwargs):
         """
         Define search for sequences. A sequence must match a start and end with
         optional body in between. If no end defined, the sequence ends with
@@ -155,14 +175,15 @@ class SequenceSearchDef(SearchDefBase):
         # be unique to avoid collisions when results are aggregated.
         self._section_id = None
         # do this last
-        super().__init__()
+        super().__init__(**kwargs)
 
     @property
     def thread_safe_attributes(self):
         # these are safe to change within a process context since their
         # state doesn't count towards the final result and is not expected to
         # be shared.
-        return ['section_id', 'mark']
+        attrs = super().thread_safe_attributes
+        return attrs + ['section_id', 'mark']
 
     @property
     def start_tag(self):
@@ -268,7 +289,7 @@ class SearchResult(object):
 
     def __repr__(self):
         r_list = ["{}={}".format(k, v.value) for k, v in self._parts.items()]
-        return ", ".join(r_list)
+        return "ln:{} ".format(self.linenumber) + ", ".join(r_list)
 
 
 class SearchResultsCollection(object):
@@ -354,9 +375,17 @@ class SearchResultsCollection(object):
 
 class FileSearcher(object):
 
-    def __init__(self):
+    def __init__(self, constraint=None):
+        """
+        @param constraint: global constraint to be used with this
+                           searcher that applies to all files searched.
+        """
+        self.constraint = constraint
+        self.global_constraint_restrictions = {}
         self.paths = {}
         self.results = SearchResultsCollection()
+        log.debug("filesearcher: created (global constraint=%s)",
+                  self.constraint is not None)
 
     @property
     def num_cpus(self):
@@ -367,7 +396,7 @@ class FileSearcher(object):
 
         return min(self.num_files_to_search, cpus)
 
-    def add_search_term(self, searchdef, path):
+    def add_search_term(self, searchdef, path, allow_global_constraints=True):
         """Add a term to search for.
 
         A search definition is registered against a path which can be a
@@ -376,12 +405,17 @@ class FileSearcher(object):
 
         @param searchdef: SearchDef object
         @param path: path that we will be searching for this key
+        @param allow_global_constraints: whether to allow global constraints to
+                                         be applied to this path.
         """
         log.debug("filesearcher: registered search with tag %s", searchdef.id)
         if path in self.paths:
             self.paths[path].append(searchdef)
         else:
             self.paths[path] = [searchdef]
+
+        if not allow_global_constraints:
+            self.global_constraint_restrictions[path] = True
 
     def _job_wrapper(self, pool, path, entry):
         term_key = path
@@ -420,14 +454,63 @@ class FileSearcher(object):
                    format(path, e))
             raise FileSearchException(msg) from e
 
+    def apply_global_constraints(self, fd):
+        offset = 0
+        if not self.constraint:
+            log.debug("no global constraint to apply to %s", fd.name)
+            return offset
+
+        if fd.name in self.global_constraint_restrictions:
+            log.debug("skipping global constraint for %s", fd.name)
+            return offset
+
+        log.debug("applying global constraint %s to %s", self.constraint,
+                  fd.name)
+        _offset = self.constraint.apply_to_file(fd)
+        if _offset is not None:
+            return _offset
+
+        return offset
+
     def _search_task(self, term_key, fd, path):
         results = []
         sequence_results = {}
-        for ln, line in enumerate(fd, start=1):
+        offset = self.apply_global_constraints(fd)
+        # mark all as runnable to start
+        search_defs = {s_term: True for s_term in self.paths[term_key]}
+        sd_constraints = []
+        for sd in search_defs:
+            if sd.constraints:
+                for c in sd.constraints.values():
+                    sd_constraints.append(c)
+
+                # mark ones with constraints as not runnable until constraint
+                # is met.
+                search_defs[sd] = False
+
+        log.debug("starting search of %s (offset=%s, pos=%s)", path, offset,
+                  fd.tell())
+        if sd_constraints:
+            constraints_msg = "applying constraints to {}:".format(path)
+            for c in sd_constraints:
+                constraints_msg += "\n  {}".format(c)
+
+            log.debug(constraints_msg)
+
+        lines_searched = 0
+        # NOTE: line numbers start at 1 hence  offset + 1
+        for ln, line in enumerate(fd, start=offset + 1):
+            lines_searched += 1
             if type(line) == bytes:
                 line = line.decode("utf-8")
 
-            for s_term in self.paths[term_key]:
+            for s_term, runnable in search_defs.items():
+                if not runnable:
+                    if not s_term.apply_constraints(line):
+                        continue
+
+                    search_defs[s_term] = True
+
                 if type(s_term) == SequenceSearchDef:
                     # if the ending is defined and we match a start while
                     # already in a section, we start again.
@@ -501,7 +584,7 @@ class FileSearcher(object):
             # matches an empty string. If s_end is not defined we just go ahead
             # and complete the section.
             filter_section_id = {}
-            for s_term in self.paths[term_key]:
+            for s_term in search_defs:
                 if type(s_term) == SequenceSearchDef:
                     if s_term.started:
                         if s_term.s_end is None:
@@ -534,6 +617,14 @@ class FileSearcher(object):
                                 continue
 
                     results.append(r)
+
+        log.debug("completed search of %s lines", lines_searched)
+        if sd_constraints:
+            constraints_msg = "constraints stats {}:".format(path)
+            for c in sd_constraints:
+                constraints_msg += "\n  id={}: {}".format(c.id, c.stats())
+
+            log.debug(constraints_msg)
 
         return results
 
@@ -634,10 +725,16 @@ class FileSearcher(object):
                     jobs[user_path] = [(user_path, job)]
                 elif os.path.isdir(user_path):
                     for path in self.filtered_paths(user_path):
+                        if user_path in self.global_constraint_restrictions:
+                            self.global_constraint_restrictions[path] = True
+
                         job = self._job_wrapper(pool, user_path, path)
                         jobs[user_path].append((path, job))
                 else:
                     for path in self.filtered_paths(glob.glob(user_path)):
+                        if user_path in self.global_constraint_restrictions:
+                            self.global_constraint_restrictions[path] = True
+
                         job = self._job_wrapper(pool, user_path, path)
                         jobs[user_path].append((path, job))
 

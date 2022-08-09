@@ -14,7 +14,7 @@ from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.host_helpers.systemd import SystemdService
-from hotsos.core.searchtools import FileSearcher
+from hotsos.core.search import FileSearcher
 from hotsos.plugin_extensions.openstack import (
     vm_info,
     nova_external_events,
@@ -1165,7 +1165,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova/bugs.yaml'))
     @utils.create_data_root({'var/log/nova/nova-compute.log':
-                             LP_1904580})
+                             LP_1904580},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1904580(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -1264,8 +1265,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('octavia/bugs.yaml'))
-    @utils.create_data_root({'var/log/octavia/octavia-worker.log':
-                             LP_2008099})
+    @utils.create_data_root({'var/log/octavia/octavia-worker.log': LP_2008099},
+                            copy_from_original=['sos_commands/date/date'])
     def test_2008099(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \

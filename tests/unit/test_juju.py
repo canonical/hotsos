@@ -13,8 +13,8 @@ Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] collection clone fo
 """  # noqa
 
 RABBITMQ_CHARM_LOGS = """
-2021-02-17 08:18:44 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
-2021-02-17 08:20:34 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
+2022-02-17 08:18:44 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
+2022-02-17 08:20:34 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
 """  # noqa
 
 CONTROLLER_LOG1 = """
@@ -29,11 +29,11 @@ CONTROLLER_LOG2 = """
 """  # noqa
 
 UNIT_LEADERSHIP_ERROR = """
-2021-09-16 10:28:25 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
-2021-09-16 10:28:47 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
-2021-09-16 10:29:06 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
-2021-09-16 10:29:53 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
-2021-09-16 10:30:41 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2022-02-09 10:28:25 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2022-02-09 10:28:47 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2022-02-09 10:29:06 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2022-02-09 10:29:53 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+2022-02-09 10:30:41 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
 """  # noqa
 
 
@@ -193,20 +193,22 @@ class TestJujuScenarios(JujuTestsBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('charm_checks.yaml'))
     @utils.create_data_root({'var/log/juju/unit-keystone-2.log':
-                             UNIT_LEADERSHIP_ERROR})
-    def test_unit_checks(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        # first try outside age limit
-        mock_cli.return_value.date.return_value = "2021-09-25 00:00:00"
+                             UNIT_LEADERSHIP_ERROR,
+                             'sos_commands/date/date':
+                             'Sat Feb 19 13:33:57 UTC 2022'})
+    def test_unit_checks_outside_time(self):
         YScenarioChecker()()
         self.assertEqual(IssuesStore().load(), {})
 
-        # then within
-        mock_cli.return_value.date.return_value = "2021-09-17 00:00:00"
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('charm_checks.yaml'))
+    @utils.create_data_root({'var/log/juju/unit-keystone-2.log':
+                             UNIT_LEADERSHIP_ERROR},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_unit_checks_within_time(self):
         YScenarioChecker()()
         msg = ("Juju unit(s) 'keystone' are showing leadership errors in "
                "their logs from the last 7 days. Please investigate.")

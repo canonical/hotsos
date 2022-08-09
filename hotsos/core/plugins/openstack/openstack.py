@@ -179,6 +179,8 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   'placement': PLACEMENT_EXCEPTIONS,
                   }
 
+OPENSTACK_LOGS_TS_EXPR = r"^([\d-]+\s+[\d:]+)"
+
 
 class OpenstackConfig(host_helpers.SectionalConfigBase):
     pass

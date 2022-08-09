@@ -206,7 +206,11 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('osd/osdlogs.yaml'))
-    def test_get_ceph_daemon_log_checker(self):
+    @mock.patch('hotsos.core.search.constraints.CLIHelper')
+    def test_get_ceph_daemon_log_checker(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        # ensure log file contents are within allowed timeframe ("since")
+        mock_cli.return_value.date.return_value = "2021-01-01 00:00:00"
         result = {'crc-err-bluestore': {'2021-02-12': 5, '2021-02-13': 1},
                   'crc-err-rocksdb': {'2021-02-12': 7}}
         inst = ceph_event_checks.CephDaemonLogChecks()

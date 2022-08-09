@@ -244,7 +244,8 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd.yaml'))
     @utils.create_data_root({'var/log/openvswitch/ovs-vswitchd.log':
-                             BFD_STATE_CHANGES})
+                             BFD_STATE_CHANGES},
+                            copy_from_original=['sos_commands/date/date'])
     def test_ovs_bfd_state_changes(self):
         expected = {'ovs-vswitchd': {
                     'bfd-state-changes': {
@@ -295,7 +296,8 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn_bugs.yaml'))
-    @utils.create_data_root({'var/log/ovn/ovn-controller.log': LP1917475_LOG})
+    @utils.create_data_root({'var/log/ovn/ovn-controller.log': LP1917475_LOG},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1917475(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -426,7 +428,8 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVS_DB_RECONNECT_ERROR,
                              'sos_commands/dpkg/dpkg_-l':
-                             'ii  python3-openvswitch 2.17.0 amd64'})
+                             'ii  python3-openvswitch 2.17.0 amd64'},
+                            copy_from_original=['sos_commands/date/date'])
     def test_ovsdb_reconnect_error(self):
         YScenarioChecker()()
         msg = ("Installed package 'python3-openvswitch' with version "

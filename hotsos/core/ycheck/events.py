@@ -57,7 +57,7 @@ class EventCheckResult(object):
         """
         @param defs_section: section name from yaml
         @param defs_event: event label/name from yaml
-        @param search_results: searchtools.SearchResultsCollection
+        @param search_results: search.searchtools.SearchResultsCollection
         @param search_tag: unique tag used to identify the results
         @param sequence_def: if set the search results are from a
                             searchtools.SequenceSearchDef and are therefore
@@ -238,7 +238,14 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
                 self.__event_defs[section_name] = {}
 
             for path in event.input.paths:
-                event.search.load_searcher(self.searchobj, path)
+                if event.input.command:
+                    # don't apply constraints to command outputs
+                    allow_constraints = False
+                else:
+                    allow_constraints = True
+
+                event.search.load_searcher(self.searchobj, path,
+                                           allow_constraints=allow_constraints)
 
             emeta = {'passthrough': event.search.passthrough_results_opt,
                      'sequence': event.search.sequence_search,

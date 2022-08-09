@@ -4,7 +4,7 @@ from . import utils
 
 from hotsos.core import analytics
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.searchtools import FileSearcher, SearchDef
+from hotsos.core.search import FileSearcher, SearchDef
 
 
 SEQ_TEST_1 = """2021-07-19 09:01:58.498 iteration:0 start

@@ -1,5 +1,5 @@
 from hotsos.core.log import log
-from hotsos.core.searchtools import SearchDef
+from hotsos.core.search import SearchDef
 from hotsos.core.plugins.kernel.kernlog.common import KernLogBase
 
 

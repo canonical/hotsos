@@ -7,17 +7,13 @@ from unittest import mock
 from . import utils
 
 from hotsos.core.config import setup_config, HotSOSConfig
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     FileSearcher,
     SearchDef,
-    SearchResult,
     SequenceSearchDef,
 )
-
-FILTER_TEST_1 = """blah blah ERROR blah
-blah blah ERROR blah
-blah blah INFO blah
-"""
+from hotsos.core.search.searchtools import SearchResult
+from hotsos.core.search.constraints import SearchConstraintSearchSince
 
 SEQ_TEST_1 = """a start point
 leads to
@@ -75,6 +71,29 @@ sectionB 2
 2_2
 sectionA 2
 2_1
+"""
+
+LOGS_W_TS = """2022-01-01 00:00:00.00 L0
+2022-01-01 01:00:00.00 L1
+2022-01-02 00:00:00.00 L2
+2022-01-02 01:00:00.00 L3
+2022-01-03 00:00:00.00 L4
+"""
+
+LOGS_W_TS_AND_UNMATCABLE_LINES = """blah 1
+2022-01-01 00:00:00.00 L0
+blah 2
+blah 3
+2022-01-01 01:00:00.00 L1
+blah 4
+2022-01-02 00:00:00.00 L2
+blah 5
+blah 6
+blah 7
+2022-01-02 01:00:00.00 L3
+blah 8
+2022-01-03 00:00:00.00 L4
+blah 9
 """
 
 
@@ -468,3 +487,220 @@ class TestSearchTools(utils.BaseTestCase):
         self.assertEqual(len(sections), 1)
         sections = results.find_sequence_sections(sdB)
         self.assertEqual(len(sections), 2)
+
+    @utils.create_data_root({'atestfile': LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Wed Jan 10 00:00:00 UTC 2022'})
+    def test_logs_since_single_valid(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd',
+                       constraints=[c])
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results], ['L4'])
+
+    @utils.create_data_root({'atestfile': LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Tue Jan 09 00:00:00 UTC 2022'})
+    def test_logs_since_multi_valid(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results], ['L2', 'L3', 'L4'])
+
+    @utils.create_data_root({'atestfile': LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Tue Jan 01 00:00:00 UTC 2022'})
+    def test_logs_since_all_valid(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results],
+                         ["L{}".format(i) for i in range(5)])
+
+    @utils.create_data_root({'atestfile': LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Tue Jan 15 00:00:00 UTC 2022'})
+    def test_logs_since_all_invalid(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results], [])
+
+    @utils.create_data_root({'atestfile': "\n" + LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Tue Jan 01 00:00:00 UTC 2022'})
+    def test_logs_since_junk_at_start_of_file(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results],
+                         ["L{}".format(i) for i in range(5)])
+
+    @utils.create_data_root({'atestfile': LOGS_W_TS + "\n",
+                             'sos_commands/date/date':
+                             'Tue Jan 01 00:00:00 UTC 2022'})
+    def test_logs_since_junk_at_end_of_file(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results],
+                         ["L{}".format(i) for i in range(5)])
+
+    @utils.create_data_root({'atestfile': LOGS_W_TS_AND_UNMATCABLE_LINES,
+                             'sos_commands/date/date':
+                             'Tue Jan 09 00:00:00 UTC 2022'})
+    def test_logs_since_file_valid_with_unmatchable_lines(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results], ['L2', 'L3', 'L4'])
+
+    @utils.create_data_root({'atestfile':
+                             "L0\nL1\nL2\nL3\nL4\nL5\nL6\nL7\nL8\n",
+                             'sos_commands/date/date':
+                             'Tue Jan 09 00:00:00 UTC 2022'})
+    def test_logs_since_all_junk(self):
+        """
+        Test scenario: file contains no matchable/verifiable lines i.e.
+        we are not able to match a timestamp to verify on any line then we have
+        to deem the file contents as valid.
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"(.+)", tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(1) for r in results],
+                         ["L{}".format(i) for i in range(9)])
+
+    @utils.create_data_root({'atestfile':
+                             LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Tue Jan 03 00:00:01 UTC 2022'})
+    def test_logs_since_hours(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(hours=24, exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results], ['L3', 'L4'])
+
+    @utils.create_data_root({'atestfile':
+                             LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Tue Jan 03 00:00:01 UTC 2022'})
+    def test_logs_since_hours_sd(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(hours=24, exprs=[datetime_expr])
+        s = FileSearcher()
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd',
+                       constraints=[c])
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results], ['L3', 'L4'])
+
+
+class TestSearchUtils(utils.BaseTestCase):
+
+    @utils.create_data_root({'f1': LOGS_W_TS,
+                             'sos_commands/date/date':
+                             'Tue Jan 03 00:00:01 UTC 2022'})
+    def test_binary_search(self):
+        _file = os.path.join(HotSOSConfig.DATA_ROOT, 'f1')
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince([datetime_expr])
+        with open(_file) as fd:
+            self.assertEqual(c.apply_to_file(fd), 0)
+
+        c = SearchConstraintSearchSince([datetime_expr])
+        with open(_file, 'w') as fd:
+            fd.write('somejunk\n' + LOGS_W_TS)
+
+        with open(_file) as fd:
+            self.assertEqual(c.apply_to_file(fd), 1)
+
+        c = SearchConstraintSearchSince([datetime_expr])
+        with open(_file, 'w') as fd:
+            fd.write('somejunk\n' * 999 + LOGS_W_TS)
+
+        with open(_file) as fd:
+            offset = c.apply_to_file(fd)
+            self.assertEqual(offset, 999)
+
+        c = SearchConstraintSearchSince([datetime_expr])
+        with open(_file, 'w') as fd:
+            fd.write('somejunk\n' * 1000 + LOGS_W_TS)
+
+        with open(_file) as fd:
+            offset = c.apply_to_file(fd)
+            self.assertEqual(offset, 0)

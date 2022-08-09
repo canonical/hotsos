@@ -23,13 +23,13 @@ from hotsos.core.host_helpers import (
 from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
 from hotsos.core.plugins.storage import StorageBase
 from hotsos.core.plugins.storage.bcache import BcacheBase
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     FileSearcher,
     SequenceSearchDef,
     SearchDef
 )
 
-
+CEPH_LOGS_TS_EXPR = r"^([\d-]+)[\sT]([\d:]+)"
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]
 CEPH_PKGS_CORE = [r"ceph",

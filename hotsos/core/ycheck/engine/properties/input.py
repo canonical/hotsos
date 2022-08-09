@@ -28,6 +28,9 @@ class YPropertyInputBase(object):
 
     @property
     def command(self):
+        if type(self.content) != dict:
+            return
+
         return self.content.get('command')
 
     def expand_paths(self, paths):

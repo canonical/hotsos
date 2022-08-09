@@ -7,7 +7,7 @@ from hotsos.core.log import log
 from hotsos.core.host_helpers.common import HostHelpersBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.utils import mktemp_dump
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     FileSearcher,
     SearchDef,
     SequenceSearchDef,

@@ -298,7 +298,8 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
-    @utils.create_data_root({'var/log/kern.log': KERNLOG_NF_CONNTRACK_FULL})
+    @utils.create_data_root({'var/log/kern.log': KERNLOG_NF_CONNTRACK_FULL},
+                            copy_from_original=['sos_commands/date/date'])
     def test_nf_conntrack_full(self):
         YScenarioChecker()()
         msg = ("1 reports of 'nf_conntrack: table full' detected in "
@@ -346,7 +347,8 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
-    @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG})
+    @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG},
+                            copy_from_original=['sos_commands/date/date'])
     def test_over_mtu_dropped_packets(self):
         with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
                         'host_interfaces_all',
@@ -362,7 +364,8 @@ class TestKernelScenarioChecks(TestKernelBase):
     @mock.patch('hotsos.core.plugins.kernel.kernlog.common.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
-    @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG_W_OVS_PORTS})
+    @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG_W_OVS_PORTS},
+                            copy_from_original=['sos_commands/date/date'])
     def test_over_mtu_dropped_packets_w_ovs_ports(self, mock_cli, mock_log):
         mock_cli.return_value = mock.MagicMock()
         # include trailing newline since cli would give that
@@ -423,7 +426,8 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('disk_failure.yaml'))
-    @utils.create_data_root({'var/log/kern.log': DISK_FAILING_KERN_LOG})
+    @utils.create_data_root({'var/log/kern.log': DISK_FAILING_KERN_LOG},
+                            copy_from_original=['sos_commands/date/date'])
     def test_failing_disk(self):
         YScenarioChecker()()
         msg = ('critical medium error detected in '
@@ -435,7 +439,8 @@ class TestKernelScenarioChecks(TestKernelBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('qla2xxx.yaml'))
     @utils.create_data_root({'var/log/kern.log':
-                             KERN_LOG_QLA2XXX_SKIPPING_SCSI_SCAN_HOST})
+                             KERN_LOG_QLA2XXX_SKIPPING_SCSI_SCAN_HOST},
+                            copy_from_original=['sos_commands/date/date'])
     def test_qla2xxx_skipped_scsi_scan_host(self):
         YScenarioChecker()()
         msg = ("The qla2xxx driver did not perform SCSI scan on host/port "

@@ -2,7 +2,7 @@ import abc
 import re
 
 from hotsos.core.log import log
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
 )
@@ -106,7 +106,7 @@ class GenericTraceType(TraceTypeBase):
         """
         Run through the results.
 
-        @param results: list of searchtools.SearchResult objects.
+        @param results: list of search.searchtools.SearchResult objects.
         """
         for _trace in result:
             # just a save a value i.e. to make the list length represent the
@@ -235,7 +235,7 @@ class BcacheDeadlockType(TraceTypeBase):
     def apply(self, result):
         """
         Run through the results.
-        @param results: list of searchtools.SearchResult objects.
+        @param results: list of search.searchtools.SearchResult objects.
         """
         if len(result) > 0:
             # we have found at least one deadlock

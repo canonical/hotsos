@@ -4,16 +4,21 @@ from datetime import (
 )
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.log import log
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
 )
+from hotsos.core.search.constraints import SearchConstraintSearchSince
 from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
     add_to_property_catalog,
 )
+
+# use some common expressions. these include from openstack and  ceph plugins.
+COMMON_LOG_DATETIME_EXPRS = [r"^([\d-]+\s+[\d:]+)", r"^([\d-]+)[\sT]([\d:]+)",
+                             r"^([0-9-]+)T([0-9:]+)"]
 
 
 class YPropertySearchConstraints(YPropertyOverrideBase):
@@ -49,6 +54,17 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         Minimum search matches required for result to be True (default is 1)
         """
         return int(self.content.get('min-results', 1))
+
+    @cached_yproperty_attr
+    def filesearch_constraints_obj(self):
+        """
+        Create a searchtools constraints object representing the paramaters in
+        this property.
+        """
+        hours = self.search_result_age_hours
+        if hours is not None and hours > 0:  # pylint: disable=W0143
+            return SearchConstraintSearchSince(exprs=COMMON_LOG_DATETIME_EXPRS,
+                                               hours=hours)
 
 
 class YPropertySearchOpt(YPropertyOverrideBase):
@@ -238,7 +254,13 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         if self.hint:
             hint = str(self.hint)
 
-        sdef = SearchDef(pattern, tag=self.unique_search_tag, hint=hint)
+        constraints = None
+        if self.constraints and self.constraints.filesearch_constraints_obj:
+            constraints = [self.constraints.filesearch_constraints_obj]
+
+        sdef = SearchDef(pattern, tag=self.unique_search_tag, hint=hint,
+                         constraints=constraints)
+
         self.cache.set('simple_search', sdef)
         return sdef
 
@@ -300,25 +322,31 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
             self.cache.set('sequence_passthrough_search', sdefs)
             return sdefs
 
-    def load_searcher(self, searchobj, search_path):
+    def load_searcher(self, searchobj, search_path, allow_constraints=True):
         """ Load search definitions into the given searcher object. """
         sdef = self.simple_search
         if sdef:
             log.debug("loading simple search")
-            searchobj.add_search_term(sdef, search_path)
+            searchobj.add_search_term(
+                                    sdef, search_path,
+                                    allow_global_constraints=allow_constraints)
             return
 
         sdef = self.sequence_search
         if sdef:
             log.debug("loading sequence search")
-            searchobj.add_search_term(sdef, search_path)
+            searchobj.add_search_term(
+                                    sdef, search_path,
+                                    allow_global_constraints=allow_constraints)
             return
 
         sdef = self.sequence_passthrough_search
         if sdef:
             log.debug("loading sequence passthrough searches")
             for _sdef in sdef:
-                searchobj.add_search_term(_sdef, search_path)
+                searchobj.add_search_term(
+                                    _sdef, search_path,
+                                    allow_global_constraints=allow_constraints)
 
 
 class YPropertySequencePart(YPropertySearchBase):

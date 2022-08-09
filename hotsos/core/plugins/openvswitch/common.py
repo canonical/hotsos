@@ -18,6 +18,7 @@ OVS_PKGS_DEPS = ['libc-bin',
                  'openvswitch-switch-dpdk',
                  ]
 PY_CLIENT_PREFIX = r"python3?-{}\S*"
+OPENVSWITCH_LOGS_TS_EXPR = r"^([0-9-]+)T([0-9:]+)"
 
 
 class OpenvSwitchChecksBase(plugintools.PluginPartBase):

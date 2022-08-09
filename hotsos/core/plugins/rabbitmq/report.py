@@ -2,7 +2,7 @@ import os
 
 from hotsos.core.log import log
 from hotsos.core.utils import mktemp_dump, sorted_dict, cached_property
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
     FileSearcher,

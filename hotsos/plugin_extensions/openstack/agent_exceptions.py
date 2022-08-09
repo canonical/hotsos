@@ -4,14 +4,17 @@ import re
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
-from hotsos.core.searchtools import FileSearcher, SearchDef
+from hotsos.core.plugins.openstack.openstack import OPENSTACK_LOGS_TS_EXPR
+from hotsos.core.search import FileSearcher, SearchDef
+from hotsos.core.search.constraints import SearchConstraintSearchSince
 
 
 class AgentExceptionChecks(OpenstackChecksBase):
 
     def __init__(self):
         super().__init__()
-        self.searchobj = FileSearcher()
+        c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
+        self.searchobj = FileSearcher(constraint=c)
         # The following are expected to be WARNING
         self._agent_warnings = {
             'nova': ['MessagingTimeout',

@@ -1,7 +1,7 @@
 import abc
 
 from hotsos.core.log import log
-from hotsos.core.searchtools import (
+from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
     FileSearcher,

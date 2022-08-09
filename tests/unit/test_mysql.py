@@ -100,8 +100,8 @@ class TestMySQLScenarios(MySQLTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/bugs.yaml'))
-    @utils.create_data_root({'var/log/mysql/error.log':
-                             FREE_BLOCKS_DIFFICULT})
+    @utils.create_data_root({'var/log/mysql/error.log': FREE_BLOCKS_DIFFICULT},
+                            copy_from_original=['sos_commands/date/date'])
     def test_372017_invoked(self):
         YScenarioChecker()()
         expected = {
