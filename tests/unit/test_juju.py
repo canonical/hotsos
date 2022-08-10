@@ -34,6 +34,16 @@ UNKNOWN_RELATION_ERROR = """
 """  # noqa
 
 
+KEYSTONE_SIMPLESTREAMS_ERROR = """
+2022-04-19 21:32:42 WARNING unit.glance-simplestreams-sync/0.juju-log server.go:327 identity-service:317: Package openstack-release has no installation candidate.
+2022-04-19 21:32:43 INFO unit.glance-simplestreams-sync/0.juju-log server.go:327 identity-service:317: Missing required data: internal_host internal_port
+2022-04-19 21:32:43 INFO unit.glance-simplestreams-sync/0.juju-log server.go:327 identity-service:317: Missing required data: service_port service_host auth_host auth_port internal_host internal_port admin_tenant_name admin_user admin_password
+2022-04-19 21:32:43 INFO unit.glance-simplestreams-sync/0.juju-log server.go:327 identity-service:317: Missing required data: internal_host internal_port
+2022-04-19 21:32:43 INFO unit.glance-simplestreams-sync/0.juju-log server.go:327 identity-service:317: Loaded template from templates/identity.yaml
+2022-04-19 21:32:43 INFO unit.glance-simplestreams-sync/0.juju-log server.go:327 identity-service:317: Rendering from template: /etc/glance-simplestreams-sync/identity.yaml
+""" # noqa
+
+
 class JujuTestsBase(utils.BaseTestCase):
 
     def setUp(self):
@@ -181,4 +191,26 @@ class TestJujuScenarios(JujuTestsBase):
                'errors which is an indication of this bug. Upgrading Juju '
                'to a version >= 2.9.13 should fix the problem.')
         issues = list(KnownBugsStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('charms_bugs.yaml'))
+    @utils.create_test_files(
+        {'var/log/juju/unit-glance-simplestreams-sync-0.log':
+         KEYSTONE_SIMPLESTREAMS_ERROR,
+         # make sure we are within the date constraints
+         'sos_commands/date/date': 'Tue Apr 19 00:00:00 UTC 2022'})
+    def test_keystone_simplestream_bug(self):
+        YScenarioChecker()()
+        msg = (
+            'known glance-simplestream-sync bug identified - this happens '
+            'because the relation data received from keystone does not have '
+            'some of the expected data (internal_host and internal_port). '
+            'Upgrading charm-keystone to version >= stable/539 should fix the '
+            'problem.')
+        bugs = list(KnownBugsStore().load().values())
+
+        issues = []
+        if len(bugs) > 0:
+            issues = bugs[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
