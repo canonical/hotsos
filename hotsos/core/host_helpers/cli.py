@@ -270,7 +270,6 @@ class JournalctlBase(object):
             ts = ts - datetime.timedelta(days=depth)
 
         ts = ts.strftime("%Y-%m-%d")
-        log.error("journalctl using --since=%s (current=%s)", ts, current)
         return ts
 
 
