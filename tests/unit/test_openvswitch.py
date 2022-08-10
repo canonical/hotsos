@@ -220,6 +220,9 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
                     {'unreasonably-long-poll-interval': {
                         '2022-02-16': 1,
                         '2022-02-17': 1},
+                     'involuntary-context-switches': {
+                         '2022-02-16': {'09': 634},
+                         '2022-02-17': {'04': 136}},
                      'bridge-not-found-for-port': {
                         '2022-02-16':
                             {'provnet-aa3a4fec-a788-42e6-a773-bf3a0cdb52c2':
