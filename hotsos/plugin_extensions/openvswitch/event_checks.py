@@ -153,6 +153,26 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 
         return {event.name: sorted_dict(info)}, 'ovs-vswitchd'
 
+    @EVENTCALLBACKS.callback(event_group='ovs')
+    def involuntary_context_switches(self, event):
+        aggregated = {}
+        for r in event.results:
+            key = r.get(1)
+            hour = r.get(2)
+            count = int(r.get(3))
+            if key not in aggregated:
+                aggregated[key] = {}
+
+            if hour in aggregated[key]:
+                aggregated[key][hour] += count
+            else:
+                aggregated[key][hour] = count
+
+        for key, value in aggregated.items():
+            aggregated[key] = sorted_dict(value)
+
+        return {event.name: aggregated}, event.section
+
 
 class OVNEventChecks(OpenvSwitchEventChecksBase):
 
@@ -180,3 +200,23 @@ class OVNEventChecks(OpenvSwitchEventChecksBase):
                                      squash_if_none_keys=True)
         if ret:
             return {event.name: ret}, event.section
+
+    @EVENTCALLBACKS.callback(event_group='ovn')
+    def involuntary_context_switches(self, event):
+        aggregated = {}
+        for r in event.results:
+            key = r.get(1)
+            hour = r.get(2)
+            count = int(r.get(3))
+            if key not in aggregated:
+                aggregated[key] = {}
+
+            if hour in aggregated[key]:
+                aggregated[key][hour] += count
+            else:
+                aggregated[key][hour] = count
+
+        for key, value in aggregated.items():
+            aggregated[key] = sorted_dict(value)
+
+        return {event.name: sorted_dict(aggregated)}, event.section

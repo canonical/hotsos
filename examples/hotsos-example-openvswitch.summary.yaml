@@ -93,6 +93,9 @@ openvswitch:
     ovn-controller:
       unreasonably-long-poll-interval:
         '2022-02-17': 1
+      involuntary-context-switches:
+        '2022-02-17':
+          '04': 136
     ovsdb-server-nb:
       inactivity-probe:
         '2022-02-17':

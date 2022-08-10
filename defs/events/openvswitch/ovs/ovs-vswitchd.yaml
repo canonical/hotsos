@@ -14,3 +14,6 @@ dpif-netlink-lost-packet-on-handler:
   expr: '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
 inactivity-probe:
   expr: '([0-9-]+)T[0-9:\.]+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
+involuntary-context-switches:
+  expr: '([0-9-]+)T(\d+):\d+:\d+\.\S+Z.+\|timeval\|WARN\|context switches: 0 voluntary, (\d+) involuntary'
+  hint: timeval
