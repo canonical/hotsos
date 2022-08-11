@@ -4,6 +4,7 @@ from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
 from hotsos.core.plugins.openvswitch.common import OpenvSwitchEventChecksBase
+from hotsos.core.utils import sorted_dict
 
 EVENTCALLBACKS = CallbackHelper()
 
@@ -150,7 +151,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 
             info[date][port].append(statechange)
 
-        return {event.name: info}, 'ovs-vswitchd'
+        return {event.name: sorted_dict(info)}, 'ovs-vswitchd'
 
 
 class OVNEventChecks(OpenvSwitchEventChecksBase):
