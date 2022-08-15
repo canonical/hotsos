@@ -628,9 +628,10 @@ ASSERTION
 
 ```
 CACHE_KEYS
-  ops
-  key
-  value_actual
+  assertion_results - a string of concatenated assertion checks
+  key - the last key to be checked
+  ops - the last ops to be run
+  value_actual - the actual value checked against
 ```
 
 ### PropertyCollection

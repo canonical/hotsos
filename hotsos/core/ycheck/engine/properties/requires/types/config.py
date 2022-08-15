@@ -71,9 +71,19 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
         log.debug("assertion: %s (%s) %s result=%s",
                   item.key, actual, self.ops_to_str(item.ops or []), _result)
 
-        # This is a bit iffy since it only gives us the final config
-        # assertion checked.
         cache = self.context.cache
+        msg = "{} {}/actual=\"{}\"".format(item.key,
+                                           self.ops_to_str(item.ops or []),
+                                           actual)
+        if cache.assertion_results is not None:
+            cache.set('assertion_results', "{}, {}".
+                      format(cache.assertion_results, msg))
+        else:
+            cache.set('assertion_results', msg)
+
+        # NOTE: This can be useful for single assertion checks but should be
+        # used with caution since it will only ever store the last config
+        # checked.
         cache.set('key', item.key)
         cache.set('ops', self.ops_to_str(item.ops or []))
         cache.set('value_actual', actual)

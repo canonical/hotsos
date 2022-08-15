@@ -23,8 +23,7 @@ conclusions:
     raises:
       type: BcacheWarning
       message: >-
-        bcache config {key} expected to be {op} but actual={value_actual}.
+        One or more of the following bcache bdev config assertions failed:
+        {assertions}
       format-dict:
-        key: '@checks.has_invalid_bdev_config.requires.key'
-        op: '@checks.has_invalid_bdev_config.requires.ops'
-        value_actual: '@checks.has_invalid_bdev_config.requires.value_actual'
+        assertions: '@checks.has_invalid_bdev_config.requires.assertion_results'

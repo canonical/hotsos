@@ -129,8 +129,10 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
                 'which implies this node could be suffering from bug LP '
                 '1900438 - please check.')
             issue_msg = (
-                'bcache cacheset config congested_write_threshold_us '
-                'expected to be eq 0 but actual=100.')
+                'One or more of the following bcache cacheset config '
+                'assertions failed: congested_read_threshold_us '
+                'eq 0/actual="100", congested_write_threshold_us eq '
+                '0/actual="100"')
             issues = list(IssuesManager().load_issues().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [issue_msg])
             bugs = list(IssuesManager().load_bugs().values())[0]
@@ -143,7 +145,11 @@ class TestBCacheScenarioChecks(StorageBCacheTestsBase):
             self.setup_bcachefs(dtmp, bdev_error=True)
             setup_config(DATA_ROOT=dtmp)
             YScenarioChecker()()
-            msg = ('bcache config writeback_percent expected to be ge '
-                   '10 but actual=1.')
+            msg = ('One or more of the following bcache bdev config '
+                   'assertions failed: sequential_cutoff eq '
+                   '"0.0k"/actual="0.0k", cache_mode eq "writethrough '
+                   '[writeback] writearound none"/actual="writethrough '
+                   '[writeback] writearound none", writeback_percent ge '
+                   '10/actual="1"')
             issues = list(IssuesManager().load_issues().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
