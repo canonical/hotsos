@@ -19,7 +19,10 @@ class OpsUtils(object):
         for op in ops:
             item = str(op[0])
             if len(op) > 1:
-                item = "{} {}".format(item, op[1])
+                if type(op[1]) == str:
+                    item = "{} \"{}\"".format(item, op[1])
+                else:
+                    item = "{} {}".format(item, op[1])
 
             _result.append(item)
 

@@ -30,11 +30,10 @@ conclusions:
     raises:
       type: BcacheWarning
       message: >-
-        bcache cacheset config {key} expected to be {op} but actual={value_actual}.
+        One or more of the following bcache cacheset config assertions failed:
+        {assertions}
       format-dict:
-        key: '@checks.cset_has_invalid_config.requires.key'
-        op: '@checks.cset_has_invalid_config.requires.ops'
-        value_actual: '@checks.cset_has_invalid_config.requires.value_actual'
+        assertions: '@checks.cset_has_invalid_config.requires.assertion_results'
   bcache-bug-lp1900438:
     decision:
       and:
@@ -48,4 +47,3 @@ conclusions:
         implies this node could be suffering from bug LP 1900438 - please check.
       format-dict:
         actual: '@checks.cset_config_lp1900438_limit.requires.value_actual'
-
