@@ -252,12 +252,9 @@ class CephCluster(object):
 
     @cached_property
     def health_status(self):
-        health = None
         status = self.cli.ceph_status_json_decoded()
         if status:
-            health = status['health']['status']
-
-        return health
+            return status['health']['status']
 
     @cached_property
     def mon_dump(self):
@@ -710,7 +707,6 @@ class CephOSD(CephDaemonBase):
         self.id = id
         self.fsid = fsid
         self.device = device
-        self._devtype = None
         self.dump = dump
 
     def to_dict(self):
@@ -731,18 +727,16 @@ class CephOSD(CephDaemonBase):
 
     @cached_property
     def devtype(self):
-        if self._devtype:
-            return self._devtype
-
         osd_tree = self.cli.ceph_osd_df_tree_json_decoded()
         if not osd_tree:
-            return self._devtype
+            return
 
+        _devtype = None
         for node in osd_tree.get('nodes'):
             if node.get('type') == 'osd' and node['id'] == self.id:
-                self._devtype = node['device_class']
+                _devtype = node['device_class']
 
-        return self._devtype
+        return _devtype
 
 
 class CephChecksBase(StorageBase):
@@ -751,7 +745,6 @@ class CephChecksBase(StorageBase):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
         self.bcache = BcacheBase()
-        self._local_osds = None
         self.apt = APTPackageChecksBase(core_pkgs=CEPH_PKGS_CORE,
                                         other_pkgs=CEPH_PKGS_OTHER)
         self.systemd = ServiceChecksBase(service_exprs=CEPH_SERVICES_EXPRS)
@@ -841,10 +834,15 @@ class CephChecksBase(StorageBase):
         names = [iface.name for iface in self.bind_interfaces.values()]
         return ', '.join(list(set(names)))
 
-    def _get_local_osds(self):
+    @cached_property
+    def local_osds(self):
+        """
+        Returns a list of CephOSD objects for osds found on the local host.
+        """
+        osds = []
         out = self.cli.ceph_volume_lvm_list()
         if not out:
-            return
+            return osds
 
         out_path = mktemp_dump('\n'.join(out))
         s = FileSearcher()
@@ -853,7 +851,6 @@ class CephChecksBase(StorageBase):
                                                r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
         s.add_search_term(sd, path=out_path)
-        local_osds = []
         for results in s.search().find_sequence_sections(sd).values():
             id = None
             fsid = None
@@ -867,28 +864,20 @@ class CephChecksBase(StorageBase):
                     elif result.get(1) == "devices":
                         dev = result.get(2)
 
-            local_osds.append(CephOSD(id, fsid, dev))
+            osds.append(CephOSD(id, fsid, dev))
 
-        return local_osds
+        return osds
 
     @cached_property
     def local_osds_use_bcache(self):
+        """
+        Returns True if any local osds are using bcache devices.
+        """
         for osd in self.local_osds:
             if self.bcache.is_bcache_device(osd.device):
                 return True
 
         return False
-
-    @cached_property
-    def local_osds(self):
-        """
-        Returns a list of CephOSD objects for osds found on the local host.
-        """
-        if self._local_osds:
-            return self._local_osds
-
-        self._local_osds = self._get_local_osds()
-        return self._local_osds
 
     @cached_property
     def local_osds_devtypes(self):
