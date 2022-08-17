@@ -1,0 +1,3 @@
+
+class ScenarioException(Exception):
+    pass

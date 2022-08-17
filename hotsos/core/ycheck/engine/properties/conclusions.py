@@ -1,5 +1,6 @@
 import builtins
 
+from hotsos.core.exceptions import ScenarioException
 from hotsos.core.issues import IssueContext
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
@@ -33,8 +34,13 @@ class YPropertyRaises(YPropertyOverrideBase):
         return ['raises']
 
     @property
+    def bug_id(self):
+        """ optional setting. do this to allow querying. """
+        return self.content.get('bug-id')
+
+    @property
     def message(self):
-        """ Optional """
+        """ optional setting. do this to allow querying. """
         return self.content.get('message')
 
     def message_with_format_dict_applied(self, property=None, checks=None):
@@ -123,7 +129,7 @@ class YPropertyRaises(YPropertyOverrideBase):
 
     @cached_yproperty_attr
     def format_groups(self):
-        """ Optional """
+        """ optional setting. do this to allow querying. """
         return self.content.get('search-result-format-groups')
 
     @cached_yproperty_attr
@@ -232,6 +238,15 @@ class YPropertyConclusion(object):
         else:
             message = self.raises.message_with_format_dict_applied(
                                                                  checks=checks)
+
+        bug_id = self.raises.bug_id
+        bug_type = self.raises.type.ISSUE_TYPE
+        is_bug_type = bug_type == 'bug'
+        if ((is_bug_type and bug_id is None) or
+                (bug_id is not None and not is_bug_type)):
+            msg = ("both bug-id (current={}) and bug type (current={}) "
+                   "required in order to raise a bug".format(bug_id, bug_type))
+            raise ScenarioException(msg)
 
         if self.raises.type.ISSUE_TYPE == 'bug':
             self.issue = self.raises.type(self.raises.bug_id, message)

@@ -360,6 +360,31 @@ scenarioB:
 """  # noqa
 
 
+CONCLUSION_W_INVALID_BUG_RAISES = r"""
+scenarioA:
+  checks:
+    property_no_error:
+      property: tests.unit.test_ycheck.TestProperty.always_true
+  conclusions:
+    c1:
+      decision: property_no_error
+      raises:
+        type: SystemWarning
+        bug-id: 1234
+        message: foo
+scenarioB:
+  checks:
+    property_w_error:
+      property: tests.unit.test_ycheck.TestProperty.always_true
+  conclusions:
+    c1:
+      decision: property_no_error
+      raises:
+        type: LaunchpadBug
+        message: foo
+"""  # noqa
+
+
 SCENARIO_CHECKS = r"""
 checks:
   logmatch:
@@ -1075,3 +1100,24 @@ class TestYamlChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.'
+                'ScenarioException')
+    @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
+    def test_raises_w_invalid_types(self, mock_exc):
+        mock_exc.side_effect = Exception
+        scenarios.YScenarioChecker()()
+        mock_exc.assert_called_with("both bug-id (current=1234) and bug type "
+                                    "(current=issue) required in order to "
+                                    "raise a bug")
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues[0]), 1)
+        i_types = [i['type'] for i in issues[0]]
+        self.assertEqual(sorted(i_types),
+                         sorted(['HotSOSScenariosWarning']))
+        for issue in issues[0]:
+            if issue['type'] == 'HotSOSScenariosWarning':
+                msg = ("One or more scenarios failed to run (scenarioA, "
+                       "scenarioB) - run hotsos in debug mode (--debug) to "
+                       "get more detail")
+                self.assertEqual(issue['desc'], msg)
