@@ -241,7 +241,7 @@ class CephCrushMap(object):
 
 
 class CephCluster(object):
-    OSD_META_LIMIT_KB = (10 * 1024 * 1024)
+    OSD_META_LIMIT_PERCENT = 5
     OSD_PG_MAX_LIMIT = 500
     OSD_PG_OPTIMAL_NUM_MAX = 200
     OSD_PG_OPTIMAL_NUM_MIN = 50
@@ -480,9 +480,8 @@ class CephCluster(object):
         for device in self.osd_df_tree['nodes']:
             if device['id'] >= 0:
                 meta_kb = device['kb_used_meta']
-                # Usually the meta data is expected to be in 0-4G range
-                # and we check if it's over 10G
-                if meta_kb > self.OSD_META_LIMIT_KB:
+                total_kb = device['kb_avail']
+                if meta_kb > (self.OSD_META_LIMIT_PERCENT / 100.0 * total_kb):
                     _bad_meta_osds.append(device['name'])
 
         return _bad_meta_osds
