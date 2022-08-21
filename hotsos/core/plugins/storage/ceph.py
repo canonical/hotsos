@@ -135,6 +135,12 @@ class CephCrushMap(object):
 
         return buckets
 
+    def _rule_used_by_any_pool(self, rule_id):
+        for pool_dict in self.rules.values():
+            if (pool_dict['id'] == rule_id) and pool_dict['pools']:
+                return True
+        return False
+
     @cached_property
     def crushmap_mixed_buckets(self):
         """
@@ -215,20 +221,22 @@ class CephCrushMap(object):
         for rule in self.osd_crush_dump.get('rules', []):
             taken = 0
             fdomain = 0
+            rid = rule["rule_id"]
             for i in rule['steps']:
                 if i["op"] == "take":
                     taken = i["item"]
                 if "type" in i and taken != 0:
                     fdomain = i["type"]
-                if taken != 0 and fdomain != 0:
-                    to_check.append((rule["rule_id"], taken, fdomain))
+                if taken != 0 and fdomain != 0 and \
+                        self._rule_used_by_any_pool(rid):
+                    to_check.append((rid, taken, fdomain))
                     taken = fdomain = 0
 
         unequal_buckets = []
         for _, tree, failure_domain in to_check:
             if self._is_bucket_imbalanced(buckets, tree, failure_domain):
                 unequal_buckets.append(
-                    "tree {} at the {} level"
+                    "tree '{}' at the '{}' level"
                     .format(buckets[tree]["name"], failure_domain))
 
         return unequal_buckets
