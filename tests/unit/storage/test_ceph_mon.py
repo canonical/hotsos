@@ -313,12 +313,14 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertFalse(cluster.mon_versions_aligned_with_cluster)
 
     @utils.create_test_files({'sos_commands/ceph_mon/ceph_osd_crush_dump':
-                              open(CEPH_OSD_CRUSH_DUMP_UNBALANCED).read()})
+                              open(CEPH_OSD_CRUSH_DUMP_UNBALANCED).read(),
+                              'sos_commands/ceph_mon/ceph_report':
+                              open(CEPH_REPORT).read()})
     def test_check_crushmap_non_equal_buckets(self):
         cluster = ceph_core.CephCluster()
         buckets = cluster.crush_map.crushmap_equal_buckets
         self.assertEqual(buckets,
-                         ['tree default at the rack level'])
+                         ["tree 'default' at the 'rack' level"])
 
     def test_crushmap_equal_buckets(self):
         cluster = ceph_core.CephCluster()
@@ -801,8 +803,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                '--show-shadow" conforms to the expected layout for the '
                'cluster. Transient issues such as "out" OSDs, or cluster '
                'expansion/maintenance can trigger this warning. Affected '
-               'CRUSH tree(s) and bucket types are tree default at the rack '
-               'level.')
+               'CRUSH tree(s) and bucket types are tree \'default\' at the '
+               '\'rack\' level.')
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
