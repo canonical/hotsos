@@ -1,5 +1,6 @@
 import glob
 import os
+import multiprocessing
 import tempfile
 
 from unittest import mock
@@ -9,7 +10,6 @@ from . import utils
 from hotsos.core.config import setup_config, HotSOSConfig
 from hotsos.core.searchtools import (
     FileSearcher,
-    FilterDef,
     SearchDef,
     SearchResult,
     SequenceSearchDef,
@@ -469,29 +469,3 @@ class TestSearchTools(utils.BaseTestCase):
         self.assertEqual(len(sections), 1)
         sections = results.find_sequence_sections(sdB)
         self.assertEqual(len(sections), 2)
-
-    @utils.create_test_files({'atestfile': FILTER_TEST_1})
-    def test_search_filter(self):
-        s = FileSearcher()
-        fd = FilterDef(r" (INFO)")
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
-        s.add_filter_term(fd, path=fname)
-        sd = SearchDef(r".+ INFO (.+)")
-        s.add_search_term(sd, path=fname)
-        results = s.search().find_by_path(fname)
-        self.assertEqual(len(results), 1)
-        for r in results:
-            self.assertEqual(r.get(1), "blah")
-
-    @utils.create_test_files({'atestfile': FILTER_TEST_1})
-    def test_search_filter_invert_match(self):
-        s = FileSearcher()
-        fd = FilterDef(r" (ERROR)", invert_match=True)
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
-        s.add_filter_term(fd, path=fname)
-        sd = SearchDef(r".+ INFO (.+)")
-        s.add_search_term(sd, path=fname)
-        results = s.search().find_by_path(fname)
-        self.assertEqual(len(results), 1)
-        for r in results:
-            self.assertEqual(r.get(1), "blah")

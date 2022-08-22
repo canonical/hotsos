@@ -1,3 +1,4 @@
+import abc
 import os
 import sys
 
@@ -9,6 +10,7 @@ import uuid
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.utils import cached_property
 
 
 class FileSearchException(Exception):
@@ -16,32 +18,71 @@ class FileSearchException(Exception):
         self.msg = msg
 
 
-class FilterDef(object):
+class StateChangeException(FileSearchException):
+    """ Used when state is changed unexpectedly in a ThreadProtectedObject """
 
-    def __init__(self, pattern, invert_match=False):
+
+class ThreadProtectedObject(abc.ABC):
+    """
+    Denotes an object that is not thread safe and cannot have its state changed
+    by a forked process unless that state declares itself as thread safe.
+
+    State changes to this object that are not made at the parent process level
+    will be lost as soon as the forked process terminates.
+    """
+
+    def __init__(self):
+        self._pid = os.getpid()
+
+    @abc.abstractproperty
+    def thread_safe_attributes(self):
+        """ Returns a list of attributes that are considered thread safe in
+        the sense that their state can be changed by a forked process and
+        not impact others or be required by the main process.
+
+        Convention used here is that a matched attribute can prefixed with '_'
+        or not but the name used here is without prefix '_'. This allows e.g.
+        a property and corresponding attribute to be registered in one go.
         """
-        Add a filter definition
 
-        @param pattern: regex pattern to search for
-        @param invert_match: return True if match is positive
+    def __setattr__(self, key, val):
+        if hasattr(self, '_pid'):
+            keys = []
+            for k in self.thread_safe_attributes:
+                keys.extend([k, '_' + k])
+
+            if key not in keys:
+                if os.getpid() != self._pid:
+                    msg = ("{} state must not be changed by child process "
+                           "({}, {})".
+                           format(self.__class__.__name__, key, val))
+                    raise StateChangeException(msg)
+
+        return super().__setattr__(key, val)
+
+
+class SearchDefBase(ThreadProtectedObject):
+
+    def __init__(self):
+        # preload
+        self.id
+        # do this last
+        super().__init__()
+
+    @cached_property
+    def id(self):
         """
-        self.pattern = re.compile(pattern)
-        self.invert_match = invert_match
-
-    def filter(self, line):
-        ret = self.pattern.search(line)
-        if self.invert_match:
-            return ret is not None
-        else:
-            return ret is None
+        A unique identifier for this search definition.
+        """
+        return uuid.uuid4()
 
 
-class SearchDef(object):
+class SearchDef(SearchDefBase):
 
     def __init__(self, pattern, tag=None, hint=None,
                  store_result_contents=True):
         """
-        Add a search definition
+        Add a search definition.
 
         @param pattern: regex pattern or list of patterns to search for
         @param tag: optional user-friendly identifier for this search term
@@ -65,6 +106,13 @@ class SearchDef(object):
         else:
             self.hint = None
 
+        # do this last
+        super().__init__()
+
+    @property
+    def thread_safe_attributes(self):
+        return []
+
     def run(self, line):
         """Execute search patterns against line and return first match."""
         if self.hint:
@@ -81,7 +129,7 @@ class SearchDef(object):
         return ret
 
 
-class SequenceSearchDef(object):
+class SequenceSearchDef(SearchDefBase):
 
     def __init__(self, start, tag, end=None, body=None):
         """
@@ -106,7 +154,15 @@ class SequenceSearchDef(object):
         # using a separate process and memory is not shared, these values must
         # be unique to avoid collisions when results are aggregated.
         self._section_id = None
-        self._unique_id = "{}-{}".format(self.tag, uuid.uuid4())
+        # do this last
+        super().__init__()
+
+    @property
+    def thread_safe_attributes(self):
+        # these are safe to change within a process context since their
+        # state doesn't count towards the final result and is not expected to
+        # be shared.
+        return ['section_id', 'mark']
 
     @property
     def start_tag(self):
@@ -122,10 +178,6 @@ class SequenceSearchDef(object):
     def body_tag(self):
         """Tag used to identify body of section"""
         return "{}-body".format(self.tag)
-
-    @property
-    def id(self):
-        return self._unique_id
 
     @property
     def section_id(self):
@@ -221,10 +273,6 @@ class SearchResultsCollection(object):
         self.reset()
 
     def __len__(self):
-        return self.count
-
-    @property
-    def count(self):
         _count = 0
         for f in self.files:
             _count += len(self.find_by_path(f))
@@ -304,7 +352,6 @@ class FileSearcher(object):
 
     def __init__(self):
         self.paths = {}
-        self.filters = {}
         self.results = SearchResultsCollection()
 
     @property
@@ -315,25 +362,6 @@ class FileSearcher(object):
             cpus = min(HotSOSConfig.MAX_PARALLEL_TASKS, os.cpu_count())
 
         return min(self.num_files_to_search, cpus)
-
-    def add_filter_term(self, filter, path):
-        """Add a term to search for that will be used as a filter for the given
-        data source. This filter is applied to each line in a file prior to
-        executing the full search(es) as means of reducing the amount of full
-        searches we have to do by filtering out lines that do not qualify. A
-        negative match results in the line being skipped and no further
-        searches performed.
-
-        A filter definition is registered against a path which can be a
-        file,  directory or glob. Any number of filters can be registered.
-
-        @param filtedef: FilterDef object
-        @param path: path to which the filter should be applied.
-        """
-        if path in self.filters:
-            self.filters[path].append(filter)
-        else:
-            self.filters[path] = [filter]
 
     def add_search_term(self, searchdef, path):
         """Add a term to search for.
@@ -356,6 +384,10 @@ class FileSearcher(object):
                                 (entry, term_key))
 
     def _search_task_wrapper(self, path, term_key):
+        if os.path.getsize(path) == 0:
+            log.debug("skipping zero-length file %s", path)
+            return
+
         try:
             with gzip.open(path, 'r') as fd:
                 try:
@@ -369,24 +401,19 @@ class FileSearcher(object):
             with open(path) as fd:
                 return self._search_task(term_key, fd, path)
         except UnicodeDecodeError:
+            log.exception("")
             # ignore the file if it can't be decoded
             log.debug("caught UnicodeDecodeError for path %s - skipping", path)
         except EOFError as e:
+            log.exception("")
             msg = ("an exception occured while searching {} - {}".
                    format(path, e))
             raise FileSearchException(msg) from e
         except Exception as e:
-            msg = ("an unknown exception occured while searching {} - {}".
+            log.exception("")
+            msg = ("an unknown exception occurred while searching {} - {}".
                    format(path, e))
             raise FileSearchException(msg) from e
-
-    def line_filtered(self, term_key, line):
-        """Returns True if line is to be skipped."""
-        for f_term in self.filters.get(term_key, []):
-            if f_term.filter(line):
-                return True
-
-        return False
 
     def _search_task(self, term_key, fd, path):
         results = []
@@ -394,10 +421,6 @@ class FileSearcher(object):
         for ln, line in enumerate(fd, start=1):
             if type(line) == bytes:
                 line = line.decode("utf-8")
-
-            # global filters (untagged)
-            if self.line_filtered(term_key, line):
-                continue
 
             for s_term in self.paths[term_key]:
                 if type(s_term) == SequenceSearchDef:
@@ -627,5 +650,5 @@ class FileSearcher(object):
                     except FileSearchException as e:
                         sys.stderr.write("{}\n".format(e.msg))
 
-        log.debug("filesearcher completed (results=%s)", self.results.count)
+        log.debug("filesearcher completed (results=%s)", len(self.results))
         return self.results
