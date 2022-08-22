@@ -212,6 +212,11 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
                   len(group.leaf_sections))
 
         for event in group.leaf_sections:
+            if event.requires and not event.requires.passes:
+                log.error("event '%s' pre-requisites not met - "
+                          "skipping", event.name)
+                return
+
             log.debug("event: %s", event.name)
             log.debug("input: %s (command=%s)", event.input.paths,
                       event.input.command is not None)

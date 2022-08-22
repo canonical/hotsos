@@ -204,14 +204,11 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
 
 class TestOSDCephEventChecks(StorageCephOSDTestsBase):
 
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('osd/osdlogs.yaml'))
     def test_get_ceph_daemon_log_checker(self):
-        result = {'osd-reported-failed': {'osd.41': {'2021-02-13': 23},
-                                          'osd.85': {'2021-02-13': 4}},
-                  'crc-err-bluestore': {'2021-02-12': 5, '2021-02-13': 1},
-                  'crc-err-rocksdb': {'2021-02-12': 7},
-                  'long-heartbeat-pings': {'2021-02-09': 4},
-                  'heartbeat-no-reply': {'2021-02-09': {'osd.0': 1,
-                                                        'osd.1': 2}}}
+        result = {'crc-err-bluestore': {'2021-02-12': 5, '2021-02-13': 1},
+                  'crc-err-rocksdb': {'2021-02-12': 7}}
         inst = ceph_event_checks.CephDaemonLogChecks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, result)
