@@ -1,5 +1,5 @@
 input:
-  path: 'var/log/ceph/ceph*.log'
+  path: ['var/log/ceph/ceph.log', 'var/log/ceph/ceph-mon*.log']
 osd-reported-failed:
   expr: '^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
   hint: 'reported failed'

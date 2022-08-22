@@ -1,5 +1,5 @@
 input:
-  path: 'var/log/ceph/ceph*.log'
+  path: 'var/log/ceph/ceph-osd*.log'
 slow-requests:
   expr: '^([0-9-]+)\S* \S+ .+ ([0-9]+) slow requests are blocked .+ \(REQUEST_SLOW\)'
   hint: 'REQUEST_SLOW'

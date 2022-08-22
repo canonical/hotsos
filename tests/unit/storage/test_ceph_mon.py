@@ -12,7 +12,7 @@ from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
-from hotsos.plugin_extensions.storage import ceph_summary
+from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
 
 MON_ELECTION_LOGS = """
 2022-01-02 06:24:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
@@ -450,6 +450,21 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertIsNone(actual.get('versions'))
+
+
+class TestMonCephEventChecks(StorageCephMonTestsBase):
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('mon/monlogs.yaml'))
+    def test_get_ceph_daemon_log_checker(self):
+        result = {'osd-reported-failed': {'osd.41': {'2022-02-08': 23},
+                                          'osd.85': {'2022-02-08': 4}},
+                  'long-heartbeat-pings': {'2022-02-09': 4},
+                  'heartbeat-no-reply': {'2022-02-09': {'osd.0': 1,
+                                                        'osd.1': 2}}}
+        inst = ceph_event_checks.CephDaemonLogChecks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, result)
 
 
 class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
