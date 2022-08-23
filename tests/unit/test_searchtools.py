@@ -1,6 +1,5 @@
 import glob
 import os
-import multiprocessing
 import tempfile
 
 from unittest import mock
