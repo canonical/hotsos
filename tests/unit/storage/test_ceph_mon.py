@@ -720,17 +720,16 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
-                'OSD_META_LIMIT_PERCENT', 1)
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/bluefs_size.yaml'))
     def test_bluefs_size(self):
         YScenarioChecker()()
-        msg = ('Found 3 Ceph OSDs with metadata size > 1% of its device size. '
-               'This could be the result of a compaction failure. Possibly '
-               'related to the bug https://tracker.ceph.com/issues/45903 if '
-               'Ceph < 14.2.17. To manually compact the metadata, '
-               'use \'ceph-bluestore-tool\' which is available since 14.2.0.')
+        msg = ('Found 3 Ceph OSDs with metadata usage > 5% of its total '
+               'device usage. This could be the result of a compaction '
+               'failure. Possibly related to the bug '
+               'https://tracker.ceph.com/issues/45903 if Ceph < 14.2.17. '
+               'To manually compact the metadata, use \'ceph-bluestore-tool\' '
+               'which is available since 14.2.0.')
 
         issues = list(IssuesManager().load_bugs().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
