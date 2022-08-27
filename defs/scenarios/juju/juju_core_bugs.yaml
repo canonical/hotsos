@@ -7,6 +7,10 @@ checks:
   has_lp1948906:
     expr: '.* manifold worker .+ error: executing operation \"run post-series-upgrade hook\" for (\S+): upgrade series status \"complete running\"'
     hint: 'manifold worker returned unexpected error'
+  has_lp1983140:
+    expr: '.* quiescing, timed out waiting for agents to report'
+  has_lp1983506:
+    expr: '.* failed to migrate binaries: charm local:.+(\S) unexpectedly assigned local:.+'
   has_lp1852502:
     input:
       command: journalctl
@@ -38,6 +42,18 @@ conclusions:
         post-series-upgrade failed, issues with unit {} - see LP bug for
         workaround.
       search-result-format-groups: [1]
+  lp1983140:
+    decision: has_lp1983140
+    raises:
+      type: LaunchpadBug
+      bug-id: 1983140
+      message: model migration failed - see LP bug for workaround.
+  lp1983506:
+    decision: has_lp1983506
+    raises:
+      type: LaunchpadBug
+      bug-id: 1983506
+      message: model migration failed - see LP bug for workaround.
   lp1852502:
     decision: has_lp1852502
     raises:

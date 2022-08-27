@@ -304,7 +304,7 @@ format field in the message string and *value* is either a Python property
 import path or a ``PROPERTY_CACHE_REF``
 
 * search-result-format-groups - a list of integer indexes representing
-search result group IDs from an [search](#search) result. The group
+search result group IDs from a [search](#search) result. The group
 indexes refer to items in a core.searchtools.SearchResult and tie with those in
 the search pattern provided.
 
@@ -551,7 +551,7 @@ CACHE_KEYS
 ```
 
 #### snap
-Takes an snap package name. Returns True if the package
+Takes a snap package name. Returns True if the package
 exists.
 
 format
