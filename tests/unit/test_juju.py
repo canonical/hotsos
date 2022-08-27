@@ -17,6 +17,16 @@ RABBITMQ_CHARM_LOGS = """
 2021-02-17 08:20:34 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
 """  # noqa
 
+CONTROLLER_LOG1 = """
+2022-06-22 09:23:40 ERROR juju.worker.migrationmaster.97cf4e worker.go:749 1 agents failed to report in time for "quiescing" phase (including machines: 61)
+2022-06-22 09:23:40 ERROR juju.worker.migrationmaster.97cf4e worker.go:295 quiescing, timed out waiting for agents to report
+2022-06-22 09:23:40 INFO juju.worker.migrationmaster.97cf4e worker.go:259 setting migration phase to ABORT
+2022-06-22 09:23:40 INFO juju.worker.migrationmaster.97cf4e worker.go:295 aborted, removing model from target controller: quiescing, timed out waiting for agents to report
+"""  # noqa
+
+CONTROLLER_LOG2 = """
+2022-08-01 08:19:35 INFO juju.worker.migrationmaster.97cf4e worker.go:295 aborted, removing model from target controller: model data transfer failed, failed to migrate binaries: charm local:bionic/ubuntu-12 unexpectedly assigned local:bionic/ubuntu-11
+"""  # noqa
 
 UNIT_LEADERSHIP_ERROR = """
 2021-09-16 10:28:25 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
@@ -144,6 +154,34 @@ class TestJujuScenarios(JujuTestsBase):
                       ('Unit unit-rabbitmq-server-0 failed to start due '
                        'to members in relation 236 that cannot be '
                        'removed.'),
+                      'origin': 'juju.01part'}]}
+        self.assertEqual(KnownBugsStore().load(), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('juju_core_bugs.yaml'))
+    @utils.create_test_files({'var/log/juju/machine-2.log': CONTROLLER_LOG1,
+                              'sos_commands/date/date':
+                              'Wed Jun 22 09:00:00 UTC 2022'})
+    def test_1983140(self):
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1983140',
+                      'desc':
+                      ('model migration failed - see LP bug for workaround.'),
+                      'origin': 'juju.01part'}]}
+        self.assertEqual(KnownBugsStore().load(), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('juju_core_bugs.yaml'))
+    @utils.create_test_files({'var/log/juju/machine-2.log': CONTROLLER_LOG2,
+                              'sos_commands/date/date':
+                              'Mon Aug 01 08:00:00 UTC 2022'})
+    def test_1983506(self):
+        YScenarioChecker()()
+        expected = {'bugs-detected':
+                    [{'id': 'https://bugs.launchpad.net/bugs/1983506',
+                      'desc':
+                      ('model migration failed - see LP bug for workaround.'),
                       'origin': 'juju.01part'}]}
         self.assertEqual(KnownBugsStore().load(), expected)
 
