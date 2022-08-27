@@ -54,8 +54,7 @@ test_plugin ()
         egrep -v "repo-info:|date:" > $dtmp/$plugin$label
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
     egrep -v "repo-info:|date:" $litmus > $dtmp/$plugin.litmus
-    diff $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail
-    if (($?==0)); then
+    if diff $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail; then
         echo -e " [${F_GRN}PASS${RES}]"
     else
         echo -e " [${F_RED}FAIL${RES}]"

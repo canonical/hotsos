@@ -337,6 +337,22 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         buckets = cluster.crush_map.crushmap_mixed_buckets
         self.assertEqual(buckets, [])
 
+    def test_mgr_modules(self):
+        cluster = ceph_core.CephCluster()
+        expected = ['balancer',
+                    'crash',
+                    'devicehealth',
+                    'orchestrator',
+                    'pg_autoscaler',
+                    'progress',
+                    'rbd_support',
+                    'status',
+                    'telemetry',
+                    'volumes',
+                    'iostat',
+                    'restful']
+        self.assertEqual(cluster.mgr_modules, expected)
+
 
 class TestMonCephSummary(StorageCephMonTestsBase):
 

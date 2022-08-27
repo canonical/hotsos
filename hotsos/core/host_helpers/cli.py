@@ -598,6 +598,15 @@ class CLIHelper(object):
                                  first_line_filter='report',
                                  last_line_filter='report'),
                  ],
+            'ceph_mgr_module_ls':
+                [BinCmd('ceph mgr_module_ls', json_decode=True),
+                 # sosreport < 4.2
+                 CephJSONFileCmd('sos_commands/ceph/ceph_mgr_module_ls',
+                                 json_decode=True),
+                 # sosreport >= 4.2
+                 CephJSONFileCmd('sos_commands/ceph_mon/ceph_mgr_module_ls',
+                                 json_decode=True),
+                 ],
             'date':
                 [DateBinCmd('date', singleline=True),
                  DateFileCmd('sos_commands/date/date', singleline=True),
