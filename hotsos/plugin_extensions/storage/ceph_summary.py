@@ -58,6 +58,11 @@ class CephSummary(CephChecksBase):
             return versions
 
     @idx(8)
+    def __summary_mgr_modules(self):
+        if self.cluster.mgr_modules:
+            return self.cluster.mgr_modules
+
+    @idx(9)
     def __summary_local_osds(self):
         if self.local_osds:
             osds = {}
@@ -66,12 +71,12 @@ class CephSummary(CephChecksBase):
 
             return sorted_dict(osds)
 
-    @idx(9)
+    @idx(10)
     def __summary_crush_rules(self):
         if self.cluster.crush_map.rules:
             return self.cluster.crush_map.rules
 
-    @idx(10)
+    @idx(11)
     def __summary_large_omap_pgs(self):
         if self.cluster.large_omap_pgs:
             return self.cluster.large_omap_pgs

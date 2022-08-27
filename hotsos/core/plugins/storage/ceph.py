@@ -277,12 +277,32 @@ class CephCluster(object):
         return self.cli.ceph_pg_dump_json_decoded() or {}
 
     @cached_property
+    def ceph_mgr_module_ls(self):
+        return self.cli.ceph_mgr_module_ls() or {}
+
+    @cached_property
     def mons(self):
         _mons = []
         for mon in self.mon_dump.get('mons', {}):
             _mons.append(CephMon(mon['name']))
 
         return _mons
+
+    @cached_property
+    def mgr_modules(self):
+        """
+        Returns a list of modules that are enabled. This includes both
+        the 'always on' as well as modules enabled explicitly.
+        """
+        if not self.ceph_mgr_module_ls:
+            return []
+
+        _modules = []
+        for category in ['always_on_modules', 'enabled_modules']:
+            if self.ceph_mgr_module_ls[category]:
+                _modules += self.ceph_mgr_module_ls[category]
+
+        return _modules
 
     @cached_property
     def osd_df_tree(self):

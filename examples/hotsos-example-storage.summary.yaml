@@ -81,6 +81,19 @@ storage:
         - 15.2.14
       osd:
         - 15.2.14
+    mgr-modules:
+      - balancer
+      - crash
+      - devicehealth
+      - orchestrator
+      - pg_autoscaler
+      - progress
+      - rbd_support
+      - status
+      - telemetry
+      - volumes
+      - iostat
+      - restful
     crush-rules:
       replicated_rule:
         id: 0
