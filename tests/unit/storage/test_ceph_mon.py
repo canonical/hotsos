@@ -768,6 +768,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCrushMap.'
+                'autoscaler_disabled_for_any_pool', True)
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.'
+                'cluster_has_non_empty_pools', True)
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/pg_imbalance.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',

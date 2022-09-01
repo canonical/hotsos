@@ -247,12 +247,26 @@ class CephCrushMap(object):
         if unequal:
             return ", ".join(unequal)
 
+    @cached_property
+    def autoscaler_disabled_for_any_pool(self):
+        if not self.ceph_report:
+            return True
+
+        pools = self.ceph_report['osdmap']['pools']
+        for pool in pools:
+            if (pool.get('pg_autoscale_mode') is None) or \
+                    pool['pg_autoscale_mode'] != 'on':
+                return True
+        return False
+
 
 class CephCluster(object):
     OSD_META_LIMIT_PERCENT = 5
     OSD_PG_MAX_LIMIT = 500
     OSD_PG_OPTIMAL_NUM_MAX = 200
     OSD_PG_OPTIMAL_NUM_MIN = 50
+    # If a pool's utilisation is below this value, we consider is "empty"
+    POOL_EMPTY_THRESHOLD = 2
 
     def __init__(self):
         self.crush_map = CephCrushMap()
@@ -307,6 +321,10 @@ class CephCluster(object):
     @cached_property
     def osd_df_tree(self):
         return self.cli.ceph_osd_df_tree_json_decoded() or {}
+
+    @cached_property
+    def ceph_df(self):
+        return self.cli.ceph_df_json_decoded() or {}
 
     @cached_property
     def osds(self):
@@ -513,6 +531,24 @@ class CephCluster(object):
                     _bad_meta_osds.append(device['name'])
 
         return _bad_meta_osds
+
+    @cached_property
+    def cluster_has_non_empty_pools(self):
+        """
+        Although we say "non-empty", we don't actually expect pools to have
+        0% utilisation in practice because:
+          - there may test pools after a fresh deployment done by FE/users
+          - device_health_metrics pool created automatically
+        So we consider that pools empty if the usage is below a threshold.
+        """
+        if not self.ceph_df:
+            return False
+
+        for pool in self.ceph_df['pools']:
+            if pool['stats']['percent_used'] > \
+                    self.POOL_EMPTY_THRESHOLD / 100.0:
+                return True
+        return False
 
     @staticmethod
     def version_as_a_tuple(ver):

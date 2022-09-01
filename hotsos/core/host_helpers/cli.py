@@ -525,6 +525,17 @@ class CLIHelper(object):
                  FileCmd('sos_commands/ceph_mon/json_output/'
                          'ceph_osd_dump_--format_json-pretty',
                          json_decode=True)],
+            'ceph_df_json_decoded':
+                [BinCmd('ceph df --format json-pretty',
+                        json_decode=True),
+                 # sosreport < 4.2
+                 FileCmd('sos_commands/ceph/json_output/'
+                         'ceph_df_--format_json-pretty',
+                         json_decode=True),
+                 # sosreport >= 4.2
+                 FileCmd('sos_commands/ceph_mon/json_output/'
+                         'ceph_df_--format_json-pretty',
+                         json_decode=True)],
             'ceph_osd_df_tree_json_decoded':
                 [BinCmd('ceph osd df tree --format json-pretty',
                         json_decode=True),
