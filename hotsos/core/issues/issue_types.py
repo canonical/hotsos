@@ -76,6 +76,10 @@ class CephMapsWarning(IssueTypeBase):
     pass
 
 
+class CephMgrError(IssueTypeBase):
+    pass
+
+
 class CephDaemonWarning(IssueTypeBase):
     pass
 
