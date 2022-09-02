@@ -429,11 +429,11 @@ class CephCluster(object):
             return []
 
         laggy_pgs = []
+        # The states we consider problematic for network related issues
+        laggy_like_states = ['laggy', 'wait']
         for pg in self.pg_dump['pg_map']['pg_stats']:
-            for state in ['laggy', 'wait']:
-                if state in pg['state']:
-                    laggy_pgs.append(pg)
-                    break
+            if any(x in pg['state'].split('+') for x in laggy_like_states):
+                laggy_pgs.append(pg)
 
         return laggy_pgs
 
