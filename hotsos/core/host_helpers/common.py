@@ -21,7 +21,8 @@ class HostHelpersBase(abc.ABC):
     def plugin_cache_root(self):
         path = HotSOSConfig.PLUGIN_TMP_DIR
         if path is None:
-            log.warning("plugin cache root not setup")
+            log.warning("plugin '%s' cache root not setup",
+                        HotSOSConfig.PLUGIN_NAME)
             return
 
         return os.path.join(path, 'cache/host_helpers', self.cache_name)

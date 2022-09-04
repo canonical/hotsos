@@ -17,7 +17,7 @@ class Scenario(object):
 
     @property
     def checks(self):
-        return {name: c for name, c in self._checks}  # pylint: disable=R1721
+        return {c.name: c for c in self._checks}
 
     @property
     def conclusions(self):
@@ -57,7 +57,8 @@ class YScenarioChecker(YHandlerBase):
                 to_skip.add(group_name)
                 continue
 
-            scenario.checks.preload_searches(scenario.input)
+            scenario.checks.initialise(scenario.vars, scenario.input)
+            scenario.conclusions.initialise(scenario.vars)
             self._scenarios.append(Scenario(scenario.name,
                                             scenario.checks,
                                             scenario.conclusions))
@@ -92,7 +93,7 @@ class YScenarioChecker(YHandlerBase):
             log.debug("selecting highest priority=%s conclusions (%s)",
                       highest, len(results[highest]))
             for conc in results[highest]:
-                issue_mgr.add(conc.issue, context=conc.context)
+                issue_mgr.add(conc.issue, context=conc.issue_context)
         else:
             log.debug("no conclusions reached")
 

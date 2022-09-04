@@ -6,6 +6,7 @@ from hotsos.core.ycheck.engine.properties.common import (
     YPropertyMappedOverrideBase,
     YDefsSection,
     add_to_property_catalog,
+    YDefsContext,
 )
 from hotsos.core.ycheck.engine.properties.requires.requires import (
     YPropertyRequires
@@ -108,57 +109,59 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
 @add_to_property_catalog
 class YPropertyChecks(YPropertyOverrideBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._resolved_checks = None
-
-    def preload_searches(self, input):
-        """
-        Pre-load searches from all checks and get results. This needs to be
-        done before check results are consumed.
-        """
-        s = FileSearcher()
-        # first load all the search definitions into the searcher
-        log.debug("loading checks searchdefs into filesearcher")
-        for c in self.resolved_checks:
-            if c.check.search:
-                # local takes precedence over global
-                _input = c.check.input or input
-                for path in _input.paths:
-                    c.check.search.load_searcher(s, path)
-
-        log.debug("executing searches")
-        results = s.search()
-
-        # now extract each checks's set of results
-        log.debug("extracting search results")
-        for c in self.resolved_checks:
-            if c.check.search:
-                tag = c.check.search.unique_search_tag
-                c.check.search_results = results.find_by_tag(tag)
-
     @classmethod
     def _override_keys(cls):
         return ['checks']
 
-    @cached_yproperty_attr
-    def resolved_checks(self):
-        if self._resolved_checks:
-            return self._resolved_checks
+    def initialise(self, vars, input):
+        """
+        Perform initialisation tasks for this set of checks.
 
+        * create context containing vars for each check
+        * pre-load searches from all/any checks and get results. This needs to
+          be done before check results are consumed.
+        """
+        self.check_context = YDefsContext({'vars': vars})
+
+        log.debug("loading checks searchdefs into filesearcher")
+        s = FileSearcher()
+        # first load all the search definitions into the searcher
+        with_searches = []
+        for c in self._checks:
+            if c.search:
+                with_searches.append(c)
+                # local takes precedence over global
+                _input = c.input or input
+                for path in _input.paths:
+                    c.search.load_searcher(s, path)
+
+        log.debug("executing check searches")
+        results = s.search()
+
+        # now extract each checks's set of results
+        log.debug("extracting check search results")
+        for c in with_searches:
+            tag = c.search.unique_search_tag
+            c.search_results = results.find_by_tag(tag)
+
+    @cached_yproperty_attr
+    def _checks(self):
         log.debug("parsing checks section")
+        if not hasattr(self, 'check_context'):
+            raise Exception("checks not yet initialised")
+
         resolved = []
         for name, content in self.content.items():
-            s = YDefsSection(self._override_name, {name: {'check': content}})
+            s = YDefsSection(self._override_name, {name: {'check': content}},
+                             context=self.check_context)
             for c in s.leaf_sections:
                 c.check.check_name = c.name
-                resolved.append(c)
+                resolved.append(c.check)
 
-        self._resolved_checks = resolved
         return resolved
 
     def __iter__(self):
         log.debug("iterating over checks")
-        for c in self.resolved_checks:
+        for c in self._checks:
             log.debug("returning check %s", c.name)
-            yield c.name, c.check
+            yield c

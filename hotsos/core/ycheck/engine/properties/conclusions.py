@@ -11,6 +11,7 @@ from hotsos.core.ycheck.engine.properties.common import (
     LogicalCollectionHandler,
     YDefsSection,
     add_to_property_catalog,
+    YDefsContext,
 )
 
 
@@ -43,14 +44,11 @@ class YPropertyRaises(YPropertyOverrideBase):
         """ optional setting. do this to allow querying. """
         return self.content.get('message')
 
-    def message_with_format_dict_applied(self, property=None, checks=None):
+    def message_with_format_dict_applied(self, checks=None):
         """
         If a format-dict is provided this will resolve any cache references
         then format the message. Returns formatted message.
 
-        Either property or checks must be provided (but not both).
-
-        @params property: optional YPropertyOverride object.
         @params checks: optional dict of YPropertyChecks objects.
         """
         fdict = self.format_dict
@@ -59,7 +57,8 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         for key, value in fdict.items():
             if PropertyCacheRefResolver.is_valid_cache_ref(value):
-                rvalue = PropertyCacheRefResolver(value, property=property,
+                rvalue = PropertyCacheRefResolver(value,
+                                                  vars=self.context.vars,
                                                   checks=checks).resolve()
                 log.debug("updating format-dict key=%s with cached %s (%s)",
                           key, value, rvalue)
@@ -189,17 +188,28 @@ class YPropertyDecision(YPropertyDecisionBase):
                     [YPropertyDecisionLogicalGroupsExtension]
 
 
-class YPropertyConclusion(object):
+@add_to_property_catalog
+class YPropertyConclusion(YPropertyMappedOverrideBase):
 
-    def __init__(self, name, priority, decision=None, raises=None):
-        self.name = name
-        self.priority = priority
-        self.decision = decision
-        self.raises = raises
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.issue = None
         # Use this to add any context to the issue. This context
         # will be retrievable as machine readable output.
-        self.context = IssueContext()
+        self.issue_context = IssueContext()
+
+    @classmethod
+    def _override_keys(cls):
+        return ['conclusion']
+
+    @classmethod
+    def _override_mapped_member_types(cls):
+        return [YPropertyPriority, YPropertyDecision, YPropertyRaises]
+
+    @property
+    def name(self):
+        if hasattr(self, 'conclusion_name'):
+            return getattr(self, 'conclusion_name')
 
     def reached(self, checks):
         """
@@ -219,12 +229,12 @@ class YPropertyConclusion(object):
                 search_results = check.search.cache.results
                 if search_results:
                     # Save some context for the issue
-                    self.context.set(**{r.source: r.linenumber
-                                        for r in search_results})
+                    self.issue_context.set(**{r.source: r.linenumber
+                                              for r in search_results})
             elif check.requires:
                 # Dump the requires cache into the context. We improve this
                 # later by addign more info.
-                self.context.set(**check.requires.cache.cache)
+                self.issue_context.set(**check.requires.cache.data)
 
         if self.raises.format_groups:
             if search_results:
@@ -263,8 +273,33 @@ class YPropertyConclusions(YPropertyOverrideBase):
     def _override_keys(cls):
         return ['conclusions']
 
+    def initialise(self, vars):
+        """
+        Perform initialisation tasks for this set of conclusions.
+
+        * create conclusions context containing vars
+        """
+        self.conclusion_context = YDefsContext({'vars': vars})
+
+    @cached_yproperty_attr
+    def _conclusions(self):
+        log.debug("parsing conclusions section")
+        if not hasattr(self, 'conclusion_context'):
+            raise Exception("conclusions not yet initialised")
+
+        resolved = []
+        for name, content in self.content.items():
+            s = YDefsSection(self._override_name,
+                             {name: {'conclusion': content}},
+                             context=self.conclusion_context)
+            for c in s.leaf_sections:
+                c.conclusion.conclusion_name = c.name
+                resolved.append(c.conclusion)
+
+        return resolved
+
     def __iter__(self):
-        section = YDefsSection(self._override_name, self.content)
-        for c in section.leaf_sections:
-            yield YPropertyConclusion(c.name, c.priority, decision=c.decision,
-                                      raises=c.raises)
+        log.debug("iterating over conclusions")
+        for c in self._conclusions:
+            log.debug("returning conclusion %s", c.name)
+            yield c

@@ -1,15 +1,26 @@
+vars:
+  message_pt1_nova_compute: >-
+    This node is used as an Openstack hypervisor but is not using cpufreq
+    scaling_governor in "performance" mode
+  message_pt1_neutron_gateway: >-
+    This node is used as an Openstack Neutron Gateway but is not using cpufreq
+    scaling_governor in "performance" mode
+  message_pt2: >-
+    This is not recommended and can result in performance degradation. To fix
+    this you can install cpufrequtils, set "GOVERNOR=performance" in
+    /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
+  msg_ondemand: >-
+    You will also need to stop and disable the ondemand systemd service in
+    order for changes to persist.
+  scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
     requires:
       and:
         # can we actually see the setting
-        - property:
-            path: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
-            ops: [[ne, unknown]]
+        - varops: [[$scaling_governor], [ne, unknown]]
         # does it have the expected value
-        - property:
-            path: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
-            ops: [[ne, performance]]
+        - varops: [[$scaling_governor], [ne, performance]]
   is_neutron_gateway:
     # i.e. neutron-l3-agent but no nova == neutron gateway
     requires:
@@ -33,13 +44,11 @@ conclusions:
     raises:
       type: OpenstackWarning
       message: >-
-        This node is used as an Openstack hypervisor but is not using cpufreq
-        scaling_governor in "performance" mode (actual={governor}). This is not
-        recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils, set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
+        {msg_pt1} (actual={governor}). {msg_pt2}
       format-dict:
-        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
+        msg_pt1: $message_pt1_nova_compute
+        msg_pt2: $message_pt2
+        governor: $scaling_governor
   cpufreq-not-performance-n-gw:
     priority: 1
     decision:
@@ -49,14 +58,11 @@ conclusions:
     raises:
       type: OpenstackWarning
       message: >-
-        This node is used as an Openstack Neutron Gateway but is not using cpufreq
-        scaling_governor in "performance" mode (actual={governor}). This is not
-        recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils, set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
-        NOTE: requires node reboot to take effect.
+        {msg_pt1} (actual={governor}). {msg_pt2}
       format-dict:
-        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
+        msg_pt1: $message_pt1_neutron_gateway
+        msg_pt2: $message_pt2
+        governor: $scaling_governor
   cpufreq-not-performance-with-ondemand-n-cpu:
     priority: 2
     decision:
@@ -67,15 +73,12 @@ conclusions:
     raises:
       type: OpenstackWarning
       message: >-
-        This node is used as an Openstack hypervisor but is not using cpufreq
-        scaling_governor in "performance" mode (actual={governor}). This is not
-        recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils, set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils and run systemctl restart cpufrequtils. You
-        will also need to stop and disable the ondemand systemd service in
-        order for changes to persist.
+        {msg_pt1} (actual={governor}). {msg_pt2} {msg_ondemand}
       format-dict:
-        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
+        msg_pt1: $message_pt1_nova_compute
+        msg_pt2: $message_pt2
+        msg_ondemand: $msg_ondemand
+        governor: $scaling_governor
   cpufreq-not-performance-with-ondemand-n-gw:
     priority: 2
     decision:
@@ -86,12 +89,10 @@ conclusions:
     raises:
       type: OpenstackWarning
       message: >-
-        This node is used as an Openstack Neutron Gateway but is not using cpufreq
-        scaling_governor in "performance" mode (actual={governor}). This is not
-        recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils, set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils and run systemctl restart cpufrequtils. You
-        will also need to stop and disable the ondemand systemd service in
-        order for changes to persist.
+        {msg_pt1} (actual={governor}). {msg_pt2} {msg_ondemand}
       format-dict:
-        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
+        msg_pt1: $message_pt1_neutron_gateway
+        msg_pt2: $message_pt2
+        msg_ondemand: $msg_ondemand
+        governor: $scaling_governor
+

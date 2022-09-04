@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 import logging
+import tempfile
 
 from hotsos.core.config import HotSOSConfig
 
-logging.disable(level=logging.CRITICAL)
 log = logging.getLogger()
 
 
@@ -11,7 +11,8 @@ def setup_logging(debug_mode=False):
     format = ("%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] "
               "%(message)s")
     log.name = HotSOSConfig.PLUGIN_NAME
-    logging.basicConfig(format=format)
-    if debug_mode:
-        logging.disable(logging.NOTSET)
-        log.setLevel(logging.DEBUG)
+    if not debug_mode:
+        logging.basicConfig(format=format, level=logging.DEBUG,
+                            filename=tempfile.mktemp(suffix='hotsos.log'))
+    else:
+        logging.basicConfig(format=format, level=logging.DEBUG)

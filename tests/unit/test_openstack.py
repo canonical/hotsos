@@ -1341,6 +1341,24 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual(sorted([issue['desc'] for issue in issues]),
                          sorted([msg1, msg2]))
 
+    @mock.patch('hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled', True)
+    @mock.patch('hotsos.core.plugins.kernel.SystemdConfig.cpuaffinity_enabled',
+                False)
+    @mock.patch('hotsos.core.plugins.system.common.SystemBase.num_cpus', 128)
+    @mock.patch('hotsos.core.plugins.openstack.nova.CPUPinning.'
+                'num_unpinned_cpus', 5)
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('nova/cpu_pinning.yaml'))
+    def test_pinning_insufficient_cores(self):
+        YScenarioChecker()()
+        msg = ('This host has 5 cores (3%) unpinned out of a total of 128. '
+               'This might not be sufficient to allow unpinned workloads to '
+               'function correctly and could have unintended performance '
+               'implications.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted([msg]))
+
     @mock.patch('hotsos.core.plugins.openstack.openstack.OSTProject.installed',
                 True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')

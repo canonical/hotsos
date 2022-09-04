@@ -1,153 +1,125 @@
 # All conclusions in this scenario share the same priority so that one or more
 # of them can be reached.
+vars:
+  isolcpus_enabled: '@hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled'
+  cpuaffinity_enabled: '@hotsos.core.plugins.kernel.SystemdConfig.cpuaffinity_enabled'
+  openstack_release: '@hotsos.core.plugins.openstack.OpenstackChecksBase.release_name'
+  vcpu_pinset: '@hotsos.core.plugins.openstack.nova.CPUPinning.vcpu_pin_set'
+  cpu_dedicated_set: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set'
+  cpu_dedicated_set_name: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_name'
+  pinning_from_multi_numa_nodes: '@hotsos.core.plugins.openstack.nova.CPUPinning.nova_pinning_from_multi_numa_nodes'
+  cpu_dedicated_set_intersection_isolcpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_isolcpus'
+  cpu_dedicated_set_intersection_cpuaffinity: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_cpuaffinity'
+  cpu_shared_set_intersection_isolcpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_isolcpus'
+  cpu_shared_set_intersection_cpu_dedicated_set: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_cpu_dedicated_set'
+  cpuaffinity_intersection_isolcpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpuaffinity_intersection_isolcpus'
+  num_unpinned_cpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.num_unpinned_cpus'
+  unpinned_cpus_pcent: '@hotsos.core.plugins.openstack.nova.CPUPinning.unpinned_cpus_pcent'
 checks:
   is_nova_compute_node:
-    requires:
-      systemd: nova-compute
+    systemd: nova-compute
   pinning_enabled:
-    requires:
-      or:
-        - property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
-        - property: hotsos.core.plugins.kernel.SystemdConfig.cpuaffinity_enabled
+    or:
+      - varops: [[$isolcpus_enabled], [truth]]
+      - varops: [[$cpuaffinity_enabled], [truth]]
   gte_train_release:
-    requires:
-      property:
-        path: hotsos.core.plugins.openstack.OpenstackChecksBase.release_name
-        ops: [[ge, train]]
+    varops: [[$openstack_release], [ge, train]]
   has_deprecated_pinset_config:
     # vcpu_pin_set is deprecated as of Train
-    requires:
-      and:
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.vcpu_pin_set
-            ops: [[ne, []]]
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set
-            #  i.e. cpu_dedicated_set is not set
-            ops: [[eq, []]]
+    - varops: [[$vcpu_pinset], [length_hint]]
+    # i.e. cpu_dedicated_set is not set
+    - varops: [[$cpu_dedicated_set], [eq, []]]
   conflicting_pinset_config:
     # for Train and above, if vcpu_pin_set and cpu_dedicated_set are both
     # configured Nova will raise an Error.
-    requires:
-      and:
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.vcpu_pin_set
-            ops: [[ne, []]]
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set
-            ops: [[ne, []]]
+    - varops: [[$vcpu_pinset], [length_hint]]
+    - varops: [[$cpu_dedicated_set], [length_hint]]
   nova_pinning_from_multi_numa_nodes:
-    requires:
-      property: hotsos.core.plugins.openstack.nova.CPUPinning.nova_pinning_from_multi_numa_nodes
+    varops: [[$pinning_from_multi_numa_nodes], [truth]]
   cpu_dedicated_set_mixed_sources:
-    requires:
-      and:
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_isolcpus
-            ops: [[ne, []]]
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_cpuaffinity
-            ops: [[ne, []]]
+    - varops: [[$cpu_dedicated_set_intersection_isolcpus], [length_hint]]
+    - varops: [[$cpu_dedicated_set_intersection_cpuaffinity], [length_hint]]
   cpu_shared_set_has_isolcpus:
-    requires:
-      property:
-        path: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_isolcpus
-        ops: [[ne, []]]
+    varops: [[$cpu_shared_set_intersection_isolcpus], [length_hint]]
   cpu_shared_set_and_cpu_dedicated_set_overlap:
-    requires:
-      property:
-        path: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_cpu_dedicated_set
-        ops: [[ne, []]]
+    varops: [[$cpu_shared_set_intersection_cpu_dedicated_set], [length_hint]]
   isolcpus_and_cpuaffinity_overlap:
-    requires:
-      property:
-        path: hotsos.core.plugins.openstack.nova.CPUPinning.cpuaffinity_intersection_isolcpus
-        ops: [[ne, []]]
+    varops: [[$cpuaffinity_intersection_isolcpus], [length_hint]]
   insufficient_unpinned_cpus:
-    requires:
-      or:
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.unpinned_cpus_pcent
-            ops: [[lt, 5]]
-        - property:
-            path: hotsos.core.plugins.openstack.nova.CPUPinning.num_unpinned_cpus
-            ops: [[lt, 5]]
+    or:
+      - varops: [[$num_unpinned_cpus], [lt, 5]]
+      - varops: [[$unpinned_cpus_pcent], [lt, 5]]
 conclusions:
   cpu-dedicated-set-mixed-sources:
     decision:
-      and:
-        - is_nova_compute_node
-        - cpu_dedicated_set_mixed_sources
+      - is_nova_compute_node
+      - cpu_dedicated_set_mixed_sources
     raises:
       type: OpenstackWarning
       message: >-
-        Nova config option '{cpu_dedicated_set_name}' uses a subset of both
-        isolcpus AND systemd CPUAffinity.
+        Nova config option '{cfg}' uses a subset of both isolcpus AND systemd
+        CPUAffinity.
       format-dict:
-        cpu_dedicated_set_name: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_name
+        cfg: $cpu_dedicated_set_name
   cpu-shared-set-has-isolcpus:
     decision:
-      and:
-        - is_nova_compute_node
-        - cpu_shared_set_has_isolcpus
+      - is_nova_compute_node
+      - cpu_shared_set_has_isolcpus
     raises:
       type: OpenstackWarning
       message: >-
         Nova config option 'cpu_shared_set' is using cores from isolcpus.
   cpu-shared-set-and-cpu-dedicated-set-overlap:
     decision:
-      and:
-        - is_nova_compute_node
-        - cpu_shared_set_and_cpu_dedicated_set_overlap
+      - is_nova_compute_node
+      - cpu_shared_set_and_cpu_dedicated_set_overlap
     raises:
       type: OpenstackError
       message: >-
-        Nova config options 'cpu_shared_set' and '{cpu_dedicated_set_name}' are configured
+        Nova config options 'cpu_shared_set' and '{cfg}' are configured
         with overlapping sets of cpu cores.
       format-dict:
-        cpu_dedicated_set_name: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_name
+        cfg: $cpu_dedicated_set_name
   isolcpus-and-cpuaffinity-overlap:
     decision:
-      and:
-        - is_nova_compute_node
-        - isolcpus_and_cpuaffinity_overlap
+      - is_nova_compute_node
+      - isolcpus_and_cpuaffinity_overlap
     raises:
       type: OpenstackError
       message: >-
         The cpu ranges configured in isolcpus and systemd CPUAffinity overlap.
-  not-enough-system-cores:
+  insufficient-system-cores:
     decision:
-      and:
-        - is_nova_compute_node
-        - pinning_enabled
-        - insufficient_unpinned_cpus
+      - is_nova_compute_node
+      - pinning_enabled
+      - insufficient_unpinned_cpus
     raises:
       type: OpenstackWarning
       message: >-
-        Host has only {nonisolated} cores ({pcent_unpinned}%) unpinned. This
-        might have unintended performance implications.
+        This host has {nonisolated} cores ({pcent_unpinned}%) unpinned out of a
+        total of {total}. This might not be sufficient to allow unpinned workloads
+        to function correctly and could have unintended performance implications.
       format-dict:
-        pcent_unpinned: hotsos.core.plugins.openstack.nova.CPUPinning.num_unpinned_cpus
-        nonisolated: hotsos.core.plugins.openstack.nova.CPUPinning.unpinned_cpus_pcent
+        pcent_unpinned: $unpinned_cpus_pcent
+        nonisolated: $num_unpinned_cpus
+        total: hotsos.core.plugins.system.common.SystemBase.num_cpus
   nova-pinning-from-multi-numa-nodes:
     decision:
-      and:
-        - is_nova_compute_node
-        - nova_pinning_from_multi_numa_nodes
+      - is_nova_compute_node
+      - nova_pinning_from_multi_numa_nodes
     raises:
       type: OpenstackWarning
       message: >-
-        Nova config option '{cpu_dedicated_set_name}' is configured with cores
-        from more than one numa node. This can have performance implications and should
-        be checked.
+        Nova config option '{cfg}' is configured with cores from more than
+        one numa node. This can have performance implications and should be
+        checked.
       format-dict:
-        cpu_dedicated_set_name: hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_name
+        cfg: $cpu_dedicated_set_name
   conflicting-pinset-config:
     decision:
-      and:
-        - is_nova_compute_node
-        - gte_train_release
-        - conflicting_pinset_config
+      - is_nova_compute_node
+      - gte_train_release
+      - conflicting_pinset_config
     raises:
       type: OpenstackError
       message: >-
@@ -155,10 +127,9 @@ conclusions:
         set/configured which is not allowed for >= Train.
   has-deprecated-pinset-config:
     decision:
-      and:
-        - is_nova_compute_node
-        - gte_train_release
-        - has_deprecated_pinset_config
+      - is_nova_compute_node
+      - gte_train_release
+      - has_deprecated_pinset_config
     raises:
       type: OpenstackWarning
       message: >-

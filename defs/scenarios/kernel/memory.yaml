@@ -1,19 +1,20 @@
+vars:
+  nodes_with_limited_high_order_memory: '@hotsos.core.plugins.kernel.memory.MemoryChecks.nodes_with_limited_high_order_memory'
+  compact_success: '@hotsos.core.plugins.kernel.memory.VMStat.compact_success'
+  compaction_failures_percent: '@hotsos.core.plugins.kernel.memory.VMStat.compaction_failures_percent'
+  slab_major_consumers: '@hotsos.core.plugins.kernel.memory.SlabInfo.major_consumers'
+  # We use an arbitrary threshold of 10k to suggest that a lot of
+  # compaction has occurred but noting that this is a rolling counter
+  # and is not necessarily representative of current state.
+  min_compaction_success: 10000
+  max_compaction_failures_pcent: 10
 checks:
   low_free_high_order_mem_blocks:
-    property:
-      path: hotsos.core.plugins.kernel.memory.MemoryChecks.nodes_with_limited_high_order_memory
-      ops: [[length_hint]]
+    varops: [[$nodes_with_limited_high_order_memory], [length_hint]]
   high_compaction_failures:
-    requires:
-       # We use an arbitrary threshold of 10k to suggest that a lot of
-       # compaction has occurred but noting that this is a rolling counter
-       # and is not necessarily representative of current state.
-      - property:
-          path: hotsos.core.plugins.kernel.memory.VMStat.compact_success
-          ops: [[gt, 10000]]
-      - property:
-          path: hotsos.core.plugins.kernel.memory.VMStat.compaction_failures_percent
-          ops: [[gt, 10]]
+    and:
+      - varops: [[$compact_success], [gt, $min_compaction_success]]
+      - varops: [[$compaction_failures_percent], [gt, $max_compaction_failures_pcent]]
 conclusions:
   low_free_high_order_mem_blocks:
     decision: low_free_high_order_mem_blocks
@@ -24,8 +25,8 @@ conclusions:
         At present the top 5 highest consumers of memory are: {top5}. See summary
         or /proc/buddyinfo for more info.
       format-dict:
-        nodes: '@checks.low_free_high_order_mem_blocks.requires.value_actual:comma_join'
-        top5: hotsos.core.plugins.kernel.memory.SlabInfo.major_consumers:comma_join
+        nodes: $nodes_with_limited_high_order_memory:comma_join
+        top5: $slab_major_consumers:comma_join
   high_compaction_failures:
     decision:
       # We only report on compaction errors if there is a shortage of
@@ -41,5 +42,5 @@ conclusions:
         unable form larger blocks on request which can slow things down. See vmstat
         output for more detail.
       format-dict:
-        pcent: '@checks.high_compaction_failures.requires.value_actual'
+        pcent: $compaction_failures_percent
 

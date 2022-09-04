@@ -40,16 +40,16 @@ class OverrideState(object):
 
     @property
     def name(self):
-        # log("{}.name".format(self.__class__.__name__))
+        # log("{}.name".format(self._whoami))
         return self._name
 
     @property
     def content(self):
-        # log("{}.content".format(self.__class__.__name__))
+        # log("{}.content".format(self._whoami))
         return self._content
 
     def __getattr__(self, name):
-        # log("{}.__getattr__: {}".format(self.__class__.__name__, name))
+        # log("{}.__getattr__: {}".format(self._whoami, name))
         _name = name.replace('_', '-')
         if _name not in self.content:
             raise AttributeError("'{}' object has no attribute '{}'".
@@ -71,21 +71,21 @@ class OverrideStack(object):
         log("{} stack info: {}".format(self._whoami, info))
 
     def __len__(self):
-        # log("{}.len ({})".format(self.__class__.__name__, len(self.items)))
+        # log("{}.len ({})".format(self._whoami, len(self.items)))
         # info = "\ncontents:\n{}\n".format(repr(self))
-        # log("{} stack info: {}".format(self.__class__.__name__, info))
+        # log("{} stack info: {}".format(self._whoami, info))
         return len(self.items)
 
     def __repr__(self):
-        # log("{}.repr".format(self.__class__.__name__))
+        # log("{}.repr".format(self._whoami))
         r = []
         for i, item in enumerate(self.items):
             if isinstance(item, OverrideState):
-                r.append("[{}] {} - {} {}".format(i, item.__class__.__name__,
+                r.append("[{}] {} - {} {}".format(i, item._whoami,
                                                   item.name,
                                                   item.content))
             else:
-                r.append("[{}] {} depth={}".format(i, item.__class__.__name__,
+                r.append("[{}] {} depth={}".format(i, item._whoami,
                                                    len(item)))
 
         return '\n'.join(r)
@@ -132,9 +132,17 @@ class OverrideBase(abc.ABC):
         log("{}._override_path".format(self._whoami))
         return self._override_resolve_path
 
+    @classmethod
+    def valid_parse_content_types(cls):
+        """ Override this if you want to restrict what content can be parsed
+        e.g. of the content only contains dicts as properties and not lists of
+        properties we can constrain that here.
+        """
+        return [dict, list]
+
     @property
     def context(self):
-        # log("{}.context".format(self.__class__.__name__))
+        # log("{}.context".format(self._whoami))
         return self._context
 
     @property
@@ -178,20 +186,37 @@ class YStructOverrideBase(OverrideBase):
                              format(self._whoami, name))
 
 
-class YStructOverrideSimpleString(OverrideBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['__simple_string__']
+class YStructOverrideRawType(OverrideBase):
 
     def __init__(self, name, content, *args, **kwargs):
         super().__init__(name, content, *args, **kwargs)
         self.add(name, content)
 
+    @classmethod
+    def _override_keys(cls):
+        return ['__raw_type__']
+
+    @classmethod
+    def check_is_raw_value(cls, content):
+        if type(content) in cls.valid_parse_content_types():
+            return False
+
+        return True
+
+    def __type__(self):
+        return type(self.content)
+
+    def __int__(self):
+        return int(self.content)
+
     def __str__(self):
         return self.content
 
+    def __repr__(self):
+        return self.content
+
     def __getattr__(self, name):
+        """ These objects wont have any custom attributes. """
         raise AttributeError("'{}' object has no attribute '{}'".
                              format(self._whoami, name))
 
@@ -293,14 +318,6 @@ class YStructMappedOverrideBase(OverrideBase):
         override_keys.
         """
 
-    @property
-    def valid_parse_content_types(self):
-        """ Override this if you want to restrict what content can be parsed
-        e.g. of the content only contains dicts as properties and not lists of
-        properties we can constrain that here.
-        """
-        return [dict, list]
-
     def get_member_with_key(self, key):
         log("{}.get_member_with_key: {}".format(self._whoami, key))
         for m in self._override_mapped_member_types():
@@ -333,7 +350,7 @@ class YStructMappedOverrideBase(OverrideBase):
         log("{}.members (depth={})".format(self._whoami, len(self._stack)))
         for item in self._stack:
             log("{}.__iter__ item={} ({})".
-                format(self._whoami, item.__class__.__name__, repr(item)))
+                format(self._whoami, item._whoami, repr(item)))
             for _item in item:
                 yield _item
 
@@ -341,7 +358,7 @@ class YStructMappedOverrideBase(OverrideBase):
         log("{}.__iter__ ({})".format(self._whoami, repr(self._stack)))
         for item in self._stack:
             log("{}.__iter__ item={} ({})".
-                format(self._whoami, item.__class__.__name__, repr(item)))
+                format(self._whoami, item._whoami, repr(item)))
             yield item
 
     def add(self, name, content, flush_current=False):
@@ -360,7 +377,7 @@ class YStructMappedOverrideBase(OverrideBase):
         if name in self._override_keys():
             self._current = None
             state = MappedOverrideState(self, name, content, self.member_keys)
-            if type(content) in self.valid_parse_content_types:
+            if type(content) in self.valid_parse_content_types():
                 mapping_members = self._override_mapped_member_types()
                 s = YStructSection(name, content,
                                    resolve_path=self._override_path,
@@ -372,24 +389,21 @@ class YStructMappedOverrideBase(OverrideBase):
                         if obj is not None:
                             state.add_member(obj)
 
-                for obj in s.get_resolved_by_type(YStructOverrideSimpleString):
+                for obj in s.get_resolved_by_type(YStructOverrideRawType):
                     state.add_member(obj)
             else:
                 log("{}.add: content type '{}' not parsable ({}) so treating "
                     "as {}".format(self._whoami, type(content),
-                                   self.valid_parse_content_types,
-                                   YStructOverrideSimpleString.__name__)),
-                if type(content) == str:
-                    obj = YStructOverrideSimpleString(content, content,
-                                                      self.context,
-                                                      resolve_path)
+                                   self.valid_parse_content_types(),
+                                   YStructOverrideRawType.__name__)),
+
+                if type(content) != list:
+                    content = [content]
+
+                for item in content:
+                    obj = YStructOverrideRawType(item, item, self.context,
+                                                 resolve_path)
                     state.add_member(obj)
-                else:
-                    for item in content:
-                        obj = YStructOverrideSimpleString(item, item,
-                                                          self.context,
-                                                          resolve_path)
-                        state.add_member(obj)
 
             self._stack.add(state)
         else:
@@ -422,6 +436,9 @@ class YStructOverrideManager(object):
         self.allow_stacking = False
         self._resolved = {}
         self._resolved_mapped = {}
+        if not handlers:
+            handlers = [YStructOverrideRawType]
+
         if manager:
             # clone it
             self._context = manager._context
@@ -468,7 +485,8 @@ class YStructOverrideManager(object):
         return _results
 
     def get_resolved(self, name):
-        log("{}.get_resolved: {}".format(self.__class__.__name__, name))
+        log("{}.get_resolved: {} ({})".format(self.__class__.__name__, name,
+                                              len(self._resolved)))
         name = name.replace('_', '-')
         return self._resolved.get(name)
 
@@ -500,11 +518,11 @@ class YStructOverrideManager(object):
             self._resolved[resolved_name] = obj
 
     def resolve(self, name, content, resolve_path, flush_mapped=False):
-        log("{}.resolve: {} {} {} {}".format(self.__class__.__name__, name,
-                                             content, resolve_path,
-                                             flush_mapped))
+        log("{}.resolve: name={} content={} resolve_path={} flush_mapped={}".
+            format(self.__class__.__name__, name, content, resolve_path,
+                   flush_mapped))
         if name == content:
-            self.add_resolved(name, content, YStructOverrideSimpleString,
+            self.add_resolved(name, content, YStructOverrideRawType,
                               resolve_path)
             return
 
@@ -605,7 +623,7 @@ class YStructSection(object):
             self.manager.switch_to_stacked()
             for _ref, item in enumerate(self.content):
                 log("{}.run: item={}".format(self.__class__.__name__, item))
-                if type(item) == str:
+                if YStructOverrideRawType.check_is_raw_value(item):
                     self.manager.resolve(item, item, self.resolve_path)
                 else:
                     flush_mapped = True
@@ -623,7 +641,10 @@ class YStructSection(object):
                 self.manager.resolve(name, content, self.resolve_path)
 
             for name, content in self.content.items():
-                if name in self.manager.resolved:
+                if (name in self.manager.resolved or
+                        YStructOverrideRawType.check_is_raw_value(content)):
+                    log("{}.run: terminating {} with raw content".
+                        format(self.__class__.__name__, name))
                     continue
 
                 rpath = "{}.{}".format(self.resolve_path, name)

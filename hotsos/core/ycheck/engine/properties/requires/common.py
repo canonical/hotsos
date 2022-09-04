@@ -29,12 +29,27 @@ class OpsUtils(object):
         return ' -> '.join(_result)
 
     def apply_op(self, op, input=None, expected=None, force_expected=False):
+        """
+        @param expected: can be a value or variable name that needs to be
+                         resolved. Variable names are identified by having a
+                         "$" prefix.
+        """
         log.debug("op=%s, input=%s, expected=%s, force_expected=%s", op,
                   input, expected, force_expected)
-        if expected is not None or force_expected:
-            return getattr(operator, op)(input, expected)
+        if expected is not None:
+            if type(expected) == str and expected.startswith("$"):
+                varname = expected.partition("$")[2]
+                varval = self.context.vars.resolve(varname)
+                expected = varval
 
-        return getattr(operator, op)(input)
+        try:
+            if expected is not None or force_expected:
+                return getattr(operator, op)(input, expected)
+
+            return getattr(operator, op)(input)
+        except Exception:
+            log.exception("failed to apply operator '%s'", op)
+            raise
 
     def apply_ops(self, ops, input=None, normalise_value_types=False):
         """
@@ -88,3 +103,17 @@ class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
             log.exception("requires.%s.result raised the following",
                           self.__class__.__name__)
             raise
+
+
+class YRequirementTypeWithOpsBase(YRequirementTypeBase):
+
+    @property
+    def default_ops(self):
+        return [['truth']]
+
+    @property
+    def ops(self):
+        if type(self.content) != dict:
+            return self.default_ops
+
+        return self.content.get('ops', self.default_ops)

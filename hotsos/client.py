@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import html
 import json
+import logging
 import os
 import shutil
 import tempfile
@@ -321,6 +322,12 @@ class OutputManager(object):
                         os.remove(dst)
 
                     os.symlink(path.partition(output_root)[2].lstrip('/'), dst)
+
+        if log.handlers and isinstance(log.handlers[0], logging.FileHandler):
+            log.handlers[0].close()
+            # no logging after this point
+            os.rename(log.handlers[0].baseFilename,
+                      os.path.join(output_root, name, 'hotsos.log'))
 
         return output_root
 

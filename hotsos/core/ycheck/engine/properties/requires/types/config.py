@@ -9,6 +9,7 @@ from hotsos.core.ycheck.engine.properties.requires import (
 from hotsos.core.ycheck.engine.properties.common import (
     add_to_property_catalog,
     YDefsSection,
+    YDefsContext,
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
     LogicalCollectionHandler,
@@ -58,7 +59,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
         return final_results
 
     def get_item_result_callback(self, item):
-        cfg_obj = self.context.cfg_obj
+        cfg_obj = self.context.assertions_ctxt['cfg_obj']
         if item.section:
             actual = cfg_obj.get(item.key, section=item.section)
         else:
@@ -71,7 +72,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
         log.debug("assertion: %s (%s) %s result=%s",
                   item.key, actual, self.ops_to_str(item.ops or []), _result)
 
-        cache = self.context.cache
+        cache = self.context.assertions_ctxt['cache']
         msg = "{} {}/actual=\"{}\"".format(item.key,
                                            self.ops_to_str(item.ops or []),
                                            actual)
@@ -143,11 +144,14 @@ class YRequirementTypeConfig(YRequirementTypeBase):
     @property
     def assertions(self):
         _assertions = []
+        ctxt = YDefsContext()
+        # make this available to all assertions
+        ctxt.assertions_ctxt = {'cfg_obj': self.cfg,
+                                'cache': self.cache}
         section = YDefsSection('config_assertions',
-                               {'assertions': self.content.get('assertions')})
+                               {'assertions': self.content.get('assertions')},
+                               context=ctxt)
         for leaf in section.leaf_sections:
-            leaf.assertions.context.set('cfg_obj', self.cfg)
-            leaf.assertions.context.set('cache', self.cache)
             _assertions.append(leaf.assertions.passes)
 
         return _assertions

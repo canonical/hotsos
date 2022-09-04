@@ -340,25 +340,22 @@ class TestKernelScenarioChecks(TestKernelBase):
         issues = list(IssuesStore().load().values())
         self.assertEqual(issues, [])
 
-    @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
-                'host_interfaces_all',
-                [NetworkPort('tap0e778df8-ca', None, None, None, None)])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
     @utils.create_test_files({'var/log/kern.log': EVENTS_KERN_LOG})
     def test_over_mtu_dropped_packets(self):
-        YScenarioChecker()()
-        msg = ('This host is reporting over-mtu dropped packets for (1) '
-               'interfaces. See kern.log for full details.')
-        issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+        with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
+                        'host_interfaces_all',
+                        [NetworkPort('tap0e778df8-ca', None, None, None,
+                                     None)]):
+            YScenarioChecker()()
+            msg = ('This host is reporting over-mtu dropped packets for (1) '
+                   'interfaces. See kern.log for full details.')
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.plugins.kernel.kernlog.events.log')
     @mock.patch('hotsos.core.plugins.kernel.kernlog.common.CLIHelper')
-    @mock.patch('hotsos.core.plugins.kernel.kernlog.common.'
-                'HostNetworkingHelper.host_interfaces_all',
-                [NetworkPort('br-int', None, None, None, None),
-                 NetworkPort('tap0e778df8-ca', None, None, None, None)])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
     @utils.create_test_files({'var/log/kern.log': EVENTS_KERN_LOG_W_OVS_PORTS})
@@ -366,13 +363,19 @@ class TestKernelScenarioChecks(TestKernelBase):
         mock_cli.return_value = mock.MagicMock()
         # include trailing newline since cli would give that
         mock_cli.return_value.ovs_vsctl_list_br.return_value = ['br-int\n']
-        YScenarioChecker()()
-        mock_log.assert_has_calls([mock.call.debug(
-                                    "excluding ovs bridge %s", 'br-int')])
-        msg = ('This host is reporting over-mtu dropped packets for (1) '
-               'interfaces. See kern.log for full details.')
-        issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+        with mock.patch('hotsos.core.plugins.kernel.kernlog.common.'
+                        'HostNetworkingHelper.host_interfaces_all',
+                        [NetworkPort('br-int', None, None, None, None),
+                         NetworkPort('tap0e778df8-ca', None, None, None,
+                                     None)]):
+            YScenarioChecker()()
+            mock_log.assert_has_calls([mock.call.debug(
+                                        "excluding ovs bridge %s", 'br-int')])
+            msg = ('This host is reporting over-mtu dropped packets for (1) '
+                   'interfaces. See kern.log for full details.')
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch.object(MemoryChecks, 'max_contiguous_unavailable_block_sizes',
                        1)

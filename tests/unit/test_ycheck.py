@@ -226,6 +226,7 @@ checks:
   is_exists_unmapped:
     requires:
       systemd: nova-compute
+conclusions:
 """
 
 YAML_DEF_REQUIRES_SYSTEMD_FAIL_2 = """
@@ -527,6 +528,70 @@ conclusions:
     raises:
       type: SystemWarning
       message: cfg is bad2
+"""
+
+
+VARS = """
+vars:
+  foo: 1000
+  limit: 10
+  bar: "two"
+  fromprop: '@tests.unit.test_ycheck.TestProperty.myattr'
+  boolvar: false
+checks:
+  aptcheck:
+    apt: nova-compute
+  is_foo_lt:
+    varops: [[$foo], [lt, $limit]]
+  is_foo_gt:
+    varops: [[$foo], [gt, $limit]]
+  isbar:
+    varops: [[$bar], [ne, ""]]
+  fromprop:
+    varops: [[$fromprop], [eq, "123"]]
+  boolvar:
+    varops: [[$boolvar], [truth], [not_]]
+conclusions:
+  aptcheck:
+    decision: aptcheck
+    raises:
+      type: SystemWarning
+      message: "{name}={version}"
+      format-dict:
+        name: '@checks.aptcheck.requires.package'
+        version: '@checks.aptcheck.requires.version'
+  is_foo_gt:
+    decision: is_foo_gt
+    raises:
+      type: SystemWarning
+      message: it's foo gt! ({varname}={varval})
+      format-dict:
+        varname: '@checks.is_foo_gt.requires.name'
+        varval: '@checks.is_foo_gt.requires.value'
+  is_foo_lt:
+    decision: is_foo_lt
+    raises:
+      type: SystemWarning
+      message: it's foo lt! ({varname}={varval})
+      format-dict:
+        varname: '@checks.is_foo_lt.requires.name'
+        varval: '@checks.is_foo_lt.requires.value'
+  isbar:
+    decision: isbar
+    raises:
+      type: SystemWarning
+      message: it's bar! ({varname}={varval})
+      format-dict:
+        varname: '@checks.isbar.requires.name'
+        varval: '@checks.isbar.requires.value'
+  fromprop:
+    decision: [fromprop, boolvar]
+    raises:
+      type: SystemWarning
+      message: fromprop! ({varname}={varval})
+      format-dict:
+        varname: '@checks.fromprop.requires.name'
+        varval: '@checks.fromprop.requires.value'
 """
 
 
@@ -1166,3 +1231,18 @@ class TestYamlChecks(utils.BaseTestCase):
                        "scenarioB) - run hotsos in debug mode (--debug) to "
                        "get more detail")
                 self.assertEqual(issue['desc'], msg)
+
+    @init_test_scenario(VARS, set_data_root=False)
+    def test_vars(self):
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues[0]), 4)
+        msgs = []
+        for issue in issues[0]:
+            msgs.append(issue['desc'])
+
+        self.assertEqual(sorted(msgs),
+                         sorted(["nova-compute=2:21.2.3-0ubuntu1",
+                                 "it's foo gt! (foo=1000)",
+                                 "it's bar! (bar=two)",
+                                 "fromprop! (fromprop=123)"]))

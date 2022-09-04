@@ -1,1 +1,5 @@
-from .common import OpsUtils, YRequirementTypeBase  # noqa: F403,F401
+from .common import (  # noqa: F403,F401
+    OpsUtils,
+    YRequirementTypeBase,
+    YRequirementTypeWithOpsBase,
+)

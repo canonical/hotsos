@@ -10,17 +10,15 @@ for more information on this.
 First choose what [type](#handlers) of check you want to write and in which
 plugin context the check should be run.
 
-Checks are organised beneath a directory that shares the name of the plugin
-that will run them. Files and directories are used to group checks with files
-containing one or more checks. All check definitions have the same basic
-structure, using a mixture of properties and, if defining a
-[scenario](#scenarios), [PropertyCollection](#propertycollection).
+Definitions are organised beneath a directory that shares the name of the
+plugin that will run them and can be grouped using files and directories. All
+definitions have the same basic structure using a mixture of properties.
 
 This approach provides a way to write checks and analysis in a way that focuses
 on the structure and logic of the check rather than the underlying
 implementation. This is achieved by leveraging the properties provided along
-with library/shared code (e.g. [core](../hotsos/core/plugins)) as much as
-possible.
+with library/shared code (e.g. [core plugins](../hotsos/core/plugins)) as much
+as possible.
 
 The yaml definitions are loaded into a tree structure, with leaf nodes
 containing the consumable information such as checks. This structure supports
@@ -32,9 +30,9 @@ In summary:
  * Top directory shares its name with the plugin the checks belong to e.g.
    [openstack](scenarios/openstack).
  * Sub levels contain definitions which can be organised using any
-   combination of files and directories. You can then use file or
-   directories to logically group your definitions.
- * The backbone of this approach is based on [ystruct](http://github.com/dosaboy/ystruct) i.e. a
+   combination of files and directories, using them to logically group your
+   definitions.
+ * The backbone of this approach is [ystruct](http://github.com/dosaboy/ystruct) i.e. a
    tree where each level contains override properties and "content".
    Overrides follow an inheritance model so that they can be defined and
    superseded at any level. The content is always found at the leaf nodes of
@@ -47,8 +45,8 @@ TIP: to use a single quote ' inside a yaml string you need to replace it with
 
 If you want to gate running the contents of a directory on a pre-requisite you
 can do so by putting them in a file that shares the name of its parent directory.
-In the following example *mychecks.yaml* contains a [requires](#requires) and the rest of the
-directory will only be run if it resolves to *True*.
+In the following example *mychecks.yaml* contains a [requires](#requires) and
+the rest of the directory will only be run if it resolves to *True*.
 
 ```
 $ ls myplugin/mychecks/
@@ -93,16 +91,16 @@ properties defined in *mychecks.yaml* will be available in *checkthis.yaml*,
 
 Some properties use the ystruct mapped properties feature meaning they are
 implemented as a root property with one or more "member" properties and the two
-map to each other. For example if we have a property *mprop* and it has two
-member properties *prop1* and *prop2* it can be defined with either of the
+map to each other. For example if we have a property *mainprop* and it has two
+member properties *mp1* and *mp2* it can be defined using either of the
 following formats:
 
 ```
 myleaf:
-  mprop:
-    prop1:
+  mainprop:
+    mp1:
       ...
-    prop2:
+    mp2:
       ...
 ```
 
@@ -110,18 +108,23 @@ or
 
 ```
 myleaf:
-  prop1:
+  mp1:
     ...
-  prop2:
+  mp2:
     ...
 ```
 
-and both formats will resolved and accessed in the same way.
+and both formats will be resolved and accessed in the same way i.e.
 
 ```
-myleaf.mprop.prop1
-myleaf.mprop.prop2
+myleaf.mainprop.mp1
+myleaf.mainprop.mp2
 ```
+
+#### Context
+
+Every property object inherits a context object that is shared across all
+properties. This provides a way to share information across properties.
 
 #### Caching
 
@@ -179,9 +182,49 @@ definitions provided that their [handlers](#handlers) supports them. The
 *format* subsection describes how they can be used in yaml definitions and the
 *usage* subsection describes how they are consumed by handlers.
 
+
+#### vars
+This property supports defining one or more variables that can be referenced from
+other properties. They are defined as a list of key: value pairs where value can
+be standard types like str, int, bool etc or it can be a Python property that is
+called to get its value.
+
+To set a variable to the value of an imported Python property you need to prefix
+the import string with '@'.
+
+Variables are referenced/access in other properties by prefixing their name
+with a '$'. See [varops](#varops) for more info.
+
+format:
+
+```
+vars:
+  <name>: <value>
+```
+
+uage:
+
+```
+<iter>
+```
+
+example:
+
+```
+vars:
+  myintvar: 10
+  mystrvar: 'hello'
+  myboolvar: true
+  mypropvar: '@hotsos.core.plugins.kernel.sysfs.CPU.smt'
+checks:
+  is_smt:
+    varops: [[$mypropvar], [eq, $myboolvar]]
+...
+```
+
 #### decision
 
-This property is typically used in a [conclusions](#conclusions) PropertyCollection.
+This property is typically used in [conclusions](#conclusions).
 CHECKS refers to a set of one or more [check](#checks) names organised as a
 [LogicalCollection](#logicalcollection) to make decision on the outcome of more
 checks.
@@ -315,7 +358,7 @@ PROPERTY_CACHE_REF
   '@<propertyname>.CACHE_KEY'
   '@checks.<checkname>.<propertyname>.CACHE_KEY'
 
-  The latter is used if the property is within a checks PropertyCollection.
+  The latter is used if the property is within a checks property.
 
 CACHE_KEY
   See individual property CACHE_KEYS for supported cache keys.
@@ -632,6 +675,34 @@ CACHE_KEYS
   ops - the last ops to be run
   value_actual - the actual value checked against
 ```
+
+#### varops
+This provides a way to build an OPS_LIST using [variables](#vars) whereby the
+first element must be a variable e.g.
+
+format:
+
+```
+OPS_LIST where first element is a variable name (and all vars used are prefixed with $).
+```
+
+example:
+
+```
+vars:
+  myvar: 10
+  limit: 5
+checks:
+  checkmyvar:
+    varops: [[$myvar], [gt, $limit], [lt, 100]]
+conclusions:
+  ...
+```
+
+CACHE_KEYS
+  name: name of the variable used as input
+  value: value of the variable used as input
+  ops: str representation of ops list
 
 ### PropertyCollection
 

@@ -11,6 +11,7 @@ from hotsos.core.ycheck.engine.properties.requires.types import (
     systemd,
     property as rproperty,
     path,
+    varops,
 )
 
 
@@ -24,13 +25,14 @@ class YPropertyRequiresBase(YPropertyMappedOverrideBase,
                 config.YRequirementTypeConfig,
                 systemd.YRequirementTypeSystemd,
                 rproperty.YRequirementTypeProperty,
-                path.YRequirementTypePath]
+                path.YRequirementTypePath,
+                varops.YPropertyVarOps]
 
     def get_item_result_callback(self, item, copy_cache=False):
         result = item()
         if copy_cache:
-            log.debug("merging cache with item of type %s",
-                      item.__class__.__name__)
+            log.debug("merging item (type=%s) cache id=%s into cache id=%s",
+                      item.__class__.__name__, item.cache.id, self.cache.id)
             self.cache.merge(item.cache)
 
         return result

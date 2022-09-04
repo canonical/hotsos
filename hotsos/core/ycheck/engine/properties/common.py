@@ -15,13 +15,17 @@ YPropertiesCatalog = []
 
 class YDefsSection(YStructSection):
 
-    def __init__(self, name, content):
+    def __init__(self, name, content, context=None):
         """
         @param name: name of defs group
         @param content: defs tree of type dict
+        @param context: optional context object. This gets passed to all
+                        resolved properties and can be used to share
+                        information amongst them. If one is no provided
+                        a new empty one is created.
         """
         super().__init__(name, content, override_handlers=YPropertiesCatalog,
-                         context=YDefsContext())
+                         context=context or YDefsContext())
 
 
 def add_to_property_catalog(c):
@@ -57,30 +61,39 @@ class YDefsContext(object):
     """
     Provides a way to get/set arbitrary information used as context to a yaml
     defs run. This object is typically passed to a YDefsSection and accessible
-    from all override properties as a property called "context".
+    from all override properties as attribute "context".
     """
-    def __init__(self):
-        self.context = {}
+    def __init__(self, initial_state=None):
+        """
+        @param initial_state: optional dict to use as initial state.
+        """
+        self._ydefs_context = initial_state or {}
 
-    def set(self, key, value):
-        log.debug("adding key=%s to context with value=%s", key, value)
-        self.context[key] = value
+    def __setattr__(self, key, value):
+        if key != '_ydefs_context':
+            log.debug("%s setting %s=%s", self.__class__.__name__, key, value)
+            self._ydefs_context[key] = value
+            return
+
+        super().__setattr__(key, value)
 
     def __getattr__(self, key):
-        return self.context.get(key)
+        return self._ydefs_context.get(key)
 
 
 class PropertyCacheRefResolver(object):
     """
     This class is used to resolve string references to property cache entries.
     """
-    def __init__(self, refstr, property=None, checks=None):
+    def __init__(self, refstr, vars=None, checks=None):
+        log.debug("%s: resolving '%s'", self.__class__.__name__, refstr)
         self.refstr = refstr
         if not self.is_valid_cache_ref(refstr):
-            msg = ("{} is not a valid property cache reference".format(refstr))
+            msg = ("{} is not a valid property cache reference or variable".
+                   format(refstr))
             raise Exception(msg)
 
-        self.property = property
+        self.vars = vars
         self.checks = checks
         if self.reftype == 'checks' and checks is None:
             msg = ("{} is a checks cache reference but checks dict not "
@@ -94,25 +107,26 @@ class PropertyCacheRefResolver(object):
         referenced.
 
         Supported formats:
+            $varname[:func]
             @checks.<check_name>.<property_name>.<property_cache_key>[:func]
-            @<property_name>.<property_cache_key>[:func]
         """
-        if self.refstr.startswith('@checks.'):
+        if self.refstr.startswith('$'):
+            return "variable"
+        elif self.refstr.startswith('@checks.'):
             # This is an implementation of YPropertyChecks
             return "checks"
         else:
-            # This is any implementation of YPropertyOverrideBase
-            return "property"
+            raise Exception("unknown ref type")
 
     @property
     def _ref_body(self):
         """
         Strip the prefix from the reference string.
         """
-        if self.reftype == 'checks':
+        if self.reftype == 'variable':
+            prefix = "$"
+        elif self.reftype == 'checks':
             prefix = "@checks.{}.".format(self.check_name)
-        else:
-            prefix = "@{}.".format(self.property._override_name)
 
         return self.refstr.partition(prefix)[2]
 
@@ -127,7 +141,7 @@ class PropertyCacheRefResolver(object):
         if type(refstr) != str:
             return False
 
-        if not refstr.startswith('@'):
+        if not (refstr.startswith('@') or refstr.startswith('$')):
             return False
 
         return True
@@ -144,15 +158,13 @@ class PropertyCacheRefResolver(object):
         if self.reftype == 'checks':
             return self._ref_body.partition('.')[0]
 
-        return self.property._override_name
-
     @property
     def property_cache_key(self):
         """ Key for PropertyCache. """
         if self.reftype == 'checks':
             _key = self._ref_body.partition('.')[2]
         else:
-            _key = self._ref_body
+            raise Exception("not a check reftype")
 
         # strip func if exists
         return _key.partition(':')[0]
@@ -187,17 +199,15 @@ class PropertyCacheRefResolver(object):
         return value
 
     def resolve(self):
-        if self.property is None:
-            if not self.checks:
-                raise Exception("property required in order to resolve cache "
-                                "ref")
-
+        if self.reftype == 'checks':
             check_cache = self.checks[self.check_name].cache
             property_cache = getattr(check_cache, self.property_name)
+            val = getattr(property_cache, self.property_cache_key)
         else:
-            property_cache = self.property.cache
+            varname = self.refstr.partition("$")[2]
+            varname = varname.partition(':')[0]
+            val = self.vars.resolve(varname)
 
-        val = getattr(property_cache, self.property_cache_key)
         if val is None:
             return
 
@@ -207,33 +217,37 @@ class PropertyCacheRefResolver(object):
 class PropertyCache(object):
 
     def __init__(self):
-        self._data = {}
+        self._property_cache_data = {}
 
     def merge(self, cache):
-        if type(cache) != PropertyCache:
+        if type(cache) != self.__class__:
             log.error("attempt to merge cache failed - provided cache is not "
-                      "a %s", type(self))
+                      "a %s", type(self.__class__.__name__))
             return
 
-        self._data.update(cache.cache)
+        self._property_cache_data.update(cache.data)
+
+    @property
+    def id(self):
+        return id(self)
 
     def set(self, key, data):
         log.debug("%s: caching key=%s with value=%s", id(self), key, data)
-        _current = self._data.get(key)
+        _current = self._property_cache_data.get(key)
         if _current and type(_current) == dict and type(data) == dict:
-            self._data[key].update(data)
+            self._property_cache_data[key].update(data)
         else:
-            self._data[key] = data
+            self._property_cache_data[key] = data
 
     @property
-    def cache(self):
-        return self._data
+    def data(self):
+        return self._property_cache_data
 
     def __getattr__(self, key):
-        log.debug("%s: fetching key=%s (exists=%s)", id(self), key,
-                  key in self.cache)
-        if key in self.cache:
-            return self.cache[key]
+        log.debug("%s: fetching key=%s (exists=%s)", self.id, key,
+                  key in self.data)
+        if key in self.data:
+            return self.data[key]
 
 
 class YPropertyBase(object):
@@ -246,22 +260,46 @@ class YPropertyBase(object):
 
     @property
     def cache(self):
+        """
+        All properties get their own cache object that they can use as they
+        wish.
+        """
         return self._cache
 
-    def get_from_ydefs_cache(self, key):
+    def _load_from_import_cache(self, key):
+        """ Retrieve from global context if one exists.
+
+        @param key: key to retrieve
+        """
         if not self.context:
+            log.info("context not available - cannot load '%s'")
             return
 
-        return getattr(self.context, key)
+        # we save all imports in a dict called "import_cache" within the
+        # global context so that all properties have access.
+        c = getattr(self.context, 'import_cache')
+        if c:
+            return c.get(key)
 
-    def set_in_ydefs_cache(self, key, value):
+    def _add_to_import_cache(self, key, value):
+        """ Save in the global context if one exists.
+
+        @param key: key to save
+        @param value: value to save
+        """
         if not self.context:
+            log.info("context not available - cannot save '%s'")
             return
 
-        self.context.set(key, value)
+        c = getattr(self.context, 'import_cache')
+        if c:
+            c[key] = value
+        else:
+            c = {key: value}
+            setattr(self.context, 'import_cache', c)
 
     def get_cls(self, import_str):
-        ret = self.get_from_ydefs_cache(import_str)
+        ret = self._load_from_import_cache(import_str)
         if ret:
             log.debug("instantiating class %s (from_cache=True)", import_str)
             return ret
@@ -275,11 +313,11 @@ class YPropertyBase(object):
             log.exception("failed to import class %s from %s", class_name, mod)
             raise
 
-        self.set_in_ydefs_cache(import_str, ret)
+        self._add_to_import_cache(import_str, ret)
         return ret
 
     def get_property(self, import_str):
-        ret = self.get_from_ydefs_cache(import_str)
+        ret = self._load_from_import_cache(import_str)
         if ret:
             log.debug("calling property %s (from_cache=True)", import_str)
             return ret
@@ -287,10 +325,10 @@ class YPropertyBase(object):
         log.debug("calling property %s (from_cache=False)", import_str)
         cls = self.get_cls(import_str.rpartition('.')[0])
         key = "{}.object".format(cls)
-        cls_inst = self.get_from_ydefs_cache(key)
+        cls_inst = self._load_from_import_cache(key)
         if not cls_inst:
             cls_inst = cls()
-            self.set_in_ydefs_cache(key, cls_inst)
+            self._add_to_import_cache(key, cls_inst)
 
         property = import_str.rpartition('.')[2]
         try:
@@ -301,7 +339,7 @@ class YPropertyBase(object):
 
             raise
 
-        self.set_in_ydefs_cache(import_str, ret)
+        self._add_to_import_cache(import_str, ret)
         return ret
 
     def get_method(self, import_str):

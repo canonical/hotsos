@@ -228,8 +228,7 @@ def main():
             sys.stderr.write('ERROR: cannot use both --debug and --quiet\n')
             return
 
-        if debug:
-            setup_logging(debug)
+        setup_logging(debug)
 
         if list_plugins:
             sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))

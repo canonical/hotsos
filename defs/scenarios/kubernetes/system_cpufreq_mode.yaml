@@ -1,15 +1,23 @@
+vars:
+  message_pt1: >-
+    This node is used for Kubernetes but is not using cpufreq
+    scaling_governor in "performance" mode
+  message_pt2: >-
+    This is not recommended and can result in performance degradation. To fix
+    this you can install cpufrequtils, set "GOVERNOR=performance" in
+    /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
+  message_ondemand: >-
+    You will also need to stop and disable the ondemand systemd service in
+    order for changes to persist.
+  scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
     requires:
       and:
         # can we actually see the setting
-        - property:
-            path: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
-            ops: [[ne, unknown]]
+        - varops: [[$scaling_governor], [ne, unknown]]
         # does it have the expected value
-        - property:
-            path: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
-            ops: [[ne, performance]]
+        - varops: [[$scaling_governor], [ne, performance]]
   kubernetes_installed:
     requires:
       and:
@@ -32,13 +40,11 @@ conclusions:
     raises:
       type: KubernetesWarning
       message: >-
-        This node is used for Kubernetes but is not using cpufreq
-        scaling_governor in "performance" mode (actual={governor}). This is not
-        recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils, set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
+        {msg_pt1} (actual={governor}). {msg_pt2}
       format-dict:
-        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
+        msg_pt1: $message_pt1
+        msg_pt2: $message_pt2
+        governor: $scaling_governor
   cpufreq-not-performance-with-ondemand:
     priority: 2
     decision:
@@ -49,13 +55,9 @@ conclusions:
     raises:
       type: KubernetesWarning
       message: >-
-        This node is used for Kubernetes but is not using cpufreq
-        scaling_governor in "performance" mode (actual={governor}). This is not
-        recommended and can result in performance degradation. To fix this you
-        can install cpufrequtils, set "GOVERNOR=performance" in
-        /etc/default/cpufrequtils and run systemctl restart cpufrequtils. You
-        will also need to stop and disable the ondemand systemd service in
-        order for changes to persist.
+        {msg_pt1} (actual={governor}). {msg_pt2} {msg_ondemand}
       format-dict:
-        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
-
+        msg_pt1: $message_pt1
+        msg_pt2: $message_pt2
+        msg_ondemand: $message_ondemand
+        governor: $scaling_governor

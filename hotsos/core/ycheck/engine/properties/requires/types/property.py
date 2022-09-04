@@ -1,8 +1,9 @@
 from hotsos.core.log import log
-from hotsos.core.ycheck.engine.properties.requires import YRequirementTypeBase
+from hotsos.core.ycheck.engine.properties.requires import \
+    YRequirementTypeWithOpsBase
 
 
-class YRequirementTypeProperty(YRequirementTypeBase):
+class YRequirementTypeProperty(YRequirementTypeWithOpsBase):
     """ Provides logic to perform checks on Python Properties. """
 
     @classmethod
@@ -11,20 +12,16 @@ class YRequirementTypeProperty(YRequirementTypeBase):
 
     @property
     def _result(self):
-        default_ops = [['truth']]
         if type(self.content) != dict:
             path = self.content
-            # default is get bool (True/False) for value
-            ops = default_ops
         else:
             path = self.content['path']
-            ops = self.content.get('ops', default_ops)
 
         actual = self.get_property(path)
-        _result = self.apply_ops(ops, input=actual)
+        result = self.apply_ops(self.ops, input=actual)
         log.debug('requirement check: property %s %s (result=%s)',
-                  path, self.ops_to_str(ops), _result)
+                  path, self.ops_to_str(self.ops), result)
         self.cache.set('property', path)
-        self.cache.set('ops', self.ops_to_str(ops))
+        self.cache.set('ops', self.ops_to_str(self.ops))
         self.cache.set('value_actual', actual)
-        return _result
+        return result
