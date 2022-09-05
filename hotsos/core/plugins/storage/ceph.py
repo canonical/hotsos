@@ -512,7 +512,7 @@ class CephCluster(object):
                 if meta_kb > (self.OSD_META_LIMIT_PERCENT / 100.0 * total_kb):
                     _bad_meta_osds.append(device['name'])
 
-        return _bad_meta_osds
+        return sorted(_bad_meta_osds)
 
     @staticmethod
     def version_as_a_tuple(ver):
