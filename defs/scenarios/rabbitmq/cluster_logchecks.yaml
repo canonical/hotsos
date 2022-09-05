@@ -1,7 +1,6 @@
+input:
+  path: 'var/log/rabbitmq/rabbit@*.log'
 checks:
-  # global
-  input:
-    path: 'var/log/rabbitmq/rabbit@*.log'
   cluster_partitions:
     expr: '.+ \S+_partitioned_network'
     hint: 'partition'

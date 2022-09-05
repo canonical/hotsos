@@ -17,7 +17,7 @@ class Scenario(object):
 
     @property
     def checks(self):
-        return {c.name: c for c in self._checks}
+        return {name: c for name, c in self._checks}  # pylint: disable=R1721
 
     @property
     def conclusions(self):
@@ -56,6 +56,7 @@ class YScenarioChecker(YHandlerBase):
                 to_skip.add(group_name)
                 continue
 
+            scenario.checks.preload_searches(scenario.input)
             self._scenarios.append(Scenario(scenario.name,
                                             scenario.checks,
                                             scenario.conclusions))

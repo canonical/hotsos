@@ -2,21 +2,48 @@ from hotsos.core.log import log
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
-    YPropertyBase,
     YPropertyOverrideBase,
+    YPropertyMappedOverrideBase,
     YDefsSection,
     add_to_property_catalog,
 )
+from hotsos.core.ycheck.engine.properties.requires.requires import (
+    YPropertyRequires
+)
+from hotsos.core.ycheck.engine.properties.search import YPropertySearch
+from hotsos.core.ycheck.engine.properties.input import YPropertyInput
 
 
-class YPropertyCheck(YPropertyBase):
+@add_to_property_catalog
+class YPropertyCheck(YPropertyMappedOverrideBase):
 
-    def __init__(self, name, search, input, requires, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.name = name
-        self.search = search
-        self.input = input
-        self.requires = requires
+        self._search_results = None
+
+    @property
+    def search_results(self):
+        if self.search and self._search_results is not None:
+            return self._search_results
+
+        raise Exception("search results not set")
+
+    @search_results.setter
+    def search_results(self, value):
+        self._search_results = value
+
+    @classmethod
+    def _override_keys(cls):
+        return ['check']
+
+    @classmethod
+    def _override_mapped_member_types(cls):
+        return [YPropertyRequires, YPropertySearch, YPropertyInput]
+
+    @property
+    def name(self):
+        if hasattr(self, 'check_name'):
+            return getattr(self, 'check_name')
 
     def _result(self):
         if self.search:
@@ -85,13 +112,20 @@ class YPropertyChecks(YPropertyOverrideBase):
         super().__init__(*args, **kwargs)
         self._resolved_checks = None
 
+    def preload_searches(self, input):
+        """
+        Pre-load searches from all checks and get results. This needs to be
+        done before check results are consumed.
+        """
         s = FileSearcher()
         # first load all the search definitions into the searcher
         log.debug("loading checks searchdefs into filesearcher")
         for c in self.resolved_checks:
-            if c.search:
-                for path in c.input.paths:
-                    c.search.load_searcher(s, path)
+            if c.check.search:
+                # local takes precedence over global
+                _input = c.check.input or input
+                for path in _input.paths:
+                    c.check.search.load_searcher(s, path)
 
         log.debug("executing searches")
         results = s.search()
@@ -99,9 +133,9 @@ class YPropertyChecks(YPropertyOverrideBase):
         # now extract each checks's set of results
         log.debug("extracting search results")
         for c in self.resolved_checks:
-            if c.search:
-                tag = c.search.unique_search_tag
-                c.search_results = results.find_by_tag(tag)
+            if c.check.search:
+                tag = c.check.search.unique_search_tag
+                c.check.search_results = results.find_by_tag(tag)
 
     @classmethod
     def _override_keys(cls):
@@ -113,11 +147,12 @@ class YPropertyChecks(YPropertyOverrideBase):
             return self._resolved_checks
 
         log.debug("parsing checks section")
-        checks = YDefsSection(self._override_name, self.content)
         resolved = []
-        for c in checks.leaf_sections:
-            resolved.append(YPropertyCheck(c.name, c.search, c.input,
-                                           c.requires))
+        for name, content in self.content.items():
+            s = YDefsSection(self._override_name, {name: {'check': content}})
+            for c in s.leaf_sections:
+                c.check.check_name = c.name
+                resolved.append(c)
 
         self._resolved_checks = resolved
         return resolved
@@ -126,4 +161,4 @@ class YPropertyChecks(YPropertyOverrideBase):
         log.debug("iterating over checks")
         for c in self.resolved_checks:
             log.debug("returning check %s", c.name)
-            yield c
+            yield c.name, c.check
