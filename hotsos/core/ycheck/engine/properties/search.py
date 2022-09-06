@@ -60,10 +60,15 @@ class YPropertySearchOpt(YPropertyOverrideBase):
     def __bool__(self):
         return bool(self.content)
 
+    @property
+    def expr(self):
+        """ Can be string or list. """
+        return self.content
+
     def __str__(self):
         # should use bool() for passthrough-results
-        invalid = 'passthrough-results'
-        valid = [k for k in self._override_keys() if k != invalid]
+        invalid = ['passthrough-results', 'expr']
+        valid = [k for k in self._override_keys() if k not in invalid]
         if self._override_name not in valid:
             raise Exception("__str__ only valid for {} (not {})".
                             format(','.join(valid),
@@ -204,9 +209,14 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
     @property
     def search_pattern(self):
         if self.expr:
-            return str(self.expr)
+            return self.expr.expr
 
-        return str(self)
+        # can be supplied as a single string or list of strings
+        patterns = list(self.content.keys())
+        if len(patterns) == 1:
+            return patterns[0]
+        else:
+            return patterns
 
     @property
     def is_sequence_search(self):
