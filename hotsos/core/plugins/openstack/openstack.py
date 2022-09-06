@@ -207,6 +207,9 @@ class OSTProject(object):
         @param systemd_deprecated_services: optional list of services that are
                deprecated. This can be helpful if e.g. you want to skip checks
                for resources related to these services.
+        @param log_path_overrides: specify log path for a given service that
+                                   overrides the default format i.e.
+                                   /var/log/<project>/<svc>.log.
         @param systemd_extra_services: optional list of systemd services that
                are used. This is useful e.g. if components are run under
                apache or if a package runs components using services whose name
@@ -349,7 +352,10 @@ class OSTProjectCatalog(object):
                  log_path_overrides={'apache2':
                                      ['var/log/manila/manila-api.log']}),
         self.add('masakari', config={'main': 'masakari.conf'},
-                 systemd_masked_services=['masakari']),
+                 systemd_masked_services=['masakari'],
+                 systemd_extra_services=['apache2', 'masakari-engine'],
+                 log_path_overrides={'apache2':
+                                     ['var/log/apache2/masakari_error.log']}),
         self.add('octavia', config={'main': 'octavia.conf',
                                     'amphora': 'amphora-agent.conf'},
                  systemd_masked_services=['octavia-api'],
