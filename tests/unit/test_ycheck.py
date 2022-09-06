@@ -336,6 +336,36 @@ myplugin:
 """  # noqa
 
 
+SCENARIO_W_EXPR_LIST = r"""
+input:
+  path: {path}
+checks:
+  listsearch1:
+    expr: ['hello y', 'hello x']
+  listsearch2:
+    search: ['hello y', 'hello x']
+  listsearch3:
+    search:
+       expr: ['hello y', 'hello x']
+conclusions:
+  listsearch1worked:
+    decision: listsearch1
+    raises:
+      type: SystemWarning
+      message: yay list search
+  listsearch2worked:
+    decision: listsearch2
+    raises:
+      type: SystemWarning
+      message: yay list search
+  listsearch3worked:
+    decision: listsearch3
+    raises:
+      type: SystemWarning
+      message: yay list search
+"""  # noqa
+
+
 SCENARIO_W_ERROR = r"""
 scenarioA:
   checks:
@@ -623,6 +653,21 @@ class TestYamlChecks(utils.BaseTestCase):
                          ['my-sequence-search',
                           'my-passthrough-search',
                           'my-pass-search'])
+
+    @init_test_scenario(SCENARIO_W_EXPR_LIST.
+                        format(path=os.path.basename('data.txt')))
+    @utils.create_test_files({'data.txt': 'hello x\n'})
+    def test_yaml_def_expr_list(self):
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues[0]), 3)
+        i_types = [i['type'] for i in issues[0]]
+        self.assertEqual(sorted(i_types),
+                         sorted(['SystemWarning', 'SystemWarning',
+                                 'SystemWarning']))
+        for issue in issues[0]:
+            msg = ("yay list search")
+            self.assertEqual(issue['desc'], msg)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
                 'APTPackageChecksBase')
