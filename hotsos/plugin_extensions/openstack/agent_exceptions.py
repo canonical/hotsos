@@ -138,8 +138,11 @@ class AgentExceptionChecks(OpenstackChecksBase):
         """Process search results to see if we got any hits."""
         log.debug("processing exception search results")
         _final_results = {}
-        for name, info in self.ost_projects.all.items():
-            for agent in info.services:
+        for name, project in self.ost_projects.all.items():
+            if not project.installed:
+                continue
+
+            for agent in project.services:
                 tag = "{}.{}".format(name, agent)
                 _results = results.find_by_tag(tag)
                 log.debug("processing project=%s agent=%s (results=%s)", name,
