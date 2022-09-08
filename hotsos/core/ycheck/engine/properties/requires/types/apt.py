@@ -37,25 +37,31 @@ class YRequirementTypeAPT(YRequirementTypeBase):
     @property
     def _result(self):
         # Value can be a package name or dict that provides more
-        # information about the package.
-        if type(self.content) != dict:
-            packages = {self.content: None}
-        else:
+        # information about the package or list of packages.
+        if type(self.content) == dict:
             packages = self.content
+            packages_under_test = list(packages.keys())
+        elif type(self.content) == list:
+            packages = {p: None for p in self.content}
+            packages_under_test = self.content
+        else:
+            packages = {self.content: None}
+            packages_under_test = [self.content]
 
         versions_actual = []
-        packages_under_test = list(packages.keys())
         apt_info = APTPackageChecksBase(packages_under_test)
         for pkg, versions in packages.items():
             _result = apt_info.is_installed(pkg) or False
-            if _result and versions:
+            if _result:
                 pkg_ver = apt_info.get_version(pkg)
                 versions_actual.append(pkg_ver)
-                _result = self._package_version_within_ranges(pkg_ver,
-                                                              versions)
-                log.debug("package %s=%s within version ranges %s "
-                          "(result=%s)", pkg, pkg_ver, versions, _result)
+                if versions:
+                    _result = self._package_version_within_ranges(pkg_ver,
+                                                                  versions)
+                    log.debug("package %s=%s within version ranges %s "
+                              "(result=%s)", pkg, pkg_ver, versions, _result)
 
+            log.debug("package %s installed=%s", pkg, _result)
             # bail at first failure
             if not _result:
                 break

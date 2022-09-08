@@ -1,0 +1,30 @@
+checks:
+  is_compute_host_using_masakari:
+    apt: [nova-compute, masakari-host-monitor]
+  pr_installed:
+    apt: pacemaker-remote
+  pr_enabled:
+    systemd: pacemaker-remote
+conclusions:
+  pacemaker_not_installed:
+    priority: 2
+    decision:
+      and: is_compute_host_using_masakari
+      not: pr_installed
+    raises:
+      type: OpenstackWarning
+      message: >-
+        This node is running Openstack nova-compute and Masakari but
+        pacemaker-remote is not currently installed and is a
+        requirement for Masakari to function correctly.
+  pacemaker_not_enabled:
+    priority: 1
+    decision:
+      and: [is_compute_host_using_masakari, pr_installed]
+      not: pr_enabled
+    raises:
+      type: OpenstackWarning
+      message: >-
+        This node is running Openstack nova-compute and Masakari but
+        pacemaker-remote is not currently enabled and is a
+        requirement for Masakari to function correctly.
