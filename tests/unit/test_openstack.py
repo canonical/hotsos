@@ -1475,6 +1475,46 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
         self.assertEqual(IssuesManager().load_issues(), expected)
 
+    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+                {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('masakari/pacemaker_remote.yaml'))
+    @utils.create_test_files({'sos_commands/dpkg/dpkg_-l':
+                              ('rc pacemaker-remote 2.0.3-3ubuntu4.3 all\n'
+                               'ii masakari-host-monitor '
+                               '9.0.0-0ubuntu0.20.04.1 all\n'
+                               'ii nova-compute 2:21.2.1-0ubuntu1 all')})
+    def test_masakari_pr_not_installed(self):
+        YScenarioChecker()()
+        msg = ('This node is running Openstack nova-compute and Masakari but '
+               'pacemaker-remote is not currently installed and is a '
+               'requirement for Masakari to function correctly. '
+               '(origin=openstack.01part)')
+        expected = {
+            'potential-issues':
+            {'OpenstackWarnings': [msg]}}
+        self.assertEqual(IssuesManager().load_issues(), expected)
+
+    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+                {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('masakari/pacemaker_remote.yaml'))
+    @utils.create_test_files({'sos_commands/dpkg/dpkg_-l':
+                              ('ii pacemaker-remote 2.0.3-3ubuntu4.3 all\n'
+                               'ii masakari-host-monitor '
+                               '9.0.0-0ubuntu0.20.04.1 all\n'
+                               'ii nova-compute 2:21.2.1-0ubuntu1 all')})
+    def test_masakari_pr_not_enabled(self):
+        YScenarioChecker()()
+        msg = ('This node is running Openstack nova-compute and Masakari but '
+               'pacemaker-remote is not currently enabled and is a '
+               'requirement for Masakari to function correctly. '
+               '(origin=openstack.01part)')
+        expected = {
+            'potential-issues':
+            {'OpenstackWarnings': [msg]}}
+        self.assertEqual(IssuesManager().load_issues(), expected)
+
 
 class TestOpenstackApache2SSL(TestOpenstackBase):
 

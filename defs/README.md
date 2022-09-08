@@ -533,15 +533,14 @@ format
 apt: [package name|APT_INFO]
 
 APT_INFO
-  dictionary of package name and version ranges e.g.
+  single package name, list of packages or dictionary of
+  <package name>: <version ranges> e.g.
   
   mypackage:
     - min: 0.0
       max: 1.0
     - min: 4.0
       max: 5.0
-
-  NOTE: we currently only support a single package.
 ```
 
 ```
