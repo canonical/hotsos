@@ -109,6 +109,15 @@ def main():
                         'grouped by date. This option will result in '
                         'grouping by date and time which may be more useful '
                         'for cross-referencing with other logs.'))
+    @click.option('--force', default=False, is_flag=True,
+                  help=('By default plugins will only run if their '
+                        'pre-requisites are met (i.e. they are "runnable").'
+                        'It might sometimes be the case that not all '
+                        'pre-requisites are available but we still want to '
+                        'try running plugins. An example would be where an '
+                        "application is not installed but we have it's logs. "
+                        'Using this option can obviously produce '
+                        'unexpected results so should be used with caution.'))
     @click.option('--full', default=False, is_flag=True,
                   help=('[DEPRECATED] This is the default and tells hotsos to '
                         'generate a full summary. If you want to save both a '
@@ -153,7 +162,7 @@ def main():
     @click.argument('data_root', required=False, type=click.Path(exists=True))
     def cli(data_root, version, defs_path, all_logs, quiet, debug, save,
             format, html_escape, user_summary, short, very_short,
-            full, agent_error_key_by_time, max_logrotate_depth,
+            force, full, agent_error_key_by_time, max_logrotate_depth,
             max_parallel_tasks, list_plugins, machine_readable, output_path,
             **kwargs):
         """
@@ -189,6 +198,7 @@ def main():
         elif very_short:
             minimal_mode = 'very-short'
 
+        setup_config(FORCE_MODE=force)
         repo_info = get_repo_info()
         if repo_info:
             setup_config(REPO_INFO=repo_info)

@@ -53,8 +53,12 @@ class HotSOSSummary(plugintools.PluginPartBase):
 
     @property
     def summary(self):
-        return {'version': HotSOSConfig.HOTSOS_VERSION,
-                'repo-info': HotSOSConfig.REPO_INFO}
+        out = {'version': HotSOSConfig.HOTSOS_VERSION,
+               'repo-info': HotSOSConfig.REPO_INFO}
+        if HotSOSConfig.FORCE_MODE:
+            out['force'] = True
+
+        return out
 
 
 # Ensure that plugins are always run in this order so as to get consistent

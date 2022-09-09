@@ -36,7 +36,8 @@ class YScenarioChecker(YHandlerBase):
             return
 
         yscenarios = YDefsSection(HotSOSConfig.PLUGIN_NAME, plugin_content)
-        if yscenarios.requires and not yscenarios.requires.passes:
+        if (not HotSOSConfig.FORCE_MODE and yscenarios.requires and not
+                yscenarios.requires.passes):
             log.debug("plugin '%s' scenarios pre-requisites not met - "
                       "skipping", HotSOSConfig.PLUGIN_NAME)
             return
