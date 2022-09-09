@@ -658,6 +658,12 @@ class CLIHelper(object):
                 [BinCmd('ip netns exec {namespace} ip address show'),
                  FileCmd('sos_commands/networking/'
                          'ip_netns_exec_{namespace}_ip_address_show')],
+            'ovn_nbctl_show':
+                [BinCmd('ovn-nbctl show'),
+                 FileCmd('sos_commands/ovn_central/ovn-nbctl_show')],
+            'ovn_sbctl_show':
+                [BinCmd('ovn-sbctl show'),
+                 FileCmd('sos_commands/ovn_central/ovn-sbctl_show')],
             'ovs_vsctl_get_Open_vSwitch':
                 [BinCmd('ovs-vsctl get Open_vSwitch . {record}',
                         singleline=True),

@@ -2,8 +2,6 @@ from hotsos.core import plugintools
 from hotsos.core.host_helpers import APTPackageHelper, SystemdHelper
 from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.utils import cached_property, sorted_dict
-from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
-
 
 OVS_SERVICES_EXPRS = [r'ovsdb[a-zA-Z-]*',
                       r'ovs-vswitch[a-zA-Z-]*',
@@ -22,7 +20,7 @@ OVS_PKGS_DEPS = ['libc-bin',
 PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
 
-class OpenvSwitchChecksBase(OpenvSwitchBase, plugintools.PluginPartBase):
+class OpenvSwitchChecksBase(plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -1,0 +1,59 @@
+# default input
+input:
+  path: var/log/openvswitch/ovs-vswitchd.log
+vars:
+  num_lost_packets: '@hotsos.core.plugins.openvswitch.OVSDPLookups.lost'
+  lost_packets_msg_part1: >-
+    This host is running Openvswitch and its datapath is reporting a non-zero
+    amount
+  lost_packets_msg_part2: >-
+    of "lost" packets which implies that packets are being dropped by the kernel
+    before they reach userspace (e.g. vm tap).
+  lost_packets_msg_vswitchd: >-
+    vswitchd has also recently reported large numbers of dropped packets within
+    a 24h period - logs like "system@ovs-system: lost packet on port channel".
+  lost_packets_msg_cause_unknown: >-
+    Causes for this can include high system load, tc rules in the datapath etc.
+    Suggested actions are (a) check ovs-appctl dpctl/show to see if the number of
+    lost packets is increasing and (b) check the ovs-vswitchd logs for more context
+    and check the path between nic and ovs.
+checks:
+  dp_has_lost_packets:
+    varops: [[$num_lost_packets], [gt, 5]]  # allow a very small number
+  dpif_netlink_lost_packet_on_handler:
+    search:
+      expr: '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
+      constraints:
+        min-results: 10  # allow a very small number
+        search-period-hours: 24
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  has_lost_packets_cause_unknown:
+    priority: 1
+    decision: dp_has_lost_packets
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        {part1} ({packets}) {part2} {part3}
+      format-dict:
+        part1: $lost_packets_msg_part1
+        part2: $lost_packets_msg_part2
+        part3: $lost_packets_msg_cause_unknown
+        packets: $num_lost_packets
+  has_lost_packets_dpif_lost_packets:
+    priority: 2
+    decision:
+      and:
+        - dp_has_lost_packets
+        - dpif_netlink_lost_packet_on_handler
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        {part1} ({packets}) {part2} {part4} {part3}
+      format-dict:
+        part1: $lost_packets_msg_part1
+        part2: $lost_packets_msg_part2
+        part3: $lost_packets_msg_vswitchd
+        part4: $lost_packets_msg_cause_unknown
+        packets: $num_lost_packets
+
