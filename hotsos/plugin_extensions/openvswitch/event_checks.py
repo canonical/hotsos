@@ -4,6 +4,7 @@ from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.searchtools import FileSearcher
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
 from hotsos.core.plugins.openvswitch.common import OpenvSwitchEventChecksBase
+from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
 from hotsos.core.utils import sorted_dict
 
 EVENTCALLBACKS = CallbackHelper()
@@ -14,6 +15,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
     def __init__(self):
         super().__init__(EVENTCALLBACKS, yaml_defs_group='ovs',
                          searchobj=FileSearcher())
+        self.ovs = OpenvSwitchBase()
 
     @property
     def summary_subkey(self):
@@ -104,7 +106,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 
             if port and _stats:
                 # Ports to ignore - see docstring for info
-                if (port in [b.name for b in self.bridges] or
+                if (port in [b.name for b in self.ovs.bridges] or
                         re.compile(r"^(q|s)g-\S{11}$").match(port)):
                     continue
 

@@ -1,3 +1,4 @@
+from hotsos.core.log import log
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 
 FEATURES = {'neutron': {'main': [
@@ -11,7 +12,8 @@ FEATURES = {'neutron': {'main': [
                         'dhcp-agent': [
                             'enable_metadata_network',
                             'enable_isolated_metadata',
-                            'ovs_use_veth']},
+                            'ovs_use_veth'],
+                        'ovn': ['enable_distributed_floating_ip']},
             'nova': {'main': [
                         'vcpu_pin_set',
                         'cpu_shared_set',
@@ -47,11 +49,16 @@ class ServiceFeatureChecks(OpenstackChecksBase):
                 debug_enabled = svc_cfg['main'].get('debug',
                                                     section="DEFAULT") or False
                 _features[service]['main']['debug'] = debug_enabled
+            else:
+                continue
 
             for module in FEATURES[service]:
+                log.debug("getting features for '%s:%s'", service,
+                          module)
                 module_features = {}
                 cfg = svc_cfg[module]
                 if not cfg.exists:
+                    log.debug("%s not found - skipping features", cfg.path)
                     continue
 
                 for key in FEATURES[service][module]:

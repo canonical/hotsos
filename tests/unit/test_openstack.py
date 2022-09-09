@@ -828,6 +828,19 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["features"], expected)
 
+    @utils.create_test_files({'etc/neutron/neutron.conf': '',
+                              'etc/neutron/ovn.ini':
+                              ('[DEFAULT]\n'
+                               'enable_distributed_floating_ip = true')})
+    def test_get_service_features_ovn(self):
+        inst = service_features.ServiceFeatureChecks()
+        actual = self.part_output_to_actual(inst.output)
+        expected = {'api-ssl': False,
+                    'neutron': {'main': {'debug': False},
+                                'ovn': {'enable_distributed_floating_ip':
+                                        True}}}
+        self.assertEqual(actual["features"], expected)
+
 
 class TestOpenstackCPUPinning(TestOpenstackBase):
 

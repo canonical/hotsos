@@ -20,6 +20,10 @@ DPIF_LOST_PACKETS_TMPLT = """
 2022-03-25T{hour}:{min}:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
 """  # noqa, pylint: disable=C0301
 
+DPIF_RESUBMIT_LIMIT_TMPLT = """
+2022-02-20T{hour}:{min}:22.449Z|14339034|ofproto_dpif_xlate|WARN|over 4096 resubmit actions on bridge br-int while processing arp,in_port=CONTROLLER,vlan_tci=0x0000,dl_src=fa:16:3e:2e:f1:45,dl_dst=ff:ff:ff:ff:ff:ff,arp_spa=10.200.86.60,arp_tpa=10.200.86.130,arp_op=1,arp_sha=fa:16:3e:2e:f1:45,arp_tha=00:00:00:00:00:00
+"""  # noqa, pylint: disable=C0301
+
 BFD_STATE_CHANGES_TMPLT = """
 2022-04-21T21:00:{sec}.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
 """  # noqa, pylint: disable=C0301
@@ -49,7 +53,6 @@ DPCTL_SHOW = r"""  port 6: br-int (internal)
 OVS_DB_RECONNECT_ERROR = """
 2022-07-04 20:03:32.405 2050177 ERROR ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send() on <class 'eventlet.green.ssl.GreenSSLSocket'>
 """  # noqa
-
 
 BFD_STATE_CHANGES = """
 2022-07-27T08:49:57.903Z|00007|bfd|INFO|ovn-abc-xa-15: BFD state change: admin_down->down "No Diagnostic"->"No Diagnostic".
@@ -318,23 +321,27 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
         self.assertEqual(issues.IssuesManager().load_bugs(), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('flow_lookup_checks.yaml'))
+                new=utils.is_def_filter('dpif_lost_packets.yaml'))
     @utils.create_test_files({('sos_commands/openvswitch/'
                                'ovs-appctl_dpctl.show_-s_system_ovs-system'):
                               ('lookups: hit:39017272903 missed:137481120 '
                                'lost:54691089')})
     def test_dpif_lost_packets_no_vswitchd(self):
         YScenarioChecker()()
-        msg = ('OVS datapath is reporting a non-zero amount of "lost" packets '
-               '(total=54691089) which implies that packets destined for '
-               'userspace (e.g. vm tap) are being dropped. Please check '
-               'ovs-appctl dpctl/show to see if the number of lost packets is '
-               'still increasing.')
+        msg = ('This host is running Openvswitch and its datapath is '
+               'reporting a non-zero amount (54691089) of "lost" packets '
+               'which implies that packets are being dropped by the '
+               'kernel before they reach userspace (e.g. vm tap). '
+               'Causes for this can include high system load, tc rules in '
+               'the datapath etc. Suggested actions are (a) check ovs-appctl '
+               'dpctl/show to see if the number of lost packets is increasing '
+               'and (b) check the ovs-vswitchd logs for more context and '
+               'check the path between nic and ovs.')
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('flow_lookup_checks.yaml'))
+                new=utils.is_def_filter('dpif_lost_packets.yaml'))
     @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
                               utils.expand_log_template(
                                                        DPIF_LOST_PACKETS_TMPLT,
@@ -345,17 +352,38 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                                'lost:54691089')})
     def test_dpif_lost_packets_w_vswitchd(self):
         YScenarioChecker()()
-        msg = ('OVS datapath is reporting a non-zero amount of "lost" '
-               'packets (total=54691089) which implies that packets '
-               'destined for userspace (e.g. vm tap) are being dropped. '
-               'ovs-vswitchd is also reporting large numbers of dropped '
-               'packets within a 24h period (look for '
-               '"system@ovs-system: lost packet on port channel"). '
-               'This could be caused by '
-               'overloaded system cores blocking ovs threads from '
-               'delivering packets in time. Please check ovs-appctl '
-               'dpctl/show to see if the number of lost packets is still '
-               'increasing.')
+        msg = ('This host is running Openvswitch and its datapath is '
+               'reporting a non-zero amount (54691089) of "lost" packets '
+               'which implies that packets are being dropped by the '
+               'kernel before they reach userspace (e.g. vm tap). '
+               'Causes for this can include high system load, tc rules in '
+               'the datapath etc. Suggested actions are (a) check ovs-appctl '
+               'dpctl/show to see if the number of lost packets is increasing '
+               'and (b) check the ovs-vswitchd logs for more context and '
+               'check the path between nic and ovs. vswitchd has also '
+               'recently reported large numbers of dropped packets within a '
+               '24h period - logs like "system@ovs-system: lost packet on '
+               'port channel".')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('dpif_resubmit_actions.yaml'))
+    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
+                              utils.expand_log_template(
+                                                     DPIF_RESUBMIT_LIMIT_TMPLT,
+                                                     hours=5, lstrip=True),
+                              'sos_commands/date/date':
+                              'Thu Feb 10 16:19:17 UTC 2022'})
+    def test_dpif_resubmit_limit_reached(self):
+        YScenarioChecker()()
+        msg = ('OpenvSwitch (vswitchd) is reporting flows hitting action '
+               'resubmit limit (4096) which suggests that packets are being '
+               'silently dropped. One cause of this is when you have too many '
+               'flows and an example is when you have an excess of ovn '
+               'logical flows. Look for "resubmit actions on bridge" in '
+               '/var/log/ovs-vswitchd.log for more info and see what type of '
+               'flow is resulting in this limit being hit.')
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 

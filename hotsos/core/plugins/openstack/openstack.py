@@ -333,7 +333,8 @@ class OSTProjectCatalog(object):
                          'openvswitch-agent':
                          'plugins/ml2/openvswitch_agent.ini',
                          'l3-agent': 'l3_agent.ini',
-                         'dhcp-agent': 'dhcp_agent.ini'},
+                         'dhcp-agent': 'dhcp_agent.ini',
+                         'ovn': 'ovn.ini'},
                  systemd_masked_services=['nova-api-metadata'],
                  systemd_deprecated_services=['neutron-lbaas-agent',
                                               'neutron-lbaasv2-agent',
