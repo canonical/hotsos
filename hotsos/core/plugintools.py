@@ -259,7 +259,7 @@ class PluginRunner(object):
             for cls in part_info['objects']:
                 inst = cls()
                 # Only run plugin if it declares itself runnable.
-                if not inst.plugin_runnable:
+                if not HotSOSConfig.FORCE_MODE and not inst.plugin_runnable:
                     log.debug("%s.%s.%s not runnable - skipping",
                               HotSOSConfig.PLUGIN_NAME, name, cls.__name__)
                     continue

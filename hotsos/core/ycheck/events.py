@@ -1,4 +1,5 @@
 from hotsos.core.log import log
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.utils import sorted_dict
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
@@ -212,7 +213,8 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
                   len(group.leaf_sections))
 
         for event in group.leaf_sections:
-            if event.requires and not event.requires.passes:
+            if (not HotSOSConfig.FORCE_MODE and event.requires and not
+                    event.requires.passes):
                 log.error("event '%s' pre-requisites not met - "
                           "skipping", event.name)
                 return
