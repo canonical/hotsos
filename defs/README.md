@@ -394,17 +394,17 @@ Used to define a search expression and its criteria. There are different types o
 search expression that can be used depending on the data being searched and how
 the results will be interpreted:
 
-A "simple" search ([SearchDef](../hotsos/core/searchtools)) involves a single pattern
+A "simple" search ([SearchDef](../hotsos/core/searchtools.py)) involves a single pattern
 and is used to match single lines.
 
-A "sequence" search ([SequenceSearchDef](../hotsos/core/searchtools)) to match
+A "sequence" search ([SequenceSearchDef](../hotsos/core/searchtools.py)) to match
 (non-overlapping) sequences.
 
 A "passthrough sequence" is used for analysing overlapping sequences with
-[LogEventStats](../hotsos/core/analytics). This requires a
+[LogEventStats](../hotsos/core/analytics.py). This requires a
 callback method to be implemented to process the results and is designated using
 the optional *passthrough-results* option. Search results are passed
-to their handler as a raw [SearchResultsCollection](../hotsos/core/searchtools).
+to their handler as a raw [SearchResultsCollection](../hotsos/core/searchtools.py).
 
 NOTE: this property is implemented as a [MappedProperty](#mappedproperties)
       meaning that the *search* key is optional.
@@ -678,7 +678,7 @@ Supported Properties
 #### conclusions
 
 This indicates that everything beneath is a set of one or more conclusions to
-be used by [core.ycheck.scenarios](../hotsos/core/ycheck/scenarios). The contents of
+be used by [core.ycheck.scenarios](../hotsos/core/ycheck/scenarios.py). The contents of
 this override are defined as a dictionary of conclusions labelled with
 meaningful names.
 
