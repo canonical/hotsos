@@ -143,6 +143,10 @@ Jun 11 06:51:40 bronzor kernel: [  726.772283] R13: 000000000000000b R14: 00007e
 """  # noqa
 
 
+KERN_LOG_QLA2XXX_SKIPPING_SCSI_SCAN_HOST = r"""
+Aug 25 15:01:20 tatoonie kernel: qla2xxx [0000:04:00.0]-0122:1: skipping scsi_scan_host() for non-initiator port
+Aug 25 15:01:22 tatoonie kernel: qla2xxx [0000:04:00.1]-0122:10: skipping scsi_scan_host() for non-initiator port
+""" # noqa
 
 FAKE_AMD_LSCPU = r"""
 Vendor ID:                       AuthenticAMD
@@ -425,5 +429,17 @@ class TestKernelScenarioChecks(TestKernelBase):
         msg = ('critical medium error detected in '
                'kern.log for device sdk. This implies '
                'that this disk has a hardware issue!')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('qla2xxx.yaml'))
+    @utils.create_test_files({'var/log/kern.log':
+                              KERN_LOG_QLA2XXX_SKIPPING_SCSI_SCAN_HOST})
+    def test_qla2xxx_skipped_scsi_scan_host(self):
+        YScenarioChecker()()
+        msg = ("The qla2xxx driver did not perform SCSI scan on host/port "
+               "[0000:04:00.0]-0122:1. Some SCSI disks/paths might not be "
+               "present. (Module option 'qla2xxx.qlini_mode')")
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
