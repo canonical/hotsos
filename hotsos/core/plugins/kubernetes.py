@@ -3,10 +3,10 @@ import os
 from hotsos.core import plugintools
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
-    APTPackageChecksBase,
+    APTPackageHelper,
     HostNetworkingHelper,
-    SnapPackageChecksBase,
-    ServiceChecksBase,
+    SnapPackageHelper,
+    SystemdHelper,
 )
 from hotsos.core.utils import cached_property
 
@@ -103,12 +103,11 @@ class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase):
         super().__init__(*args, **kwargs)
         deps = K8S_PACKAGE_DEPS
         # Deployments can use snap or apt versions of packages so we check both
-        self.apt = APTPackageChecksBase(core_pkgs=K8S_PACKAGES,
-                                        other_pkgs=deps)
+        self.apt = APTPackageHelper(core_pkgs=K8S_PACKAGES, other_pkgs=deps)
         snap_deps = deps + K8S_PACKAGE_DEPS_SNAP
-        self.snaps = SnapPackageChecksBase(core_snaps=K8S_PACKAGES,
-                                           other_snaps=snap_deps)
-        self.systemd = ServiceChecksBase(service_exprs=SERVICES)
+        self.snaps = SnapPackageHelper(core_snaps=K8S_PACKAGES,
+                                       other_snaps=snap_deps)
+        self.systemd = SystemdHelper(service_exprs=SERVICES)
 
     @property
     def plugin_runnable(self):

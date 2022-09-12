@@ -53,7 +53,7 @@ class SSLCertificate(object):
         return str(self.certificate_path)
 
 
-class SSLCertificatesChecksBase(object):
+class SSLCertificatesHelper(object):
 
     def __init__(self, certificate, expire_days):
         """

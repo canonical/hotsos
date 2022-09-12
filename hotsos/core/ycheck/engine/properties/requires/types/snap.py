@@ -1,5 +1,5 @@
 from hotsos.core.log import log
-from hotsos.core.host_helpers import SnapPackageChecksBase
+from hotsos.core.host_helpers import SnapPackageHelper
 from hotsos.core.ycheck.engine.properties.requires import YRequirementTypeBase
 
 
@@ -13,7 +13,7 @@ class YRequirementTypeSnap(YRequirementTypeBase):
     @property
     def _result(self):
         pkg = self.content
-        _result = pkg in SnapPackageChecksBase(core_snaps=[pkg]).all
+        _result = pkg in SnapPackageHelper(core_snaps=[pkg]).all
         log.debug('requirement check: snap %s (result=%s)', pkg, _result)
         self.cache.set('package', pkg)
         return _result

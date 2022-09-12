@@ -1,5 +1,5 @@
 from hotsos.core.plugintools import PluginPartBase
-from hotsos.core.host_helpers import ServiceChecksBase, SnapPackageChecksBase
+from hotsos.core.host_helpers import SystemdHelper, SnapPackageHelper
 from hotsos.core.utils import cached_property
 
 CORE_SNAPS = ['vault']
@@ -10,8 +10,8 @@ class VaultChecksBase(PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.snaps = SnapPackageChecksBase(core_snaps=CORE_SNAPS)
-        self.systemd = ServiceChecksBase(service_exprs=SERVICE_EXPRS)
+        self.snaps = SnapPackageHelper(core_snaps=CORE_SNAPS)
+        self.systemd = SystemdHelper(service_exprs=SERVICE_EXPRS)
 
     @cached_property
     def vault_installed(self):

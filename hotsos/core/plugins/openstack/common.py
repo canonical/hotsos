@@ -17,12 +17,12 @@ from hotsos.core.plugins.openstack.octavia import OctaviaBase
 from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.host_helpers.cli import CLIHelper, CmdBase
 from hotsos.core.host_helpers import (
-    APTPackageChecksBase,
-    DockerImageChecksBase,
+    APTPackageHelper,
+    DockerImageHelper,
     DPKGVersionCompare,
-    ServiceChecksBase,
+    SystemdHelper,
     SSLCertificate,
-    SSLCertificatesChecksBase,
+    SSLCertificatesHelper,
 )
 
 
@@ -81,9 +81,8 @@ class OpenstackBase(object):
         apache2_certificates_expiring = []
         certificate_list = self.apache2_certificates_list
         for certificate in certificate_list:
-            ssl_checks = SSLCertificatesChecksBase(
-                                                  certificate,
-                                                  self.certificate_expire_days)
+            ssl_checks = SSLCertificatesHelper(certificate,
+                                               self.certificate_expire_days)
             if ssl_checks.certificate_expires_soon:
                 apache2_certificates_expiring.append(certificate.path)
         return apache2_certificates_expiring
@@ -94,12 +93,12 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ost_projects = OSTProjectCatalog()
-        self.systemd = ServiceChecksBase(
+        self.systemd = SystemdHelper(
                            service_exprs=self.ost_projects.service_exprs)
-        self.apt = APTPackageChecksBase(
+        self.apt = APTPackageHelper(
                        core_pkgs=self.ost_projects.packages_core_exprs,
                        other_pkgs=self.ost_projects.packages_dep_exprs)
-        self.docker = DockerImageChecksBase(
+        self.docker = DockerImageHelper(
                           core_pkgs=self.ost_projects.packages_core_exprs,
                           other_pkgs=self.ost_projects.packages_dep_exprs)
 

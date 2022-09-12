@@ -1445,7 +1445,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch(
-        'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
+        'hotsos.core.host_helpers.systemd.SystemdHelper.services', {
             'neutron-openvswitch-agent':
             SystemdService('neutron-openvswitch-agent', 'enabled'),
             'openvswitch-switch':
@@ -1493,7 +1493,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
         self.assertEqual(IssuesManager().load_issues(), expected)
 
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('masakari/pacemaker_remote.yaml'))
@@ -1513,7 +1513,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
             {'OpenstackWarnings': [msg]}}
         self.assertEqual(IssuesManager().load_issues(), expected)
 
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('masakari/pacemaker_remote.yaml'))

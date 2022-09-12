@@ -1,9 +1,9 @@
 import re
 
 from hotsos.core.host_helpers import (
-    APTPackageChecksBase,
+    APTPackageHelper,
     CLIHelper,
-    ServiceChecksBase,
+    SystemdHelper,
 )
 from hotsos.core.plugintools import PluginPartBase
 from hotsos.core.utils import cached_property
@@ -44,8 +44,8 @@ class PacemakerChecksBase(PacemakerBase, PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.apt = APTPackageChecksBase(core_pkgs=PACEMAKER_PKGS_CORE)
-        self.systemd = ServiceChecksBase(service_exprs=PACEMAKER_SVC_EXPR)
+        self.apt = APTPackageHelper(core_pkgs=PACEMAKER_PKGS_CORE)
+        self.systemd = SystemdHelper(service_exprs=PACEMAKER_SVC_EXPR)
         self.pacemaker = PacemakerBase()
 
     @cached_property

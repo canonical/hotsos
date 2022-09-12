@@ -12,11 +12,11 @@ from hotsos.core.utils import (
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.host_helpers import (
-    APTPackageChecksBase,
+    APTPackageHelper,
     CLIHelper,
     DPKGVersionCompare,
     HostNetworkingHelper,
-    ServiceChecksBase,
+    SystemdHelper,
     SectionalConfigBase,
     SVC_EXPR_TEMPLATES,
 )
@@ -772,9 +772,9 @@ class CephChecksBase(StorageBase):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
         self.bcache = BcacheBase()
-        self.apt = APTPackageChecksBase(core_pkgs=CEPH_PKGS_CORE,
-                                        other_pkgs=CEPH_PKGS_OTHER)
-        self.systemd = ServiceChecksBase(service_exprs=CEPH_SERVICES_EXPRS)
+        self.apt = APTPackageHelper(core_pkgs=CEPH_PKGS_CORE,
+                                    other_pkgs=CEPH_PKGS_OTHER)
+        self.systemd = SystemdHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
         self.cli = CLIHelper()
 

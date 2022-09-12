@@ -53,7 +53,7 @@ def dict_to_formatted_str_list(f):
     return _dict_to_formatted_str_list
 
 
-class PackageChecksBase(object):
+class PackageHelperBase(object):
 
     def get_version(self, pkg):
         """
@@ -85,7 +85,7 @@ class PackageChecksBase(object):
         raise NotImplementedError
 
 
-class DockerImageChecksBase(PackageChecksBase):
+class DockerImageHelper(PackageHelperBase):
 
     def __init__(self, core_pkgs, other_pkgs=None):
         """
@@ -181,7 +181,7 @@ class DockerImageChecksBase(PackageChecksBase):
         return self._core_images
 
 
-class APTPackageChecksBase(PackageChecksBase):
+class APTPackageHelper(PackageHelperBase):
 
     def __init__(self, core_pkgs, other_pkgs=None):
         """
@@ -297,7 +297,7 @@ class APTPackageChecksBase(PackageChecksBase):
         return self._core_packages
 
 
-class SnapPackageChecksBase(PackageChecksBase):
+class SnapPackageHelper(PackageHelperBase):
 
     def __init__(self, core_snaps, other_snaps=None):
         """

@@ -31,7 +31,7 @@ class TestStorageScenarioChecksCephMgr(StorageCephMgrTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mgr/'
                                         'autoscaler_overlap_roots.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mgr': SystemdService('ceph-mgr', 'enabled')})
     @utils.create_test_files({'var/log/ceph/ceph-mgr.log': OVERLAPPING_ROOTS})
     def test_pg_autoscaler_overlapping_roots(self):

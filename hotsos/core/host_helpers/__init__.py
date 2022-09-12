@@ -9,15 +9,15 @@ from .network import (  # noqa: F403,F401
 )
 from .packaging import (  # noqa: F403,F401
     DPKGVersionCompare,
-    APTPackageChecksBase,
-    DockerImageChecksBase,
-    SnapPackageChecksBase,
+    APTPackageHelper,
+    DockerImageHelper,
+    SnapPackageHelper,
 )
 from .ssl import (  # noqa: F403,F401
     SSLCertificate,
-    SSLCertificatesChecksBase,
+    SSLCertificatesHelper,
 )
 from .systemd import (  # noqa: F403,F401
-    ServiceChecksBase,
+    SystemdHelper,
     SVC_EXPR_TEMPLATES,
 )

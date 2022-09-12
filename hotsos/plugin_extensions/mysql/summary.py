@@ -6,9 +6,8 @@ class MySQLSummary(MySQLChecksBase):
 
     @idx(0)
     def __summary_services(self):
-        if self.systemd_info.services:
-            return {'systemd': self.systemd_info.service_info,
-                    'ps': self.systemd_info.process_info}
+        if self.systemd.services:
+            return self.systemd.summary
 
     @idx(1)
     def __summary_dpkg(self):

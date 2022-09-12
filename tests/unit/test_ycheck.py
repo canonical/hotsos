@@ -735,7 +735,7 @@ class TestYamlChecks(utils.BaseTestCase):
             self.assertEqual(issue['desc'], msg)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
-                'APTPackageChecksBase')
+                'APTPackageHelper')
     def test_yaml_def_scenarios_no_issue(self, apt_check):
         apt_check.is_installed.return_value = True
         setup_config(PLUGIN_NAME='juju')
@@ -1078,7 +1078,7 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertTrue(group.leaf_sections[0].requires.passes)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
-                'APTPackageChecksBase')
+                'APTPackageHelper')
     def test_yaml_def_requires_apt(self, mock_apt):
         tested = 0
         expected = {'2.0': False,

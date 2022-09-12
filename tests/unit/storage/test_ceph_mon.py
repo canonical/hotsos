@@ -492,7 +492,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 new=utils.is_def_filter(
                                        'ceph-mon/mon_elections_flapping.yaml'))
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'var/log/ceph/ceph.log': MON_ELECTION_LOGS})
     def test_scenario_mon_reelections(self, mock_cephbase):
@@ -522,7 +522,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/osd_slow_heartbeats.yaml'))
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'var/log/ceph/ceph.log': OSD_SLOW_HEARTBEATS})
     def test_scenario_osd_slow_heartbeats(self, mock_cephbase):
@@ -541,7 +541,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.health_status',
                 'HEALTH_WARN')
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     def test_scenario_bluefs_spillover(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -559,7 +559,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/osd_slow_ops.yaml'))
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'var/log/ceph/ceph.log': OSD_SLOW_OPS})
     def test_scenario_osd_slow_ops(self, mock_cephbase):
@@ -589,7 +589,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/osd_flapping.yaml'))
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'var/log/ceph/ceph.log': OSD_FLAPPING})
     def test_scenario_osd_flapping(self, mock_cephbase):
@@ -619,7 +619,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                     'ceph-mon/osd_maps_backlog_too_large.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/ceph_report':
                               json.dumps({'osdmap_manifest':
@@ -639,7 +639,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                 'ceph-mon/required_osd_release_mismatch.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
                               CEPH_VERSIONS_MISMATCHED_MAJOR})
@@ -654,7 +654,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 'require_osd_release', 'octopus')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/laggy_pgs.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/json_output/'
                               'ceph_pg_dump_--format_json-pretty':
@@ -703,7 +703,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/large_omap_objects.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/json_output/'
                               'ceph_pg_dump_--format_json-pretty':
@@ -737,7 +737,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/ceph_versions_mismatch.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
                               CEPH_VERSIONS_MISMATCHED_MINOR})
@@ -753,7 +753,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/ceph_versions_mismatch.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
                               CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED})
@@ -769,7 +769,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CLIHelper')
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/pg_imbalance.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     def test_ceph_pg_imbalance(self, mock_helper):
         self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
@@ -787,7 +787,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/crushmap_bucket_checks.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/ceph_osd_crush_dump':
                               CEPH_OSD_CRUSH_DUMP,
@@ -804,7 +804,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/crushmap_bucket_checks.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_test_files({'sos_commands/ceph_mon/ceph_osd_crush_dump':
                               open(CEPH_OSD_CRUSH_DUMP_UNBALANCED).read(),
@@ -827,7 +827,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 new=utils.is_def_filter('ceph-mon/unresponsive_mon_mgr.yaml'))
     @mock.patch('hotsos.core.plugins.sosreport.SOSReportChecksBase.'
                 'timed_out_plugins', ['ceph_mon'])
-    @mock.patch('hotsos.core.host_helpers.APTPackageChecksBase.all',
+    @mock.patch('hotsos.core.host_helpers.APTPackageHelper.all',
                 {'ceph-mon': '1.2.3'})
     def test_unresponsive_mgr_p1(self):
         YScenarioChecker()()
@@ -845,7 +845,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 None)
     @mock.patch('hotsos.core.plugins.sosreport.SOSReportChecksBase.'
                 'plugin_runnable', False)
-    @mock.patch('hotsos.core.host_helpers.APTPackageChecksBase.all',
+    @mock.patch('hotsos.core.host_helpers.APTPackageHelper.all',
                 {'ceph-mon': '1.2.3'})
     def test_unresponsive_mgr_p2(self):
         YScenarioChecker()()

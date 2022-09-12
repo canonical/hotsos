@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from hotsos.core.log import log
-from hotsos.core.host_helpers import ServiceChecksBase
+from hotsos.core.host_helpers import SystemdHelper
 from hotsos.core.ycheck.engine.properties.requires import YRequirementTypeBase
 
 
@@ -62,7 +62,7 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
             if type(settings) == dict and 'started-after' in settings:
                 services_under_test.append(settings['started-after'])
 
-        svcinfo = ServiceChecksBase(services_under_test).services
+        svcinfo = SystemdHelper(services_under_test).services
         cache_info = {}
         for svc, settings in service_checks.items():
             if svc not in svcinfo:

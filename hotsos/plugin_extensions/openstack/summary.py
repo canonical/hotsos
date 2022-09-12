@@ -14,8 +14,7 @@ class OpenstackSummary(OpenstackChecksBase):
     def __summary_services(self):
         """Get string info for running services."""
         if self.systemd.services:
-            return {'systemd': self.systemd.service_info,
-                    'ps': self.systemd.process_info}
+            return self.systemd.summary
 
     @idx(2)
     def __summary_dpkg(self):

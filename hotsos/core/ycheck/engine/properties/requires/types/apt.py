@@ -1,6 +1,6 @@
 from hotsos.core.log import log
 from hotsos.core.host_helpers import (
-    APTPackageChecksBase,
+    APTPackageHelper,
     DPKGVersionCompare,
 )
 from hotsos.core.ycheck.engine.properties.requires import YRequirementTypeBase
@@ -49,7 +49,7 @@ class YRequirementTypeAPT(YRequirementTypeBase):
             packages_under_test = [self.content]
 
         versions_actual = []
-        apt_info = APTPackageChecksBase(packages_under_test)
+        apt_info = APTPackageHelper(packages_under_test)
         for pkg, versions in packages.items():
             _result = apt_info.is_installed(pkg) or False
             if _result:

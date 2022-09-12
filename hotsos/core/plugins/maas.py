@@ -1,7 +1,7 @@
 from hotsos.core.host_helpers import (
-    APTPackageChecksBase,
-    SnapPackageChecksBase,
-    ServiceChecksBase,
+    APTPackageHelper,
+    SnapPackageHelper,
+    SystemdHelper,
 )
 from hotsos.core.plugintools import PluginPartBase
 from hotsos.core.utils import cached_property
@@ -17,11 +17,10 @@ class MAASChecksBase(PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.snaps = SnapPackageChecksBase(core_snaps=CORE_SNAPS)
-        self.apt = APTPackageChecksBase(core_pkgs=CORE_APT,
-                                        other_pkgs=APT_DEPS)
-        self.systemd = ServiceChecksBase(service_exprs=SERVICE_EXPRS,
-                                         ps_allow_relative=False)
+        self.snaps = SnapPackageHelper(core_snaps=CORE_SNAPS)
+        self.apt = APTPackageHelper(core_pkgs=CORE_APT, other_pkgs=APT_DEPS)
+        self.systemd = SystemdHelper(service_exprs=SERVICE_EXPRS,
+                                     ps_allow_relative=False)
 
     @cached_property
     def maas_installed(self):

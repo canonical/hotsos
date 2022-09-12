@@ -7,8 +7,7 @@ class MAASSummary(MAASChecksBase):
     @idx(0)
     def __summary_services(self):
         if self.systemd.services:
-            return {'systemd': self.systemd.service_info,
-                    'ps': self.systemd.process_info}
+            return self.systemd.summary
 
     @idx(1)
     def __summary_dpkg(self):

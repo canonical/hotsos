@@ -187,7 +187,7 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('jujud_checks.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.processes',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.processes',
                 {})
     def test_jujud_checks(self):
         YScenarioChecker()()

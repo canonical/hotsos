@@ -16,48 +16,47 @@ c-key = 2-8,10-31
 
 class TestChecks(utils.BaseTestCase):
 
-    def test_APTPackageChecksBase_core_only(self):
+    def test_APTPackageHelper_core_only(self):
         expected = {'systemd': '245.4-4ubuntu3.15',
                     'systemd-container': '245.4-4ubuntu3.15',
                     'systemd-sysv': '245.4-4ubuntu3.15',
                     'systemd-timesyncd': '245.4-4ubuntu3.15'}
-        obj = host_helpers.APTPackageChecksBase(["systemd"])
+        obj = host_helpers.APTPackageHelper(["systemd"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
         self.assertEqual(obj.get_version("systemd"), "245.4-4ubuntu3.15")
         # lookup package not already loaded
         self.assertEqual(obj.get_version("apt"), "2.0.6")
 
-    def test_APTPackageChecksBase_all(self):
+    def test_APTPackageHelper_all(self):
         expected = {'python3-systemd': '234-3build2',
                     'systemd': '245.4-4ubuntu3.15',
                     'systemd-container': '245.4-4ubuntu3.15',
                     'systemd-sysv': '245.4-4ubuntu3.15',
                     'systemd-timesyncd': '245.4-4ubuntu3.15'}
-        obj = host_helpers.APTPackageChecksBase(["systemd"],
-                                                ["python3?-systemd"])
+        obj = host_helpers.APTPackageHelper(["systemd"], ["python3?-systemd"])
         self.assertEqual(obj.all, expected)
 
-    def test_APTPackageChecksBase_formatted(self):
+    def test_APTPackageHelper_formatted(self):
         expected = ['systemd 245.4-4ubuntu3.15',
                     'systemd-container 245.4-4ubuntu3.15',
                     'systemd-sysv 245.4-4ubuntu3.15',
                     'systemd-timesyncd 245.4-4ubuntu3.15']
-        obj = host_helpers.APTPackageChecksBase(["systemd"])
+        obj = host_helpers.APTPackageHelper(["systemd"])
         self.assertEqual(obj.all_formatted, expected)
 
-    def test_SnapPackageChecksBase(self):
+    def test_SnapPackageHelper(self):
         expected = {'core20': '20220114'}
-        obj = host_helpers.SnapPackageChecksBase(["core20"])
+        obj = host_helpers.SnapPackageHelper(["core20"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
         self.assertEqual(obj.get_version("core20"), "20220114")
         # lookup package not already loaded
         self.assertEqual(obj.get_version("lxd"), "4.22")
 
-    def test_SnapPackageChecksBase_formatted(self):
+    def test_SnapPackageHelper_formatted(self):
         expected = ['core20 20220114']
-        obj = host_helpers.SnapPackageChecksBase(["core20"])
+        obj = host_helpers.SnapPackageHelper(["core20"])
         self.assertEqual(obj.all_formatted, expected)
 
     @utils.create_test_files({'test.conf': DUMMY_CONFIG})
@@ -77,3 +76,10 @@ class TestChecks(utils.BaseTestCase):
         expanded = cfg.get('c-key', expand_to_list=True)
         self.assertEqual(expanded, list(range(2, 9)) + list(range(10, 32)))
         self.assertEqual(cfg.squash_int_range(expanded), '2-8,10-31')
+
+    def test_systemd_helper(self):
+        s = host_helpers.systemd.SystemdHelper([r'nova\S+'])
+        expected = {'ps': ['nova-api-metadata (5)', 'nova-compute (1)'],
+                    'systemd': {'enabled':
+                                ['nova-api-metadata', 'nova-compute']}}
+        self.assertEqual(s.summary, expected)

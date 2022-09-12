@@ -235,7 +235,7 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-osd/bugs.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-osd': SystemdService('ceph-osd', 'enabled')})
     def test_bug_check_lp1959649(self, mock_cephdaemon, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -315,7 +315,7 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-osd/bcache_lp1936136.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.ServiceChecksBase.services',
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-osd': SystemdService('ceph-osd', 'enabled')})
     def test_lp1936136(self, mocl_cli, mock_cephbase, mock_kernelbase,
                        mock_cset_config, mock_ceph_config):

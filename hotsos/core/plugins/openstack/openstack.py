@@ -239,7 +239,7 @@ class OSTProject(object):
     @cached_property
     def installed(self):
         """ Return True if the openstack service is installed. """
-        return bool(host_helpers.APTPackageChecksBase(
+        return bool(host_helpers.APTPackageHelper(
                                             core_pkgs=self.packages_core).core)
 
     @cached_property
@@ -252,7 +252,7 @@ class OSTProject(object):
     @cached_property
     def services(self):
         exprs = self.services_expr
-        info = host_helpers.ServiceChecksBase(service_exprs=exprs)
+        info = host_helpers.SystemdHelper(service_exprs=exprs)
         return info.services
 
     def log_paths(self, include_deprecated_services=True):

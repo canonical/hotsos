@@ -72,7 +72,7 @@ class TestMySQLSummary(MySQLTestsBase):
 class TestMySQLScenarios(MySQLTestsBase):
 
     @mock.patch(
-        'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
+        'hotsos.core.host_helpers.systemd.SystemdHelper.services', {
             'mysql-router':
             SystemdService('mysql-router', 'enabled')
         })
@@ -159,7 +159,7 @@ class TestMySQLScenarios(MySQLTestsBase):
         self.assertEqual(IssuesManager().load_issues(), expected)
 
     @mock.patch(
-        'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
+        'hotsos.core.host_helpers.systemd.SystemdHelper.services', {
             'mysql-router':
             SystemdService('mysql-router', 'enabled')
         })
@@ -195,7 +195,7 @@ class TestMySQLScenarios(MySQLTestsBase):
         self.assertEqual(IssuesManager().load_bugs(), expected)
 
     @mock.patch(
-        'hotsos.core.host_helpers.systemd.ServiceChecksBase.services', {
+        'hotsos.core.host_helpers.systemd.SystemdHelper.services', {
             'mysql-router':
             SystemdService('mysql-router', 'enabled')
         })
