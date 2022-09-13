@@ -24,11 +24,14 @@ class OVNSBDBChassis(object):
 
     def __init__(self, name, content):
         self.name = name
-        self.content = content
+        self.content = content or {}
 
     @cached_property
     def _ports(self):
         ports = []
+        if not self.content or 'Port_Binding' not in self.content:
+            return ports
+
         for p in self.content['Port_Binding']:
             if 'cr-lrp' in p:
                 ports.append(OVNSBDBPort(p, 'cr-lrp'))
