@@ -63,6 +63,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 
         OVS bridges.
 
+        Neutron HA gateway ports:
         In Openstack for example when using Neutron HA routers, vrrp peers
         that are in BACKUP state may still receive packets on their external
         interface but these will be dropped since they have no where to go. In

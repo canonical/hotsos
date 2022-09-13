@@ -1,6 +1,3 @@
-import os
-import tempfile
-
 from unittest import mock
 
 from . import utils
@@ -19,28 +16,20 @@ LP1917475_LOG = r"""
 2021-09-22T01:13:33.307Z|00266|ovsdb_idl|WARN|transaction error: {"details":"RBAC rules for client \"compute5\" role \"ovn-controller\" prohibit row insertion into table \"IGMP_Group\".","error":"permission error"}
 """  # noqa
 
-DPIF_LOST_PACKETS_LOGS = """
-2022-03-25T01:55:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
-2022-03-25T01:55:12.924Z|05761|dpif_netlink(handler11)|WARN|system@ovs-system: lost packet on port channel 0 of handler 2
-2022-03-25T01:55:12.972Z|06053|dpif_netlink(handler12)|WARN|system@ovs-system: lost packet on port channel 0 of handler 3
-2022-03-25T01:55:13.567Z|06054|dpif_netlink(handler12)|WARN|system@ovs-system: lost packet on port channel 0 of handler 3
-2022-03-25T01:55:13.571Z|06069|dpif_netlink(handler13)|WARN|system@ovs-system: lost packet on port channel 0 of handler 4
-2022-03-25T01:58:42.750Z|05763|dpif_netlink(handler11)|WARN|system@ovs-system: lost packet on port channel 0 of handler 2
-"""  # noqa
+DPIF_LOST_PACKETS_TMPLT = """
+2022-03-25T{hour}:{min}:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+"""  # noqa, pylint: disable=C0301
 
 BFD_STATE_CHANGES_TMPLT = """
-2022-04-21T21:00:{secs}.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-"""  # noqa
+2022-04-21T21:00:{sec}.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+"""  # noqa, pylint: disable=C0301
 
+CR_LRP_CHANGES_TMPLT = """
+2022-04-21T14:03:{sec}.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+2022-04-21T15:03:{sec}.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+"""  # noqa, pylint: disable=C0301
 
-CR_LRP_CHANGES = """
-2022-04-21T14:03:{secs}.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
-2022-04-21T15:03:{secs}.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
-"""  # noqa
-
-
-DPCTL_SHOW = r"""
-  port 6: br-int (internal)
+DPCTL_SHOW = r"""  port 6: br-int (internal)
     RX packets:0 errors:0 dropped:1887 overruns:0 frame:0
     TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
     collisions:0
@@ -84,14 +73,12 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
         enabled = OpenvSwitchBase().offload_enabled
         self.assertFalse(enabled)
 
+    @utils.create_test_files({('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
+                               'Open_vSwitch_._other_config'):
+                              '{hw-offload="true", max-idle="30000"}'})
     def testBase_offload_enabled(self):
-        with mock.patch('hotsos.core.plugins.openvswitch.ovs.CLIHelper') as \
-                mock_cli:
-            mock_cli.return_value = mock.MagicMock()
-            f = mock_cli.return_value.ovs_vsctl_get_Open_vSwitch
-            f.return_value = '{hw-offload="true", max-idle="30000"}'
-            enabled = OpenvSwitchBase().offload_enabled
-            self.assertTrue(enabled)
+        enabled = OpenvSwitchBase().offload_enabled
+        self.assertTrue(enabled)
 
 
 class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
@@ -173,13 +160,14 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('datapath-checks.yaml'))
-    def test_ovs_dp_checks(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.ovs_appctl_dpctl_show.return_value = \
-            DPCTL_SHOW
+    @utils.create_test_files({('sos_commands/openvswitch/'
+                               'ovs-appctl_dpctl.show_-s_system_ovs-system'):
+                              DPCTL_SHOW,
+                              ('sos_commands/openvswitch/'
+                               'ovs-vsctl_-t_5_list-br'): 'br-int'})
+    def test_ovs_dp_checks(self):
         expected = {'datapath-checks-port-stats': {
                         'qr-aa623763-fd': {
                             'RX': {
@@ -276,6 +264,10 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn_bugs.yaml'))
     def test_1865127(self, mock_cli):
+        """
+        NOTE: we don't use utils.create_test_files here because we want to use
+        the logs in current DATA_ROOT.
+        """
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.dpkg_l.return_value = \
             ["ii  ovn-common 20.12.0 amd64"]
@@ -310,14 +302,11 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
         self.assertEqual(issues.IssuesManager().load_bugs(),
                          expected)
 
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs_bugs.yaml'))
-    def test_1839592(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.dpkg_l.return_value = \
-            ["ii  libc-bin 2.26-3ubuntu1.3 amd64"]
-
+    @utils.create_test_files({'sos_commands/dpkg/dpkg_-l':
+                              'ii  libc-bin 2.26-3ubuntu1.3 amd64'})
+    def test_1839592(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
                     [{'id': 'https://bugs.launchpad.net/bugs/1839592',
@@ -328,14 +317,13 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                       'origin': 'openvswitch.01part'}]}
         self.assertEqual(issues.IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.plugins.openvswitch.ovs.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('flow_lookup_checks.yaml'))
-    def test_flow_lookup_checks_p1(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.ovs_appctl_dpctl_show.return_value = \
-            ['lookups: hit:39017272903 missed:137481120 lost:54691089']
-
+    @utils.create_test_files({('sos_commands/openvswitch/'
+                               'ovs-appctl_dpctl.show_-s_system_ovs-system'):
+                              ('lookups: hit:39017272903 missed:137481120 '
+                               'lost:54691089')})
+    def test_dpif_lost_packets_no_vswitchd(self):
         YScenarioChecker()()
         msg = ('OVS datapath is reporting a non-zero amount of "lost" packets '
                '(total=54691089) which implies that packets destined for '
@@ -345,15 +333,17 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.openvswitch.ovs.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('flow_lookup_checks.yaml'))
     @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
-                              DPIF_LOST_PACKETS_LOGS})
-    def test_flow_lookup_checks_p2(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.ovs_appctl_dpctl_show.return_value = \
-            ['lookups: hit:39017272903 missed:137481120 lost:54691089']
+                              utils.expand_log_template(
+                                                       DPIF_LOST_PACKETS_TMPLT,
+                                                       hours=10, lstrip=True),
+                              ('sos_commands/openvswitch/'
+                               'ovs-appctl_dpctl.show_-s_system_ovs-system'):
+                              ('lookups: hit:39017272903 missed:137481120 '
+                               'lost:54691089')})
+    def test_dpif_lost_packets_w_vswitchd(self):
         YScenarioChecker()()
         msg = ('OVS datapath is reporting a non-zero amount of "lost" '
                'packets (total=54691089) which implies that packets '
@@ -369,65 +359,49 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd_flapping.yaml'))
-    def test_bfd_flapping_vswitchd_only(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.date.return_value = '2022-04-21 20:44:21'
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp,
-                                   'var/log/openvswitch/ovs-vswitchd.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                for i in range(0, 10):
-                    fd.write(BFD_STATE_CHANGES_TMPLT.
-                             format(secs='0{}'.format(i)))
+    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
+                              utils.expand_log_template(
+                                                       BFD_STATE_CHANGES_TMPLT,
+                                                       secs=10, lstrip=True),
+                              'sos_commands/date/date':
+                              'Thu Feb 10 16:19:17 UTC 2022'})
+    def test_bfd_flapping_vswitchd_only(self):
+        YScenarioChecker()()
+        msg = ('The ovn-controller on this host has experienced 10 BFD '
+               'state changes within an hour (and within the last 24 '
+               'hours). This is unusual and could be an indication that '
+               'something is wrong with the network between this node and '
+               'one or more peer chassis nodes.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-            YScenarioChecker()()
-            msg = ('The ovn-controller on this host has experienced 10 BFD '
-                   'state changes within an hour (and within the last 24 '
-                   'hours). This is unusual and could be an indication that '
-                   'something is wrong with the network between this node and '
-                   'one or more peer chassis nodes.')
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd_flapping.yaml'))
-    def test_bfd_flapping_cr_lrp_changes(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.date.return_value = '2022-04-21 20:44:21'
-        with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(DATA_ROOT=dtmp)
-            logfile = os.path.join(dtmp, 'var/log/ovn/ovn-controller.log')
-            os.makedirs(os.path.dirname(logfile))
-            with open(logfile, 'w') as fd:
-                for i in range(0, 20):
-                    fd.write(CR_LRP_CHANGES.format(secs='0{}'.format(i)))
+    @utils.create_test_files({'var/log/ovn/ovn-controller.log':
+                              utils.expand_log_template(CR_LRP_CHANGES_TMPLT,
+                                                        secs=20, lstrip=True),
+                              'sos_commands/date/date':
+                              'Thu Feb 10 16:19:17 UTC 2022'})
+    def test_bfd_flapping_cr_lrp_changes(self):
+        YScenarioChecker()()
+        msg = ('The ovn-controller on this host is showing 20 logical '
+               'router port (lrp) chassis re-assignments within the last '
+               '24 hours that do not appear to have resulted from BFD '
+               'state changes. This could indicate that some operator '
+               'activity is causing significant load in ovn which may or '
+               'may not be expected.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-            YScenarioChecker()()
-
-            msg = ('The ovn-controller on this host is showing 20 logical '
-                   'router port (lrp) chassis re-assignments within the last '
-                   '24 hours that do not appear to have resulted from BFD '
-                   'state changes. This could indicate that some operator '
-                   'activity is causing significant load in ovn which may or '
-                   'may not be expected.')
-            issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovsdb_reconnect_errors.yaml'))
     @utils.create_test_files({'var/log/neutron/neutron-server.log':
-                              OVS_DB_RECONNECT_ERROR})
-    def test_ovsdb_reconnect_error(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.dpkg_l.return_value = \
-            ["ii  python3-openvswitch 2.17.0 amd64"]
+                              OVS_DB_RECONNECT_ERROR,
+                              'sos_commands/dpkg/dpkg_-l':
+                              'ii  python3-openvswitch 2.17.0 amd64'})
+    def test_ovsdb_reconnect_error(self):
         YScenarioChecker()()
         msg = ("Installed package 'python3-openvswitch' with version "
                "2.17.0 has a known bug whereby if connections to the ovn "

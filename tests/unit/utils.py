@@ -14,6 +14,33 @@ DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
 setup_config(DATA_ROOT=os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT))
 
 
+def expand_log_template(template, hours=None, mins=None, secs=None,
+                        lstrip=False):
+    """
+    Expand a given template log sequence using a sequence of hours/mins/secs.
+
+    @param lstrip: optionally lstrip() the template before using it.
+    """
+    out = ""
+    if lstrip:
+        _template = template.lstrip()
+    else:
+        _template = template
+
+    for hour in range(hours or 1):
+        if hour < 10:
+            hour = "0{}".format(hour)
+        for min in range(mins or 1):
+            if min < 10:
+                min = "0{}".format(min)
+            for sec in range(secs or 1):
+                if sec < 10:
+                    sec = "0{}".format(sec)
+                out += _template.format(hour=hour, min=min, sec=sec)
+
+    return out
+
+
 def is_def_filter(def_filename):
     """
     Filter hotsos.core.ycheck.YDefsLoader._is_def to only match a file with the

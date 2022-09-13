@@ -50,8 +50,9 @@ class YScenarioChecker(YHandlerBase):
         for scenario in yscenarios.leaf_sections:
             # Only register scenarios if requirements are satisfied.
             group_name = scenario.parent.name
-            if (group_name in to_skip or
-                    (scenario.requires and not scenario.requires.passes)):
+            if (not HotSOSConfig.FORCE_MODE and
+                    (group_name in to_skip or
+                        (scenario.requires and not scenario.requires.passes))):
                 log.debug("%s requirements not met - skipping scenario %s",
                           group_name, scenario.name)
                 to_skip.add(group_name)

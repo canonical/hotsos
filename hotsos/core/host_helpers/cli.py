@@ -383,7 +383,7 @@ class DateFileCmd(FileCmd):
                        output)
 
         if ret is None:
-            sys.stderr.write("ERROR: {} has invalid date string '{}'".
+            sys.stderr.write("ERROR: {} has invalid date string '{}'\n".
                              format(self.path, output))
             return ""
 
