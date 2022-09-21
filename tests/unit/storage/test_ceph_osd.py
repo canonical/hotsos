@@ -77,7 +77,7 @@ class TestOSDCephChecksBase(StorageCephOSDTestsBase):
         enabled = ceph_core.CephChecksBase().bluestore_enabled
         self.assertTrue(enabled)
 
-    @utils.create_test_files({'etc/ceph/ceph.conf': CEPH_CONF_NO_BLUESTORE})
+    @utils.create_data_root({'etc/ceph/ceph.conf': CEPH_CONF_NO_BLUESTORE})
     def test_bluestore_not_enabled(self):
         enabled = ceph_core.CephChecksBase().bluestore_enabled
         self.assertFalse(enabled)

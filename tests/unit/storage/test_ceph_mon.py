@@ -299,8 +299,8 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertTrue(cluster.ceph_versions_aligned)
         self.assertTrue(cluster.mon_versions_aligned_with_cluster)
 
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
-                              CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
+                             CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED})
     def test_ceph_daemon_versions_unique_not(self):
         result = {'mgr': ['15.2.11'],
                   'mon': ['15.2.11',
@@ -312,10 +312,10 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertFalse(cluster.ceph_versions_aligned)
         self.assertFalse(cluster.mon_versions_aligned_with_cluster)
 
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_osd_crush_dump':
-                              open(CEPH_OSD_CRUSH_DUMP_UNBALANCED).read(),
-                              'sos_commands/ceph_mon/ceph_report':
-                              open(CEPH_REPORT).read()})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_osd_crush_dump':
+                             open(CEPH_OSD_CRUSH_DUMP_UNBALANCED).read(),
+                             'sos_commands/ceph_mon/ceph_report':
+                             open(CEPH_REPORT).read()})
     def test_check_crushmap_non_equal_buckets(self):
         cluster = ceph_core.CephCluster()
         buckets = cluster.crush_map.crushmap_equal_buckets
@@ -327,8 +327,8 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         buckets = cluster.crush_map.crushmap_equal_buckets
         self.assertEqual(buckets, [])
 
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_osd_crush_dump':
-                              CEPH_OSD_CRUSH_DUMP})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_osd_crush_dump':
+                             CEPH_OSD_CRUSH_DUMP})
     def test_crushmap_mixed_buckets(self):
         cluster = ceph_core.CephCluster()
         buckets = cluster.crush_map.crushmap_mixed_buckets
@@ -418,9 +418,9 @@ class TestMonCephSummary(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.pool_id_to_name',
                 lambda *args: 'foo')
-    @utils.create_test_files({'sos_commands/ceph_mon/json_output/'
-                              'ceph_pg_dump_--format_json-pretty':
-                              json.dumps(PG_DUMP_JSON_DECODED)})
+    @utils.create_data_root({'sos_commands/ceph_mon/json_output/'
+                             'ceph_pg_dump_--format_json-pretty':
+                             json.dumps(PG_DUMP_JSON_DECODED)})
     def test_ceph_cluster_info_large_omap_pgs(self):
         expected = {'2.f': {
                         'pool': 'foo',
@@ -440,9 +440,9 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         self.assertEqual(actual['osd-pgs-near-limit'],
                          result['osd-pgs-near-limit'])
 
-    @utils.create_test_files({'sos_commands/ceph_mon/json_output/'
-                              'ceph_osd_df_tree_--format_json-pretty':
-                              json.dumps([])})
+    @utils.create_data_root({'sos_commands/ceph_mon/json_output/'
+                             'ceph_osd_df_tree_--format_json-pretty':
+                             json.dumps([])})
     def test_get_ceph_pg_imbalance_unavailable(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
@@ -457,8 +457,8 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['versions'], result)
 
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
-                              json.dumps([])})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
+                             json.dumps([])})
     def test_get_ceph_versions_unavailable(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
@@ -482,7 +482,7 @@ class TestMonCephEventChecks(StorageCephMonTestsBase):
 
 class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
-    @utils.create_test_files({})
+    @utils.create_data_root({})
     def test_scenarios_none(self):
         YScenarioChecker()()
         issues = list(IssuesManager().load_issues().values())
@@ -494,7 +494,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'var/log/ceph/ceph.log': MON_ELECTION_LOGS})
+    @utils.create_data_root({'var/log/ceph/ceph.log': MON_ELECTION_LOGS})
     def test_scenario_mon_reelections(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -524,7 +524,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'var/log/ceph/ceph.log': OSD_SLOW_HEARTBEATS})
+    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_SLOW_HEARTBEATS})
     def test_scenario_osd_slow_heartbeats(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -561,7 +561,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'var/log/ceph/ceph.log': OSD_SLOW_OPS})
+    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_SLOW_OPS})
     def test_scenario_osd_slow_ops(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -591,7 +591,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'var/log/ceph/ceph.log': OSD_FLAPPING})
+    @utils.create_data_root({'var/log/ceph/ceph.log': OSD_FLAPPING})
     def test_scenario_osd_flapping(self, mock_cephbase):
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
@@ -621,10 +621,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                     'ceph-mon/osd_maps_backlog_too_large.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_report':
-                              json.dumps({'osdmap_manifest':
-                                          {'pinned_maps':
-                                           list(range(5496))}})})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_report':
+                             json.dumps({'osdmap_manifest':
+                                         {'pinned_maps':
+                                          list(range(5496))}})})
     def test_scenario_osd_maps_backlog_too_large(self):
         YScenarioChecker()()
         msg = ("This Ceph cluster has 5496 pinned osdmaps. This can affect "
@@ -641,8 +641,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                                 'ceph-mon/required_osd_release_mismatch.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
-                              CEPH_VERSIONS_MISMATCHED_MAJOR})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
+                             CEPH_VERSIONS_MISMATCHED_MAJOR})
     def test_required_osd_release(self):
         YScenarioChecker()()
         msg = ("Ceph cluster config 'require_osd_release' is set to 'octopus' "
@@ -656,9 +656,9 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 new=utils.is_def_filter('ceph-mon/laggy_pgs.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/json_output/'
-                              'ceph_pg_dump_--format_json-pretty':
-                              json.dumps(PG_DUMP_JSON_DECODED)})
+    @utils.create_data_root({'sos_commands/ceph_mon/json_output/'
+                             'ceph_pg_dump_--format_json-pretty':
+                             json.dumps(PG_DUMP_JSON_DECODED)})
     def test_laggy_pgs(self):
         YScenarioChecker()()
         msg = ('Ceph cluster is reporting 1 laggy/wait PGs. This suggests a '
@@ -705,9 +705,9 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                 new=utils.is_def_filter('ceph-mon/large_omap_objects.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/json_output/'
-                              'ceph_pg_dump_--format_json-pretty':
-                              json.dumps(PG_DUMP_JSON_DECODED)})
+    @utils.create_data_root({'sos_commands/ceph_mon/json_output/'
+                             'ceph_pg_dump_--format_json-pretty':
+                             json.dumps(PG_DUMP_JSON_DECODED)})
     def test_large_omap_objects(self):
         YScenarioChecker()()
         msg = ("Large omap objects found in pgs '2.f'. "
@@ -739,8 +739,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                                        'ceph-mon/ceph_versions_mismatch.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
-                              CEPH_VERSIONS_MISMATCHED_MINOR})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
+                             CEPH_VERSIONS_MISMATCHED_MINOR})
     def test_ceph_versions_mismatch_p1(self):
         YScenarioChecker()()
         msg = ('Ceph daemon versions are not aligned across the cluster. This '
@@ -755,8 +755,8 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                                        'ceph-mon/ceph_versions_mismatch.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_versions':
-                              CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
+                             CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED})
     def test_ceph_versions_mismatch_p2(self):
         YScenarioChecker()()
         msg = ('One or more Ceph mons has a version lower than other daemons '
@@ -789,10 +789,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                                        'ceph-mon/crushmap_bucket_checks.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_osd_crush_dump':
-                              CEPH_OSD_CRUSH_DUMP,
-                              'sos_commands/ceph_mon/ceph_report':
-                              open(CEPH_REPORT).read()})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_osd_crush_dump':
+                             CEPH_OSD_CRUSH_DUMP,
+                             'sos_commands/ceph_mon/ceph_report':
+                             open(CEPH_REPORT).read()})
     def test_crushmap_bucket_checks_mixed_buckets(self):
         YScenarioChecker()()
         msg = ("Mixed crush bucket types identified in buckets 'default'. "
@@ -806,10 +806,10 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                                        'ceph-mon/crushmap_bucket_checks.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
-    @utils.create_test_files({'sos_commands/ceph_mon/ceph_osd_crush_dump':
-                              open(CEPH_OSD_CRUSH_DUMP_UNBALANCED).read(),
-                              'sos_commands/ceph_mon/ceph_report':
-                              open(CEPH_REPORT).read()})
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_osd_crush_dump':
+                             open(CEPH_OSD_CRUSH_DUMP_UNBALANCED).read(),
+                             'sos_commands/ceph_mon/ceph_report':
+                             open(CEPH_REPORT).read()})
     def test_crushmap_bucket_checks_unbalanced_buckets(self):
         YScenarioChecker()()
         msg = ("Found one or more unbalanced buckets in the cluster's CRUSH "

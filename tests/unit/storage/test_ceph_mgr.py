@@ -33,7 +33,7 @@ class TestStorageScenarioChecksCephMgr(StorageCephMgrTestsBase):
                                         'autoscaler_overlap_roots.yaml'))
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mgr': SystemdService('ceph-mgr', 'enabled')})
-    @utils.create_test_files({'var/log/ceph/ceph-mgr.log': OVERLAPPING_ROOTS})
+    @utils.create_data_root({'var/log/ceph/ceph-mgr.log': OVERLAPPING_ROOTS})
     def test_pg_autoscaler_overlapping_roots(self):
         YScenarioChecker()()
         msg = ("PG autoscaler found overlapping roots for pool(s). As a "

@@ -19,9 +19,9 @@ class TestSOSReportBase(utils.BaseTestCase):
 
 class TestSOSReportCore(TestSOSReportBase):
 
-    @utils.create_test_files({'sos_logs/ui.log':
-                              (" Plugin networking timed out\n"
-                               " Plugin system timed out\n")})
+    @utils.create_data_root({'sos_logs/ui.log':
+                             (" Plugin networking timed out\n"
+                              " Plugin system timed out\n")})
     def test_plugin_timouts_some(self):
         c = sosreport_core.SOSReportChecksBase()
         self.assertEqual(c.timed_out_plugins, ['networking', 'system'])
@@ -41,9 +41,9 @@ class TestSOSReportGeneral(TestSOSReportBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertFalse('plugin-timeouts' in actual)
 
-    @utils.create_test_files({'sos_logs/ui.log':
-                              (" Plugin networking timed out\n"
-                               " Plugin system timed out\n")})
+    @utils.create_data_root({'sos_logs/ui.log':
+                             (" Plugin networking timed out\n"
+                              " Plugin system timed out\n")})
     def test_check_plugin_timouts_some(self):
         inst = summary.SOSReportSummary()
         actual = self.part_output_to_actual(inst.output)
@@ -60,9 +60,9 @@ class TestSOSReportScenarioChecks(TestSOSReportBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('plugin_timeouts.yaml'))
-    @utils.create_test_files({'sos_logs/ui.log':
-                              (" Plugin networking timed out\n"
-                               " Plugin system timed out\n")})
+    @utils.create_data_root({'sos_logs/ui.log':
+                             (" Plugin networking timed out\n"
+                              " Plugin system timed out\n")})
     def test_plugin_timeouts(self):
         YScenarioChecker()()
         msg = ('The following sosreport plugins have have timed out and may '

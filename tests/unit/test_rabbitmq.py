@@ -155,8 +155,8 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('rabbitmq_bugs.yaml'))
-    @utils.create_test_files({'var/log/rabbitmq/rabbit@test.log':
-                              LP_1943937})
+    @utils.create_data_root({'var/log/rabbitmq/rabbit@test.log':
+                             LP_1943937})
     def test_1943937(self):
         YScenarioChecker()()
         msg = ('Known RabbitMQ issue where queues get stuck and clients '
@@ -194,8 +194,8 @@ class TestRabbitmqScenarioChecks(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('cluster_logchecks.yaml'))
-    @utils.create_test_files({'var/log/rabbitmq/rabbit@test.log':
-                              RABBITMQ_LOGS})
+    @utils.create_data_root({'var/log/rabbitmq/rabbit@test.log':
+                             RABBITMQ_LOGS})
     def test_scenarios_cluster_logchecks(self):
         YScenarioChecker()()
         msg1 = ('Messages were discarded because transient mirrored '

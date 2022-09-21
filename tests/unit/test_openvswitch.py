@@ -76,9 +76,9 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
         enabled = OpenvSwitchBase().offload_enabled
         self.assertFalse(enabled)
 
-    @utils.create_test_files({('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
-                               'Open_vSwitch_._other_config'):
-                              '{hw-offload="true", max-idle="30000"}'})
+    @utils.create_data_root({('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
+                              'Open_vSwitch_._other_config'):
+                             '{hw-offload="true", max-idle="30000"}'})
     def testBase_offload_enabled(self):
         enabled = OpenvSwitchBase().offload_enabled
         self.assertTrue(enabled)
@@ -165,11 +165,11 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('datapath-checks.yaml'))
-    @utils.create_test_files({('sos_commands/openvswitch/'
-                               'ovs-appctl_dpctl.show_-s_system_ovs-system'):
-                              DPCTL_SHOW,
-                              ('sos_commands/openvswitch/'
-                               'ovs-vsctl_-t_5_list-br'): 'br-int'})
+    @utils.create_data_root({('sos_commands/openvswitch/'
+                              'ovs-appctl_dpctl.show_-s_system_ovs-system'):
+                             DPCTL_SHOW,
+                             ('sos_commands/openvswitch/'
+                              'ovs-vsctl_-t_5_list-br'): 'br-int'})
     def test_ovs_dp_checks(self):
         expected = {'datapath-checks-port-stats': {
                         'qr-aa623763-fd': {
@@ -243,8 +243,8 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd.yaml'))
-    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
-                              BFD_STATE_CHANGES})
+    @utils.create_data_root({'var/log/openvswitch/ovs-vswitchd.log':
+                             BFD_STATE_CHANGES})
     def test_ovs_bfd_state_changes(self):
         expected = {'ovs-vswitchd': {
                     'bfd-state-changes': {
@@ -268,7 +268,7 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovn_bugs.yaml'))
     def test_1865127(self, mock_cli):
         """
-        NOTE: we don't use utils.create_test_files here because we want to use
+        NOTE: we don't use utils.create_data_root here because we want to use
         the logs in current DATA_ROOT.
         """
         mock_cli.return_value = mock.MagicMock()
@@ -295,7 +295,7 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn_bugs.yaml'))
-    @utils.create_test_files({'var/log/ovn/ovn-controller.log': LP1917475_LOG})
+    @utils.create_data_root({'var/log/ovn/ovn-controller.log': LP1917475_LOG})
     def test_1917475(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -307,8 +307,8 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs_bugs.yaml'))
-    @utils.create_test_files({'sos_commands/dpkg/dpkg_-l':
-                              'ii  libc-bin 2.26-3ubuntu1.3 amd64'})
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             'ii  libc-bin 2.26-3ubuntu1.3 amd64'})
     def test_1839592(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -322,10 +322,11 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('dpif_lost_packets.yaml'))
-    @utils.create_test_files({('sos_commands/openvswitch/'
-                               'ovs-appctl_dpctl.show_-s_system_ovs-system'):
-                              ('lookups: hit:39017272903 missed:137481120 '
-                               'lost:54691089')})
+    @utils.create_data_root({('sos_commands/openvswitch/'
+                              'ovs-appctl_dpctl.show_-s_system_ovs-system'):
+                             ('lookups: hit:39017272903 missed:137481120 '
+                              'lost:54691089')},
+                            copy_from_original=['sos_commands/date/date'])
     def test_dpif_lost_packets_no_vswitchd(self):
         YScenarioChecker()()
         msg = ('This host is running Openvswitch and its datapath is '
@@ -342,14 +343,14 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('dpif_lost_packets.yaml'))
-    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
-                              utils.expand_log_template(
-                                                       DPIF_LOST_PACKETS_TMPLT,
+    @utils.create_data_root({'var/log/openvswitch/ovs-vswitchd.log':
+                             utils.expand_log_template(DPIF_LOST_PACKETS_TMPLT,
                                                        hours=10, lstrip=True),
-                              ('sos_commands/openvswitch/'
-                               'ovs-appctl_dpctl.show_-s_system_ovs-system'):
-                              ('lookups: hit:39017272903 missed:137481120 '
-                               'lost:54691089')})
+                             ('sos_commands/openvswitch/'
+                              'ovs-appctl_dpctl.show_-s_system_ovs-system'):
+                             ('lookups: hit:39017272903 missed:137481120 '
+                              'lost:54691089')},
+                            copy_from_original=['sos_commands/date/date'])
     def test_dpif_lost_packets_w_vswitchd(self):
         YScenarioChecker()()
         msg = ('This host is running Openvswitch and its datapath is '
@@ -369,12 +370,11 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('dpif_resubmit_actions.yaml'))
-    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
-                              utils.expand_log_template(
-                                                     DPIF_RESUBMIT_LIMIT_TMPLT,
-                                                     hours=5, lstrip=True),
-                              'sos_commands/date/date':
-                              'Thu Feb 10 16:19:17 UTC 2022'})
+    @utils.create_data_root({'var/log/openvswitch/ovs-vswitchd.log':
+                             utils.expand_log_template(
+                                                    DPIF_RESUBMIT_LIMIT_TMPLT,
+                                                    hours=5, lstrip=True)},
+                            copy_from_original=['sos_commands/date/date'])
     def test_dpif_resubmit_limit_reached(self):
         YScenarioChecker()()
         msg = ('OpenvSwitch (vswitchd) is reporting flows hitting action '
@@ -389,12 +389,11 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd_flapping.yaml'))
-    @utils.create_test_files({'var/log/openvswitch/ovs-vswitchd.log':
-                              utils.expand_log_template(
-                                                       BFD_STATE_CHANGES_TMPLT,
-                                                       secs=10, lstrip=True),
-                              'sos_commands/date/date':
-                              'Thu Feb 10 16:19:17 UTC 2022'})
+    @utils.create_data_root({'var/log/openvswitch/ovs-vswitchd.log':
+                             utils.expand_log_template(
+                                                      BFD_STATE_CHANGES_TMPLT,
+                                                      secs=10, lstrip=True)},
+                            copy_from_original=['sos_commands/date/date'])
     def test_bfd_flapping_vswitchd_only(self):
         YScenarioChecker()()
         msg = ('The ovn-controller on this host has experienced 10 BFD '
@@ -407,11 +406,10 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd_flapping.yaml'))
-    @utils.create_test_files({'var/log/ovn/ovn-controller.log':
-                              utils.expand_log_template(CR_LRP_CHANGES_TMPLT,
-                                                        secs=20, lstrip=True),
-                              'sos_commands/date/date':
-                              'Thu Feb 10 16:19:17 UTC 2022'})
+    @utils.create_data_root({'var/log/ovn/ovn-controller.log':
+                             utils.expand_log_template(CR_LRP_CHANGES_TMPLT,
+                                                       secs=20, lstrip=True)},
+                            copy_from_original=['sos_commands/date/date'])
     def test_bfd_flapping_cr_lrp_changes(self):
         YScenarioChecker()()
         msg = ('The ovn-controller on this host is showing 20 logical '
@@ -425,10 +423,10 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovsdb_reconnect_errors.yaml'))
-    @utils.create_test_files({'var/log/neutron/neutron-server.log':
-                              OVS_DB_RECONNECT_ERROR,
-                              'sos_commands/dpkg/dpkg_-l':
-                              'ii  python3-openvswitch 2.17.0 amd64'})
+    @utils.create_data_root({'var/log/neutron/neutron-server.log':
+                             OVS_DB_RECONNECT_ERROR,
+                             'sos_commands/dpkg/dpkg_-l':
+                             'ii  python3-openvswitch 2.17.0 amd64'})
     def test_ovsdb_reconnect_error(self):
         YScenarioChecker()()
         msg = ("Installed package 'python3-openvswitch' with version "

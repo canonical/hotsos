@@ -157,15 +157,15 @@ class TestSystemScenarioChecks(SystemTestsBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @utils.create_test_files({'var/log/kern.log': 'Jun  4 06:25:10 host-name\
-                                 kernel: [47841183.622537] lxcfs[1925937]:\
-                                 segfault at 0 ip 00007f1ba005d4ea sp \
-                                00007f1b7cfc1b10 error 4 in liblxcfs.so\
-                                [7f1ba0055000+f000]',
-                              'sos_commands/dpkg/dpkg_-l': 'ii  lxcfs \
-                                3.0.3-0ubuntu1~18.04.1 \
-                                amd64        FUSE based filesystem \
-                                for LXC'})
+    @utils.create_data_root({'var/log/kern.log': 'Jun  4 06:25:10 host-name\
+                                kernel: [47841183.622537] lxcfs[1925937]:\
+                                segfault at 0 ip 00007f1ba005d4ea sp \
+                               00007f1b7cfc1b10 error 4 in liblxcfs.so\
+                               [7f1ba0055000+f000]',
+                             'sos_commands/dpkg/dpkg_-l': 'ii  lxcfs \
+                               3.0.3-0ubuntu1~18.04.1 \
+                               amd64        FUSE based filesystem \
+                               for LXC'})
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('lxcfs.yaml'))
     def test_lxcfs_segfault(self):

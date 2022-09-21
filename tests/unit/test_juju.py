@@ -142,10 +142,9 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
-    @utils.create_test_files({'var/log/juju/unit-rabbitmq-server-0.log':
-                              RABBITMQ_CHARM_LOGS,
-                              'sos_commands/date/date':
-                              'Thu Feb 10 16:19:17 UTC 2022'})
+    @utils.create_data_root({'var/log/juju/unit-rabbitmq-server-0.log':
+                             RABBITMQ_CHARM_LOGS},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1910958(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -159,9 +158,8 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
-    @utils.create_test_files({'var/log/juju/machine-2.log': CONTROLLER_LOG1,
-                              'sos_commands/date/date':
-                              'Wed Jun 22 09:00:00 UTC 2022'})
+    @utils.create_data_root({'var/log/juju/machine-2.log': CONTROLLER_LOG1},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1983140(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -173,9 +171,8 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
-    @utils.create_test_files({'var/log/juju/machine-2.log': CONTROLLER_LOG2,
-                              'sos_commands/date/date':
-                              'Mon Aug 01 08:00:00 UTC 2022'})
+    @utils.create_data_root({'var/log/juju/machine-2.log': CONTROLLER_LOG2},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1983506(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -199,8 +196,8 @@ class TestJujuScenarios(JujuTestsBase):
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('charm_checks.yaml'))
-    @utils.create_test_files({'var/log/juju/unit-keystone-2.log':
-                              UNIT_LEADERSHIP_ERROR})
+    @utils.create_data_root({'var/log/juju/unit-keystone-2.log':
+                             UNIT_LEADERSHIP_ERROR})
     def test_unit_checks(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         # first try outside age limit
@@ -218,11 +215,9 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('juju_core_bugs.yaml'))
-    @utils.create_test_files({'var/log/juju/unit-keystone-2.log':
-                              UNKNOWN_RELATION_ERROR,
-                              # make sure we are within the date constraints
-                              'sos_commands/date/date':
-                              'Thu Mar 15 00:00:00 UTC 2022'})
+    @utils.create_data_root({'var/log/juju/unit-keystone-2.log':
+                             UNKNOWN_RELATION_ERROR},
+                            copy_from_original=['sos_commands/date/date'])
     def test_unknown_relation_bug(self):
         YScenarioChecker()()
         msg = ('One or more charms on this host has "unknown relation" '
@@ -233,11 +228,10 @@ class TestJujuScenarios(JujuTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('charms_bugs.yaml'))
-    @utils.create_test_files(
+    @utils.create_data_root(
         {'var/log/juju/unit-glance-simplestreams-sync-0.log':
-         KEYSTONE_SIMPLESTREAMS_ERROR,
-         # make sure we are within the date constraints
-         'sos_commands/date/date': 'Tue Apr 19 00:00:00 UTC 2022'})
+         KEYSTONE_SIMPLESTREAMS_ERROR},
+        copy_from_original=['sos_commands/date/date'])
     def test_keystone_simplestream_bug(self):
         YScenarioChecker()()
         msg = (

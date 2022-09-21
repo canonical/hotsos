@@ -51,11 +51,11 @@ class MySQLTestsBase(utils.BaseTestCase):
 
 class TestMySQLSummary(MySQLTestsBase):
 
-    @utils.create_test_files({'sos_commands/systemd/systemctl_list-units':
-                              SYSTEMD_UNITS,
-                              'sos_commands/systemd/systemctl_list-unit-files':
-                              SYSTEMD_UNIT_FILES,
-                              'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    @utils.create_data_root({'sos_commands/systemd/systemctl_list-units':
+                             SYSTEMD_UNITS,
+                             'sos_commands/systemd/systemctl_list-unit-files':
+                             SYSTEMD_UNIT_FILES,
+                             'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_summary(self):
         expected = {'dpkg': [
                         'mysql-client 5.7.36-0ubuntu0.18.04.1',
@@ -100,8 +100,8 @@ class TestMySQLScenarios(MySQLTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/bugs.yaml'))
-    @utils.create_test_files({'var/log/mysql/error.log':
-                              FREE_BLOCKS_DIFFICULT})
+    @utils.create_data_root({'var/log/mysql/error.log':
+                             FREE_BLOCKS_DIFFICULT})
     def test_372017_invoked(self):
         YScenarioChecker()()
         expected = {
@@ -141,7 +141,7 @@ class TestMySQLScenarios(MySQLTestsBase):
     @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mysql/mysql_connections.yaml'))
-    @utils.create_test_files(
+    @utils.create_data_root(
         {'etc/systemd/system/mysql.service.d/charm-nofile.conf': ''})
     def test_mysql_connections_w_nofile(self, mock_config, mock_cli):
         mock_cli.return_value = mock.MagicMock()

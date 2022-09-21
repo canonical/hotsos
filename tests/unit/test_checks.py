@@ -59,7 +59,7 @@ class TestChecks(utils.BaseTestCase):
         obj = host_helpers.SnapPackageHelper(["core20"])
         self.assertEqual(obj.all_formatted, expected)
 
-    @utils.create_test_files({'test.conf': DUMMY_CONFIG})
+    @utils.create_data_root({'test.conf': DUMMY_CONFIG})
     def test_sectionalconfig_base(self):
         conf = os.path.join(HotSOSConfig.DATA_ROOT, 'test.conf')
         cfg = host_helpers.SectionalConfigBase(conf)

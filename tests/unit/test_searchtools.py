@@ -275,7 +275,7 @@ class TestSearchTools(utils.BaseTestCase):
             act = sorted(FileSearcher().filtered_paths(glob.glob(path)))
             self.assertEqual(act, exp)
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_1})
+    @utils.create_data_root({'atestfile': SEQ_TEST_1})
     def test_sequence_searcher(self):
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(
@@ -296,7 +296,7 @@ class TestSearchTools(utils.BaseTestCase):
                 elif r.tag == sd.end_tag:
                     self.assertEqual(r.get(1), "ending")
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_2})
+    @utils.create_data_root({'atestfile': SEQ_TEST_2})
     def test_sequence_searcher_overlapping(self):
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(
@@ -317,7 +317,7 @@ class TestSearchTools(utils.BaseTestCase):
                 elif r.tag == sd.end_tag:
                     self.assertEqual(r.get(1), "ending")
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_3})
+    @utils.create_data_root({'atestfile': SEQ_TEST_3})
     def test_sequence_searcher_overlapping_incomplete(self):
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(
@@ -338,7 +338,7 @@ class TestSearchTools(utils.BaseTestCase):
                 elif r.tag == sd.end_tag:
                     self.assertEqual(r.get(1), "ending")
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_4})
+    @utils.create_data_root({'atestfile': SEQ_TEST_4})
     def test_sequence_searcher_incomplete_eof_match(self):
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(
@@ -361,7 +361,7 @@ class TestSearchTools(utils.BaseTestCase):
                 elif r.tag == sd.end_tag:
                     self.assertEqual(r.get(0), "")
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_5})
+    @utils.create_data_root({'atestfile': SEQ_TEST_5})
     def test_sequence_searcher_multiple_sections(self):
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(
@@ -384,7 +384,7 @@ class TestSearchTools(utils.BaseTestCase):
                 elif r.tag == sd.end_tag:
                     self.assertEqual(r.get(0), "")
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_6})
+    @utils.create_data_root({'atestfile': SEQ_TEST_6})
     def test_sequence_searcher_eof(self):
         """
         Test scenario:
@@ -414,7 +414,7 @@ class TestSearchTools(utils.BaseTestCase):
                     else:
                         self.assertTrue(r.get(0) in ["2_1"])
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_7})
+    @utils.create_data_root({'atestfile': SEQ_TEST_7})
     def test_sequence_searcher_section_start_end_same(self):
         """
         Test scenario:
@@ -441,7 +441,7 @@ class TestSearchTools(utils.BaseTestCase):
                 elif r.tag == sd.body_tag:
                     self.assertTrue(r.get(0) in ["2_1"])
 
-    @utils.create_test_files({'atestfile': MULTI_SEQ_TEST})
+    @utils.create_data_root({'atestfile': MULTI_SEQ_TEST})
     def test_sequence_searcher_multi_sequence(self):
         """
         Test scenario:

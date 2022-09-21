@@ -187,10 +187,10 @@ class TestKernelCallTraceManager(TestKernelBase):
 
 class TestKernelInfo(TestKernelBase):
 
-    @utils.create_test_files({'etc/systemd/system.conf':
-                              ('[Manager]\n'
-                               '#CPUAffinity=1 2\n'
-                               'CPUAffinity=0-7,32-39\n')})
+    @utils.create_data_root({'etc/systemd/system.conf':
+                             ('[Manager]\n'
+                              '#CPUAffinity=1 2\n'
+                              'CPUAffinity=0-7,32-39\n')})
     def test_systemd_config_ranges(self):
         self.assertEqual(SystemdConfig().get('CPUAffinity'), '0-7,32-39')
         self.assertEqual(SystemdConfig().get('CPUAffinity',
@@ -199,10 +199,10 @@ class TestKernelInfo(TestKernelBase):
                           38, 39])
         self.assertTrue(SystemdConfig().cpuaffinity_enabled)
 
-    @utils.create_test_files({'etc/systemd/system.conf':
-                              ('[Manager]\n'
-                               '#CPUAffinity=1 2\n'
-                               'CPUAffinity=0 1 2 3 8 9 10 11\n')})
+    @utils.create_data_root({'etc/systemd/system.conf':
+                             ('[Manager]\n'
+                              '#CPUAffinity=1 2\n'
+                              'CPUAffinity=0 1 2 3 8 9 10 11\n')})
     def test_systemd_config_expanded(self):
         self.assertEqual(SystemdConfig().get('CPUAffinity'),
                          '0 1 2 3 8 9 10 11')
@@ -264,7 +264,7 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_calltrace.yaml'))
-    @utils.create_test_files({'var/log/kern.log': KERNLOG_STACKTRACE})
+    @utils.create_data_root({'var/log/kern.log': KERNLOG_STACKTRACE})
     def test_stacktraces(self):
         YScenarioChecker()()
         msg = ('1 reports of stacktraces in kern.log - please check.')
@@ -274,7 +274,7 @@ class TestKernelScenarioChecks(TestKernelBase):
     @mock.patch('hotsos.core.plugins.kernel.KernelBase')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('kernlog_calltrace.yaml'))
-    @utils.create_test_files({'var/log/kern.log': KERNLOG_BCACHE_DEADLOCK})
+    @utils.create_data_root({'var/log/kern.log': KERNLOG_BCACHE_DEADLOCK})
     def test_bcache_deadlock(self, mock_kernelbase):
         mock_kernelbase.return_value = mock.MagicMock()
         mock_kernelbase.return_value.version = '5.3'
@@ -298,7 +298,7 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
-    @utils.create_test_files({'var/log/kern.log': KERNLOG_NF_CONNTRACK_FULL})
+    @utils.create_data_root({'var/log/kern.log': KERNLOG_NF_CONNTRACK_FULL})
     def test_nf_conntrack_full(self):
         YScenarioChecker()()
         msg = ("1 reports of 'nf_conntrack: table full' detected in "
@@ -346,7 +346,7 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
-    @utils.create_test_files({'var/log/kern.log': EVENTS_KERN_LOG})
+    @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG})
     def test_over_mtu_dropped_packets(self):
         with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
                         'host_interfaces_all',
@@ -362,7 +362,7 @@ class TestKernelScenarioChecks(TestKernelBase):
     @mock.patch('hotsos.core.plugins.kernel.kernlog.common.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('network.yaml'))
-    @utils.create_test_files({'var/log/kern.log': EVENTS_KERN_LOG_W_OVS_PORTS})
+    @utils.create_data_root({'var/log/kern.log': EVENTS_KERN_LOG_W_OVS_PORTS})
     def test_over_mtu_dropped_packets_w_ovs_ports(self, mock_cli, mock_log):
         mock_cli.return_value = mock.MagicMock()
         # include trailing newline since cli would give that
@@ -423,7 +423,7 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('disk_failure.yaml'))
-    @utils.create_test_files({'var/log/kern.log': DISK_FAILING_KERN_LOG})
+    @utils.create_data_root({'var/log/kern.log': DISK_FAILING_KERN_LOG})
     def test_failing_disk(self):
         YScenarioChecker()()
         msg = ('critical medium error detected in '
@@ -434,8 +434,8 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('qla2xxx.yaml'))
-    @utils.create_test_files({'var/log/kern.log':
-                              KERN_LOG_QLA2XXX_SKIPPING_SCSI_SCAN_HOST})
+    @utils.create_data_root({'var/log/kern.log':
+                             KERN_LOG_QLA2XXX_SKIPPING_SCSI_SCAN_HOST})
     def test_qla2xxx_skipped_scsi_scan_host(self):
         YScenarioChecker()()
         msg = ("The qla2xxx driver did not perform SCSI scan on host/port "

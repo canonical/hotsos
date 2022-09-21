@@ -652,9 +652,9 @@ class TestYamlChecks(utils.BaseTestCase):
                                  [os.path.join(HotSOSConfig.DATA_ROOT,
                                                'foo/bar3*')])
 
-    @utils.create_test_files({'data.txt': 'hello\nbrave\nworld\n',
-                              'events/myplugin/mygroup.yaml':
-                              YAML_DEF_EXPR_TYPES.format(path='data.txt')})
+    @utils.create_data_root({'data.txt': 'hello\nbrave\nworld\n',
+                             'events/myplugin/mygroup.yaml':
+                             YAML_DEF_EXPR_TYPES.format(path='data.txt')})
     def test_yaml_def_entry_seq(self):
         _yaml = YAML_DEF_EXPR_TYPES.format(path=os.path.basename('data.txt'))
         plugin_checks = yaml.safe_load(_yaml).get('myplugin')
@@ -721,7 +721,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @init_test_scenario(SCENARIO_W_EXPR_LIST.
                         format(path=os.path.basename('data.txt')))
-    @utils.create_test_files({'data.txt': 'hello x\n'})
+    @utils.create_data_root({'data.txt': 'hello x\n'})
     def test_yaml_def_expr_list(self):
         scenarios.YScenarioChecker()()
         issues = list(IssuesStore().load().values())
@@ -743,7 +743,7 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(IssuesManager().load_issues(), {})
 
     @init_test_scenario(SCENARIO_CHECKS)
-    @utils.create_test_files({'foo.log': '2021-04-01 00:31:00.000 an event\n'})
+    @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n'})
     def test_yaml_def_scenario_checks_false(self):
         checker = scenarios.YScenarioChecker()
         checker.load()
@@ -787,12 +787,12 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @init_test_scenario(SCENARIO_CHECKS)
-    @utils.create_test_files({'foo.log':
-                              ('2021-04-01 00:31:00.000 an event\n'
-                               '2021-04-01 00:32:00.000 an event\n'
-                               '2021-04-01 00:33:00.000 an event\n'
-                               '2021-04-02 00:00:00.000 an event\n'
-                               '2021-04-02 00:36:00.000 an event\n')})
+    @utils.create_data_root({'foo.log':
+                             ('2021-04-01 00:31:00.000 an event\n'
+                              '2021-04-01 00:32:00.000 an event\n'
+                              '2021-04-01 00:33:00.000 an event\n'
+                              '2021-04-02 00:00:00.000 an event\n'
+                              '2021-04-02 00:36:00.000 an event\n')})
     def test_yaml_def_scenario_checks_expr(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2021-04-03 00:00:00"
@@ -858,7 +858,7 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(ts, None)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
-    @utils.create_test_files({'foo.log': '2022-01-06 00:00:00.000 an event\n'})
+    @utils.create_data_root({'foo.log': '2022-01-06 00:00:00.000 an event\n'})
     def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2022-01-07 00:00:00"
@@ -928,10 +928,10 @@ class TestYamlChecks(utils.BaseTestCase):
             result = YPropertySearch.filter_by_period(results, 24)
             self.assertEqual(len(result), 4)
 
-    @utils.create_test_files({'mytype/myplugin/defs.yaml':
-                              'foo: bar\n',
-                              'mytype/myplugin/mytype.yaml':
-                              'requires:\n  property: foo\n'})
+    @utils.create_data_root({'mytype/myplugin/defs.yaml':
+                             'foo: bar\n',
+                             'mytype/myplugin/mytype.yaml':
+                             'requires:\n  property: foo\n'})
     def test_fs_override_inheritance(self):
         """
         When a directory is used to group definitions and overrides are
@@ -948,10 +948,10 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(YDefsLoader('mytype').plugin_defs,
                          expected)
 
-    @utils.create_test_files({'mytype/myplugin/defs.yaml':
-                              'requires:\n  apt: apackage\n',
-                              'mytype/myplugin/mytype.yaml':
-                              'requires:\n  property: foo\n'})
+    @utils.create_data_root({'mytype/myplugin/defs.yaml':
+                             'requires:\n  apt: apackage\n',
+                             'mytype/myplugin/mytype.yaml':
+                             'requires:\n  property: foo\n'})
     def test_fs_override_inheritance2(self):
         """
         When a directory is used to group definitions and overrides are

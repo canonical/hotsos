@@ -596,9 +596,9 @@ class TestOpenstackSummary(TestOpenstackBase):
 
     @mock.patch('hotsos.core.plugins.openstack.common.OpenstackChecksBase.'
                 'days_to_eol', 3000)
-    @utils.create_test_files({os.path.join(APT_SOURCE_PATH.format(r)):
-                              APT_UCA.format(r) for r in
-                              ["stein", "ussuri", "train"]})
+    @utils.create_data_root({os.path.join(APT_SOURCE_PATH.format(r)):
+                             APT_UCA.format(r) for r in
+                             ["stein", "ussuri", "train"]})
     def test_get_release_info(self):
         release_info = {'name': 'ussuri', 'days-to-eol': 3000}
         inst = summary.OpenstackSummary()
@@ -828,10 +828,10 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["features"], expected)
 
-    @utils.create_test_files({'etc/neutron/neutron.conf': '',
-                              'etc/neutron/ovn.ini':
-                              ('[DEFAULT]\n'
-                               'enable_distributed_floating_ip = true')})
+    @utils.create_data_root({'etc/neutron/neutron.conf': '',
+                             'etc/neutron/ovn.ini':
+                             ('[DEFAULT]\n'
+                              'enable_distributed_floating_ip = true')})
     def test_get_service_features_ovn(self):
         inst = service_features.ServiceFeatureChecks()
         actual = self.part_output_to_actual(inst.output)
@@ -979,8 +979,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual.get(section_key), expected)
 
-    @utils.create_test_files({'var/log/octavia/octavia-health-manager.log':
-                              EVENT_OCTAVIA_CHECKS})
+    @utils.create_data_root({'var/log/octavia/octavia-health-manager.log':
+                             EVENT_OCTAVIA_CHECKS})
     def test_run_octavia_checks(self):
         expected = {'amp-missed-heartbeats': {
                      '2021-06-01': {
@@ -1006,8 +1006,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
             self.assertEqual(actual["octavia"].get(section_key),
                              expected.get(section_key))
 
-    @utils.create_test_files({'var/log/apache2/error.log':
-                              EVENT_APACHE_CONN_REFUSED_LOG})
+    @utils.create_data_root({'var/log/apache2/error.log':
+                             EVENT_APACHE_CONN_REFUSED_LOG})
     def test_run_apache_checks(self):
         expected = {'connection-refused': {
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
@@ -1019,7 +1019,7 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
             self.assertEqual(actual['apache'].get(section_key),
                              expected.get(section_key))
 
-    @utils.create_test_files({'var/log/kern.log': AA_MSGS})
+    @utils.create_data_root({'var/log/kern.log': AA_MSGS})
     def test_run_apparmor_checks(self):
         expected = {'denials': {
                         'neutron': {
@@ -1057,8 +1057,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['apparmor'], expected)
 
-    @utils.create_test_files({'var/log/nova/nova-compute.log':
-                              EVENT_PCIDEVNOTFOUND_LOG})
+    @utils.create_data_root({'var/log/nova/nova-compute.log':
+                             EVENT_PCIDEVNOTFOUND_LOG})
     def test_run_nova_checks(self):
         expected = {'PciDeviceNotFoundById': {
                         '2021-09-17': {'0000:3b:0f.7': 1,
@@ -1097,8 +1097,8 @@ class TestOpenstackAgentEventChecks(TestOpenstackBase):
                'the last 24 hours.')
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @utils.create_test_files({'var/log/neutron/neutron-server.log':
-                              NEUTRON_HTTP})
+    @utils.create_data_root({'var/log/neutron/neutron-server.log':
+                             NEUTRON_HTTP})
     def test_api_events(self):
         sobj = FileSearcher()
         inst = agent_event_checks.APIEvents(searchobj=sobj)
@@ -1164,8 +1164,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova/bugs.yaml'))
-    @utils.create_test_files({'var/log/nova/nova-compute.log':
-                              LP_1904580})
+    @utils.create_data_root({'var/log/nova/nova-compute.log':
+                             LP_1904580})
     def test_1904580(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -1182,8 +1182,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
-    @utils.create_test_files({'var/log/neutron/neutron-l3-agent.log':
-                              LP_1929832})
+    @utils.create_data_root({'var/log/neutron/neutron-l3-agent.log':
+                             LP_1929832},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1929832(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -1196,7 +1197,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
-    @utils.create_test_files({'var/log/syslog': LP_1896506})
+    @utils.create_data_root({'var/log/syslog': LP_1896506},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1896506(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -1208,8 +1210,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
-    @utils.create_test_files({'var/log/neutron/neutron-l3-agent.log':
-                              LP_1979089})
+    @utils.create_data_root({'var/log/neutron/neutron-l3-agent.log':
+                             LP_1979089},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1979089(self):
         YScenarioChecker()()
         msg = ("The neutron-l3-agent service on this node appears to be "
@@ -1227,8 +1230,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
-    @utils.create_test_files({'var/log/neutron/neutron-ovn-metadata-agent.log':
-                              LP_1928031})
+    @utils.create_data_root({'var/log/neutron/neutron-ovn-metadata-agent.log':
+                             LP_1928031},
+                            copy_from_original=['sos_commands/date/date'])
     def test_1928031(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -1260,8 +1264,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('octavia/bugs.yaml'))
-    @utils.create_test_files({'var/log/octavia/octavia-worker.log':
-                              LP_2008099})
+    @utils.create_data_root({'var/log/octavia/octavia-worker.log':
+                             LP_2008099})
     def test_2008099(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.dpkg_l.return_value = \
@@ -1438,7 +1442,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('openstack_apache2_certificates.yaml'))
     @mock.patch('hotsos.core.host_helpers.ssl.datetime')
-    @utils.create_test_files(
+    @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF,
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
@@ -1510,11 +1514,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('masakari/pacemaker_remote.yaml'))
-    @utils.create_test_files({'sos_commands/dpkg/dpkg_-l':
-                              ('rc pacemaker-remote 2.0.3-3ubuntu4.3 all\n'
-                               'ii masakari-host-monitor '
-                               '9.0.0-0ubuntu0.20.04.1 all\n'
-                               'ii nova-compute 2:21.2.1-0ubuntu1 all')})
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             ('rc pacemaker-remote 2.0.3-3ubuntu4.3 all\n'
+                              'ii masakari-host-monitor '
+                              '9.0.0-0ubuntu0.20.04.1 all\n'
+                              'ii nova-compute 2:21.2.1-0ubuntu1 all')})
     def test_masakari_pr_not_installed(self):
         YScenarioChecker()()
         msg = ('This node is running Openstack nova-compute and Masakari but '
@@ -1530,11 +1534,11 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('masakari/pacemaker_remote.yaml'))
-    @utils.create_test_files({'sos_commands/dpkg/dpkg_-l':
-                              ('ii pacemaker-remote 2.0.3-3ubuntu4.3 all\n'
-                               'ii masakari-host-monitor '
-                               '9.0.0-0ubuntu0.20.04.1 all\n'
-                               'ii nova-compute 2:21.2.1-0ubuntu1 all')})
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             ('ii pacemaker-remote 2.0.3-3ubuntu4.3 all\n'
+                              'ii masakari-host-monitor '
+                              '9.0.0-0ubuntu0.20.04.1 all\n'
+                              'ii nova-compute 2:21.2.1-0ubuntu1 all')})
     def test_masakari_pr_not_enabled(self):
         YScenarioChecker()()
         msg = ('This node is running Openstack nova-compute and Masakari but '
@@ -1549,7 +1553,7 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
 
 class TestOpenstackApache2SSL(TestOpenstackBase):
 
-    @utils.create_test_files(
+    @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF})
     def test_ssl_enabled(self):
@@ -1560,7 +1564,7 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
         base = openstack_core.OpenstackBase()
         self.assertFalse(base.ssl_enabled)
 
-    @utils.create_test_files(
+    @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF,
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
@@ -1569,7 +1573,7 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
         self.assertTrue(len(base.apache2_certificates_list), 1)
 
     @mock.patch('hotsos.core.host_helpers.ssl.datetime')
-    @utils.create_test_files(
+    @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF,
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
@@ -1581,7 +1585,7 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
         self.assertEqual(len(base.apache2_certificates_expiring), 0)
 
     @mock.patch('hotsos.core.host_helpers.ssl.datetime')
-    @utils.create_test_files(
+    @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF,
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})

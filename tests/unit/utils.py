@@ -6,7 +6,7 @@ import unittest
 
 # disable for stestr otherwise output is much too verbose
 from hotsos.core.log import log, logging, setup_logging
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig, setup_config
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
@@ -74,17 +74,27 @@ def is_def_filter(def_filename):
     return inner
 
 
-def create_test_files(files_to_create):
+def create_data_root(files_to_create, copy_from_original=None):
     """
     Decorator helper to create any number of files with provided content within
     a temporary DATA_ROOT.
 
     @param files_to_create: a dictionary of <filename>: <contents> pairs.
+    @param copy_from_original: a list of files to copy from the original
+                                     data root into this test one.
     """
+
     def create_files_inner1(f):
         def create_files_inner2(*args, **kwargs):
             with tempfile.TemporaryDirectory() as dtmp:
-                setup_config(DATA_ROOT=dtmp)
+                for _file in copy_from_original or []:
+                    src = os.path.join(HotSOSConfig.DATA_ROOT, _file)
+                    dst = os.path.join(dtmp, _file)
+                    if not os.path.exists(os.path.dirname(dst)):
+                        os.makedirs(os.path.dirname(dst))
+
+                    shutil.copy(src, dst)
+
                 for path, content in files_to_create.items():
                     path = os.path.join(dtmp, path)
                     if not os.path.exists(os.path.dirname(path)):
@@ -94,6 +104,7 @@ def create_test_files(files_to_create):
                     with open(path, 'w') as fd:
                         fd.write(content)
 
+                setup_config(DATA_ROOT=dtmp)
                 return f(*args, **kwargs)
 
         return create_files_inner2

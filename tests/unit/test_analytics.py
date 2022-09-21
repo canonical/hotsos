@@ -56,7 +56,7 @@ SEQ_TEST_6 = """2021-07-19 09:01:58.498 iteration:0 start
 
 class TestAnalytics(utils.BaseTestCase):
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_1})
+    @utils.create_data_root({'atestfile': SEQ_TEST_1})
     def test_ordered_complete(self):
         fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:01:58.498000'
@@ -82,7 +82,7 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_2})
+    @utils.create_data_root({'atestfile': SEQ_TEST_2})
     def test_unordered_complete(self):
         fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:03:58.498000'
@@ -108,7 +108,7 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_3})
+    @utils.create_data_root({'atestfile': SEQ_TEST_3})
     def test_ordered_complete_clobbered(self):
         fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:05:58.498000'
@@ -137,7 +137,7 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_4})
+    @utils.create_data_root({'atestfile': SEQ_TEST_4})
     def test_ordered_incomplete_clobbered(self):
         fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:06:58.498000'
@@ -167,7 +167,7 @@ class TestAnalytics(utils.BaseTestCase):
                     'stdev': 0.0}
         self.assertEqual(stats, expected)
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_5})
+    @utils.create_data_root({'atestfile': SEQ_TEST_5})
     def test_ordered_incomplete_clobbered2(self):
         fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:05:58.498000'
@@ -193,7 +193,7 @@ class TestAnalytics(utils.BaseTestCase):
                     'samples': 2, 'stdev': 30.0}
         self.assertEqual(stats, expected)
 
-    @utils.create_test_files({'atestfile': SEQ_TEST_6})
+    @utils.create_data_root({'atestfile': SEQ_TEST_6})
     def test_ordered_multiple(self):
         fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
         start0 = '2021-07-19 09:08:58.498000'
