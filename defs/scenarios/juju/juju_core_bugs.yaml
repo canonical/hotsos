@@ -1,5 +1,5 @@
 input:
-  path: 'var/log/juju/*.log'
+  path: 'var/log/juju/unit-*.log'
 checks:
   has_lp1910958:
     expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
@@ -8,8 +8,12 @@ checks:
     expr: '.* manifold worker .+ error: executing operation \"run post-series-upgrade hook\" for (\S+): upgrade series status \"complete running\"'
     hint: 'manifold worker returned unexpected error'
   has_lp1983140:
+    input:
+      path: 'var/log/juju/machine-*.log'
     expr: '.* quiescing, timed out waiting for agents to report'
   has_lp1983506:
+    input:
+      path: 'var/log/juju/machine-*.log'
     expr: '.* failed to migrate binaries: charm local:.+(\S) unexpectedly assigned local:.+'
   has_lp1852502:
     input:

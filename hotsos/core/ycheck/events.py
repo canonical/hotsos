@@ -110,14 +110,24 @@ class EventProcessingUtils(object):
         if results is None:
             # use raw
             results = []
+            _fail_count = 0
             for r in event.results:
                 # the search expression used much ensure that tese are#
                 # available in order for this to work.
                 if len(r) > 2:
-                    results.append({'date': r.get(1), 'time': r.get(2),
-                                    'key': r.get(3)})
+                    if not set([None, None, None]).intersection([r.get(1),
+                                                                 r.get(2),
+                                                                 r.get(3)]):
+                        results.append({'date': r.get(1), 'time': r.get(2),
+                                        'key': r.get(3)})
+                    else:
+                        _fail_count += 1
                 else:
                     results.append({'date': r.get(1), 'key': r.get(2)})
+
+            if _fail_count:
+                log.info("event '%s' has %s results with insufficient fields",
+                         event.name, _fail_count)
 
         for r in results:
             if r['key'] is None and squash_if_none_keys:

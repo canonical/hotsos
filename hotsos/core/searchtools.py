@@ -266,6 +266,10 @@ class SearchResult(object):
         for idx in sorted(self._parts.keys()):
             yield self._parts[idx].value
 
+    def __repr__(self):
+        r_list = ["{}={}".format(k, v.value) for k, v in self._parts.items()]
+        return ", ".join(r_list)
+
 
 class SearchResultsCollection(object):
 
