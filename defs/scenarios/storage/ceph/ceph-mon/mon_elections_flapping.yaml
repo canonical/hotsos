@@ -22,7 +22,7 @@ conclusions:
         The Ceph monitor on this host has experienced {count} re-elections within a 24hr
         period but the cause is not known - please investigate.
       format-dict:
-        count: '@checks.ceph_log_has_election_calls.search.results:len'
+        count: '@checks.ceph_log_has_election_calls.search.num_results'
   network:
     priority: 2
     decision:
@@ -37,5 +37,5 @@ conclusions:
         errors - please investigate.
       format-dict:
         interfaces: hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names
-        count: '@checks.ceph_log_has_election_calls.search.results:len'
+        count: '@checks.ceph_log_has_election_calls.search.num_results'
 

@@ -462,7 +462,7 @@ conclusions:
       type: SystemWarning
       message: log matched {num} times
       format-dict:
-        num: '@checks.logmatch.search.results:len'
+        num: '@checks.logmatch.search.num_results'
   logandsnap:
     priority: 2
     decision:
@@ -473,7 +473,7 @@ conclusions:
       type: SystemWarning
       message: log matched {num} times and snap exists
       format-dict:
-        num: '@checks.logmatch.search.results:len'
+        num: '@checks.logmatch.search.num_results'
   logandsnapandservice:
     priority: 3
     decision:
@@ -488,7 +488,7 @@ conclusions:
       type: SystemWarning
       message: log matched {num} times, snap and service exists
       format-dict:
-        num: '@checks.logmatch.search.results:len'
+        num: '@checks.logmatch.search.num_results'
 """  # noqa
 
 

@@ -686,6 +686,13 @@ format:
 OPS_LIST where first element is a variable name (and all vars used are prefixed with $).
 ```
 
+```
+CACHE_KEYS
+  name: name of the variable used as input
+  value: value of the variable used as input
+  ops: str representation of ops list
+```
+
 example:
 
 ```
@@ -698,11 +705,6 @@ checks:
 conclusions:
   ...
 ```
-
-CACHE_KEYS
-  name: name of the variable used as input
-  value: value of the variable used as input
-  ops: str representation of ops list
 
 ### PropertyCollection
 

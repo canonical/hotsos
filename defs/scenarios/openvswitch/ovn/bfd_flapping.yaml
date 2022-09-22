@@ -42,7 +42,7 @@ conclusions:
         resulted from BFD state changes. This could indicate that some operator
         activity is causing significant load in ovn which may or may not be expected.
       format-dict:
-        count: '@checks.chassis_gw_port_reassignments.search.results:len'
+        count: '@checks.chassis_gw_port_reassignments.search.num_results'
   bfd_is_flapping:
     priority: 2
     decision: bfd_state_changes
@@ -54,7 +54,7 @@ conclusions:
         something is wrong with the network between this node and one or more peer chassis
         nodes.
       format-dict:
-        count: '@checks.bfd_state_changes.search.results:len'
+        count: '@checks.bfd_state_changes.search.num_results'
   vswitchd_to_ovn_controller_inactivity_timeouts:
     priority: 3
     decision:
@@ -68,6 +68,6 @@ conclusions:
         timeouts between ovn-controller and ovs-vswitchd which suggests that the BFD issues are
         caused by the former failing to retrive BFD state from ovs-vswitchd.
       format-dict:
-        bfd_count: '@checks.bfd_state_changes.search.results:len'
-        timeout_count: '@checks.vswitchd_to_ovn_controller_inactivity_timeouts.search.results:len'
+        bfd_count: '@checks.bfd_state_changes.search.num_results'
+        timeout_count: '@checks.vswitchd_to_ovn_controller_inactivity_timeouts.search.num_results'
 

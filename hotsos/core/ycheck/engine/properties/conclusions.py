@@ -225,8 +225,8 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
 
         search_results = None
         for check in checks.values():
-            if check.search and check.search.cache.results:
-                search_results = check.search.cache.results
+            if check.search and check.search_results:
+                search_results = check.search_results
                 if search_results:
                     # Save some context for the issue
                     self.issue_context.set(**{r.source: r.linenumber

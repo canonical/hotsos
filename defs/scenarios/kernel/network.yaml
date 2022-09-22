@@ -14,7 +14,7 @@ conclusions:
         {numreports} reports of 'nf_conntrack: table full' detected in
         kern.log - please check.
       format-dict:
-        numreports: '@checks.has_nf_conntrack_full.search.results:len'
+        numreports: '@checks.has_nf_conntrack_full.search.num_results'
   over-mtu-dropped-packets:
     decision: has_over_mtu_dropped_packets
     raises:

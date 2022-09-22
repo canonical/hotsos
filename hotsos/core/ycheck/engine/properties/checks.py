@@ -18,20 +18,20 @@ from hotsos.core.ycheck.engine.properties.input import YPropertyInput
 @add_to_property_catalog
 class YPropertyCheck(YPropertyMappedOverrideBase):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._search_results = None
-
-    @property
+    @cached_yproperty_attr
     def search_results(self):
-        if self.search and self._search_results is not None:
-            return self._search_results
+        """
+        Retrieve the search results for the search property within this check.
+        """
+        global_results = self.context.search_results
+        if global_results is not None:
+            log.debug("extracting check search results")
+            tag = self.search.unique_search_tag
+            _results = global_results.find_by_tag(tag)
+            return self.search.apply_constraints(_results)
 
-        raise Exception("search results not set")
-
-    @search_results.setter
-    def search_results(self, value):
-        self._search_results = value
+        raise Exception("no search results provided to check '{}'".
+                        format(self.check_name))
 
     @classmethod
     def _override_keys(cls):
@@ -46,44 +46,40 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
         if hasattr(self, 'check_name'):
             return getattr(self, 'check_name')
 
+    def _set_search_cache_info(self, results):
+        """
+        @param results: search results for query in search property found in
+                        this check.
+        """
+        self.search.cache.set('num_results', len(self.search_results))
+        if results:
+            # The following aggregates results by group/index and stores in
+            # the property cache to make them accessible via
+            # PropertyCacheRefResolver.
+            results_by_idx = {}
+            for result in results:
+                for idx, value in enumerate(result):
+                    if idx not in results_by_idx:
+                        results_by_idx[idx] = set()
+
+                    results_by_idx[idx].add(value)
+
+            for idx in results_by_idx:
+                self.search.cache.set('results_group_{}'.format(idx),
+                                      list(results_by_idx[idx]))
+
+        # make it available from this property
+        self.cache.set('search', self.search.cache)
+
     def _result(self):
         if self.search:
-            if self.cache.search:
-                results = self.cache.search.results
-                log.debug("check %s - using cached result=%s", self.name,
-                          results)
-            else:
-                results = self.search_results
-                # save raw first
-                self.search.cache.set('results_raw', results)
-                # now save actual i.e. with constraints applied
-                results = self.search.apply_constraints(results)
-                self.search.cache.set('results', results)
-
-                # The following aggregates results by group/index and stores in
-                # the property cache to make them accessible via
-                # PropertyCacheRefResolver.
-                results_by_idx = {}
-                for result in results:
-                    for idx, value in enumerate(result):
-                        if idx not in results_by_idx:
-                            results_by_idx[idx] = set()
-
-                        results_by_idx[idx].add(value)
-
-                for idx in results_by_idx:
-                    self.search.cache.set('results_group_{}'.format(idx),
-                                          list(results_by_idx[idx]))
-
-                self.cache.set('search', self.search.cache)
-
-            if not results:
+            self._set_search_cache_info(self.search_results)
+            if not self.search_results:
                 log.debug("check %s search has no matches so result=False",
                           self.name)
                 return False
 
             return True
-
         elif self.requires:
             if self.cache.requires:
                 result = self.cache.requires.passes
@@ -126,23 +122,16 @@ class YPropertyChecks(YPropertyOverrideBase):
         log.debug("loading checks searchdefs into filesearcher")
         s = FileSearcher()
         # first load all the search definitions into the searcher
-        with_searches = []
         for c in self._checks:
             if c.search:
-                with_searches.append(c)
                 # local takes precedence over global
                 _input = c.input or input
                 for path in _input.paths:
                     c.search.load_searcher(s, path)
 
+        # provide results to each check object using global context
         log.debug("executing check searches")
-        results = s.search()
-
-        # now extract each checks's set of results
-        log.debug("extracting check search results")
-        for c in with_searches:
-            tag = c.search.unique_search_tag
-            c.search_results = results.find_by_tag(tag)
+        YDefsContext.search_results = s.search()
 
     @cached_yproperty_attr
     def _checks(self):
