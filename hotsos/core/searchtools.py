@@ -377,6 +377,7 @@ class FileSearcher(object):
         @param searchdef: SearchDef object
         @param path: path that we will be searching for this key
         """
+        log.debug("filesearcher: registered search with tag %s", searchdef.id)
         if path in self.paths:
             self.paths[path].append(searchdef)
         else:
@@ -615,18 +616,18 @@ class FileSearcher(object):
         self.results.reset()
         if not self.paths:
             # If no searches have been registered we don't have anything to do.
-            log.debug("no search terms registered so nothing to do")
+            log.debug("filesearcher: no search terms registered so nothing to "
+                      "do")
             return self.results
 
         num_files = self.num_files_to_search
         if not num_files:
-            log.debug("no files to search")
+            log.debug("filesearcher: no files to search")
             return self.results
 
         with multiprocessing.Pool(processes=self.num_cpus) as pool:
             jobs = {}
             for user_path in self.paths:
-                log.debug("path=%s", user_path)
                 jobs[user_path] = []
                 if os.path.isfile(user_path):
                     job = self._job_wrapper(pool, user_path, user_path)
@@ -642,7 +643,7 @@ class FileSearcher(object):
 
             num_searches = sum([len(jobs[p]) * len(self.paths[p])
                                 for p in jobs])
-            log.debug("running filesearcher processes=%d files=%d "
+            log.debug("filesearcher: running processes=%d files=%d "
                       "searches=%d", self.num_cpus, num_files, num_searches)
 
             for user_path in jobs:
@@ -654,5 +655,5 @@ class FileSearcher(object):
                     except FileSearchException as e:
                         sys.stderr.write("{}\n".format(e.msg))
 
-        log.debug("filesearcher completed (results=%s)", len(self.results))
+        log.debug("filesearcher: completed (results=%s)", len(self.results))
         return self.results

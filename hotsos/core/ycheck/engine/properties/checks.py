@@ -25,9 +25,10 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
         """
         global_results = self.context.search_results
         if global_results is not None:
-            log.debug("extracting check search results")
             tag = self.search.unique_search_tag
             _results = global_results.find_by_tag(tag)
+            log.debug("check %s has %s search results with tag %s",
+                      self.check_name, len(_results), tag)
             return self.search.apply_constraints(_results)
 
         raise Exception("no search results provided to check '{}'".
@@ -127,11 +128,12 @@ class YPropertyChecks(YPropertyOverrideBase):
                 # local takes precedence over global
                 _input = c.input or input
                 for path in _input.paths:
+                    log.debug("loading searches for check %s", c.check_name)
                     c.search.load_searcher(s, path)
 
         # provide results to each check object using global context
         log.debug("executing check searches")
-        YDefsContext.search_results = s.search()
+        self.check_context.search_results = s.search()
 
     @cached_yproperty_attr
     def _checks(self):
