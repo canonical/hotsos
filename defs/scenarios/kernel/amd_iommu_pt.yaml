@@ -1,21 +1,24 @@
+vars:
+  virt_type: '@hotsos.core.plugins.system.SystemBase.virtualisation_type'
+  cpu_vendor: '@hotsos.core.plugins.kernel.sysfs.CPU.vendor'
+  kernel_cmd_line: '@hotsos.core.plugins.kernel.KernelBase.boot_parameters'
 checks:
+  is_phy_host:
+    varops: [[$virt_type], [not_]]
   cpu_vendor_is_amd:
-    property:
-      path: hotsos.core.plugins.kernel.sysfs.CPU.vendor
-      ops: [[eq, 'authenticamd']]
+    varops: [[$cpu_vendor], [eq, 'authenticamd']]
   iommu_not_pt:
-    property:
-      path: hotsos.core.plugins.kernel.KernelBase.boot_parameters
-      ops: [[contains, 'iommu=pt'], [not_]]
+    varops: [[$kernel_cmd_line], [contains, 'iommu=pt'], [not_]]
 conclusions:
   mixed-pkg-releases:
     decision:
+      - is_phy_host
       - cpu_vendor_is_amd
       - iommu_not_pt
     raises:
       type: SystemWarning
       message: >-
-        This host is using an AMD {cpu_model} cpu but is not using iommu
+        This host is using an {cpu_model} cpu but is not using iommu
         passthrough mode (e.g. set iommu=pt in boot parameters) which is
         recommended in order to get the best performance e.g. for networking.
       format-dict:

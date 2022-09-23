@@ -155,6 +155,8 @@ Model:                           49
 Model name:                      AMD EPYC 7502 32-Core Processor
 """  # noqa
 
+KERNEL_CMD_LINE_BASE = """BOOT_IMAGE=/boot/vmlinuz-5.4.0-97-generic root=UUID=51babbe8-f78f-46a4-8830-d351c3830325 ro"""  # noqa, pylint: disable=C0301
+
 
 class TestKernelBase(utils.BaseTestCase):
     def setUp(self):
@@ -307,40 +309,41 @@ class TestKernelScenarioChecks(TestKernelBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.kernel.KernelBase')
-    @mock.patch('hotsos.core.host_helpers.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('amd_iommu_pt.yaml'))
-    def test_amd_iommu_pt_fail(self, mock_cli, mock_kernel):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.lscpu.return_value = \
-            FAKE_AMD_LSCPU.splitlines(keepends=True)
-
-        mock_kernel.return_value = mock.MagicMock()
-        mock_kernel.return_value.boot_parameters = \
-            ['intel_iommu=on']
-
+    @utils.create_data_root({'sos_commands/processor/lscpu': FAKE_AMD_LSCPU,
+                             'proc/cmdline':
+                             KERNEL_CMD_LINE_BASE + 'intel_iommu=on'})
+    def test_amd_iommu_pt_fail(self):
+        """ config is bad. """
         YScenarioChecker()()
-        msg = ('This host is using an AMD AMD EPYC 7502 32-Core Processor cpu '
+        msg = ('This host is using an AMD EPYC 7502 32-Core Processor cpu '
                'but is not using iommu passthrough mode (e.g. set iommu=pt in '
                'boot parameters) which is recommended in order to get the '
                'best performance e.g. for networking.')
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.plugins.kernel.KernelBase')
-    @mock.patch('hotsos.core.host_helpers.CLIHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('amd_iommu_pt.yaml'))
-    def test_amd_iommu_pt_pass(self, mock_cli, mock_kernel):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.lscpu.return_value = \
-            FAKE_AMD_LSCPU.splitlines(keepends=True)
+    @utils.create_data_root({'sos_commands/processor/lscpu': FAKE_AMD_LSCPU,
+                             'proc/cmdline':
+                             KERNEL_CMD_LINE_BASE + 'intel_iommu=on',
+                             'sos_commands/host/hostnamectl_status':
+                             '    Virtualization: kvm'})
+    def test_amd_iommu_pt_not_phy_host(self):
+        """ config is bad but its not a phy host so allow. """
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(issues, [])
 
-        mock_kernel.return_value = mock.MagicMock()
-        mock_kernel.return_value.boot_parameters = \
-            ['intel_iommu=on', 'iommu=pt']
-
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('amd_iommu_pt.yaml'))
+    @utils.create_data_root({'sos_commands/processor/lscpu': FAKE_AMD_LSCPU,
+                             'proc/cmdline':
+                             KERNEL_CMD_LINE_BASE + 'intel_iommu=on iommu=pt'})
+    def test_amd_iommu_pt_pass(self):
+        """ config is good. """
         YScenarioChecker()()
         issues = list(IssuesStore().load().values())
         self.assertEqual(issues, [])
