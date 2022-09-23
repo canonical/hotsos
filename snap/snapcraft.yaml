@@ -14,7 +14,6 @@ environment:
   LC_ALL: C.UTF-8
   LANG: C.UTF-8
   PYTHONPATH: $SNAP/lib/python3.8/site-packages
-  LD_PRELOAD: $SNAP/libpreload-semaphores.so
 
 # dpkg won't work without this
 layout:
@@ -63,7 +62,7 @@ parts:
         - -lib/systemd/system/cryptdisks.service
     stage:
       - $exclude-systemd-files
-  sem-open-preload:
-    source: https://github.com/snapcore/snapcraft-preloads.git
-    source-subdir: semaphores
-    plugin: make
+
+plugs:
+  shared-memory:
+    private: true
