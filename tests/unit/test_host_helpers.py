@@ -4,6 +4,7 @@ from unittest import mock
 
 from . import utils
 
+from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 
 
@@ -115,3 +116,17 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
             self.assertFalse(mock_cli.return_value.ethtool.called)
 
         self.assertTrue(iface_found)
+
+    @mock.patch('hotsos.core.host_helpers.cli.HotSOSConfig')
+    def test_cli_journalctl(self, mock_config):
+        mock_config.DATA_ROOT = HotSOSConfig.DATA_ROOT
+        mock_config.USE_ALL_LOGS = False
+        mock_config.MAX_LOGROTATE_DEPTH = 7
+        self.assertEqual(host_helpers.cli.JournalctlBase().since_date,
+                         "2022-02-09")
+        mock_config.USE_ALL_LOGS = True
+        self.assertEqual(host_helpers.cli.JournalctlBase().since_date,
+                         "2022-02-03")
+        mock_config.MAX_LOGROTATE_DEPTH = 1000
+        self.assertEqual(host_helpers.cli.JournalctlBase().since_date,
+                         "2019-05-17")

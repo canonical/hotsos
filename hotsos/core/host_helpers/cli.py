@@ -263,14 +263,13 @@ class JournalctlBase(object):
         """
         current = CLIHelper().date(format="--iso-8601")
         ts = datetime.datetime.strptime(current, "%Y-%m-%d")
-        if not HotSOSConfig.ALL_LOGS:
-            ts = ts - datetime.timedelta(days=1)
+        if HotSOSConfig.USE_ALL_LOGS:
+            days = HotSOSConfig.MAX_LOGROTATE_DEPTH
         else:
-            depth = HotSOSConfig.MAX_LOGROTATE_DEPTH
-            ts = ts - datetime.timedelta(days=depth)
+            days = 1
 
-        ts = ts.strftime("%Y-%m-%d")
-        return ts
+        ts = ts - datetime.timedelta(days=days)
+        return ts.strftime("%Y-%m-%d")
 
 
 class JournalctlBinCmd(BinCmd, JournalctlBase):
