@@ -1,0 +1,44 @@
+vars:
+  host_cert_mtime: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:etc/ovn/cert_host'
+  ovn_chassis_cert_mtime: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:etc/ovn/ovn-chassis.crt'
+  ovn_controller_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-controller'
+  cert_expired_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired'
+  cert_invalid_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
+checks:
+  services_not_restarted_after_cert_update:
+    and:
+      - systemd: ovn-controller
+      - varops: [[$host_cert_mtime], [gt, $ovn_controller_start_time]]
+      - varops: [[$ovn_chassis_cert_mtime], [gt, $ovn_controller_start_time]]
+  certs_expired_logs:
+    input: var/log/ovn/ovn-controller.log
+    expr: $cert_expired_expr
+    constraints:
+      search-result-age-hours: 24
+  certs_invalid_logs:
+    input: var/log/ovn/ovn-controller.log
+    expr: $cert_invalid_expr
+    constraints:
+      search-result-age-hours: 24
+conclusions:
+  services_not_restarted_after_cert_update:
+    decision: services_not_restarted_after_cert_update
+    raises:
+      type: OVNWarning
+      message: >-
+        ovn-controller has not been restarted since ssl certs were updated so
+        may be using old certs. Please check.
+  controller_expired_certs:
+    decision: certs_expired_logs
+    raises:
+      type: OVNWarning
+      message: >-
+        ovn-controller is reporting that one or more ssl certificates have expired and it
+        can't connect to other services. Please check.
+  controller_invalid_certs:
+    decision: certs_invalid_logs
+    raises:
+      type: OVNWarning
+      message: >-
+        ovn-controller is reporting that one or more ssl certificates are invalid and it
+        can't connect to other services. Please check.

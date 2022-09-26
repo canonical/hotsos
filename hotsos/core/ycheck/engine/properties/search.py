@@ -222,17 +222,31 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
         return False
 
+    def _resolve_exprs(self, patterns):
+        """
+        Resolve any expressions provided as variable to their value. Non-vars
+        are returned as-is.
+        """
+        _patterns = []
+        if type(patterns) == list:
+            for p in patterns:
+                _patterns.append(self.resolve_var(p))
+        else:
+            _patterns = self.resolve_var(patterns)
+
+        return _patterns
+
     @property
     def search_pattern(self):
         if self.expr:
-            return self.expr.expr
+            return self._resolve_exprs(self.expr.expr)
 
         # can be supplied as a single string or list of strings
-        patterns = list(self.content.keys())
+        patterns = self._resolve_exprs(list(self.content.keys()))
         if len(patterns) == 1:
             return patterns[0]
-        else:
-            return patterns
+
+        return patterns
 
     @property
     def is_sequence_search(self):

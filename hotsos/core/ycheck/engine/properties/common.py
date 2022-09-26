@@ -258,6 +258,21 @@ class YPropertyBase(object):
         self._cache = PropertyCache()
         super().__init__(*args, **kwargs)
 
+    def resolve_var(self, name):
+        """
+        Resolve variable with name to value. This can be used speculatively and
+        will return the name as value if it can't be resolved.
+        """
+        if not name.startswith('$'):
+            return name
+
+        if hasattr(self, 'context'):
+            if self.context.vars:
+                _name = name.partition('$')[2]
+                return self.context.vars.resolve(_name)
+
+        return name
+
     @property
     def cache(self):
         """
@@ -287,8 +302,20 @@ class YPropertyBase(object):
         return _mod, _cls
 
     def _get_class_property_from_path(self, path):
+        # first strip any factory class info and add back to prop at end.
+        _path, _, factinput = path.rpartition(':')
+        if _path:
+            path = _path
+        else:
+            factinput = ''
+
         _cls = path.rpartition('.')[0]
         _prop = path.rpartition('.')[2]
+
+        # now put it back if exists
+        if factinput:
+            _prop += ":" + factinput
+
         return _cls, _prop
 
     def _add_to_import_cache(self, key, value):

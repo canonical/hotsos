@@ -41,6 +41,8 @@ class SystemdService(object):
 
         if last:
             return datetime.strptime(last, "%Y-%m-%dT%H:%M:%S+%f")
+        else:
+            log.debug("no start time identified for svc %s", self.name)
 
     @cached_property
     def start_time_secs(self):

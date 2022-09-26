@@ -539,6 +539,7 @@ vars:
   frombadprop: '@tests.unit.idontexist'  # add to ensure lazy-loaded
   fromprop: '@tests.unit.test_ycheck.TestProperty.myattr'
   fromfact: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:snapd'
+  fromfact2: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:myfile.txt'
   boolvar: false
 checks:
   aptcheck:
@@ -553,6 +554,8 @@ checks:
     varops: [[$fromprop], [eq, "123"]]
   fromfact:
     varops: [[$fromfact], [gt, 1644446300]]
+  fromfact2:
+    varops: [[$fromfact2], [eq, 0]]
   boolvar:
     varops: [[$boolvar], [truth], [not_]]
 conclusions:
@@ -589,7 +592,8 @@ conclusions:
         varname: '@checks.isbar.requires.name'
         varval: '@checks.isbar.requires.value'
   fromprop:
-    decision: [fromprop, boolvar, fromfact]
+    decision:
+      or: [fromprop, boolvar, fromfact, fromfact2]
     raises:
       type: SystemWarning
       message: fromprop! ({varname}={varval})
@@ -1292,9 +1296,9 @@ class TestYamlChecks(utils.BaseTestCase):
 
         self.assertEqual(sorted(msgs),
                          sorted(["nova-compute=2:21.2.3-0ubuntu1",
-                                 "it's foo gt! (foo=1000)",
-                                 "it's bar! (bar=two)",
-                                 "fromprop! (fromprop=123)"]))
+                                 "it's foo gt! ($foo=1000)",
+                                 "it's bar! ($bar=two)",
+                                 "fromprop! ($fromprop=123)"]))
 
     @init_test_scenario(LOGIC_TEST)
     def test_logical_collection_and_with_fail(self):
