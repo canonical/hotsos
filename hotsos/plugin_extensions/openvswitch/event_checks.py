@@ -143,23 +143,48 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
             output_key = "{}-port-stats".format(event.section)
             return stats_sorted, output_key
 
-    @EVENTCALLBACKS.callback(event_group='ovs')
+    @EVENTCALLBACKS.callback(event_group='ovs',
+                             event_names=['bfd-state-changes'])
     def bfd_state_changes(self, event):
-        info = {}
+        state_changes = {}
         for r in event.results:
             date = r.get(1)
             port = r.get(2)
             statechange = r.get(3)
 
-            if date not in info:
-                info[date] = {}
+            if date not in state_changes:
+                state_changes[date] = {}
 
-            if port not in info[date]:
-                info[date][port] = []
+            if port not in state_changes[date]:
+                state_changes[date][port] = []
 
-            info[date][port].append(statechange)
+            state_changes[date][port].append(statechange)
 
-        return {event.name: sorted_dict(info)}, 'ovs-vswitchd'
+        stats = {}
+        if state_changes:
+            stats['all-ports-day-avg'] = {}
+            stats['per-port-day-total'] = {}
+            for date, ports in state_changes.items():
+                port_sum = 0
+                if date not in stats['per-port-day-total']:
+                    stats['per-port-day-total'][date] = {}
+
+                port_totals = {}
+                for port, state_changes in ports.items():
+                    num_changes = len(state_changes)
+                    port_totals[port] = num_changes
+                    port_sum += num_changes
+
+                # sort by value
+                port_totals = sorted_dict(port_totals, key=lambda e: e[1],
+                                          reverse=True)
+                stats['per-port-day-total'][date] = port_totals
+                day_avg = int(port_sum / len(ports))
+                stats['all-ports-day-avg'][date] = day_avg
+
+        stats['all-ports-day-avg'] = sorted_dict(stats['all-ports-day-avg'])
+        if stats:
+            return {'bfd': {'state-change-stats': stats}}, 'ovs-vswitchd'
 
     @EVENTCALLBACKS.callback(event_group='ovs')
     def involuntary_context_switches(self, event):

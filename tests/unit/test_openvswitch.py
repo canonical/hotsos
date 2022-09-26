@@ -309,16 +309,14 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date'])
     def test_ovs_bfd_state_changes(self):
         expected = {'ovs-vswitchd': {
-                    'bfd-state-changes': {
-                        '2022-07-27': {
-                            'ovn-abc-xa-15': [
-                                    'admin_down->down',
-                                    'down->init',
-                                    'init->up'],
-                            'ovn-abc-xa-2': [
-                                'down->up'],
-                            'ovn-abc-xb-0': [
-                                'down->up']}}}}
+                    'bfd': {
+                        'state-change-stats': {
+                            'all-ports-day-avg': {
+                                '2022-07-27': 1},
+                            'per-port-day-total': {
+                                '2022-07-27': {'ovn-abc-xb-0': 1,
+                                               'ovn-abc-xa-2': 1,
+                                               'ovn-abc-xa-15': 3}}}}}}
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
