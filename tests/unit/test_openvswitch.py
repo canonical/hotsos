@@ -1,8 +1,12 @@
+import os
+
 from unittest import mock
 
 from . import utils
 
 from hotsos.core import issues
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore, KnownBugsStore
 from hotsos.core.config import setup_config
 from hotsos.core.plugins.openvswitch import OpenvSwitchBase
@@ -60,6 +64,11 @@ BFD_STATE_CHANGES = """
 2022-07-27T08:49:58.323Z|00066|bfd(handler1)|INFO|ovn-abc-xb-0: BFD state change: down->up "No Diagnostic"->"No Diagnostic".
 2022-07-27T08:49:58.362Z|00069|bfd(handler1)|INFO|ovn-abc-xa-2: BFD state change: down->up "No Diagnostic"->"No Diagnostic".
 2022-07-27T08:49:58.844Z|00018|bfd(handler4)|INFO|ovn-abc-xa-15: BFD state change: init->up "No Diagnostic"->"No Diagnostic".
+"""  # noqa
+
+
+OVN_SSL_ERROR = r"""
+2022-09-26T09:47:13.591Z|06893|stream_ssl|WARN|SSL_accept: error:14094415:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired
 """  # noqa
 
 
@@ -439,3 +448,157 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                "fix is available as of openvswitch version 2.17.2.")
         issues = list(KnownBugsStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml'))
+    @utils.create_data_root({'var/log/ovn/ovn-northd.log': ''},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_ssl_certs_logfiles_no_error(self):
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml'))
+    @utils.create_data_root({'var/log/ovn/ovn-northd.log': OVN_SSL_ERROR,
+                             'var/log/ovn/ovsdb-server-sb.log': OVN_SSL_ERROR,
+                             'var/log/ovn/ovsdb-server-nb.log': OVN_SSL_ERROR},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_ssl_certs_logfiles_w_error(self):
+        YScenarioChecker()()
+        msgs = [("ovn-northd is reporting that one or more ssl certificates "
+                 "have expired and it can't connect to other services. Please "
+                 "check."),
+                ("One or both of ovn-ovsdb-server-nb and ovn-ovsdb-server-sb "
+                 "is reporting that its ssl certs have expired and it can't "
+                 "connect to other services. Please check.")]
+
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(msgs))
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml'))
+    @utils.create_data_root({'etc/ovn/cert_host': '',
+                             'etc/ovn/ovn-central.crt': ''},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_ssl_certs_svcs_no_error(self):
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+                                              'etc/ovn/cert_host'))
+
+        class FakeSystemdService(SystemdService):
+            @property
+            def start_time_secs(self):  # pylint: disable=W0236
+                return mtime + 10
+
+        services = {'ovn-northd':
+                    FakeSystemdService('ovn-northd', 'enabled'),
+                    'ovn-ovsdb-server-sb':
+                    FakeSystemdService('ovn-ovsdb-server-sb', 'enabled'),
+                    'ovn-ovsdb-server-nb':
+                    FakeSystemdService('ovn-ovsdb-server-nb', 'enabled')}
+
+        with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
+                         'services'), services):
+            YScenarioChecker()()
+            issues = list(IssuesStore().load().values())
+            self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml'))
+    @utils.create_data_root({'etc/ovn/cert_host': '',
+                             'etc/ovn/ovn-central.crt': ''},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_ssl_certs_svcs_w_error(self):
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+                                              'etc/ovn/cert_host'))
+
+        class FakeSystemdService(SystemdService):
+            @property
+            def start_time_secs(self):  # pylint: disable=W0236
+                return mtime - 10
+
+        services = {'ovn-northd':
+                    FakeSystemdService('ovn-northd', 'enabled'),
+                    'ovn-ovsdb-server-sb':
+                    FakeSystemdService('ovn-ovsdb-server-sb', 'enabled'),
+                    'ovn-ovsdb-server-nb':
+                    FakeSystemdService('ovn-ovsdb-server-nb', 'enabled')}
+
+        with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
+                         'services'), services):
+            YScenarioChecker()()
+            msg = ("One or more of services ovn-northd, ovn-ovsdb-server-nb "
+                   "and ovn-ovsdb-server-sb has not been restarted since ssl "
+                   "certs were updated and this may breaking their ability to "
+                   "connect to other services.")
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
+    @utils.create_data_root({'var/log/ovn/ovn-controller.log': ''},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_chassis_ssl_certs_logfiles_no_error(self):
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
+    @utils.create_data_root({'var/log/ovn/ovn-controller.log': OVN_SSL_ERROR},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_chassis_ssl_certs_logfiles_w_error(self):
+        YScenarioChecker()()
+        msgs = [("ovn-controller is reporting that one or more ssl "
+                 "certificates have expired and it can't connect to other "
+                 "services. Please check.")]
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(msgs))
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
+    @utils.create_data_root({'etc/ovn/cert_host': '',
+                             'etc/ovn/ovn-chassis.crt': ''},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_chassis_ssl_certs_svcs_no_error(self):
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+                                              'etc/ovn/cert_host'))
+
+        class FakeSystemdService(SystemdService):
+            @property
+            def start_time_secs(self):  # pylint: disable=W0236
+                return mtime + 10
+
+        services = {'ovn-controller':
+                    FakeSystemdService('ovn-controller', 'enabled')}
+        with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
+                         'services'), services):
+            YScenarioChecker()()
+            issues = list(IssuesStore().load().values())
+            self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
+    @utils.create_data_root({'etc/ovn/cert_host': '',
+                             'etc/ovn/ovn-chassis.crt': ''},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_chassis_ssl_certs_svcs_w_error(self):
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+                                              'etc/ovn/cert_host'))
+
+        class FakeSystemdService(SystemdService):
+            @property
+            def start_time_secs(self):  # pylint: disable=W0236
+                return mtime - 10
+
+        services = {'ovn-controller':
+                    FakeSystemdService('ovn-controller', 'enabled')}
+        with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
+                         'services'), services):
+            YScenarioChecker()()
+            msg = ("ovn-controller has not been restarted since ssl certs "
+                   "were updated so may be using old certs. Please check.")
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])

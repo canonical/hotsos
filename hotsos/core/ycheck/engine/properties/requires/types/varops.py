@@ -11,14 +11,14 @@ class YPropertyVarOps(YRequirementTypeWithOpsBase):
 
     @property
     def name(self):
-        return self.content[0][0].partition('$')[2]
+        return self.content[0][0]
 
     @property
     def ops(self):
         return self.content[1:]
 
     def _apply_ops(self):
-        actual = self.context.vars.resolve(self.name)
+        actual = self.resolve_var(self.name)
         result = self.apply_ops(self.ops, input=actual)
         log.debug('requirement check: varref %s %s (result=%s)',
                   actual, self.ops_to_str(self.ops), result)

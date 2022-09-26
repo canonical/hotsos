@@ -1,0 +1,82 @@
+vars:
+  host_cert_mtime: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:etc/ovn/cert_host'
+  ovn_central_cert_mtime: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:etc/ovn/ovn-central.crt'
+  northd_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-northd'
+  ovsdb_nb_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-ovsdb-server-nb'
+  ovsdb_sb_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-ovsdb-server-sb'
+  cert_expired_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired'
+  cert_invalid_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
+checks:
+  services_not_restarted_after_cert_update:
+    - systemd: ovn-northd
+    - systemd: ovn-ovsdb-server-nb
+    - systemd: ovn-ovsdb-server-sb
+    - or:
+        - varops: [[$host_cert_mtime], [gt, $northd_start_time]]
+        - varops: [[$host_cert_mtime], [gt, $ovsdb_nb_start_time]]
+        - varops: [[$host_cert_mtime], [gt, $ovsdb_sb_start_time]]
+        - varops: [[$ovn_central_cert_mtime], [gt, $northd_start_time]]
+        - varops: [[$ovn_central_cert_mtime], [gt, $ovsdb_nb_start_time]]
+        - varops: [[$ovn_central_cert_mtime], [gt, $ovsdb_sb_start_time]]
+  northd_certs_invalid_logs:
+    input: var/log/ovn/ovn-northd.log
+    expr: $cert_invalid_expr
+    constraints:
+      search-result-age-hours: 24
+  northd_certs_expired_logs:
+    input: var/log/ovn/ovn-northd.log
+    expr: $cert_expired_expr
+    constraints:
+      search-result-age-hours: 24
+  db_certs_invalid_logs:
+    input:
+      - var/log/ovn/ovsdb-server-nb.log
+      - var/log/ovn/ovsdb-server-sb.log
+    expr: $cert_invalid_expr
+    constraints:
+      search-result-age-hours: 24
+  db_certs_expired_logs:
+    input:
+      - var/log/ovn/ovsdb-server-nb.log
+      - var/log/ovn/ovsdb-server-sb.log
+    expr: $cert_expired_expr
+    constraints:
+      search-result-age-hours: 24
+conclusions:
+  services_not_restarted_after_cert_update:
+    decision: services_not_restarted_after_cert_update
+    raises:
+      type: OVNWarning
+      message: >-
+        One or more of services ovn-northd, ovn-ovsdb-server-nb and ovn-ovsdb-server-sb has not
+        been restarted since ssl certs were updated and this may breaking their ability to
+        connect to other services.
+  northd_certs_invalid:
+    decision: northd_certs_invalid_logs
+    raises:
+      type: OVNWarning
+      message: >-
+        ovn-northd is reporting that one or more ssl certificates is invalid and it
+        can't connect to other services. Please check.
+  northd_certs_expired:
+    decision: northd_certs_expired_logs
+    raises:
+      type: OVNWarning
+      message: >-
+        ovn-northd is reporting that one or more ssl certificates have expired and it
+        can't connect to other services. Please check.
+  db_certs_invalid:
+    decision: db_certs_invalid_logs
+    raises:
+      type: OVNWarning
+      message: >-
+        One or both of ovn-ovsdb-server-nb and ovn-ovsdb-server-sb is reporting that its ssl
+        certs are invalid and it can't connect to other services. Please check.
+  db_certs_expired:
+    decision: db_certs_expired_logs
+    raises:
+      type: OVNWarning
+      message: >-
+        One or both of ovn-ovsdb-server-nb and ovn-ovsdb-server-sb is reporting that its ssl
+        certs have expired and it can't connect to other services. Please check.
+
