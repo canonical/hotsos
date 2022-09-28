@@ -536,7 +536,9 @@ vars:
   foo: 1000
   limit: 10
   bar: "two"
+  frombadprop: '@tests.unit.idontexist'  # add to ensure lazy-loaded
   fromprop: '@tests.unit.test_ycheck.TestProperty.myattr'
+  fromfact: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:snapd'
   boolvar: false
 checks:
   aptcheck:
@@ -549,6 +551,8 @@ checks:
     varops: [[$bar], [ne, ""]]
   fromprop:
     varops: [[$fromprop], [eq, "123"]]
+  fromfact:
+    varops: [[$fromfact], [gt, 1644446300]]
   boolvar:
     varops: [[$boolvar], [truth], [not_]]
 conclusions:
@@ -585,13 +589,46 @@ conclusions:
         varname: '@checks.isbar.requires.name'
         varval: '@checks.isbar.requires.value'
   fromprop:
-    decision: [fromprop, boolvar]
+    decision: [fromprop, boolvar, fromfact]
     raises:
       type: SystemWarning
       message: fromprop! ({varname}={varval})
       format-dict:
         varname: '@checks.fromprop.requires.name'
         varval: '@checks.fromprop.requires.value'
+"""  # noqa
+
+
+LOGIC_TEST = """
+vars:
+  v1: '@tests.unit.test_ycheck.TestProperty.always_false'
+  v2: '@tests.unit.test_ycheck.TestProperty.doesntexist'
+checks:
+  chk1:
+    and:
+      - varops: [[$v1], [truth]]
+      - varops: [[$v2], [not_]]
+  chk2:
+    nand:
+      - varops: [[$v1], [truth]]
+      - varops: [[$v2], [not_]]
+  chk3:
+    not:
+      - varops: [[$v1], [truth]]
+      - varops: [[$v2], [not_]]
+conclusions:
+  conc1:
+    decision:
+       or:
+         - chk1
+         - not: chk2
+         - not: chk3
+    raises:
+      type: SystemWarning
+      message: >-
+        This should never get raised since all checks should be
+        returning False and the first false result in each check's logical
+        group should result in further items not being executed.
 """
 
 
@@ -1246,3 +1283,9 @@ class TestYamlChecks(utils.BaseTestCase):
                                  "it's foo gt! (foo=1000)",
                                  "it's bar! (bar=two)",
                                  "fromprop! (fromprop=123)"]))
+
+    @init_test_scenario(LOGIC_TEST)
+    def test_logical_collection_and_with_fail(self):
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)

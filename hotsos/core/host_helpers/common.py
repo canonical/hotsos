@@ -48,3 +48,14 @@ class HostHelpersBase(abc.ABC):
     @abc.abstractmethod
     def cache_save(self):
         pass
+
+
+class HostHelperFactoryBase(abc.ABC):
+
+    @abc.abstractmethod
+    def __getattr__(self, name):
+        """
+        All factory implementations must implement this method to
+        allow them to dynamically generate objects from arbitrary input
+        provided by calling as an attribute on this object.
+        """

@@ -7,6 +7,7 @@ import re
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers.common import HostHelperFactoryBase
 from hotsos.core.utils import cached_property, sorted_dict
 
 SVC_EXPR_TEMPLATES = {
@@ -21,17 +22,14 @@ class SystemdService(object):
     def __init__(self, name, state):
         self.name = name
         self.state = state
-        self._start_time = None
 
-    @property
+    @cached_property
     def start_time(self):
         """ Get most recent start time of this service unit.
 
         @returns: datetime.datetime object or None if time not found.
         """
-        if self._start_time:
-            return self._start_time
-
+        log.debug("fetching start time for svc %s", self.name)
         cexpr = re.compile(r"^(([0-9-]+)T[\d:]+\+[\d]+)\s+.+: "
                            "(Started|Starting) .+")
         journal = CLIHelper().journalctl(unit=self.name)
@@ -42,9 +40,19 @@ class SystemdService(object):
                 last = ret.group(1)
 
         if last:
-            self._start_time = datetime.strptime(last, "%Y-%m-%dT%H:%M:%S+%f")
+            return datetime.strptime(last, "%Y-%m-%dT%H:%M:%S+%f")
 
-        return self._start_time
+    @cached_property
+    def start_time_secs(self):
+        """ Get most recent start time of this service unit in secs.
+
+        @returns: posix timestamp
+        """
+        t = self.start_time
+        if t is None:
+            return 0
+
+        return t.timestamp()
 
 
 class SystemdHelper(object):
@@ -264,3 +272,16 @@ class SystemdHelper(object):
         """
         return {'systemd': self._service_info,
                 'ps': self._process_info}
+
+
+class ServiceFactory(HostHelperFactoryBase):
+    """
+    Factory to dynamically create SystemdService objects for given services.
+
+    Service objects are returned when a getattr() is done on this object using
+    the name of the service as the attr name.
+    """
+
+    def __getattr__(self, svc):
+        log.debug("creating service object for %s", svc)
+        return SystemdHelper([svc]).services.get(svc)

@@ -25,12 +25,31 @@ class YPropertyVarDef(YPropertyMappedOverrideBase):
         return []
 
     @property
+    def raw_value(self):
+        return list(self.content.keys())[0]
+
+    def _is_import_path(self, val):
+        return type(val) == str and val.startswith('@')
+
+    @cached_yproperty_attr
     def value(self):
-        val = list(self.content.keys())[0]
-        if type(val) == str and val.startswith('@'):
+        """
+        Value can be a raw type or a string starting with a '@' which indicates
+        it it a Python property to be imported/loaded. Imports are done when
+        the variable value is accessed for the first time i.e. it is lazy
+        loaded.
+        """
+        val = self.raw_value
+        if self._is_import_path(val):
             val = self.get_property(val[1:])
 
         return val
+
+    def __repr__(self):
+        val = self.raw_value
+        lazy_load = self._is_import_path(val)
+        return "value={} (type={}, lazy_load={})".format(val, type(val),
+                                                         lazy_load)
 
 
 @add_to_property_catalog
@@ -49,7 +68,7 @@ class YPropertyVars(YPropertyOverrideBase):
             for v in s.leaf_sections:
                 resolved[v.name] = v.vardef
 
-        log.debug("done: %s", [v.value for v in resolved.values()])
+        log.debug("done: %s", [repr(v) for v in resolved.values()])
         return resolved
 
     def resolve(self, name):

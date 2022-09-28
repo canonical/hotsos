@@ -281,6 +281,16 @@ class YPropertyBase(object):
         if c:
             return c.get(key)
 
+    def _get_mod_class_from_path(self, path):
+        _mod = path.rpartition('.')[0]
+        _cls = path.rpartition('.')[2]
+        return _mod, _cls
+
+    def _get_class_property_from_path(self, path):
+        _cls = path.rpartition('.')[0]
+        _prop = path.rpartition('.')[2]
+        return _cls, _prop
+
     def _add_to_import_cache(self, key, value):
         """ Save in the global context if one exists.
 
@@ -305,12 +315,12 @@ class YPropertyBase(object):
             return ret
 
         log.debug("instantiating class %s (from_cache=False)", import_str)
-        mod = import_str.rpartition('.')[0]
-        class_name = import_str.rpartition('.')[2]
+        mod, cls_name = self._get_mod_class_from_path(import_str)
         try:
-            ret = getattr(importlib.import_module(mod), class_name)
+            _mod = importlib.import_module(mod)
+            ret = getattr(_mod, cls_name)
         except Exception:
-            log.exception("failed to import class %s from %s", class_name, mod)
+            log.exception("failed to import class %s from %s", cls_name, mod)
             raise
 
         self._add_to_import_cache(import_str, ret)
@@ -323,37 +333,50 @@ class YPropertyBase(object):
             return ret
 
         log.debug("calling property %s (from_cache=False)", import_str)
-        cls = self.get_cls(import_str.rpartition('.')[0])
+        _cls, _prop = self._get_class_property_from_path(import_str)
+        try:
+            cls = self.get_cls(_cls)
+        except Exception:
+            log.exception("class '%s' import failed", _cls)
+            raise
+
         key = "{}.object".format(cls)
         cls_inst = self._load_from_import_cache(key)
         if not cls_inst:
             cls_inst = cls()
             self._add_to_import_cache(key, cls_inst)
 
-        property = import_str.rpartition('.')[2]
-        try:
-            ret = getattr(cls_inst, property)
-        except Exception:
-            log.exception("failed to import and call property %s",
-                          import_str)
+        if ':' in _prop:
+            # property is for a factory object
+            attr, _, input = _prop.partition(':')
+            properties = [input, attr]
+        else:
+            properties = [_prop]
 
-            raise
+        _obj = cls_inst
+        for _prop in properties:
+            try:
+                _obj = getattr(_obj, _prop)
+            except Exception:
+                log.exception("failed to import and call property %s",
+                              import_str)
 
-        self._add_to_import_cache(import_str, ret)
-        return ret
+                raise
+
+        self._add_to_import_cache(import_str, _obj)
+        return _obj
 
     def get_method(self, import_str):
         log.debug("calling method %s", import_str)
         mod = import_str.rpartition('.')[0]
-        property = import_str.rpartition('.')[2]
+        method = import_str.rpartition('.')[2]
         class_name = mod.rpartition('.')[2]
         mod = mod.rpartition('.')[0]
         cls = getattr(importlib.import_module(mod), class_name)
         try:
-            ret = getattr(cls(), property)()
+            ret = getattr(cls(), method)()
         except Exception:
-            log.exception("failed to import and call method %s",
-                          import_str)
+            log.exception("failed to import and call method %s", import_str)
             raise
 
         return ret
@@ -411,14 +434,33 @@ class LogicalCollectionHandler(abc.ABC):
         """
         raise NotImplementedError
 
-    def group_results(self, logical_op_group):
+    @property
+    def and_group_stop_on_first_false(self):
+        """
+        By default we do not process items in an AND group beyond the first
+        False result since they will not change the final result. Some
+        implementations may want to override this behaviour.
+        """
+        return True
+
+    def group_results(self, logical_op_group, return_on_first_false=False):
         results = []
         for item in logical_op_group.members:
             for entry in item:
                 try:
-                    results.append(self.get_item_result_callback(entry))
+                    result = self.get_item_result_callback(entry)
                 except NotImplementedError:
-                    results.append(entry())
+                    result = entry()
+
+                results.append(result)
+                if return_on_first_false and not result:
+                    break
+
+            if return_on_first_false and not all(results):
+                log.debug("item result is False and "
+                          "return_on_first_false=True - skipping further "
+                          "items in this group")
+                break
 
         log.debug("group results: %s", results)
         return results
@@ -434,25 +476,33 @@ class LogicalCollectionHandler(abc.ABC):
         return final_results
 
     def run_logical_op_group(self, logical_op_group):
-        if logical_op_group._override_name == 'and':
-            results = self.group_results(logical_op_group)
+        logical_op = logical_op_group._override_name
+        false_return = False
+        if logical_op in ['and', 'nand', 'not']:
+            if self.and_group_stop_on_first_false:
+                false_return = True
+
+        if logical_op == 'and':
+            results = self.group_results(logical_op_group,
+                                         return_on_first_false=false_return)
             result = all(results)
             log.debug("applied AND(%s) (result=%s)", results, result)
-        elif logical_op_group._override_name == 'or':
+        elif logical_op == 'or':
             results = self.group_results(logical_op_group)
             result = any(results)
             log.debug("applied OR(%s) (result=%s)", results, result)
-        elif logical_op_group._override_name in ['nand', 'not']:
-            results = self.group_results(logical_op_group)
+        elif logical_op in ['nand', 'not']:
+            results = self.group_results(logical_op_group,
+                                         return_on_first_false=false_return)
             result = not all(results)
             log.debug("applied NOT(AND((%s)) (result=%s)", results, result)
-        elif logical_op_group._override_name == 'nor':
+        elif logical_op == 'nor':
             results = self.group_results(logical_op_group)
             result = not any(results)
             log.debug("applied NOT(OR((%s)) (result=%s)", results, result)
         else:
             raise Exception("unknown logical operator '{}' found".
-                            format(logical_op_group._override_name))
+                            format(logical_op))
 
         return result
 

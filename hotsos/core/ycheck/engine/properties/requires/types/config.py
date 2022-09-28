@@ -49,6 +49,16 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
     def _override_mapped_member_types(cls):
         return [YAssertion]
 
+    @property
+    def and_group_stop_on_first_false(self):
+        """
+        Override the default behaviour of LogicalCollectionHandler AND groups.
+
+        We want to always execute all member of all logical op groups so that
+        we can have their results in the cached assertion_results.
+        """
+        return False
+
     def run_single(self, item):
         final_results = []
         log.debug("running %s assertions", len(item))

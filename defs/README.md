@@ -87,6 +87,35 @@ properties defined in *mychecks.yaml* will be available in *checkthis.yaml*,
 *checkthat.yaml* and any definitions under *somemorechecks* (but not
 *altchecks*).
 
+#### FactoryObjects
+
+Hotsos has support for factory objects. These are objects with which you can
+dynamically generate a handler using an input provided as an attribute call
+then in turn call to a property on that handler. While a property would
+normally be imported as follows:
+
+```
+from mymod import myclass
+val = myclass.myprop
+```
+
+A factory is used as follows:
+
+```
+from mymod import myfactoryclass
+val = myfactoryclass.inputval.myprop
+```
+
+Which would result in a new object created using *inputval* as input and then
+*myprop* is called on that object.
+
+This allows us to define a property for import in [vars](#vars) as follows:
+
+```
+val: '@mymod.myfactoryclass.myprop:inputval'
+```
+
+
 #### MappedProperties
 
 Some properties use the ystruct mapped properties feature meaning they are
@@ -190,7 +219,10 @@ be standard types like str, int, bool etc or it can be a Python property that is
 called to get its value.
 
 To set a variable to the value of an imported Python property you need to prefix
-the import string with '@'.
+the import string with '@'. If the property being imported belongs to an
+[factory](#factoryobjects) it must have the following form:
+
+@<modpath>.<factoryclassname>.<property>:<inputvalue>
 
 Variables are referenced/access in other properties by prefixing their name
 with a '$'. See [varops](#varops) for more info.
@@ -202,7 +234,7 @@ vars:
   <name>: <value>
 ```
 
-uage:
+usage:
 
 ```
 <iter>
@@ -216,9 +248,12 @@ vars:
   mystrvar: 'hello'
   myboolvar: true
   mypropvar: '@hotsos.core.plugins.kernel.sysfs.CPU.smt'
+  myfactoryvar: '@hotsos.core.host_helpers.systemd.Service.start_time_secs:sshd'
 checks:
   is_smt:
     varops: [[$mypropvar], [eq, $myboolvar]]
+  is_started_since:
+    varops: [[$myfactoryvar], [gt, 1664391030]]
 ...
 ```
 

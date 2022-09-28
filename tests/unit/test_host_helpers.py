@@ -6,6 +6,7 @@ from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
+from hotsos.core.host_helpers.filestat import FileFactory
 
 
 class TestHostNetworkingHelper(utils.BaseTestCase):
@@ -117,6 +118,9 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
 
         self.assertTrue(iface_found)
 
+
+class TestCLIHelper(utils.BaseTestCase):
+
     @mock.patch('hotsos.core.host_helpers.cli.HotSOSConfig')
     def test_cli_journalctl(self, mock_config):
         mock_config.DATA_ROOT = HotSOSConfig.DATA_ROOT
@@ -130,3 +134,24 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         mock_config.MAX_LOGROTATE_DEPTH = 1000
         self.assertEqual(host_helpers.cli.JournalctlBase().since_date,
                          "2019-05-17")
+
+
+class TestSystemdHelper(utils.BaseTestCase):
+
+    def test_service_factory(self):
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        self.assertEqual(svc.start_time_secs, 1644446297.0)
+
+        self.assertEqual(host_helpers.systemd.ServiceFactory().noexist, None)
+
+
+class TestFileStatHelper(utils.BaseTestCase):
+
+    @utils.create_data_root({'foo': 'bar'})
+    def test_filestat_factory(self):
+        fpath = os.path.join(HotSOSConfig.DATA_ROOT, 'foo')
+        fileobj = FileFactory().foo
+        self.assertEqual(fileobj.mtime, os.path.getmtime(fpath))
+
+        fileobj = FileFactory().noexist
+        self.assertEqual(fileobj.mtime, 0)
