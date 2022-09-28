@@ -62,7 +62,3 @@ parts:
         - -lib/systemd/system/cryptdisks.service
     stage:
       - $exclude-systemd-files
-
-plugs:
-  shared-memory:
-    private: true
