@@ -28,24 +28,16 @@ class YPropertyRequiresBase(YPropertyMappedOverrideBase,
                 path.YRequirementTypePath,
                 varops.YPropertyVarOps]
 
-    def get_item_result_callback(self, item, copy_cache=False):
+    def get_item_result_callback(self, item, is_default_group=False):
         result = item()
-        if copy_cache:
+        # if its a single group we can cache the results but otherwise it wont
+        # make sense since all will conflict.
+        if is_default_group:
             log.debug("merging item (type=%s) cache id=%s into cache id=%s",
                       item.__class__.__name__, item.cache.id, self.cache.id)
             self.cache.merge(item.cache)
 
         return result
-
-    def run_single(self, item):
-        final_results = []
-        for rtype in item:
-            for entry in rtype:
-                result = self.get_item_result_callback(entry,
-                                                       copy_cache=True)
-                final_results.append(result)
-
-        return final_results
 
     @property
     def passes(self):

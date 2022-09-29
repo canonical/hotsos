@@ -599,30 +599,42 @@ conclusions:
 """  # noqa
 
 
+# this set of checks should cover the variations of logical op groupings that
+# will not process items beyond the first that returns False which is the
+# default for any AND operation since a single False makes the group result the
+# same.
 LOGIC_TEST = """
 vars:
+  # this one will resolve as False
   v1: '@tests.unit.test_ycheck.TestProperty.always_false'
+  # this one will raise an ImportError
   v2: '@tests.unit.test_ycheck.TestProperty.doesntexist'
 checks:
-  chk1:
+  # the second item in each group must be one that if evaluated will raise an
+  # error.
+  chk_and:
     and:
       - varops: [[$v1], [truth]]
       - varops: [[$v2], [not_]]
-  chk2:
+  chk_nand:
     nand:
-      - varops: [[$v1], [truth]]
+      - varops: [[$v1], [not_]]
       - varops: [[$v2], [not_]]
-  chk3:
+  chk_not:
     not:
-      - varops: [[$v1], [truth]]
+      - varops: [[$v1], [not_]]
       - varops: [[$v2], [not_]]
+  chk_default_and:
+    - varops: [[$v1], [truth]]
+    - varops: [[$v2], [not_]]
 conclusions:
   conc1:
     decision:
        or:
-         - chk1
-         - not: chk2
-         - not: chk3
+         - chk_and
+         - chk_nand
+         - chk_not
+         - chk_default_and
     raises:
       type: SystemWarning
       message: >-

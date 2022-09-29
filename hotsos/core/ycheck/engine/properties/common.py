@@ -424,16 +424,6 @@ class LogicalCollectionHandler(abc.ABC):
     VALID_GROUP_KEYS = ['and', 'or', 'nand', 'nor', 'xor', 'not']
     FINAL_RESULT_OP = 'and'
 
-    @abc.abstractmethod
-    def run_single(self, item_list):
-        """ run a list i.e. ungrouped. """
-
-    def get_item_result_callback(self, item):
-        """
-        Implement this if needed.
-        """
-        raise NotImplementedError
-
     @property
     def and_group_stop_on_first_false(self):
         """
@@ -443,61 +433,110 @@ class LogicalCollectionHandler(abc.ABC):
         """
         return True
 
-    def group_results(self, logical_op_group, return_on_first_false=False):
+    def group_exit_condition_met(self, logical_op, result):
+        if logical_op in ['and']:
+            if self.and_group_stop_on_first_false and not result:
+                log.debug("exit condition met for op %s", logical_op)
+                return True
+
+        if logical_op in ['nand', 'not']:
+            if self.and_group_stop_on_first_false and result:
+                log.debug("exit condition met for op %s", logical_op)
+                return True
+
+        return False
+
+    def eval_ungrouped_item(self, item):
+        """
+        This is either a single item or a list of items but a not logical
+        grouping and therefore the default logical op applies to the result(s)
+        i.e. AND.
+        """
+        final_results = []
+        for entry in item:
+            result = self.get_item_result_callback(entry,
+                                                   is_default_group=True)
+            final_results.append(result)
+
+        return final_results
+
+    @abc.abstractmethod
+    def get_item_result_callback(self, item, is_default_group=False):
+        """
+        Must be implemented to evaluate a single item and return its
+        result.
+        """
+
+    def eval_op_group_items(self, logical_op_group):
+        """
+        Evaluate single group of items and return their results as a list.
+        """
+        logical_op = logical_op_group._override_name
         results = []
+        stop_processing = False
         for item in logical_op_group.members:
             for entry in item:
-                try:
-                    result = self.get_item_result_callback(entry)
-                except NotImplementedError:
-                    result = entry()
-
+                result = self.get_item_result_callback(entry)
                 results.append(result)
-                if return_on_first_false and not result:
+                if self.group_exit_condition_met(logical_op, result):
+                    log.debug("result is %s and logical group %s exit "
+                              "condition met so stopping further evaluation "
+                              "if this group",
+                              result, logical_op)
+                    stop_processing = True
                     break
 
-            if return_on_first_false and not all(results):
-                log.debug("item result is False and "
-                          "return_on_first_false=True - skipping further "
-                          "items in this group")
+            if stop_processing:
                 break
 
         log.debug("group results: %s", results)
         return results
 
     def run_level(self, level):
+        stop_processing = False
         final_results = []
         for item in level:
-            final_results.extend(self.run_op_groups(item))
+            final_results.extend(self.eval_op_groups(item))
             for subitem in item:
-                if subitem._override_name not in self.VALID_GROUP_KEYS:
-                    final_results.extend(self.run_single(subitem))
+                # ignore op grouped
+                if subitem._override_name in self.VALID_GROUP_KEYS:
+                    continue
+
+                results = self.eval_ungrouped_item(subitem)
+                final_results.extend(results)
+                if self.group_exit_condition_met(self.FINAL_RESULT_OP,
+                                                 all(results)):
+                    log.debug("result is %s and logical group %s exit "
+                              "condition met so stopping further evaluation "
+                              "if this group",
+                              all(results), self.FINAL_RESULT_OP)
+                    stop_processing = True
+                    break
+
+            if stop_processing:
+                break
 
         return final_results
 
-    def run_logical_op_group(self, logical_op_group):
+    def eval_op_group(self, logical_op_group):
+        """
+        Evaluate single groups of items and apply logical op to the results.
+        """
         logical_op = logical_op_group._override_name
-        false_return = False
-        if logical_op in ['and', 'nand', 'not']:
-            if self.and_group_stop_on_first_false:
-                false_return = True
-
         if logical_op == 'and':
-            results = self.group_results(logical_op_group,
-                                         return_on_first_false=false_return)
+            results = self.eval_op_group_items(logical_op_group)
             result = all(results)
             log.debug("applied AND(%s) (result=%s)", results, result)
         elif logical_op == 'or':
-            results = self.group_results(logical_op_group)
+            results = self.eval_op_group_items(logical_op_group)
             result = any(results)
             log.debug("applied OR(%s) (result=%s)", results, result)
         elif logical_op in ['nand', 'not']:
-            results = self.group_results(logical_op_group,
-                                         return_on_first_false=false_return)
+            results = self.eval_op_group_items(logical_op_group)
             result = not all(results)
             log.debug("applied NOT(AND((%s)) (result=%s)", results, result)
         elif logical_op == 'nor':
-            results = self.group_results(logical_op_group)
+            results = self.eval_op_group_items(logical_op_group)
             result = not any(results)
             log.debug("applied NOT(OR((%s)) (result=%s)", results, result)
         else:
@@ -506,12 +545,15 @@ class LogicalCollectionHandler(abc.ABC):
 
         return result
 
-    def run_op_groups(self, item):
+    def eval_op_groups(self, item):
+        """
+        Evaluate all groups of items and return their results as a list.
+        """
         final_results = []
         for op in self.VALID_GROUP_KEYS:
             op_group = getattr(item, op)
             if op_group:
-                result = self.run_logical_op_group(op_group)
+                result = self.eval_op_group(op_group)
                 if result is not None:
                     final_results.append(result)
 

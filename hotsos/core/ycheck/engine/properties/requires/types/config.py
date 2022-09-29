@@ -59,16 +59,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
         """
         return False
 
-    def run_single(self, item):
-        final_results = []
-        log.debug("running %s assertions", len(item))
-        for assertion in item:
-            result = self.get_item_result_callback(assertion)
-            final_results.append(result)
-
-        return final_results
-
-    def get_item_result_callback(self, item):
+    def get_item_result_callback(self, item, is_default_group=False):
         cfg_obj = self.context.assertions_ctxt['cfg_obj']
         if item.section:
             actual = cfg_obj.get(item.key, section=item.section)
