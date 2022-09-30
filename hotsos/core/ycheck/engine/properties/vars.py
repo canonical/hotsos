@@ -64,7 +64,8 @@ class YPropertyVars(YPropertyOverrideBase):
         log.debug("parsing vars section")
         resolved = {}
         for name, content in self.content.items():
-            s = YDefsSection(self._override_name, {name: {'vardef': content}})
+            s = YDefsSection(self._override_name, {name: {'vardef': content}},
+                             context=self.context)
             for v in s.leaf_sections:
                 resolved[v.name] = v.vardef
 
