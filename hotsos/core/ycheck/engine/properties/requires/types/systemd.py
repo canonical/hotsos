@@ -52,10 +52,14 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
         default_op = 'eq'
         _result = True
 
-        if type(self.content) != dict:
-            service_checks = {self.content: None}
-        else:
+        # Can be single service name, list of service names or dict of
+        # one or more name: state.
+        if type(self.content) == list:
+            service_checks = {name: None for name in self.content}
+        elif type(self.content) == dict:
             service_checks = self.content
+        else:
+            service_checks = {self.content: None}
 
         services_under_test = list(service_checks.keys())
         for settings in service_checks.values():

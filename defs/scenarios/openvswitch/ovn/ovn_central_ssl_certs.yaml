@@ -8,9 +8,7 @@ vars:
   cert_invalid_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
 checks:
   services_not_restarted_after_cert_update:
-    - systemd: ovn-northd
-    - systemd: ovn-ovsdb-server-nb
-    - systemd: ovn-ovsdb-server-sb
+    - systemd: [ovn-northd, ovn-ovsdb-server-nb, ovn-ovsdb-server-sb]
     - or:
         - varops: [[$host_cert_mtime], [gt, $northd_start_time]]
         - varops: [[$host_cert_mtime], [gt, $ovsdb_nb_start_time]]

@@ -656,20 +656,24 @@ once.
 format
 
 ```
-systemd: <service name>  (state is not checked here)
+systemd: <service name>  (state not checked here)
 
 or
 
-systemd:
-  <service name>: <service state>  (state is checked with default op 'eq')
+systemd: [svc1, svc2 ...]  (state not checked here)
 
 or
 
+systemd: SVCS
+
+where SVCS is a dict of one or more services e.g.
+
 systemd:
-  <service name>:
+  service_name:
     state: <service state>
     op: <python operator>  (optional. default is 'eq')
     started-after: <other service name>  (optional)
+  ...
 ```
 
 ```
