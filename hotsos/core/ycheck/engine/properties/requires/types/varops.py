@@ -1,6 +1,8 @@
 from hotsos.core.log import log
-from hotsos.core.ycheck.engine.properties.requires import \
-    YRequirementTypeWithOpsBase
+from hotsos.core.ycheck.engine.properties.requires import (
+    intercept_exception,
+    YRequirementTypeWithOpsBase,
+)
 
 
 class YPropertyVarOps(YRequirementTypeWithOpsBase):
@@ -28,5 +30,6 @@ class YPropertyVarOps(YRequirementTypeWithOpsBase):
         return result
 
     @property
+    @intercept_exception
     def _result(self):
         return self._apply_ops()

@@ -1,3 +1,4 @@
+import abc
 import re
 import subprocess
 
@@ -53,7 +54,7 @@ def dict_to_formatted_str_list(f):
     return _dict_to_formatted_str_list
 
 
-class PackageHelperBase(object):
+class PackageHelperBase(abc.ABC):
 
     def get_version(self, pkg):
         """
@@ -61,9 +62,9 @@ class PackageHelperBase(object):
         """
         raise NotImplementedError
 
+    @abc.abstractmethod
     def is_installed(self, pkg):
         """ Returns True if pkg is installed """
-        raise NotImplementedError
 
     @property
     @dict_to_formatted_str_list
@@ -102,6 +103,9 @@ class DockerImageHelper(PackageHelperBase):
         self._match_expr_template = \
             r"^(\S+/(\S+))\s+([\d\.]+)\s+(\S+)\s+.+"
         self.cli = CLIHelper()
+
+    def is_installed(self, pkg):
+        return pkg in self.all
 
     def _match_image(self, image, entry):
         expr = self._match_expr_template.format(image)
@@ -200,13 +204,25 @@ class APTPackageHelper(PackageHelperBase):
         self._match_expr_template = r"^.i\s+({}[0-9a-z\-]*)\s+(\S+)\s+.+"
         self.cli = CLIHelper()
 
-    def is_installed(self, pkg):
+    def is_installed(self, pkg, allow_full_search=False):
+        """
+        Check if package is installed and return True/False. By default only
+        checks against packages matched using main expression.
+
+        @param pkg: name of package we want to check
+        @param allow_full_search: if True will do a full dpkg search for the
+                                  package of not found matches from the main
+                                  expression.
+        """
         if pkg in self.all:
             return True
 
+        if not allow_full_search:
+            return False
+
         dpkg_l = self.cli.dpkg_l()
         if not dpkg_l:
-            return
+            return False
 
         cexpr = re.compile(r"^.i\s+{}\s+.+".format(pkg))
         for line in dpkg_l:
@@ -315,6 +331,9 @@ class SnapPackageHelper(PackageHelperBase):
         self._match_expr_template = \
             r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
         self.snap_list_all = CLIHelper().snap_list_all()
+
+    def is_installed(self, pkg):
+        return pkg in self.all
 
     def get_version(self, snap):
         """ Return version of package. """

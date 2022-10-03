@@ -2,7 +2,53 @@ from datetime import timedelta
 
 from hotsos.core.log import log
 from hotsos.core.host_helpers import SystemdHelper
-from hotsos.core.ycheck.engine.properties.requires import YRequirementTypeBase
+from hotsos.core.ycheck.engine.properties.requires import (
+    intercept_exception,
+    CheckItemsBase,
+    YRequirementTypeBase,
+)
+from hotsos.core.utils import cached_property
+
+
+class ServiceCheckItems(CheckItemsBase):
+
+    @cached_property
+    def _started_after_services(self):
+        svcs = []
+        for _, settings in self:
+            if type(settings) != dict:
+                continue
+
+            svc = settings.get('started-after')
+            if svc:
+                svcs.append(svc)
+
+        return svcs
+
+    @cached_property
+    def _services_to_check(self):
+        return [item[0] for item in self]
+
+    @property
+    def _svcs_all(self):
+        """
+        We include started-after services since if a check has specified one it
+        is expected to exist for that check to pass.
+        """
+        return self._services_to_check + self._started_after_services
+
+    @cached_property
+    def _svcs_info(self):
+        return SystemdHelper(self._svcs_all)
+
+    @cached_property
+    def not_installed(self):
+        _installed = self.installed.keys()
+        return set(_installed).symmetric_difference(self._svcs_all)
+
+    @cached_property
+    def installed(self):
+        return self._svcs_info.services
 
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
@@ -12,13 +58,19 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
     def _override_keys(cls):
         return ['systemd']
 
-    def check_service(self, svc, ops, started_after_svc_obj=None):
-        if started_after_svc_obj:
+    def _check_service(self, svc, ops, started_after=None):
+        """
+        @param svc: SystemdService object of service we are checking.
+        @param started_after: optional SystemdService object. If provided we
+                                       will assert that svc was started after
+                                       this service.
+        """
+        if started_after:
             a = svc.start_time
-            b = started_after_svc_obj.start_time
+            b = started_after.start_time
             if a and b:
                 log.debug("%s started=%s, %s started=%s", svc.name,
-                          a, started_after_svc_obj.name, b)
+                          a, started_after.name, b)
                 if a < b:
                     delta = b - a
                 else:
@@ -33,87 +85,63 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
                     if delta >= timedelta(seconds=grace):
                         log.debug("svc %s started >= %ds of start of %s "
                                   "(delta=%s)", svc.name, grace,
-                                  started_after_svc_obj.name, delta)
+                                  started_after.name, delta)
                     else:
                         log.debug("svc %s started < %ds of start of %s "
                                   "(delta=%s)", svc.name, grace,
-                                  started_after_svc_obj.name, delta)
+                                  started_after.name, delta)
                         return False
                 else:
                     log.debug("svc %s started before or same as %s "
                               "(delta=%s)", svc.name,
-                              started_after_svc_obj.name, delta)
+                              started_after.name, delta)
                     return False
 
         return self.apply_ops(ops, input=svc.state)
 
     @property
+    @intercept_exception
     def _result(self):
+        cache_info = {}
         default_op = 'eq'
         _result = True
 
-        # Can be single service name, list of service names or dict of
-        # one or more name: state.
-        if type(self.content) == list:
-            service_checks = {name: None for name in self.content}
-        elif type(self.content) == dict:
-            service_checks = self.content
-        else:
-            service_checks = {self.content: None}
+        items = ServiceCheckItems(self.content)
+        if not items.not_installed:
+            for svc, settings in items:
+                svc_obj = items.installed[svc]
+                cache_info[svc] = {'actual': svc_obj.state}
+                if settings is None:
+                    continue
 
-        services_under_test = list(service_checks.keys())
-        for settings in service_checks.values():
-            if type(settings) == dict and 'started-after' in settings:
-                services_under_test.append(settings['started-after'])
-
-        svcinfo = SystemdHelper(services_under_test).services
-        cache_info = {}
-        for svc, settings in service_checks.items():
-            if svc not in svcinfo:
-                _result = False
-                # bail on first fail
-                break
-
-            svc_obj = svcinfo[svc]
-            cache_info[svc] = {'actual': svc_obj.state}
-
-            # The service criteria can be defined in three different ways;
-            # string svc name, dict of svc name: state and dict of svc name:
-            # dict of settings.
-            if settings is None:
-                continue
-
-            started_after_svc_obj = None
-            if type(settings) == str:
-                state = settings
-                ops = [[default_op, state]]
-            else:
-                op = settings.get('op', default_op)
-                started_after = settings.get('started-after')
-                if started_after:
-                    started_after_svc_obj = svcinfo.get(started_after)
-                    if not started_after_svc_obj:
-                        # if a started-after service has been provided but
-                        # that service does not exist then we return False.
-                        _result = False
-                        continue
-
-                if 'state' in settings:
-                    ops = [[op, settings.get('state')]]
+                started_after_obj = None
+                if type(settings) == str:
+                    state = settings
+                    ops = [[default_op, state]]
                 else:
-                    ops = []
+                    op = settings.get('op', default_op)
+                    started_after = settings.get('started-after')
+                    started_after_obj = items.installed.get(started_after)
+                    if 'state' in settings:
+                        ops = [[op, settings.get('state')]]
+                    else:
+                        ops = []
 
-            cache_info[svc]['ops'] = self.ops_to_str(ops)
-            _result = self.check_service(
-                                   svc_obj, ops,
-                                   started_after_svc_obj=started_after_svc_obj)
-            if not _result:
-                # bail on first fail
-                break
+                cache_info[svc]['ops'] = self.ops_to_str(ops)
+                _result = self._check_service(svc_obj, ops,
+                                              started_after=started_after_obj)
+                if not _result:
+                    # bail on first fail
+                    break
+        else:
+            log.debug("one or more services not installed so returning False "
+                      "- %s", ', '.join(items.not_installed))
+            # bail on first fail i.e. if any not installed
+            _result = False
 
+        # this will represent what we have actually checked
         self.cache.set('services', ', '.join(cache_info))
-        svcs = ["{}={}".format(svc, state)
-                for svc, state in service_checks.items()]
+        svcs = ["{}={}".format(svc, settings) for svc, settings in items]
         log.debug('requirement check: %s (result=%s)',
                   ', '.join(svcs), _result)
         return _result

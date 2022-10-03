@@ -2,7 +2,10 @@ import os
 
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.input import YPropertyInputBase
-from hotsos.core.ycheck.engine.properties.requires import YRequirementTypeBase
+from hotsos.core.ycheck.engine.properties.requires import (
+    intercept_exception,
+    YRequirementTypeBase,
+)
 
 
 class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
@@ -24,6 +27,7 @@ class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
         return _options
 
     @property
+    @intercept_exception
     def _result(self):
         _result = True
         not_found = None

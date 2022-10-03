@@ -3,6 +3,7 @@ import os
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.requires import (
+    intercept_exception,
     OpsUtils,
     YRequirementTypeBase,
 )
@@ -158,5 +159,6 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         return _assertions
 
     @property
+    @intercept_exception
     def _result(self):
         return all(self.assertions)

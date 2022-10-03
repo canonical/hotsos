@@ -1,6 +1,8 @@
 from hotsos.core.log import log
-from hotsos.core.ycheck.engine.properties.requires import \
-    YRequirementTypeWithOpsBase
+from hotsos.core.ycheck.engine.properties.requires import (
+    intercept_exception,
+    YRequirementTypeWithOpsBase,
+)
 
 
 class YRequirementTypeProperty(YRequirementTypeWithOpsBase):
@@ -11,6 +13,7 @@ class YRequirementTypeProperty(YRequirementTypeWithOpsBase):
         return ['property']
 
     @property
+    @intercept_exception
     def _result(self):
         if type(self.content) != dict:
             path = self.content

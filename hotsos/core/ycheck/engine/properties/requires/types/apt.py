@@ -1,9 +1,74 @@
 from hotsos.core.log import log
+from hotsos.core.utils import cached_property
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     DPKGVersionCompare,
 )
-from hotsos.core.ycheck.engine.properties.requires import YRequirementTypeBase
+from hotsos.core.ycheck.engine.properties.requires import (
+    intercept_exception,
+    CheckItemsBase,
+    YRequirementTypeBase,
+)
+
+
+class APTCheckItems(CheckItemsBase):
+
+    @cached_property
+    def packages_to_check(self):
+        return [item[0] for item in self]
+
+    @cached_property
+    def _apt_info(self):
+        return APTPackageHelper(self.packages_to_check)
+
+    @cached_property
+    def installed(self):
+        _installed = []
+        for p in self.packages_to_check:
+            if self._apt_info.is_installed(p):
+                _installed.append(p)
+
+        return _installed
+
+    @cached_property
+    def not_installed(self):
+        _all = self.packages_to_check
+        return set(self.installed).symmetric_difference(_all)
+
+    @cached_property
+    def installed_versions(self):
+        _versions = []
+        for p in self.installed:
+            _versions.append(self._apt_info.get_version(p))
+
+        return _versions
+
+    def package_version_within_ranges(self, pkg, versions):
+        result = False
+        version = self._apt_info.get_version(pkg)
+        for item in sorted(versions, key=lambda i: i['max'],
+                           reverse=True):
+            v_max = str(item['max'])
+            v_min = str(item['min'])
+            lte_max = version <= DPKGVersionCompare(v_max)
+            if v_min:
+                lt_broken = version < DPKGVersionCompare(v_min)
+            else:
+                lt_broken = None
+
+            if lt_broken:
+                continue
+
+            if lte_max:
+                result = True
+            else:
+                result = False
+
+            break
+
+        log.debug("package %s=%s within version ranges %s "
+                  "(result=%s)", pkg, version, versions, result)
+        return result
 
 
 class YRequirementTypeAPT(YRequirementTypeBase):
@@ -13,60 +78,30 @@ class YRequirementTypeAPT(YRequirementTypeBase):
     def _override_keys(cls):
         return ['apt']
 
-    def _package_version_within_ranges(self, pkg_version, versions):
-        for item in sorted(versions, key=lambda i: i['max'],
-                           reverse=True):
-            v_max = str(item['max'])
-            v_min = str(item['min'])
-            lte_max = pkg_version <= DPKGVersionCompare(v_max)
-            if v_min:
-                lt_broken = pkg_version < DPKGVersionCompare(v_min)
-            else:
-                lt_broken = None
-
-            if lt_broken:
-                continue
-
-            if lte_max:
-                return True
-            else:
-                return False
-
-        return False
-
     @property
+    @intercept_exception
     def _result(self):
-        # Value can be a package name or dict that provides more
-        # information about the package or list of packages.
-        if type(self.content) == dict:
-            packages = self.content
-            packages_under_test = list(packages.keys())
-        elif type(self.content) == list:
-            packages = {p: None for p in self.content}
-            packages_under_test = self.content
+        _result = True
+        items = APTCheckItems(self.content)
+        # bail on first fail i.e. if any not installed
+        if not items.not_installed:
+            for pkg, versions in items:
+                log.debug("package %s installed=%s", pkg, _result)
+                if not versions:
+                    continue
+
+                _result = items.package_version_within_ranges(pkg, versions)
+                # bail at first failure
+                if not _result:
+                    break
         else:
-            packages = {self.content: None}
-            packages_under_test = [self.content]
+            log.debug("one or more packages not installed so returning False "
+                      "- %s", ', '.join(items.not_installed))
+            # bail on first fail i.e. if any not installed
+            _result = False
 
-        versions_actual = []
-        apt_info = APTPackageHelper(packages_under_test)
-        for pkg, versions in packages.items():
-            _result = apt_info.is_installed(pkg) or False
-            if _result:
-                pkg_ver = apt_info.get_version(pkg)
-                versions_actual.append(pkg_ver)
-                if versions:
-                    _result = self._package_version_within_ranges(pkg_ver,
-                                                                  versions)
-                    log.debug("package %s=%s within version ranges %s "
-                              "(result=%s)", pkg, pkg_ver, versions, _result)
-
-            log.debug("package %s installed=%s", pkg, _result)
-            # bail at first failure
-            if not _result:
-                break
-
-        self.cache.set('package', ', '.join(packages.keys()))
-        self.cache.set('version', ', '.join(versions_actual))
-        log.debug('requirement check: apt %s (result=%s)', pkg, _result)
+        self.cache.set('package', ', '.join(items.installed))
+        self.cache.set('version', ', '.join(items.installed_versions))
+        log.debug('requirement check: apt %s (result=%s)',
+                  ', '.join(items.packages_to_check), _result)
         return _result
