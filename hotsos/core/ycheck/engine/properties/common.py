@@ -502,6 +502,22 @@ class LogicalCollectionHandler(abc.ABC):
         results = []
         stop_processing = False
         for item in logical_op_group.members:
+            if item._override_name in self.VALID_GROUP_KEYS:
+                logical_op = item._override_name
+                log.error("start processing nested group (%s)", logical_op)
+                result = self.eval_op_group(item)
+                log.error("finish processing nested group (result=%s)", result)
+                results.append(result)
+                if self.group_exit_condition_met(logical_op, result):
+                    log.debug("result is %s and logical group %s exit "
+                              "condition met so stopping further evaluation "
+                              "if this group",
+                              result, logical_op)
+                    stop_processing = True
+                    break
+
+                continue
+
             for entry in item:
                 result = self.get_item_result_callback(entry)
                 results.append(result)

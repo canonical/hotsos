@@ -31,17 +31,12 @@ class YStructException(Exception):
 
 
 class OverrideState(object):
-    def __init__(self, owner, name, content):
+    def __init__(self, owner, content):
         self._whoami = "{}.{}".format(owner.__class__.__name__,
                                       self.__class__.__name__)
-        log("{}.__init__: {}".format(self._whoami, content))
-        self._name = name
+        log("{}.__init__: id={} content={}".format(self._whoami, id(self),
+                                                   content))
         self._content = content
-
-    @property
-    def name(self):
-        # log("{}.name".format(self._whoami))
-        return self._name
 
     @property
     def content(self):
@@ -51,7 +46,7 @@ class OverrideState(object):
     def __getattr__(self, name):
         # log("{}.__getattr__: {}".format(self._whoami, name))
         _name = name.replace('_', '-')
-        if _name not in self.content:
+        if type(self.content) != dict or _name not in self.content:
             raise AttributeError("'{}' object has no attribute '{}'".
                                  format(self._whoami, name))
 
@@ -63,29 +58,25 @@ class OverrideStack(object):
         self._whoami = "{}.{}".format(owner.__class__.__name__,
                                       self.__class__.__name__)
         self.items = []
+        log("{}.__init__ id={} (owner={})".format(self._whoami, id(self),
+                                                  id(owner)))
 
-    def add(self, item):
-        log("{}.add: {}".format(self._whoami, type(item)))
+    def push(self, item):
         self.items.append(item)
-        info = "\nsize: {}\ncontents: {}\n".format(len(self), repr(self))
-        log("{} stack info: {}".format(self._whoami, info))
+        log("{}: push (stack_id={}) \n{}\n".format(self._whoami, id(self),
+                                                   repr(self)))
 
     def __len__(self):
-        # log("{}.len ({})".format(self._whoami, len(self.items)))
-        # info = "\ncontents:\n{}\n".format(repr(self))
-        # log("{} stack info: {}".format(self._whoami, info))
         return len(self.items)
 
     def __repr__(self):
-        # log("{}.repr".format(self._whoami))
         r = []
-        for i, item in enumerate(self.items):
+        for item in self.items:
             if isinstance(item, OverrideState):
-                r.append("[{}] {} - {} {}".format(i, item._whoami,
-                                                  item.name,
-                                                  item.content))
+                r.append("[{}] type={} content={}".
+                         format(id(item), item._whoami, item.content))
             else:
-                r.append("[{}] {} depth={}".format(i, item._whoami,
+                r.append("[{}] {} depth={}".format(id(item), item._whoami,
                                                    len(item)))
 
         return '\n'.join(r)
@@ -93,26 +84,28 @@ class OverrideStack(object):
     @property
     def current(self):
         """ Return most recent object if available. """
-        if len(self.items):  # pylint: disable=C1801
+        if len(self.items) > 0:
+            log("{}: using current".format(self._whoami))
             return self.items[-1]
 
     def __iter__(self):
-        log("{}.__iter__".format(self._whoami))
+        log("{}.__iter__ id={}".format(self._whoami, id(self)))
         for item in self.items:
             yield item
 
 
 class OverrideBase(abc.ABC):
 
-    def __init__(self, name, content, context, resolve_path, *args, **kwargs):
+    def __init__(self, name, content, context, resolve_path, state=None):
         self._whoami = self.__class__.__name__
         self._context = context
-        super().__init__(*args, **kwargs)
-        log("{}.__init__: {} {} {}".format(self._whoami, name, content,
-                                           resolve_path))
+        log("{}.__init__: id={} name={} content={} resolve_path={} state={}".
+            format(self._whoami, id(self), name, content, resolve_path, state))
         self._override_resolved_name = name
-        self._override_resolve_path = '{}.{}'.format(resolve_path, name)
+        self._override_resolve_path = resolve_path
+        log("creating new stack for override id={}".format(id(self)))
         self._stack = OverrideStack(self)
+        self.add_state(name, content, state=state)
 
     @abc.abstractclassmethod
     def _override_keys(cls):
@@ -128,9 +121,10 @@ class OverrideBase(abc.ABC):
 
     @property
     def _override_path(self):
-        """ This is the full resolve path this override. """
-        log("{}._override_path".format(self._whoami))
-        return self._override_resolve_path
+        path = "{}.{}".format(self._override_resolve_path, self._override_name)
+        """ This is the full resolve path for this override object. """
+        log("{}._override_path {}".format(self._whoami, path))
+        return path
 
     @classmethod
     def valid_parse_content_types(cls):
@@ -152,18 +146,24 @@ class OverrideBase(abc.ABC):
         if len(self._stack):
             return self._stack.current.content
 
-    def add(self, name, content):
-        log("{}.add: {} {}".format(self._whoami, name, content))
-        self._stack.add(OverrideState(self, name, content))
+    def add_state(self, _name, content, state=None):
+        """
+        We don't both saving name in state for unmapped overrides.
+        """
+        log("saving override state")
+        if state is None:
+            state = OverrideState(self, content)
+
+        self._stack.push(state)
 
     def __len__(self):
         return len(self._stack)
 
     def __iter__(self):
-        log("{}.__iter__".format(self._whoami))
+        log("{}.__iter__ unmapped".format(self._whoami))
         for item in self._stack:
-            yield self.__class__(item.name, item.content, self.context,
-                                 self._override_resolve_path)
+            yield self.__class__(self._override_name, None, self.context,
+                                 self._override_path, state=item)
 
     @abc.abstractmethod
     def __getattr__(self, name):
@@ -172,12 +172,8 @@ class OverrideBase(abc.ABC):
 
 class YStructOverrideBase(OverrideBase):
 
-    def __init__(self, name, content, *args, **kwargs):
-        super().__init__(name, content, *args, **kwargs)
-        self.add(name, content)
-
     def __getattr__(self, name):
-        log("{}.__getattr__: {}".format(self._whoami, name))
+        log("{}.__getattr__: unmapped name={}".format(self._whoami, name))
         if len(self._stack):
             # none is allowed as a return value
             return getattr(self._stack.current, name)
@@ -187,10 +183,6 @@ class YStructOverrideBase(OverrideBase):
 
 
 class YStructOverrideRawType(OverrideBase):
-
-    def __init__(self, name, content, *args, **kwargs):
-        super().__init__(name, content, *args, **kwargs)
-        self.add(name, content)
 
     @classmethod
     def _override_keys(cls):
@@ -223,69 +215,95 @@ class YStructOverrideRawType(OverrideBase):
 
 class MappedOverrideState(object):
 
-    def __init__(self, owner, name, content, member_keys):
+    def __init__(self, owner, content, member_keys):
         self._whoami = "{}.{}".format(owner.__class__.__name__,
                                       self.__class__.__name__)
-        self._name = name
+        self._owner = owner
         self._content = content
-        self._member_stacks = {}
+        self._stacks = {'member': {}, 'nested': {}}
         self._member_keys = member_keys
+        log("{}.__init__: id={} content={}".format(self._whoami, id(self),
+                                                   content))
 
     @property
-    def name(self):
-        # log("{}.name".format(self._whoami))
-        return self._name
+    def _override_name(self):
+        return self._owner._override_name
 
     @property
     def content(self):
         # log("{}.content".format(self._whoami))
         _content = {}
-        for name, stack in self._member_stacks.items():
-            _content.update({name: stack})
+        for stype in self._stacks:
+            for name, stack in self._stacks[stype].items():
+                _content.update({name: stack})
 
         return _content
 
-    def add_member(self, obj):
-        name = obj._override_name
-        log("{}.add_member: {} {}".format(self._whoami, name, type(obj)))
-        if name not in self._member_stacks:
-            self._member_stacks[name] = OverrideStack(self)
+    def add_obj(self, obj):
+        if isinstance(obj, self._owner.__class__):
+            log("obj name='{}' is a nested mapping".format(obj._override_name))
+            stack_type = 'nested'
+        else:
+            log("obj name='{}' is a mapping member".format(obj._override_name))
+            stack_type = 'member'
 
-        self._member_stacks[name].add(obj)
-        info = "\nsize: {}\ncontents:\n{}\n".format(len(self), repr(self))
-        log("{} stack info: {}".format(self._whoami, info))
+        name = obj._override_name
+        stack = self._stacks[stack_type]
+        log("{}.add_obj: stack_type={} name={} id={}".format(self._whoami,
+                                                             stack_type, name,
+                                                             id(obj)))
+        if name not in stack:
+            log("no stack found for {} '{}' so creating new one".
+                format(stack_type, name))
+            stack[name] = OverrideStack(self)
+        else:
+            log("using existing stack for {} '{}'".format(stack_type, name))
+
+        stack[name].push(obj)
+        log("{} {} stack: \n{}\n".format(self._whoami, stack_type, repr(self)))
 
     def __len__(self):
-        return len(self._member_stacks)
+        return sum([len(self._stacks[stype]) for stype in self._stacks])
 
     def __repr__(self):
         log("{}.repr".format(self._whoami))
         r = []
-        for name, stack in self._member_stacks.items():
-            r.append("[{}] depth={} ".format(name, len(stack)))
+        for stype in self._stacks:
+            for name, stack in self._stacks[stype].items():
+                r.append("[{}] depth={} ".format(name, len(stack)))
 
         return '\n'.join(r)
 
     def __iter__(self):
-        for member in self._member_stacks.values():
-            for item in member:
-                yield item
+        log("{}.__iter__".format(self._whoami))
+        for stype in self._stacks:
+            for obj in self._stacks[stype].values():
+                for item in obj:
+                    yield item
 
     def __getattr__(self, name):
-        log("{}.__getattr__: {}".format(self._whoami, name))
+        log("{}.__getattr__: mapped state {}".format(self._whoami, name))
         _name = name.replace('_', '-')
-        if _name in self._member_stacks:
-            member = self._member_stacks[_name]
-            if len(member) > 1:
-                return member
+        for stype in self._stacks:
+            obj = self._stacks[stype].get(_name)
+            if obj is not None:
+                break
+
+        if obj:
+            log("{} found (len={})".format(_name, len(obj)))
+            if len(obj) > 1:
+                return obj
             else:
-                m = member.current
+                m = obj.current
                 try:
                     # Allow overrides to define a property for non-simple
                     # content to be returned as-is.
-                    return getattr(m, name)
+                    return getattr(m, _name)
                 except Exception:
+                    log("{} not found in {}".format(_name,
+                                                    m.__class__.__name__))
                     if type(m.content) not in [dict, list]:
+                        log("returning raw content")
                         return m.content
                     else:
                         return m
@@ -301,15 +319,25 @@ class MappedOverrideState(object):
 class YStructMappedOverrideBase(OverrideBase):
 
     def __init__(self, name, content, *args, **kwargs):
-        if name in self._override_keys():
-            principle_name = name
-        else:
-            principle_name = self._override_keys()[0]
+        log("creating new mapped override id={} type={} name={}".
+            format(id(self), type(self), name))
+        self._current_state_obj = None
+        super().__init__(name, content, *args, **kwargs)
 
-        super().__init__(principle_name, content, *args, **kwargs)
-        self._stack = OverrideStack(self)
-        self._current = None
-        self.add(name, content)
+    @property
+    def _override_name(self):
+        """
+        We override this to ensure that we return the principle objects name
+        even if the name provided is a member name.
+        """
+        log("{}._override_name".format(self._whoami))
+        name = self._override_resolved_name
+        if name not in self._override_keys():
+            log("'{}' not found in {} so using '{}' for override name".
+                format(name, self._override_keys(), self._override_keys()[0]))
+            name = self._override_keys()[0]
+
+        return name
 
     @abc.abstractclassmethod
     def _override_mapped_member_types(cls):
@@ -341,6 +369,10 @@ class YStructMappedOverrideBase(OverrideBase):
         return names
 
     @property
+    def num_members(self):
+        return sum([len(item) for item in self._stack])
+
+    @property
     def members(self):
         """
         This combines iterating over the stack with iterating over the stack
@@ -349,78 +381,116 @@ class YStructMappedOverrideBase(OverrideBase):
         """
         log("{}.members (depth={})".format(self._whoami, len(self._stack)))
         for item in self._stack:
-            log("{}.__iter__ item={} ({})".
+            log("{}.__iter__ item={}\n{}".
                 format(self._whoami, item._whoami, repr(item)))
             for _item in item:
                 yield _item
 
     def __iter__(self):
-        log("{}.__iter__ ({})".format(self._whoami, repr(self._stack)))
+        log("{}.__iter__ mappings \n{}".format(self._whoami,
+                                               repr(self._stack)))
         for item in self._stack:
-            log("{}.__iter__ item={} ({})".
+            log("{}.__iter__ members item={} ({})".
                 format(self._whoami, item._whoami, repr(item)))
             yield item
 
-    def add(self, name, content, flush_current=False):
+    def add_state(self, name, content, flush_current=False, state=None):
         """
         @param flush_current: Flush the current state and start a new one.
         """
-        resolve_path = self._override_path
-        log("{}.add: {} {} current={}".format(self._whoami, name,
-                                              content, self._current))
-        if not self._current or flush_current:
-            state = MappedOverrideState(self, name, content, self.member_keys)
-            self._current = None
+        log("{}.add_state: name={} content={} current={} flush_current={}".
+            format(self._whoami, name, content, self._current_state_obj,
+                   flush_current))
+        log("saving mapped override state")
+        if not self._current_state_obj or flush_current:
+            if state is None:
+                state = MappedOverrideState(self, content, self.member_keys)
+
+            self._current_state_obj = None
         else:
-            state = self._current
+            state = self._current_state_obj
 
         if name in self._override_keys():
-            self._current = None
-            state = MappedOverrideState(self, name, content, self.member_keys)
+            log("name is principle ({})".format(name))
+            self._current_state_obj = None
+            if state is None:
+                state = MappedOverrideState(self, content, self.member_keys)
+
             if type(content) in self.valid_parse_content_types():
+                log("resolving contents of mapped override '{}'".
+                    format(self._override_name))
                 mapping_members = self._override_mapped_member_types()
+                mapping_members.append(self.__class__)
                 s = YStructSection(name, content,
                                    resolve_path=self._override_path,
                                    override_handlers=mapping_members,
                                    context=self._context)
+
+                # Now see what members got resolved (if any)
                 for name in self.member_keys:
-                    if hasattr(s, name):
+                    log("checking for mapping '{}' member '{}'".
+                        format(self._override_name, name))
+                    try:
                         obj = getattr(s, name)
                         if obj is not None:
-                            state.add_member(obj)
+                            log("member '{}' found, adding to principle".
+                                format(name))
+                            state.add_obj(obj)
+                        else:
+                            log("member '{}' not found".format(name))
+                    except AttributeError:
+                        log("member '{}' not found and raised AttributeError "
+                            "which was unexpected".format(name))
+
+                # Now see what mappings got resolved (if any)
+                for key in self._override_keys():
+                    log("checking for nested {}".format(key))
+                    obj = getattr(s, key)
+                    if obj is not None:
+                        log("nested mapping '{}' found, adding to principle".
+                            format(key))
+                        state.add_obj(obj)
 
                 for obj in s.get_resolved_by_type(YStructOverrideRawType):
-                    state.add_member(obj)
+                    state.add_obj(obj)
             else:
-                log("{}.add: content type '{}' not parsable ({}) so treating "
-                    "as {}".format(self._whoami, type(content),
-                                   self.valid_parse_content_types(),
-                                   YStructOverrideRawType.__name__)),
+                log("content type '{}' not parsable ({}) so "
+                    "treating as {}".format(type(content),
+                                            self.valid_parse_content_types(),
+                                            YStructOverrideRawType.__name__)),
 
                 if type(content) != list:
                     content = [content]
 
                 for item in content:
                     obj = YStructOverrideRawType(item, item, self.context,
-                                                 resolve_path)
-                    state.add_member(obj)
+                                                 self._override_path)
+                    state.add_obj(obj)
 
-            self._stack.add(state)
+            log("pushing updated mapping state to stack")
+            self._stack.push(state)
         else:
+            log("name is member ({})".format(name))
             handler = self.get_member_with_key(name)
-            obj = handler(name, content, self.context, resolve_path)
-            state.add_member(obj)
-            if not self._current:
-                self._current = state
-                self._stack.add(state)
+            obj = handler(name, content, self.context, self._override_path)
+            state.add_obj(obj)
+            if not self._current_state_obj:
+                self._current_state_obj = state
+                log("pushing mapping state to stack")
+                self._stack.push(state)
 
     def __getattr__(self, name):
-        log("{}.__getattr__: {}".format(self._whoami, name))
+        """
+        This should only be used if stack length == 1. Otherwise need to
+        iterate over the stack.
+        """
+        log("{}.__getattr__: mapped name={}".format(self._whoami, name))
         _name = name.replace('_', '-')
         if len(self._stack):
-            members = self._stack.current._member_stacks
-            if _name in members:
-                return members[_name].current
+            for stype in self._stack.current._stacks:
+                obj = self._stack.current._stacks[stype].get(_name)
+                if obj:
+                    return obj.current
 
         if _name in self.member_keys:
             # allow members to be empty
@@ -456,7 +526,15 @@ class YStructOverrideManager(object):
                     self._handlers.append(h)
 
     def switch_to_stacked(self):
-        log("{}.switch_to_stacked".format(self.__class__.__name__))
+        """
+        With stacking enabled we say that if an override has already been
+        resolved, we can treat further resolves of the same override as extra
+        state of the current one rather than treating them as separate
+        instances.
+
+        This also clears the set of resolved overrides so that we start afresh.
+        """
+        log("enabling stacking (clearing resolved={})".format(self._resolved))
         self.allow_stacking = True
         self._resolved = {}
 
@@ -485,8 +563,8 @@ class YStructOverrideManager(object):
         return _results
 
     def get_resolved(self, name):
-        log("{}.get_resolved: {} ({})".format(self.__class__.__name__, name,
-                                              len(self._resolved)))
+        log("{}.get_resolved: name={} (total_resolved={})".
+            format(self.__class__.__name__, name, len(self._resolved)))
         name = name.replace('_', '-')
         return self._resolved.get(name)
 
@@ -496,11 +574,16 @@ class YStructOverrideManager(object):
         @param flush_mapped: if True this tells a mapped override to flush it's
         member states and start a new set.
         """
-        log("{}.add_resolved: name={} content={} handler={} resolve_path={} "
-            "member_name={} flush_mapped={}".
-            format(self.__class__.__name__, name, content, handler,
-                   resolve_path, member_name, flush_mapped))
+        log("{}.add_resolved: name={} member_name={} content={} handler={} "
+            "resolve_path={} flush_mapped={} allow_stacking={}".
+            format(self.__class__.__name__, name, member_name, content,
+                   handler.__name__, resolve_path, flush_mapped,
+                   self.allow_stacking))
         resolved_obj = self._resolved.get(name)
+        if resolved_obj:
+            log("found existing resolved obj for name={} type={}".
+                format(name, resolved_obj.__class__.__name__))
+
         resolved_name = name
         add_member = False
         if member_name:
@@ -510,9 +593,18 @@ class YStructOverrideManager(object):
 
         if resolved_obj and (self.allow_stacking or add_member):
             if isinstance(resolved_obj, YStructMappedOverrideBase):
-                resolved_obj.add(name, content, flush_current=flush_mapped)
+                log("{} is an instance of {}".
+                    format(resolved_obj.__class__.__name__,
+                           YStructMappedOverrideBase.__name__))
+                resolved_obj.add_state(name, content,
+                                       flush_current=flush_mapped)
             else:
-                resolved_obj.add(name, content)
+                log("obj id={}, type={} is not an instance of {} and is "
+                    "therefore assumed to "
+                    "be a member or unmapped override".
+                    format(id(resolved_obj), resolved_obj.__class__.__name__,
+                           YStructMappedOverrideBase.__name__))
+                resolved_obj.add_state(name, content)
         else:
             obj = handler(name, content, self._context, resolve_path)
             self._resolved[resolved_name] = obj
@@ -522,27 +614,38 @@ class YStructOverrideManager(object):
             format(self.__class__.__name__, name, content, resolve_path,
                    flush_mapped))
         if name == content:
+            log("resolved principle override with raw content")
             self.add_resolved(name, content, YStructOverrideRawType,
                               resolve_path)
             return
 
         handler = self.get_handler(name)
         if handler:
+            log("resolving using unmapped override type={}".format(handler))
             self.add_resolved(name, content, handler, resolve_path)
             return
 
         mapping, member = self.get_mapping(name)
         if mapping:
             if not member:
+                log("resolved mapped override mapping={} (member=None)".
+                    format(mapping.__name__))
                 self.add_resolved(name, content, mapping, resolve_path)
                 return
 
+            log("resolved mapped override mapping={} (member={})".
+                format(mapping.__name__, member.__name__))
             member_name = name
             name = mapping._override_keys()[0]
+            log("using mapping name '{}' (member={})".format(name,
+                                                             member_name))
             self.add_resolved(name, content, mapping, resolve_path,
                               member_name=member_name,
                               flush_mapped=flush_mapped)
             self._resolved_mapped[member_name] = name
+            return
+
+        log("nothing to resolve")
 
     @property
     def resolved_unmapped(self):
@@ -566,8 +669,8 @@ class YStructSection(object):
         else:
             self.root = root
 
-        log("\n{}.__init__: {} {}".format(self.__class__.__name__, name,
-                                          content))
+        log("{}.__init__: name={} content={}".format(self.__class__.__name__,
+                                                     name, content))
         self.name = name
         self.parent = parent
         self.content = content
@@ -620,6 +723,7 @@ class YStructSection(object):
             self.pre_hook()
 
         if type(self.content) == list:
+            log("content is list")
             self.manager.switch_to_stacked()
             for _ref, item in enumerate(self.content):
                 log("{}.run: item={}".format(self.__class__.__name__, item))
@@ -632,19 +736,24 @@ class YStructSection(object):
                                              flush_mapped)
                         flush_mapped = False
         else:
+            self.manager.allow_stacking = False
             if type(self.content) != dict:
                 raise YStructException("undefined override '{}'".
                                        format(self.name))
 
+            log("content is dict")
             # first get all overrides at this level
+            unresolved = {}
             for name, content in self.content.items():
                 self.manager.resolve(name, content, self.resolve_path)
+                if name not in self.manager.resolved:
+                    unresolved[name] = content
 
-            for name, content in self.content.items():
-                if (name in self.manager.resolved or
-                        YStructOverrideRawType.check_is_raw_value(content)):
-                    log("{}.run: terminating {} with raw content".
-                        format(self.__class__.__name__, name))
+            for name, content in unresolved.items():
+                if YStructOverrideRawType.check_is_raw_value(content):
+                    log("{}.run: terminating override={} with raw content "
+                        "'{}'".
+                        format(self.__class__.__name__, name, content))
                     continue
 
                 rpath = "{}.{}".format(self.resolve_path, name)

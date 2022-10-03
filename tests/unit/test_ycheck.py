@@ -647,6 +647,41 @@ conclusions:
         group should result in further items not being executed.
 """
 
+NESTED_LOGIC_TEST_W_ISSUE = """
+vars:
+  bool_true: true
+checks:
+  chk_pass:
+    and:
+      - varops: [[$bool_true], [truth]]
+      - not:
+          varops: [[$bool_true], [not_]]
+conclusions:
+  conc1:
+    decision: chk_pass
+    raises:
+      type: SystemWarning
+      message:
+"""
+
+
+NESTED_LOGIC_TEST_NO_ISSUE = """
+vars:
+  bool_true: true
+checks:
+  chk_pass:
+    and:
+      - varops: [[$bool_true], [truth]]
+      - not:
+          varops: [[$bool_true], [truth]]
+conclusions:
+  conc1:
+    decision: chk_pass
+    raises:
+      type: SystemWarning
+      message:
+"""
+
 
 class TestYamlChecks(utils.BaseTestCase):
 
@@ -1305,3 +1340,15 @@ class TestYamlChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
+
+    @init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
+    def test_logical_collection_nested_no_issue(self):
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
+
+    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE)
+    def test_logical_collection_nested_w_issue(self):
+        scenarios.YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 1)
