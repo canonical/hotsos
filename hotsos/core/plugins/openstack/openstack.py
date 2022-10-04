@@ -26,6 +26,8 @@ from hotsos.core.utils import cached_property
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
 # versions page: https://ubuntu.com/openstack/docs/supported-versions
 OST_EOL_INFO = {
+    'zed': datetime(2024, 4, 30),
+    'yoga': datetime(2027, 4, 30),
     'xena': datetime(2023, 4, 30),
     'wallaby': datetime(2024, 4, 30),
     'victoria': datetime(2022, 4, 30),
@@ -40,7 +42,8 @@ OST_EOL_INFO = {
 
 OST_REL_INFO = {
     'barbican-common': {
-        'yoga': '1:14.0.0',
+        'zed': '2:15.0.0',
+        'yoga': '2:14.0.0',
         'xena': '1:13.0.0',
         'wallaby': '1:12.0.0',
         'victoria': '1:11.0.0',
@@ -50,6 +53,7 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'cinder-common': {
+        'zed': '2:21.0.0',
         'yoga': '2:20.0.0',
         'xena': '2:19.0.0',
         'wallaby': '2:18.0.0',
@@ -60,6 +64,7 @@ OST_REL_INFO = {
         'rocky': '2:13.0.0',
         'queens': '2:12.0.0'},
     'designate-common': {
+        'zed': '1:15.0.0',
         'yoga': '1:14.0.0',
         'xena': '1:13.0.0',
         'wallaby': '1:12.0.0',
@@ -70,6 +75,7 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'glance-common': {
+        'zed': '2:25.0.0',
         'yoga': '2:24.0.0',
         'xena': '2:23.0.0',
         'wallaby': '2:22.0.0',
@@ -80,6 +86,7 @@ OST_REL_INFO = {
         'rocky': '2:17.0.0',
         'queens': '2:16.0.0'},
     'heat-common': {
+        'zed': '1:19.0.0',
         'yoga': '1:18.0.0',
         'xena': '1:17.0.0',
         'wallaby': '1:16.0.0',
@@ -90,6 +97,7 @@ OST_REL_INFO = {
         'rocky': '1:11.0.0',
         'queens': '1:10.0.0'},
     'keystone': {
+        'zed': '2:22.0.0',
         'yoga': '2:21.0.0',
         'xena': '2:20.0.0',
         'wallaby': '2:19.0.0',
@@ -102,6 +110,7 @@ OST_REL_INFO = {
         'pike': '2:12.0.0',
         'ocata': '2:11.0.0'},
     'nova-common': {
+        'zed': '3:26.0.0',
         'yoga': '3:25.0.0',
         'xena': '3:24.0.0',
         'wallaby': '3:23.0.0',
@@ -120,6 +129,7 @@ OST_REL_INFO = {
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
     'masakari-common': {
+        'zed': '14.0.0',
         'yoga': '13.0.0',
         'xena': '12.0.0',
         'wallaby': '11.0.0',
@@ -129,6 +139,7 @@ OST_REL_INFO = {
         'stein': '7.0.0',
         'rocky': '6.0.0'},
     'neutron-common': {
+        'zed': '2:21.0.0',
         'yoga': '2:20.0.0',
         'xena': '2:19.0.0',
         'wallaby': '2:18.0.0',
@@ -147,6 +158,7 @@ OST_REL_INFO = {
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
     'octavia-common': {
+        'zed': '1:11.0.0',
         'yoga': '1:10.0.0',
         'xena': '1:9.0.0',
         'wallaby': '1:8.0.0',
@@ -156,6 +168,7 @@ OST_REL_INFO = {
         'stein': '4.0.0',
         'rocky': '3.0.0'},
     'openstack-dashboard-common': {
+        'zed': '4:22.2.0',
         'yoga': '4:22.0.0',
         'xena': '4:20.0.0',
         'wallaby': '4:19.0.0',

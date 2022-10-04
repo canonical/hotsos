@@ -180,10 +180,14 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
     @cached_property
     def days_to_eol(self):
         if self.release_name != 'unknown':
-            eol = OST_EOL_INFO[self.release_name]
-            today = datetime.fromtimestamp(int(CLIHelper().date()))
-            delta = (eol - today).days
-            return delta
+            eol = OST_EOL_INFO.get(self.release_name)
+            if eol is not None:
+                today = datetime.fromtimestamp(int(CLIHelper().date()))
+                delta = (eol - today).days
+                return delta
+            else:
+                log.warning("unable to determine eol info for unknown release "
+                            "name '%s'", self.release_name)
 
     @property
     def bind_interfaces(self):
