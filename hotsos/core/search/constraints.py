@@ -389,7 +389,7 @@ class SearchConstraintSearchSince(BinarySeekSearchBase):
         """
         A search expression is provided that allows us to identify a datetime
         on each line and check whether it is within a given time period. The
-        time period used defaults to 24 hours of USE_ALL_LOGS is false, 7 days
+        time period used defaults to 24 hours if USE_ALL_LOGS is false, 7 days
         if it is true and MAX_LOGROTATE_DEPTH is default otherwise whatever
         value provided. This can be overridden by providing a specific number
         of hours.
@@ -400,7 +400,7 @@ class SearchConstraintSearchSince(BinarySeekSearchBase):
         @param hours: override default period with number of hours
         """
         super().__init__()
-        if hours is not None and hours == 0:
+        if hours == 0:
             log.warning("search constraint created with hours=%s", hours)
 
         self.fd_info = None

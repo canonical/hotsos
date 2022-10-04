@@ -170,14 +170,6 @@ class SystemBase(object):
         return 0
 
     @cached_property
-    def loadavg(self):
-        uptime = CLIHelper().uptime()
-        if uptime:
-            ret = re.compile(r".+load average:\s+(.+)").match(uptime)
-            if ret:
-                return ret[1]
-
-    @cached_property
     def unattended_upgrades_enabled(self):
         apt_config_dump = CLIHelper().apt_config_dump()
         if not apt_config_dump:

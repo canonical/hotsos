@@ -524,6 +524,10 @@ CONSTRAINTS:
     Minimum number of search results required. If a search period is
     defined, these must occur within that period. Default is 1.
 
+  min-hours-since-last-boot: <int>
+    Search result must be at least this number of hours after the last
+    boot time.
+
 CACHE_KEYS
   simple_search
   sequence_search

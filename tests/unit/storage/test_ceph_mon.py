@@ -495,12 +495,15 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
                                        'ceph-mon/mon_elections_flapping.yaml'))
+    @mock.patch('hotsos.core.ycheck.engine.properties.search.UptimeHelper')
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     @utils.create_data_root({'var/log/ceph/ceph.log': MON_ELECTION_LOGS},
                             copy_from_original=['sos_commands/date/date'])
-    def test_scenario_mon_reelections(self, mock_cephbase):
+    def test_scenario_mon_reelections(self, mock_cephbase, mock_uptime):
+        mock_uptime.return_value = mock.MagicMock()
+        mock_uptime.return_value.hours = 49
         mock_cephbase.return_value = mock.MagicMock()
         mock_cephbase.return_value.plugin_runnable = True
         mock_cephbase.return_value.has_interface_errors = True

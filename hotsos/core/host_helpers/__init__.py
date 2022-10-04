@@ -21,3 +21,6 @@ from .systemd import (  # noqa: F403,F401
     SystemdHelper,
     SVC_EXPR_TEMPLATES,
 )
+from .uptime import (  # noqa: F403,F401
+    UptimeHelper,
+)

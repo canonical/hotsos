@@ -2,7 +2,7 @@ from datetime import (
     datetime,
     timedelta,
 )
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import UptimeHelper, CLIHelper
 from hotsos.core.log import log
 from hotsos.core.search import (
     SearchDef,
@@ -43,10 +43,18 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
     @cached_yproperty_attr
     def search_result_age_hours(self):
         """
-        Result muct have aoccured within search-result-age-hours from current
-        time (in the case of a sosreport would time sosreport was created).
+        Result must have occurred within this number of hours from the current
+        time (for a sosreport this would be when it was created).
         """
         return int(self.content.get('search-result-age-hours', 0))
+
+    @cached_yproperty_attr
+    def min_hours_since_last_boot(self):
+        """
+        Search result must be at least this number of hours after the last
+        boot time.
+        """
+        return int(self.content.get('min-hours-since-last-boot', 0))
 
     @cached_yproperty_attr
     def min_results(self):
@@ -61,10 +69,22 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         Create a searchtools constraints object representing the paramaters in
         this property.
         """
+        has_result_hours = 'search-result-age-hours' in self.content
+        has_boot_hours = 'min-hours-since-last-boot' in self.content
+        if not any([has_result_hours, has_boot_hours]):
+            return
+
+        uptime_etime_hours = UptimeHelper().hours
         hours = self.search_result_age_hours
-        if hours is not None and hours > 0:  # pylint: disable=W0143
-            return SearchConstraintSearchSince(exprs=COMMON_LOG_DATETIME_EXPRS,
-                                               hours=hours)
+        min_hours_since_last_boot = self.min_hours_since_last_boot
+        if not hours:
+            hours = max(uptime_etime_hours - min_hours_since_last_boot, 0)
+        elif min_hours_since_last_boot > 0:  # pylint: disable=W0143
+            hours = min(hours,
+                        max(uptime_etime_hours - min_hours_since_last_boot, 0))
+
+        return SearchConstraintSearchSince(exprs=COMMON_LOG_DATETIME_EXPRS,
+                                           hours=hours)
 
 
 class YPropertySearchOpt(YPropertyOverrideBase):
