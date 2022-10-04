@@ -8,6 +8,8 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.host_helpers.filestat import FileFactory
 
+UPTIME_LONG_FORMAT = ' 14:51:10 up 1 day,  6:27,  1 user,  load average: 0.55, 0.73, 0.70'  # noqa, pylint: disable=C0301
+
 
 class TestHostNetworkingHelper(utils.BaseTestCase):
 
@@ -155,3 +157,19 @@ class TestFileStatHelper(utils.BaseTestCase):
 
         fileobj = FileFactory().noexist
         self.assertEqual(fileobj.mtime, 0)
+
+
+class TestUptimeHelper(utils.BaseTestCase):
+
+    def test_loadavg(self):
+        self.assertEqual(host_helpers.UptimeHelper().loadavg,
+                         "3.58, 3.27, 2.58")
+
+    def test_uptime(self):
+        self.assertEqual(host_helpers.UptimeHelper().seconds, 63660)
+        self.assertEqual(host_helpers.UptimeHelper().hours, 17)
+
+    @utils.create_data_root({'uptime': UPTIME_LONG_FORMAT})
+    def test_uptime_alt_format(self):
+        self.assertEqual(host_helpers.UptimeHelper().seconds, 109620)
+        self.assertEqual(host_helpers.UptimeHelper().hours, 30)

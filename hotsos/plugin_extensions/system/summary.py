@@ -1,7 +1,7 @@
 import re
 
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper, UptimeHelper
 from hotsos.core.plugins.system import SystemChecksBase
 
 
@@ -23,8 +23,8 @@ class SystemSummary(SystemChecksBase):
 
     @idx(3)
     def __summary_load(self):
-        if self.loadavg:
-            return self.loadavg
+        if UptimeHelper().loadavg:
+            return UptimeHelper().loadavg
 
     @idx(4)
     def __summary_virtualisation(self):
