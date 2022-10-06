@@ -30,6 +30,7 @@ class SystemdService(object):
         @returns: datetime.datetime object or None if time not found.
         """
         log.debug("fetching start time for svc %s", self.name)
+        # must be in short-iso format
         cexpr = re.compile(r"^(([0-9-]+)T[\d:]+\+[\d]+)\s+.+: "
                            "(Started|Starting) .+")
         journal = CLIHelper().journalctl(unit=self.name)

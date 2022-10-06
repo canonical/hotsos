@@ -68,34 +68,39 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
         if started_after:
             a = svc.start_time
             b = started_after.start_time
-            if a and b:
-                log.debug("%s started=%s, %s started=%s", svc.name,
-                          a, started_after.name, b)
-                if a < b:
-                    delta = b - a
-                else:
-                    delta = a - b
+            if not all([a, b]):
+                log.debug("could not get start time for services %s and %s "
+                          "so assuming started-after constraint is False",
+                          svc.name, started_after.name)
+                return False
 
-                # Allow a small grace period to avoid false positives e.g.
-                # on node boot when services are started all at once.
-                grace = 120
-                # In order for a service A to have been started after B it must
-                # have been started more than GRACE seconds after B.
-                if a > b:
-                    if delta >= timedelta(seconds=grace):
-                        log.debug("svc %s started >= %ds of start of %s "
-                                  "(delta=%s)", svc.name, grace,
-                                  started_after.name, delta)
-                    else:
-                        log.debug("svc %s started < %ds of start of %s "
-                                  "(delta=%s)", svc.name, grace,
-                                  started_after.name, delta)
-                        return False
+            log.debug("%s started=%s, %s started=%s", svc.name,
+                      a, started_after.name, b)
+            if a < b:
+                delta = b - a
+            else:
+                delta = a - b
+
+            # Allow a small grace period to avoid false positives e.g.
+            # on node boot when services are started all at once.
+            grace = 120
+            # In order for a service A to have been started after B it must
+            # have been started more than GRACE seconds after B.
+            if a > b:
+                if delta >= timedelta(seconds=grace):
+                    log.debug("svc %s started >= %ds of start of %s "
+                              "(delta=%s)", svc.name, grace,
+                              started_after.name, delta)
                 else:
-                    log.debug("svc %s started before or same as %s "
-                              "(delta=%s)", svc.name,
+                    log.debug("svc %s started < %ds of start of %s "
+                              "(delta=%s)", svc.name, grace,
                               started_after.name, delta)
                     return False
+            else:
+                log.debug("svc %s started before or same as %s "
+                          "(delta=%s)", svc.name,
+                          started_after.name, delta)
+                return False
 
         return self.apply_ops(ops, input=svc.state)
 
