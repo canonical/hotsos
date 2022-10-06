@@ -131,12 +131,14 @@ class BinCmd(CmdBase):
         @param cmd: command in string format (not list)
         """
         self.original_cmd = cmd
+        self.original_cmd_extras = []
         self.original_json_decode = json_decode
         self.original_singleline = singleline
         super().__init__()
 
     def reset(self):
         self.cmd = self.original_cmd
+        self.original_cmd_extras = []
         self.json_decode = self.original_json_decode
         self.singleline = self.original_singleline
 
@@ -153,8 +155,8 @@ class BinCmd(CmdBase):
         if kwargs:
             cmd = cmd.format(**kwargs)
 
-        output = subprocess.check_output(cmd.split(),
-                                         stderr=subprocess.STDOUT)
+        _cmd = cmd.split() + self.original_cmd_extras
+        output = subprocess.check_output(_cmd, stderr=subprocess.STDOUT)
 
         if self.json_decode:
             return json.loads(output.decode('UTF-8'))
@@ -361,7 +363,8 @@ class DateBinCmd(BinCmd):
 
         self.cmd = '{} --utc'.format(self.cmd)
         if format:
-            self.cmd = '{} {}'.format(self.cmd, format)
+            # this can't get split() so add to the end of the command list
+            self.original_cmd_extras = [format]
 
 
 class DateFileCmd(FileCmd):
