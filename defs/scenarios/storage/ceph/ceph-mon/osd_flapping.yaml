@@ -6,8 +6,7 @@ checks:
       path: var/log/ceph/ceph*.log
     expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ wrongly marked me down at .+'
   ceph_interfaces_have_errors:
-    requires:
-      property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
+    property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
 conclusions:
   cause-unknown:
     priority: 1
@@ -28,9 +27,8 @@ conclusions:
   network:
     priority: 2
     decision:
-      and:
-        - osd_flapping
-        - ceph_interfaces_have_errors
+      - osd_flapping
+      - ceph_interfaces_have_errors
     raises:
       type: CephWarning
       message: >-

@@ -4,11 +4,10 @@ checks:
       path: 'var/log/ovn/ovn-controller.log'
     expr: '.+ERR\|bridge not found for localnet port \S+ with network name'
   1865127_broken_package:
-    requires:
-      apt:
-        ovn-common:
-          - min: 0
-            max: 20.12.0~1
+    apt:
+      ovn-common:
+        - min: 0
+          max: 20.12.0~1
   has_1917475:
     input:
       path: 'var/log/ovn/ovn-controller.log'
@@ -16,9 +15,8 @@ checks:
 conclusions:
   lp1865127:
     decision:
-      and:
-        - has_1865127
-        - 1865127_broken_package
+      - has_1865127
+      - 1865127_broken_package
     raises:
       type: LaunchpadBug
       bug-id: 1865127

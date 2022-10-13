@@ -1,9 +1,8 @@
 checks:
   bluefs_osds_have_oversize_metadata:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.bluefs_oversized_metadata_osds
-        ops: [[length_hint], [gt, 0]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.bluefs_oversized_metadata_osds
+      ops: [[length_hint], [gt, 0]]
 conclusions:
   bluefs-osds-have-oversize-metadata:
     decision: bluefs_osds_have_oversize_metadata

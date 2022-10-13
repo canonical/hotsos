@@ -16,8 +16,9 @@ checks:
 conclusions:
   client_ssl_cert_problem:
     decision:
-      and: [ using_mysql_router, client_ssl_mode ]
-      not: client_ssl_cert
+      - using_mysql_router
+      - client_ssl_mode
+      - not: client_ssl_cert
     raises:
       type: LaunchpadBug
       bug-id: 1959861

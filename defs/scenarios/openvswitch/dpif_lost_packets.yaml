@@ -43,9 +43,8 @@ conclusions:
   has_lost_packets_dpif_lost_packets:
     priority: 2
     decision:
-      and:
-        - dp_has_lost_packets
-        - dpif_netlink_lost_packet_on_handler
+      - dp_has_lost_packets
+      - dpif_netlink_lost_packet_on_handler
     raises:
       type: OpenvSwitchWarning
       message: >-

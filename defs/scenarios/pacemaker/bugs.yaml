@@ -1,9 +1,8 @@
 checks:
   node1-found:
-    requires:
-      property:
-        path: hotsos.core.plugins.pacemaker.PacemakerBase.offline_nodes
-        ops: [[contains, node1]]
+    property:
+      path: hotsos.core.plugins.pacemaker.PacemakerBase.offline_nodes
+      ops: [[contains, node1]]
 conclusions:
   node1-found-needs-removal:
     decision: node1-found
@@ -11,13 +10,14 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1874719
       message: >-
-       A node with the hostname node1 is currently configured and enabled on
-       pacemaker. This is caused by a known bug and you can remove the node by
-       running the following command on the application-hacluster leader:
-       juju run-action <application>-hacluster/leader
-       delete-node-from-ring node=node1 --wait
+        A node with the hostname node1 is currently configured and enabled on
+        pacemaker. This is caused by a known bug and you can remove the node by
+        running the following command on the application-hacluster leader:
+        juju run-action <application>-hacluster/leader
+        delete-node-from-ring node=node1 --wait
 
-       If the above action is not available in the charm, you can run the
-       following command:
-       juju run --application <application>-hacluster --
-       sudo crm_node -R node1 --force
+        If the above action is not available in the charm, you can run the
+        following command:
+        juju run --application <application>-hacluster --
+        sudo crm_node -R node1 --force
+

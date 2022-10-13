@@ -1,22 +1,18 @@
 checks:
   cluster_has_osds_with_pgs_above_max:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_above_max
-        ops: [[length_hint], [gt, 0]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_above_max
+      ops: [[length_hint], [gt, 0]]
   cluster_has_osds_with_suboptimal_pgs:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_suboptimal
-        ops: [[length_hint], [gt, 0]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_suboptimal
+      ops: [[length_hint], [gt, 0]]
   cluster_has_non_empty_pools:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools
   autoscaler_disabled_for_any_pool:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_for_any_pool
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_for_any_pool
 conclusions:
   cluster-osds-with-pgs-above-max:
     decision: cluster_has_osds_with_pgs_above_max
@@ -30,10 +26,9 @@ conclusions:
         limit: hotsos.core.plugins.storage.ceph.CephCluster.OSD_PG_MAX_LIMIT
   cluster-osds-with-suboptimal-pgs:
     decision:
-      and:
-        - cluster_has_osds_with_suboptimal_pgs
-        - cluster_has_non_empty_pools
-        - autoscaler_disabled_for_any_pool
+      - cluster_has_osds_with_suboptimal_pgs
+      - cluster_has_non_empty_pools
+      - autoscaler_disabled_for_any_pool
     raises:
       type: CephCrushWarning
       message: >-

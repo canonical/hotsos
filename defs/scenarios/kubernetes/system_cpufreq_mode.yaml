@@ -12,31 +12,25 @@ vars:
   scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
-    requires:
-      and:
-        # can we actually see the setting
-        - varops: [[$scaling_governor], [ne, unknown]]
-        # does it have the expected value
-        - varops: [[$scaling_governor], [ne, performance]]
+     # can we actually see the setting
+     - varops: [[$scaling_governor], [ne, unknown]]
+     # does it have the expected value
+     - varops: [[$scaling_governor], [ne, performance]]
   kubernetes_installed:
-    requires:
-      and:
-        - snap: kubelet
-        # ignore if not running on metal
-        - property:
-            path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
-            ops: [[eq, null]]
+    - snap: kubelet
+    # ignore if not running on metal
+    - property:
+        path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
+        ops: [[eq, null]]
   ondemand_installed_and_enabled:
-    requires:
-      systemd:
-        ondemand: enabled
+    systemd:
+      ondemand: enabled
 conclusions:
   cpufreq-not-performance:
     priority: 1
     decision:
-      and:
-        - cpufreq_governor_not_performance
-        - kubernetes_installed
+      - cpufreq_governor_not_performance
+      - kubernetes_installed
     raises:
       type: KubernetesWarning
       message: >-
@@ -48,10 +42,9 @@ conclusions:
   cpufreq-not-performance-with-ondemand:
     priority: 2
     decision:
-      and:
-        - cpufreq_governor_not_performance
-        - kubernetes_installed
-        - ondemand_installed_and_enabled
+      - cpufreq_governor_not_performance
+      - kubernetes_installed
+      - ondemand_installed_and_enabled
     raises:
       type: KubernetesWarning
       message: >-

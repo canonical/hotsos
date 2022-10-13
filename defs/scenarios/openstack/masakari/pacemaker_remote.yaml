@@ -9,8 +9,8 @@ conclusions:
   pacemaker_not_installed:
     priority: 2
     decision:
-      and: is_compute_host_using_masakari
-      not: pr_installed
+      - is_compute_host_using_masakari
+      - not: pr_installed
     raises:
       type: OpenstackWarning
       message: >-

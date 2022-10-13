@@ -4,16 +4,14 @@ checks:
       command: ceph_health_detail_json_decoded
     expr: '.+experiencing BlueFS spillover'
   health_warning:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
-        ops: [[eq, HEALTH_WARN]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      ops: [[eq, HEALTH_WARN]]
 conclusions:
   bluefs-spillover:
     decision:
-      and:
-        - bluefs_spillover
-        - health_warning
+      - bluefs_spillover
+      - health_warning
     raises:
       type: CephTrackerBug
       bug-id: 38745

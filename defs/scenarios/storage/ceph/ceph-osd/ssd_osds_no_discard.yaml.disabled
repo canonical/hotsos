@@ -1,23 +1,20 @@
 checks:
   ssd_ceph_osds_exist:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_devtypes
-        ops: [[contains, ssd]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_devtypes
+      ops: [[contains, ssd]]
   ceph_discard_not_enabled:
-    requires:
-      config:
-        handler: hotsos.core.plugins.storage.ceph.CephConfig
-        assertions:
-          key: bdev enable_discard
-          ops: [[ne, 'true']]
-          allow-unset: True
+    config:
+      handler: hotsos.core.plugins.storage.ceph.CephConfig
+      assertions:
+        key: bdev enable_discard
+        ops: [[ne, 'true']]
+        allow-unset: True
 conclusions:
   ceph-ssd-osds-no-discard:
     decision:
-      and:
-        - ssd_ceph_osds_exist
-        - ceph_discard_not_enabled
+      - ssd_ceph_osds_exist
+      - ceph_discard_not_enabled
     raises:
       type: CephWarning
       message: >-

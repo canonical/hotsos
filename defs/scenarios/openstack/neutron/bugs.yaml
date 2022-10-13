@@ -1,12 +1,10 @@
 checks:
   isolcpus_enabled:
-    requires:
-      property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
+    property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
   has_1794991:
-    requires:
-      systemd:
-        openvswitch-switch:
-          started-after: neutron-openvswitch-agent
+    systemd:
+      openvswitch-switch:
+        started-after: neutron-openvswitch-agent
   has_1883089:
     input:
       path: 'var/log/neutron/neutron-l3-agent.log'
@@ -22,21 +20,20 @@ checks:
       path: 'var/log/neutron/neutron-openvswitch-agent.log'
     expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
   has_1927868:
-    requires:
-      apt:
-        neutron-common:
-          # wallaby
-          - min: 2:18.0.0
-            max: 2:18.1.0-0ubuntu1
-          # victoria
-          - min: 2:17.0.0
-            max: 2:17.2.0-0ubuntu0
-          # ussuri
-          - min: 2:16.3.0
-            max: 2:16.4.0-0ubuntu2
-          # train
-          - min: 2:15.3.3
-            max: 2:15.3.4-0ubuntu0
+    apt:
+      neutron-common:
+        # wallaby
+        - min: 2:18.0.0
+          max: 2:18.1.0-0ubuntu1
+        # victoria
+        - min: 2:17.0.0
+          max: 2:17.2.0-0ubuntu0
+        # ussuri
+        - min: 2:16.3.0
+          max: 2:16.4.0-0ubuntu2
+        # train
+        - min: 2:15.3.3
+          max: 2:15.3.4-0ubuntu0
   has_1928031:
     input:
       path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
@@ -91,9 +88,8 @@ conclusions:
         keepalived.
   lp1907686:
     decision:
-      and:
-        - isolcpus_enabled
-        - has_1907686
+      - isolcpus_enabled
+      - has_1907686
     raises:
       type: LaunchpadBug
       bug-id: 1907686

@@ -6,10 +6,9 @@ vars:
   cert_invalid_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
 checks:
   services_not_restarted_after_cert_update:
-    and:
-      - systemd: ovn-controller
-      - varops: [[$host_cert_mtime], [gt, $ovn_controller_start_time]]
-      - varops: [[$ovn_chassis_cert_mtime], [gt, $ovn_controller_start_time]]
+    - systemd: ovn-controller
+    - varops: [[$host_cert_mtime], [gt, $ovn_controller_start_time]]
+    - varops: [[$ovn_chassis_cert_mtime], [gt, $ovn_controller_start_time]]
   certs_expired_logs:
     input: var/log/ovn/ovn-controller.log
     expr: $cert_expired_expr

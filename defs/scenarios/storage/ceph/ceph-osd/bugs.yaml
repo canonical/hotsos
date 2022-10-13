@@ -1,16 +1,15 @@
 checks:
   has_1959649:
-    requires:
-      - apt:
-          ceph-osd:
-            - min: 15.2.6
-              max: 15.2.10
-      - property:
-          path: hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs.bluestore_volume_selection_policy
-          ops: [[ne, [use_some_extra]]]
-      - property:
-          path: hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs.bluestore_volume_selection_policy
-          ops: [[ne, []]]
+    - apt:
+        ceph-osd:
+          - min: 15.2.6
+            max: 15.2.10
+    - property:
+        path: hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs.bluestore_volume_selection_policy
+        ops: [[ne, [use_some_extra]]]
+    - property:
+        path: hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs.bluestore_volume_selection_policy
+        ops: [[ne, []]]
 conclusions:
   lp1959649:
     decision: has_1959649

@@ -2,33 +2,27 @@ checks:
   # In older sosreports, the plugin is called 'ceph' (= mon + mgr + osd) and
   # in the newer ones it's called 'ceph_mon'.
   is_sosreport:
-    requires:
-      property: hotsos.core.plugins.sosreport.SOSReportChecksBase.plugin_runnable
+    property: hotsos.core.plugins.sosreport.SOSReportChecksBase.plugin_runnable
   sosreport_hung_ceph_mon_old:
-    requires:
-      property:
-        path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
-        ops: [[contains, ceph]]
+    property:
+      path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+      ops: [[contains, ceph]]
   sosreport_hung_ceph_mon_new:
-    requires:
-      property:
-        path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
-        ops: [[contains, ceph_mon]]
+    property:
+      path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+      ops: [[contains, ceph_mon]]
   sosreport_hung_ceph_mgr:
-    requires:
-      property:
-        path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
-        ops: [[contains, ceph_mgr]]
+    property:
+      path: hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins
+      ops: [[contains, ceph_mgr]]
   ceph_osd_df_tree:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.osd_df_tree
-        ops: [[eq, null]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.osd_df_tree
+      ops: [[eq, null]]
   ceph_pg_dump:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephCluster.pg_dump
-        ops: [[eq, null]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.pg_dump
+      ops: [[eq, null]]
 conclusions:
   ceph_mon_hung:
     decision:

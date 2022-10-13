@@ -15,32 +15,26 @@ vars:
   scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
-    requires:
-      and:
-        # can we actually see the setting
-        - varops: [[$scaling_governor], [ne, unknown]]
-        # does it have the expected value
-        - varops: [[$scaling_governor], [ne, performance]]
+    # can we actually see the setting
+    - varops: [[$scaling_governor], [ne, unknown]]
+    # does it have the expected value
+    - varops: [[$scaling_governor], [ne, performance]]
   is_neutron_gateway:
     # i.e. neutron-l3-agent but no nova == neutron gateway
-    requires:
-      - not:
-          - apt: nova-compute
-      - apt: neutron-l3-agent
+    - not:
+        apt: nova-compute
+    - apt: neutron-l3-agent
   is_nova_compute:
-    requires:
-      apt: nova-compute
+    apt: nova-compute
   ondemand_installed_and_enabled:
-    requires:
-      systemd:
-        ondemand: enabled
+    systemd:
+      ondemand: enabled
 conclusions:
   cpufreq-not-performance-n-cpu:
     priority: 1
     decision:
-      and:
-        - cpufreq_governor_not_performance
-        - is_nova_compute
+      - cpufreq_governor_not_performance
+      - is_nova_compute
     raises:
       type: OpenstackWarning
       message: >-
@@ -52,9 +46,8 @@ conclusions:
   cpufreq-not-performance-n-gw:
     priority: 1
     decision:
-      and:
-        - cpufreq_governor_not_performance
-        - is_neutron_gateway
+      - cpufreq_governor_not_performance
+      - is_neutron_gateway
     raises:
       type: OpenstackWarning
       message: >-
@@ -66,10 +59,9 @@ conclusions:
   cpufreq-not-performance-with-ondemand-n-cpu:
     priority: 2
     decision:
-      and:
-        - cpufreq_governor_not_performance
-        - is_nova_compute
-        - ondemand_installed_and_enabled
+      - cpufreq_governor_not_performance
+      - is_nova_compute
+      - ondemand_installed_and_enabled
     raises:
       type: OpenstackWarning
       message: >-
@@ -82,10 +74,9 @@ conclusions:
   cpufreq-not-performance-with-ondemand-n-gw:
     priority: 2
     decision:
-      and:
-        - cpufreq_governor_not_performance
-        - is_neutron_gateway
-        - ondemand_installed_and_enabled
+      - cpufreq_governor_not_performance
+      - is_neutron_gateway
+      - ondemand_installed_and_enabled
     raises:
       type: OpenstackWarning
       message: >-

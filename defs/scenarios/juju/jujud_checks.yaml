@@ -1,9 +1,8 @@
 checks:
   jujud_not_found:
-    requires:
-      property:
-        path: hotsos.core.plugins.juju.JujuChecksBase.systemd_processes
-        ops: [[contains, jujud], [not_]]
+    property:
+      path: hotsos.core.plugins.juju.JujuChecksBase.systemd_processes
+      ops: [[contains, jujud], [not_]]
 conclusions:
   jujud-not-found:
     decision: jujud_not_found

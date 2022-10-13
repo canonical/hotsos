@@ -1,9 +1,8 @@
 checks:
   is_eol:
-    requires:
-      property:
-        path: hotsos.core.plugins.storage.ceph.CephChecksBase.days_to_eol
-        ops: [[le, 0]]
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephChecksBase.days_to_eol
+      ops: [[le, 0]]
 conclusions:
   is-eol:
     decision: is_eol

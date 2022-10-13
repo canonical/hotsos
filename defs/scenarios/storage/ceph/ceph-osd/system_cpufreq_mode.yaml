@@ -12,16 +12,13 @@ vars:
   scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
-    requires:
-      and:
-        # can we actually see the setting
-        - varops: [[$scaling_governor], [ne, unknown]]
-        # does it have the expected value
-        - varops: [[$scaling_governor], [ne, performance]]
+    # can we actually see the setting
+    - varops: [[$scaling_governor], [ne, unknown]]
+    # does it have the expected value
+    - varops: [[$scaling_governor], [ne, performance]]
   ondemand_installed_and_enabled:
-    requires:
-      systemd:
-        ondemand: enabled
+    systemd:
+      ondemand: enabled
 conclusions:
   cpufreq-not-performance:
     priority: 1
@@ -37,9 +34,8 @@ conclusions:
   cpufreq-not-performance-with-ondemand:
     priority: 2
     decision:
-      and:
-        - cpufreq_governor_not_performance
-        - ondemand_installed_and_enabled
+      - cpufreq_governor_not_performance
+      - ondemand_installed_and_enabled
     raises:
       type: CephWarning
       message: >-

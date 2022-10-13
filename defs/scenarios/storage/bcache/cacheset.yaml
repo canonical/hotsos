@@ -1,32 +1,28 @@
 checks:
   bcache_enabled:
-    requires:
-      property: hotsos.core.plugins.storage.bcache.BcacheBase.bcache_enabled
+    property: hotsos.core.plugins.storage.bcache.BcacheBase.bcache_enabled
   cset_has_invalid_config:
-    requires:
-      config:
-        handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
-        assertions:
-          not:
-            - key: congested_read_threshold_us
-              ops: [[eq, 0]]
-            - key: congested_write_threshold_us
-              ops: [[eq, 0]]
+    config:
+      handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
+      assertions:
+        not:
+          - key: congested_read_threshold_us
+            ops: [[eq, 0]]
+          - key: congested_write_threshold_us
+            ops: [[eq, 0]]
   cset_config_lp1900438_limit:
-    requires:
-      config:
-        handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
-        assertions:
-          # The real limit is 30 but we go just above in case bcache is flapping
-          # just above and below the limit.
-          key: cache_available_percent
-          ops: [[le, 33]]
+    config:
+      handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
+      assertions:
+        # The real limit is 30 but we go just above in case bcache is flapping
+        # just above and below the limit.
+        key: cache_available_percent
+        ops: [[le, 33]]
 conclusions:
   cset-has-invalid-config:
     decision:
-      and:
-        - bcache_enabled
-        - cset_has_invalid_config
+      - bcache_enabled
+      - cset_has_invalid_config
     raises:
       type: BcacheWarning
       message: >-
@@ -36,9 +32,8 @@ conclusions:
         assertions: '@checks.cset_has_invalid_config.requires.assertion_results'
   bcache-bug-lp1900438:
     decision:
-      and:
-        - bcache_enabled
-        - cset_config_lp1900438_limit
+      - bcache_enabled
+      - cset_config_lp1900438_limit
     raises:
       type: LaunchpadBug
       bug-id: 1900438

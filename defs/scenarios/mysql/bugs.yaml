@@ -1,21 +1,19 @@
 checks:
   has_1971565:
-    requires:
-      apt:
-        mysql-router:
-          # focal:
-          - min: 8.0.29-0ubuntu0.20.04.2
-            max: 8.0.29-0ubuntu0.20.04.2
-          # impish:
-          - min: 8.0.29-0ubuntu0.21.10.1
-            max: 8.0.29-0ubuntu0.21.10.1
-          # jammy:
-          - min: 8.0.29-0ubuntu0.22.04.1
-            max: 8.0.29-0ubuntu0.22.04.1
+    apt:
+      mysql-router:
+        # focal:
+        - min: 8.0.29-0ubuntu0.20.04.2
+          max: 8.0.29-0ubuntu0.20.04.2
+        # impish:
+        - min: 8.0.29-0ubuntu0.21.10.1
+          max: 8.0.29-0ubuntu0.21.10.1
+        # jammy:
+        - min: 8.0.29-0ubuntu0.22.04.1
+          max: 8.0.29-0ubuntu0.22.04.1
   mysql_router_enabled:
-    requires:
-      systemd:
-        mysql-router: enabled
+    systemd:
+      mysql-router: enabled
   free_blocks_difficult:
     input:
       path: 'var/log/mysql/error.log'
@@ -23,9 +21,8 @@ checks:
 conclusions:
   lp1971565:
     decision:
-      and:
-        - has_1971565
-        - mysql_router_enabled
+      - has_1971565
+      - mysql_router_enabled
     raises:
       type: LaunchpadBug
       bug-id: 1971565

@@ -1,15 +1,14 @@
 checks:
-  has_2008099_pt1:
-    requires:
-      apt:
-        octavia-common:
-          # ussuri
-          - min: 6.0.0
-            max: 6.2.0-0ubuntu1~cloud0~1
-          # victoria
-          - min: 7.0.0
-            max: 7.1.0-0ubuntu1~cloud0~1
-  has_2008099_pt2:
+  has_2008099_pkg_versions:
+    apt:
+      octavia-common:
+        # ussuri
+        - min: 6.0.0
+          max: 6.2.0-0ubuntu1~cloud0~1
+        # victoria
+        - min: 7.0.0
+          max: 7.1.0-0ubuntu1~cloud0~1
+  has_2008099_logs:
     input:
       path: 'var/log/octavia/octavia-worker.log'
     expr: '.+octavia.amphorae.drivers.haproxy.exceptions .+ Removing incomplete section ''peers'
@@ -17,9 +16,8 @@ checks:
 conclusions:
   2008099:
     decision:
-      and:
-        - has_2008099_pt1
-        - has_2008099_pt2
+      - has_2008099_pkg_versions
+      - has_2008099_logs
     raises:
       type: StoryBoardBug
       bug-id: 2008099

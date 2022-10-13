@@ -1,15 +1,11 @@
 checks:
   octavia_worker_installed:
-    requires:
-      and:
-        - property: hotsos.core.plugins.openstack.octavia.OctaviaBase.installed
-        - systemd: octavia-worker
+    - property: hotsos.core.plugins.openstack.octavia.OctaviaBase.installed
+    - systemd: octavia-worker
   hm_port_has_no_packet_drops_or_errors:
-    requires:
-      property: hotsos.core.plugins.openstack.octavia.OctaviaBase.hm_port_healthy
+    property: hotsos.core.plugins.openstack.octavia.OctaviaBase.hm_port_healthy
   hm_port_address_check:
-    requires:
-      property: hotsos.core.plugins.openstack.octavia.OctaviaBase.hm_port_has_address
+    property: hotsos.core.plugins.openstack.octavia.OctaviaBase.hm_port_has_address
 conclusions:
   no-addr-or-noexist:
     priority: 1

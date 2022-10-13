@@ -1,11 +1,10 @@
 checks:
   has_1839592:
-    requires:
-      apt:
-        libc-bin:
-          # queens
-          - min: 2.23-0ubuntu3
-            max: 2.27-3ubuntu1.2
+    apt:
+      libc-bin:
+        # queens
+        - min: 2.23-0ubuntu3
+          max: 2.27-3ubuntu1.2
 conclusions:
   lp1839592:
     decision: has_1839592

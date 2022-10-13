@@ -11,8 +11,7 @@ checks:
         search-result-age-hours: 48
         min-hours-since-last-boot: 1
   ceph_interfaces_have_errors:
-    requires:
-      property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
+    property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
 conclusions:
   cause-unknown:
     priority: 1
@@ -27,9 +26,8 @@ conclusions:
   network:
     priority: 2
     decision:
-      and:
-        - ceph_log_has_election_calls
-        - ceph_interfaces_have_errors
+      - ceph_log_has_election_calls
+      - ceph_interfaces_have_errors
     raises:
       type: CephWarning
       message: >-

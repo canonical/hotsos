@@ -1,28 +1,25 @@
 checks:
   neutron_dpdk_enabled:
-    requires:
-      apt: openvswitch-switch-dpdk
+    apt: openvswitch-switch-dpdk
   nova_libvirt_queue_sizes_invalid_config:
-    requires:
-      config:
-        handler: hotsos.core.plugins.openstack.OpenstackConfig
-        path: etc/nova/nova.conf
-        assertions:
-          not:
-            - key: rx_queue_size
-              section: libvirt
-              ops: [[ge, 1024]]
-              allow-unset: False
-            - key: tx_queue_size
-              section: libvirt
-              ops: [[ge, 1024]]
-              allow-unset: False
+    config:
+      handler: hotsos.core.plugins.openstack.OpenstackConfig
+      path: etc/nova/nova.conf
+      assertions:
+        not:
+          - key: rx_queue_size
+            section: libvirt
+            ops: [[ge, 1024]]
+            allow-unset: False
+          - key: tx_queue_size
+            section: libvirt
+            ops: [[ge, 1024]]
+            allow-unset: False
 conclusions:
   nova-dpdk-config-not-valid:
     decision:
-      and:
-        - neutron_dpdk_enabled
-        - nova_libvirt_queue_sizes_invalid_config
+      - neutron_dpdk_enabled
+      - nova_libvirt_queue_sizes_invalid_config
     raises:
       type: OpenstackWarning
       message: >-

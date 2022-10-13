@@ -2,21 +2,18 @@
 # This can happen e.g. after an upgrade from Filestore to Bluestore.
 checks:
   bluestore_enabled:
-    requires:
-      property: hotsos.core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
+    property: hotsos.core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
   ceph_config_has_journal:
-    requires:
-      config:
-        handler: hotsos.core.plugins.storage.ceph.CephConfig
-        assertions:
-          key: osd_journal
-          ops: [[ne, null]]
+    config:
+      handler: hotsos.core.plugins.storage.ceph.CephConfig
+      assertions:
+        key: osd_journal
+        ops: [[ne, null]]
 conclusions:
   bluestore-using-filestore-journal:
     decision:
-      and:
-        - bluestore_enabled
-        - ceph_config_has_journal
+      - bluestore_enabled
+      - ceph_config_has_journal
     raises:
       type: CephWarning
       message: >-

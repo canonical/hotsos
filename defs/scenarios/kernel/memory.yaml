@@ -12,9 +12,8 @@ checks:
   low_free_high_order_mem_blocks:
     varops: [[$nodes_with_limited_high_order_memory], [length_hint]]
   high_compaction_failures:
-    and:
-      - varops: [[$compact_success], [gt, $min_compaction_success]]
-      - varops: [[$compaction_failures_percent], [gt, $max_compaction_failures_pcent]]
+    - varops: [[$compact_success], [gt, $min_compaction_success]]
+    - varops: [[$compaction_failures_percent], [gt, $max_compaction_failures_pcent]]
 conclusions:
   low_free_high_order_mem_blocks:
     decision: low_free_high_order_mem_blocks
@@ -31,9 +30,8 @@ conclusions:
     decision:
       # We only report on compaction errors if there is a shortage of
       # high-order zones.
-      and:
-        - low_free_high_order_mem_blocks
-        - high_compaction_failures
+      - low_free_high_order_mem_blocks
+      - high_compaction_failures
     raises:
       type: MemoryWarning
       message: >-
