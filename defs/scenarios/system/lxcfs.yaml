@@ -4,18 +4,21 @@ checks:
       path: 'var/log/kern.log'
     expr: '.+ segfault at 0 .+ error 4 in liblxcfs.so.+'
   has_1807628:
-    requires:
-      apt:
-        lxcfs:
-          # Bionic
-          - min: 3.0.0-0ubuntu1
-            max: 3.0.3-0ubuntu1~18.04.2
+    apt:
+      lxcfs:
+        # Bionic
+        - min: 3.0.0-0ubuntu1
+          max: 3.0.3-0ubuntu1~18.04.2
+  is_not_a_lxc_container:
+    property:
+      path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+      ops: [[ne, 'lxc']]
 conclusions:
   lxcfs_segfault:
     decision:
-      and:
-        - lxcfs_segfault
-        - has_1807628
+      - is_not_a_lxc_container
+      - lxcfs_segfault
+      - has_1807628
     raises:
       type: SystemWarning
       message: >-
@@ -23,7 +26,9 @@ conclusions:
         will likely need to be restarted. The "lxcfs" package
         should be upgraded immediately to version 3.0.3-0ubuntu1~18.04.3 or better.
   lp1807628:
-    decision: has_1807628
+    decision:
+      - is_not_a_lxc_container
+      - has_1807628
     raises:
       type: LaunchpadBug
       bug-id: 1807628
