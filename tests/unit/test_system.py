@@ -34,6 +34,8 @@ LXCFS_ERROR = """
 Jun  4 06:25:10 host-name kernel: [47841183.622537] lxcfs[1925937]: segfault at 0 ip 00007f1ba005d4ea sp 00007f1b7cfc1b10 error 4 in liblxcfs.so [7f1ba0055000+f000]
 """  # noqa
 
+DPKG_L_LXCFS_W_BUG = "ii  lxcfs    3.0.3-0ubuntu1~18.04.1  amd64   FUSE based filesystem for LXC"  # noqa, pylint: disable=C0301
+
 
 class SystemTestsBase(utils.BaseTestCase):
 
@@ -162,11 +164,10 @@ class TestSystemScenarioChecks(SystemTestsBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
+    @mock.patch('hotsos.core.plugins.system.system.SystemBase.'
+                'virtualisation_type', None)
     @utils.create_data_root({'var/log/kern.log': LXCFS_ERROR,
-                             'sos_commands/dpkg/dpkg_-l': 'ii  lxcfs \
-                               3.0.3-0ubuntu1~18.04.1 \
-                               amd64        FUSE based filesystem \
-                               for LXC'},
+                             'sos_commands/dpkg/dpkg_-l': DPKG_L_LXCFS_W_BUG},
                             copy_from_original=['sos_commands/date/date'])
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('lxcfs.yaml'))
@@ -185,3 +186,15 @@ class TestSystemScenarioChecks(SystemTestsBase):
                'upgraded ASAP.')
         issues = list(IssuesManager().load_bugs().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.plugins.system.system.SystemBase.'
+                'virtualisation_type', 'lxc')
+    @utils.create_data_root({'var/log/kern.log': LXCFS_ERROR,
+                             'sos_commands/dpkg/dpkg_-l': DPKG_L_LXCFS_W_BUG},
+                            copy_from_original=['sos_commands/date/date'])
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('lxcfs.yaml'))
+    def test_lxcfs_segfault_ignored(self):
+        YScenarioChecker()()
+        self.assertEqual(len(IssuesStore().load()), 0)
+        self.assertEqual(len(IssuesManager().load_bugs()), 0)
