@@ -526,6 +526,10 @@ class CephCluster(object):
         for device in self.osd_df_tree['nodes']:
             if device['id'] >= 0:
                 meta_kb = device['kb_used_meta']
+                # Util under under 2G are ignored (treated as non-issue).
+                # See #434 for relevant info.
+                if meta_kb < (2 * 1024 * 1024):
+                    continue
                 total_kb = device['kb_used']
                 if meta_kb > (self.OSD_META_LIMIT_PERCENT / 100.0 * total_kb):
                     _bad_meta_osds.append(device['name'])

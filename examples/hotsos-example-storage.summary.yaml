@@ -103,13 +103,6 @@ storage:
           - glance (2)
           - cinder-ceph (3)
           - nova (4)
-  bugs-detected:
-    - desc: Found OSDs osd.0, osd.1, osd.2 with metadata usage > 5% of its total device
-        usage. This could be the result of a compaction failure. Possibly related
-        to the bug https://tracker.ceph.com/issues/45903 if Ceph < 14.2.17. To manually
-        compact the metadata, use 'ceph-bluestore-tool' which is available since 14.2.0.
-      id: https://tracker.ceph.com/issues/45903
-      origin: storage.auto_scenario_check
   potential-issues:
     CephWarnings:
       - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph status' for details.
