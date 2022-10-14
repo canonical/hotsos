@@ -733,8 +733,18 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/bluefs_size.yaml'))
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
+                {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
     def test_bluefs_size(self):
-        YScenarioChecker()()
+        path = ('sos_commands/ceph_mon/json_output/ceph_osd_df_'
+                'tree_--format_json-pretty')
+        with open(os.path.join(CEPH_MON_DATA_ROOT, path)) as fd:
+            ceph_osd_tree = json.loads(fd.read())
+            for node in ceph_osd_tree['nodes']:
+                if node.get('device_class') == 'ssd':
+                    node['kb_used'] = 2097558
+                    node['kb_used_meta'] = 2097153
+
         msg = ("Found OSDs osd.0, osd.1, osd.2 with metadata usage > 5% "
                "of its total device usage. This could be the result of "
                "a compaction failure. Possibly related to the bug "
@@ -742,8 +752,13 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
                "To manually compact the metadata, use 'ceph-bluestore-tool' "
                "which is available since 14.2.0.")
 
-        issues = list(IssuesManager().load_bugs().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+        @utils.create_data_root({path: json.dumps(ceph_osd_tree)})
+        def run():
+            YScenarioChecker()()
+            issues = list(IssuesManager().load_bugs().values())[0]
+            self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+        run()
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter(
