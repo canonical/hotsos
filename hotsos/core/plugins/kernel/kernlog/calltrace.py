@@ -275,7 +275,7 @@ class OOMKillerTraceType(TraceTypeBase):
                           r'order=([+-]?\d+),.+'.
                           format(KERNLOG_PREFIX))
         body = SearchDef('.+')
-        end = SearchDef(r'{} Out of memory: Killed process (\d+) .+'.
+        end = SearchDef(r'{} (?:Out of memory: )?Killed process (\d+) .+'.
                         format(KERNLOG_PREFIX))
         self._search_def = SequenceSearchDef(start, tag='oom', body=body,
                                              end=end)
