@@ -23,6 +23,29 @@ osd journal size = 1024
 filestore xattr use omap = true
 """
 
+CEPH_OSD_40_LOG = """
+2022-02-10T16:20:23.226+0000 7fc33ca06700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 6.402924154s
+2022-02-10T16:20:23.310+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 6.485089964s, txc = 0x55d96303af00
+2022-02-10T16:20:31.998+0000 7fc33ea0a700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.894541264s
+2022-02-10T16:20:32.014+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.913629322s, txc = 0x55d92502bb00
+2022-02-10T16:20:32.675+0000 7fc33ca06700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 8.264905539s
+2022-02-10T16:20:32.695+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 8.286613899s, txc = 0x55d8c3280f00
+2022-02-10T16:20:34.819+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
+2022-02-10T16:20:35.795+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
+2022-02-10T16:20:36.811+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
+2022-02-10T16:20:37.811+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
+2022-02-10T16:20:38.787+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
+2022-02-10T16:20:39.023+0000 7fc33aa02700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.923671185s
+2022-02-10T16:20:39.035+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.938949368s, txc = 0x55d91e733b00
+2022-02-10T16:20:39.783+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
+2022-02-10T16:20:39.895+0000 7fc3389fe700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.961186691s
+2022-02-10T16:20:39.915+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.984086565s, txc = 0x55d8e875a300
+2022-02-10T16:20:45.871+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 239 slow ops, oldest is osd_op(client.238559015.0:163826723 23.3 23.9a06ee03 (undecoded) ondisk+retry+read+known_if_redirected e229371)
+2022-02-10T16:20:46.851+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
+2022-02-10T16:21:07.347+0000 7fc3391ff700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.535116815s
+2022-02-10T16:21:07.371+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.560397599s, txc = 0x55d8b7c8e900
+"""  # noqa
+
 
 class StorageCephOSDTestsBase(utils.BaseTestCase):
 
@@ -370,3 +393,24 @@ class TestCephScenarioChecks(StorageCephOSDTestsBase):
                     'newer release.')
 
         self.assertEqual(issues[0]['desc'], expected)
+
+    @utils.create_data_root({'var/log/ceph/ceph-osd.40.log': CEPH_OSD_40_LOG},
+                            copy_from_original=['sos_commands/date/date'])
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph-osd/osd_latency.yaml'))
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
+                {'ceph-osd': SystemdService('ceph-osd', 'enabled')})
+    def test_osd_latency(self, mock_cephbase):
+        mock_cephbase.return_value = mock.MagicMock()
+        mock_cephbase.return_value.plugin_runnable = True
+        YScenarioChecker()()
+        msg = ("Latency for some I/O operations have been observed to be "
+               "very high (> 5s). Please search for 'slow operation observed' "
+               "in the OSD logs to see the OSDs that experienced them. "
+               "This could be because the disk was overloaded temporarily "
+               "which is fine (but might correlate with any performance "
+               "drops). If this occurs consistently then it could be due to "
+               "broken OSD/disk or high system load.")
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])

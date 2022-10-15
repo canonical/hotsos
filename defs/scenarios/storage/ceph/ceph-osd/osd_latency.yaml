@@ -1,0 +1,24 @@
+checks:
+  osd_disk_latency:
+    input:
+      path: var/log/ceph/ceph*.log
+    search:
+      expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ slow operation observed .+'
+      constraints:
+        # Expect several in a row; anything that's temporary wouldn't result in
+        # slow ops and likely to be a result of momentary extreme load.
+        min-results: 5
+        search-period-hours: 1
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  osd-disk-latency:
+    decision: osd_disk_latency
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Latency for some I/O operations have been observed to be very high (> 5s).
+        Please search for 'slow operation observed' in the OSD logs to see the
+        OSDs that experienced them. This could be because the disk was overloaded
+        temporarily which is fine (but might correlate with any performance drops).
+        If this occurs consistently then it could be due to broken OSD/disk or
+        high system load.
