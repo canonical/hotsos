@@ -2,7 +2,7 @@ import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.system import SystemChecksBase
-from hotsos.core.plugins.system.system import SYSCtlHelper
+from hotsos.core.host_helpers import SYSCtlHelper
 
 
 class SYSCtlChecks(SystemChecksBase):

@@ -66,65 +66,7 @@ class NUMAInfo(object):
         return self.nodes.get(node)
 
 
-class SYSCtlHelper(object):
-
-    def __init__(self, path):
-        self.path = path
-        self._config = {}
-        self._read_conf()
-
-    def get(self, key):
-        return self._config.get(key)
-
-    @property
-    def setters(self):
-        if not self._config:
-            return {}
-
-        return self._config['set']
-
-    @property
-    def unsetters(self):
-        if not self._config:
-            return {}
-
-        return self._config['unset']
-
-    def _read_conf(self):
-        if not os.path.isfile(self.path):
-            return
-
-        setters = {}
-        unsetters = {}
-        with open(self.path) as fd:
-            for line in fd.readlines():
-                if line.startswith("#"):
-                    continue
-
-                split = line.partition("=")
-                if split[1]:
-                    key = split[0].strip()
-                    value = split[2].strip()
-
-                    # ignore wildcarded keys'
-                    if '*' in key:
-                        continue
-
-                    setters[key] = value
-                elif line.startswith('-'):
-                    key = line.partition('-')[2].strip()
-                    unsetters[key] = None
-                    continue
-
-        self._config['set'] = setters
-        self._config['unset'] = unsetters
-
-
 class SystemBase(object):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._sysctl_all = None
 
     @cached_property
     def date(self):
@@ -188,9 +130,6 @@ class SystemBase(object):
 
     @cached_property
     def sysctl_all(self):
-        if self._sysctl_all is not None:
-            return self._sysctl_all
-
         actuals = {}
         for kv in CLIHelper().sysctl_all():
             k = kv.partition("=")[0].strip()
@@ -198,5 +137,4 @@ class SystemBase(object):
             # normalise multi-whitespace into a single
             actuals[k] = ' '.join(v.split())
 
-        self._sysctl_all = actuals
-        return self._sysctl_all
+        return actuals

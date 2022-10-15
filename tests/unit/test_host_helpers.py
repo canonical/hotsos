@@ -173,3 +173,22 @@ class TestUptimeHelper(utils.BaseTestCase):
     def test_uptime_alt_format(self):
         self.assertEqual(host_helpers.UptimeHelper().seconds, 109620)
         self.assertEqual(host_helpers.UptimeHelper().hours, 30)
+
+
+class TestSysctlHelper(utils.BaseTestCase):
+
+    def test_systctlhelper(self):
+        path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/sysctl.d')
+        path = os.path.join(path, '50-nova-compute.conf')
+        sysctl = host_helpers.SYSCtlHelper(path)
+        setters = {'net.ipv4.neigh.default.gc_thresh1': '128',
+                   'net.ipv4.neigh.default.gc_thresh2': '28672',
+                   'net.ipv4.neigh.default.gc_thresh3': '32768',
+                   'net.ipv6.neigh.default.gc_thresh1': '128',
+                   'net.ipv6.neigh.default.gc_thresh2': '28672',
+                   'net.ipv6.neigh.default.gc_thresh3': '32768',
+                   'net.nf_conntrack_max': '1000000',
+                   'net.netfilter.nf_conntrack_buckets': '204800',
+                   'net.netfilter.nf_conntrack_max': '1000000'}
+        self.assertEqual(sysctl.setters, setters)
+        self.assertEqual(sysctl.unsetters, {})
