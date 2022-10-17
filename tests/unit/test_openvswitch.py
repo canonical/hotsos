@@ -71,6 +71,16 @@ OVN_SSL_ERROR = r"""
 2022-09-26T09:47:13.591Z|06893|stream_ssl|WARN|SSL_accept: error:14094415:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired
 """  # noqa
 
+DPCTL_DUMP_CONNTRACK = """
+udp,orig=(src=10.45.82.24,dst=10.45.82.39,sport=11489,dport=6081),reply=(src=10.45.82.39,dst=10.45.82.24,sport=6081,dport=11489),id=1953266447,status=CONFIRMED|SRC_NAT_DONE|DST_NAT_DONE
+udp,orig=(src=10.45.82.23,dst=10.45.82.24,sport=40132,dport=6081),reply=(src=10.45.82.24,dst=10.45.82.23,sport=6081,dport=40132),id=2002235501,status=CONFIRMED|SRC_NAT_DONE|DST_NAT_DONE
+"""  # noqa
+
+OFPROTO_LIST_TUNNELS = """
+port 4: ovn-comput-1 (geneve: ::->10.10.2.33, key=flow, legacy_l2, dp port=4, ttl=64, csum=true)
+port 4: ovn-comput-2 (geneve: ::->10.10.2.29, key=flow, legacy_l2, dp port=4, ttl=64, csum=true)
+"""  # noqa
+
 
 class TestOpenvswitchBase(utils.BaseTestCase):
 
@@ -602,3 +612,24 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                    "were updated so may be using old certs. Please check.")
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
+    @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_dpctl.'
+                             'dump-conntrack_-m_system_ovs-system':
+                             DPCTL_DUMP_CONNTRACK,
+                             'sos_commands/openvswitch/ovs-appctl_ofproto.'
+                             'list-tunnels':
+                             OFPROTO_LIST_TUNNELS})
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('tunnels_ct.yaml'))
+    def test_ovs_tunnel_ct(self):
+        YScenarioChecker()()
+        msg = ("This node is using OpenvSwitch and conntrack is tracking "
+               "encapsulated packets (geneve, vxlan etc). This is "
+               "considered unnecessary since it is duplicating tracking for "
+               "the same packets done by ovs and at scale will have a "
+               "performance impact. See referenced bug for solution and "
+               "workaround.")
+        bugs = list(issues.IssuesManager().load_bugs().values())[0]
+        self.assertEqual([bug['desc'] for bug in bugs], [msg])

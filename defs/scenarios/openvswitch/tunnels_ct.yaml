@@ -1,0 +1,37 @@
+input:
+  command: ovs_appctl_dpctl_dump_conntrack
+  options:
+    kwargs:
+      datapath: 'system@ovs-system'
+checks:
+  ovs_using_geneve:
+    input:
+      command: ovs_appctl_ofproto_list_tunnels
+    search: '.+ \(geneve:'
+  ovs_using_vxlan:
+    input:
+      command: ovs_appctl_ofproto_list_tunnels
+    search: '.+ \(vxlan:'
+  geneve_is_tracked:
+    search: '^udp,.+,sport=6081,'
+  vxlan_is_tracked:
+    search: '^udp,.+,sport=4789,'
+conclusions:
+  ovs_ct_tunnels:
+    decision:
+      or:
+        - and:
+           - ovs_using_geneve
+           - geneve_is_tracked
+        - and:
+           - ovs_using_vxlan
+           - vxlan_is_tracked
+    raises:
+      type: LaunchpadBug
+      bug-id: 1978806
+      message: >-
+        This node is using OpenvSwitch and conntrack is tracking encapsulated
+        packets (geneve, vxlan etc). This is considered unnecessary since it is
+        duplicating tracking for the same packets done by ovs and at
+        scale will have a performance impact. See referenced bug for solution
+        and workaround.
