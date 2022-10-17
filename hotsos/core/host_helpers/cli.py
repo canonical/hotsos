@@ -315,8 +315,9 @@ class OVSDPCTLFileCmd(FileCmd):
         self.register_hook("pre-exec", self.performat_sos_datapath)
 
     def performat_sos_datapath(self, **kwargs):
-        datapath = kwargs["datapath"].replace('@', '_')
-        self.path = self.path.format(datapath=datapath)
+        if 'datapath' in kwargs:
+            datapath = kwargs['datapath'].replace('@', '_')
+            self.path = self.path.format(datapath=datapath)
 
 
 class OVSOFCTLBinCmd(BinCmd):
@@ -690,6 +691,15 @@ class CLIHelper(object):
                 [BinCmd('ovs-appctl dpctl/show -s {datapath}'),
                  OVSDPCTLFileCmd('sos_commands/openvswitch/'
                                  'ovs-appctl_dpctl.show_-s_{datapath}')],
+            'ovs_appctl_dpctl_dump_conntrack':
+                [BinCmd('ovs-appctl dpctl/dump-conntrack -m {datapath}'),
+                 OVSDPCTLFileCmd(
+                            'sos_commands/openvswitch/'
+                            'ovs-appctl_dpctl.dump-conntrack_-m_{datapath}')],
+            'ovs_appctl_ofproto_list_tunnels':
+                [BinCmd('ovs-appctl ofproto/list-tunnels'),
+                 OVSDPCTLFileCmd('sos_commands/openvswitch/'
+                                 'ovs-appctl_ofproto.list-tunnels')],
             'ovs_vsctl_list_br':
                 [BinCmd('ovs-vsctl list-br'),
                  FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_list-br')],

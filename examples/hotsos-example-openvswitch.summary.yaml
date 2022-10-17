@@ -109,3 +109,10 @@ openvswitch:
           10.130.11.109: 1
       unreasonably-long-poll-interval:
         '2022-02-17': 3
+  bugs-detected:
+    - desc: This node is using OpenvSwitch and conntrack is tracking encapsulated
+        packets (geneve, vxlan etc). This is considered unnecessary since it is duplicating
+        tracking for the same packets done by ovs and at scale will have a performance
+        impact. See referenced bug for solution and workaround.
+      id: https://bugs.launchpad.net/bugs/1978806
+      origin: openvswitch.auto_scenario_check
