@@ -275,8 +275,10 @@ faildef1:
       or:
         - apt: nova-compute
       not:
-        - apt: blah
-        - apt: nova-compute
+        - and:
+            - apt: 'blah'
+        - and:
+            - apt: nova-compute
 faildef2:
   requires:
     - apt: python3.8
@@ -540,7 +542,7 @@ vars:
   fromprop: '@tests.unit.test_ycheck.TestProperty.myattr'
   fromfact: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:snapd'
   fromfact2: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:myfile.txt'
-  fromsysctl: '@hotsos.core.host_helpers.sysctl.SYSCtlFactory.somaxxcon:net.core'
+  fromsysctl: '@hotsos.core.host_helpers.sysctl.SYSCtlFactory.somaxconn:net.core'
   boolvar: false
 checks:
   aptcheck:
@@ -558,7 +560,7 @@ checks:
   fromfact2:
     varops: [[$fromfact2], [eq, 0]]
   fromsysctl:
-    varops: [[$fromsysctl], [eq, 4096]]
+    varops: [[$fromsysctl], [eq, '4096']]
   boolvar:
     varops: [[$boolvar], [truth], [not_]]
 conclusions:
@@ -654,14 +656,27 @@ NESTED_LOGIC_TEST_W_ISSUE = """
 vars:
   bool_true: true
 checks:
-  chk_pass:
+  chk_pass1:
     and:
       - varops: [[$bool_true], [truth]]
       - not:
           varops: [[$bool_true], [not_]]
+  chk_pass2:
+    or:
+      - and:
+          - varops: [[$bool_true], [truth]]
+          - varops: [[$bool_true], [not_]]
+      - and:
+          - varops: [[$bool_true], [truth]]
+          - varops: [[$bool_true], [truth]]
+      - varops: [[$bool_true], [truth]]
+  chk_pass3:
+    or:
+      - varops: [[$bool_true], [truth]]
+      - varops: [[$bool_true], [truth]]
 conclusions:
   conc1:
-    decision: chk_pass
+    decision: [chk_pass1, chk_pass2, chk_pass3]
     raises:
       type: SystemWarning
       message:
@@ -672,14 +687,24 @@ NESTED_LOGIC_TEST_NO_ISSUE = """
 vars:
   bool_true: true
 checks:
-  chk_pass:
+  chk_fail1:
     and:
       - varops: [[$bool_true], [truth]]
       - not:
           varops: [[$bool_true], [truth]]
+  chk_fail2:
+    or:
+      - and:
+          - varops: [[$bool_true], [not_]]
+          - varops: [[$bool_true], [not_]]
+      - and:
+          - varops: [[$bool_true], [not_]]
+          - varops: [[$bool_true], [not_]]
+      - varops: [[$bool_true], [not_]]
 conclusions:
   conc1:
-    decision: chk_pass
+    decision:
+      or: [chk_fail1, chk_fail2]
     raises:
       type: SystemWarning
       message:

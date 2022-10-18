@@ -461,14 +461,20 @@ class LogicalCollectionHandler(abc.ABC):
         return True
 
     def group_exit_condition_met(self, logical_op, result):
+        if type(result) != bool:
+            log.error("unexpected result type '%s' - unable to determine exit "
+                      "condition for logical op='%s'", type(result),
+                      logical_op)
+            return False
+
         if logical_op in ['and']:
             if self.and_group_stop_on_first_false and not result:
-                log.debug("exit condition met for op %s", logical_op)
+                log.debug("exit condition met for op='%s'", logical_op)
                 return True
 
         if logical_op in ['nand', 'not']:
             if self.and_group_stop_on_first_false and result:
-                log.debug("exit condition met for op %s", logical_op)
+                log.debug("exit condition met for op='%s'", logical_op)
                 return True
 
         return False
@@ -494,62 +500,113 @@ class LogicalCollectionHandler(abc.ABC):
         result.
         """
 
+    def _is_op_group(self, property):
+        return property._override_name in self.VALID_GROUP_KEYS
+
     def eval_op_group_items(self, logical_op_group):
         """
         Evaluate single group of items and return their results as a list.
+
+        @return: list of boolean values
         """
         logical_op = logical_op_group._override_name
+        log.debug("evaluating op group '%s'", logical_op)
         results = []
-        stop_processing = False
-        for item in logical_op_group.members:
-            if item._override_name in self.VALID_GROUP_KEYS:
-                logical_op = item._override_name
-                log.error("start processing nested group (%s)", logical_op)
-                result = self.eval_op_group(item)
-                log.error("finish processing nested group (result=%s)", result)
-                results.append(result)
-                if self.group_exit_condition_met(logical_op, result):
-                    log.debug("result is %s and logical group %s exit "
-                              "condition met so stopping further evaluation "
-                              "if this group",
-                              result, logical_op)
-                    stop_processing = True
-                    break
+        num_nested = 0
+        num_list = 0
+        num_single = 0
+        for i, group in enumerate(logical_op_group):
+            group_results = []
+            log.debug("op group %s", i)
+            for member in group:
+                if self._is_op_group(member):
+                    nested_logical_op = member._override_name
+                    log.debug("start processing nested group (%s)",
+                              nested_logical_op)
+                    result = self.eval_op_group_items(member)
+                    log.debug("finish processing nested group (result=%s)",
+                              result)
+                    group_results.extend(result)
+                    num_nested += 1
+                    continue
 
-                continue
+                log.debug("op group member has %s item(s)", len(member))
+                if len(member) == 1:
+                    group_results.append(self.get_item_result_callback(member))
+                    num_single += 1
+                    continue
 
-            for entry in item:
-                result = self.get_item_result_callback(entry)
-                results.append(result)
-                if self.group_exit_condition_met(logical_op, result):
-                    log.debug("result is %s and logical group %s exit "
-                              "condition met so stopping further evaluation "
-                              "if this group",
-                              result, logical_op)
-                    stop_processing = True
-                    break
+                prev = None
+                for entry in member:
+                    if (prev is not None and
+                            self.group_exit_condition_met(logical_op, prev)):
+                        log.debug("result is %s and logical group '%s' exit "
+                                  "condition met so stopping further "
+                                  "evaluation if this group",
+                                  result, logical_op)
+                        break
 
-            if stop_processing:
-                break
+                    result = self.get_item_result_callback(entry)
+                    group_results.append(result)
+                    prev = result
+                    num_list += 1
 
-        log.debug("group results: %s", results)
+            results.append(self.apply_op_to_item(logical_op, group_results))
+
+        log.debug("group results (list=%s, nest=%s, single=%s): %s",
+                  num_list, num_nested, num_single, results)
         return results
 
+    def apply_op_to_item(self, logical_op, item):
+        op_catalog = {'and': lambda r: all(r),
+                      'or': lambda r: any(r),
+                      'nand': lambda r: not all(r),
+                      'not': lambda r: not all(r),
+                      'nor': lambda r: not any(r)}
+
+        if logical_op not in op_catalog:
+            raise Exception("unknown logical operator '{}' found".
+                            format(logical_op))
+
+        result = op_catalog[logical_op](item)
+        log.debug("applying %s(%s) -> %s", logical_op, item, result)
+        return result
+
+    def eval_op_groups(self, item):
+        """
+        Evaluate all groups of items and return their results as a list.
+
+        @return: list of boolean values
+        """
+        final_results = []
+        for op in self.VALID_GROUP_KEYS:
+            op_group = getattr(item, op)
+            if op_group:
+                result = self.eval_op_group_items(op_group)
+                if result is not None:
+                    final_results.extend(result)
+
+        log.debug("op groups results: %s", final_results)
+        return final_results
+
     def run_level(self, level):
+        """
+        @return: boolean value
+        """
         stop_processing = False
         final_results = []
         for item in level:
             final_results.extend(self.eval_op_groups(item))
             for subitem in item:
                 # ignore op grouped
-                if subitem._override_name in self.VALID_GROUP_KEYS:
+                if self._is_op_group(subitem):
                     continue
 
                 results = self.eval_ungrouped_item(subitem)
                 final_results.extend(results)
                 if self.group_exit_condition_met(self.FINAL_RESULT_OP,
                                                  all(results)):
-                    log.debug("result is %s and logical group %s exit "
+                    log.debug("result is %s and logical group '%s' exit "
                               "condition met so stopping further evaluation "
                               "if this group",
                               all(results), self.FINAL_RESULT_OP)
@@ -559,48 +616,6 @@ class LogicalCollectionHandler(abc.ABC):
             if stop_processing:
                 break
 
-        return final_results
-
-    def eval_op_group(self, logical_op_group):
-        """
-        Evaluate single groups of items and apply logical op to the results.
-        """
-        logical_op = logical_op_group._override_name
-        if logical_op == 'and':
-            results = self.eval_op_group_items(logical_op_group)
-            result = all(results)
-            log.debug("applied AND(%s) (result=%s)", results, result)
-        elif logical_op == 'or':
-            results = self.eval_op_group_items(logical_op_group)
-            result = any(results)
-            log.debug("applied OR(%s) (result=%s)", results, result)
-        elif logical_op in ['nand', 'not']:
-            results = self.eval_op_group_items(logical_op_group)
-            result = not all(results)
-            log.debug("applied NOT(AND((%s)) (result=%s)", results, result)
-        elif logical_op == 'nor':
-            results = self.eval_op_group_items(logical_op_group)
-            result = not any(results)
-            log.debug("applied NOT(OR((%s)) (result=%s)", results, result)
-        else:
-            raise Exception("unknown logical operator '{}' found".
-                            format(logical_op))
-
-        return result
-
-    def eval_op_groups(self, item):
-        """
-        Evaluate all groups of items and return their results as a list.
-        """
-        final_results = []
-        for op in self.VALID_GROUP_KEYS:
-            op_group = getattr(item, op)
-            if op_group:
-                result = self.eval_op_group(op_group)
-                if result is not None:
-                    final_results.append(result)
-
-        log.debug("op groups result: %s", final_results)
         return final_results
 
     def run_collection(self):
