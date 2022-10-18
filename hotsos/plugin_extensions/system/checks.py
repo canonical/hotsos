@@ -2,7 +2,7 @@ import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.system import SystemChecksBase
-from hotsos.core.host_helpers import SYSCtlHelper
+from hotsos.core.host_helpers import SYSCtlConfHelper
 
 
 class SYSCtlChecks(SystemChecksBase):
@@ -51,7 +51,7 @@ class SYSCtlChecks(SystemChecksBase):
                      '50-quantum-gateway.conf']
         key_priorities = {}
         for conffile in sorted(conffiles):
-            sysctl = SYSCtlHelper(os.path.join(path, conffile))
+            sysctl = SYSCtlConfHelper(os.path.join(path, conffile))
             _set = self._get_values_prioritised(sysctl.setters,
                                                 key_priorities,
                                                 conffile)
@@ -70,7 +70,7 @@ class SYSCtlChecks(SystemChecksBase):
         if not os.path.exists(path):
             return config
 
-        sysctl = SYSCtlHelper(path)
+        sysctl = SYSCtlConfHelper(path)
         config['set'] = self._get_values_prioritised(sysctl.setters, {}, None)
         config['unset'] = self._get_values_prioritised(sysctl.unsetters, {},
                                                        None)
@@ -101,7 +101,7 @@ class SYSCtlChecks(SystemChecksBase):
                 if not conffile.endswith('.conf'):
                     continue
 
-                sysctl = SYSCtlHelper(os.path.join(path, conffile))
+                sysctl = SYSCtlConfHelper(os.path.join(path, conffile))
                 _set = self._get_values_prioritised(sysctl.setters,
                                                     key_priorities,
                                                     conffile)

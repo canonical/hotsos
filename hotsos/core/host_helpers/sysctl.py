@@ -1,7 +1,52 @@
 import os
 
+from hotsos.core.host_helpers.common import HostHelperFactoryBase
+from hotsos.core.host_helpers.cli import CLIHelper
 
-class SYSCtlHelper(object):
+
+class SYSCtl(object):
+
+    def __init__(self, root, f_get):
+        self.root = root
+        self.f_get = f_get
+
+    def __getattr__(self, key):
+        return self.f_get("{}.{}".format(self.root, key))
+
+
+class SYSCtlFactory(HostHelperFactoryBase):
+
+    def __init__(self):
+        self._sysctl_all = {}
+
+    @property
+    def sysctl_all(self):
+        if self._sysctl_all:
+            return self._sysctl_all
+
+        for kv in CLIHelper().sysctl_all():
+            k, _, v = kv.partition("=")
+            # squash whitespaces into a single whitespace
+            self._sysctl_all[k.strip()] = ' '.join(v.strip().split())
+
+        return self._sysctl_all
+
+    def get(self, key):
+        """
+        Fetch systcl value for a given key.
+        """
+        return self.sysctl_all.get(key)
+
+    def __getattr__(self, root):
+        """
+        Return a SYSCtl object for a given root key. This is useful for yaml
+        defs where the full key path is not a valid property name so can be
+        accessed using getattr().
+        """
+        return SYSCtl(root, self.get)
+
+
+class SYSCtlConfHelper(object):
 
     def __init__(self, path):
         self.path = path

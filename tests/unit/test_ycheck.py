@@ -540,6 +540,7 @@ vars:
   fromprop: '@tests.unit.test_ycheck.TestProperty.myattr'
   fromfact: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:snapd'
   fromfact2: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:myfile.txt'
+  fromsysctl: '@hotsos.core.host_helpers.sysctl.SYSCtlFactory.somaxxcon:net.core'
   boolvar: false
 checks:
   aptcheck:
@@ -556,6 +557,8 @@ checks:
     varops: [[$fromfact], [gt, 1644446300]]
   fromfact2:
     varops: [[$fromfact2], [eq, 0]]
+  fromsysctl:
+    varops: [[$fromsysctl], [eq, 4096]]
   boolvar:
     varops: [[$boolvar], [truth], [not_]]
 conclusions:
@@ -593,7 +596,7 @@ conclusions:
         varval: '@checks.isbar.requires.value'
   fromprop:
     decision:
-      or: [fromprop, boolvar, fromfact, fromfact2]
+      or: [fromprop, boolvar, fromfact, fromfact2, fromsysctl]
     raises:
       type: SystemWarning
       message: fromprop! ({varname}={varval})

@@ -178,9 +178,13 @@ class TestUptimeHelper(utils.BaseTestCase):
 class TestSysctlHelper(utils.BaseTestCase):
 
     def test_systctlhelper(self):
+        self.assertEqual(getattr(host_helpers.SYSCtlFactory().net,
+                                 'core.somaxconn'), '4096')
+
+    def test_systctlconfhelper(self):
         path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/sysctl.d')
         path = os.path.join(path, '50-nova-compute.conf')
-        sysctl = host_helpers.SYSCtlHelper(path)
+        sysctl = host_helpers.SYSCtlConfHelper(path)
         setters = {'net.ipv4.neigh.default.gc_thresh1': '128',
                    'net.ipv4.neigh.default.gc_thresh2': '28672',
                    'net.ipv4.neigh.default.gc_thresh3': '32768',

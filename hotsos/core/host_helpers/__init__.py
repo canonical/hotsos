@@ -25,5 +25,6 @@ from .uptime import (  # noqa: F403,F401
     UptimeHelper,
 )
 from .sysctl import (  # noqa: F403,F401
-    SYSCtlHelper,
+    SYSCtlFactory,
+    SYSCtlConfHelper,
 )
