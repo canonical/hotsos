@@ -220,3 +220,81 @@ class NetStatTCP(NetStatBase):
             'TCPReqQFullDoCookies',
             # skb retrans before original left host
             'TCPSpuriousRtxHostQueues']
+
+
+class SockStat(ProcNetBase):
+
+    """
+    Provides a common way to extract fields from /proc/net/sockstat.
+
+    Expected file format is:
+
+    hdr1: label1 value1 label2 value2...
+    hdr2: label1 value1 label2 value2...
+    hdr3: label1 value1 label2 value2...
+    """
+    def __init__(self):
+        super().__init__()
+        self._process_file(os.path.join(HotSOSConfig.DATA_ROOT,
+                                        'proc/net/sockstat'))
+
+    def _process_file(self, fname):
+        if not os.path.exists(fname):
+            log.info("file not found '%s' - skipping load")
+            return
+
+        log.debug("start processing %s", fname)
+        with open(fname) as fd:
+            for line in fd:
+                psl = line.split(':')
+                if len(psl) != 2:
+                    log.warning("badness: line does not match format %s", line)
+                    continue
+                (label, stats) = psl
+                if label not in self._data:
+                    self._data[label] = {}
+                try:
+                    stats = stats.strip().split(' ')
+                    stats = dict(stats[i:i+2] for i in range(0, len(stats), 2))
+                    # Convert string values to `int``
+                    stats = {k: int(v) for k, v in stats.items()}
+                    self._data[label] = stats
+                except Exception as e:
+                    log.warning("badness: failed to parse statistics "
+                                "for `%s`, bad data `%s` (%s)",
+                                label, stats, e)
+                    continue
+
+    @property
+    def _header(self):
+        # We do not expect this to be used
+        raise NotImplementedError()
+
+    @property
+    def _fields(self):
+        return {
+            # Global
+            "GlobTcpSocksOrphaned": ("TCP", "orphan"),
+            "GlobTcpSocksAllocated": ("TCP", "alloc"),
+            "GlobTcpSocksTotalMemPages": ("TCP", "mem"),
+            "GlobUdpSocksTotalMemPages": ("UDP", "mem"),
+            # Per-netns
+            "NsTotalSocksInUse": ("sockets", "used"),
+            "NsTcpSocksInUse": ("TCP", "inuse"),
+            "NsUdpSocksInUse": ("UDP", "inuse"),
+            "NsRawSocksInUse": ("RAW", "inuse"),
+            "NsFragSocksInUse": ("FRAG", "inuse"),
+            "NsUdpliteSocksInUse": ("UDPLITE", "inuse"),
+            "NsTcpSocksInTimeWait": ("TCP", "tw"),
+            "NsFragSocksTotalMemPages": ("FRAG", "memory"),
+        }
+
+    def __getattr__(self, fld):
+        if fld in self._fields:
+            return self._get_field(
+                self._fields[fld][0],
+                self._fields[fld][1]
+            )
+
+        raise AttributeError("{} not found in {}".
+                             format(fld, self.__class__.__name__))

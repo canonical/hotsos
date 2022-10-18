@@ -7,6 +7,7 @@ from hotsos.core.config import setup_config
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel import CallTraceManager
+from hotsos.core.plugins.kernel.net import SockStat
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 from hotsos.core.host_helpers.network import NetworkPort
@@ -180,6 +181,24 @@ IpExt: InNoRoutes InTruncatedPkts InMcastPkts OutMcastPkts InBcastPkts OutBcastP
 IpExt: 0 0 0 4 427 0 16725918298 7053634672 0 160 129353 0 0 2307638 0 0 0 0
 """  # noqa, pylint: disable=C0301
 
+PROC_SOCKSTAT = r"""sockets: used 908
+TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 15
+UDP: inuse 18 mem 762066
+UDPLITE: inuse 44
+RAW: inuse 55
+FRAG: inuse 66 memory 77
+"""  # noqa, pylint: disable=C0301
+
+PROC_SOCKSTAT_BAD = r"""sockets: used 908
+TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 15
+UDP: inuse 18 mem 762066
+UDPLITE: inuse 44
+UNKNOWN: inuse 22 orphan 15
+CORRUPT: inuse orphan 15
+RAW: inuse 55
+FRAG: inuse 66 memory 77
+"""  # noqa, pylint: disable=C0301
+
 
 class TestKernelBase(utils.BaseTestCase):
     def setUp(self):
@@ -283,6 +302,40 @@ class TestKernelMemoryInfo(TestKernelBase):
                     'Acpi-State (5175.703125k)',
                     'vmap_area (2700.0k)']
         self.assertEqual(top5, expected)
+
+
+class TestKernelNetworkInfo(TestKernelBase):
+    @utils.create_data_root({'proc/net/sockstat': PROC_SOCKSTAT})
+    def test_sockstat_parse(self):
+        uut = SockStat()
+        self.assertEqual(uut.NsTotalSocksInUse, 908)
+        self.assertEqual(uut.NsTcpSocksInUse, 22)
+        self.assertEqual(uut.GlobTcpSocksOrphaned, 0)
+        self.assertEqual(uut.NsTcpSocksInTimeWait, 2)
+        self.assertEqual(uut.GlobTcpSocksAllocated, 58)
+        self.assertEqual(uut.GlobTcpSocksTotalMemPages, 15)
+        self.assertEqual(uut.NsUdpSocksInUse, 18)
+        self.assertEqual(uut.GlobUdpSocksTotalMemPages, 762066)
+        self.assertEqual(uut.NsUdpliteSocksInUse, 44)
+        self.assertEqual(uut.NsRawSocksInUse, 55)
+        self.assertEqual(uut.NsFragSocksInUse, 66)
+        self.assertEqual(uut.NsFragSocksTotalMemPages, 77)
+
+    @utils.create_data_root({'proc/net/sockstat': PROC_SOCKSTAT_BAD})
+    def test_sockstat_parse_bad(self):
+        uut = SockStat()
+        self.assertEqual(uut.NsTotalSocksInUse, 908)
+        self.assertEqual(uut.NsTcpSocksInUse, 22)
+        self.assertEqual(uut.GlobTcpSocksOrphaned, 0)
+        self.assertEqual(uut.NsTcpSocksInTimeWait, 2)
+        self.assertEqual(uut.GlobTcpSocksAllocated, 58)
+        self.assertEqual(uut.GlobTcpSocksTotalMemPages, 15)
+        self.assertEqual(uut.NsUdpSocksInUse, 18)
+        self.assertEqual(uut.GlobUdpSocksTotalMemPages, 762066)
+        self.assertEqual(uut.NsUdpliteSocksInUse, 44)
+        self.assertEqual(uut.NsRawSocksInUse, 55)
+        self.assertEqual(uut.NsFragSocksInUse, 66)
+        self.assertEqual(uut.NsFragSocksTotalMemPages, 77)
 
 
 class TestKernelScenarioChecks(TestKernelBase):
