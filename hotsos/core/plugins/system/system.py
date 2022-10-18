@@ -2,7 +2,7 @@ import re
 import os
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper, SYSCtlFactory
 from hotsos.core.utils import cached_property
 
 
@@ -130,11 +130,4 @@ class SystemBase(object):
 
     @cached_property
     def sysctl_all(self):
-        actuals = {}
-        for kv in CLIHelper().sysctl_all():
-            k = kv.partition("=")[0].strip()
-            v = kv.partition("=")[2].strip()
-            # normalise multi-whitespace into a single
-            actuals[k] = ' '.join(v.split())
-
-        return actuals
+        return SYSCtlFactory().sysctl_all
