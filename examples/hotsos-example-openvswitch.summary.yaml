@@ -56,6 +56,16 @@ openvswitch:
     br-tun:
       - vxlan-0a000072
       - vxlan-0a000085
+  tunnels:
+    vxlan:
+      remotes: 2
+      iface:
+        br-ens3:
+          addresses:
+            - 10.0.0.128
+          hwaddr: 22:c2:7b:1c:12:1b
+          state: UP
+          speed: unknown
   ovs-checks:
     errors-and-warnings:
       ovs-vswitchd:

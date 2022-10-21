@@ -1,7 +1,10 @@
 import re
 
+from hotsos.core.log import log
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
 from hotsos.core.utils import cached_property
+from hotsos.core.search import FileSearcher, SearchDef
+from hotsos.core.utils import mktemp_dump
 
 
 class OVSDB(object):
@@ -88,6 +91,52 @@ class OpenvSwitchBase(object):
     def bridges(self):
         bridges = self.cli.ovs_vsctl_list_br()
         return [OVSBridge(br.strip(), self.net_helper) for br in bridges]
+
+    @cached_property
+    def tunnels(self):
+        tunnel_info = {}
+        ovn_external_ids = self.ovsdb.external_ids
+        if ovn_external_ids:
+            # ovn only shows the local ip used in the db so we have to get from
+            # there.
+            proto = ovn_external_ids.get('ovn-encap-type')
+            if proto:
+                local_addr = ovn_external_ids['ovn-encap-ip']
+                tunnel_info[proto] = {'local': local_addr}
+
+        nethelp = HostNetworkingHelper()
+        out = CLIHelper().ovs_appctl_ofproto_list_tunnels()
+        path = mktemp_dump(''.join(out))
+        s = FileSearcher()
+        expr = r'.+ \(([a-z]+): ([a-f\d\.:]+)->([a-f\d\.:]+), .+'
+        s.add_search_term(SearchDef(expr, tag='all'), path)
+        results = s.search()
+        for r in results.find_by_tag('all'):
+            proto = r.get(1)
+            if proto not in tunnel_info:
+                tunnel_info[proto] = {}
+
+            if 'remotes' not in tunnel_info[proto]:
+                tunnel_info[proto]['remotes'] = []
+
+            if 'local' not in tunnel_info[proto]:
+                tunnel_info[proto]['local'] = r.get(2)
+
+            tunnel_info[proto]['remotes'].append(r.get(3))
+
+        for proto in tunnel_info:
+            tunnel_info[proto]['remotes'] = len(tunnel_info[proto]['remotes'])
+            local_addr = tunnel_info[proto]['local']
+            if local_addr:
+                iface = nethelp.get_interface_with_addr(local_addr)
+                if iface:
+                    tunnel_info[proto]['iface'] = iface.to_dict()
+                    del tunnel_info[proto]['local']
+                else:
+                    log.debug("could not find interface for address '%s'",
+                              local_addr)
+
+        return tunnel_info
 
     @cached_property
     def offload_enabled(self):

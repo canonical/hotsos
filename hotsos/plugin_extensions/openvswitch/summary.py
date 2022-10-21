@@ -60,7 +60,7 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
 
                 ports.append(port.to_dict())
 
-            # exlude br-int port since it will have too many
+            # show total count for br-int since it can have a very large number
             if bridge.name == 'br-int' and ports:
                 ports = ["({} ports)".format(len(ports))]
 
@@ -70,6 +70,11 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
             return bridges
 
     @idx(4)
+    def __summary_tunnels(self):
+        if self.ovs.tunnels:
+            return self.ovs.tunnels
+
+    @idx(5)
     def __summary_ovn(self):
         info = {}
         if self.ovn.nbdb:
