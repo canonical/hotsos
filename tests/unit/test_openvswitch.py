@@ -6,6 +6,7 @@ from . import utils
 
 from hotsos.core import issues
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore, KnownBugsStore
 from hotsos.core.config import setup_config
@@ -81,6 +82,13 @@ port 4: ovn-comput-1 (geneve: ::->10.10.2.33, key=flow, legacy_l2, dp port=4, tt
 port 4: ovn-comput-2 (geneve: ::->10.10.2.29, key=flow, legacy_l2, dp port=4, ttl=64, csum=true)
 """  # noqa
 
+OVS_DB_GENEVE_ENCAP = """
+Open_vSwitch table
+_uuid               : 35eda39e-ada8-4c2f-b6cb-00e28f336182
+external_ids        : {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1}
+
+"""  # noqa
+
 
 class TestOpenvswitchBase(utils.BaseTestCase):
 
@@ -133,7 +141,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['services'],
                          expected)
 
-    def test_bridge_checks(self):
+    def test_summary_bridges(self):
         expected = {'br-data': [
                         {'ens7': {
                             'addresses': [],
@@ -147,6 +155,40 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
         inst = summary.OpenvSwitchSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['bridges'],
+                         expected)
+
+    def test_summary_tunnels(self):
+        expected = {'vxlan': {
+                        'iface': {
+                            'br-ens3': {
+                                'addresses': ['10.0.0.128'],
+                                'hwaddr': '22:c2:7b:1c:12:1b',
+                                'speed': 'unknown',
+                                'state': 'UP'}},
+                        'remotes': 2}}
+
+        inst = summary.OpenvSwitchSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['tunnels'],
+                         expected)
+
+    @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
+                'host_interfaces_all', [NetworkPort('bondX', ['10.3.4.24'],
+                                                    None, None, None)])
+    @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_ofproto.'
+                             'list-tunnels':
+                             OFPROTO_LIST_TUNNELS,
+                             'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
+                             'Open_vSwitch': OVS_DB_GENEVE_ENCAP})
+    def test_summary_tunnels_ovn(self):
+        expected = {'geneve': {
+                        'iface': {
+                            'bondX': {'addresses': ['10.3.4.24'],
+                                      'hwaddr': None,
+                                      'speed': 'unknown',
+                                      'state': None}},
+                        'remotes': 2}}
+        inst = summary.OpenvSwitchSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['tunnels'],
                          expected)
 
 
