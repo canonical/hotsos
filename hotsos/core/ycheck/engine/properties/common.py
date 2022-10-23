@@ -2,18 +2,18 @@ import abc
 import builtins
 import importlib
 
-from hotsos.core.log import log
-from hotsos.core.ystruct import (
-    YStructOverrideBase,
-    YStructMappedOverrideBase,
-    YStructSection,
+from structr import (
+    StructROverrideBase,
+    StructRMappedOverrideBase,
+    StructRSection,
 )
 
+from hotsos.core.log import log
 
 YPropertiesCatalog = []
 
 
-class YDefsSection(YStructSection):
+class YDefsSection(StructRSection):
 
     def __init__(self, name, content, context=None):
         """
@@ -417,7 +417,7 @@ class YPropertyBase(object):
         except Exception as exc:
             log.exception("failed to get module attribute %s", import_str)
 
-            # ystruct.YStructOverrideBase swallows AttributeError so need to
+            # ystruct.StructROverrideBase swallows AttributeError so need to
             # convert to something else.
             if type(exc) == AttributeError:
                 raise ImportError from exc
@@ -439,11 +439,11 @@ class YPropertyBase(object):
         return self.get_attribute(import_str)
 
 
-class YPropertyOverrideBase(YPropertyBase, YStructOverrideBase):
+class YPropertyOverrideBase(YPropertyBase, StructROverrideBase):
     pass
 
 
-class YPropertyMappedOverrideBase(YPropertyBase, YStructMappedOverrideBase):
+class YPropertyMappedOverrideBase(YPropertyBase, StructRMappedOverrideBase):
     pass
 
 
