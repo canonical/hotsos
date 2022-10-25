@@ -2,21 +2,27 @@ vars:
   inerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrors'
   inerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrorsPcentInDatagrams'
   rcvbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors'
+  rcvbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrorsPcentInDatagrams'
   sndbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrors'
+  sndbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrorsPcentOutDatagrams'
   incsumerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors'
   incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams'
 checks:
   rcvbuferrors_high:
-    varops: [[$rcvbuferrors], [gt, 1000]]
+    or:
+      - varops: [[$rcvbuferrors], [gt, 500]]
+      - varops: [[$rcvbuferrors_pcent], [gt, 1]]
   sndbuferrors_high:
-    varops: [[$sndbuferrors], [gt, 1000]]
+    or:
+      - varops: [[$sndbuferrors], [gt, 500]]
+      - varops: [[$sndbuferrors_pcent], [gt, 1]]
   inerrs_high_pcent_or_above_limit:
     or:
-      - varops: [[$inerrors], [gt, 1000]]
+      - varops: [[$inerrors], [gt, 500]]
       - varops: [[$inerrors_pcent], [gt, 1]]
   incsumerrs_high_or_above_limit:
     or:
-      - varops: [[$incsumerrors], [gt, 1000]]
+      - varops: [[$incsumerrors], [gt, 500]]
       - varops: [[$incsumerrors_pcent], [gt, 1]]
 conclusions:
   inerrs_high_pcent_or_above_limit:
@@ -43,15 +49,17 @@ conclusions:
     raises:
       type: KernelWarning
       message: >-
-        UDP receive buffer errors are at {count}.
+        UDP receive buffer errors are at {count} ({pcent}% of total rx).
       format-dict:
         count: $rcvbuferrors
+        pcent: $rcvbuferrors_pcent
   sndbuferrors_high:
     decision: sndbuferrors_high
     raises:
       type: KernelWarning
       message: >-
-        UDP send buffer errors are at {count}.
+        UDP send buffer errors are at {count} ({pcent}% of total tx).
       format-dict:
         count: $sndbuferrors
+        pcent: $sndbuferrors_pcent
 
