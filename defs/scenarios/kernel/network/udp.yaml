@@ -1,10 +1,10 @@
 vars:
   inerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrors'
-  inerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.inerrors_pcent'
+  inerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrorsPcentInDatagrams'
   rcvbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors'
   sndbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrors'
   incsumerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors'
-  incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.incsumerrors_pcent'
+  incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams'
 checks:
   rcvbuferrors_high:
     varops: [[$rcvbuferrors], [gt, 1000]]
