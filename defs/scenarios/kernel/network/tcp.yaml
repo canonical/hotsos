@@ -15,16 +15,18 @@ vars:
   ldrop: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenDrops'
   pfmemd: '@hotsos.core.plugins.kernel.net.NetStatTCP.PFMemallocDrop'
   minttld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPMinTTLDrop'
-  deferaccd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPDeferAcceptDrop'
   listenovf: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenOverflows'
   ofod: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
   zwind: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPZeroWindowDrop'
   rcvqd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDrop'
+  rcvqd_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDropPcentInSegs'
   rqfulld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDrop'
   rqfullcook: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies'
 checks:
   incsumerr_high:
-    varops: [[$incsumerr], [gt, 500]]
+    or:
+      - varops: [[$incsumerr], [gt, 500]]
+      - varops: [[$incsumrate_pcent], [gt, 1]]
   retrans_out_rate_gt_1pcent:
     varops: [[$outretrans_pcent], [gt, 1]]
   incsumrate_gt_1pcent:
@@ -43,8 +45,6 @@ checks:
     varops: [[$pfmemd], [gt, 500]]
   minttld:
     varops: [[$minttld], [gt, 500]]
-  deferaccd:
-    varops: [[$deferaccd], [gt, 500]]
   listenovf:
     varops: [[$listenovf], [gt, 500]]
   ofod:
@@ -52,7 +52,9 @@ checks:
   zwind:
     varops: [[$zwind], [gt, 500]]
   rcvqd:
-    varops: [[$rcvqd], [gt, 500]]
+    or:
+      - varops: [[$rcvqd], [gt, 500]]
+      - varops: [[$rcvqd_pcent], [gt, 1]]
   rqfulld:
     varops: [[$rqfulld], [gt, 500]]
   rqfullcook:
@@ -119,13 +121,6 @@ conclusions:
       message: IP TTL below minimum (drops={count}).
       format-dict:
         count: $minttld
-  deferaccd:
-    decision: deferaccd
-    raises:
-      type: KernelWarning
-      message: TCP_DEFER_ACCEPT recv ACK-only segment (drops={count})
-      format-dict:
-        count: $deferaccd
   rpfilterd:
     decision: rpfilterd
     raises:
@@ -165,9 +160,10 @@ conclusions:
     decision: rcvqd
     raises:
       type: KernelWarning
-      message: tcp no rmem adding to recv queue (drops={count}).
+      message: tcp no rmem adding to recv queue (drops={count}, {pcent})% of total rx).
       format-dict:
         count: $rcvqd
+        pcent: $rcvqd_pcent
   # synflood
   rqfulld:
     decision: rqfulld
