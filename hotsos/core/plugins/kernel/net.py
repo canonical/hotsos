@@ -19,6 +19,20 @@ class ProcNetBase(abc.ABC):
     def __init__(self):
         self._data = {}
 
+    def _pcent_of(self, field_count, total):
+        """
+        @param field_count: field we want to determine as percentage if total
+        @param total: total value
+        """
+        count = getattr(self, field_count)
+        if not count:
+            return 0
+
+        if not total:
+            return 0
+
+        return round((count * 100.0) / total, 2)
+
     def _process_file(self, fname):
         if not os.path.exists(fname):
             log.info("file not found '%s' - skipping load")
@@ -92,23 +106,19 @@ class SNMPBase(ProcNetBase):
 
 class SNMPTcp(SNMPBase):
 
-    @property
-    def outretrans_pcent(self):
-        if not self.OutSegs:
-            return 0
-
-        return round((self.RetransSegs * 100.0) / self.OutSegs, 2)
-
-    @property
-    def incsumrate_pcent(self):
+    def PcentInSegs(self, field):
         """
-        Tcp: InCsumErrors    number of TCP segments received with bad checksum
+        The value of a field can be provided as a percentage of the total rx
+        segments.
         """
-        if not self.InCsumErrors:
-            return 0
+        return self._pcent_of(field, self.InSegs)
 
-        # Misc checks
-        return round((self.InCsumErrors * 100.0) / self.InSegs, 2)
+    def PcentOutSegs(self, field):
+        """
+        The value of a field can be provided as a percentage of the total tx
+        segments.
+        """
+        return self._pcent_of(field, self.OutSegs)
 
     @property
     def _header(self):
@@ -124,6 +134,20 @@ class SNMPTcp(SNMPBase):
                 # number of TCP segments sent
                 'OutSegs']
 
+    def __getattr__(self, fld):
+        """
+        Fields can be appended with PcentInSegs/PcentOutSegs to get a
+        percentage of total rx/tx segments.
+        """
+        if fld.endswith('PcentInSegs'):
+            fld = fld.partition('PcentInSegs')[0]
+            return self.PcentInSegs(fld)
+        elif fld.endswith('PcentOutSegs'):
+            fld = fld.partition('PcentOutSegs')[0]
+            return self.PcentOutSegs(fld)
+
+        return super().__getattr__(fld)
+
 
 class SNMPUdp(SNMPBase):
 
@@ -131,19 +155,19 @@ class SNMPUdp(SNMPBase):
     def _header(self):
         return 'Udp'
 
-    @property
-    def inerrors_pcent(self):
-        if not self.InErrors or not self.InDatagrams:
-            return 0
+    def PcentInDatagrams(self, field):
+        """
+        The value of a field can be provided as a percentage of the total rx
+        datagrams.
+        """
+        return self._pcent_of(field, self.InDatagrams)
 
-        return round((self.InErrors * 100.0) / self.InDatagrams, 2)
-
-    @property
-    def incsumerrors_pcent(self):
-        if not self.InCsumErrors:
-            return 0
-
-        return round((self.InCsumErrors * 100.0) / self.InDatagrams, 2)
+    def PcentOutDatagrams(self, field):
+        """
+        The value of a field can be provided as a percentage of the total tx
+        datagrams.
+        """
+        return self._pcent_of(field, self.OutDatagrams)
 
     @property
     def _fields(self):
@@ -155,6 +179,20 @@ class SNMPUdp(SNMPBase):
                 'SndbufErrors',
                 'InCsumErrors']
 
+    def __getattr__(self, fld):
+        """
+        Fields can be appended with PcentInDatagrams/PcentOutDatagrams to get a
+        percentage of total rx/tx datagrams.
+        """
+        if fld.endswith('PcentInDatagrams'):
+            fld = fld.partition('PcentInDatagrams')[0]
+            return self.PcentInDatagrams(fld)
+        elif fld.endswith('PcentOutDatagrams'):
+            fld = fld.partition('PcentOutDatagrams')[0]
+            return self.PcentOutDatagrams(fld)
+
+        return super().__getattr__(fld)
+
 
 class NetStatBase(ProcNetBase):
 
@@ -162,21 +200,28 @@ class NetStatBase(ProcNetBase):
         super().__init__()
         self._process_file(os.path.join(HotSOSConfig.DATA_ROOT,
                                         'proc/net/netstat'))
+        self.net_snmp_tcp = SNMPTcp()
 
 
 class NetStatTCP(NetStatBase):
 
     @property
-    def spurrtx_pcent(self):
-        if not self.TCPSpuriousRtxHostQueues:
-            return 0
-
-        outsegs = SNMPTcp().OutSegs
-        return round((self.TCPSpuriousRtxHostQueues * 100.0) / outsegs, 2)
-
-    @property
     def _header(self):
         return 'TcpExt'
+
+    def PcentInSegs(self, field):
+        """
+        The value of a field can be provided as a percentage of the total rx
+        segments.
+        """
+        return self._pcent_of(field, self.net_snmp_tcp.InSegs)
+
+    def PcentOutSegs(self, field):
+        """
+        The value of a field can be provided as a percentage of the total tx
+        segments.
+        """
+        return self._pcent_of(field, self.net_snmp_tcp.OutSegs)
 
     @property
     def _fields(self):
@@ -220,6 +265,20 @@ class NetStatTCP(NetStatBase):
             'TCPReqQFullDoCookies',
             # skb retrans before original left host
             'TCPSpuriousRtxHostQueues']
+
+    def __getattr__(self, fld):
+        """
+        Fields can be appended with PcentInSegs/PcentOutSegs to get a
+        percentage of total rx/tx segments.
+        """
+        if fld.endswith('PcentInSegs'):
+            fld = fld.partition('PcentInSegs')[0]
+            return self.PcentInSegs(fld)
+        elif fld.endswith('PcentOutSegs'):
+            fld = fld.partition('PcentOutSegs')[0]
+            return self.PcentOutSegs(fld)
+
+        return super().__getattr__(fld)
 
 
 class SockStat(ProcNetBase):

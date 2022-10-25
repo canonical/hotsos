@@ -1,11 +1,11 @@
 vars:
   incsumerr: '@hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrors'
-  incsumrate_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.incsumrate_pcent'
+  incsumrate_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrorsPcentInSegs'
   outsegs: '@hotsos.core.plugins.kernel.net.SNMPTcp.OutSegs'
   retrans: '@hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegs'
-  outretrans_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.outretrans_pcent'
+  outretrans_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegsPcentOutSegs'
   spurrtx: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueues'
-  spurrtx_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.spurrtx_pcent'
+  spurrtx_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueuesPcentOutSegs'
   prunec: '@hotsos.core.plugins.kernel.net.NetStatTCP.PruneCalled'
   rcvcoll: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvCollapsed'
   rcvpr: '@hotsos.core.plugins.kernel.net.NetStatTCP.RcvPruned'
@@ -24,39 +24,39 @@ vars:
   rqfullcook: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies'
 checks:
   incsumerr_high:
-    varops: [[$incsumerr], [gt, 1000]]
+    varops: [[$incsumerr], [gt, 500]]
   retrans_out_rate_gt_1pcent:
     varops: [[$outretrans_pcent], [gt, 1]]
   incsumrate_gt_1pcent:
     varops: [[$incsumrate_pcent], [gt, 1]]
   mem_pressure_prunec:
-    varops: [[$prunec], [gt, 0]]
+    varops: [[$prunec], [gt, 500]]
   backlogd:
-    varops: [[$backlogd], [gt, 0]]
+    varops: [[$backlogd], [gt, 500]]
   rpfilterd:
-    varops: [[$rpfilterd], [gt, 0]]
+    varops: [[$rpfilterd], [gt, 500]]
   ldrop:
-    varops: [[$ldrop], [gt, 0]]
+    varops: [[$ldrop], [gt, 500]]
   spurrtx_gt_1pcent:
     varops: [[$spurrtx_pcent], [gt, 1]]
   pfmemd:
-    varops: [[$pfmemd], [gt, 0]]
+    varops: [[$pfmemd], [gt, 500]]
   minttld:
-    varops: [[$minttld], [gt, 0]]
+    varops: [[$minttld], [gt, 500]]
   deferaccd:
-    varops: [[$deferaccd], [gt, 0]]
+    varops: [[$deferaccd], [gt, 500]]
   listenovf:
-    varops: [[$listenovf], [gt, 0]]
+    varops: [[$listenovf], [gt, 500]]
   ofod:
-    varops: [[$ofod], [gt, 0]]
+    varops: [[$ofod], [gt, 500]]
   zwind:
-    varops: [[$zwind], [gt, 0]]
+    varops: [[$zwind], [gt, 500]]
   rcvqd:
-    varops: [[$rcvqd], [gt, 0]]
+    varops: [[$rcvqd], [gt, 500]]
   rqfulld:
-    varops: [[$rqfulld], [gt, 0]]
+    varops: [[$rqfulld], [gt, 500]]
   rqfullcook:
-    varops: [[$rqfullcook], [gt, 0]]
+    varops: [[$rqfullcook], [gt, 500]]
 conclusions:
   # retransmissions
   incsumerr_high:
