@@ -464,6 +464,12 @@ class FileSearcher(object):
             log.debug("skipping global constraint for %s", fd.name)
             return offset
 
+        if not os.path.isdir(os.path.join(HotSOSConfig.DATA_ROOT,
+                                          'sos_commands')):
+            log.info("skipping global constraints since data_root is not a "
+                     "sosreport therefore files may be changing")
+            return offset
+
         log.debug("applying global constraint %s to %s", self.constraint,
                   fd.name)
         _offset = self.constraint.apply_to_file(fd)

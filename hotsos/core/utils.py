@@ -1,5 +1,9 @@
+import fasteners
+import os
+import pickle
 import tempfile
 
+from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 
 
@@ -81,3 +85,80 @@ def sample_set_regressions(samples, ascending=True):
             prev = prev_reset
 
     return repetitions
+
+
+class MPCache(object):
+    """
+    A multiprocessing safe cache.
+    """
+    def __init__(self, id, root_dir):
+        self.id = id
+        self.root_dir = root_dir
+
+    @property
+    def _lock(self):
+        """ Inter-process lock. """
+        path = os.path.join(HotSOSConfig.GLOBAL_TMP_DIR, 'locks',
+                            '{}.lock'.format(self.id))
+        return fasteners.InterProcessLock(path)
+
+    @cached_property
+    def path_unsafe(self):
+        """
+        Get cache path and initialise of not exists. Not to be used without
+        having first acquired the lock.
+        """
+        path = HotSOSConfig.GLOBAL_TMP_DIR
+        if path is None:
+            log.warning("global tmp dir '%s' not setup")
+            return
+
+        dir = os.path.join(path, 'cache/{}'.format(self.root_dir))
+        if not os.path.isdir(dir):
+            os.makedirs(dir)
+
+        return os.path.join(dir, self.id)
+
+    def _get_unsafe(self, path):
+        """
+        Unlocked get not to be used without having first acquired the lock.
+        """
+        if not path or not os.path.exists(path):
+            log.debug("no cache found at '%s'", path)
+            return
+
+        with open(path, 'rb') as fd:
+            contents = pickle.load(fd)
+            if not contents:
+                return
+
+            return contents
+
+    def get(self, key):
+        """ Get value for key. If not found returns None. """
+        with self._lock:
+            path = self.path_unsafe
+            log.debug("load from cache '%s' (key='%s')", path, key)
+            contents = self._get_unsafe(path)
+            if contents:
+                return contents.get(key)
+
+    def set(self, key, data):
+        """ Set value for key. """
+        with self._lock:
+            path = self.path_unsafe
+            if not path:
+                log.warning("invalid path '%s' - cannot save to cache", path)
+
+            contents = self._get_unsafe(path)
+            if contents:
+                contents[key] = data
+            else:
+                contents = {key: data}
+
+            log.debug("saving to cache '%s' (key=%s, items=%s)", path, key,
+                      len(contents))
+            with open(path, 'wb') as fd:
+                pickle.dump(contents, fd)
+
+            log.debug("cache id=%s size=%s", self.id, os.path.getsize(path))

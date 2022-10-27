@@ -1,4 +1,6 @@
 import abc
+import hashlib
+import os
 import re
 import uuid
 
@@ -7,7 +9,7 @@ from datetime import datetime, timedelta
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.utils import cached_property
+from hotsos.core.utils import cached_property, MPCache
 
 
 class ConstraintBase(abc.ABC):
@@ -189,6 +191,27 @@ class SeekInfo(object):
         self.fd = fd
         self.iterations = 0
         self._orig_pos = self.fd.tell()
+        self.cache = MPCache('file_markers_{}'.format(self.fname_hash),
+                             'search_constraints')
+
+    @cached_property
+    def fname_hash(self):
+        hash = hashlib.sha256()
+        hash.update(self.fd.name.encode('utf-8'))
+        return hash.hexdigest()
+
+    @property
+    def fmtime_size(self):
+        """
+        Criteria used to determine if file contents changed since markers were
+        last generated.
+        """
+        if not os.path.exists(self.fd.name):
+            return 0
+
+        mtime = os.path.getmtime(self.fd.name)
+        size = os.path.getsize(self.fd.name)
+        return "{}+{}".format(mtime, size)
 
     @cached_property
     def markers(self):
@@ -196,7 +219,22 @@ class SeekInfo(object):
         Creates a dictionary of line numbers and their positions in the file.
         This is done relative to the current position in the file and is
         non-destructive i.e. original position is restored.
+
+        NOTE: this is only safe to use if the file does not change between
+              calls.
         """
+        log.debug("loading markers for '%s'", self.fd.name)
+        fname = self.fd.name
+        fmtime_size = self.fmtime_size
+        if fmtime_size:
+            cached = self.cache.get(fmtime_size)
+            if cached:
+                log.debug("finished loading markers for '%s' with mtime %s",
+                          fname, fmtime_size)
+                return cached
+
+        log.debug("no cached markers for '%s' - generating new set",
+                  self.fd.name)
         _markers = {}
         ln = 0
         self.fd.seek(self.orig_pos)
@@ -210,6 +248,13 @@ class SeekInfo(object):
 
         # restore
         self.fd.seek(self.orig_pos)
+        if fmtime_size:
+            self.cache.set(fmtime_size, _markers)
+        else:
+            log.warning("not caching markers for file '%s' since mtime not "
+                        "valid", self.fd.name)
+
+        log.debug("finished loading markers for '%s'", fname)
         return _markers
 
     @cached_property
@@ -266,21 +311,32 @@ class BinarySeekSearchBase(ConstraintBase):
         if self._line_date_is_valid(datetime_obj):
             return self.fd_info.fd.tell()
 
-    def _seek_next(self, status):
-        log.debug("seek %s", status)
-        self.fd_info.fd.seek(status.cur_pos)
+    def _check_line(self, cur_pos, next_pos):
+        """
+        Attempt to read and validate datetime from line.
+
+        @return new position or -1 if we were not able to validate the line.
+        """
+        self.fd_info.fd.seek(cur_pos)
         # don't read the whole line since we only need the date at the start.
         # hopefully 64 bytes is enough for any date+time format.
         datetime_obj = self.extracted_datetime(self.fd_info.fd.read(64))
-        self.fd_info.fd.seek(status.next_pos)
+        self.fd_info.fd.seek(next_pos)
         if datetime_obj is None:
+            return -1
+
+        return self._seek_and_validate(datetime_obj)
+
+    def _seek_next(self, status):
+        log.debug("seek %s", status)
+        newpos = self._check_line(status.cur_pos, status.next_pos)
+        if newpos == -1:
             # until we get out of a skip range we want to leave the pos at the
             # start but we rely on the caller to enforce this so that we don't
             # have to seek(0) after every skip.
             status.skip_current_line()
             return status
 
-        newpos = self._seek_and_validate(datetime_obj)
         if newpos is None:
             status.rc = status.RC_FOUND_BAD
             if status.cur_ln == 0:
@@ -336,8 +392,22 @@ class BinarySeekSearchBase(ConstraintBase):
                             it will find the least valid point and stay there.
                             If that is not desired this can be set to False.
         """
-        # log.debug("seeking to valid line")
+
         offset = 0
+        # check first line before going ahead with full search which requires
+        # generating file markers that is expensive for large files.
+        cur_pos = self.fd_info.fd.tell()
+        if self._check_line(cur_pos, cur_pos + 1) == cur_pos + 1:
+            self.fd_info.reset()
+            log.debug("first line is valid so assuming same for rest of "
+                      "file")
+            log.debug("seek %s finished (skipped %d lines) current_pos=%s, "
+                      "offset=%s iterations=%s",
+                      self.fd_info.fd.name, offset,
+                      self.fd_info.fd.tell(), offset, self.fd_info.iterations)
+
+            return offset
+
         search_state = BinarySearchState(self.fd_info)
         while True:
             self.fd_info.iterations += 1

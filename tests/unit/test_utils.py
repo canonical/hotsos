@@ -33,3 +33,14 @@ class TestUtils(utils.BaseTestCase):
         samples = [100, 99, 98, 100, 60, 60]
         self.assertEqual(core_utils.sample_set_regressions(samples,
                                                            ascending=False), 1)
+
+    def test_mpcache(self):
+        c = core_utils.MPCache('test', 'cacheroot')
+        self.assertEqual(c.get('key1'), None)
+        c.set('key1', 'value1')
+        self.assertEqual(c.get('key1'), 'value1')
+        c.set('key1', 'value2')
+        self.assertEqual(c.get('key1'), 'value2')
+        self.assertEqual(c.get('key2'), None)
+        c.set('key2', {'abcd': 1234})
+        self.assertEqual(c.get('key2'), {'abcd': 1234})

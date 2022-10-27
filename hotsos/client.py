@@ -351,7 +351,9 @@ class HotSOSClient(object):
     def setup_global_env(self):
         """ State saved here persists across all plugin runs. """
         log.debug("setting up global env")
-        setup_config(GLOBAL_TMP_DIR=tempfile.mkdtemp())
+        global_tmp_dir = tempfile.mkdtemp()
+        setup_config(GLOBAL_TMP_DIR=global_tmp_dir)
+        os.makedirs(os.path.join(global_tmp_dir, 'locks'))
 
     def teardown_global_env(self):
         log.debug("tearing down gloval env")

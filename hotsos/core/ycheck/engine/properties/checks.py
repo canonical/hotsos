@@ -23,8 +23,12 @@ from hotsos.core.ycheck.engine.properties.input import YPropertyInput
 @add_to_property_catalog
 class YPropertyCheck(YPropertyMappedOverrideBase):
 
-    @cached_yproperty_attr
-    def search_results(self):
+    @property
+    def first_search_result(self):
+        return self.cache.first_search_result
+
+    @property
+    def _search_results(self):
         """
         Retrieve the search results for the search property within this check.
         """
@@ -34,7 +38,11 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
             _results = global_results.find_by_tag(tag)
             log.debug("check %s has %s search results with tag %s",
                       self.check_name, len(_results), tag)
-            return self.search.apply_constraints(_results)
+            ret = self.search.apply_constraints(_results)
+            if ret:
+                self.cache.set('first_search_result', ret[0])
+
+            return ret
 
         raise Exception("no search results provided to check '{}'".
                         format(self.check_name))
@@ -57,13 +65,17 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
         @param results: search results for query in search property found in
                         this check.
         """
-        self.search.cache.set('num_results', len(self.search_results))
+        self.search.cache.set('num_results', len(results))
         if results:
             # The following aggregates results by group/index and stores in
             # the property cache to make them accessible via
             # PropertyCacheRefResolver.
             results_by_idx = {}
-            for result in results:
+            for i, result in enumerate(results):
+                # cap to save memory
+                if i > 100:
+                    break
+
                 for idx, value in enumerate(result):
                     if idx not in results_by_idx:
                         results_by_idx[idx] = set()
@@ -79,8 +91,9 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
 
     def _result(self):
         if self.search:
-            self._set_search_cache_info(self.search_results)
-            if not self.search_results:
+            _results = self._search_results
+            self._set_search_cache_info(_results)
+            if not _results:
                 log.debug("check %s search has no matches so result=False",
                           self.name)
                 return False
@@ -100,7 +113,7 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
             raise Exception("no supported properties found in check {}".format(
                             self.name))
 
-    @property
+    @cached_yproperty_attr
     def result(self):
         log.debug("executing check %s", self.name)
         result = self._result()

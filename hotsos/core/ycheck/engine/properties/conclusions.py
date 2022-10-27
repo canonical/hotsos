@@ -216,24 +216,21 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
         if not result:
             return False
 
-        search_results = None
+        first_search_result = None
         for check in checks.values():
-            if check.search and check.search_results:
-                search_results = check.search_results
-                if search_results:
-                    # Save some context for the issue
-                    self.issue_context.set(**{r.source: r.linenumber
-                                              for r in search_results})
-            elif check.requires:
+            if check.search and check.first_search_result:
+                first_search_result = check.first_search_result
+
+            if check.requires:
                 # Dump the requires cache into the context. We improve this
-                # later by addign more info.
+                # later by adding more info.
                 self.issue_context.set(**check.requires.cache.data)
 
         if self.raises.format_groups:
-            if search_results:
+            if first_search_result:
                 # we only use the first result
                 message = self.raises.message_with_format_list_applied(
-                                                             search_results[0])
+                                                           first_search_result)
             else:
                 message = self.raises.message
                 log.warning("no search results found so not applying format "

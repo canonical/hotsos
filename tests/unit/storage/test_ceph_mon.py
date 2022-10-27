@@ -6,7 +6,7 @@ import json
 from .. import utils
 
 from hotsos.core.issues import IssuesManager
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import setup_config
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.plugins.storage import (
@@ -515,9 +515,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
         # Since we have enabled machine readable we should get some context so
         # test that as well.
-        logpath = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/ceph/ceph.log')
-        context = {logpath: 3,
-                   'ops': 'truth',
+        context = {'ops': 'truth',
                    'passes': True,
                    'property': ('hotsos.core.plugins.storage.ceph.'
                                 'CephChecksBase.has_interface_errors'),
@@ -584,9 +582,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
         # Since we have enabled machine readable we should get some context so
         # test that as well.
-        logpath = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/ceph/ceph.log')
-        context = {logpath: 5,
-                   'ops': 'truth',
+        context = {'ops': 'truth',
                    'passes': True,
                    'property': ('hotsos.core.plugins.storage.ceph.'
                                 'CephChecksBase.has_interface_errors'),
@@ -615,9 +611,7 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
 
         # Since we have enabled machine readable we should get some context so
         # test that as well.
-        logpath = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/ceph/ceph.log')
-        context = {logpath: 3,
-                   'ops': 'truth',
+        context = {'ops': 'truth',
                    'passes': True,
                    'property': ('hotsos.core.plugins.storage.ceph.'
                                 'CephChecksBase.has_interface_errors'),
