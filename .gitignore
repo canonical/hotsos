@@ -1,10 +1,11 @@
 __pycache__
+.idea
+.stestr
+.tox
+.vscode
+*.pyc
+*.snap
 /parts
 /prime
 /stage
 snap/.snapcraft
-*.snap
-.tox
-*.pyc
-.stestr
-.idea
