@@ -8,7 +8,6 @@ description:
 confinement: classic
 grade: stable
 base: core20
-architectures: [amd64, arm64]
 environment:
   REPO_INFO_PATH: $SNAP/repo-info
   LC_ALL: C.UTF-8
