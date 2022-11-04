@@ -1,0 +1,24 @@
+checks:
+  mon_large_db:
+    input:
+      command: ceph_health_detail_json_decoded
+    expr: '.*mon (.+) is using a lot of disk space.*'
+  health_warning:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      ops: [[ne, HEALTH_OK]]
+conclusions:
+  db_too_large:
+    decision:
+      - mon_large_db
+      - health_warning
+    raises:
+      type: CephMonWarning
+      message: >-
+        Ceph is reporting that for mon {}, the leveldb database used to
+        store cluster metadata is using a lot of disk space which may
+        cause slow queries and delayed response to clients.
+        Recommendation is to run compaction on the mon db. Please see
+        docs.ceph.com/en/quincy/rados/operations/health-checks/#mon-disk-big
+      search-result-format-groups: [1]
+

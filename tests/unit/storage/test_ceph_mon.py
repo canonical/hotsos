@@ -564,6 +564,28 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('ceph-mon/mon_db_too_big.yaml'))
+    @mock.patch('hotsos.core.ycheck.engine.properties.input.CLIHelper')
+    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.health_status',
+                'HEALTH_WARN')
+    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
+                {'ceph-mon': SystemdService('ceph-mon', 'enabled')})
+    def test_scenario_db_too_big(self, mock_helper):
+        mock_helper.return_value = mock.MagicMock()
+        mock_helper.return_value.ceph_health_detail_json_decoded.return_value \
+                = "mon juju27 is using a lot of disk space"
+
+        YScenarioChecker()()
+        msg = ("Ceph is reporting that for mon juju27, the leveldb database "
+               "used to store cluster metadata is using a lot of disk space "
+               "which may cause slow queries and delayed response to clients. "
+               "Recommendation is to run compaction on the mon db. Please see "
+               "docs.ceph.com/en/quincy/rados/operations/health-checks/#mon-disk-big")
+
+        issues = list(IssuesManager().load_issues().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('ceph-mon/osd_slow_ops.yaml'))
     @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
