@@ -38,13 +38,16 @@ parts:
   hotsos:
     plugin: python
     source: .
-    stage-packages: [coreutils, bsdmainutils, systemd, dpkg, python3-yaml,
-                     python3-simplejson, python3-click]
+    stage-packages:
+      - bsdmainutils
+      - coreutils
+      - dpkg
+      - systemd
     python-packages:
       - cryptography==3.4.8
-      - wheel
       - pip
       - setuptools
+      - wheel
     requirements:
       - requirements.txt
     build-environment:
