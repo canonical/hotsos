@@ -7,12 +7,13 @@ description:
   common Cloud applications.
 confinement: classic
 grade: stable
-base: core20
+base: core22
 environment:
-  REPO_INFO_PATH: $SNAP/repo-info
-  LC_ALL: C.UTF-8
   LANG: C.UTF-8
-  PYTHONPATH: $SNAP/lib/python3.8/site-packages
+  LC_ALL: C.UTF-8
+  PYTHONHOME: ${SNAP}/usr
+  PYTHONPATH: ${SNAP}/usr/lib/python3.10:${SNAP}/lib/python3.10/site-packages
+  REPO_INFO_PATH: ${SNAP}/repo-info
 
 # dpkg won't work without this
 layout:
@@ -24,44 +25,126 @@ layout:
 apps:
   hotsos:
     command: bin/hotsos
+
 parts:
-  hotsos-cli:
+  hotsos:
     plugin: dump
     source: .
-    override-build: |
-      rm -rf tests
-      git rev-parse --short HEAD > repo-info
-      snapcraftctl build
-    organize:
-      defs: etc/hotsos/defs
-      templates: etc/hotsos/templates
-    build-packages: [git]
-  hotsos:
-    plugin: python
-    source: .
+    build-packages:
+      - git
+      - python3-pip
+      - python3-venv
+      - rsync
     stage-packages:
       - bsdmainutils
       - coreutils
       - dpkg
+      - libc6
+      - libpython3.10-minimal
+      - libpython3.10-stdlib
+      - python3.10-minimal
       - systemd
-    python-packages:
-      - cryptography==3.4.8
-      - pip
-      - setuptools
-      - wheel
-    requirements:
-      - requirements.txt
-    build-environment:
-      - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
-    filesets:
+    override-build: |
+      PYTHON=python3.10
+
+      # In case we are debugging this snap and are running the build stage
+      # multiple times (as in `snapcraft build --shell`), we have to guard
+      # against running `venv` multiple times.
+      if [[ ! -x ${SNAPCRAFT_PART_INSTALL}/bin/activate ]]; then
+        /usr/bin/python3 -m venv ${SNAPCRAFT_PART_INSTALL}
+      fi
+
+      # Do not source `activate` so that consecutive rebuilding the snap (for
+      # debugging) works.
+      ${SNAPCRAFT_PART_INSTALL}/bin/pip install wheel
+      ${SNAPCRAFT_PART_INSTALL}/bin/pip install -r requirements.txt
+
+      # Build `hotsos`
+      #
+      # Note that we will need `dist-info` when loading `hotsos` which is not
+      # built with a simple `setup.py install`. Building a `bdist_wheel` and
+      # then installing it via `pip` addresses this shortcoming.
+      ${SNAPCRAFT_PART_INSTALL}/bin/python3 setup.py bdist_wheel
+      ${SNAPCRAFT_PART_INSTALL}/bin/pip install dist/hotsos-*.whl
+
+      # Update repo-info
+      git rev-parse --short HEAD > repo-info
+      # Install repo-info
+      install --mode 0644 repo-info ${SNAPCRAFT_PART_INSTALL}
+
+      # Rewrite the shebang to point to the correct Python interpreter. Only
+      # touch the first line and absorb the whole line. Note that the matching
+      # expression cannot be more specific since the path to the Python
+      # interpreter depends on the build environment. Notably, local builds
+      # (`/root`) differ from builds on launchpad (`/build`).
+      sed --in-place \
+        --expression "1 s:^#\!/.*$:#\!/snap/hotsos/current/usr/bin/${PYTHON}:" \
+        ${SNAPCRAFT_PART_INSTALL}/bin/hotsos
+
+      # Add a missing link in snap to Python interpreter.
+      ln -sf ../usr/bin/${PYTHON} ${SNAPCRAFT_PART_INSTALL}/bin/python3
+
+      # Do not use `craftctl default` and `organize` because this simply copies
+      # the whole repository to the install directory. Using rsync on `defs` is
+      # cleaner.
+      mkdir -p ${SNAPCRAFT_PART_INSTALL}/etc/hotsos
+      rsync -av defs ${SNAPCRAFT_PART_INSTALL}/etc/hotsos/
+      rsync -av templates ${SNAPCRAFT_PART_INSTALL}/etc/hotsos/
+    stage:
       # need to exclude these files since they are dangling symlinks
       # that cause the snapstore to reject the upload.
-      exclude-systemd-files:
-        - -lib/systemd/system/hwclock.service
-        - -lib/systemd/system/rc.service
-        - -lib/systemd/system/x11-common.service
-        - -lib/systemd/system/cryptdisks-early.service
-        - -lib/systemd/system/rcS.service
-        - -lib/systemd/system/cryptdisks.service
-    stage:
-      - $exclude-systemd-files
+      - -lib/systemd/system/cryptdisks-early.service
+      - -lib/systemd/system/cryptdisks.service
+      - -lib/systemd/system/hwclock.service
+      - -lib/systemd/system/rc.service
+      - -lib/systemd/system/rcS.service
+      - -lib/systemd/system/x11-common.service
+      - -tests
+
+  patchelf:
+    after:
+      - hotsos
+    plugin: nil
+    build-packages:
+      - file
+      - patchelf
+    override-prime: |
+      # patchelf
+      #
+      # To allow for a classic snap that works across multiple operating system
+      # runtime environments, we need to ensure all shipped binaries consume
+      # libraries from the core or shipped snap.  We accomplish this by patching
+      # `RPATH`` or interpreter into dynamically linked binaries.
+      #
+      # /snap/${CORE}/current/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+      # /snap/${CORE}/current/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+      # /snap/${CORE}/current/lib/powerpc64le-linux-gnu/ld64.so.2
+      # /snap/${CORE}/current/lib/s390x-linux-gnu/ld64.so.1
+      set -e -u -x
+
+      CORE=core22
+      interpreter_prefix=/snap/${CORE}/current/lib/${SNAPCRAFT_ARCH_TRIPLET}
+      snap_prefix=/snap/${SNAPCRAFT_PROJECT_NAME}/current
+      ld_arch=$(echo ${SNAPCRAFT_TARGET_ARCH} | sed -e 's,amd64,x86-64,' -e 's,arm64,aarch64,')
+
+      for interpreter in "ld-linux-${ld_arch}.so.?" "ld64.so.?" "/dev/null"; do
+          if [ -e ${interpreter_prefix}/${interpreter} ]; then
+              break
+          fi
+      done
+      if [[ ${interpreter} == /dev/null ]]; then
+          echo "Unable to determine name of shared library interpreter."
+          exit 1
+      fi
+
+      for binary in \
+        $(find . -exec file {} \; | awk -F : '/ELF.*dynamic/ { print $1 }'); do
+          patchelf \
+              --force-rpath \
+              --set-rpath ${interpreter_prefix}:${snap_prefix}/lib:${snap_prefix}/lib/${SNAPCRAFT_ARCH_TRIPLET}:${snap_prefix}/usr/lib:${snap_prefix}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET} \
+              ${binary}
+
+          # Setting the interpreter might harmlessly fail and we need to ignore
+          # the exit code in case it does.
+          patchelf --set-interpreter ${interpreter_prefix}/${interpreter} ${binary} || true
+      done
