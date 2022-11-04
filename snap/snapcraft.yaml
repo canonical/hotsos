@@ -9,10 +9,11 @@ confinement: classic
 grade: stable
 base: core20
 environment:
-  REPO_INFO_PATH: $SNAP/repo-info
-  LC_ALL: C.UTF-8
   LANG: C.UTF-8
-  PYTHONPATH: $SNAP/lib/python3.8/site-packages
+  LC_ALL: C.UTF-8
+  PYTHONHOME: ${SNAP}/usr
+  PYTHONPATH: ${SNAP}/usr/lib/python3.8:${SNAP}/lib/python3.8/site-packages
+  REPO_INFO_PATH: ${SNAP}/repo-info
 
 # dpkg won't work without this
 layout:
@@ -24,43 +25,52 @@ layout:
 apps:
   hotsos:
     command: bin/hotsos
+
 parts:
-  hotsos-cli:
+  hotsos:
     plugin: dump
     source: .
-    override-build: |
-      rm -rf tests
-      git rev-parse --short HEAD > repo-info
-      snapcraftctl build
-    organize:
-      defs: etc/hotsos/defs
-    build-packages: [git]
-  hotsos:
-    plugin: python
-    source: .
+    build-packages:
+      - git
+      - python3-pip
+      - python3-venv
     stage-packages:
       - bsdmainutils
       - coreutils
       - dpkg
+      - libc6
+      - libpython3.8-minimal
+      - libpython3.8-stdlib
+      - python3.8-minimal
       - systemd
-    python-packages:
-      - cryptography==3.4.8
-      - pip
-      - setuptools
-      - wheel
-    requirements:
-      - requirements.txt
     build-environment:
       - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
-    filesets:
+    override-build: |
+      git rev-parse --short HEAD > repo-info
+      # In case we are debugging this snap and are running the build stage
+      # multiple times, we have to guard against running venv multiple times.
+      if [[ ! -x ${SNAPCRAFT_PART_INSTALL}/bin/activate ]]; then
+        python3 -m venv ${SNAPCRAFT_PART_INSTALL}
+      fi
+      # Do not source `activate` so that consecutive rebuilding the snap (for
+      # debugging) works.
+      ${SNAPCRAFT_PART_INSTALL}/bin/pip install wheel
+      ${SNAPCRAFT_PART_INSTALL}/bin/pip install -r requirements.txt
+      ${SNAPCRAFT_PART_INSTALL}/bin/python3 setup.py install
+      sed --in-place \
+        --expression 's:^#!/root.*$:#!/snap/hotsos/current/usr/bin/python3.8:' \
+        ${SNAPCRAFT_PART_INSTALL}/bin/hotsos
+      ln -sf ../usr/bin/python3.8 ${SNAPCRAFT_PART_INSTALL}/bin/python3
+      snapcraftctl build
+    organize:
+      defs: etc/hotsos/defs
+    stage:
       # need to exclude these files since they are dangling symlinks
       # that cause the snapstore to reject the upload.
-      exclude-systemd-files:
-        - -lib/systemd/system/hwclock.service
-        - -lib/systemd/system/rc.service
-        - -lib/systemd/system/x11-common.service
-        - -lib/systemd/system/cryptdisks-early.service
-        - -lib/systemd/system/rcS.service
-        - -lib/systemd/system/cryptdisks.service
-    stage:
-      - $exclude-systemd-files
+      - -lib/systemd/system/cryptdisks-early.service
+      - -lib/systemd/system/cryptdisks.service
+      - -lib/systemd/system/hwclock.service
+      - -lib/systemd/system/rc.service
+      - -lib/systemd/system/rcS.service
+      - -lib/systemd/system/x11-common.service
+      - -tests
