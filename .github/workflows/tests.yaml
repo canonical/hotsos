@@ -36,3 +36,10 @@ jobs:
     - name: Run functional
       run: tox -e functional
       if: matrix.python-version == '3.10'
+    - name: Run mutmut
+      run: tox -e mutmut -- --no-progress
+      if: matrix.python-version == '3.10'
+    - uses: actions/upload-artifact@v3
+      with:
+        name: mutmut
+        path: .mutmut-cache
