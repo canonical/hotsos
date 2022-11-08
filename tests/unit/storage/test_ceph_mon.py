@@ -573,14 +573,15 @@ class TestStorageScenarioChecksCephMon(StorageCephMonTestsBase):
     def test_scenario_db_too_big(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ceph_health_detail_json_decoded.return_value \
-                = "mon juju27 is using a lot of disk space"
+            = "mon juju27 is using a lot of disk space"
 
         YScenarioChecker()()
         msg = ("Ceph is reporting that for mon juju27, the leveldb database "
                "used to store cluster metadata is using a lot of disk space "
                "which may cause slow queries and delayed response to clients. "
                "Recommendation is to run compaction on the mon db. Please see "
-               "docs.ceph.com/en/quincy/rados/operations/health-checks/#mon-disk-big")
+               "docs.ceph.com/en/quincy/rados/operations/health-checks/"
+               "#mon-disk-big")
 
         issues = list(IssuesManager().load_issues().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
