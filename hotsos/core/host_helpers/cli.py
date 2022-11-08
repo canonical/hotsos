@@ -4,7 +4,6 @@ import json
 import os
 import re
 import subprocess
-import sys
 import tempfile
 
 from hotsos.core.log import log
@@ -381,16 +380,17 @@ class DateFileCmd(FileCmd):
         if not no_format and format is None:
             format = '+%s'
 
-        # if date string contains timezone string we need to remove it
-        ret = re.match(r"^(\S+ \S*\s*[0-9]+ [0-9:]+ )[A-Z]*\s*([0-9]+)$",
+        ret = re.match(r"^(\S+ \S*\s*[0-9]+ [0-9:]+)\s*"
+                       r"([A-Z]*|[+-]?[0-9]*)?"
+                       r"\s*([0-9]+)$",
                        output)
 
         if ret is None:
-            sys.stderr.write("ERROR: {} has invalid date string '{}'\n".
-                             format(self.path, output))
+            log.error("%s has invalid date string '%s'", self.path, output)
             return ""
 
-        date = "{}{}".format(ret[1], ret[2])
+        # Include tz if available and then convert to utc
+        date = "{} {} {}".format(ret[1], ret[2], ret[3])
         cmd = ["date", "--utc", "--date={}".format(date)]
         if format:
             cmd.append(format)
