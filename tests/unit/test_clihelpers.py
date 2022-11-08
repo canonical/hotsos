@@ -50,6 +50,18 @@ class TestCLIHelpers(utils.BaseTestCase):
         self.assertEqual(self.helper.date(), '1644509957')
 
     @utils.create_data_root({'sos_commands/date/date':
+                             'Thu Mar 25 10:55:05 2021'})
+    def test_get_date_no_tz(self):
+        helper = cli.CLIHelper()
+        self.assertEqual(helper.date(), '1616669705')
+
+    @utils.create_data_root({'sos_commands/date/date':
+                             'Thu Mar 25 10:55:05 -03 2021'})
+    def test_get_date_w_numeric_tz(self):
+        helper = cli.CLIHelper()
+        self.assertEqual(helper.date(), '1616680505')
+
+    @utils.create_data_root({'sos_commands/date/date':
                              'Thu Mar 25 10:55:05 UTC 2021'})
     def test_get_date_w_tz(self):
         helper = cli.CLIHelper()
