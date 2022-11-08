@@ -653,8 +653,6 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual([issue['desc'] for issue in issues], [msg])
 
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
     @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_dpctl.'
                              'dump-conntrack_-m_system_ovs-system':
                              DPCTL_DUMP_CONNTRACK,
@@ -673,3 +671,28 @@ class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
                "workaround.")
         bugs = list(issues.IssuesManager().load_bugs().values())[0]
         self.assertEqual([bug['desc'] for bug in bugs], [msg])
+
+    @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.systemd.'
+                'SystemdHelper')
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn_central_services.yaml'))
+    def test_ovn_northd_running(self, mock_systemd):
+
+        class FakeSystemdHelper(object):
+
+            def __init__(self, svcs):
+                self.processes = {}
+                self.services = {}
+                for svc in svcs:
+                    self.services[svc] = SystemdService(svc, 'enabled')
+                    if svc != 'ovn-northd':
+                        self.processes[svc] = 1
+
+        mock_systemd.side_effect = FakeSystemdHelper
+        YScenarioChecker()()
+        msg = ('The ovn-northd service on this ovn-central host is not '
+               'active/running which means that changes made to the '
+               'northbound database are not being ported to the southbound '
+               'database.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])

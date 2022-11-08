@@ -50,6 +50,12 @@ class ServiceCheckItems(CheckItemsBase):
     def installed(self):
         return self._svcs_info.services
 
+    def processes_running(self, processes):
+        """ Check any processes provided. """
+        a = set(processes)
+        b = set(self._svcs_info.processes.keys())
+        return a.issubset(b)
+
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
     """ Provides logic to perform checks on systemd resources. """
@@ -119,11 +125,16 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
                 if settings is None:
                     continue
 
+                processes = None
                 started_after_obj = None
                 if type(settings) == str:
                     state = settings
                     ops = [[default_op, state]]
                 else:
+                    processes = settings.get('processes')
+                    if processes:
+                        log.debug("checking service processes: %s", processes)
+
                     op = settings.get('op', default_op)
                     started_after = settings.get('started-after')
                     started_after_obj = items.installed.get(started_after)
@@ -132,9 +143,15 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
                     else:
                         ops = []
 
-                cache_info[svc]['ops'] = self.ops_to_str(ops)
-                _result = self._check_service(svc_obj, ops,
-                                              started_after=started_after_obj)
+                if processes and not items.processes_running(processes):
+                    log.debug("one or more processes not running "
+                              "- %s", ', '.join(processes))
+                    _result = False
+                else:
+                    cache_info[svc]['ops'] = self.ops_to_str(ops)
+                    _result = self._check_service(
+                                               svc_obj, ops,
+                                               started_after=started_after_obj)
                 if not _result:
                     # bail on first fail
                     break

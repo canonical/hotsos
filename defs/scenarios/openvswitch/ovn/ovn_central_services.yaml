@@ -1,0 +1,19 @@
+checks:
+  ovn_central_db_services_enabled:
+    systemd: [ovn-ovsdb-server-nb, ovn-ovsdb-server-sb]
+  northd_enabled_and_running:
+    systemd:
+      ovn-northd:
+        processes: [ovn-northd]
+conclusions:
+  northd_not_running:
+    decision:
+      - ovn_central_db_services_enabled
+      - not: northd_enabled_and_running
+    raises:
+      type: OVNError
+      message: >-
+        The ovn-northd service on this ovn-central host is not active/running
+        which means that changes made to the northbound database are not
+        being ported to the southbound database.
+
