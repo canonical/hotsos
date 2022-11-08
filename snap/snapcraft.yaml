@@ -7,12 +7,12 @@ description:
   common Cloud applications.
 confinement: classic
 grade: stable
-base: core20
+base: core22
 environment:
   LANG: C.UTF-8
   LC_ALL: C.UTF-8
   PYTHONHOME: ${SNAP}/usr
-  PYTHONPATH: ${SNAP}/usr/lib/python3.8:${SNAP}/lib/python3.8/site-packages
+  PYTHONPATH: ${SNAP}/usr/lib/python3.10:${SNAP}/lib/python3.10/site-packages
   REPO_INFO_PATH: ${SNAP}/repo-info
 
 # dpkg won't work without this
@@ -40,14 +40,14 @@ parts:
       - coreutils
       - dpkg
       - libc6
-      - libpython3.8-minimal
-      - libpython3.8-stdlib
-      - python3.8-minimal
+      - libpython3.10-minimal
+      - libpython3.10-stdlib
+      - python3.10-minimal
       - systemd
     build-environment:
       - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
     override-build: |
-      PYTHON=python3.8
+      PYTHON=python3.10
 
       # In case we are debugging this snap and are running the build stage
       # multiple times, we have to guard against running venv multiple times.
@@ -114,7 +114,7 @@ parts:
       # /snap/${CORE}/current/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
       # /snap/${CORE}/current/lib/powerpc64le-linux-gnu/ld64.so.2
       # /snap/${CORE}/current/lib/s390x-linux-gnu/ld64.so.1
-      CORE=core20
+      CORE=core22
       interpreter_prefix=/snap/${CORE}/current/lib/${SNAPCRAFT_ARCH_TRIPLET}
       snap_prefix=/snap/${SNAPCRAFT_PROJECT_NAME}/current
       ld_arch=$(echo ${SNAPCRAFT_TARGET_ARCH} | sed -e 's,amd64,x86-64,' -e 's,arm64,aarch64,')
