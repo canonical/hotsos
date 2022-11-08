@@ -116,6 +116,10 @@ class OpenstackWarning(IssueTypeBase):
     pass
 
 
+class OVNError(IssueTypeBase):
+    pass
+
+
 class OVNWarning(IssueTypeBase):
     pass
 

@@ -677,6 +677,7 @@ systemd:
     state: <service state>
     op: <python operator>  (optional. default is 'eq')
     started-after: <other service name>  (optional)
+    processes: list of processes we expect to be running  (optional)
   ...
 ```
 
