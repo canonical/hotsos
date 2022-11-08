@@ -1,11 +1,13 @@
 from setuptools import setup, find_packages
 
+
 def get_dependencies():
     """Reads the dependencies from the requirements file."""
     with open('requirements.txt', 'r') as d:
         dependencies = d.read()
 
     return dependencies
+
 
 setup(
     name='hotsos',
