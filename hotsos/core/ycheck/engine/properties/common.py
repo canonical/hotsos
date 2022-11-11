@@ -1,5 +1,6 @@
 import abc
 import builtins
+import inspect
 import importlib
 
 from structr import (
@@ -13,6 +14,12 @@ from hotsos.core.log import log
 YPropertiesCatalog = []
 
 
+class ImportPathIsNotAClass(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+        super().__init__()
+
+
 class YDefsSection(StructRSection):
 
     def __init__(self, name, content, context=None):
@@ -21,8 +28,8 @@ class YDefsSection(StructRSection):
         @param content: defs tree of type dict
         @param context: optional context object. This gets passed to all
                         resolved properties and can be used to share
-                        information amongst them. If one is no provided
-                        a new empty one is created.
+                        information amongst them. If not provided a new empty
+                        one is created.
         """
         super().__init__(name, content, override_handlers=YPropertiesCatalog,
                          context=context or YDefsContext())
@@ -301,7 +308,9 @@ class YPropertyBase(object):
         _cls = path.rpartition('.')[2]
         return _mod, _cls
 
-    def _get_class_property_from_path(self, path):
+    def _get_class_property_from_path(self, path, no_property=False):
+        log.debug("fetching class and property from path (no_property=%s)",
+                  no_property)
         # first strip any factory class info and add back to prop at end.
         _path, _, factinput = path.rpartition(':')
         if _path:
@@ -309,11 +318,16 @@ class YPropertyBase(object):
         else:
             factinput = ''
 
-        _cls = path.rpartition('.')[0]
-        _prop = path.rpartition('.')[2]
+        if no_property:
+            _cls = path
+            _prop = ''
+        else:
+            _cls = path.rpartition('.')[0]
+            _prop = path.rpartition('.')[2]
 
         # now put it back if exists
         if factinput:
+            log.debug("path is factory (input=%s)", factinput)
             _prop += ":" + factinput
 
         return _cls, _prop
@@ -336,6 +350,10 @@ class YPropertyBase(object):
             setattr(self.context, 'import_cache', c)
 
     def get_cls(self, import_str):
+        """ Import and instantiate Python class.
+
+        @param import_str: import path to Python class.
+        """
         ret = self._load_from_import_cache(import_str)
         if ret:
             log.debug("instantiating class %s (from_cache=True)", import_str)
@@ -346,6 +364,13 @@ class YPropertyBase(object):
         try:
             _mod = importlib.import_module(mod)
             ret = getattr(_mod, cls_name)
+            # NOTE: we don't use isclass() since it doesn't work with
+            # mock.MagicMock in tests.
+            if inspect.ismodule(ret):
+                log.debug("%s is not a class", ret)
+                raise ImportPathIsNotAClass(import_str)
+        except ImportPathIsNotAClass:
+            raise
         except Exception:
             log.exception("failed to import class %s from %s", cls_name, mod)
             raise
@@ -354,6 +379,19 @@ class YPropertyBase(object):
         return ret
 
     def get_property(self, import_str):
+        """
+        Import and fetch value of a Python property or factory.
+
+        If the path is to a property, the property name is expected to be after
+        the last '.' with the preceding name being the parent class.
+
+        A factory path is identified as having a ':' delimiter which denotes
+        the input and optional attribute to call on the factory object. In
+        this case the field prior to the delim is the path to the factory class
+        itself with an optional input.
+
+        @param import_str: a path to a Python property or Factory.
+        """
         ret = self._load_from_import_cache(import_str)
         if ret:
             log.debug("calling property %s (from_cache=True)", import_str)
@@ -362,7 +400,15 @@ class YPropertyBase(object):
         log.debug("calling property %s (from_cache=False)", import_str)
         _cls, _prop = self._get_class_property_from_path(import_str)
         try:
-            cls = self.get_cls(_cls)
+            try:
+                cls = self.get_cls(_cls)
+            except ImportPathIsNotAClass:
+                # support case where factory has no attribute
+                log.debug("trying again without property")
+                _cls, _prop = self._get_class_property_from_path(
+                                                              import_str,
+                                                              no_property=True)
+                cls = self.get_cls(_cls)
         except Exception:
             log.exception("class '%s' import failed", _cls)
             raise
@@ -375,8 +421,11 @@ class YPropertyBase(object):
 
         if ':' in _prop:
             # property is for a factory object
-            attr, _, input = _prop.partition(':')
-            properties = [input, attr]
+            fattr, _, finput = _prop.partition(':')
+            if fattr:
+                properties = [finput, fattr]
+            else:
+                properties = [finput]
         else:
             properties = [_prop]
 
@@ -394,6 +443,11 @@ class YPropertyBase(object):
         return _obj
 
     def get_method(self, import_str):
+        """ Import and instantiate Python class then call method.
+
+        @param import_str: import path to Python class with method name after
+                           the final '.'.
+        """
         log.debug("calling method %s", import_str)
         mod = import_str.rpartition('.')[0]
         method = import_str.rpartition('.')[2]

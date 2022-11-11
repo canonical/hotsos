@@ -41,6 +41,7 @@ class YPropertyVarDef(YPropertyMappedOverrideBase):
         """
         val = self.raw_value
         if self._is_import_path(val):
+            # NOTE: this path can be a property or a factory.
             val = self.get_property(val[1:])
 
         return val
