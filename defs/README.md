@@ -96,25 +96,28 @@ normally be imported as follows:
 
 ```
 from mymod import myclass
-val = myclass.myprop
+obj = myclass.myprop
+val = obj.myattr
 ```
 
 A factory is used as follows:
 
 ```
 from mymod import myfactoryclass
-val = myfactoryclass.inputval.myprop
+val = myfactoryclass.inattr.fattr
 ```
 
-Which would result in a new object created using *inputval* as input and then
-*myprop* is called on that object.
+Which would result in a new object created using *inattr* as input and then
+*fattr* is called on that object.
 
 This allows us to define a property for import in [vars](#vars) as follows:
 
 ```
-val: '@mymod.myfactoryclass.myprop:inputval'
+val: '@mymod.myfactoryclass.fattr:inattr'
 ```
 
+One benefit of this being that *inattr* can be a string containing any
+characters incl. ones that would not be valid in a property name.
 
 #### MappedProperties
 

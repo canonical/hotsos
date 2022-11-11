@@ -177,11 +177,11 @@ class TestUptimeHelper(utils.BaseTestCase):
 
 class TestSysctlHelper(utils.BaseTestCase):
 
-    def test_systctlhelper(self):
-        self.assertEqual(getattr(host_helpers.SYSCtlFactory().net,
-                                 'core.somaxconn'), '4096')
+    def test_sysctlhelper(self):
+        self.assertEqual(getattr(host_helpers.SYSCtlFactory(),
+                                 'net.core.somaxconn'), '4096')
 
-    def test_systctlconfhelper(self):
+    def test_sysctlconfhelper(self):
         path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/sysctl.d')
         path = os.path.join(path, '50-nova-compute.conf')
         sysctl = host_helpers.SYSCtlConfHelper(path)

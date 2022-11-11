@@ -2,48 +2,41 @@ import os
 
 from hotsos.core.host_helpers.common import HostHelperFactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
-
-
-class SYSCtl(object):
-
-    def __init__(self, root, f_get):
-        self.root = root
-        self.f_get = f_get
-
-    def __getattr__(self, key):
-        return self.f_get("{}.{}".format(self.root, key))
+from hotsos.core.utils import cached_property
 
 
 class SYSCtlFactory(HostHelperFactoryBase):
+    """
+    Factory to create interface objects to sysctl. This allows us to load
+    values dynamically without continuously loaded from the kernel.
+    """
 
-    def __init__(self):
-        self._sysctl_all = {}
-
-    @property
+    @cached_property
     def sysctl_all(self):
-        if self._sysctl_all:
-            return self._sysctl_all
-
+        sysctl_all = {}
         for kv in CLIHelper().sysctl_all():
             k, _, v = kv.partition("=")
             # squash whitespaces into a single whitespace
-            self._sysctl_all[k.strip()] = ' '.join(v.strip().split())
+            sysctl_all[k.strip()] = ' '.join(v.strip().split())
 
-        return self._sysctl_all
+        return sysctl_all
 
     def get(self, key):
         """
-        Fetch systcl value for a given key.
+        Fetch systcl value for a given key. This is passed to the created
+        objects as an interface instead of passing the full dict.
         """
         return self.sysctl_all.get(key)
 
-    def __getattr__(self, root):
+    def __getattr__(self, name):
         """
-        Return a SYSCtl object for a given root key. This is useful for yaml
-        defs where the full key path is not a valid property name so can be
-        accessed using getattr().
+        Return a value for given sysctl key.
         """
-        return SYSCtl(root, self.get)
+        if name == '__cached_property_sysctl_all':
+            # require to allow the property caching to work
+            raise AttributeError()
+
+        return self.get(name)
 
 
 class SYSCtlConfHelper(object):
