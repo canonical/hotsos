@@ -99,19 +99,29 @@ class SkipRange(object):
 
 class BinarySearchState(object):
     # max contiguous skip lines before bailing on file search
-    SKIP_MAX = 1000
+    SKIP_MAX = 500
 
     RC_FOUND_GOOD = 0
     RC_FOUND_BAD = 1
     RC_SKIPPING = 2
     RC_ERROR = 3
 
-    def __init__(self, fd_info):
+    def __init__(self, fd_info, cur_pos):
         self.fd_info = fd_info
-        self.search_range_start = 0
-        self.search_range_end = len(self.fd_info.markers) - 1
         self.rc = self.RC_FOUND_GOOD
         self.cur_ln = 0
+        self.cur_pos = cur_pos
+        self.next_pos = 0
+
+    def start(self):
+        """ Must be called before starting searches beyond the first line of
+        a file.
+
+        This is not done in __init__ since it will load file markers, a
+        potentially expensive operation that should only be done if necessary.
+        """
+        self.search_range_start = 0
+        self.search_range_end = len(self.fd_info.markers) - 1
         self.update_pos_pointers()
         self.invalid_range = SkipRange()
         self.last_known_good_ln = None
@@ -216,9 +226,12 @@ class SeekInfo(object):
     @cached_property
     def markers(self):
         """
-        Creates a dictionary of line numbers and their positions in the file.
-        This is done relative to the current position in the file and is
-        non-destructive i.e. original position is restored.
+        Creates a list of positions of each start of line. Starts at current
+        position in the file and is non-destructive i.e. original position is
+        restored.
+
+        Since this is an expensive operation we only want to do it once per
+        file/path so the results are cached on disk and loaded when needed.
 
         NOTE: this is only safe to use if the file does not change between
               calls.
@@ -235,16 +248,14 @@ class SeekInfo(object):
 
         log.debug("no cached markers for '%s' - generating new set",
                   self.fd.name)
-        _markers = {}
-        ln = 0
-        self.fd.seek(self.orig_pos)
-        while True:
-            _markers[ln] = self.fd.tell()
-            self.fd.readline()
-            if self.fd.tell() >= self.eof_pos:
-                break
 
-            ln += 1
+        self.fd.seek(self.orig_pos)
+        _markers = [self.fd.tell()]
+        for _ in self.fd:
+            _markers.append(self.fd.tell())
+
+        # pop EOF
+        _markers.pop()
 
         # restore
         self.fd.seek(self.orig_pos)
@@ -311,74 +322,74 @@ class BinarySeekSearchBase(ConstraintBase):
         if self._line_date_is_valid(datetime_obj):
             return self.fd_info.fd.tell()
 
-    def _check_line(self, cur_pos, next_pos):
+    def _check_line(self, search_state):
         """
         Attempt to read and validate datetime from line.
 
         @return new position or -1 if we were not able to validate the line.
         """
-        self.fd_info.fd.seek(cur_pos)
+        self.fd_info.fd.seek(search_state.cur_pos)
         # don't read the whole line since we only need the date at the start.
         # hopefully 64 bytes is enough for any date+time format.
         datetime_obj = self.extracted_datetime(self.fd_info.fd.read(64))
-        self.fd_info.fd.seek(next_pos)
+        self.fd_info.fd.seek(search_state.next_pos)
         if datetime_obj is None:
             return -1
 
         return self._seek_and_validate(datetime_obj)
 
-    def _seek_next(self, status):
-        log.debug("seek %s", status)
-        newpos = self._check_line(status.cur_pos, status.next_pos)
+    def _seek_next(self, state):
+        log.debug("seek %s", state)
+        newpos = self._check_line(state)
         if newpos == -1:
             # until we get out of a skip range we want to leave the pos at the
             # start but we rely on the caller to enforce this so that we don't
             # have to seek(0) after every skip.
-            status.skip_current_line()
-            return status
+            state.skip_current_line()
+            return state
 
         if newpos is None:
-            status.rc = status.RC_FOUND_BAD
-            if status.cur_ln == 0:
+            state.rc = state.RC_FOUND_BAD
+            if state.cur_ln == 0:
                 log.debug("first line is not valid, checking last line")
-                status.cur_ln = status.search_range_end
-                status.update_pos_pointers()
-            elif (status.search_range_end - status.search_range_start) >= 1:
-                # _start_ln = status.search_range_start
-                status.search_range_start = status.cur_ln
+                state.cur_ln = state.search_range_end
+                state.update_pos_pointers()
+            elif (state.search_range_end - state.search_range_start) >= 1:
+                # _start_ln = state.search_range_start
+                state.search_range_start = state.cur_ln
                 # log.debug("going forwards (%s->%s:%s)", _start_ln,
-                #           status.search_range_start, status.search_range_end)
-                status.invalid_range.save_and_reset()
-                status.get_next_midpoint()
-                status.update_pos_pointers()
+                #           state.search_range_start, state.search_range_end)
+                state.invalid_range.save_and_reset()
+                state.get_next_midpoint()
+                state.update_pos_pointers()
         else:
-            status.save_last_known_good()
-            status.rc = status.RC_FOUND_GOOD
-            if status.cur_ln == 0:
+            state.save_last_known_good()
+            state.rc = state.RC_FOUND_GOOD
+            if state.cur_ln == 0:
                 log.debug("first line is valid so assuming same for rest of "
                           "file")
                 self.fd_info.reset()
-            elif status.search_range_end - status.search_range_start <= 1:
-                log.debug("found final good ln=%s", status.cur_ln)
-                self.fd_info.fd.seek(status.cur_pos)
-            elif (len(status.invalid_range) > 0 and
-                  status.invalid_range.direction == SkipRange.SKIP_FWD):
+            elif state.search_range_end - state.search_range_start <= 1:
+                log.debug("found final good ln=%s", state.cur_ln)
+                self.fd_info.fd.seek(state.cur_pos)
+            elif (len(state.invalid_range) > 0 and
+                  state.invalid_range.direction == SkipRange.SKIP_FWD):
                 log.debug("found good after skip range")
-                self.fd_info.fd.seek(status.cur_pos)
+                self.fd_info.fd.seek(state.cur_pos)
             else:
                 # set rc to bad since we are going to a new range
-                status.rc = status.RC_FOUND_BAD
-                # _end_ln = status.search_range_end
-                status.search_range_end = status.cur_ln
+                state.rc = state.RC_FOUND_BAD
+                # _end_ln = state.search_range_end
+                state.search_range_end = state.cur_ln
                 # log.debug("going backwards (%s:%s->%s)",
-                #           status.search_range_start, _end_ln,
-                #           status.search_range_end)
-                self.fd_info.fd.seek(status.cur_pos)
-                status.invalid_range.save_and_reset()
-                status.get_next_midpoint()
-                status.update_pos_pointers()
+                #           state.search_range_start, _end_ln,
+                #           state.search_range_end)
+                self.fd_info.fd.seek(state.cur_pos)
+                state.invalid_range.save_and_reset()
+                state.get_next_midpoint()
+                state.update_pos_pointers()
 
-        return status
+        return state
 
     def _seek_to_first_valid(self, destructive=True):
         """
@@ -392,12 +403,13 @@ class BinarySeekSearchBase(ConstraintBase):
                             it will find the least valid point and stay there.
                             If that is not desired this can be set to False.
         """
-
+        search_state = BinarySearchState(self.fd_info, self.fd_info.fd.tell())
         offset = 0
+
         # check first line before going ahead with full search which requires
         # generating file markers that is expensive for large files.
-        cur_pos = self.fd_info.fd.tell()
-        if self._check_line(cur_pos, cur_pos + 1) == cur_pos + 1:
+        search_state.next_pos = search_state.cur_pos + 1
+        if self._check_line(search_state) == search_state.next_pos:
             self.fd_info.reset()
             log.debug("first line is valid so assuming same for rest of "
                       "file")
@@ -408,7 +420,7 @@ class BinarySeekSearchBase(ConstraintBase):
 
             return offset
 
-        search_state = BinarySearchState(self.fd_info)
+        search_state.start()
         while True:
             self.fd_info.iterations += 1
             search_state = self._seek_next(search_state)

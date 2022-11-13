@@ -428,7 +428,7 @@ class FileSearcher(object):
             return
 
         try:
-            with gzip.open(path, 'r') as fd:
+            with gzip.open(path, 'rb') as fd:
                 try:
                     # test if file is gzip
                     fd.read(1)
@@ -437,7 +437,7 @@ class FileSearcher(object):
                 except OSError:
                     pass
 
-            with open(path) as fd:
+            with open(path, 'rb') as fd:
                 return self._search_task(term_key, fd, path)
         except UnicodeDecodeError:
             log.exception("")

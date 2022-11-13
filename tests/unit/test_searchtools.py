@@ -13,7 +13,10 @@ from hotsos.core.search import (
     SequenceSearchDef,
 )
 from hotsos.core.search.searchtools import SearchResult
-from hotsos.core.search.constraints import SearchConstraintSearchSince
+from hotsos.core.search.constraints import (
+    BinarySearchState,
+    SearchConstraintSearchSince,
+)
 
 SEQ_TEST_1 = """a start point
 leads to
@@ -508,6 +511,25 @@ class TestSearchTools(utils.BaseTestCase):
 
     @utils.create_data_root({'atestfile': LOGS_W_TS,
                              'sos_commands/date/date':
+                             'Wed Jan 1 00:00:00 UTC 2022'})
+    def test_logs_since_first_valid(self):
+        """
+        Test scenario:
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd',
+                       constraints=[c])
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(2) for r in results],
+                         ["L{}".format(i) for i in range(5)])
+
+    @utils.create_data_root({'atestfile': LOGS_W_TS,
+                             'sos_commands/date/date':
                              'Tue Jan 09 00:00:00 UTC 2022'})
     def test_logs_since_multi_valid(self):
         """
@@ -679,28 +701,28 @@ class TestSearchUtils(utils.BaseTestCase):
         _file = os.path.join(HotSOSConfig.DATA_ROOT, 'f1')
         datetime_expr = r"^([\d-]+\s+[\d:]+)"
         c = SearchConstraintSearchSince([datetime_expr])
-        with open(_file) as fd:
+        with open(_file, 'rb') as fd:
             self.assertEqual(c.apply_to_file(fd), 0)
 
         c = SearchConstraintSearchSince([datetime_expr])
         with open(_file, 'w') as fd:
             fd.write('somejunk\n' + LOGS_W_TS)
 
-        with open(_file) as fd:
+        with open(_file, 'rb') as fd:
             self.assertEqual(c.apply_to_file(fd), 1)
 
         c = SearchConstraintSearchSince([datetime_expr])
         with open(_file, 'w') as fd:
-            fd.write('somejunk\n' * 999 + LOGS_W_TS)
+            fd.write('somejunk\n' * 499 + LOGS_W_TS)
 
-        with open(_file) as fd:
+        with open(_file, 'rb') as fd:
             offset = c.apply_to_file(fd)
-            self.assertEqual(offset, 999)
+            self.assertEqual(offset, BinarySearchState.SKIP_MAX - 1)
 
         c = SearchConstraintSearchSince([datetime_expr])
         with open(_file, 'w') as fd:
-            fd.write('somejunk\n' * 1000 + LOGS_W_TS)
+            fd.write('somejunk\n' * 500 + LOGS_W_TS)
 
-        with open(_file) as fd:
+        with open(_file, 'rb') as fd:
             offset = c.apply_to_file(fd)
             self.assertEqual(offset, 0)
