@@ -41,7 +41,7 @@ class SystemdService(object):
                 last = ret.group(1)
 
         if last:
-            return datetime.strptime(last, "%Y-%m-%dT%H:%M:%S+%f")
+            return datetime.strptime(last, "%Y-%m-%dT%H:%M:%S%z")
         else:
             log.debug("no start time identified for svc %s", self.name)
 
