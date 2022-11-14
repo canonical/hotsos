@@ -165,6 +165,11 @@ class BinarySearchState(object):
                           "go after skip range overlap.")
 
     def update_pos_pointers(self):
+        if len(self.fd_info.markers) == 0:
+            log.debug("file %s has no markers - skipping update pos pointers",
+                      self.fd_info.fd.name)
+            return
+
         ln = self.cur_ln
         self.cur_pos = self.fd_info.markers[ln]
         if len(self.fd_info.markers) > ln + 1:
@@ -421,38 +426,42 @@ class BinarySeekSearchBase(ConstraintBase):
             return offset
 
         search_state.start()
-        while True:
-            self.fd_info.iterations += 1
-            search_state = self._seek_next(search_state)
-            if search_state.rc == search_state.RC_ERROR:
-                offset = 0
-                self.fd_info.reset()
-                break
-
-            # log.debug(search_state)
-            if ((search_state.rc == search_state.RC_FOUND_GOOD) or
-                    (search_state.search_range_end -
-                        search_state.search_range_start < 1)):
-                # log.debug("seek ended at offset=%s", search_state.cur_ln)
-                offset = search_state.cur_ln
-                break
-
-            if ((search_state.rc == search_state.RC_SKIPPING) and
-                    (search_state.cur_ln >= search_state.search_range_end)):
-                if (len(search_state.invalid_range) ==
-                        search_state.search_range_end):
-                    # offset and pos should still be SOF so we
-                    # make this the same
-                    search_state.cur_ln = 0
+        if len(self.fd_info.markers) > 0:
+            while True:
+                self.fd_info.iterations += 1
+                search_state = self._seek_next(search_state)
+                if search_state.rc == search_state.RC_ERROR:
+                    offset = 0
                     self.fd_info.reset()
-                break
+                    break
 
-            if self.fd_info.iterations >= len(self.fd_info.markers):
-                log.warning("exiting seek loop since limit reached (eof=%s)",
-                            self.fd_info.eof_pos)
-                offset = 0
-                self.fd_info.reset()
-                break
+                # log.debug(search_state)
+                if ((search_state.rc == search_state.RC_FOUND_GOOD) or
+                        (search_state.search_range_end -
+                            search_state.search_range_start < 1)):
+                    # log.debug("seek ended at offset=%s", search_state.cur_ln)
+                    offset = search_state.cur_ln
+                    break
+
+                if ((search_state.rc == search_state.RC_SKIPPING) and
+                        (search_state.cur_ln >=
+                            search_state.search_range_end)):
+                    if (len(search_state.invalid_range) ==
+                            search_state.search_range_end):
+                        # offset and pos should still be SOF so we
+                        # make this the same
+                        search_state.cur_ln = 0
+                        self.fd_info.reset()
+                    break
+
+                if self.fd_info.iterations >= len(self.fd_info.markers):
+                    log.warning("exiting seek loop since limit reached "
+                                "(eof=%s)", self.fd_info.eof_pos)
+                    offset = 0
+                    self.fd_info.reset()
+                    break
+        else:
+            log.debug("file %s is empty", self.fd_info.fd.name)
 
         if not destructive:
             self.fd_info.fd.reset()
