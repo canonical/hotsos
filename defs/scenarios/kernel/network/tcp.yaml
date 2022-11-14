@@ -22,6 +22,9 @@ vars:
   rcvqd_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDropPcentInSegs'
   rqfulld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDrop'
   rqfullcook: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies'
+  memusage_pages_inuse: '@hotsos.core.plugins.kernel.net.SockStat.GlobTcpSocksTotalMemPages'
+  memusage_pages_max: '@hotsos.core.plugins.kernel.net.SockStat.SysctlTcpMemMax'
+  memusage_pct: '@hotsos.core.plugins.kernel.net.SockStat.TCPMemUsagePct'
 checks:
   incsumerr_high:
     or:
@@ -59,6 +62,10 @@ checks:
     varops: [[$rqfulld], [gt, 500]]
   rqfullcook:
     varops: [[$rqfullcook], [gt, 500]]
+  memusage_pct_high:
+    varops: [[$memusage_pct], [gt, 85]]
+  memusage_pct_exhausted:
+    varops: [[$memusage_pct], [ge, 100]]
 conclusions:
   # retransmissions
   incsumerr_high:
@@ -189,4 +196,28 @@ conclusions:
       format-dict:
         num: $spurrtx
         pcent: $spurrtx_pcent
+  memusage_pct_high:
+    decision:
+      - memusage_pct_high
+      - not: memusage_pct_exhausted
+    raises:
+      type: KernelWarning
+      message: >-
+        TCP memory page usage is high ({pct}%), ({pa} out of {pm} mem pages are in use).
+        Kernel will start to drop TCP frames if all pages are exhausted.
+      format-dict:
+        pa: $memusage_pages_inuse
+        pm: $memusage_pages_max
+        pct: $memusage_pct
+  memusage_pct_exhausted:
+    decision: memusage_pct_exhausted
+    raises:
+      type: KernelWarning
+      message: >-
+        All TCP memory pages are exhausted! ({pa} out of {pm} mem pages are in use).
+        Kernel will drop TCP packets, expect packet losses on ALL TCP transport!
+      format-dict:
+        pa: $memusage_pages_inuse
+        pm: $memusage_pages_max
+        pct: $memusage_pct
 

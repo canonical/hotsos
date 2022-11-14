@@ -3,6 +3,7 @@ import os
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers import SYSCtlFactory
 
 
 class ProcNetBase(abc.ABC):
@@ -296,6 +297,30 @@ class SockStat(ProcNetBase):
         super().__init__()
         self._process_file(os.path.join(HotSOSConfig.DATA_ROOT,
                                         'proc/net/sockstat'))
+        # Might happen when sockstat file is not present
+        if "TCP" not in self._data:
+            self._data["TCP"] = {}
+        if "UDP" not in self._data:
+            self._data["UDP"] = {}
+
+        # Read other relevant values from sysctl
+        (udp_mem_min, udp_mem_pressure, udp_mem_max) = getattr(
+            SYSCtlFactory(), 'net.ipv4.udp_mem').split(" ")
+        (tcp_mem_min, tcp_mem_pressure, tcp_mem_max) = getattr(
+            SYSCtlFactory(), 'net.ipv4.tcp_mem').split(" ")
+
+        self._data["TCP"]["sysctl_mem_min"] = int(tcp_mem_min)
+        self._data["UDP"]["sysctl_mem_min"] = int(udp_mem_min)
+        self._data["TCP"]["sysctl_mem_pressure"] = int(tcp_mem_pressure)
+        self._data["UDP"]["sysctl_mem_pressure"] = int(udp_mem_pressure)
+        self._data["TCP"]["sysctl_mem_max"] = int(tcp_mem_max)
+        self._data["UDP"]["sysctl_mem_max"] = int(udp_mem_max)
+        self._data["TCP"]["statistics_mem_usage_pct"] = round(
+            (self.GlobTcpSocksTotalMemPages / self.SysctlTcpMemMax
+             if self.SysctlTcpMemMax else 0) * 100.0, 2)
+        self._data["UDP"]["statistics_mem_usage_pct"] = round(
+            (self.GlobUdpSocksTotalMemPages / self.SysctlUdpMemMax
+             if self.SysctlUdpMemMax else 0) * 100.0, 2)
 
     def _process_file(self, fname):
         if not os.path.exists(fname):
@@ -346,6 +371,15 @@ class SockStat(ProcNetBase):
             "NsUdpliteSocksInUse": ("UDPLITE", "inuse"),
             "NsTcpSocksInTimeWait": ("TCP", "tw"),
             "NsFragSocksTotalMemPages": ("FRAG", "memory"),
+            # These values are from sysctl:
+            "SysctlTcpMemMin": ("TCP", "sysctl_mem_min"),
+            "SysctlTcpMemPressure": ("TCP", "sysctl_mem_pressure"),
+            "SysctlTcpMemMax": ("TCP", "sysctl_mem_max"),
+            "SysctlUdpMemMin": ("UDP", "sysctl_mem_min"),
+            "SysctlUdpMemPressure": ("UDP", "sysctl_mem_pressure"),
+            "SysctlUdpMemMax": ("UDP", "sysctl_mem_max"),
+            "UDPMemUsagePct": ("UDP", "statistics_mem_usage_pct"),
+            "TCPMemUsagePct": ("TCP", "statistics_mem_usage_pct"),
         }
 
     def __getattr__(self, fld):
