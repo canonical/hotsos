@@ -7,6 +7,9 @@ vars:
   sndbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrorsPcentOutDatagrams'
   incsumerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors'
   incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams'
+  memusage_pages_inuse: '@hotsos.core.plugins.kernel.net.SockStat.GlobUdpSocksTotalMemPages'
+  memusage_pages_max: '@hotsos.core.plugins.kernel.net.SockStat.SysctlUdpMemMax'
+  memusage_pct: '@hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct'
 checks:
   rcvbuferrors_high:
     or:
@@ -24,6 +27,10 @@ checks:
     or:
       - varops: [[$incsumerrors], [gt, 500]]
       - varops: [[$incsumerrors_pcent], [gt, 1]]
+  memusage_pct_high:
+    varops: [[$memusage_pct], [gt, 85]]
+  memusage_pct_exhausted:
+    varops: [[$memusage_pct], [ge, 100]]
 conclusions:
   inerrs_high_pcent_or_above_limit:
     decision: inerrs_high_pcent_or_above_limit
@@ -62,4 +69,28 @@ conclusions:
       format-dict:
         count: $sndbuferrors
         pcent: $sndbuferrors_pcent
+  memusage_pct_high:
+    decision:
+      - memusage_pct_high
+      - not: memusage_pct_exhausted
+    raises:
+      type: KernelWarning
+      message: >-
+        UDP memory page usage is high ({pct}%), ({pa} out of {pm} mem pages are in use).
+        Kernel will start to drop UDP frames if all pages are exhausted.
+      format-dict:
+        pa: $memusage_pages_inuse
+        pm: $memusage_pages_max
+        pct: $memusage_pct
+  memusage_pct_exhausted:
+    decision: memusage_pct_exhausted
+    raises:
+      type: KernelWarning
+      message: >-
+        All UDP memory pages are exhausted! ({pa} out of {pm} mem pages are in use).
+        Kernel will drop UDP packets, expect packet losses on ALL UDP transport!
+      format-dict:
+        pa: $memusage_pages_inuse
+        pm: $memusage_pages_max
+        pct: $memusage_pct
 

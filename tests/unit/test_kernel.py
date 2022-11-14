@@ -182,8 +182,8 @@ IpExt: 0 0 0 4 427 0 16725918298 7053634672 0 160 129353 0 0 2307638 0 0 0 0
 """  # noqa, pylint: disable=C0301
 
 PROC_SOCKSTAT = r"""sockets: used 908
-TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 15
-UDP: inuse 18 mem 762066
+TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 150987
+UDP: inuse 18 mem 350876
 UDPLITE: inuse 44
 RAW: inuse 55
 FRAG: inuse 66 memory 77
@@ -191,13 +191,34 @@ FRAG: inuse 66 memory 77
 
 PROC_SOCKSTAT_BAD = r"""sockets: used 908
 TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 15
-UDP: inuse 18 mem 762066
+UDP: inuse 18 mem 350876
 UDPLITE: inuse 44
 UNKNOWN: inuse 22 orphan 15
 CORRUPT: inuse orphan 15
 RAW: inuse 55
 FRAG: inuse 66 memory 77
 """  # noqa, pylint: disable=C0301
+
+PROC_SOCKSTAT_HIGH = r"""sockets: used 908
+TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 379700
+UDP: inuse 18 mem 762066
+UDPLITE: inuse 44
+RAW: inuse 55
+FRAG: inuse 66 memory 77
+"""  # noqa, pylint: disable=C0301
+
+PROC_SOCKSTAT_EXHAUSTED = r"""sockets: used 908
+TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 379728
+UDP: inuse 18 mem 762456
+UDPLITE: inuse 44
+RAW: inuse 55
+FRAG: inuse 66 memory 77
+"""  # noqa, pylint: disable=C0301
+
+PROC_SOCKSTAT_SYSCTL_A = r"""
+net.ipv4.udp_mem = 379728	506307	762456
+net.ipv4.tcp_mem = 189864	253153	379728
+"""
 
 
 class TestKernelBase(utils.BaseTestCase):
@@ -305,7 +326,10 @@ class TestKernelMemoryInfo(TestKernelBase):
 
 
 class TestKernelNetworkInfo(TestKernelBase):
-    @utils.create_data_root({'proc/net/sockstat': PROC_SOCKSTAT})
+    @utils.create_data_root(
+        {'proc/net/sockstat': PROC_SOCKSTAT,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
     def test_sockstat_parse(self):
         uut = SockStat()
         self.assertEqual(uut.NsTotalSocksInUse, 908)
@@ -313,15 +337,26 @@ class TestKernelNetworkInfo(TestKernelBase):
         self.assertEqual(uut.GlobTcpSocksOrphaned, 0)
         self.assertEqual(uut.NsTcpSocksInTimeWait, 2)
         self.assertEqual(uut.GlobTcpSocksAllocated, 58)
-        self.assertEqual(uut.GlobTcpSocksTotalMemPages, 15)
+        self.assertEqual(uut.GlobTcpSocksTotalMemPages, 150987)
         self.assertEqual(uut.NsUdpSocksInUse, 18)
-        self.assertEqual(uut.GlobUdpSocksTotalMemPages, 762066)
+        self.assertEqual(uut.GlobUdpSocksTotalMemPages, 350876)
         self.assertEqual(uut.NsUdpliteSocksInUse, 44)
         self.assertEqual(uut.NsRawSocksInUse, 55)
         self.assertEqual(uut.NsFragSocksInUse, 66)
         self.assertEqual(uut.NsFragSocksTotalMemPages, 77)
+        self.assertEqual(uut.SysctlTcpMemMin, 189864)
+        self.assertEqual(uut.SysctlTcpMemPressure, 253153)
+        self.assertEqual(uut.SysctlTcpMemMax, 379728)
+        self.assertEqual(uut.SysctlUdpMemMin, 379728)
+        self.assertEqual(uut.SysctlUdpMemPressure, 506307)
+        self.assertEqual(uut.SysctlUdpMemMax, 762456)
+        self.assertEqual(int(uut.UDPMemUsagePct), 46)
+        self.assertEqual(int(uut.TCPMemUsagePct), 39)
 
-    @utils.create_data_root({'proc/net/sockstat': PROC_SOCKSTAT_BAD})
+    @utils.create_data_root(
+        {'proc/net/sockstat': PROC_SOCKSTAT_BAD,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
     def test_sockstat_parse_bad(self):
         uut = SockStat()
         self.assertEqual(uut.NsTotalSocksInUse, 908)
@@ -331,11 +366,18 @@ class TestKernelNetworkInfo(TestKernelBase):
         self.assertEqual(uut.GlobTcpSocksAllocated, 58)
         self.assertEqual(uut.GlobTcpSocksTotalMemPages, 15)
         self.assertEqual(uut.NsUdpSocksInUse, 18)
-        self.assertEqual(uut.GlobUdpSocksTotalMemPages, 762066)
+        self.assertEqual(uut.GlobUdpSocksTotalMemPages, 350876)
         self.assertEqual(uut.NsUdpliteSocksInUse, 44)
         self.assertEqual(uut.NsRawSocksInUse, 55)
         self.assertEqual(uut.NsFragSocksInUse, 66)
         self.assertEqual(uut.NsFragSocksTotalMemPages, 77)
+        self.assertEqual(uut.SysctlTcpMemMin, 189864)
+        self.assertEqual(uut.SysctlTcpMemPressure, 253153)
+        self.assertEqual(uut.SysctlTcpMemMax, 379728)
+        self.assertEqual(uut.SysctlUdpMemMin, 379728)
+        self.assertEqual(uut.SysctlUdpMemPressure, 506307)
+        self.assertEqual(int(uut.UDPMemUsagePct), 46)
+        self.assertEqual(int(uut.TCPMemUsagePct), 0)
 
 
 class TestKernelScenarioChecks(TestKernelBase):
@@ -530,8 +572,12 @@ class TestKernelScenarioChecks(TestKernelBase):
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('network/tcp.yaml'))
-    @utils.create_data_root({'proc/net/netstat': PROC_NETSTAT,
-                             'proc/net/snmp': PROC_SNMP})
+    @utils.create_data_root(
+        {'proc/net/netstat': PROC_NETSTAT,
+         'proc/net/snmp': PROC_SNMP,
+         'proc/net/sockstat': PROC_SOCKSTAT,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
     def test_net_checks_tcp(self):
         YScenarioChecker()()
         msg = ('Failed reverse path filter test (drops=2124).')
@@ -539,9 +585,47 @@ class TestKernelScenarioChecks(TestKernelBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/tcp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': PROC_SOCKSTAT_HIGH,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
+    def test_net_checks_tcp_mem_high(self):
+        YScenarioChecker()()
+        msgs = [
+            ('TCP memory page usage is high (99.99%), '
+             '(379700 out of 379728 mem pages are '
+             'in use). Kernel will start to drop TCP '
+             'frames if all pages are exhausted.')]
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(msgs))
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/tcp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': PROC_SOCKSTAT_EXHAUSTED,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
+    def test_net_checks_tcp_mem_exhausted(self):
+        YScenarioChecker()()
+        msgs = [
+            ('All TCP memory pages are exhausted! (379728 '
+             'out of 379728 mem pages are in use).'
+             ' Kernel will drop TCP packets, '
+             'expect packet losses on ALL TCP transport!')]
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(msgs))
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('network/udp.yaml'))
-    @utils.create_data_root({'proc/net/netstat': PROC_NETSTAT,
-                             'proc/net/snmp': PROC_SNMP})
+    @utils.create_data_root(
+        {'proc/net/netstat': PROC_NETSTAT,
+         'proc/net/snmp': PROC_SNMP,
+         'proc/net/sockstat': PROC_SOCKSTAT,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
     def test_net_checks_udp(self):
         YScenarioChecker()()
         msgs = [
@@ -549,6 +633,40 @@ class TestKernelScenarioChecks(TestKernelBase):
             ('UDP ingress checksum errors are at 22 (1.29% of total '
              'datagrams). This could mean that one or more interfaces are '
              'experiencing hardware errors.')]
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(msgs))
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/udp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': PROC_SOCKSTAT_HIGH,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
+    def test_net_checks_udp_mem_high(self):
+        YScenarioChecker()()
+        msgs = [
+            ('UDP memory page usage is high (99.95%), '
+             '(762066 out of 762456 mem pages are '
+             'in use). Kernel will start to drop UDP '
+             'frames if all pages are exhausted.')]
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+                         sorted(msgs))
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/udp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': PROC_SOCKSTAT_EXHAUSTED,
+         'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
+    )
+    def test_net_checks_udp_mem_exhausted(self):
+        YScenarioChecker()()
+        msgs = [
+            ('All UDP memory pages are exhausted! '
+             '(762456 out of 762456 mem pages are in use).'
+             ' Kernel will drop UDP packets, expect '
+             'packet losses on ALL UDP transport!')]
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['desc'] for issue in issues]),
                          sorted(msgs))
