@@ -1,0 +1,25 @@
+data-root:
+  files:
+    etc/ceph/ceph.conf: |
+      [osd]
+      bluefs_buffered_io = true
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-osd 14.2.22-0ubuntu0.20.04.2 amd64
+    sys/fs/bcache/d7696818-1be9-4dea-9991-de95e24d7256/cache_available_percent: '69'
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache:
+      kwargs:
+        new: true
+    hotsos.core.plugins.kernel.KernelBase.version:
+      kwargs:
+        new: '5.3'
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1936136: >-
+    This host has Ceph OSDs using bcache block devices and may be
+    vulnerable to bcache bug LP 1936136 since bcache cache_available_percent
+    is lt 70 (actual=69). The current workaround is to set
+    bluefs_buffered_io=false in Ceph or upgrade to a kernel >= 5.4.

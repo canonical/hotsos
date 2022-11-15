@@ -25,7 +25,7 @@ checks:
       handler: hotsos.core.plugins.storage.ceph.CephConfig
       assertions:
         key: bluefs_buffered_io
-        ops: [[eq, 'true']]
+        ops: [[eq, true]]
   bcache_cache_available_percent_check:
     config:
       handler: hotsos.core.plugins.storage.bcache.CachesetsConfig

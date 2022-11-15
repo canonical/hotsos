@@ -1,0 +1,14 @@
+target-name: mysql_connections.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii percona-xtradb-cluster-server 5.7.20-29.24-0ubuntu2.1 all
+    etc/mysql/mysql.conf.d/mysqld.cnf: |
+      [mysqld]
+      max_connections = 4191
+    etc/systemd/system/mysql.service.d/charm-nofile.conf: ""
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  # none expected

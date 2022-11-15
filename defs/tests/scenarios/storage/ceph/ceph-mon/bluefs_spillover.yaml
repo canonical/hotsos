@@ -1,0 +1,56 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_status_--format_json-pretty: |
+      {
+          "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+          "health": {
+              "status": "HEALTH_WARN",
+              "checks": {
+                  "BLUEFS_SPILLOVER": {
+                      "severity": "HEALTH_WARN",
+                      "summary": {
+                          "message": "3 OSD(s) experiencing BlueFS spillover",
+                          "count": 3
+                      },
+                      "muted": false
+                  }
+              },
+              "mutes": []
+          }
+      }
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "BLUEFS_SPILLOVER": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "3 OSD(s) experiencing BlueFS spillover",
+                      "count": 3
+                  },
+                  "detail": [
+                      {
+                          "message": "osd.1 spilled over 66 MiB metadata from 'db' device (3.0 GiB used of 29 GiB) to slow device"
+                      },
+                      {
+                          "message": "osd.2 spilled over 67 MiB metadata from 'db' device (3.0 GiB used of 29 GiB) to slow device"
+                      },
+                      {
+                          "message": "osd.3 spilled over 68 MiB metadata from 'db' device (3.0 GiB used of 29 GiB) to slow device"
+                      }
+                  ],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://tracker.ceph.com/issues/38745: >-
+    Identified known Ceph bug. RocksDB needs more space than the
+    leveled space available. See
+    www.mail-archive.com/ceph-users@ceph.io/msg05782.html
+    for more background information.

@@ -1,0 +1,29 @@
+data-root:
+  files:
+    var/log/ceph/ceph.log: |
+      2022-01-08 9:24:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+      2022-02-08 10:25:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+      2022-02-08 10:26:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+      2022-02-08 10:27:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+      2022-02-08 10:28:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+      2022-02-08 10:29:23.876485 mon.test mon.1 10.230.16.55:6789/0 16486802 : cluster [INF] mon.test calling monitor election
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+mock:
+  patch:
+    hotsos.core.ycheck.engine.properties.search.UptimeHelper.hours:
+      kwargs:
+        new: 49
+    hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors:
+      kwargs:
+        new: true
+    hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names:
+      kwargs:
+        new: ethX
+raised-issues:
+  CephWarning: >-
+    The Ceph monitor on this host has experienced 5 re-elections
+    within a 24hr period and the network interface(s) ethX used
+    by the ceph-mon are showing errors - please investigate.

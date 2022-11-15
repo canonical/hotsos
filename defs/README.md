@@ -945,3 +945,9 @@ myeventname:
   end:
     expr: <re.match pattern>
 ```
+
+## Testing
+
+All contributions to checks should be accompanied by a unit test and there are
+two ways to do this. You can write a test in Python (see [tests/unit](../tests/unit))
+or you can write a test in yaml as a template - see [tests/README.md](tests/README.md) for more info.

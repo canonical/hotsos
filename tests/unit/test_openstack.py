@@ -1160,7 +1160,19 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
         self.assertEqual(actual['agent-exceptions'], expected)
 
 
+@utils.load_templated_tests('scenarios/openstack')
 class TestOpenstackScenarioChecks(TestOpenstackBase):
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """
+
+    @mock.patch('hotsos.core.issues.IssuesManager.add')
+    def test_scenarios_none(self, mock_add_issue):
+        YScenarioChecker()()
+        self.assertFalse(mock_add_issue.called)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova/bugs.yaml'))
@@ -1283,28 +1295,6 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                                'and above.'),
                       'origin': 'openstack.01part'}]}
         self.assertEqual(IssuesManager().load_bugs(), expected)
-
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_scenarios_none(self, mock_add_issue):
-        YScenarioChecker()()
-        self.assertFalse(mock_add_issue.called)
-
-    @mock.patch('hotsos.core.plugins.kernel.sysfs.CPU.'
-                'cpufreq_scaling_governor_all', 'powersave')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('system_cpufreq_mode.yaml'))
-    def test_scenarios_cpufreq(self):
-        YScenarioChecker()()
-        msg = ('This node is used as an Openstack hypervisor but is not using '
-               'cpufreq scaling_governor in "performance" mode '
-               '(actual=powersave). This is not recommended and can result '
-               'in performance degradation. To fix this you can install '
-               'cpufrequtils, set "GOVERNOR=performance" in '
-               '/etc/default/cpufrequtils and run systemctl restart '
-               'cpufrequtils. You will also need to stop and disable the '
-               'ondemand systemd service in order for changes to persist.')
-        issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.plugins.system.system.NUMAInfo.nodes',
                 {0: [1, 3, 5], 1: [0, 2, 4]})
@@ -1491,25 +1481,6 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                       'origin': 'openstack.01part'}]}
         self.assertEqual(IssuesManager().load_bugs(), expected)
 
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('openstack/eol.yaml'))
-    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
-    def test_openstack_eol(self, mock_date):
-        # 2030-04-30
-        mock_date.return_value = '1903748400'
-        YScenarioChecker()()
-        msg = ('This node is running a version of Openstack that is '
-               'End of Life (release=ussuri) which means it has '
-               'limited support and is likely not receiving updates '
-               'anymore. Please consider upgrading to a newer '
-               'release. (origin=openstack.01part)')
-        expected = {
-            'potential-issues':
-            {'OpenstackWarnings':
-                [msg]}}
-
-        self.assertEqual(IssuesManager().load_issues(), expected)
-
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
@@ -1523,12 +1494,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         YScenarioChecker()()
         msg = ('This node is running Openstack nova-compute and Masakari but '
                'pacemaker-remote is not currently installed and is a '
-               'requirement for Masakari to function correctly. '
-               '(origin=openstack.01part)')
-        expected = {
-            'potential-issues':
-            {'OpenstackWarnings': [msg]}}
-        self.assertEqual(IssuesManager().load_issues(), expected)
+               'requirement for Masakari to function correctly.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
                 {'ceph-osd': SystemdService('pacemaker-remote', 'disabled')})
@@ -1543,12 +1511,9 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
         YScenarioChecker()()
         msg = ('This node is running Openstack nova-compute and Masakari but '
                'pacemaker-remote is not currently enabled and is a '
-               'requirement for Masakari to function correctly. '
-               '(origin=openstack.01part)')
-        expected = {
-            'potential-issues':
-            {'OpenstackWarnings': [msg]}}
-        self.assertEqual(IssuesManager().load_issues(), expected)
+               'requirement for Masakari to function correctly.')
+        issues = list(IssuesStore().load().values())[0]
+        self.assertEqual([issue['desc'] for issue in issues], [msg])
 
 
 class TestOpenstackApache2SSL(TestOpenstackBase):

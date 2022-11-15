@@ -1,0 +1,16 @@
+target-name: ceph_cluster_health.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_status_--format_json-pretty: |
+      {
+          "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+          "health": {
+              "status": "HEALTH_OK"
+          }
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  # none expected

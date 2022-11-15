@@ -1,0 +1,14 @@
+mock:
+  patch:
+    hotsos.core.plugins.system.system.SystemBase.unattended_upgrades_enabled:
+      kwargs:
+        new: true
+    hotsos.core.plugins.system.SystemChecksBase.plugin_runnable:
+      kwargs:
+        new: true
+raised-issues:
+   SystemWarning: >-
+     Unattended upgrades are enabled which can lead to
+     uncontrolled changes to this environment. If maintenance
+     windows are required please consider disabling unattended
+     upgrades.

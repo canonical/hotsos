@@ -1,0 +1,109 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_osd_df_tree_--format_json-pretty: |
+      {
+          "nodes": [
+              {
+                  "id": -1,
+                  "name": "default",
+                  "type": "root",
+                  "type_id": 11,
+                  "children": [
+                      -3,
+                      -7,
+                      -5
+                  ]
+              },
+              {
+                  "id": -5,
+                  "name": "compute1",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      1
+                  ]
+              },
+              {
+                  "id": 1,
+                  "device_class": "ssd",
+                  "kb_used": 2097558,
+                  "kb_used_meta": 2097153,
+                  "name": "osd.1",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 0.09759521484375,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "exists": 1,
+                  "status": "up",
+                  "reweight": 1,
+                  "primary_affinity": 1
+              },
+              {
+                  "id": -7,
+                  "name": "compute2",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      2
+                  ]
+              },
+              {
+                  "id": 2,
+                  "device_class": "ssd",
+                  "kb_used": 2097558,
+                  "kb_used_meta": 2097153,
+                  "name": "osd.2",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 0.09759521484375,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "exists": 1,
+                  "status": "up",
+                  "reweight": 1,
+                  "primary_affinity": 1
+              },
+              {
+                  "id": -3,
+                  "name": "compute4",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      0
+                  ]
+              },
+              {
+                  "id": 0,
+                  "device_class": "ssd",
+                  "kb_used": 2097558,
+                  "kb_used_meta": 2097153,
+                  "name": "osd.0",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 0.09759521484375,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "exists": 1,
+                  "status": "up",
+                  "reweight": 1,
+                  "primary_affinity": 1
+              }
+          ],
+          "stray": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://tracker.ceph.com/issues/45903: >-
+    Found OSDs osd.0, osd.1, osd.2 with metadata usage > 5%
+    of its total device usage. This could be the result of
+    a compaction failure. Possibly related to the bug
+    https://tracker.ceph.com/issues/45903 if Ceph < 14.2.17.
+    To manually compact the metadata, use 'ceph-bluestore-tool'
+    which is available since 14.2.0.

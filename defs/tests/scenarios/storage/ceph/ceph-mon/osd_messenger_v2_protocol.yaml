@@ -1,0 +1,13 @@
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephCluster.cluster_osds_without_v2_messenger_protocol:
+      kwargs:
+        new: ['osd.1']
+    hotsos.core.plugins.storage.ceph.CephChecksBase.release_name:
+      kwargs:
+        new: nautilus
+raised-issues:
+  CephOSDWarning: >-
+    This Ceph cluster has 1 OSD(s) that do not bind to a v2
+    messenger address. This will cause unexpected behaviour and
+    should be resolved asap.

@@ -1,0 +1,100 @@
+target-name: crushmap_bucket_checks.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_osd_crush_dump: |
+        {
+            "buckets": [
+                {
+                    "id": -1,
+                    "name": "default",
+                    "type_id": 11,
+                    "type_name": "root",
+                    "weight": 1926,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {
+                            "id": -3,
+                            "weight": 642,
+                            "pos": 0
+                        },
+                        {
+                            "id": -5,
+                            "weight": 642,
+                            "pos": 1
+                        },
+                        {
+                            "id": -7,
+                            "weight": 642,
+                            "pos": 2
+                        }
+                    ]
+                },
+                {
+                    "id": -3,
+                    "name": "juju-94442c-oct00-1",
+                    "type_id": 1,
+                    "type_name": "host",
+                    "weight": 642,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {
+                            "id": 1,
+                            "weight": 642,
+                            "pos": 0
+                        }
+                    ]
+                },
+                {
+                    "id": -5,
+                    "name": "juju-94442c-oct00-3",
+                    "type_id": 1,
+                    "type_name": "host",
+                    "weight": 642,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {
+                            "id": 0,
+                            "weight": 642,
+                            "pos": 0
+                        }
+                    ]
+                },
+                {
+                    "id": -7,
+                    "name": "juju-94442c-oct00-2",
+                    "type_id": 3,
+                    "type_name": "rack00",
+                    "weight": 642,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {
+                            "id": 2,
+                            "weight": 642,
+                            "pos": 0
+                        }
+                    ]
+                }
+            ]
+        }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+    - sos_commands/ceph_mon/ceph_report
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_for_any_pool:
+      kwargs:
+        new: true
+    hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools:
+      kwargs:
+        new: true
+raised-issues:
+  CephCrushWarning: >-
+    Mixed crush bucket types identified in buckets 'default'.
+    This can cause data distribution to become skewed - please
+    check crush map.

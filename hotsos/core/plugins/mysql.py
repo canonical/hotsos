@@ -1,4 +1,5 @@
 import os
+import glob
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     SystemdHelper,
@@ -36,5 +37,9 @@ class MySQLConfig(host_helpers.SectionalConfigBase):
 class MySQLRouterConfig(host_helpers.SectionalConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.DATA_ROOT,
-                            'var/lib/mysql/mysql-router/mysqlrouter.conf')
+                            'var/lib/mysql/*mysql-router/mysqlrouter.conf')
+        # expect only one
+        for f in glob.glob(path):
+            path = f
+
         super().__init__(*args, path=path, **kwargs)

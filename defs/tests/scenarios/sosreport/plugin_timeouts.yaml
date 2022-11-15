@@ -1,0 +1,10 @@
+data-root:
+  files:
+    sos_logs/ui.log: |1
+      Plugin networking timed out
+      Plugin system timed out
+raised-issues:
+  SOSReportWarning: >-
+    The following sosreport plugins have have timed out and may have
+    incomplete data: networking, system
+

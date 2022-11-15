@@ -36,7 +36,7 @@ class ProcNetBase(abc.ABC):
 
     def _process_file(self, fname):
         if not os.path.exists(fname):
-            log.info("file not found '%s' - skipping load")
+            log.debug("file not found '%s' - skipping load", fname)
             return
 
         log.debug("start processing %s", fname)
@@ -327,7 +327,7 @@ class SockStat(ProcNetBase):
 
     def _process_file(self, fname):
         if not os.path.exists(fname):
-            log.info("file not found '%s' - skipping load")
+            log.debug("file not found '%s' - skipping load", fname)
             return
 
         log.debug("start processing %s", fname)

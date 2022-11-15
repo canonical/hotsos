@@ -1,0 +1,17 @@
+target-name: amd_iommu_pt.yaml
+data-root:
+  files:
+    sos_commands/processor/lscpu: |
+      Vendor ID:                       AuthenticAMD
+      CPU family:                      23
+      Model:                           49
+      Model name:                      AMD EPYC 7502 32-Core Processor
+    proc/cmdline: |
+      BOOT_IMAGE=/boot/vmlinuz-5.4.0-97-generic root=UUID=51babbe8-f78f-46a4-8830-d351c3830325 ro intel_iommu=on
+raised-issues:
+  SystemWarning: >-
+    This host is using an AMD EPYC 7502 32-Core Processor cpu
+    but is not using iommu passthrough mode (e.g. set iommu=pt in
+    boot parameters) which is recommended in order to get the
+    best performance e.g. for networking.
+

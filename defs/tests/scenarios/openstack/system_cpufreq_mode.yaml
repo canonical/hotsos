@@ -1,0 +1,15 @@
+mock:
+  patch:
+    hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all:
+      kwargs:
+        new: powersave
+raised-issues:
+  OpenstackWarning: >-
+    This node is used as an Openstack hypervisor but is not using
+    cpufreq scaling_governor in "performance" mode
+    (actual=powersave). This is not recommended and can result
+    in performance degradation. To fix this you can install
+    cpufrequtils, set "GOVERNOR=performance" in
+    /etc/default/cpufrequtils and run systemctl restart
+    cpufrequtils. You will also need to stop and disable the
+    ondemand systemd service in order for changes to persist.

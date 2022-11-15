@@ -1,0 +1,16 @@
+data-root:
+  files:
+    sos_commands/openvswitch/ovs-appctl_dpctl.dump-conntrack_-m_system_ovs-system: |
+      udp,orig=(src=10.45.82.24,dst=10.45.82.39,sport=11489,dport=6081),reply=(src=10.45.82.39,dst=10.45.82.24,sport=6081,dport=11489),id=1953266447,status=CONFIRMED|SRC_NAT_DONE|DST_NAT_DONE
+      udp,orig=(src=10.45.82.23,dst=10.45.82.24,sport=40132,dport=6081),reply=(src=10.45.82.24,dst=10.45.82.23,sport=6081,dport=40132),id=2002235501,status=CONFIRMED|SRC_NAT_DONE|DST_NAT_DONE
+    sos_commands/openvswitch/ovs-appctl_ofproto.list-tunnels: |
+      port 4: ovn-comput-1 (geneve: ::->10.10.2.33, key=flow, legacy_l2, dp port=4, ttl=64, csum=true)
+      port 4: ovn-comput-2 (geneve: ::->10.10.2.29, key=flow, legacy_l2, dp port=4, ttl=64, csum=true)
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1978806:
+     This node is using OpenvSwitch and conntrack is tracking
+     encapsulated packets (geneve, vxlan etc). This is
+     considered unnecessary since it is duplicating tracking for
+     the same packets done by ovs and at scale will have a
+     performance impact. See referenced bug for solution and
+     workaround.

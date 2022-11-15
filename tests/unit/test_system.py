@@ -7,8 +7,6 @@ from unittest import mock
 from . import utils
 
 from hotsos.core.config import setup_config, HotSOSConfig
-from hotsos.core.ycheck.scenarios import YScenarioChecker
-from hotsos.core.issues.utils import IssuesManager, IssuesStore
 from hotsos.core.plugins.system.system import NUMAInfo
 from hotsos.plugin_extensions.system import (
     checks,
@@ -28,13 +26,6 @@ node   0   1
   0:  10  21
   1:  21  10
 """.splitlines(keepends=True)  # noqa
-
-
-LXCFS_ERROR = """
-Jun  4 06:25:10 host-name kernel: [47841183.622537] lxcfs[1925937]: segfault at 0 ip 00007f1ba005d4ea sp 00007f1b7cfc1b10 error 4 in liblxcfs.so [7f1ba0055000+f000]
-"""  # noqa
-
-DPKG_L_LXCFS_W_BUG = "ii  lxcfs    3.0.3-0ubuntu1~18.04.1  amd64   FUSE based filesystem for LXC"  # noqa, pylint: disable=C0301
 
 
 class SystemTestsBase(utils.BaseTestCase):
@@ -147,54 +138,11 @@ class TestSYSCtlChecks(SystemTestsBase):
             self.assertEqual(actual, expected)
 
 
+@utils.load_templated_tests('scenarios/system')
 class TestSystemScenarioChecks(SystemTestsBase):
-
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('unattended_upgrades.yaml'))
-    @mock.patch('hotsos.core.plugins.system.system.SystemBase.'
-                'unattended_upgrades_enabled', True)
-    @mock.patch('hotsos.core.plugins.system.SystemChecksBase.plugin_runnable',
-                True)
-    def test_unattended_upgrades(self):
-        YScenarioChecker()()
-        msg = ('Unattended upgrades are enabled which can lead to '
-               'uncontrolled changes to this environment. If maintenance '
-               'windows are required please consider disabling unattended '
-               'upgrades.')
-        issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.plugins.system.system.SystemBase.'
-                'virtualisation_type', None)
-    @utils.create_data_root({'var/log/kern.log': LXCFS_ERROR,
-                             'sos_commands/dpkg/dpkg_-l': DPKG_L_LXCFS_W_BUG},
-                            copy_from_original=['sos_commands/date/date'])
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('lxcfs.yaml'))
-    def test_lxcfs_segfault(self):
-        YScenarioChecker()()
-        msg = ('Segfault detected in LXCFS, LXD/LXC containers will likely '
-               'need to be restarted. The "lxcfs" package should be '
-               'upgraded immediately to version 3.0.3-0ubuntu1~18.04.3 '
-               'or better.')
-        issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-        msg = ("Installed package 'lxcfs' with version 3.0.3-0ubuntu1~18.04.1 "
-               'has a known critical bug which causes segfaults. '
-               'If this environment is using LXD it should be '
-               'upgraded ASAP.')
-        issues = list(IssuesManager().load_bugs().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.plugins.system.system.SystemBase.'
-                'virtualisation_type', 'lxc')
-    @utils.create_data_root({'var/log/kern.log': LXCFS_ERROR,
-                             'sos_commands/dpkg/dpkg_-l': DPKG_L_LXCFS_W_BUG},
-                            copy_from_original=['sos_commands/date/date'])
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('lxcfs.yaml'))
-    def test_lxcfs_segfault_ignored(self):
-        YScenarioChecker()()
-        self.assertEqual(len(IssuesStore().load()), 0)
-        self.assertEqual(len(IssuesManager().load_bugs()), 0)
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """

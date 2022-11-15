@@ -221,10 +221,14 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
             if check.search and check.first_search_result:
                 first_search_result = check.first_search_result
 
+            # FIXME: disabling for now because if the cache contains
+            # data that cant be saved at yaml this will lead to errors.
+            """
             if check.requires:
                 # Dump the requires cache into the context. We improve this
                 # later by adding more info.
                 self.issue_context.set(**check.requires.cache.data)
+            """
 
         if self.raises.format_groups:
             if first_search_result:

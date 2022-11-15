@@ -1,0 +1,13 @@
+target-name: tcp.yaml
+data-root:
+  files:
+    proc/net/sockstat: |
+      sockets: used 908
+      TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 379728
+      UDP: inuse 18 mem 762456
+      UDPLITE: inuse 44
+      RAW: inuse 55
+      FRAG: inuse 66 memory 77
+    sos_commands/kernel/sysctl_-a: ""
+raised-issues:
+  # none expected

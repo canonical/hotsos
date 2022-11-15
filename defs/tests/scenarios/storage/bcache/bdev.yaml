@@ -1,0 +1,16 @@
+data-root:
+  files:
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/congested_read_threshold_us: '0'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/congested_write_threshold_us: '0'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/cache_available_percent: '34'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/sequential_cutoff: '0.0k'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/cache_mode: 'writethrough [writeback] writearound none'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/writeback_percent: '1'
+raised-issues:
+  BcacheWarning: >-
+    One or more of the following bcache bdev config
+    assertions failed: sequential_cutoff eq
+    "0.0k"/actual="0.0k", cache_mode eq "writethrough
+    [writeback] writearound none"/actual="writethrough
+    [writeback] writearound none", writeback_percent ge
+    10/actual="1"

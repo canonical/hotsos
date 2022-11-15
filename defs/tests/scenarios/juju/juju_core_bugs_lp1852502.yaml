@@ -1,0 +1,17 @@
+target-name: juju_core_bugs.yaml
+mock:
+  patch.object:
+    hotsos.core.ycheck.engine.properties.input.CLIHelper:
+      kwargs:
+        create: true
+        attribute: journalctl
+        return_value:
+          - "Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] CollectionCloner ns:juju.txns.log finished cloning with status: QueryPlanKilled: PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)"
+          - "Dec 21 14:07:53 juju-1 mongod.37017[17873]: [replication-18] collection clone for 'juju.txns.log' failed due to QueryPlanKilled: While cloning collection 'juju.txns.log' there was an error 'PlanExecutor killed: CappedPositionLost: CollectionScan died due to position in capped collection being deleted. Last seen record id: RecordId(204021366)'"
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1852502: >-
+    known mongodb bug identified - https://jira.mongodb.org/browse/TOOLS-1636
+    Workaround is to pass --no-logs to juju create-backup. This is an issue
+    only with Mongo 3. Mongo 4 does not have this issue. Upstream is working
+    on migrating to Mongo 4 in the Juju 3.0 release.
+

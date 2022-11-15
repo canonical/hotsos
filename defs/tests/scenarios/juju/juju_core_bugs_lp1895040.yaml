@@ -1,0 +1,15 @@
+target-name: juju_core_bugs.yaml
+data-root:
+  files:
+    var/log/juju/unit-keystone-2.log: |
+      2022-03-15 09:03:38 ERROR juju.worker.uniter agent.go:31 resolver loop error: unknown relation: 24
+      2022-03-15 09:03:38 INFO juju.worker.uniter uniter.go:309 unit "ams/0" shutting down: unknown relation: 24
+      2022-03-15 09:03:38 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: unknown relation: 24
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1895040: >-
+    One or more charms on this host has "unknown relation"
+    errors which is an indication of this bug. Upgrading Juju
+    to a version >= 2.9.13 should fix the problem.
+

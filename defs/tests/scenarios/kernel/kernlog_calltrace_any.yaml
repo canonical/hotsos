@@ -1,0 +1,18 @@
+target-name: kernlog_calltrace.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      May  6 10:49:21 tututu kernel: [ 4965.415911] CPU: 1 PID: 4465 Comm: insmod Tainted: P           OE   4.13.0-rc5 #1
+      May  6 10:49:21 tututu kernel: [ 4965.415912] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.10.2-1.fc26 04/01/2014
+      May  6 10:49:21 tututu kernel: [ 4965.415913] Call Trace:
+      May  6 10:49:21 tututu kernel: [ 4965.415920]  dump_stack+0x63/0x8b
+      May  6 10:49:21 tututu kernel: [ 4965.415923]  do_init_module+0x8d/0x1e9
+      May  6 10:49:21 tututu kernel: [ 4965.415926]  load_module+0x21bd/0x2b10
+      May  6 10:49:21 tututu kernel: [ 4965.415929]  SYSC_finit_module+0xfc/0x120
+      May  6 10:49:21 tututu kernel: [ 4965.415931]  ? SYSC_finit_module+0xfc/0x120
+      May  6 10:49:21 tututu kernel: [ 4965.415934]  SyS_finit_module+0xe/0x10
+      May  6 10:49:21 tututu kernel: [ 4965.415937]  entry_SYSCALL_64_fastpath+0x1a/0xa5
+      May  6 10:49:21 tututu kernel: [ 4965.415939] RIP: 0033:0x7fab36d717a9
+raised-issues:
+  KernelError: >-
+    1 reports of stacktraces in kern.log - please check.

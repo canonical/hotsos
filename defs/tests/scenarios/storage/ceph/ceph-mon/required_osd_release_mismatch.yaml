@@ -1,0 +1,32 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_versions: |
+      {
+          "mon": {
+              "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
+          },
+          "mgr": {
+              "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 1
+          },
+          "osd": {
+              "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 2,
+              "ceph version 14.2.18 (b77bc49e3a57a87d84df112a087a2058aa217118) nautilus (stable)": 1
+          },
+          "mds": {},
+          "overall": {
+              "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 5
+          }
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephCluster.require_osd_release:
+      kwargs:
+        new: octopus
+raised-issues:
+  CephOSDError: >-
+    Ceph cluster config 'require_osd_release' is set to 'octopus'
+    but not all OSDs are on that version - please check.

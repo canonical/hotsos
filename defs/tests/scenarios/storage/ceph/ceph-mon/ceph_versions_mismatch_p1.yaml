@@ -1,0 +1,31 @@
+target-name: ceph_versions_mismatch.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_versions: |
+        {
+            "mon": {
+                "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 3
+            },
+            "mgr": {
+                "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 3
+            },
+            "osd": {
+                "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 208,
+                "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 16
+            },
+            "mds": {},
+            "overall": {
+                "ceph version 15.2.11 (e3523634d9c2227df9af89a4eac33d16738c49cb) octopus (stable)": 217,
+                "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 16
+            }
+        }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephDaemonWarning: >-
+    Ceph daemon versions are not aligned across the cluster. This
+    could be the result of an incomplete or failed cluster
+    upgrade. All daemons, except the clients, should ideally be
+    on the same version for ceph to function correctly.

@@ -1,0 +1,18 @@
+data-root:
+  files:
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/congested_read_threshold_us: '100'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/congested_write_threshold_us: '100'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/cache_available_percent: '33'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/sequential_cutoff: '0.0k'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/cache_mode: 'writethrough [writeback] writearound none'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/writeback_percent: '10'
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1900438: >-
+    bcache cache_available_percent is 33 (i.e. approx. 30%)
+    which implies this node could be suffering from bug LP
+    1900438 - please check.
+raised-issues:
+  BcacheWarning: >-
+    One or more of the following bcache cacheset config assertions
+    failed: congested_read_threshold_us eq 0/actual="100",
+    congested_write_threshold_us eq 0/actual="100"

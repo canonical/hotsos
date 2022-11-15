@@ -67,7 +67,7 @@ class YDefsLoader(object):
         self.stats_num_files_loaded = 0
         if os.path.isdir(path):
             loaded = self._get_defs_recursive(path)
-            log.debug("YDefsLoader: plugin %s loaded %s files",
+            log.debug("YDefsLoader: plugin %s loaded %s file(s)",
                       HotSOSConfig.PLUGIN_NAME, self.stats_num_files_loaded)
             # only return if we loaded actual definitions (not just globals)
             if self.stats_num_files_loaded:

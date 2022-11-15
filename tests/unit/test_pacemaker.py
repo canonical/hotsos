@@ -1,12 +1,8 @@
 import os
 
-from unittest import mock
-
 from tests.unit import utils
 
-from hotsos.core.issues.utils import KnownBugsStore
-from hotsos.core.config import setup_config, HotSOSConfig
-from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.config import setup_config
 from hotsos.plugin_extensions.pacemaker import summary
 
 
@@ -57,31 +53,11 @@ class TestPacemakerSummary(TestPacemakerBase):
         self.assertEqual(actual["nodes"]["online"], expected)
 
 
+@utils.load_templated_tests('scenarios/pacemaker')
 class TestPacemakerScenarios(TestPacemakerBase):
-    @mock.patch('hotsos.core.plugins.pacemaker.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('pacemaker/bugs.yaml'))
-    def test_node1_found(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        test_data_path = ('sos_commands/pacemaker/crm_status')
-        crm_status_path = os.path.join(HotSOSConfig.DATA_ROOT,
-                                       test_data_path)
-        with open(crm_status_path) as crm_status:
-            mock_helper.return_value.pacemaker_crm_status.\
-                return_value = crm_status
-
-            YScenarioChecker()()
-            msg = (
-                'A node with the hostname node1 is currently configured and '
-                'enabled on pacemaker. This is caused by a known bug and you '
-                'can remove the node by running the following command on the '
-                'application-hacluster leader: '
-                'juju run-action '
-                '<application>-hacluster/leader '
-                'delete-node-from-ring node=node1 --wait\n'
-                'If the above action is not available in the charm, you can '
-                'run the following command: '
-                'juju run --application <application>-hacluster -- '
-                'sudo crm_node -R node1 --force')
-            issues = list(KnownBugsStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """

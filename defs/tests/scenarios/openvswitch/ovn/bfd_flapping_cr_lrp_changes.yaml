@@ -1,0 +1,55 @@
+target-name: bfd_flapping.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-04-21T14:03:0.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:0.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:1.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:1.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:2.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:2.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:3.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:3.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:4.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:4.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:5.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:5.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:6.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:6.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:7.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:7.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:8.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:8.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:9.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:9.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:10.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:10.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:11.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:11.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:12.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:12.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:13.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:13.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:14.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:14.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:15.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:15.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:16.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:16.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:17.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:17.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:18.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:18.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+      2022-04-21T14:03:19.947Z|1044240|binding|INFO|Claiming lport cr-lrp-31f4fa6a-04cf-462f-aab9-b283fcdb7ce4 for this chassis.
+      2022-04-21T14:03:19.213Z|1044241|binding|INFO|Claiming lport bac8173d-ee39-4139-b699-754a3d17d771 for this chassis.
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OVNWarning: >- 
+    The ovn-controller on this host is showing 20 logical
+    router port (lrp) chassis re-assignments within the last
+    24 hours that do not appear to have resulted from BFD
+    state changes. This could indicate that some operator
+    activity is causing significant load in ovn which may or
+    may not be expected.

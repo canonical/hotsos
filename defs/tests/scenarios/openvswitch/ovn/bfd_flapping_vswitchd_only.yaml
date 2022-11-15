@@ -1,0 +1,24 @@
+target-name: bfd_flapping.yaml
+data-root:
+  files:
+    var/log/openvswitch/ovs-vswitchd.log: |
+      2022-04-21T21:00:0.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:1.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:2.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:3.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:4.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:5.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:6.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:7.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:8.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+      2022-04-21T21:00:9.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OVNWarning: >- 
+    The ovn-controller on this host has experienced 10 BFD
+    state changes within an hour (and within the last 24
+    hours). This is unusual and could be an indication that
+    something is wrong with the network between this node and
+    one or more peer chassis nodes.

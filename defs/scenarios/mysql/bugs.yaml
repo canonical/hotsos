@@ -12,8 +12,22 @@ checks:
         - min: 8.0.29-0ubuntu0.22.04.1
           max: 8.0.29-0ubuntu0.22.04.1
   mysql_router_enabled:
-    systemd:
-      mysql-router: enabled
+    or:
+      - systemd: aodh-mysql-router
+      - systemd: barbican-mysql-router
+      - systemd: cinder-mysql-router
+      - systemd: designate-mysql-router
+      - systemd: glance-mysql-router
+      - systemd: gnocchi-mysql-router
+      - systemd: heat-mysql-router
+      - systemd: keystone-mysql-router
+      - systemd: manila-mysql-router
+      - systemd: masakari-mysql-router
+      - systemd: neutron-api-mysql-router
+      - systemd: nova-cloud-controller-mysql-router
+      - systemd: octavia-mysql-router
+      - systemd: placement-mysql-router
+      - systemd: vault-mysql-router
   free_blocks_difficult:
     input:
       path: 'var/log/mysql/error.log'

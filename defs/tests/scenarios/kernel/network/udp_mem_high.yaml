@@ -1,0 +1,19 @@
+target-name: udp.yaml
+data-root:
+  files:
+    proc/net/sockstat: |
+      sockets: used 908
+      TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 379700
+      UDP: inuse 18 mem 762066
+      UDPLITE: inuse 44
+      RAW: inuse 55
+      FRAG: inuse 66 memory 77
+    sos_commands/kernel/sysctl_-a: |
+      net.ipv4.udp_mem = 379728	506307	762456
+      net.ipv4.tcp_mem = 189864	253153	379728
+raised-issues:
+  KernelWarning: >-
+    UDP memory page usage is high (99.95%),
+    (762066 out of 762456 mem pages are
+    in use). Kernel will start to drop UDP
+    frames if all pages are exhausted.

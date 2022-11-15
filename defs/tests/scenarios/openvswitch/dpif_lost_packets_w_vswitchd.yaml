@@ -1,0 +1,34 @@
+target-name: dpif_lost_packets.yaml
+data-root:
+  files:
+    var/log/openvswitch/ovs-vswitchd.log: |
+      2022-03-25T00:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T01:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T02:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T03:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T04:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T05:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T06:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T07:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T08:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+      2022-03-25T09:00:12.913Z|10324|dpif_netlink(handler10)|WARN|system@ovs-system: lost packet on port channel 0 of handler 0
+    sos_commands/openvswitch/ovs-appctl_dpctl.show_-s_system_ovs-system: |
+      lookups: hit:39017272903 missed:137481120 lost:54691089
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OpenvSwitchWarning: >-
+    This host is running Openvswitch and its datapath is
+    reporting a non-zero amount (54691089) of "lost" packets
+    which implies that packets are being dropped by the
+    kernel before they reach userspace (e.g. vm tap).
+    Causes for this can include high system load, tc rules in
+    the datapath etc. Suggested actions are (a) check ovs-appctl
+    dpctl/show to see if the number of lost packets is increasing
+    and (b) check the ovs-vswitchd logs for more context and
+    check the path between nic and ovs. vswitchd has also
+    recently reported large numbers of dropped packets within a
+    24h period - logs like "system@ovs-system: lost packet on
+    port channel".
+

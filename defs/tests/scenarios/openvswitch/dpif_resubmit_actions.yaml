@@ -1,0 +1,20 @@
+data-root:
+  files:
+    var/log/openvswitch/ovs-vswitchd.log: |
+      2022-02-20T01:00:22.449Z|14339034|ofproto_dpif_xlate|WARN|over 4096 resubmit actions on bridge br-int while processing arp,in_port=CONTROLLER,vlan_tci=0x0000,dl_src=fa:16:3e:2e:f1:45,dl_dst=ff:ff:ff:ff:ff:ff,arp_spa=10.200.86.60,arp_tpa=10.200.86.130,arp_op=1,arp_sha=fa:16:3e:2e:f1:45,arp_tha=00:00:00:00:00:00
+      2022-02-20T02:00:22.449Z|14339034|ofproto_dpif_xlate|WARN|over 4096 resubmit actions on bridge br-int while processing arp,in_port=CONTROLLER,vlan_tci=0x0000,dl_src=fa:16:3e:2e:f1:45,dl_dst=ff:ff:ff:ff:ff:ff,arp_spa=10.200.86.60,arp_tpa=10.200.86.130,arp_op=1,arp_sha=fa:16:3e:2e:f1:45,arp_tha=00:00:00:00:00:00
+      2022-02-20T03:00:22.449Z|14339034|ofproto_dpif_xlate|WARN|over 4096 resubmit actions on bridge br-int while processing arp,in_port=CONTROLLER,vlan_tci=0x0000,dl_src=fa:16:3e:2e:f1:45,dl_dst=ff:ff:ff:ff:ff:ff,arp_spa=10.200.86.60,arp_tpa=10.200.86.130,arp_op=1,arp_sha=fa:16:3e:2e:f1:45,arp_tha=00:00:00:00:00:00
+      2022-02-20T04:00:22.449Z|14339034|ofproto_dpif_xlate|WARN|over 4096 resubmit actions on bridge br-int while processing arp,in_port=CONTROLLER,vlan_tci=0x0000,dl_src=fa:16:3e:2e:f1:45,dl_dst=ff:ff:ff:ff:ff:ff,arp_spa=10.200.86.60,arp_tpa=10.200.86.130,arp_op=1,arp_sha=fa:16:3e:2e:f1:45,arp_tha=00:00:00:00:00:00
+      2022-02-20T05:00:22.449Z|14339034|ofproto_dpif_xlate|WARN|over 4096 resubmit actions on bridge br-int while processing arp,in_port=CONTROLLER,vlan_tci=0x0000,dl_src=fa:16:3e:2e:f1:45,dl_dst=ff:ff:ff:ff:ff:ff,arp_spa=10.200.86.60,arp_tpa=10.200.86.130,arp_op=1,arp_sha=fa:16:3e:2e:f1:45,arp_tha=00:00:00:00:00:00
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OpenvSwitchWarning: >-
+    OpenvSwitch (vswitchd) is reporting flows hitting action
+    resubmit limit (4096) which suggests that packets are being
+    silently dropped. One cause of this is when you have too many
+    flows and an example is when you have an excess of ovn
+    logical flows. Look for "resubmit actions on bridge" in
+    /var/log/ovs-vswitchd.log for more info and see what type of
+    flow is resulting in this limit being hit.

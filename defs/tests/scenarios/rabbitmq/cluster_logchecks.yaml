@@ -1,0 +1,23 @@
+data-root:
+  files:
+    var/log/rabbitmq/rabbit@test.log: |
+      Mirrored queue 'rmq-two-queue' in vhost '/': Stopping all nodes on master shutdown since no synchronised slave is available
+
+      Discarding message {'$gen_call',{<0.753.0>,#Ref<0.989368845.173015041.56949>},{info,[name,pid,slave_pids,synchronised_slave_pids]}} from <0.753.0> to <0.943.0> in an old incarnation (3) of this node (1)
+
+      2020-05-18 06:55:37.324 [error] <0.341.0> Mnesia(rabbit@warp10): ** ERROR ** mnesia_event got {inconsistent_database, running_partitioned_network, rabbit@hostname2}
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  RabbitMQWarning:
+    - >-
+      Messages were discarded because transient mirrored classic queues are
+      not syncronized. Please stop all rabbitmq-server units and restart the
+      cluster. Note that a rolling restart will not work.
+    - >-
+      This rabbitmq cluster either has or has had partitions - please check
+      rabbtimqctl cluster_status.
+    - >-
+      Transient mirrored classic queues are not deleted when there are no
+      replicas available for promotion. Please stop all rabbitmq-server units
+      and restart the cluster. Note that a rolling restart will not work.

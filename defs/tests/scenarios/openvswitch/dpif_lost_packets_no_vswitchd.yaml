@@ -1,0 +1,19 @@
+target-name: dpif_lost_packets.yaml
+data-root:
+  files:
+    sos_commands/openvswitch/ovs-appctl_dpctl.show_-s_system_ovs-system: |
+      lookups: hit:39017272903 missed:137481120 lost:54691089
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OpenvSwitchWarning: >-
+    This host is running Openvswitch and its datapath is
+    reporting a non-zero amount (54691089) of "lost" packets
+    which implies that packets are being dropped by the
+    kernel before they reach userspace (e.g. vm tap).
+    Causes for this can include high system load, tc rules in
+    the datapath etc. Suggested actions are (a) check ovs-appctl
+    dpctl/show to see if the number of lost packets is increasing
+    and (b) check the ovs-vswitchd logs for more context and
+    check the path between nic and ovs.

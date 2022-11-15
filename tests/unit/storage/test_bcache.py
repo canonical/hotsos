@@ -1,55 +1,15 @@
-import os
-import tempfile
-
-from unittest import mock
-
 from .. import utils
 
-from hotsos.core.issues import IssuesManager
 from hotsos.core.config import setup_config
-from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.plugins.storage import bcache as bcache_core
 from hotsos.plugin_extensions.storage import bcache_summary
 
 
 class StorageBCacheTestsBase(utils.BaseTestCase):
 
-    def setup_bcachefs(self, path, bdev_error=False, cacheset_error=False):
-        cset = os.path.join(path, 'sys/fs/bcache/1234')
-        os.makedirs(cset)
-        for cfg, val in {'congested_read_threshold_us': '0',
-                         'congested_write_threshold_us': '0'}.items():
-            with open(os.path.join(cset, cfg), 'w') as fd:
-                if cacheset_error:
-                    val = '100'
-
-                fd.write(val)
-
-        for cfg, val in {'cache_available_percent': '34'}.items():
-            if cacheset_error:
-                if cfg == 'cache_available_percent':
-                    # i.e. >= 33 for lp1900438 check
-                    val = '33'
-
-            with open(os.path.join(cset, cfg), 'w') as fd:
-                fd.write(val)
-
-        bdev = os.path.join(cset, 'bdev1')
-        os.makedirs(bdev)
-        for cfg, val in {'sequential_cutoff': '0.0k',
-                         'cache_mode':
-                         'writethrough [writeback] writearound none',
-                         'writeback_percent': '10'}.items():
-            if bdev_error:
-                if cfg == 'writeback_percent':
-                    val = '1'
-
-            with open(os.path.join(bdev, cfg), 'w') as fd:
-                fd.write(val)
-
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='storage', MACHINE_READABLE=True)
+        setup_config(PLUGIN_NAME='storage')
 
 
 class TestBcacheBase(StorageBCacheTestsBase):
@@ -115,41 +75,11 @@ class TestStorageBCache(StorageBCacheTestsBase):
         self.assertEqual(bdev.backing_dev_name, 'vdd')
 
 
+@utils.load_templated_tests('scenarios/storage/bcache')
 class TestBCacheScenarioChecks(StorageBCacheTestsBase):
-
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('cacheset.yaml'))
-    def test_cacheset(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp, cacheset_error=True)
-            setup_config(DATA_ROOT=dtmp)
-            YScenarioChecker()()
-            bug_msg = (
-                'bcache cache_available_percent is 33 (i.e. approx. 30%) '
-                'which implies this node could be suffering from bug LP '
-                '1900438 - please check.')
-            issue_msg = (
-                'One or more of the following bcache cacheset config '
-                'assertions failed: congested_read_threshold_us '
-                'eq 0/actual="100", congested_write_threshold_us eq '
-                '0/actual="100"')
-            issues = list(IssuesManager().load_issues().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [issue_msg])
-            bugs = list(IssuesManager().load_bugs().values())[0]
-            self.assertEqual([issue['desc'] for issue in bugs], [bug_msg])
-
-    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
-                new=utils.is_def_filter('bdev.yaml'))
-    def test_bdev(self):
-        with tempfile.TemporaryDirectory() as dtmp:
-            self.setup_bcachefs(dtmp, bdev_error=True)
-            setup_config(DATA_ROOT=dtmp)
-            YScenarioChecker()()
-            msg = ('One or more of the following bcache bdev config '
-                   'assertions failed: sequential_cutoff eq '
-                   '"0.0k"/actual="0.0k", cache_mode eq "writethrough '
-                   '[writeback] writearound none"/actual="writethrough '
-                   '[writeback] writearound none", writeback_percent ge '
-                   '10/actual="1"')
-            issues = list(IssuesManager().load_issues().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """

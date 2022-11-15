@@ -1,0 +1,32 @@
+target-name: memory.yaml
+mock:
+  patch:
+    hotsos.core.plugins.kernel.memory.VMStat.compact_success:
+      kwargs:
+        new: 10001
+        create: true
+    hotsos.core.plugins.kernel.memory.VMStat.compaction_failures_percent:
+      kwargs:
+        new: 11
+        create: true
+  patch.object:
+    hotsos.core.plugins.kernel.memory.MemoryChecks:
+      kwargs:
+        attribute: max_contiguous_unavailable_block_sizes
+        new: 1
+raised-issues:
+  MemoryWarning:
+    - >-
+      The following numa nodes have limited high order memory
+      available: node0-normal. At present the top 5 highest
+      consumers of memory are: buffer_head (87540.6796875k),
+      anon_vma_chain (9068.0k), radix_tree_node (50253.65625k),
+      Acpi-State (5175.703125k), vmap_area (2700.0k). See
+      summary or /proc/buddyinfo for more info.
+    - >-
+      Memory compaction failures are at 11% of successes. This can
+      suggest that there are insufficient high-order memory blocks
+      available and the kernel is unable form larger blocks on
+      request which can slow things down. See vmstat output for
+      more detail.
+

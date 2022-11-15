@@ -1,0 +1,13 @@
+target-name: unresponsive_mon_mgr.yaml
+mock:
+  patch:
+    hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins:
+      kwargs:
+        new: ['ceph_mon']
+raised-issues:
+   CephMonWarning: >-
+     One or more sosreport ceph plugins contain incomplete data.
+     This usually indicates a problem with ceph mon/mgr. Please
+     check ceph-mon.log and retry commands to see if they are
+     still unresponsive. Restarting ceph-mon and ceph-mgr might
+     resolve this.

@@ -1,13 +1,8 @@
-from unittest import mock
-
 from . import utils
 
-from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import setup_config
 import hotsos.core.plugins.sosreport as sosreport_core
-from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.sosreport import summary
-from hotsos.core.issues import SOSReportWarning
 
 
 class TestSOSReportBase(utils.BaseTestCase):
@@ -51,23 +46,11 @@ class TestSOSReportGeneral(TestSOSReportBase):
                          ['networking', 'system'])
 
 
+@utils.load_templated_tests('scenarios/sosreport')
 class TestSOSReportScenarioChecks(TestSOSReportBase):
-
-    @mock.patch('hotsos.core.issues.IssuesManager.add')
-    def test_scenarios_none(self, mock_add_issue):
-        YScenarioChecker()()
-        self.assertFalse(mock_add_issue.called)
-
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('plugin_timeouts.yaml'))
-    @utils.create_data_root({'sos_logs/ui.log':
-                             (" Plugin networking timed out\n"
-                              " Plugin system timed out\n")})
-    def test_plugin_timeouts(self):
-        YScenarioChecker()()
-        msg = ('The following sosreport plugins have have timed out and may '
-               'have incomplete data: networking, system')
-        issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['type'] for issue in issues],
-                         [SOSReportWarning('').name])
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """

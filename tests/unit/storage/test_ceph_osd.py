@@ -4,9 +4,6 @@ from .. import utils
 
 from hotsos.core.config import setup_config
 from hotsos.core import host_helpers
-from hotsos.core.issues import IssuesManager
-from hotsos.core.ycheck.scenarios import YScenarioChecker
-from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
@@ -23,35 +20,12 @@ osd journal size = 1024
 filestore xattr use omap = true
 """
 
-CEPH_OSD_40_LOG = """
-2022-02-10T16:20:23.226+0000 7fc33ca06700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 6.402924154s
-2022-02-10T16:20:23.310+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 6.485089964s, txc = 0x55d96303af00
-2022-02-10T16:20:31.998+0000 7fc33ea0a700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.894541264s
-2022-02-10T16:20:32.014+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.913629322s, txc = 0x55d92502bb00
-2022-02-10T16:20:32.675+0000 7fc33ca06700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 8.264905539s
-2022-02-10T16:20:32.695+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 8.286613899s, txc = 0x55d8c3280f00
-2022-02-10T16:20:34.819+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
-2022-02-10T16:20:35.795+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
-2022-02-10T16:20:36.811+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
-2022-02-10T16:20:37.811+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
-2022-02-10T16:20:38.787+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
-2022-02-10T16:20:39.023+0000 7fc33aa02700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.923671185s
-2022-02-10T16:20:39.035+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.938949368s, txc = 0x55d91e733b00
-2022-02-10T16:20:39.783+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
-2022-02-10T16:20:39.895+0000 7fc3389fe700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.961186691s
-2022-02-10T16:20:39.915+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.984086565s, txc = 0x55d8e875a300
-2022-02-10T16:20:45.871+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 239 slow ops, oldest is osd_op(client.238559015.0:163826723 23.3 23.9a06ee03 (undecoded) ondisk+retry+read+known_if_redirected e229371)
-2022-02-10T16:20:46.851+0000 7fc354235700 -1 osd.40 229380 get_health_metrics reporting 256 slow ops, oldest is osd_op(client.264463607.0:295362 23.3 23.9b18bc83 (undecoded) ondisk+retry+write+known_if_redirected e229371)
-2022-02-10T16:21:07.347+0000 7fc3391ff700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency slow operation observed for submit_transact, latency = 5.535116815s
-2022-02-10T16:21:07.371+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 5.560397599s, txc = 0x55d8b7c8e900
-"""  # noqa
-
 
 class StorageCephOSDTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='storage', MACHINE_READABLE=True)
+        setup_config(PLUGIN_NAME='storage')
 
 
 class TestOSDCephChecksBase(StorageCephOSDTestsBase):
@@ -241,176 +215,11 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
         self.assertEqual(actual, result)
 
 
-class TestCephScenarioChecks(StorageCephOSDTestsBase):
-
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
-                'local_osds_use_bcache', True)
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter(
-                                   'ceph-osd/juju_ceph_no_bcache_tuning.yaml'))
-    def test_juju_ceph_no_bcache_tuning(self):
-        YScenarioChecker()()
-        msg = ("This host is running Juju-managed Ceph OSDs that are "
-               "using bcache devices yet the bcache-tuning charm was "
-               "not detected. It is recommended to use the "
-               "bcache-tuning charm to ensure optimal bcache "
-               "configuration.")
-        issues = list(IssuesManager().load_issues().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephDaemonConfigShowAllOSDs')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph-osd/bugs.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
-                {'ceph-osd': SystemdService('ceph-osd', 'enabled')})
-    def test_bug_check_lp1959649(self, mock_cephdaemon, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.dpkg_l.return_value = \
-            ["ii  ceph-osd 15.2.7-0ubuntu0.20.04.2 amd64"]
-        mock_cephdaemon.return_value = mock.MagicMock()
-        mock_cephdaemon.return_value.bluestore_volume_selection_policy = \
-            ['rocksdb_original']
-        YScenarioChecker()()
-        msg = ('This host is vulnerable to known bug '
-               'https://tracker.ceph.com/issues/38745. RocksDB needs more '
-               'space than the leveled space available so it is using storage '
-               'from the data disk. Please set '
-               'bluestore_volume_selection_policy of all OSDs to '
-               'use_some_extra')
-        context = {'package': 'ceph-osd', 'version': '15.2.7-0ubuntu0.20.04.2',
-                   'property': ('hotsos.core.plugins.storage.ceph.'
-                                'CephDaemonConfigShowAllOSDs.'
-                                'bluestore_volume_selection_policy'),
-                   'ops': 'ne []', 'value_actual': ['rocksdb_original'],
-                   'passes': True}
-        expected = {'bugs-detected': [{
-                        'context': context,
-                        'desc': msg,
-                        'id': 'https://bugs.launchpad.net/bugs/1959649',
-                        'origin': 'storage.01part'}]}
-        self.assertEqual(IssuesManager().load_bugs(), expected)
-
-    @mock.patch('hotsos.core.plugins.kernel.sysfs.CPU.'
-                'cpufreq_scaling_governor_all', 'powersave')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph-osd/system_cpufreq_mode.yaml'))
-    def test_scenarios_cpufreq(self):
-        YScenarioChecker()()
-        msg = ('This node has Ceph OSDs running on it but is not using '
-               'cpufreq scaling_governor in "performance" mode '
-               '(actual=powersave). This is not recommended and can result '
-               'in performance degradation. To fix this you can install '
-               'cpufrequtils, set "GOVERNOR=performance" in '
-               '/etc/default/cpufrequtils and run systemctl restart '
-               'cpufrequtils. You will also need to stop and disable the '
-               'ondemand systemd service in order for changes to persist.')
-        issues = list(IssuesManager().load_issues().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph-osd/ssd_osds_no_discard.yaml'))
-    def test_ssd_osds_no_discard(self):
-        self.skipTest("scenario currently disabled until fixed")
-
-        YScenarioChecker()()
-        msgs = [("This host has osds with device_class 'ssd' but Bluestore "
-                 "discard is not enabled. The recommendation is to set 'bdev "
-                 "enable discard true'.")]
-        issues = list(IssuesManager().load_issues().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], msgs)
-
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter(
-                               'ceph-osd/filestore_to_bluestore_upgrade.yaml'))
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase.'
-                'bluestore_enabled', True)
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
-    def test_filestore_to_bluestore_upgrade(self, mock_ceph_config):
-        mock_ceph_config.return_value = mock.MagicMock()
-        mock_ceph_config.return_value.get = lambda args: '/journal/path'
-        YScenarioChecker()()
-        msg = ("Ceph Bluestore is enabled yet there is a still a journal "
-               "device configured in ceph.conf - please check")
-        issues = list(IssuesManager().load_issues().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephConfig')
-    @mock.patch('hotsos.core.plugins.storage.bcache.CachesetsConfig')
-    @mock.patch('hotsos.core.plugins.kernel.KernelBase')
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph-osd/bcache_lp1936136.yaml'))
-    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
-                {'ceph-osd': SystemdService('ceph-osd', 'enabled')})
-    def test_lp1936136(self, mocl_cli, mock_cephbase, mock_kernelbase,
-                       mock_cset_config, mock_ceph_config):
-        def fake_ceph_config(key):
-            if key == 'bluefs_buffered_io':
-                return 'true'
-
-        mocl_cli.return_value = mock.MagicMock()
-        mocl_cli.return_value.dpkg_l.return_value = \
-            ["ii  ceph-osd 14.2.22-0ubuntu0.20.04.2 amd64"]
-
-        mock_cset_config.return_value = mock.MagicMock()
-        mock_cset_config.return_value.get.return_value = 69
-
-        mock_ceph_config.return_value = mock.MagicMock()
-        mock_ceph_config.return_value.get.side_effect = fake_ceph_config
-
-        mock_cephbase.return_value = mock.MagicMock()
-        mock_cephbase.return_value.local_osds_use_bcache = True
-        mock_kernelbase.return_value = mock.MagicMock()
-        mock_kernelbase.return_value.version = '5.3'
-
-        YScenarioChecker()()
-
-        msg = ('This host has Ceph OSDs using bcache block devices and may be '
-               'vulnerable to bcache bug LP 1936136 since '
-               'bcache cache_available_percent is lt 70 (actual=69). The '
-               'current workaround is to set bluefs_buffered_io=false in Ceph '
-               'or upgrade to a kernel >= 5.4.')
-
-        issues = list(IssuesManager().load_bugs().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph-osd/eol.yaml'))
-    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
-    def test_ceph_osd_eol(self, mock_date):
-        # 2030-04-30
-        mock_date.return_value = '1903748400'
-
-        YScenarioChecker()()
-        issues = list(IssuesManager().load_issues().values())[0]
-
-        expected = ('This node is running a version of Ceph that is '
-                    'End of Life (release=octopus) which means it '
-                    'has limited support and is likely not receiving '
-                    'updates anymore. Please consider upgrading to a '
-                    'newer release.')
-
-        self.assertEqual(issues[0]['desc'], expected)
-
-    @utils.create_data_root({'var/log/ceph/ceph-osd.40.log': CEPH_OSD_40_LOG},
-                            copy_from_original=['sos_commands/date/date'])
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ceph-osd/osd_latency.yaml'))
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephChecksBase')
-    @mock.patch('hotsos.core.host_helpers.systemd.SystemdHelper.services',
-                {'ceph-osd': SystemdService('ceph-osd', 'enabled')})
-    def test_osd_latency(self, mock_cephbase):
-        mock_cephbase.return_value = mock.MagicMock()
-        mock_cephbase.return_value.plugin_runnable = True
-        YScenarioChecker()()
-        msg = ("Latency for some I/O operations have been observed to be "
-               "very high (> 5s). Please search for 'slow operation observed' "
-               "in the OSD logs to see the OSDs that experienced them. "
-               "This could be because the disk was overloaded temporarily "
-               "which is fine (but might correlate with any performance "
-               "drops). If this occurs consistently then it could be due to "
-               "broken OSD/disk or high system load.")
-        issues = list(IssuesManager().load_issues().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+@utils.load_templated_tests('scenarios/storage/ceph/ceph-osd')
+class TestCephOSDScenarioChecks(StorageCephOSDTestsBase):
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """

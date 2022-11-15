@@ -1,12 +1,8 @@
-from unittest import mock
-
+import os
 from . import utils
 
 from hotsos.core.config import setup_config
-from hotsos.core.host_helpers.systemd import SystemdService
-from hotsos.core.issues import IssuesManager
 from hotsos.plugin_extensions.mysql import summary
-from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 
 SYSTEMD_UNITS = """
@@ -32,21 +28,14 @@ ii  mysql-common                      5.8+1.0.4                                 
 ii  python3-mysqldb                   1.3.10-1build1                                 amd64        Python interface to MySQL
 """  # noqa
 
-DPKG_L_ROUTER = """
-ii  mysql-router                      8.0.29-0ubuntu0.21.10.1                        amd64        route connections from MySQL clients to MySQL servers
-""" # noqa
-
-FREE_BLOCKS_DIFFICULT = r"""
-Aug  3 08:32:23 [Note] InnoDB: Starting a batch to recover 9962 pages from redo log.
-Aug  3 08:32:23 [Warning] InnoDB: Difficult to find free blocks in the buffer pool (21 search iterations)! 21 failed attempts to flush a page! Consider increasing innodb_buffer_pool_size. Pending flushes (fsync) log: 0; buffer pool: 0. 582296 OS file reads, 504266 OS file writes, 2396 OS fsyncs.
-"""  # noqa
-
 
 class MySQLTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='mysql')
+        setup_config(PLUGIN_NAME='mysql',
+                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
+                                            'fake_data_root/vault'))
 
 
 class TestMySQLSummary(MySQLTestsBase):
@@ -69,155 +58,11 @@ class TestMySQLSummary(MySQLTestsBase):
                          expected)
 
 
+@utils.load_templated_tests('scenarios/mysql')
 class TestMySQLScenarios(MySQLTestsBase):
-
-    @mock.patch(
-        'hotsos.core.host_helpers.systemd.SystemdHelper.services', {
-            'mysql-router':
-            SystemdService('mysql-router', 'enabled')
-        })
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('mysql/bugs.yaml'))
-    def test_1971565(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.dpkg_l.return_value = \
-            DPKG_L_ROUTER.splitlines()
-
-        YScenarioChecker()()
-        expected = {
-            'bugs-detected': [
-                {'id': 'https://bugs.launchpad.net/bugs/1971565',
-                 'desc': ("Installed package 'mysql-router' with "
-                          "version 8.0.29-0ubuntu0.21.10.1 has a "
-                          "known bug that prevents mysql-router from "
-                          "starting. Please upgrade to the latest "
-                          "version to fix this issue."),
-                 'origin': 'mysql.01part'}
-            ]
-        }
-        self.assertEqual(IssuesManager().load_bugs(), expected)
-
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('mysql/bugs.yaml'))
-    @utils.create_data_root({'var/log/mysql/error.log': FREE_BLOCKS_DIFFICULT},
-                            copy_from_original=['sos_commands/date/date'])
-    def test_372017_invoked(self):
-        YScenarioChecker()()
-        expected = {
-            'bugs-detected': [
-                {'id': 'https://bugs.launchpad.net/bugs/372017',
-                 'desc': ("mariabackup ran out of innodb buffer pool. "
-                          "See https://jira.mariadb.org/browse/MDEV-26784"),
-                 'origin': 'mysql.01part'}
-            ]
-        }
-        self.assertEqual(IssuesManager().load_bugs(), expected)
-
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('mysql/mysql_connections.yaml'))
-    def test_mysql_connections_missing_nofile(self, mock_config, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.dpkg_l.return_value = \
-            ['ii percona-xtradb-cluster-server 5.7.20-29.24-0ubuntu2.1 all']
-
-        def fake_get(key, **_kwargs):
-            return {'max_connections': '4191'}.get(key)
-
-        mock_config.return_value = mock.MagicMock()
-        mock_config.return_value.get.side_effect = fake_get
-
-        YScenarioChecker()()
-        expected = {'potential-issues': {'MySQLWarnings': [
-            'MySQL max_connections is higher than 4190 but there is no '
-            'charm-nofile.conf which means that the higher value is not '
-            'being honoured. See LP 1905366 for more information. '
-            '(origin=mysql.01part)']}}
-        self.assertEqual(IssuesManager().load_issues(), expected)
-
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    @mock.patch('hotsos.core.plugins.mysql.MySQLConfig')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('mysql/mysql_connections.yaml'))
-    @utils.create_data_root(
-        {'etc/systemd/system/mysql.service.d/charm-nofile.conf': ''})
-    def test_mysql_connections_w_nofile(self, mock_config, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.dpkg_l.return_value = \
-            ['ii percona-xtradb-cluster-server 5.7.20-29.24-0ubuntu2.1 all']
-
-        def fake_get(key, **_kwargs):
-            return {'max_connections': '4191'}.get(key)
-
-        mock_config.return_value = mock.MagicMock()
-        mock_config.return_value.get.side_effect = fake_get
-
-        YScenarioChecker()()
-        expected = {}
-        self.assertEqual(IssuesManager().load_issues(), expected)
-
-    @mock.patch(
-        'hotsos.core.host_helpers.systemd.SystemdHelper.services', {
-            'mysql-router':
-            SystemdService('mysql-router', 'enabled')
-        })
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    @mock.patch('hotsos.core.plugins.mysql.MySQLRouterConfig')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('mysql/mysql_router.yaml'))
-    def test_mysql_router(self, mock_config, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.dpkg_l.return_value = \
-            DPKG_L_ROUTER.splitlines()
-
-        def fake_get(key, **_kwargs):
-            return {'client_ssl_mode': 'PREFERRED'}.get(key)
-
-        mock_config.return_value = mock.MagicMock()
-        mock_config.return_value.get.side_effect = fake_get
-
-        YScenarioChecker()()
-        expected = {
-            'bugs-detected': [
-                {'id': 'https://bugs.launchpad.net/bugs/1959861',
-                 'desc': (
-                     'This host is running MySQL Router '
-                     'and has client_ssl_mode configured '
-                     'but client_ssl_cert is not set. '
-                     'This will cause mysql-router to error '
-                     'when restarted.'),
-                 'origin': 'mysql.01part'}
-            ]
-        }
-
-        self.assertEqual(IssuesManager().load_bugs(), expected)
-
-    @mock.patch(
-        'hotsos.core.host_helpers.systemd.SystemdHelper.services', {
-            'mysql-router':
-            SystemdService('mysql-router', 'enabled')
-        })
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    @mock.patch('hotsos.core.plugins.mysql.MySQLRouterConfig')
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('mysql/mysql_router.yaml'))
-    def test_mysql_router_not_affected(self, mock_config, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.dpkg_l.return_value = \
-            DPKG_L_ROUTER.splitlines()
-
-        def fake_get(key, **_kwargs):
-            return {
-                'client_ssl_mode': 'PREFERRED',
-                'client_ssl_cert': 'exist'
-            }.get(key)
-
-        mock_config.return_value = mock.MagicMock()
-        mock_config.return_value.get.side_effect = fake_get
-
-        YScenarioChecker()()
-        expected = {}
-
-        self.assertEqual(IssuesManager().load_bugs(), expected)
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """

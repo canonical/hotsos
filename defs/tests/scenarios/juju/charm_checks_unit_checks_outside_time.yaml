@@ -1,0 +1,13 @@
+target-name: charm_checks.yaml
+data-root:
+  files:
+    var/log/juju/unit-keystone-2.log: |
+      2022-02-09 10:28:25 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+      2022-02-09 10:28:47 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+      2022-02-09 10:29:06 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+      2022-02-09 10:29:53 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+      2022-02-09 10:30:41 WARNING leader-elected ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "keystone": prerequisites failed: "keystone/2" is not leader of "keystone"
+    sos_commands/date/date:
+      Sat Feb 19 13:33:57 UTC 2022
+raised-issues:
+  # none expected

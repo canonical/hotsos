@@ -1,0 +1,13 @@
+target-name: ovn_chassis_ssl_certs.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-09-26T09:47:13.591Z|06893|stream_ssl|WARN|SSL_accept: error:14094415:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OVNWarning:
+    ovn-controller is reporting that one or more ssl
+    certificates have expired and it can't connect to other
+    services. Please check.

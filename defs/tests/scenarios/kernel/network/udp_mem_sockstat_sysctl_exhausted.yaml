@@ -1,0 +1,7 @@
+target-name: udp.yaml
+data-root:
+  files:
+    proc/net/sockstat: ""
+    sos_commands/kernel/sysctl_-a: ""
+raised-issues:
+  # none expected

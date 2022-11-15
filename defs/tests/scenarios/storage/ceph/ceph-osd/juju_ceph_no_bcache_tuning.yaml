@@ -1,0 +1,11 @@
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache:
+      kwargs:
+        new: true
+raised-issues:
+  BcacheWarning: >-
+    This host is running Juju-managed Ceph OSDs that are
+    using bcache devices yet the bcache-tuning charm was
+    not detected. It is recommended to use the bcache-tuning
+    charm to ensure optimal bcache configuration.

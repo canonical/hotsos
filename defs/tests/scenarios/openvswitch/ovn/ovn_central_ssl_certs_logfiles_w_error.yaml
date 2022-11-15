@@ -1,0 +1,23 @@
+target-name: ovn_central_ssl_certs.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-northd.log: |
+      2022-09-26T09:47:13.591Z|06893|stream_ssl|WARN|SSL_accept: error:14094415:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired
+    var/log/ovn/ovsdb-server-sb.log: |
+      2022-09-26T09:47:13.591Z|06893|stream_ssl|WARN|SSL_accept: error:14094415:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired
+    var/log/ovn/ovsdb-server-nb.log: |
+      2022-09-26T09:47:13.591Z|06893|stream_ssl|WARN|SSL_accept: error:14094415:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OVNWarning:
+    - >-
+      ovn-northd is reporting that one or more ssl certificates
+      have expired and it can't connect to other services. Please
+      check.
+    - >-
+      One or both of ovn-ovsdb-server-nb and ovn-ovsdb-server-sb
+      is reporting that its ssl certs have expired and it can't
+      connect to other services. Please check.
+

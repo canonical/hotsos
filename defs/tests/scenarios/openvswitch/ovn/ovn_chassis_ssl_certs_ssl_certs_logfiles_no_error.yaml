@@ -1,0 +1,9 @@
+target-name: ovn_chassis_ssl_certs.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: ""
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  # none expected

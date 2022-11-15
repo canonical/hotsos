@@ -1,0 +1,4 @@
+raised-issues:
+  CephWarning: >-
+    This host has osds with device_class 'ssd' but Bluestore discard is not
+    enabled. The recommendation is to set 'bdev enable discard true'.

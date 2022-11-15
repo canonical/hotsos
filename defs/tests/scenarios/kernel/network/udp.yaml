@@ -1,0 +1,39 @@
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: SyncookiesSent SyncookiesRecv SyncookiesFailed EmbryonicRsts PruneCalled RcvPruned OfoPruned OutOfWindowIcmps LockDroppedIcmps ArpFilter TW TWRecycled TWKilled PAWSActive PAWSEstab DelayedACKs DelayedACKLocked DelayedACKLost ListenOverflows ListenDrops TCPHPHits TCPPureAcks TCPHPAcks TCPRenoRecovery TCPSackRecovery TCPSACKReneging TCPSACKReorder TCPRenoReorder TCPTSReorder TCPFullUndo TCPPartialUndo TCPDSACKUndo TCPLossUndo TCPLostRetransmit TCPRenoFailures TCPSackFailures TCPLossFailures TCPFastRetrans TCPSlowStartRetrans TCPTimeouts TCPLossProbes TCPLossProbeRecovery TCPRenoRecoveryFail TCPSackRecoveryFail TCPRcvCollapsed TCPBacklogCoalesce TCPDSACKOldSent TCPDSACKOfoSent TCPDSACKRecv TCPDSACKOfoRecv TCPAbortOnData TCPAbortOnClose TCPAbortOnMemory TCPAbortOnTimeout TCPAbortOnLinger TCPAbortFailed TCPMemoryPressures TCPMemoryPressuresChrono TCPSACKDiscard TCPDSACKIgnoredOld TCPDSACKIgnoredNoUndo TCPSpuriousRTOs TCPMD5NotFound TCPMD5Unexpected TCPMD5Failure TCPSackShifted TCPSackMerged TCPSackShiftFallback TCPBacklogDrop PFMemallocDrop TCPMinTTLDrop TCPDeferAcceptDrop IPReversePathFilter TCPTimeWaitOverflow TCPReqQFullDoCookies TCPReqQFullDrop TCPRetransFail TCPRcvCoalesce TCPOFOQueue TCPOFODrop TCPOFOMerge TCPChallengeACK TCPSYNChallenge TCPFastOpenActive TCPFastOpenActiveFail TCPFastOpenPassive TCPFastOpenPassiveFail TCPFastOpenListenOverflow TCPFastOpenCookieReqd TCPFastOpenBlackhole TCPSpuriousRtxHostQueues BusyPollRxPackets TCPAutoCorking TCPFromZeroWindowAdv TCPToZeroWindowAdv TCPWantZeroWindowAdv TCPSynRetrans TCPOrigDataSent TCPHystartTrainDetect TCPHystartTrainCwnd TCPHystartDelayDetect TCPHystartDelayCwnd TCPACKSkippedSynRecv TCPACKSkippedPAWS TCPACKSkippedSeq TCPACKSkippedFinWait2 TCPACKSkippedTimeWait TCPACKSkippedChallenge TCPWinProbe TCPKeepAlive TCPMTUPFail TCPMTUPSuccess TCPDelivered TCPDeliveredCE TCPAckCompressed TCPZeroWindowDrop TCPRcvQDrop TCPWqueueTooBig TCPFastOpenPassiveAltKey
+      TcpExt: 0 0 0 0 0 0 0 0 0 0 12612 0 0 0 0 11157 69 2735 0 0 996916 159569 647199 0 0 0 0 0 0 0 0 0 0 5 0 0 0 0 0 22 173 0 0 0 0 43983 2778 788 137 0 3607 7610 0 0 0 0 0 0 0 0 96 0 0 0 0 0 0 0 0 0 0 0 2124 0 0 0 0 394407 7035 0 759 0 0 0 0 0 0 0 0 0 7 0 11001 2371 2371 1367 15 5004066 51 2568 0 0 0 0 46 0 0 0 0 23191 0 0 5010476 0 5986 0 0 0 0
+      IpExt: InNoRoutes InTruncatedPkts InMcastPkts OutMcastPkts InBcastPkts OutBcastPkts InOctets OutOctets InMcastOctets OutMcastOctets InBcastOctets OutBcastOctets InCsumErrors InNoECTPkts InECT1Pkts InECT0Pkts InCEPkts ReasmOverlaps
+      IpExt: 0 0 0 4 427 0 16725918298 7053634672 0 160 129353 0 0 2307638 0 0 0 0
+    proc/net/snmp: |
+      Ip: Forwarding DefaultTTL InReceives InHdrErrors InAddrErrors ForwDatagrams InUnknownProtos InDiscards InDelivers OutRequests OutDiscards OutNoRoutes ReasmTimeout ReasmReqds ReasmOKs ReasmFails FragOKs FragFails FragCreates
+      Ip: 1 64 2168044 0 0 0 0 0 2147625 2078344 0 15 0 0 0 0 0 0 0
+      Icmp: InMsgs InErrors InCsumErrors InDestUnreachs InTimeExcds InParmProbs InSrcQuenchs InRedirects InEchos InEchoReps InTimestamps InTimestampReps InAddrMasks InAddrMaskReps OutMsgs OutErrors OutDestUnreachs OutTimeExcds OutParmProbs OutSrcQuenchs OutRedirects OutEchos OutEchoReps OutTimestamps OutTimestampReps OutAddrMasks OutAddrMaskReps
+      Icmp: 10 5 0 10 0 0 0 0 0 0 0 0 0 0 10 0 10 0 0 0 0 0 0 0 0 0 0
+      IcmpMsg: InType3 OutType3
+      IcmpMsg: 10 10
+      Tcp: RtoAlgorithm RtoMin RtoMax MaxConn ActiveOpens PassiveOpens AttemptFails EstabResets CurrEstab InSegs OutSegs RetransSegs InErrs OutRsts InCsumErrors
+      Tcp: 1 200 120000 -1 18023 7525 1344 71 83 2146484 6113424 153 0 30562 0
+      Udp: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
+      Udp: 1704 0 1234 253 0 0 22 427
+      UdpLite: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
+      UdpLite: 0 0 0 0 0 0 0 0
+    proc/net/sockstat: |
+      sockets: used 908
+      TCP: inuse 22 orphan 0 tw 2 alloc 58 mem 150987
+      UDP: inuse 18 mem 350876
+      UDPLITE: inuse 44
+      RAW: inuse 55
+      FRAG: inuse 66 memory 77
+    sos_commands/kernel/sysctl_-a: |
+      net.ipv4.udp_mem = 379728	506307	762456
+      net.ipv4.tcp_mem = 189864	253153	379728
+raised-issues:
+  KernelWarning:
+    - >-
+      UDP ingress errors are at 1234 (72.42% of total datagrams).
+    - >-
+      UDP ingress checksum errors are at 22 (1.29% of total
+      datagrams). This could mean that one or more interfaces are
+      experiencing hardware errors.
+
