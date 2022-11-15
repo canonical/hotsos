@@ -96,26 +96,33 @@ class MPCache(object):
         self.root_dir = root_dir
 
     @property
-    def _lock(self):
-        """ Inter-process lock. """
+    def _global_lock(self):
+        """ Inter-process lock for all caches. """
         path = os.path.join(HotSOSConfig.GLOBAL_TMP_DIR, 'locks',
-                            '{}.lock'.format(self.id))
+                            'cache_all.lock')
+        return fasteners.InterProcessLock(path)
+
+    @property
+    def _cache_lock(self):
+        """ Inter-process lock for this cache. """
+        path = os.path.join(HotSOSConfig.GLOBAL_TMP_DIR, 'locks',
+                            'cache_{}.lock'.format(self.id))
         return fasteners.InterProcessLock(path)
 
     @cached_property
-    def path_unsafe(self):
+    def cache_path(self):
         """
-        Get cache path and initialise of not exists. Not to be used without
-        having first acquired the lock.
+        Get cache path. Takes global cache lock to check root is created.
         """
-        path = HotSOSConfig.GLOBAL_TMP_DIR
-        if path is None:
+        globaltmp = HotSOSConfig.GLOBAL_TMP_DIR
+        if globaltmp is None:
             log.warning("global tmp dir '%s' not setup")
             return
 
-        dir = os.path.join(path, 'cache/{}'.format(self.root_dir))
-        if not os.path.isdir(dir):
-            os.makedirs(dir)
+        dir = os.path.join(globaltmp, 'cache/{}'.format(self.root_dir))
+        with self._global_lock:
+            if not os.path.isdir(dir):
+                os.makedirs(dir)
 
         return os.path.join(dir, self.id)
 
@@ -136,8 +143,8 @@ class MPCache(object):
 
     def get(self, key):
         """ Get value for key. If not found returns None. """
-        with self._lock:
-            path = self.path_unsafe
+        path = self.cache_path
+        with self._cache_lock:
             log.debug("load from cache '%s' (key='%s')", path, key)
             contents = self._get_unsafe(path)
             if contents:
@@ -145,8 +152,8 @@ class MPCache(object):
 
     def set(self, key, data):
         """ Set value for key. """
-        with self._lock:
-            path = self.path_unsafe
+        path = self.cache_path
+        with self._cache_lock:
             if not path:
                 log.warning("invalid path '%s' - cannot save to cache", path)
 
