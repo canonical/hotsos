@@ -379,6 +379,32 @@ class TestKernelNetworkInfo(TestKernelBase):
         self.assertEqual(int(uut.UDPMemUsagePct), 46)
         self.assertEqual(int(uut.TCPMemUsagePct), 0)
 
+    @utils.create_data_root(
+        {'proc/net/sockstat': "",
+         'sos_commands/kernel/sysctl_-a': ""}
+    )
+    def test_sockstat_parse_sockstat_sysctl_absent(self):
+        uut = SockStat()
+        self.assertEqual(uut.NsTotalSocksInUse, 0)
+        self.assertEqual(uut.NsTcpSocksInUse, 0)
+        self.assertEqual(uut.GlobTcpSocksOrphaned, 0)
+        self.assertEqual(uut.NsTcpSocksInTimeWait, 0)
+        self.assertEqual(uut.GlobTcpSocksAllocated, 0)
+        self.assertEqual(uut.GlobTcpSocksTotalMemPages, 0)
+        self.assertEqual(uut.NsUdpSocksInUse, 0)
+        self.assertEqual(uut.GlobUdpSocksTotalMemPages, 0)
+        self.assertEqual(uut.NsUdpliteSocksInUse, 0)
+        self.assertEqual(uut.NsRawSocksInUse, 0)
+        self.assertEqual(uut.NsFragSocksInUse, 0)
+        self.assertEqual(uut.NsFragSocksTotalMemPages, 0)
+        self.assertEqual(uut.SysctlTcpMemMin, 0)
+        self.assertEqual(uut.SysctlTcpMemPressure, 0)
+        self.assertEqual(uut.SysctlTcpMemMax, 0)
+        self.assertEqual(uut.SysctlUdpMemMin, 0)
+        self.assertEqual(uut.SysctlUdpMemPressure, 0)
+        self.assertEqual(uut.UDPMemUsagePct, 0)
+        self.assertEqual(uut.TCPMemUsagePct, 0)
+
 
 class TestKernelScenarioChecks(TestKernelBase):
 
@@ -619,6 +645,28 @@ class TestKernelScenarioChecks(TestKernelBase):
                          sorted(msgs))
 
     @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/tcp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': "",
+         'sos_commands/kernel/sysctl_-a': ""}
+    )
+    def test_net_checks_tcp_mem_sockstat_sysctl_absent(self):
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/tcp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': "PROC_SOCKSTAT_EXHAUSTED",
+         'sos_commands/kernel/sysctl_-a': ""}
+    )
+    def test_net_checks_tcp_mem_sysctl_absent(self):
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
                 new=utils.is_def_filter('network/udp.yaml'))
     @utils.create_data_root(
         {'proc/net/netstat': PROC_NETSTAT,
@@ -670,3 +718,25 @@ class TestKernelScenarioChecks(TestKernelBase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['desc'] for issue in issues]),
                          sorted(msgs))
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/udp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': PROC_SOCKSTAT_EXHAUSTED,
+         'sos_commands/kernel/sysctl_-a': ""}
+    )
+    def test_net_checks_udp_mem_sysctl_absent(self):
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
+
+    @mock.patch('hotsos.core.ycheck.YDefsLoader._is_def',
+                new=utils.is_def_filter('network/udp.yaml'))
+    @utils.create_data_root(
+        {'proc/net/sockstat': "",
+         'sos_commands/kernel/sysctl_-a': ""}
+    )
+    def test_net_checks_udp_mem_sockstat_sysctl_absent(self):
+        YScenarioChecker()()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues), 0)
