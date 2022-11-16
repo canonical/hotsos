@@ -303,24 +303,27 @@ class SockStat(ProcNetBase):
         if "UDP" not in self._data:
             self._data["UDP"] = {}
 
-        # Read other relevant values from sysctl
-        (udp_mem_min, udp_mem_pressure, udp_mem_max) = getattr(
-            SYSCtlFactory(), 'net.ipv4.udp_mem').split(" ")
-        (tcp_mem_min, tcp_mem_pressure, tcp_mem_max) = getattr(
-            SYSCtlFactory(), 'net.ipv4.tcp_mem').split(" ")
+        self._maybe_parse_sysctl_net_ipv4_xmem("TCP")
+        self._maybe_parse_sysctl_net_ipv4_xmem("UDP")
 
-        self._data["TCP"]["sysctl_mem_min"] = int(tcp_mem_min)
-        self._data["UDP"]["sysctl_mem_min"] = int(udp_mem_min)
-        self._data["TCP"]["sysctl_mem_pressure"] = int(tcp_mem_pressure)
-        self._data["UDP"]["sysctl_mem_pressure"] = int(udp_mem_pressure)
-        self._data["TCP"]["sysctl_mem_max"] = int(tcp_mem_max)
-        self._data["UDP"]["sysctl_mem_max"] = int(udp_mem_max)
-        self._data["TCP"]["statistics_mem_usage_pct"] = round(
-            (self.GlobTcpSocksTotalMemPages / self.SysctlTcpMemMax
-             if self.SysctlTcpMemMax else 0) * 100.0, 2)
-        self._data["UDP"]["statistics_mem_usage_pct"] = round(
-            (self.GlobUdpSocksTotalMemPages / self.SysctlUdpMemMax
-             if self.SysctlUdpMemMax else 0) * 100.0, 2)
+    def _maybe_parse_sysctl_net_ipv4_xmem(self, key):
+        xmem = getattr(
+            SYSCtlFactory(),
+            'net.ipv4.{}_mem'.format(key.lower())
+        )
+        # Some environments may not have all the sysctl
+        # parameters present, so make parsing `optional`
+        if xmem is not None:
+            (mem_min, mem_pressure, mem_max) = xmem.split(" ")
+            self._data[key]["sysctl_mem_min"] = int(mem_min)
+            self._data[key]["sysctl_mem_pressure"] = int(mem_pressure)
+            self._data[key]["sysctl_mem_max"] = int(mem_max)
+            if "mem" in self._data[key]:
+                self._data[key]["statistics_mem_usage_pct"] = round(
+                    (self._data[key]["mem"] /
+                        self._data[key]["sysctl_mem_max"] if
+                        self._data[key]["sysctl_mem_max"] else 0)
+                    * 100.0, 2)
 
     def _process_file(self, fname):
         if not os.path.exists(fname):
