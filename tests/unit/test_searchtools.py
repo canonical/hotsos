@@ -633,6 +633,24 @@ class TestSearchTools(utils.BaseTestCase):
         results = results.find_by_tag('mysd')
         self.assertEqual([r.get(2) for r in results], ['L2', 'L3', 'L4'])
 
+    @utils.create_data_root({'atestfile': 'L0',
+                             'sos_commands/date/date':
+                             'Tue Jan 09 00:00:00 UTC 2022'})
+    def test_logs_since_single_junk(self):
+        """
+        Test scenario: file contains a single unverifiable line and we expect
+        pointers to be reset to start of file.
+        """
+        datetime_expr = r"^([\d-]+\s+[\d:]+)"
+        c = SearchConstraintSearchSince(exprs=[datetime_expr])
+        s = FileSearcher(constraint=c)
+        sd = SearchDef(r"(.+)", tag='mysd')
+        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        s.add_search_term(sd, path=fname)
+        results = s.search()
+        results = results.find_by_tag('mysd')
+        self.assertEqual([r.get(1) for r in results], ['L0'])
+
     @utils.create_data_root({'atestfile':
                              "L0\nL1\nL2\nL3\nL4\nL5\nL6\nL7\nL8\n",
                              'sos_commands/date/date':

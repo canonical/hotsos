@@ -192,12 +192,13 @@ class BinarySearchState(object):
         self.cur_ln = mid
 
     def __repr__(self):
-        return ("start={}{}, end={}, cur_pos={}, cur_ln={}".format(
+        return ("start={}{}, end={}, cur_pos={}, cur_ln={}, rc={}".format(
                 self.search_range_start,
                 self.invalid_range,
                 self.search_range_end,
                 self.cur_pos,
-                self.cur_ln))
+                self.cur_ln,
+                self.rc))
 
 
 class SeekInfo(object):
@@ -435,24 +436,33 @@ class BinarySeekSearchBase(ConstraintBase):
                     self.fd_info.reset()
                     break
 
+                if (search_state.search_range_end -
+                        search_state.search_range_start) < 1:
+                    # we've reached the end of all ranges but the result in
+                    # undetermined.
+                    if search_state.rc != search_state.RC_FOUND_BAD:
+                        self.fd_info.reset()
+                        offset = 0
+                    else:
+                        offset = search_state.cur_ln
+
+                    break
+
                 # log.debug(search_state)
-                if ((search_state.rc == search_state.RC_FOUND_GOOD) or
-                        (search_state.search_range_end -
-                            search_state.search_range_start < 1)):
+                if search_state.rc == search_state.RC_FOUND_GOOD:
                     # log.debug("seek ended at offset=%s", search_state.cur_ln)
                     offset = search_state.cur_ln
                     break
 
-                if ((search_state.rc == search_state.RC_SKIPPING) and
-                        (search_state.cur_ln >=
-                            search_state.search_range_end)):
-                    if (len(search_state.invalid_range) ==
-                            search_state.search_range_end):
+                if search_state.rc == search_state.RC_SKIPPING:
+                    if ((search_state.cur_ln >= search_state.search_range_end)
+                            and (len(search_state.invalid_range) ==
+                                 search_state.search_range_end)):
                         # offset and pos should still be SOF so we
                         # make this the same
                         search_state.cur_ln = 0
                         self.fd_info.reset()
-                    break
+                        break
 
                 if self.fd_info.iterations >= len(self.fd_info.markers):
                     log.warning("exiting seek loop since limit reached "
