@@ -1,0 +1,22 @@
+checks:
+  pg_pending_creation:
+    input:
+      command: ceph_health_detail_json_decoded
+    expr: '.+ PGs pending on creation'
+  health_warning:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      ops: [[ne, HEALTH_OK]]
+conclusions:
+  pending_creating_pgs:
+    decision:
+      - health_warning
+      - pg_pending_creation
+    raises:
+      type: CephWarning
+      message: >-
+        Ceph is reporting that you seem to have hit the hard limit
+        for the number of PGs per OSD. The mon_max_pg_per_osd or
+        osd_max_pg_per_osd_hard_ratio may be increased as a
+        workaround. Please see
+        www.ceph.com/community/new-luminous-pg-overdose-protection

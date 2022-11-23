@@ -1,0 +1,25 @@
+checks:
+  health_warning:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      ops: [[ne, HEALTH_OK]]
+  ceph_osd_withhold_creation:
+    input:
+      path: [var/log/ceph/ceph-osd*.log, var/log/ceph/ceph.log]
+    search:
+      expr: '.+ (osd.+) .+ maybe_wait_for_max_pg withhold creation of pg .+: (.+) >= (.+)'
+conclusions:
+  pending_creating_pgs:
+    decision:
+      - health_warning
+      - ceph_osd_withhold_creation
+    raises:
+      type: CephOSDWarning
+      message: >-
+        ceph is trying to create {} PGs on {} but the hard limit is {}.
+        The mon_max_pg_per_osd or osd_max_pg_per_osd_hard_ratio may be
+        increased as a workaround. Please see
+        www.ceph.com/community/new-luminous-pg-overdose-protection
+        Note if the pending PGs are more than double the hard limit,
+        it needs further investigation before applying the workaround.
+      search-result-format-groups: [2,1,3]
