@@ -16,6 +16,7 @@ from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
+DEFS_TESTS_DIR = os.path.join(os.environ['TESTS_DIR'], 'defs', 'tests')
 DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
 setup_config(DATA_ROOT=os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT))
 TEST_TEMPLATE_SCHEMA = set(['target-name', 'data-root', 'mock',
@@ -38,14 +39,19 @@ def find_all_templated_tests(path):
 def load_templated_tests(path):
     """ Add templated tests to the runner.
 
-    @param path: path to test templates we want to load.
+    @param path: relative path to test templates we want to load under
+                 defs/tests.
     """
     def _inner(cls):
-        _path = os.path.join(os.environ['TESTS_DIR'], 'defs', 'tests', path)
+        _path = os.path.join(DEFS_TESTS_DIR, path)
         for testdef in find_all_templated_tests(_path):
-            fname = os.path.basename(testdef)
-            setattr(cls, 'test_{}'.format(fname.split('.')[0]),
-                    TemplatedTestGenerator().generate(testdef))
+            tg = TemplatedTestGenerator(path, testdef)
+            if hasattr(cls, tg.test_method_name):
+                raise Exception("test name conflict for '{}' - "
+                                "a test with this name already exists".
+                                format(tg.test_method_name))
+
+            setattr(cls, tg.test_method_name, tg.test_method)
 
         return cls
 
@@ -54,8 +60,9 @@ def load_templated_tests(path):
 
 class TemplatedTest(object):
 
-    def __init__(self, path, data_root, mocks, expected_bugs, expected_issues):
-        self.path = path
+    def __init__(self, target_path, data_root, mocks, expected_bugs,
+                 expected_issues):
+        self.target_path = target_path
         self.data_root = data_root
         self.mocks = mocks
         self.expected_bugs = expected_bugs
@@ -120,7 +127,7 @@ class TemplatedTest(object):
         @create_data_root(self.data_root.get('files'),
                           self.data_root.get('copy-from-original'))
         @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                    new=is_def_filter(self.path))
+                    new=is_def_filter(self.target_path))
         def inner(test_inst):
             patch_contexts = []
             if 'patch' in self.mocks:
@@ -158,31 +165,59 @@ class TemplatedTest(object):
 
 class TemplatedTestGenerator(object):
 
-    def generate(self, template_path):
-        """ Generate a test from a template. """
-        template_path = os.path.join(TESTS_DIR, template_path)
-        if not os.path.exists(template_path):
-            raise Exception("{} does not exist".format(template_path))
+    def __init__(self, test_defs_root, test_def_path):
+        """
+        @param test_defs_root: path under defs/tests where tests are located
+        @param test_def_path: full path to test def.
+        """
+        self.test_defs_root = test_defs_root
+        self.test_def_path = test_def_path
 
-        testdef = yaml.safe_load(open(template_path)) or {}
-        if not testdef or not os.path.exists(template_path):
+        if not os.path.exists(test_def_path):
+            raise Exception("{} does not exist".format(test_def_path))
+
+        self.testdef = yaml.safe_load(open(test_def_path)) or {}
+        if not self.testdef or not os.path.exists(test_def_path):
             raise Exception("invalid test template at {}".
-                            format(template_path))
+                            format(test_def_path))
 
-        _diff = set(testdef.keys()).difference(TEST_TEMPLATE_SCHEMA)
+        _diff = set(self.testdef.keys()).difference(TEST_TEMPLATE_SCHEMA)
         if _diff:
             raise Exception("invalid keys found in test template {}: {}".
-                            format(template_path, _diff))
+                            format(test_def_path, _diff))
 
-        path = testdef.get('target-name')
-        if path is None:
-            path = os.path.basename(template_path)
+        self.test_method = self._generate()
 
-        data_root = testdef.get('data-root', {})
-        mocks = testdef.get('mock', {})
-        bugs = testdef.get('raised-bugs')
-        issues = testdef.get('raised-issues')
-        return TemplatedTest(path, data_root, mocks, bugs, issues)()
+    @property
+    def test_sub_path(self):
+        """ Test def file path. """
+        _path = os.path.join(DEFS_TESTS_DIR, self.test_defs_root)
+        return self.test_def_path.partition(_path)[2].lstrip('/')
+
+    @property
+    def target_path(self):
+        """ Target path with filename replaced with target-name if provided."""
+        if self.testdef.get('target-name'):
+            return os.path.join(os.path.dirname(self.test_sub_path),
+                                self.testdef.get('target-name'))
+
+        return self.test_sub_path
+
+    @property
+    def test_method_name(self):
+        """ Test method name uses the original name. """
+        name = self.test_sub_path.split('.')[0]
+        name = name.replace('/', '_')
+        return 'test_{}'.format(name)
+
+    def _generate(self):
+        """ Generate a test from a template. """
+        data_root = self.testdef.get('data-root', {})
+        mocks = self.testdef.get('mock', {})
+        bugs = self.testdef.get('raised-bugs')
+        issues = self.testdef.get('raised-issues')
+        return TemplatedTest(self.target_path, data_root, mocks, bugs,
+                             issues)()
 
 
 def expand_log_template(template, hours=None, mins=None, secs=None,
