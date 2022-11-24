@@ -1,0 +1,16 @@
+checks:
+  snapd_connectivity:
+    input:
+      command: journalctl
+      options:
+        kwargs:
+          unit: snapd
+    expr: '.* HTTP status code 503 .*'
+conclusions:
+  snapd_connectivity:
+    decision: snapd_connectivity
+    raises:
+      type: SystemWarning
+      message: >-
+        HTTP 503 return code detected whilst connecting the snap store (or proxy).
+        Check network connectivity endpoint (including HTTP or Snap Store proxy).
