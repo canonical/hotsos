@@ -244,7 +244,7 @@ class OSTProject(object):
                 path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc', name, path)
                 self.config[label] = OpenstackConfig(path)
 
-        self.systemd_extra_services = systemd_extra_services
+        self.systemd_extra_services = systemd_extra_services or []
         self.systemd_masked_services = systemd_masked_services or []
         self.systemd_deprecated_services = systemd_deprecated_services or []
         self.logs_path = os.path.join('var/log', name)

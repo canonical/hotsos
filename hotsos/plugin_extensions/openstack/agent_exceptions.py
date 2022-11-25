@@ -26,9 +26,11 @@ class AgentExceptionChecks(OpenstackChecksBase):
             }
 
         # The following are expected to be ERROR. This is typically used to
-        # catch events that are not defined as an exception.
+        # catch events that are not logged as an exception with the usual
+        # Traceback format.
         self._agent_errors = {
-            'neutron': [r'RuntimeError']
+            'neutron': [r'RuntimeError'],
+            'keystone': [r'\([a-zA-Z\.]+\)']
             }
 
     def _add_agent_searches(self, project, agent, data_source, expr_template):
@@ -37,8 +39,18 @@ class AgentExceptionChecks(OpenstackChecksBase):
             expr = expr_template.format(values)
             hint = '( ERROR | Traceback)'
             tag = "{}.{}".format(project.name, agent)
-            self.searchobj.add_search_term(SearchDef(expr, tag=tag, hint=hint),
-                                           data_source)
+
+            constraints = True
+            # keystone logs have cruft at the start of each line and won't be
+            # verifiable with the standard log expr so just disable constraints
+            # for these logs for now.
+            if project.name == 'keystone':
+                constraints = False
+
+            self.searchobj.add_search_term(
+                                        SearchDef(expr, tag=tag, hint=hint),
+                                        data_source,
+                                        allow_global_constraints=constraints)
 
             warn_exprs = self._agent_warnings.get(project.name, [])
             if warn_exprs:
@@ -69,15 +81,27 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
             log.debug("%s is installed so adding to searches", project.name)
 
-            # NOTE: services running under apache may have their logs (e.g.
-            # barbican-api.log) prepended with apache/mod_wsgi info so do this
-            # way to account for both. If present, the prefix will be ignored
-            # and not count towards the result.
-            wsgi_prefix = r'\[[\w :\.]+\].+\]\s+'
-            # keystone logs contain the (module_name): at the beginning of the
-            # line.
-            keystone_prefix = r'\(\S+\):\s+'
-            prefix_match = r'(?:{}|{})?'.format(wsgi_prefix, keystone_prefix)
+            wsgi_prefix = ''
+            if 'apache2' in project.services:
+                # NOTE: services running under apache may have their logs (e.g.
+                # barbican-api.log) prepended with apache/mod_wsgi info so do
+                # this way to account for both. If present, the prefix will be
+                # ignored and not count towards the result.
+                wsgi_prefix = r'\[[\w :\.]+\].+\]\s+'
+
+            keystone_prefix = ''
+            if project.name == 'keystone':
+                # keystone logs contain the (module_name): at the beginning of
+                # the line.
+                keystone_prefix = r'\(\S+\):\s+'
+
+            prefix_match = ''
+            if all([wsgi_prefix, keystone_prefix]):
+                prefix_match = r'(?:{}|{})?'.format(wsgi_prefix,
+                                                    keystone_prefix)
+            elif any([wsgi_prefix, keystone_prefix]):
+                prefix_match = (r'(?:{})?'.
+                                format(wsgi_prefix or keystone_prefix))
 
             # Sometimes the exception is printed with just the class name
             # and sometimes it is printed with a full import path e.g.
