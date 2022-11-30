@@ -859,7 +859,11 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(IssuesManager().load_issues(), {})
 
     @init_test_scenario(SCENARIO_CHECKS)
-    @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n'})
+    @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n',
+                             'uptime': (' 16:19:19 up 17:41,  2 users, '
+                                        ' load average: 3.58, 3.27, 2.58'),
+                             'sos_commands/date/date':
+                                 'Thu Feb 10 16:19:17 UTC 2022'})
     def test_yaml_def_scenario_checks_false(self):
         checker = scenarios.YScenarioChecker()
         checker.load()
@@ -908,7 +912,11 @@ class TestYamlChecks(utils.BaseTestCase):
                               '2021-04-01 00:32:00.000 an event\n'
                               '2021-04-01 00:33:00.000 an event\n'
                               '2021-04-02 00:00:00.000 an event\n'
-                              '2021-04-02 00:36:00.000 an event\n')})
+                              '2021-04-02 00:36:00.000 an event\n'),
+                             'uptime': (' 16:19:19 up 17:41,  2 users, '
+                                        ' load average: 3.58, 3.27, 2.58'),
+                             'sos_commands/date/date':
+                                 'Thu Mar 31 16:19:17 UTC 2021'})
     def test_yaml_def_scenario_checks_expr(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2021-04-03 00:00:00"
@@ -1286,9 +1294,27 @@ class TestYamlChecks(utils.BaseTestCase):
             for check in scenario.checks.values():
                 self.assertTrue(check.result)
 
+    @mock.patch('hotsos.core.ycheck.scenarios.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.requires.requires.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
     @init_test_scenario(SCENARIO_W_ERROR)
-    def test_failed_scenario_caught(self):
+    def test_failed_scenario_caught(self, mock_log1, mock_log2, mock_log3,
+                                    mock_log4):
         scenarios.YScenarioChecker()()
+
+        # Check caught exception logs
+        args = ('failed to import and call property %s',
+                'tests.unit.test_ycheck.TestProperty.i_dont_exist')
+        mock_log1.exception.assert_called_with(*args)
+        args = ('requires.%s.result raised the following',
+                'YRequirementTypeProperty')
+        mock_log2.exception.assert_called_with(*args)
+        args = ('exception caught during run_collection:',)
+        mock_log3.exception.assert_called_with(*args)
+        args = ('caught exception when running scenario %s:', 'scenarioB')
+        mock_log4.exception.assert_called_with(*args)
+
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 2)
         i_types = [i['type'] for i in issues[0]]
@@ -1327,12 +1353,18 @@ class TestYamlChecks(utils.BaseTestCase):
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
+    @mock.patch('hotsos.core.ycheck.scenarios.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.'
                 'ScenarioException')
     @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
-    def test_raises_w_invalid_types(self, mock_exc):
+    def test_raises_w_invalid_types(self, mock_exc, mock_log):
         mock_exc.side_effect = Exception
         scenarios.YScenarioChecker()()
+
+        # Check caught exception logs
+        args = ('caught exception when running scenario %s:', 'scenarioB')
+        mock_log.exception.assert_called_with(*args)
+
         mock_exc.assert_called_with("both bug-id (current=1234) and bug type "
                                     "(current=issue) required in order to "
                                     "raise a bug")

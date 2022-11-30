@@ -4,6 +4,7 @@ data-root:
       2022-09-02T09:08:00+0100 7f641f7e3700  0 [pg_autoscaler ERROR root] pool 14 has overlapping roots: {-1, -2}
       2022-09-02T09:00:00+0100 7f641f7e3700  0 [pg_autoscaler WARNING root] pool 4 contains an overlapping root -1... skipping scaling
   copy-from-original:
+    - sos_commands/date/date
     - sos_commands/systemd/systemctl_list-units
     - sos_commands/systemd/systemctl_list-unit-files
 raised-issues:

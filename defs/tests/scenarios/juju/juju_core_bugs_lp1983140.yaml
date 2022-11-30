@@ -7,6 +7,7 @@ data-root:
       2022-06-22 09:23:40 INFO juju.worker.migrationmaster.97cf4e worker.go:259 setting migration phase to ABORT
       2022-06-22 09:23:40 INFO juju.worker.migrationmaster.97cf4e worker.go:295 aborted, removing model from target controller: quiescing, timed out waiting for agents to report
   copy-from-original:
+    - uptime
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/1983140: >-

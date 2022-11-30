@@ -6,6 +6,7 @@ data-root:
       2022-03-15 09:03:38 INFO juju.worker.uniter uniter.go:309 unit "ams/0" shutting down: unknown relation: 24
       2022-03-15 09:03:38 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: unknown relation: 24
   copy-from-original:
+    - uptime
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/1895040: >-

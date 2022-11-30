@@ -1197,7 +1197,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     @utils.create_data_root({'var/log/neutron/neutron-l3-agent.log':
                              LP_1929832},
-                            copy_from_original=['sos_commands/date/date'])
+                            copy_from_original=['sos_commands/date/date',
+                                                'uptime'])
     def test_1929832(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -1211,7 +1212,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     @utils.create_data_root({'var/log/syslog': LP_1896506},
-                            copy_from_original=['sos_commands/date/date'])
+                            copy_from_original=['sos_commands/date/date',
+                                                'uptime'])
     def test_1896506(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
@@ -1225,7 +1227,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     @utils.create_data_root({'var/log/neutron/neutron-l3-agent.log':
                              LP_1979089},
-                            copy_from_original=['sos_commands/date/date'])
+                            copy_from_original=['sos_commands/date/date',
+                                                'uptime'])
     def test_1979089(self):
         YScenarioChecker()()
         msg = ("The neutron-l3-agent service on this node appears to be "
@@ -1245,7 +1248,8 @@ class TestOpenstackScenarioChecks(TestOpenstackBase):
                 new=utils.is_def_filter('neutron/bugs.yaml'))
     @utils.create_data_root({'var/log/neutron/neutron-ovn-metadata-agent.log':
                              LP_1928031},
-                            copy_from_original=['sos_commands/date/date'])
+                            copy_from_original=['sos_commands/date/date',
+                                                'uptime'])
     def test_1928031(self):
         YScenarioChecker()()
         expected = {'bugs-detected':
