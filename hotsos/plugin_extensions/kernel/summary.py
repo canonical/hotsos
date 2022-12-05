@@ -1,3 +1,5 @@
+import re
+
 from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.plugins.kernel.common import KernelChecksBase
 from hotsos.core.plugins.kernel.config import SystemdConfig
@@ -13,6 +15,19 @@ class KernelSummary(KernelChecksBase):
         info = {}
         if cpu.vendor:
             info['vendor'] = cpu.vendor
+
+        if cpu.model:
+            model = cpu.model.lower()
+            # strip intel or amd trailing info
+            if 'intel' in cpu.vendor:
+                ret = re.search(r'(.+) cpu @ .+', model)
+            elif 'amd' in cpu.vendor:
+                ret = re.search(r'(.+) \d+-core .+', model)
+
+            if ret:
+                model = ret.group(1).strip()
+
+            info['model'] = model
 
         if cpu.smt is not None:
             if cpu.smt:

@@ -2,6 +2,8 @@ import abc
 import os
 import re
 
+from hotsos.core.log import log
+
 
 class ConfigBase(object):
 
@@ -106,6 +108,11 @@ class SectionalConfigBase(ConfigBase):
         if section is None:
             value = self._flattened_config.get(key)
         else:
+            if section not in self._sections:
+                log.debug("section '%s' not found in config file, "
+                          "trying lower case", section)
+                section = section.lower()
+
             value = self._sections.get(section, {}).get(key)
 
         if expand_to_list:

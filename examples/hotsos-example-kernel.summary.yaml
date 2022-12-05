@@ -25,6 +25,7 @@ kernel:
   boot: ro
   cpu:
     vendor: genuineintel
+    model: intel core processor (skylake, ibrs)
     smt: disabled
     cpufreq-scaling-governor: unknown
   potential-issues:

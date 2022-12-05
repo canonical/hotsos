@@ -1,26 +1,30 @@
 from hotsos.core.log import log
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 
-FEATURES = {'neutron': {'main': [
-                            'availability_zone'],
-                        'openvswitch-agent': [
-                            'l2_population',
-                            'firewall_driver'],
-                        'l3-agent': [
-                            'agent_mode',
-                            'ovs_use_veth'],
-                        'dhcp-agent': [
-                            'enable_metadata_network',
-                            'enable_isolated_metadata',
-                            'ovs_use_veth'],
-                        'ovn': ['enable_distributed_floating_ip']},
-            'nova': {'main': [
-                        'vcpu_pin_set',
-                        'cpu_shared_set',
-                        'cpu_dedicated_set',
-                        'live_migration_permit_auto_converge',
-                        'live_migration_permit_post_copy',
-                        ]}}
+FEATURES = {'neutron': {
+                'main': {
+                    'AGENT': ['availability_zone']},
+                'openvswitch-agent': {
+                    'AGENT': ['l2_population'],
+                    'SECURITYGROUP': ['firewall_driver']},
+                'l3-agent': {
+                    'DEFAULT': ['agent_mode', 'ovs_use_veth']},
+                'dhcp-agent': {
+                    'DEFAULT': ['enable_metadata_network',
+                                'enable_isolated_metadata',
+                                'ovs_use_veth']},
+                'ovn': {
+                    'DEFAULT': ['enable_distributed_floating_ip']}},
+            'nova': {
+                'main': {
+                    'DEFAULT': ['vcpu_pin_set',
+                                'cpu_shared_set',
+                                'cpu_dedicated_set',
+                                'live_migration_permit_auto_converge',
+                                'live_migration_permit_post_copy'],
+                    'libvirt': ['cpu_mode',
+                                'cpu_model',
+                                'cpu_model_extra_flags']}}}
 
 # checked against neutron
 DEFAULTS = {'neutron': {'dhcp-agent': {
@@ -36,53 +40,48 @@ class ServiceFeatureChecks(OpenstackChecksBase):
         """
         This is used to display whether or not specific features are enabled.
         """
-        _features = {}
+        features = {}
         for service in FEATURES:
             svc_cfg = self.ost_projects.all[service].config
-            if svc_cfg['main'].exists:
-                if service not in _features:
-                    _features[service] = {}
-
-                if 'default' not in _features[service]:
-                    _features[service]['main'] = {}
-
-                debug_enabled = svc_cfg['main'].get('debug',
-                                                    section="DEFAULT") or False
-                _features[service]['main']['debug'] = debug_enabled
-            else:
+            if not svc_cfg['main'].exists:
                 continue
 
+            dbg_enabled = svc_cfg['main'].get('debug', section="DEFAULT")
+            features[service] = {'main': {'debug': dbg_enabled or False}}
+
             for module in FEATURES[service]:
-                log.debug("getting features for '%s:%s'", service,
-                          module)
-                module_features = {}
+                log.debug("getting features for '%s.%s'", service, module)
                 cfg = svc_cfg[module]
                 if not cfg.exists:
                     log.debug("%s not found - skipping features", cfg.path)
                     continue
 
-                for key in FEATURES[service][module]:
-                    val = cfg.get(key)
-                    if val is not None:
-                        module_features[key] = val
+                module_features = {}
+                for section, keys in FEATURES[service][module].items():
+                    for key in keys:
+                        val = cfg.get(key, section=section)
+                        if val is not None:
+                            module_features[key] = val
 
-                    if key not in module_features:
-                        if key in DEFAULTS.get(service, {}).get(module, {}):
-                            default = DEFAULTS[service][module][key]
-                            module_features[key] = default
+                        if key in module_features:
+                            continue
+
+                        if service in DEFAULTS:
+                            if module in DEFAULTS[service]:
+                                if key in DEFAULTS[service][module]:
+                                    default = DEFAULTS[service][module][key]
+                                    module_features[key] = default
 
                 # TODO: only include modules for which there is an actual agent
                 #       installed since otherwise their config is irrelevant.
                 if module_features:
-                    if module in _features[service]:
-                        _features[service][module].update(module_features)
+                    if module in features[service]:
+                        features[service][module].update(module_features)
                     else:
-                        _features[service][module] = module_features
+                        features[service][module] = module_features
 
-        if self.ssl_enabled:
-            _features['api-ssl'] = True
-        else:
-            _features['api-ssl'] = False
+        if self.ssl_enabled is not None:
+            features['api-ssl'] = self.ssl_enabled or False
 
-        if _features:
-            return _features
+        if features:
+            return features

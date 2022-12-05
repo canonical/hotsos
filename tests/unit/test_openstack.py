@@ -708,6 +708,7 @@ class TestOpenstackVmInfo(TestOpenstackBase):
     def test_get_vm_checks(self):
         expected = {"vm-info": {
                         "running": ['d1d75e2f-ada4-49bc-a963-528d89dfda25'],
+                        "cpu-models": {'Skylake-Client-IBRS': 1},
                         "vcpu-info": {
                             "available-cores": 2,
                             "system-cores": 2,
