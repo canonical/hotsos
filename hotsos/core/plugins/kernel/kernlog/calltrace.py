@@ -108,6 +108,7 @@ class GenericTraceType(TraceTypeBase):
 
         @param results: list of search.searchtools.SearchResult objects.
         """
+        log.debug("%s has %s results", self.__class__.__name__, len(result))
         for _trace in result:
             # just a save a value i.e. to make the list length represent the
             # number of call traces.
@@ -237,6 +238,7 @@ class BcacheDeadlockType(TraceTypeBase):
         Run through the results.
         @param results: list of search.searchtools.SearchResult objects.
         """
+        log.debug("%s has %s results", self.__class__.__name__, len(result))
         if len(result) > 0:
             # we have found at least one deadlock
             self.deadlocks.append(True)
@@ -275,13 +277,17 @@ class OOMKillerTraceType(TraceTypeBase):
                           r'order=([+-]?\d+),.+'.
                           format(KERNLOG_PREFIX))
         body = SearchDef('.+')
-        end = SearchDef(r'{} (?:Out of memory: )?Killed process (\d+) .+'.
-                        format(KERNLOG_PREFIX))
+        # NOTE: we need a better way to capture the different variations of
+        #       the following message.
+        end = SearchDef(r'{} '
+                        r'(?:Out of memory: |Memory cgroup out of memory: )?'
+                        r'Killed process (\d+) .+'.format(KERNLOG_PREFIX))
         self._search_def = SequenceSearchDef(start, tag='oom', body=body,
                                              end=end)
         return self._search_def
 
     def apply(self, result):
+        log.debug("%s has %s results", self.__class__.__name__, len(result))
         for trace in result.values():
             oom_kill = OOMCallTraceState()
             oom_kill.add('nodes', {})
