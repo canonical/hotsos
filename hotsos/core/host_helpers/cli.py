@@ -389,8 +389,14 @@ class DateFileCmd(FileCmd):
             log.error("%s has invalid date string '%s'", self.path, output)
             return ""
 
+        tz = ret[2]
+        # NOTE: date command doesn't recognise HKT for some reason so we
+        # convert to a format that is recognised.
+        if tz == 'HKT':
+            tz = 'UTC+8'
+
         # Include tz if available and then convert to utc
-        date = "{} {} {}".format(ret[1], ret[2], ret[3])
+        date = "{} {} {}".format(ret[1], tz, ret[3])
         cmd = ["date", "--utc", "--date={}".format(date)]
         if format:
             cmd.append(format)
