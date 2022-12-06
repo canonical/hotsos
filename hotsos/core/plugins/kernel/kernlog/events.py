@@ -22,6 +22,19 @@ class KernLogEvents(KernLogBase):
 
     @property
     def over_mtu_dropped_packets(self):
+        """
+        Return a tally of interfaces that have reports of over-mtu dropped
+        packets in kern.log.
+
+        Interfaces are only included in the result if they meet the following
+        requirements:
+
+          1. they are not an OpenvSwitch bridge
+          2. they exist on the localhost and are not namespaced
+
+        @return: dict of interfaces and an integer count of associated dropped
+                 packet messages.
+        """
         interfaces = {}
         for r in self.results.find_by_tag('over-mtu-dropped'):
             if r.get(1) in interfaces:
@@ -54,3 +67,5 @@ class KernLogEvents(KernLogBase):
                     sorted_dict[k] = v
 
                 return sorted_dict
+
+        return {}
