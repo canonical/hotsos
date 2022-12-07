@@ -1,0 +1,31 @@
+data-root:
+  files:
+    sos_commands/systemd/systemctl_list-unit-files: |
+      neutron-dhcp-agent.service                masked          enabled      
+      neutron-l3-agent.service                  masked          enabled      
+      neutron-metadata-agent.service            masked          enabled      
+      neutron-metering-agent.service            masked          enabled      
+      neutron-openvswitch-agent.service         masked          enabled      
+      neutron-ovs-cleanup.service               enabled         enabled
+      apache-htcacheclean.service               disabled       
+      apache-htcacheclean@.service              disabled       
+      apache2.service                           masked        
+      apache2@.service                          disabled       
+      jujud-unit-octavia-0.service              enabled        
+      jujud-unit-octavia-hacluster-5.service    enabled        
+      octavia-api.service                       masked         
+      octavia-health-manager.service            enabled        
+      octavia-housekeeping.service              enabled        
+      octavia-worker.service                    enabled
+mock:
+  patch:
+    hotsos.core.plugins.openstack.openstack.OSTProject.installed:
+      kwargs:
+        new: true
+raised-issues:
+  OpenstackWarning: >-
+    The following Openstack systemd services are masked:
+    neutron-dhcp-agent, neutron-metering-agent,
+    neutron-metadata-agent, apache2, neutron-openvswitch-agent,
+    neutron-l3-agent. Please ensure that this is intended
+    otherwise these services may be unavailable.

@@ -4,7 +4,8 @@ checks:
   pr_installed:
     apt: pacemaker-remote
   pr_enabled:
-    systemd: pacemaker-remote
+    systemd:
+      pacemaker_remote: enabled
 conclusions:
   pacemaker_not_installed:
     priority: 2
@@ -26,5 +27,5 @@ conclusions:
       type: OpenstackWarning
       message: >-
         This node is running Openstack nova-compute and Masakari but
-        pacemaker-remote is not currently enabled and is a
+        pacemaker_remote.service is not currently enabled and is a
         requirement for Masakari to function correctly.

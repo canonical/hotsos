@@ -17,14 +17,15 @@ FEATURES = {'neutron': {
                     'DEFAULT': ['enable_distributed_floating_ip']}},
             'nova': {
                 'main': {
-                    'DEFAULT': ['vcpu_pin_set',
+                    'DEFAULT': ['vcpu_pin_set'],
+                    'compute': [
                                 'cpu_shared_set',
-                                'cpu_dedicated_set',
-                                'live_migration_permit_auto_converge',
-                                'live_migration_permit_post_copy'],
+                                'cpu_dedicated_set'],
                     'libvirt': ['cpu_mode',
                                 'cpu_model',
-                                'cpu_model_extra_flags']}}}
+                                'cpu_model_extra_flags',
+                                'live_migration_permit_auto_converge',
+                                'live_migration_permit_post_copy']}}}
 
 # checked against neutron
 DEFAULTS = {'neutron': {'dhcp-agent': {

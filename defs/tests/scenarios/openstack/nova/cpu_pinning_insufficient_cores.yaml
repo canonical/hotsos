@@ -1,0 +1,21 @@
+target-name: cpu_pinning.yaml
+mock:
+  patch:
+    hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled:
+      kwargs:
+        new: true
+    hotsos.core.plugins.kernel.SystemdConfig.cpuaffinity_enabled:
+      kwargs:
+        new: false
+    hotsos.core.plugins.system.common.SystemBase.num_cpus:
+      kwargs:
+        new: 128
+    hotsos.core.plugins.openstack.nova.CPUPinning.num_unpinned_cpus:
+      kwargs:
+        new: 5
+raised-issues:
+  OpenstackWarning: >-
+    This host has 5 cores (3%) unpinned out of a total of 128.
+    This might not be sufficient to allow unpinned workloads to
+    function correctly and could have unintended performance
+    implications.

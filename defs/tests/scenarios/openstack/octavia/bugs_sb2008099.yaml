@@ -1,0 +1,14 @@
+target-name: bugs.yaml
+data-root:
+  files:
+    var/log/octavia/octavia-worker.log: |
+      2022-02-06 22:43:06.269 2452 ERROR octavia.amphorae.drivers.haproxy.exceptions [req-517fc350-0d44-49d9-8c42-bf0ee08743cc - 77dd427b317c41bc92306aa341174958 - - -] Amphora agent returned unexpected result code 400 with response {'message': 'Invalid request', 'details': "[ALERT] 058/224306 (1748) : Proxy '2d4fb3e0-d743-48f6-a69a-c37e2c1246f2:8a692eba-7d40-4f8d-8a74-77d8c4f3dba8': unable to find local peer 'xFiQsE9fy1TMp7CDRHT-ClSZOEI' in peers section '3705f8d100144614a7475324946a3a5f_peers'.\n[WARNING] 058/224306 (1748) : Removing incomplete section 'peers 3705f8d100144614a7475324946a3a5f_peers' (no peer named 'xFiQsE9fy1TMp7CDRHT-ClSZOEI').\n[ALERT] 058/224306 (1748) : Fatal errors found in configuration.\n"}
+    sos_commands/dpkg/dpkg_-l:
+      ii octavia-common 6.1.0-0ubuntu1~cloud0 all
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://storyboard.openstack.org/#!/story/2008099: >-
+    A known octavia bug has been identified. Due to this bug, LB failover
+    fails when session persistence is set on a LB pool. The fix is
+    available in latest octavia packages in UCA ussuri and above.

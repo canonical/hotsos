@@ -487,8 +487,10 @@ class YPropertyBase(object):
         """
         try:
             return self.get_property(import_str)
+        except TypeError:
+            log.debug("get_property failed, trying get_attribute")
         except Exception:
-            log.exception("get_property failed, trying get_attribute")
+            log.exception("get_property failed for unknown reason")
 
         return self.get_attribute(import_str)
 

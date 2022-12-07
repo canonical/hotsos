@@ -1,0 +1,8 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-common                          2:21.2.1-0ubuntu1                                    all          OpenStack Compute - common files
+      ii  neutron-common                       2:17.2.0-0ubuntu2                                    all          Neutron is a virtual network service for Openstack - common
+raised-issues:
+  OpenstackWarning: >-
+    Openstack packages from a more than one release identified: ussuri, victoria.

@@ -1,0 +1,36 @@
+target-name: cpu_pinning.yaml
+data-root:
+  files:
+    etc/nova/nova.conf: |
+      [DEFAULT]
+      vcpu_pin_set = 1,2,3
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+    - sos_commands/dpkg/dpkg_-l
+mock:
+  patch:
+    hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled:
+      kwargs:
+        new: true
+    hotsos.core.plugins.system.system.NUMAInfo.nodes:
+      kwargs:
+        new: {0: [1, 3, 5], 1: [0, 2, 4]}
+    hotsos.core.plugins.openstack.OpenstackChecksBase.release_name:
+      kwargs:
+        new: train
+    hotsos.core.plugins.system.SystemBase.num_cpus:
+      kwargs:
+        new: 32
+raised-issues:
+  OpenstackWarning:
+    - >-
+      Nova config option 'vcpu_pin_set' is configured with
+      cores from more than one numa node. This can have
+      performance implications and should be checked.
+    - >-
+      Nova config option 'vcpu_pin_set' is configured yet it
+      is deprecated as of the Train release and may be
+      ignored. Recommendation is to switch to using
+      cpu_dedicated_set and/or cpu_shared_set (see upstream
+      docs).

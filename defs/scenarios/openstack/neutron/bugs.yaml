@@ -18,7 +18,7 @@ checks:
   has_1907686:
     input:
       path: 'var/log/neutron/neutron-openvswitch-agent.log'
-    expr: '.+OVS database connection to OVN_Northbound failed with error: ''Timeout''.+'
+    expr: '.+OVS database connection to OVN_\S+bound failed with error: ''Timeout''.+'
   has_1927868:
     apt:
       neutron-common:
@@ -127,7 +127,8 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1965297
       message: >-
-        Known neutron-ovn bug identified that impacts OVN sbdb connections.
+        known neutron l3-agent bug identified that impacts HA routers and can
+        cause router updates to stall.
   lp_1979089:
     decision: has_1979089
     raises:
