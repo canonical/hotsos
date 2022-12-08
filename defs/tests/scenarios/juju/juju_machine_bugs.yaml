@@ -1,0 +1,10 @@
+data-root:
+  files:
+    var/log/juju/machine-50-lxd-21.log: |
+      2022-10-25 13:35:36 ERROR juju.worker.dependency engine.go:693 "machine-action-runner" manifold worker returned unexpected error: could not retrieve action 3294bcb9-e046-4ee0-85cb-609217a8d939: action no longer available
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1996230: >-
+    There are inconsistencies in the actionnotifications mongodb collection. See
+    https://canonical.lightning.force.com/lightning/r/Knowledge__kav/ka44K000000PRFmQAO/view
+    for instructions on how to fix.
+
