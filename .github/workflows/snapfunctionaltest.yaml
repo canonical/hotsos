@@ -1,19 +1,26 @@
-name: Build snap
+name: Build snap and run functional tests
 on:
   - push
   - pull_request
 
 jobs:
   snap:
-    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+          os: [ubuntu-22.04, ubuntu-20.04, ubuntu-18.04]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
       - uses: snapcore/action-build@v1
         id: snapcraft
-      - name: Run snap
-        run: |
-          sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
-          hotsos
+      - name: Install snap
+        run: sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
+      - name: Get snap info
+        run: snap info --verbose hotsos
+      - name: Run hotsos on live system
+        run: hotsos
+      - name: Run functional tests
+        run: HOTSOS=/snap/bin/hotsos ./tools/test/functest.sh
       - uses: actions/upload-artifact@v3
         with:
           name: snap

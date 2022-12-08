@@ -5,7 +5,8 @@ RES="${CSI}0m"
 F_RED="${CSI}31m"
 F_GRN="${CSI}32m"
 
-dtmp=`mktemp -d`
+: ${HOTSOS:=./scripts/hotsos}
+
 declare -A PLUGIN_ROOTS=(
     [kubernetes]=./tests/unit/fake_data_root/kubernetes
     [openstack]=./tests/unit/fake_data_root/openstack
@@ -39,22 +40,23 @@ test_plugin ()
     local type=${2:-}
     local args=()
     local label=""
+    local test_command=
 
     data_root=${PLUGIN_ROOTS[$plugin]:-$default}
-    echo -n "TEST: "
-    echo -n "plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root ..."
     if [[ $type == short ]]; then
         args+=( --short )
         args+=( --user-summary )
         data_root=$dtmp/$plugin
         label=".short"
     fi
-    export PYTHONPATH=.
-    ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
-        egrep -v "repo-info:|date:" > $dtmp/$plugin$label
+    test_command="${HOTSOS} --${plugin} ${args[*]} $data_root"
+    echo -n "TEST: "
+    echo -n "plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root (${test_command}) ..."
+    PYTHONPATH=. ${test_command} 2>/dev/null | \
+        egrep -v "repo-info:|date:|version:" > $dtmp/$plugin$label
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
-    egrep -v "repo-info:|date:" $litmus > $dtmp/$plugin.litmus
-    if diff $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail; then
+    egrep -v "repo-info:|date:|version:" $litmus > $dtmp/$plugin.litmus
+    if diff -Naur $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail; then
         echo -e " [${F_GRN}PASS${RES}]"
     else
         echo -e " [${F_RED}FAIL${RES}]"
@@ -63,11 +65,17 @@ test_plugin ()
     fi
 }
 
+cleanup() {
+    echo "removing temporary workspace"
+    rm -rf $dtmp
+}
+
+dtmp=`mktemp -d`
+trap cleanup exit
 
 default=${PLUGIN_ROOTS[openstack]}
 for plugin in ${PLUGINS[@]}; do
     test_plugin $plugin
     test_plugin $plugin short
 done
-rm -rf $dtmp
 $result

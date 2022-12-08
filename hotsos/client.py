@@ -189,6 +189,8 @@ class OutputManager(object):
     def _get_short_format(self, summary):
         filtered = {}
         for plugin in summary:
+            if summary[plugin] is None:
+                continue
             for key in self.FILTER_SCHEMA:
                 if key in summary[plugin]:
                     if key not in filtered:
