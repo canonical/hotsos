@@ -28,7 +28,7 @@ class StorageCephOSDTestsBase(utils.BaseTestCase):
         setup_config(PLUGIN_NAME='storage')
 
 
-class TestOSDCephChecksBase(StorageCephOSDTestsBase):
+class TestCephOSDChecksBase(StorageCephOSDTestsBase):
 
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_date_secs(self, mock_helper):
@@ -97,14 +97,14 @@ class TestOSDCephChecksBase(StorageCephOSDTestsBase):
         self.assertEqual(config.bluefs_buffered_io, ['true'])
 
 
-class TestOSDCephSummary(StorageCephOSDTestsBase):
+class TestCephOSDSummary(StorageCephOSDTestsBase):
 
-    def test_get_local_osd_ids(self):
+    def test_local_osd_ids(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(list(actual['local-osds'].keys()),  [0])
 
-    def test_get_local_osd_info(self):
+    def test_local_osd_info(self):
         fsid = "48858aa1-71a3-4f0e-95f3-a07d1d9a6749"
         expected = {0: {
                     'dev': '/dev/mapper/crypt-{}'.format(fsid),
@@ -114,7 +114,7 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["local-osds"], expected)
 
-    def test_get_service_info(self):
+    def test_service_info(self):
         svc_info = {'systemd': {'enabled': [
                                     'ceph-crash',
                                     'ceph-osd',
@@ -134,7 +134,7 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
         self.assertEqual(actual['services'], svc_info)
         self.assertEqual(actual['release'], release_info)
 
-    def test_get_network_info(self):
+    def test_network_info(self):
         expected = {'cluster': {
                         'br-ens3': {
                             'addresses': ['10.0.0.128'],
@@ -153,7 +153,7 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
         self.assertEqual(actual['network'], expected)
 
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')
-    def test_get_service_info_unavailable(self, mock_helper):
+    def test_service_info_unavailable(self, mock_helper):
         release_info = {'name': 'unknown', 'days-to-eol': None}
 
         mock_helper.return_value = mock.MagicMock()
@@ -163,7 +163,7 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['release'], release_info)
 
-    def test_get_package_info(self):
+    def test_package_info(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         expected = ['ceph 15.2.14-0ubuntu0.20.04.2',
@@ -199,12 +199,12 @@ class TestOSDCephSummary(StorageCephOSDTestsBase):
         self.assertEqual(_ports, expected)
 
 
-class TestOSDCephEventChecks(StorageCephOSDTestsBase):
+class TestCephOSDEvents(StorageCephOSDTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('osd/osdlogs.yaml'))
     @mock.patch('hotsos.core.search.constraints.CLIHelper')
-    def test_get_ceph_daemon_log_checker(self, mock_cli):
+    def test_ceph_daemon_log_checker(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         # ensure log file contents are within allowed timeframe ("since")
         mock_cli.return_value.date.return_value = "2021-01-01 00:00:00"
@@ -216,7 +216,7 @@ class TestOSDCephEventChecks(StorageCephOSDTestsBase):
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-osd')
-class TestCephOSDScenarioChecks(StorageCephOSDTestsBase):
+class TestCephOSDScenarios(StorageCephOSDTestsBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

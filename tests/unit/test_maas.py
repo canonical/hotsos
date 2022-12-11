@@ -2,6 +2,7 @@ from unittest import mock
 
 from . import utils
 
+from hotsos.core.config import setup_config
 from hotsos.plugin_extensions.maas import summary
 
 SYSTEMD_UNITS = """
@@ -42,13 +43,17 @@ ii  python3-maas-provisioningserver        2.7.3-8291-g.384e521e6         all   
 """  # noqa
 
 
-class TestMAASGeneral(utils.BaseTestCase):
+class MAASTestsBase(utils.BaseTestCase):
 
-    @mock.patch('hotsos.core.host_helpers.packaging.CLIHelper')
-    def test_install(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.dpkg_l.return_value = \
-            MAAS_DPKG.splitlines(keepends=True)
+    def setUp(self):
+        super().setUp()
+        setup_config(PLUGIN_NAME='maas')
+
+
+class TestMAASSummary(MAASTestsBase):
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': MAAS_DPKG})
+    def test_dpkg(self):
         inst = summary.MAASSummary()
         expected = {'dpkg': ['maas-cli 2.7.3-8291-g.384e521e6',
                              'maas-common 2.7.3-8291-g.384e521e6',
@@ -83,3 +88,13 @@ class TestMAASGeneral(utils.BaseTestCase):
                                             ]}}}
             inst = summary.MAASSummary()
             self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+
+@utils.load_templated_tests('scenarios/maas')
+class TestMAASScenarios(MAASTestsBase):
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See defs/tests/README.md for more info.
+    """

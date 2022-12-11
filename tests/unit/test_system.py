@@ -139,7 +139,7 @@ class TestSYSCtlChecks(SystemTestsBase):
 
 
 @utils.load_templated_tests('scenarios/system')
-class TestSystemScenarioChecks(SystemTestsBase):
+class TestSystemScenarios(SystemTestsBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

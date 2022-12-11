@@ -35,7 +35,7 @@ class TestIssuesUtils(utils.BaseTestCase):
         self.assertEqual(ret,
                          {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                           {'MemoryWarnings':
-                           ['test (origin=testplugin.01part)']}})
+                           ['test (origin=testplugin.testpart)']}})
 
     def test_issue_machine_readable(self):
         setup_config(MACHINE_READABLE=True)
@@ -46,7 +46,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                          {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                           [{'type': 'MemoryWarning',
                             'desc': 'test',
-                            'origin': 'testplugin.01part'}]})
+                            'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_w_empty_context(self):
         setup_config(MACHINE_READABLE=True)
@@ -58,7 +58,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                          {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                           [{'type': 'MemoryWarning',
                             'desc': 'test',
-                            'origin': 'testplugin.01part'}]})
+                            'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_empty_context(self):
         setup_config(MACHINE_READABLE=True)
@@ -72,7 +72,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                           [{'type': 'MemoryWarning',
                             'desc': 'test',
                             'context': {'path': '/foo/bar', 'linenumber': 123},
-                            'origin': 'testplugin.01part'}]})
+                            'origin': 'testplugin.testpart'}]})
 
 
 class TestKnownBugsUtils(utils.BaseTestCase):
@@ -81,7 +81,7 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
                         'desc': None,
-                        'origin': 'testplugin.01part'}]}
+                        'origin': 'testplugin.testpart'}]}
         with open(os.path.join(self.plugin_tmp_dir,
                                'known_bugs.yaml'), 'w') as fd:
             fd.write(yaml.dump(known_bugs))
@@ -101,14 +101,14 @@ class TestKnownBugsUtils(utils.BaseTestCase):
                          {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                           [{'id': 'https://bugs.launchpad.net/bugs/1',
                             'desc': None,
-                            'origin': 'testplugin.01part'}
+                            'origin': 'testplugin.testpart'}
                            ]})
 
     def test_add_issue(self):
         known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
                         'desc': None,
-                        'origin': 'testplugin.01part'}]}
+                        'origin': 'testplugin.testpart'}]}
         with open(os.path.join(self.plugin_tmp_dir,
                                'known_bugs.yaml'), 'w') as fd:
             fd.write(yaml.dump(known_bugs))
@@ -119,8 +119,8 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         expected = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                     [{'id': 'https://bugs.launchpad.net/bugs/1',
                       'desc': None,
-                      'origin': 'testplugin.01part'},
+                      'origin': 'testplugin.testpart'},
                      {'id': 'https://bugs.launchpad.net/bugs/2',
                       'desc': None,
-                      'origin': 'testplugin.01part'}]}
+                      'origin': 'testplugin.testpart'}]}
         self.assertEqual(ret, expected)

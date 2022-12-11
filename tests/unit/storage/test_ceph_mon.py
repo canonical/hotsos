@@ -5,9 +5,7 @@ import json
 
 from .. import utils
 
-from hotsos.core.issues import IssuesManager
 from hotsos.core.config import setup_config
-from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
@@ -149,7 +147,7 @@ CEPH_MON_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')
 
 
-class StorageCephMonTestsBase(utils.BaseTestCase):
+class CephMonTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -176,7 +174,7 @@ class StorageCephMonTestsBase(utils.BaseTestCase):
                      'osd.1': 501}}
 
 
-class TestCoreCephCluster(StorageCephMonTestsBase):
+class TestCoreCephCluster(CephMonTestsBase):
 
     def test_cluster_mons(self):
         cluster_mons = ceph_core.CephCluster().mons
@@ -283,9 +281,9 @@ class TestCoreCephCluster(StorageCephMonTestsBase):
         self.assertEqual(cluster.mgr_modules, expected)
 
 
-class TestMonCephSummary(StorageCephMonTestsBase):
+class TestCephMonSummary(CephMonTestsBase):
 
-    def test_get_service_info(self):
+    def test_services(self):
         svc_info = {'systemd': {'enabled': [
                                     'ceph-crash',
                                     'ceph-mgr',
@@ -307,7 +305,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         self.assertEqual(actual['release'], release_info)
         self.assertEqual(actual['status'], 'HEALTH_WARN')
 
-    def test_get_network_info(self):
+    def test_network_info(self):
         expected = {'cluster': {
                         'eth0@if17': {
                             'addresses': ['10.0.0.123'],
@@ -325,7 +323,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['network'], expected)
 
-    def test_ceph_cluster_info(self):
+    def test_cluster_info(self):
         expected = {'crush-rules': {
                         'replicated_rule': {
                             'id': 0,
@@ -348,7 +346,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
     @utils.create_data_root({'sos_commands/ceph_mon/json_output/'
                              'ceph_pg_dump_--format_json-pretty':
                              json.dumps(PG_DUMP_JSON_DECODED)})
-    def test_ceph_cluster_info_large_omap_pgs(self):
+    def test_cluster_info_large_omap_pgs(self):
         expected = {'2.f': {
                         'pool': 'foo',
                         'last_scrub_stamp': '2021-09-16T21:26:00.00',
@@ -358,7 +356,7 @@ class TestMonCephSummary(StorageCephMonTestsBase):
         self.assertEqual(actual['large-omap-pgs'], expected)
 
     @mock.patch.object(ceph_core, 'CLIHelper')
-    def test_get_ceph_pg_imbalance(self, mock_helper):
+    def test_ceph_pg_imbalance(self, mock_helper):
         result = self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
@@ -370,13 +368,13 @@ class TestMonCephSummary(StorageCephMonTestsBase):
     @utils.create_data_root({'sos_commands/ceph_mon/json_output/'
                              'ceph_osd_df_tree_--format_json-pretty':
                              json.dumps([])})
-    def test_get_ceph_pg_imbalance_unavailable(self):
+    def test_ceph_pg_imbalance_unavailable(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertFalse('osd-pgs-suboptimal' in actual)
         self.assertFalse('osd-pgs-near-limit' in actual)
 
-    def test_get_ceph_versions(self):
+    def test_ceph_versions(self):
         result = {'mgr': ['15.2.14'],
                   'mon': ['15.2.14'],
                   'osd': ['15.2.14']}
@@ -386,18 +384,18 @@ class TestMonCephSummary(StorageCephMonTestsBase):
 
     @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
                              json.dumps([])})
-    def test_get_ceph_versions_unavailable(self):
+    def test_ceph_versions_unavailable(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertIsNone(actual.get('versions'))
 
 
-class TestMonCephEventChecks(StorageCephMonTestsBase):
+class TestCephMonEvents(CephMonTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mon/monlogs.yaml'))
     @mock.patch('hotsos.core.search.constraints.CLIHelper')
-    def test_get_ceph_daemon_log_checker(self, mock_cli):
+    def test_ceph_daemon_log_checker(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         # ensure log file contents are within allowed timeframe ("since")
         mock_cli.return_value.date.return_value = "2022-02-10 00:00:00"
@@ -412,16 +410,10 @@ class TestMonCephEventChecks(StorageCephMonTestsBase):
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-mon')
-class TestCephMonScenarioChecks(StorageCephMonTestsBase):
+class TestCephMonScenarios(CephMonTestsBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for
     scenarios. It is however still possible to write the tests in Python if
     required. See defs/tests/README.md for more info.
     """
-
-    @utils.create_data_root({})
-    def test_scenarios_none(self):
-        YScenarioChecker()()
-        issues = list(IssuesManager().load_issues().values())
-        self.assertEqual(len(issues), 0)

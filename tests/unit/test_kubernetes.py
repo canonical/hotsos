@@ -21,7 +21,7 @@ class KubernetesTestsBase(utils.BaseTestCase):
 
 class TestKubernetesSummary(KubernetesTestsBase):
 
-    def test_get_service_info(self):
+    def test_services(self):
         expected = {'systemd': {
                         'enabled': [
                             'calico-node',
@@ -46,7 +46,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['services'],
                          expected)
 
-    def test_get_snap_info_from_line(self):
+    def test_snaps(self):
         result = ['cdk-addons 1.23.0',
                   'core 16-2.54.2',
                   'core18 20211215',
@@ -61,7 +61,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
                          result)
 
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')
-    def test_get_snap_info_from_line_no_k8s(self, mock_helper):
+    def test_snaps_no_k8s(self, mock_helper):
         snaps_list = host_helpers.CLIHelper().snap_list_all()
         mock_helper.return_value = mock.MagicMock()
         filterered_snaps = []
@@ -81,7 +81,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
         self.assertFalse(inst.plugin_runnable)
         self.assertTrue('snaps' not in inst.output)
 
-    def test_get_network_info(self):
+    def test_network_info(self):
         expected = {'flannel.1': {'addr': '10.1.84.0',
                                   'vxlan': {'dev': 'ens3',
                                             'id': '1',
@@ -92,7 +92,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
 
 
 @utils.load_templated_tests('scenarios/kubernetes')
-class TestKubernetesScenarioChecks(KubernetesTestsBase):
+class TestKubernetesScenarios(KubernetesTestsBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

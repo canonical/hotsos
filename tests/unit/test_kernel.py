@@ -225,7 +225,7 @@ class TestKernelNetworkInfo(TestKernelBase):
 
 
 @utils.load_templated_tests('scenarios/kernel')
-class TestKernelScenarioChecks(TestKernelBase):
+class TestKernelScenarios(TestKernelBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

@@ -5,14 +5,14 @@ from hotsos.core.plugins.storage import bcache as bcache_core
 from hotsos.plugin_extensions.storage import bcache_summary
 
 
-class StorageBCacheTestsBase(utils.BaseTestCase):
+class BCacheTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
         setup_config(PLUGIN_NAME='storage')
 
 
-class TestBcacheBase(StorageBCacheTestsBase):
+class TestBcacheBase(BCacheTestsBase):
 
     def test_bcache_enabled(self):
         b = bcache_core.BcacheBase()
@@ -49,7 +49,7 @@ class TestBcacheBase(StorageBCacheTestsBase):
                                            '427e-9d82-c411c73d900a'))
 
 
-class TestStorageBCache(StorageBCacheTestsBase):
+class TestBCacheSummary(BCacheTestsBase):
 
     def test_get_cacheset_info(self):
         cachesets = {'d7696818-1be9-4dea-9991-de95e24d7256': {
@@ -76,7 +76,7 @@ class TestStorageBCache(StorageBCacheTestsBase):
 
 
 @utils.load_templated_tests('scenarios/storage/bcache')
-class TestBCacheScenarioChecks(StorageBCacheTestsBase):
+class TestBCacheScenarios(BCacheTestsBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

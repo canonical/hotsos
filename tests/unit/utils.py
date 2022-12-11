@@ -334,6 +334,21 @@ def create_data_root(files_to_create, copy_from_original=None):
 
 class BaseTestCase(unittest.TestCase):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.global_tmp_dir = tempfile.mkdtemp()
+        self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
+        self.hotsos_config = {'DATA_ROOT':
+                              os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT),
+                              'PLUGIN_NAME': 'testplugin',
+                              'PLUGIN_YAML_DEFS':
+                              os.path.join(TESTS_DIR, 'defs'),
+                              'PART_NAME': 'testpart',
+                              'GLOBAL_TMP_DIR': self.global_tmp_dir,
+                              'PLUGIN_TMP_DIR': self.plugin_tmp_dir,
+                              'USE_ALL_LOGS': True,
+                              'MACHINE_READABLE': True}
+
     def part_output_to_actual(self, output):
         actual = {}
         for key, entry in output.items():
@@ -345,22 +360,13 @@ class BaseTestCase(unittest.TestCase):
         self.maxDiff = None
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
-        self.global_tmp_dir = tempfile.mkdtemp()
-        self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
         # Always reset env globals
-        # If a test relies on loading info from defs yaml this needs to be set
-        # to actual plugin name.
-        setup_config(DATA_ROOT=os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT),
-                     PLUGIN_NAME="testplugin",
-                     PLUGIN_YAML_DEFS=os.path.join(TESTS_DIR, "defs"),
-                     PART_NAME="01part",
-                     GLOBAL_TMP_DIR=self.global_tmp_dir,
-                     PLUGIN_TMP_DIR=self.plugin_tmp_dir,
-                     USE_ALL_LOGS=True,
-                     MACHINE_READABLE=True)
+        setup_config(**self.hotsos_config)
         setup_logging(debug_mode=True)
         log.setLevel(logging.INFO)
 
     def tearDown(self):
+        HotSOSConfig.reset()
+        setup_config(**self.hotsos_config)
         if os.path.isdir(self.plugin_tmp_dir):
             shutil.rmtree(self.plugin_tmp_dir)

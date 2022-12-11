@@ -7,7 +7,7 @@ CEPH_MGR_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')
 
 
-class StorageCephMgrTestsBase(utils.BaseTestCase):
+class CephMgrTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
@@ -15,7 +15,7 @@ class StorageCephMgrTestsBase(utils.BaseTestCase):
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-mgr')
-class TestCephMgrScenarioChecks(StorageCephMgrTestsBase):
+class TestCephMgrScenarios(CephMgrTestsBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

@@ -22,7 +22,7 @@ class TestSOSReportCore(TestSOSReportBase):
         self.assertEqual(c.timed_out_plugins, ['networking', 'system'])
 
 
-class TestSOSReportGeneral(TestSOSReportBase):
+class TestSOSReportSummary(TestSOSReportBase):
 
     def test_version(self):
         inst = summary.SOSReportSummary()
@@ -47,7 +47,7 @@ class TestSOSReportGeneral(TestSOSReportBase):
 
 
 @utils.load_templated_tests('scenarios/sosreport')
-class TestSOSReportScenarioChecks(TestSOSReportBase):
+class TestSOSReportScenarios(TestSOSReportBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

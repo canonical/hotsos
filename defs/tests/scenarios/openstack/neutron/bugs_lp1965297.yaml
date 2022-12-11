@@ -5,6 +5,7 @@ data-root:
       2022-02-06 19:59:53.602 328191 ERROR neutron.agent.l3.ha_router [-] Gateway interface for router 9f276b0e-8581-4312-8780-ff4503c3df07 was not set up; router will not work properly
   copy-from-original:
     - sos_commands/date/date
+    - uptime
 raised-bugs:
   https://bugs.launchpad.net/bugs/1965297: >-
     known neutron l3-agent bug identified that impacts HA routers and can

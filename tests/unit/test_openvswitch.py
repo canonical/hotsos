@@ -155,7 +155,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                          expected)
 
 
-class TestOpenvswitchEventChecks(TestOpenvswitchBase):
+class TestOpenvswitchEvents(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs-vswitchd.yaml'))
@@ -285,7 +285,7 @@ class TestOpenvswitchEventChecks(TestOpenvswitchBase):
 
 
 @utils.load_templated_tests('scenarios/openvswitch')
-class TestOpenvswitchScenarioChecks(TestOpenvswitchBase):
+class TestOpenvswitchScenarios(TestOpenvswitchBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

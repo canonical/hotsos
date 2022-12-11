@@ -793,7 +793,7 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
             self.assertEqual(inst.nova_pinning_from_multi_numa_nodes, True)
 
 
-class TestOpenstackAgentEventChecks(TestOpenstackBase):
+class TestOpenstackAgentEvents(TestOpenstackBase):
 
     def test_process_rpc_loop_results(self):
         expected = {'rpc-loop': {
@@ -1075,7 +1075,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
 
 
 @utils.load_templated_tests('scenarios/openstack')
-class TestOpenstackScenarioChecks(TestOpenstackBase):
+class TestOpenstackScenarios(TestOpenstackBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for

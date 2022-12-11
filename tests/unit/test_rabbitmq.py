@@ -137,7 +137,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
 
 
 @utils.load_templated_tests('scenarios/rabbitmq')
-class TestRabbitmqScenarioChecks(TestRabbitmqBase):
+class TestRabbitmqScenarios(TestRabbitmqBase):
     """
     Scenario tests can be written using YAML templates that are auto-loaded
     into this test runner. This is the recommended way to write tests for
