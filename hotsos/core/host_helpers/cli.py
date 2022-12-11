@@ -671,6 +671,9 @@ class CLIHelper(object):
             'lscpu':
                 [BinCmd('lscpu'),
                  FileCmd('sos_commands/processor/lscpu')],
+            'lxd_buginfo':
+                [BinCmd('lxd.buginfo'),
+                 FileCmd('sos_commands/lxd/lxd.buginfo')],
             'numactl':
                 [BinCmd('numactl --hardware'),
                  FileCmd('sos_commands/numa/numactl_--hardware')],

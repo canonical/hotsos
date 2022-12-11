@@ -13,10 +13,15 @@ checks:
     property:
       path: hotsos.core.plugins.system.SystemBase.virtualisation_type
       ops: [[ne, 'lxc']]
+  has_lxc_containers:
+    property:
+      path: hotsos.core.plugins.system.lxd.LXD.instances
+      ops: [[length_hint], [gt, 0]]
 conclusions:
   lxcfs_segfault:
     decision:
       - is_not_a_lxc_container
+      - has_lxc_containers
       - lxcfs_segfault
       - has_1807628
     raises:
@@ -28,6 +33,7 @@ conclusions:
   lp1807628:
     decision:
       - is_not_a_lxc_container
+      - has_lxc_containers
       - has_1807628
     raises:
       type: LaunchpadBug
