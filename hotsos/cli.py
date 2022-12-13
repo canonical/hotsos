@@ -85,6 +85,40 @@ def progress_spinner(show_spinner, spinner_msg):
         thread.join()
 
 
+def fix_data_root(data_root):
+    if not data_root:
+        data_root = '/'
+    elif data_root[-1] != '/':
+        # Ensure trailing slash
+        data_root += '/'
+    return data_root
+
+
+def get_analysis_target(data_root):
+    if data_root == '/':
+        analysis_target = 'localhost'
+    else:
+        analysis_target = 'sosreport {}'.format(data_root)
+    return analysis_target
+
+
+def get_prefix(user_summary, data_root):
+    if user_summary:
+        prefix = os.path.basename(data_root)
+        if 'summary' in prefix:
+            prefix = prefix.rpartition('.summary')[0]
+        else:
+            prefix = prefix.rpartition('.')[0]
+    else:
+        if data_root != '/':
+            if data_root.endswith('/'):
+                data_root = data_root.rpartition('/')[0]
+            prefix = os.path.basename(data_root)
+        else:
+            prefix = CLIHelper().hostname()
+    return prefix
+
+
 def main():
     @click.command(name='hotsos')
     @click.option('--output-path', default=None,
@@ -211,11 +245,7 @@ def main():
             return
 
         if not user_summary:
-            if not data_root or data_root == '/':
-                data_root = '/'
-            elif data_root[-1] != '/':
-                # Ensure trailing slash
-                data_root += '/'
+            data_root = fix_data_root(data_root)
 
         setup_config(USE_ALL_LOGS=all_logs, PLUGIN_YAML_DEFS=defs_path,
                      DATA_ROOT=data_root,
@@ -235,10 +265,7 @@ def main():
             sys.stdout.write('\n')
             return
 
-        if data_root == '/':
-            analysis_target = 'localhost'
-        else:
-            analysis_target = 'sosreport {}'.format(data_root)
+        analysis_target = get_analysis_target(data_root)
 
         if quiet:
             show_spinner = False
@@ -269,21 +296,7 @@ def main():
                 summary = client.summary
 
         if save:
-            if user_summary:
-                prefix = os.path.basename(data_root)
-                if 'summary' in prefix:
-                    prefix = prefix.rpartition('.summary')[0]
-                else:
-                    prefix = prefix.rpartition('.')[0]
-            else:
-                if data_root != '/':
-                    if data_root.endswith('/'):
-                        data_root = data_root.rpartition('/')[0]
-
-                    prefix = os.path.basename(data_root)
-                else:
-                    prefix = CLIHelper().hostname()
-
+            prefix = get_prefix(user_summary, data_root)
             path = summary.save(prefix, html_escape=html_escape,
                                 output_path=output_path)
             sys.stdout.write("INFO: output saved to {}\n".format(path))
