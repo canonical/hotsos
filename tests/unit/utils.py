@@ -336,16 +336,16 @@ class BaseTestCase(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.global_tmp_dir = tempfile.mkdtemp()
-        self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
+        self.global_tmp_dir = None
+        self.plugin_tmp_dir = None
         self.hotsos_config = {'DATA_ROOT':
                               os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT),
                               'PLUGIN_NAME': 'testplugin',
                               'PLUGIN_YAML_DEFS':
                               os.path.join(TESTS_DIR, 'defs'),
                               'PART_NAME': 'testpart',
-                              'GLOBAL_TMP_DIR': self.global_tmp_dir,
-                              'PLUGIN_TMP_DIR': self.plugin_tmp_dir,
+                              'GLOBAL_TMP_DIR': None,
+                              'PLUGIN_TMP_DIR': None,
                               'USE_ALL_LOGS': True,
                               'MACHINE_READABLE': True}
 
@@ -362,11 +362,14 @@ class BaseTestCase(unittest.TestCase):
         os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals
         setup_config(**self.hotsos_config)
+        self.global_tmp_dir = tempfile.mkdtemp()
+        self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
+        setup_config(GLOBAL_TMP_DIR=self.global_tmp_dir,
+                     PLUGIN_TMP_DIR=self.plugin_tmp_dir)
         setup_logging(debug_mode=True)
         log.setLevel(logging.INFO)
 
     def tearDown(self):
         HotSOSConfig.reset()
         setup_config(**self.hotsos_config)
-        if os.path.isdir(self.plugin_tmp_dir):
-            shutil.rmtree(self.plugin_tmp_dir)
+        shutil.rmtree(self.global_tmp_dir)
