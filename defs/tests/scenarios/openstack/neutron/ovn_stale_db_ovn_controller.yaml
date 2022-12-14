@@ -1,0 +1,21 @@
+target-name: ovn_stale_db.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-02-10T13:01:54.786Z|00040|reconnect|INFO|tcp:10.5.0.3:6642: continuing to reconnect in the background but suppressing further logging
+      2022-02-10T13:02:02.787Z|00041|reconnect|INFO|tcp:10.5.0.4:6642: connected
+      2022-02-10T13:02:02.789Z|00042|ovsdb_idl|WARN|tcp:10.5.0.4:6642: clustered database server has stale data; trying another server
+      2022-02-10T13:02:10.795Z|00043|reconnect|INFO|tcp:10.5.0.5:6642: connected
+      2022-02-10T13:02:10.796Z|00044|ovsdb_idl|INFO|tcp:10.5.0.5:6642: clustered database server is disconnected from cluster; trying another server
+      2022-02-10T13:02:18.804Z|00045|reconnect|INFO|tcp:10.5.0.3:6642: connected                            
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugzilla.redhat.com/show_bug.cgi?id=1829109: >-
+    ovn-controller is reporting frequent reconnections to the ovn
+    southbound database due to "stale data" and this may require
+    taking action to resolve. One cause is if you have recently
+    rebuilt your southbound database. See the linked bug for more
+    information. One suggested workaround is to run
+    'ovn-appctl -t ovn-controller sb-cluster-state-reset'.

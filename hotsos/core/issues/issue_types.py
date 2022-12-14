@@ -163,6 +163,17 @@ class LaunchpadBug(BugTypeBase):
         return "{}{}".format(self.base_url, self.id)
 
 
+class Bugzilla(BugTypeBase):
+
+    @property
+    def base_url(self):
+        return 'https://bugzilla.redhat.com/show_bug.cgi?id='
+
+    @property
+    def url(self):
+        return "{}{}".format(self.base_url, self.id)
+
+
 class StoryBoardBug(BugTypeBase):
 
     @property
