@@ -1,0 +1,25 @@
+target-name: ovn_stale_db.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-02-10 12:52:24.652 317561 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.20:16642: connected
+      2022-02-10 12:52:24.696 317561 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.20:16642: clustered database server has stale data; trying another server
+      2022-02-10 12:52:24.698 317561 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.20:16642: connection closed by client
+      2022-02-10 12:52:24.819 317559 INFO ovsdbapp.backend.ovs_idl.vlog [req-6a330106-9631-45d2-8449-194dac0adbf3 - - - - -] ssl:10.5.3.204:16642: connected
+      2022-02-10 12:52:24.863 317559 WARNING ovsdbapp.backend.ovs_idl.vlog [req-6a330106-9631-45d2-8449-194dac0adbf3 - - - - -] ssl:10.5.3.204:16642: clustered database server has stale data; trying another server
+      2022-02-10 12:52:24.865 317559 INFO ovsdbapp.backend.ovs_idl.vlog [req-6a330106-9631-45d2-8449-194dac0adbf3 - - - - -] ssl:10.5.3.204:16642: connection closed by client
+      2022-02-10 12:52:26.269 317562 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.204:16642: connected
+      2022-02-10 12:52:26.310 317562 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.204:16642: clustered database server has stale data; trying another server
+      2022-02-10 12:52:26.311 317562 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.204:16642: connection closed by client
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-server                  2:16.4.2-0ubuntu4                 all          Neutron is a virtual network service for Openstack - server
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugzilla.redhat.com/show_bug.cgi?id=1829109: >-
+    neutron ovsdbapp is reporting frequent reconnections to the ovn southbound
+    database due to "stale data" and this may require taking action to resolve.
+    One cause is if you have recently rebuilt your southbound database. See the
+    linked bug for more information. One suggested workaround is to restart
+    neutron-server.

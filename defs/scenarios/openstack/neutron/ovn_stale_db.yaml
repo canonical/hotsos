@@ -1,0 +1,58 @@
+vars:
+  msg_common: >-
+    is reporting frequent reconnections to the ovn
+    southbound database due to "stale data" and this may require taking
+    action to resolve. One cause is if you have recently rebuilt your
+    southbound database. See the linked bug for more information. One
+    suggested workaround is to
+checks:
+  is_neutron_server:
+    apt: neutron-server
+  is_neutron_ovn_metadata_agent:
+    apt: neutron-ovn-metadata-agent
+  has_1829109_neutron_log:
+    input:
+      - var/log/neutron/neutron-server.log
+      - var/log/neutron/neutron-ovn-metadata-agent.log
+    expr: '(\S+\s+[\d:]+).\S+ .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:16642: clustered database server has stale data; trying another server'
+    constraints:
+      search-result-age-hours: 6
+  has_1829109_ovn_controller_log:
+    input: var/log/ovn/ovn-controller.log
+    expr: '([0-9-]+)T([0-9:\.]+)Z.+\|ovsdb_idl\|WARN\|tcp:\S+:6642: clustered database server has stale data; trying another server'
+    constraints:
+      search-result-age-hours: 6
+conclusions:
+  has_1960319_neutron_server:
+    decision:
+      - is_neutron_server
+      - has_1829109_neutron_log
+    raises:
+      type: Bugzilla
+      bug-id: 1829109
+      message: >-
+        neutron ovsdbapp {msg_common} restart neutron-server.
+      format-dict:
+        msg_common: $msg_common
+  has_1960319_neutron_ovn_metadata:
+    decision:
+      - is_neutron_ovn_metadata_agent
+      - has_1829109_neutron_log
+    raises:
+      type: Bugzilla
+      bug-id: 1829109
+      message: >-
+        neutron ovsdbapp {msg_common} restart neutron-ovn-metadata-agent.
+      format-dict:
+        msg_common: $msg_common
+  has_1960319_ovn_controller:
+    decision: has_1829109_ovn_controller_log
+    raises:
+      type: Bugzilla
+      bug-id: 1829109
+      message: >-
+        ovn-controller {msg_common} run 'ovn-appctl -t ovn-controller
+        sb-cluster-state-reset'.
+      format-dict:
+        msg_common: $msg_common
+
