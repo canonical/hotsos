@@ -329,15 +329,19 @@ class OSTProjectCatalog(object):
                  systemd_extra_services=['apache2'],
                  log_path_overrides={'apache2':
                                      ['var/log/apache2/cinder_*.log']}),
-        self.add('designate', config={'main': 'designate.conf'}),
-        self.add('glance', config={'main': 'glance-api.conf'}),
+        self.add('designate', config={'main': 'designate.conf'},
+                 systemd_extra_services=['apache2']),
+        self.add('glance', config={'main': 'glance-api.conf'},
+                 systemd_extra_services=['apache2']),
         self.add('gnocchi', config={'main': 'gnocchi.conf'},
                  systemd_masked_services=['gnocchi-api'],
                  systemd_extra_services=['apache2'],
                  log_path_overrides={'apache2':
                                      ['var/log/gnocchi/gnocchi-api.log']}),
-        self.add('heat', config={'main': 'heat.conf'}),
-        self.add('horizon', apt_core_alt=['openstack-dashboard']),
+        self.add('heat', config={'main': 'heat.conf'},
+                 systemd_extra_services=['apache2']),
+        self.add('horizon', apt_core_alt=['openstack-dashboard'],
+                 systemd_extra_services=['apache2']),
         self.add('keystone', config={'main': 'keystone.conf'},
                  systemd_masked_services=['keystone'],
                  systemd_extra_services=['apache2'],
@@ -351,6 +355,7 @@ class OSTProjectCatalog(object):
                          'dhcp-agent': 'dhcp_agent.ini',
                          'ovn': 'ovn.ini'},
                  systemd_masked_services=['nova-api-metadata'],
+                 systemd_extra_services=['apache2'],
                  systemd_deprecated_services=['neutron-lbaas-agent',
                                               'neutron-lbaasv2-agent',
                                               'neutron-fwaas-agent'])
@@ -385,7 +390,8 @@ class OSTProjectCatalog(object):
                  log_path_overrides={'apache2':
                                      ['var/log/apache2/*error.log']}),
         self.add('swift', config={'main': 'swift-proxy.conf',
-                                  'proxy': 'swift-proxy.conf'}),
+                                  'proxy': 'swift-proxy.conf'},
+                 systemd_extra_services=['apache2']),
 
     def __getitem__(self, name):
         return self._projects[name]
