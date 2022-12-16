@@ -2,15 +2,35 @@ target-name: ovn_stale_db.yaml
 data-root:
   files:
     var/log/neutron/neutron-ovn-metadata-agent.log: |
-      2022-02-10 12:52:24.652 317561 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.20:16642: connected
-      2022-02-10 12:52:24.696 317561 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.20:16642: clustered database server has stale data; trying another server
-      2022-02-10 12:52:24.698 317561 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.20:16642: connection closed by client
-      2022-02-10 12:52:24.819 317559 INFO ovsdbapp.backend.ovs_idl.vlog [req-6a330106-9631-45d2-8449-194dac0adbf3 - - - - -] ssl:10.5.3.204:16642: connected
-      2022-02-10 12:52:24.863 317559 WARNING ovsdbapp.backend.ovs_idl.vlog [req-6a330106-9631-45d2-8449-194dac0adbf3 - - - - -] ssl:10.5.3.204:16642: clustered database server has stale data; trying another server
-      2022-02-10 12:52:24.865 317559 INFO ovsdbapp.backend.ovs_idl.vlog [req-6a330106-9631-45d2-8449-194dac0adbf3 - - - - -] ssl:10.5.3.204:16642: connection closed by client
-      2022-02-10 12:52:26.269 317562 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.204:16642: connected
-      2022-02-10 12:52:26.310 317562 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.204:16642: clustered database server has stale data; trying another server
-      2022-02-10 12:52:26.311 317562 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.5.3.204:16642: connection closed by client
+      2022-12-13 02:54:12.869 1224262 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 02:54:12.886 1224262 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 02:54:12.887 1224262 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 03:08:34.532 1223255 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 03:08:34.567 1223255 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 03:08:34.568 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 03:08:34.568 1223255 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 03:08:34.603 1224263 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 03:08:34.604 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 04:19:26.650 1224262 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.195:6642: connected
+      2022-12-13 04:19:26.667 1223255 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 04:19:26.669 1223255 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 04:19:26.675 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 04:19:26.704 1224263 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 04:19:26.705 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 04:57:22.599 1223255 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 04:57:22.624 1223255 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 04:57:22.626 1223255 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 04:57:22.655 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 04:57:22.683 1224263 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 04:57:22.684 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 05:00:49.615 1224262 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 05:00:49.640 1224262 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 05:00:49.642 1224262 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 05:29:57.799 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connected
+      2022-12-13 05:29:57.810 1223255 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 05:29:57.811 1223255 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
+      2022-12-13 05:29:57.826 1224263 WARNING ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: clustered database server has stale data; trying another server
+      2022-12-13 05:29:57.828 1224263 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.151.145:6642: connection closed by client
     sos_commands/dpkg/dpkg_-l: |
       ii  neutron-ovn-metadata-agent           2:16.4.2-0ubuntu4                                    all          Neutron is a virtual network service for Openstack - OVN metadata agent
   copy-from-original:

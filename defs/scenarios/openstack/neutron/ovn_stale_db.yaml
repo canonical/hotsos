@@ -14,13 +14,16 @@ checks:
     input:
       - var/log/neutron/neutron-server.log
       - var/log/neutron/neutron-ovn-metadata-agent.log
-    expr: '(\S+\s+[\d:]+).\S+ .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:16642: clustered database server has stale data; trying another server'
+    # note: neutron-server and neutron-ovn-metadata-agent use different ports to speak to the southbound db (16642/6642)
+    expr: '(\S+\s+[\d:]+).\S+ .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:1?6642: clustered database server has stale data; trying another server'
     constraints:
+      min-results: 10
       search-result-age-hours: 6
   has_1829109_ovn_controller_log:
     input: var/log/ovn/ovn-controller.log
     expr: '([0-9-]+)T([0-9:\.]+)Z.+\|ovsdb_idl\|WARN\|tcp:\S+:6642: clustered database server has stale data; trying another server'
     constraints:
+      min-results: 10
       search-result-age-hours: 6
 conclusions:
   has_1960319_neutron_server:
