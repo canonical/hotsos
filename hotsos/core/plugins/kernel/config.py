@@ -9,7 +9,7 @@ class KernelConfig(host_helpers.ConfigBase):
     """ Kernel configuration. """
 
     def __init__(self, *args, **kwargs):
-        path = os.path.join(HotSOSConfig.DATA_ROOT, "proc/cmdline")
+        path = os.path.join(HotSOSConfig.data_root, "proc/cmdline")
         super().__init__(path=path, *args, **kwargs)
         self._cfg = {}
         self._load()
@@ -43,7 +43,7 @@ class SystemdConfig(host_helpers.SectionalConfigBase):
     """Systemd configuration."""
 
     def __init__(self, *args, **kwargs):
-        path = os.path.join(HotSOSConfig.DATA_ROOT, "etc/systemd/system.conf")
+        path = os.path.join(HotSOSConfig.data_root, "etc/systemd/system.conf")
         super().__init__(path=path, *args, **kwargs)
 
     @property

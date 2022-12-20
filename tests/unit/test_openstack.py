@@ -10,7 +10,7 @@ import hotsos.core.plugins.openstack.nova as nova_core
 import hotsos.core.plugins.openstack.neutron as neutron_core
 from hotsos.core import host_helpers
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.search import FileSearcher
 from hotsos.plugin_extensions.openstack import (
@@ -283,11 +283,11 @@ class TestOpenstackBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        setup_config(PLUGIN_NAME='openstack',
-                     AGENT_ERROR_KEY_BY_TIME=False)
+        HotSOSConfig.plugin_name = 'openstack'
+        HotSOSConfig.agent_error_key_by_time = False
 
         if self.IP_LINK_SHOW is None:
-            path = os.path.join(HotSOSConfig.DATA_ROOT,
+            path = os.path.join(HotSOSConfig.data_root,
                                 "sos_commands/networking/ip_-s_-d_link")
             with open(path) as fd:
                 self.IP_LINK_SHOW = fd.readlines()
@@ -950,7 +950,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         self.assertEqual(actual['apparmor'], expected)
 
         # now try with key by time
-        setup_config(AGENT_ERROR_KEY_BY_TIME=True)
+        HotSOSConfig.agent_error_key_by_time = True
         expected = {'denials': {
                         'neutron': {
                             '/usr/bin/neutron-dhcp-agent': {
@@ -996,7 +996,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
 
     @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 0)
     def test_run_neutron_l3ha_checks_w_issue(self):
-        setup_config(USE_ALL_LOGS=False)
+        HotSOSConfig.use_all_logs = False
         expected = {'keepalived': {
                      'transitions': {
                       '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
@@ -1097,7 +1097,7 @@ class TestOpenstackScenarios(TestOpenstackBase):
         base = openstack_core.OpenstackBase()
         YScenarioChecker()()
         full_cert_path = os.path.join(
-                                    HotSOSConfig.DATA_ROOT,
+                                    HotSOSConfig.data_root,
                                     'etc/apache2/ssl/keystone/cert_10.5.100.2')
         msg = ("The following certificates will expire in less than {0} "
                "days: {1}".format(base.certificate_expire_days,

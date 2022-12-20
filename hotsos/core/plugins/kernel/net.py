@@ -101,7 +101,7 @@ class SNMPBase(ProcNetBase):
 
     def __init__(self):
         super().__init__()
-        self._process_file(os.path.join(HotSOSConfig.DATA_ROOT,
+        self._process_file(os.path.join(HotSOSConfig.data_root,
                                         'proc/net/snmp'))
 
 
@@ -199,7 +199,7 @@ class NetStatBase(ProcNetBase):
 
     def __init__(self):
         super().__init__()
-        self._process_file(os.path.join(HotSOSConfig.DATA_ROOT,
+        self._process_file(os.path.join(HotSOSConfig.data_root,
                                         'proc/net/netstat'))
         self.net_snmp_tcp = SNMPTcp()
 
@@ -295,7 +295,7 @@ class SockStat(ProcNetBase):
     """
     def __init__(self):
         super().__init__()
-        self._process_file(os.path.join(HotSOSConfig.DATA_ROOT,
+        self._process_file(os.path.join(HotSOSConfig.data_root,
                                         'proc/net/sockstat'))
         # Might happen when sockstat file is not present
         if "TCP" not in self._data:

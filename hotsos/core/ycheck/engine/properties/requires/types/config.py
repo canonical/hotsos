@@ -138,7 +138,7 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         obj = self.get_cls(handler)
         path = self.content.get('path')
         if path:
-            path = os.path.join(HotSOSConfig.DATA_ROOT, path)
+            path = os.path.join(HotSOSConfig.data_root, path)
             return obj(path)
 
         return obj()

@@ -490,8 +490,8 @@ class SearchConstraintSearchSince(BinarySeekSearchBase):
         """
         A search expression is provided that allows us to identify a datetime
         on each line and check whether it is within a given time period. The
-        time period used defaults to 24 hours if USE_ALL_LOGS is false, 7 days
-        if it is true and MAX_LOGROTATE_DEPTH is default otherwise whatever
+        time period used defaults to 24 hours if use_all_logs is false, 7 days
+        if it is true and max_logrotate_depth is default otherwise whatever
         value provided. This can be overridden by providing a specific number
         of hours.
 
@@ -571,8 +571,8 @@ class SearchConstraintSearchSince(BinarySeekSearchBase):
         days = 0
         if self.hours is None:
             days = 1
-            if HotSOSConfig.USE_ALL_LOGS:
-                days = HotSOSConfig.MAX_LOGROTATE_DEPTH
+            if HotSOSConfig.use_all_logs:
+                days = HotSOSConfig.max_logrotate_depth
 
         return self._current_date - timedelta(days=days, hours=self.hours or 0)
 

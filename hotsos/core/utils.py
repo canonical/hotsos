@@ -44,7 +44,7 @@ def mktemp_dump(data):
     """Create a temporary file under the current plugin tmp directory and write
     data to the file.
     """
-    ftmp = tempfile.mktemp(dir=HotSOSConfig.PLUGIN_TMP_DIR)
+    ftmp = tempfile.mktemp(dir=HotSOSConfig.plugin_tmp_dir)
     with open(ftmp, 'w') as fd:
         fd.write(data)
 
@@ -98,14 +98,14 @@ class MPCache(object):
     @property
     def _global_lock(self):
         """ Inter-process lock for all caches. """
-        path = os.path.join(HotSOSConfig.GLOBAL_TMP_DIR, 'locks',
+        path = os.path.join(HotSOSConfig.global_tmp_dir, 'locks',
                             'cache_all.lock')
         return fasteners.InterProcessLock(path)
 
     @property
     def _cache_lock(self):
         """ Inter-process lock for this cache. """
-        path = os.path.join(HotSOSConfig.GLOBAL_TMP_DIR, 'locks',
+        path = os.path.join(HotSOSConfig.global_tmp_dir, 'locks',
                             'cache_{}.lock'.format(self.id))
         return fasteners.InterProcessLock(path)
 
@@ -114,7 +114,7 @@ class MPCache(object):
         """
         Get cache path. Takes global cache lock to check root is created.
         """
-        globaltmp = HotSOSConfig.GLOBAL_TMP_DIR
+        globaltmp = HotSOSConfig.global_tmp_dir
         if globaltmp is None:
             log.warning("global tmp dir '%s' not setup")
             return

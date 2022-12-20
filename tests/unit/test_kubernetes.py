@@ -4,7 +4,7 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.plugins import kubernetes as kubernetes_core
 from hotsos.plugin_extensions.kubernetes import summary
@@ -14,9 +14,9 @@ class KubernetesTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='kubernetes',
-                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
-                                            'fake_data_root/kubernetes'))
+        HotSOSConfig.plugin_name = 'kubernetes'
+        HotSOSConfig.data_root = os.path.join(utils.TESTS_DIR,
+                                              'fake_data_root/kubernetes')
 
 
 class TestKubernetesSummary(KubernetesTestsBase):

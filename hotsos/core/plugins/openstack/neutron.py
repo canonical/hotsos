@@ -74,7 +74,7 @@ class NeutronHAInfo(object):
     @cached_property
     def state_path(self):
         ha_confs = 'var/lib/neutron/ha_confs'
-        return os.path.join(HotSOSConfig.DATA_ROOT, ha_confs)
+        return os.path.join(HotSOSConfig.data_root, ha_confs)
 
     @cached_property
     def ha_routers(self):

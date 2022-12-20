@@ -147,7 +147,7 @@ class OVNBase(object):
 
     @cached_property
     def is_ovn_central(self):
-        if HotSOSConfig.FORCE_MODE:
+        if HotSOSConfig.force_mode:
             return True
 
         ret = 'ovn-central' in self.systemd.services
@@ -160,7 +160,7 @@ class OVNBase(object):
 
     @cached_property
     def is_ovn_controller(self):
-        if HotSOSConfig.FORCE_MODE:
+        if HotSOSConfig.force_mode:
             return True
 
         ret = 'ovn-controller' in self.systemd.services

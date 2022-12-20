@@ -90,7 +90,7 @@ class BcacheBase(StorageBase):
         self._bcache_devs = []
         self.cli = CLIHelper()
 
-        for entry in glob.glob(os.path.join(HotSOSConfig.DATA_ROOT,
+        for entry in glob.glob(os.path.join(HotSOSConfig.data_root,
                                'sys/fs/bcache/*')):
             if not os.path.isdir(entry):
                 continue

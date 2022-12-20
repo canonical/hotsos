@@ -241,7 +241,7 @@ class OSTProject(object):
         self.config = {}
         if config:
             for label, path in config.items():
-                path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc', name, path)
+                path = os.path.join(HotSOSConfig.data_root, 'etc', name, path)
                 self.config[label] = OpenstackConfig(path)
 
         self.systemd_extra_services = systemd_extra_services or []

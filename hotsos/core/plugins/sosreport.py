@@ -20,7 +20,7 @@ class SOSReportChecksBase(PluginPartBase):
 
     @cached_property
     def data_root_is_sosreport(self):
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_commands')
+        path = os.path.join(HotSOSConfig.data_root, 'sos_commands')
         if os.path.isdir(path):
             return True
 
@@ -31,7 +31,7 @@ class SOSReportChecksBase(PluginPartBase):
         if not self.data_root_is_sosreport:
             return
 
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'version.txt')
+        path = os.path.join(HotSOSConfig.data_root, 'version.txt')
         if not os.path.exists(path):
             return
 
@@ -43,12 +43,12 @@ class SOSReportChecksBase(PluginPartBase):
     @cached_property
     def timed_out_plugins(self):
         timeouts = []
-        if not os.path.exists(os.path.join(HotSOSConfig.DATA_ROOT,
+        if not os.path.exists(os.path.join(HotSOSConfig.data_root,
                                            'sos_logs')):
             return timeouts
 
         searcher = FileSearcher()
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_logs/ui.log')
+        path = os.path.join(HotSOSConfig.data_root, 'sos_logs/ui.log')
         searcher.add_search_term(SearchDef(r".* Plugin (\S+) timed out.*",
                                            tag="timeouts"), path=path)
         results = searcher.search()

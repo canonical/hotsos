@@ -1,7 +1,7 @@
 import os
 import yaml
 
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core.issues import IssuesManager
 from hotsos.core.ycheck.scenarios import YScenarioChecker
@@ -78,10 +78,10 @@ class PartManager(object):
         out = yaml.dump(data, Dumper=HOTSOSDumper,
                         default_flow_style=False).rstrip("\n")
 
-        part_path = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR,
+        part_path = os.path.join(HotSOSConfig.plugin_tmp_dir,
                                  "{}.{}.part.yaml".
-                                 format(HotSOSConfig.PLUGIN_NAME,
-                                        HotSOSConfig.PART_NAME))
+                                 format(HotSOSConfig.plugin_name,
+                                        HotSOSConfig.part_name))
 
         # don't clobber
         if os.path.exists(part_path):
@@ -100,7 +100,7 @@ class PartManager(object):
 
     @property
     def index(self):
-        path = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, "index.yaml")
+        path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
         index = {}
         if os.path.exists(path):
             with open(path) as fd:
@@ -115,7 +115,7 @@ class PartManager(object):
         else:
             index[offset] = [part]
 
-        path = os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, "index.yaml")
+        path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
         with open(path, 'w') as fd:
             fd.write(yaml.dump(index))
 
@@ -152,7 +152,7 @@ class PartManager(object):
                     # unique.
                     self.meld_part_output(part_yaml, parts)
 
-        return {HotSOSConfig.PLUGIN_NAME: parts}
+        return {HotSOSConfig.plugin_name: parts}
 
 
 class PluginPartBase(ApplicationBase):
@@ -160,9 +160,9 @@ class PluginPartBase(ApplicationBase):
     PLUGIN_PART_OFFSET_MAX = 500
 
     def __init__(self, *args, **kwargs):
-        plugin_tmp = HotSOSConfig.PLUGIN_TMP_DIR
+        plugin_tmp = HotSOSConfig.plugin_tmp_dir
         if not plugin_tmp or not os.path.isdir(plugin_tmp):
-            raise Exception("plugin PLUGIN_TMP_DIR not initialised - exiting")
+            raise Exception("plugin plugin_tmp_dir not initialised - exiting")
 
         super().__init__(*args, **kwargs)
 
@@ -242,7 +242,7 @@ class PluginRunner(object):
         ALWAYS_RUN = {'auto_scenario_check': YScenarioChecker}
         for name, always_parts in ALWAYS_RUN.items():
             # update current env to reflect actual part being run
-            setup_config(PART_NAME=name)
+            HotSOSConfig.part_name = name
             try:
                 always_parts()()
             except Exception as exc:
@@ -255,17 +255,17 @@ class PluginRunner(object):
 
         for name, part_info in self.parts.items():
             # update current env to reflect actual part being run
-            setup_config(PART_NAME=name)
+            HotSOSConfig.part_name = name
             for cls in part_info['objects']:
                 inst = cls()
                 # Only run plugin if it declares itself runnable.
-                if not HotSOSConfig.FORCE_MODE and not inst.plugin_runnable:
+                if not HotSOSConfig.force_mode and not inst.plugin_runnable:
                     log.debug("%s.%s.%s not runnable - skipping",
-                              HotSOSConfig.PLUGIN_NAME, name, cls.__name__)
+                              HotSOSConfig.plugin_name, name, cls.__name__)
                     continue
 
                 log.debug("running %s.%s.%s",
-                          HotSOSConfig.PLUGIN_NAME, name, cls.__name__)
+                          HotSOSConfig.plugin_name, name, cls.__name__)
                 try:
                     inst()
                     # NOTE: since all parts are expected to be implementations

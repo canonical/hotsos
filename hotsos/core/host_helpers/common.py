@@ -19,17 +19,17 @@ class HostHelpersBase(abc.ABC):
 
     @property
     def plugin_cache_root(self):
-        path = HotSOSConfig.PLUGIN_TMP_DIR
+        path = HotSOSConfig.plugin_tmp_dir
         if path is None:
             log.warning("plugin '%s' cache root not setup",
-                        HotSOSConfig.PLUGIN_NAME)
+                        HotSOSConfig.plugin_name)
             return
 
         return os.path.join(path, 'cache/host_helpers', self.cache_name)
 
     @property
     def global_cache_root(self):
-        path = HotSOSConfig.GLOBAL_TMP_DIR
+        path = HotSOSConfig.global_tmp_dir
         if path is None:
             log.warning("global cache root not setup")
             return

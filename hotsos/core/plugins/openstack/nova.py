@@ -108,7 +108,7 @@ class CPUPinning(NovaBase):
         self.numa = NUMAInfo()
         self.systemd = SystemdConfig()
         self.kernel = KernelConfig()
-        self.nova_cfg = OpenstackConfig(os.path.join(HotSOSConfig.DATA_ROOT,
+        self.nova_cfg = OpenstackConfig(os.path.join(HotSOSConfig.data_root,
                                                      'etc/nova/nova.conf'))
         self.isolcpus = set(self.kernel.get('isolcpus',
                                             expand_to_list=True) or [])

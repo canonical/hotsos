@@ -2,7 +2,7 @@ from unittest import mock
 
 from .. import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
@@ -25,7 +25,7 @@ class StorageCephOSDTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='storage')
+        HotSOSConfig.plugin_name = 'storage'
 
 
 class TestCephOSDChecksBase(StorageCephOSDTestsBase):

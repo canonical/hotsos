@@ -171,7 +171,7 @@ class FileCmd(CmdBase):
 
     def __init__(self, path, safe_decode=False, json_decode=False,
                  singleline=False):
-        self.original_path = os.path.join(HotSOSConfig.DATA_ROOT, path)
+        self.original_path = os.path.join(HotSOSConfig.data_root, path)
         self.original_safe_decode = safe_decode
         self.original_json_decode = json_decode
         self.original_singleline = singleline
@@ -264,8 +264,8 @@ class JournalctlBase(object):
         """
         current = CLIHelper().date(format="--iso-8601")
         ts = datetime.datetime.strptime(current, "%Y-%m-%d")
-        if HotSOSConfig.USE_ALL_LOGS:
-            days = HotSOSConfig.MAX_LOGROTATE_DEPTH
+        if HotSOSConfig.use_all_logs:
+            days = HotSOSConfig.max_logrotate_depth
         else:
             days = 1
 
@@ -469,7 +469,7 @@ class SourceRunner(object):
             except SourceNotFound:
                 pass
 
-        if HotSOSConfig.DATA_ROOT != '/':
+        if HotSOSConfig.data_root != '/':
             return NullSource()()
 
         # binary sources only apply if data_root is localhost root
@@ -784,7 +784,7 @@ class CLIHelper(object):
 
 
 def get_ps_axo_flags_available():
-    path = os.path.join(HotSOSConfig.DATA_ROOT,
+    path = os.path.join(HotSOSConfig.data_root,
                         "sos_commands/process/ps_axo_flags_state_"
                         "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
                         "tty_time_cmd")
@@ -796,4 +796,4 @@ def get_ps_axo_flags_available():
         return
 
     # strip data_root since it will be prepended later
-    return _paths[0].partition(HotSOSConfig.DATA_ROOT)[2]
+    return _paths[0].partition(HotSOSConfig.data_root)[2]

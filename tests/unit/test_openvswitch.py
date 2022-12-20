@@ -7,7 +7,7 @@ from . import utils
 from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openvswitch import OpenvSwitchBase
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.openvswitch import (
@@ -57,7 +57,7 @@ class TestOpenvswitchBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        setup_config(PLUGIN_NAME='openvswitch')
+        HotSOSConfig.plugin_name = 'openvswitch'
 
 
 class TestCoreOpenvSwitch(TestOpenvswitchBase):
@@ -325,7 +325,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_ssl_certs_svcs_no_error(self):
-        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):
@@ -353,7 +353,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_ssl_certs_svcs_w_error(self):
-        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):
@@ -385,7 +385,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_chassis_ssl_certs_svcs_no_error(self):
-        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):
@@ -408,7 +408,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_chassis_ssl_certs_svcs_w_error(self):
-        mtime = os.path.getmtime(os.path.join(HotSOSConfig.DATA_ROOT,
+        mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):

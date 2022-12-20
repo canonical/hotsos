@@ -2,7 +2,7 @@ import os
 
 from tests.unit import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.pacemaker import summary
 
 
@@ -10,9 +10,9 @@ class TestPacemakerBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        setup_config(PLUGIN_NAME='pacemaker',
-                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
-                                            'fake_data_root/vault'))
+        HotSOSConfig.plugin_name = 'pacemaker'
+        HotSOSConfig.data_root = os.path.join(utils.TESTS_DIR,
+                                              'fake_data_root/vault')
 
 
 class TestPacemakerSummary(TestPacemakerBase):

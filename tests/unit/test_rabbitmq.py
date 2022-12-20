@@ -4,7 +4,7 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.rabbitmq import summary
 
 
@@ -12,9 +12,9 @@ class TestRabbitmqBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        setup_config(PLUGIN_NAME='rabbitmq',
-                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
-                                            'fake_data_root/rabbitmq'))
+        HotSOSConfig.plugin_name = 'rabbitmq'
+        HotSOSConfig.data_root = os.path.join(utils.TESTS_DIR,
+                                              'fake_data_root/rabbitmq')
 
 
 class TestRabbitmqSummary(TestRabbitmqBase):
@@ -42,7 +42,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         mock_helper.return_value = mock.MagicMock()
 
         def fake_get_rabbitmqctl_report():
-            path = os.path.join(HotSOSConfig.DATA_ROOT,
+            path = os.path.join(HotSOSConfig.data_root,
                                 "sos_commands/rabbitmq/rabbitmqctl_report."
                                 "bionic")
             return open(path, 'r').readlines()

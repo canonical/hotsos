@@ -71,7 +71,7 @@ class KubernetesBase(object):
             return self._pods
 
         _pods = []
-        pods_path = os.path.join(HotSOSConfig.DATA_ROOT,
+        pods_path = os.path.join(HotSOSConfig.data_root,
                                  "var/log/pods")
         if os.path.exists(pods_path):
             for pod in os.listdir(pods_path):
@@ -86,7 +86,7 @@ class KubernetesBase(object):
             return self._containers
 
         _containers = []
-        containers_path = os.path.join(HotSOSConfig.DATA_ROOT,
+        containers_path = os.path.join(HotSOSConfig.data_root,
                                        "var/log/containers")
         if os.path.exists(containers_path):
             for pod in os.listdir(containers_path):

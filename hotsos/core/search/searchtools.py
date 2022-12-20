@@ -389,10 +389,10 @@ class FileSearcher(object):
 
     @property
     def num_cpus(self):
-        if HotSOSConfig.MAX_PARALLEL_TASKS == 0:
+        if HotSOSConfig.max_parallel_tasks == 0:
             cpus = 1  # i.e. no parallelism
         else:
-            cpus = min(HotSOSConfig.MAX_PARALLEL_TASKS, os.cpu_count())
+            cpus = min(HotSOSConfig.max_parallel_tasks, os.cpu_count())
 
         return min(self.num_files_to_search, cpus)
 
@@ -464,7 +464,7 @@ class FileSearcher(object):
             log.debug("skipping global constraint for %s", fd.name)
             return offset
 
-        if not os.path.isdir(os.path.join(HotSOSConfig.DATA_ROOT,
+        if not os.path.isdir(os.path.join(HotSOSConfig.data_root,
                                           'sos_commands')):
             log.info("skipping global constraints since data_root is not a "
                      "sosreport therefore files may be changing")
@@ -684,7 +684,7 @@ class FileSearcher(object):
             else:
                 dir_contents.append(path)
 
-        limit = HotSOSConfig.MAX_LOGROTATE_DEPTH
+        limit = HotSOSConfig.max_logrotate_depth
         for logrotated in logrotate_collection.values():
             capped = sorted(logrotated,
                             key=self.logrotate_file_sort)[:limit]

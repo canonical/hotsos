@@ -2,10 +2,6 @@ import json
 
 from . import utils
 
-from hotsos.core.config import (
-    setup_config,
-    HotSOSConfig,
-)
 from hotsos.core import plugintools
 from hotsos.client import OutputManager
 from hotsos.core.issues import IssuesManager
@@ -31,31 +27,6 @@ ISSUES_NEW_FORMAT = {
              'id': '1234',
              'desc': 'a msg',
              'origin': 'testplugin.01part'}]}}
-
-
-class TestHotSOSConfig(utils.BaseTestCase):
-
-    def test_restore_defaults(self):
-        try:
-            path = 'tests/unit/fake_data_root/openstack'
-            self.assertTrue(HotSOSConfig.DATA_ROOT.endswith(path))
-            self.assertTrue(HotSOSConfig.USE_ALL_LOGS)
-            self.assertEqual(HotSOSConfig.MAX_LOGROTATE_DEPTH, 7)
-
-            setup_config(DATA_ROOT='foo', USE_ALL_LOGS=False,
-                         MAX_LOGROTATE_DEPTH=1)
-            self.assertEqual(HotSOSConfig.DATA_ROOT, 'foo')
-            self.assertFalse(HotSOSConfig.USE_ALL_LOGS)
-            self.assertEqual(HotSOSConfig.MAX_LOGROTATE_DEPTH, 1)
-        finally:
-            HotSOSConfig.reset()
-            # check global defaults
-            self.assertFalse(HotSOSConfig.USE_ALL_LOGS)
-            self.assertEqual(HotSOSConfig.MAX_LOGROTATE_DEPTH, 7)
-            super().setUp()
-            # check unit test defaults
-            self.assertTrue(HotSOSConfig.DATA_ROOT.endswith(path))
-            self.assertTrue(HotSOSConfig.USE_ALL_LOGS)
 
 
 class TestPluginTools(utils.BaseTestCase):

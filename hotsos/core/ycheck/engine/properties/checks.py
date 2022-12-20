@@ -140,8 +140,8 @@ class YPropertyChecks(YPropertyOverrideBase):
 
         log.debug("loading checks searchdefs into filesearcher")
 
-        if HotSOSConfig.USE_ALL_LOGS:
-            hours = 24 * HotSOSConfig.MAX_LOGROTATE_DEPTH
+        if HotSOSConfig.use_all_logs:
+            hours = 24 * HotSOSConfig.max_logrotate_depth
         else:
             hours = 24
 

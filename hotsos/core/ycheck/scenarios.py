@@ -35,11 +35,11 @@ class YScenarioChecker(YHandlerBase):
         if not plugin_content:
             return
 
-        yscenarios = YDefsSection(HotSOSConfig.PLUGIN_NAME, plugin_content)
-        if (not HotSOSConfig.FORCE_MODE and yscenarios.requires and not
+        yscenarios = YDefsSection(HotSOSConfig.plugin_name, plugin_content)
+        if (not HotSOSConfig.force_mode and yscenarios.requires and not
                 yscenarios.requires.passes):
             log.debug("plugin '%s' scenarios pre-requisites not met - "
-                      "skipping", HotSOSConfig.PLUGIN_NAME)
+                      "skipping", HotSOSConfig.plugin_name)
             return
 
         log.debug("sections=%s, scenarios=%s",
@@ -50,7 +50,7 @@ class YScenarioChecker(YHandlerBase):
         for scenario in yscenarios.leaf_sections:
             # Only register scenarios if requirements are satisfied.
             group_name = scenario.parent.name
-            if (not HotSOSConfig.FORCE_MODE and
+            if (not HotSOSConfig.force_mode and
                     (group_name in to_skip or
                         (scenario.requires and not scenario.requires.passes))):
                 log.debug("%s requirements not met - skipping scenario %s",

@@ -73,7 +73,7 @@ CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
 class CephConfig(SectionalConfigBase):
     def __init__(self, *args, **kwargs):
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/ceph/ceph.conf')
+        path = os.path.join(HotSOSConfig.data_root, 'etc/ceph/ceph.conf')
         super().__init__(*args, path=path, **kwargs)
 
 

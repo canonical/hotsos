@@ -6,7 +6,7 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
@@ -120,7 +120,7 @@ class TestSearchTools(utils.BaseTestCase):
 
     @mock.patch.object(os, "cpu_count")
     def test_filesearcher_num_cpus_w_override(self, mock_cpu_count):
-        setup_config(MAX_PARALLEL_TASKS=2)
+        HotSOSConfig.max_parallel_tasks = 2
         mock_cpu_count.return_value = 3
         with mock.patch.object(FileSearcher, 'num_files_to_search', 4):
             s = FileSearcher()
@@ -131,13 +131,13 @@ class TestSearchTools(utils.BaseTestCase):
                     9892: '2022-02-09 22:50:19.703'}
 
         logs_root = "var/log/neutron/"
-        filepath = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
+        filepath = os.path.join(HotSOSConfig.data_root, logs_root,
                                 'neutron-openvswitch-agent.log.2.gz')
-        globpath = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
+        globpath = os.path.join(HotSOSConfig.data_root, logs_root,
                                 'neutron-l3-agent.log')
-        globpath_file1 = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
+        globpath_file1 = os.path.join(HotSOSConfig.data_root, logs_root,
                                       'neutron-l3-agent.log')
-        globpath_file2 = os.path.join(HotSOSConfig.DATA_ROOT, logs_root,
+        globpath_file2 = os.path.join(HotSOSConfig.data_root, logs_root,
                                       'neutron-l3-agent.log.1.gz')
 
         s = FileSearcher()
@@ -189,9 +189,9 @@ class TestSearchTools(utils.BaseTestCase):
             self.assertEqual(result.get(1), expected[ln])
 
     def test_filesearcher_network_info(self):
-        filepath = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_commands',
+        filepath = os.path.join(HotSOSConfig.data_root, 'sos_commands',
                                 'networking', 'ip_-d_address')
-        filepath2 = os.path.join(HotSOSConfig.DATA_ROOT, 'sos_commands',
+        filepath2 = os.path.join(HotSOSConfig.data_root, 'sos_commands',
                                  'networking', 'ip_-s_-d_link')
         ip = "10.0.0.128"
         mac = "22:c2:7b:1c:12:1b"
@@ -226,7 +226,7 @@ class TestSearchTools(utils.BaseTestCase):
                 raise EOFError("some error")
 
             mock_init.side_effect = fake_init
-            path = os.path.join(HotSOSConfig.DATA_ROOT)
+            path = os.path.join(HotSOSConfig.data_root)
             s.add_search_term(SearchDef("."), path)
             s.search()
 
@@ -271,25 +271,25 @@ class TestSearchTools(utils.BaseTestCase):
             for e in dir_contents:
                 os.mknod(e)
 
-            for i in range(2, HotSOSConfig.MAX_LOGROTATE_DEPTH + 10):
+            for i in range(2, HotSOSConfig.max_logrotate_depth + 10):
                 fname = os.path.join(dtmp,
                                      "my-test-agent.1.log.{}.gz".format(i))
                 os.mknod(fname)
-                if i <= HotSOSConfig.MAX_LOGROTATE_DEPTH:
+                if i <= HotSOSConfig.max_logrotate_depth:
                     dir_contents.append(fname)
 
-            for i in range(2, HotSOSConfig.MAX_LOGROTATE_DEPTH + 10):
+            for i in range(2, HotSOSConfig.max_logrotate_depth + 10):
                 fname = os.path.join(dtmp,
                                      "my-test-agent.49.log.{}.gz".format(i))
                 os.mknod(fname)
-                if i <= HotSOSConfig.MAX_LOGROTATE_DEPTH:
+                if i <= HotSOSConfig.max_logrotate_depth:
                     dir_contents.append(fname)
 
-            for i in range(2, HotSOSConfig.MAX_LOGROTATE_DEPTH + 10):
+            for i in range(2, HotSOSConfig.max_logrotate_depth + 10):
                 fname = os.path.join(dtmp,
                                      "my-test-agent.100.log.{}.gz".format(i))
                 os.mknod(fname)
-                if i <= HotSOSConfig.MAX_LOGROTATE_DEPTH:
+                if i <= HotSOSConfig.max_logrotate_depth:
                     dir_contents.append(fname)
 
             exp = sorted(dir_contents)
@@ -306,7 +306,7 @@ class TestSearchTools(utils.BaseTestCase):
                                end=SearchDef(r"^an (ending)$"),
                                tag="seq-search-test1")
         s.add_search_term(sd,
-                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                          path=os.path.join(HotSOSConfig.data_root,
                                             'atestfile'))
         results = s.search()
         sections = results.find_sequence_sections(sd)
@@ -327,7 +327,7 @@ class TestSearchTools(utils.BaseTestCase):
                                end=SearchDef(r"^an (ending)$"),
                                tag="seq-search-test2")
         s.add_search_term(sd,
-                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                          path=os.path.join(HotSOSConfig.data_root,
                                             'atestfile'))
         results = s.search()
         sections = results.find_sequence_sections(sd)
@@ -348,7 +348,7 @@ class TestSearchTools(utils.BaseTestCase):
                                end=SearchDef(r"^an (ending)$"),
                                tag="seq-search-test3")
         s.add_search_term(sd,
-                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                          path=os.path.join(HotSOSConfig.data_root,
                                             'atestfile'))
         results = s.search()
         sections = results.find_sequence_sections(sd)
@@ -369,7 +369,7 @@ class TestSearchTools(utils.BaseTestCase):
                                end=SearchDef(r"^$"),
                                tag="seq-search-test4")
         s.add_search_term(sd,
-                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                          path=os.path.join(HotSOSConfig.data_root,
                                             'atestfile'))
         results = s.search()
         sections = results.find_sequence_sections(sd)
@@ -392,7 +392,7 @@ class TestSearchTools(utils.BaseTestCase):
                                end=SearchDef(r"^$"),
                                tag="seq-search-test5")
         s.add_search_term(sd,
-                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                          path=os.path.join(HotSOSConfig.data_root,
                                             'atestfile'))
         results = s.search()
         sections = results.find_sequence_sections(sd)
@@ -420,7 +420,7 @@ class TestSearchTools(utils.BaseTestCase):
                                body=SearchDef(r"\d_\d"),
                                tag="seq-search-test6")
         s.add_search_term(sd,
-                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                          path=os.path.join(HotSOSConfig.data_root,
                                             'atestfile'))
         results = s.search()
         sections = results.find_sequence_sections(sd)
@@ -451,7 +451,7 @@ class TestSearchTools(utils.BaseTestCase):
                                            r"^section (\d+)"),
                                tag="seq-search-test7")
         s.add_search_term(sd,
-                          path=os.path.join(HotSOSConfig.DATA_ROOT,
+                          path=os.path.join(HotSOSConfig.data_root,
                                             'atestfile'))
         results = s.search()
         sections = results.find_sequence_sections(sd)
@@ -482,7 +482,7 @@ class TestSearchTools(utils.BaseTestCase):
                                 end=SearchDef(
                                             r"^section\S+ (\d+)"),
                                 tag="seqB-search-test")
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sdA, path=fname)
         s.add_search_term(sdB, path=fname)
         results = s.search()
@@ -503,7 +503,7 @@ class TestSearchTools(utils.BaseTestCase):
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd',
                        constraints=[c])
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -521,7 +521,7 @@ class TestSearchTools(utils.BaseTestCase):
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd',
                        constraints=[c])
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -539,7 +539,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -556,7 +556,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -574,7 +574,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -591,7 +591,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -609,7 +609,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -627,7 +627,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -645,7 +645,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"(.+)", tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -665,7 +665,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"(.+)", tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -684,7 +684,7 @@ class TestSearchTools(utils.BaseTestCase):
         c = SearchConstraintSearchSince(hours=24, exprs=[datetime_expr])
         s = FileSearcher(constraint=c)
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd')
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -703,7 +703,7 @@ class TestSearchTools(utils.BaseTestCase):
         s = FileSearcher()
         sd = SearchDef(r"{}\S+ (.+)".format(datetime_expr), tag='mysd',
                        constraints=[c])
-        fname = os.path.join(HotSOSConfig.DATA_ROOT, 'atestfile')
+        fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         s.add_search_term(sd, path=fname)
         results = s.search()
         results = results.find_by_tag('mysd')
@@ -716,7 +716,7 @@ class TestSearchUtils(utils.BaseTestCase):
                              'sos_commands/date/date':
                              'Tue Jan 03 00:00:01 UTC 2022'})
     def test_binary_search(self):
-        _file = os.path.join(HotSOSConfig.DATA_ROOT, 'f1')
+        _file = os.path.join(HotSOSConfig.data_root, 'f1')
         datetime_expr = r"^([\d-]+\s+[\d:]+)"
         c = SearchConstraintSearchSince([datetime_expr])
         with open(_file, 'rb') as fd:

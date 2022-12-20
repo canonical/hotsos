@@ -121,7 +121,7 @@ class JujuBase(object):
 
     @property
     def juju_lib_path(self):
-        return os.path.join(HotSOSConfig.DATA_ROOT, "var/lib/juju")
+        return os.path.join(HotSOSConfig.data_root, "var/lib/juju")
 
     @utils.cached_property
     def machine(self):

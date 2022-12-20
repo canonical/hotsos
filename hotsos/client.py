@@ -9,7 +9,7 @@ import tempfile
 from hotsos.core.log import log
 from hotsos.core.issues import IssuesManager
 from hotsos.core.host_helpers.cli import CLIHelper
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.core import plugintools
 
 from hotsos.plugin_extensions.mysql.summary import MySQLSummary
@@ -54,9 +54,9 @@ class HotSOSSummary(plugintools.PluginPartBase):
 
     @property
     def summary(self):
-        out = {'version': HotSOSConfig.HOTSOS_VERSION,
-               'repo-info': HotSOSConfig.REPO_INFO}
-        if HotSOSConfig.FORCE_MODE:
+        out = {'version': HotSOSConfig.hotsos_version,
+               'repo-info': HotSOSConfig.repo_info}
+        if HotSOSConfig.force_mode:
             out['force'] = True
 
         return out
@@ -352,27 +352,28 @@ class HotSOSClient(object):
         """ State saved here persists across all plugin runs. """
         log.debug("setting up global env")
         global_tmp_dir = tempfile.mkdtemp()
-        setup_config(GLOBAL_TMP_DIR=global_tmp_dir)
+        HotSOSConfig.global_tmp_dir = global_tmp_dir
         os.makedirs(os.path.join(global_tmp_dir, 'locks'))
 
     def teardown_global_env(self):
         log.debug("tearing down gloval env")
-        if os.path.exists(HotSOSConfig.GLOBAL_TMP_DIR):
-            shutil.rmtree(HotSOSConfig.GLOBAL_TMP_DIR)
+        if os.path.exists(HotSOSConfig.global_tmp_dir):
+            shutil.rmtree(HotSOSConfig.global_tmp_dir)
 
     def setup_plugin_env(self, plugin):
         """ State saved here is specific to a plugin. """
         log.debug("setting up plugin env")
-        global_tmp = HotSOSConfig.GLOBAL_TMP_DIR
-        setup_config(PLUGIN_TMP_DIR=tempfile.mkdtemp(prefix=plugin,
-                                                     dir=global_tmp))
+        global_tmp = HotSOSConfig.global_tmp_dir
+        HotSOSConfig.plugin_tmp_dir = tempfile.mkdtemp(prefix=plugin,
+                                                       dir=global_tmp)
 
     def _run(self, plugin):
         log.debug("running plugin %s", plugin)
         if plugin not in PLUGIN_CATALOG:
             raise Exception("unknown plugin {}".format(plugin))
 
-        setup_config(PLUGIN_NAME=plugin)
+        HotSOSConfig.plugin_name = plugin
+        log.name = 'plugin.{}'.format(plugin)
         parts = PLUGIN_CATALOG[plugin]
         return plugintools.PluginRunner(parts).run()
 
@@ -385,6 +386,7 @@ class HotSOSClient(object):
         Run the selected plugins. This will run the automatic (defs) checks as
         well as any extensions.
         """
+        log.name = 'hotsos.client'
         try:
             self.setup_global_env()
             for plugin in PLUGIN_RUN_ORDER:
@@ -394,4 +396,5 @@ class HotSOSClient(object):
                     if content:
                         self.summary.update(plugin, content.get(plugin))
         finally:
+            log.name = 'hotsos.client'
             self.teardown_global_env()

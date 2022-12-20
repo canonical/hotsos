@@ -29,14 +29,14 @@ class MySQLChecksBase(plugintools.PluginPartBase):
 
 class MySQLConfig(host_helpers.SectionalConfigBase):
     def __init__(self, *args, **kwargs):
-        path = os.path.join(HotSOSConfig.DATA_ROOT,
+        path = os.path.join(HotSOSConfig.data_root,
                             'etc/mysql/mysql.conf.d/mysqld.cnf')
         super().__init__(*args, path=path, **kwargs)
 
 
 class MySQLRouterConfig(host_helpers.SectionalConfigBase):
     def __init__(self, *args, **kwargs):
-        path = os.path.join(HotSOSConfig.DATA_ROOT,
+        path = os.path.join(HotSOSConfig.data_root,
                             'var/lib/mysql/*mysql-router/mysqlrouter.conf')
         # expect only one
         for f in glob.glob(path):

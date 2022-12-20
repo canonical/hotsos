@@ -4,7 +4,7 @@ import yaml
 
 from . import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import (
     LaunchpadBug,
     MemoryWarning,
@@ -17,7 +17,7 @@ class TestIssuesUtils(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(MACHINE_READABLE=False)
+        HotSOSConfig.machine_readable = False
 
     def test_get_issues(self):
         raised_issues = {}
@@ -38,7 +38,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                            ['test (origin=testplugin.testpart)']}})
 
     def test_issue_machine_readable(self):
-        setup_config(MACHINE_READABLE=True)
+        HotSOSConfig.machine_readable = True
         mgr = IssuesManager()
         mgr.add(MemoryWarning("test"))
         ret = mgr.load_issues()
@@ -49,7 +49,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                             'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_w_empty_context(self):
-        setup_config(MACHINE_READABLE=True)
+        HotSOSConfig.machine_readable = True
         ctxt = IssueContext()
         mgr = IssuesManager()
         mgr.add(MemoryWarning("test"), ctxt)
@@ -61,7 +61,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                             'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_empty_context(self):
-        setup_config(MACHINE_READABLE=True)
+        HotSOSConfig.machine_readable = True
         ctxt = IssueContext()
         ctxt.set(linenumber=123, path='/foo/bar')
         mgr = IssuesManager()

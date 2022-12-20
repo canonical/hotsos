@@ -37,7 +37,7 @@ class OpenstackBase(object):
 
     @cached_property
     def apache2_ssl_config_file(self):
-        return os.path.join(HotSOSConfig.DATA_ROOT,
+        return os.path.join(HotSOSConfig.data_root,
                             'etc/apache2/sites-enabled',
                             'openstack_https_frontend.conf')
 
@@ -57,7 +57,7 @@ class OpenstackBase(object):
                                                 line)
                         if regex_match:
                             certificate_path = os.path.join(
-                                               HotSOSConfig.DATA_ROOT,
+                                               HotSOSConfig.data_root,
                                                regex_match.group(1))
                             if certificate_path not in certificate_path_list:
                                 certificate_path_list.append(certificate_path)
@@ -108,7 +108,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
     @cached_property
     def apt_source_path(self):
-        return os.path.join(HotSOSConfig.DATA_ROOT, 'etc/apt/sources.list.d')
+        return os.path.join(HotSOSConfig.data_root, 'etc/apt/sources.list.d')
 
     @cached_property
     def installed_pkg_release_names(self):
@@ -243,6 +243,6 @@ class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
 
     def categorise_events(self, *args, **kwargs):
         if 'include_time' not in kwargs:
-            kwargs['include_time'] = HotSOSConfig.AGENT_ERROR_KEY_BY_TIME
+            kwargs['include_time'] = HotSOSConfig.agent_error_key_by_time
 
         return super().categorise_events(*args, **kwargs)

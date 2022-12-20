@@ -78,7 +78,7 @@ class SystemBase(object):
 
     @cached_property
     def os_release_name(self):
-        data_source = os.path.join(HotSOSConfig.DATA_ROOT, "etc/lsb-release")
+        data_source = os.path.join(HotSOSConfig.data_root, "etc/lsb-release")
         if os.path.exists(data_source):
             for line in open(data_source).read().split():
                 ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)

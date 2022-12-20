@@ -5,10 +5,7 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.core.config import (
-    setup_config,
-    HotSOSConfig,
-)
+from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.host_helpers.filestat import FileFactory
 
@@ -132,20 +129,21 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
 
 class TestCLIHelper(utils.BaseTestCase):
     """
-    NOTE: remember that a DATA_ROOT is configured so helpers will always
+    NOTE: remember that a data_root is configured so helpers will always
     use fake_data_root if possible. If you write a test that wants to
     test a scenario where no data root is set (i.e. no sosreport) you need
     to unset it as part of the test.
     """
 
     def test_journalctl(self):
-        setup_config(USE_ALL_LOGS=False, MAX_LOGROTATE_DEPTH=7)
+        HotSOSConfig.use_all_logs = False
+        HotSOSConfig.max_logrotate_depth = 7
         self.assertEqual(host_helpers.cli.JournalctlBase().since_date,
                          "2022-02-09")
-        setup_config(USE_ALL_LOGS=True)
+        HotSOSConfig.use_all_logs = True
         self.assertEqual(host_helpers.cli.JournalctlBase().since_date,
                          "2022-02-03")
-        setup_config(MAX_LOGROTATE_DEPTH=1000)
+        HotSOSConfig.max_logrotate_depth = 1000
         self.assertEqual(host_helpers.cli.JournalctlBase().since_date,
                          "2019-05-17")
 
@@ -161,7 +159,7 @@ class TestCLIHelper(utils.BaseTestCase):
 
     @mock.patch.object(host_helpers.cli, 'subprocess')
     def test_ps(self, mock_subprocess):
-        path = os.path.join(HotSOSConfig.DATA_ROOT, "ps")
+        path = os.path.join(HotSOSConfig.data_root, "ps")
         with open(path, 'r') as fd:
             out = fd.readlines()
 
@@ -169,7 +167,7 @@ class TestCLIHelper(utils.BaseTestCase):
         self.assertFalse(mock_subprocess.called)
 
     def test_get_date_local(self):
-        setup_config(DATA_ROOT='/')
+        HotSOSConfig.data_root = '/'
         self.assertEqual(type(host_helpers.cli.CLIHelper().date()), str)
 
     def test_get_date(self):
@@ -203,7 +201,7 @@ class TestCLIHelper(utils.BaseTestCase):
             else:
                 raise subprocess.CalledProcessError(1, 'ofctl')
 
-        setup_config(DATA_ROOT='/')
+        HotSOSConfig.data_root = '/'
         with mock.patch.object(host_helpers.cli.subprocess,
                                'check_output') as \
                 mock_check_output:
@@ -242,7 +240,7 @@ class TestFileStatHelper(utils.BaseTestCase):
 
     @utils.create_data_root({'foo': 'bar'})
     def test_filestat_factory(self):
-        fpath = os.path.join(HotSOSConfig.DATA_ROOT, 'foo')
+        fpath = os.path.join(HotSOSConfig.data_root, 'foo')
         fileobj = FileFactory().foo
         self.assertEqual(fileobj.mtime, os.path.getmtime(fpath))
 
@@ -275,7 +273,7 @@ class TestSysctlHelper(utils.BaseTestCase):
                                  'net.core.somaxconn'), '4096')
 
     def test_sysctlconfhelper(self):
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'etc/sysctl.d')
+        path = os.path.join(HotSOSConfig.data_root, 'etc/sysctl.d')
         path = os.path.join(path, '50-nova-compute.conf')
         sysctl = host_helpers.SYSCtlConfHelper(path)
         setters = {'net.ipv4.neigh.default.gc_thresh1': '128',
@@ -344,7 +342,7 @@ class TestConfigHelper(utils.BaseTestCase):
 
     @utils.create_data_root({'test.conf': DUMMY_CONFIG})
     def test_sectionalconfig_base(self):
-        conf = os.path.join(HotSOSConfig.DATA_ROOT, 'test.conf')
+        conf = os.path.join(HotSOSConfig.data_root, 'test.conf')
         cfg = host_helpers.SectionalConfigBase(conf)
         self.assertTrue(cfg.exists)
         self.assertEqual(cfg.get('a-key'), '1023')

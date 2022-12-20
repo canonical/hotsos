@@ -9,7 +9,7 @@ from . import utils
 
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.search import FileSearcher, SearchDef
 from hotsos.core.host_helpers.config import SectionalConfigBase
 from hotsos.core.ycheck import (
@@ -74,7 +74,7 @@ def init_test_scenario(yaml_contents, set_data_root=True):
     Create a temporary defs path with a scenario yaml under it.
 
     @param param yaml_contents: yaml contents of scenario def.
-    @param param set_data_root: by default the DATA_ROOT will point to a
+    @param param set_data_root: by default the data_root will point to a
                                 temporary dir. Some tests may want to keep
                                 the original one and can do that by setting
                                 this to False.
@@ -82,9 +82,10 @@ def init_test_scenario(yaml_contents, set_data_root=True):
     def init_test_scenario_inner1(f):
         def init_test_scenario_inner2(*args, **kwargs):
             with tempfile.TemporaryDirectory() as dtmp:
-                setup_config(PLUGIN_YAML_DEFS=dtmp, PLUGIN_NAME='myplugin')
+                HotSOSConfig.plugin_yaml_defs = dtmp
+                HotSOSConfig.plugin_name = 'myplugin'
                 if set_data_root:
-                    setup_config(DATA_ROOT=dtmp)
+                    HotSOSConfig.data_root = dtmp
                 yroot = os.path.join(dtmp, 'scenarios', 'myplugin')
                 yfile = os.path.join(yroot, 'test.yaml')
                 os.makedirs(os.path.dirname(yfile))
@@ -727,7 +728,7 @@ class TestYamlChecks(utils.BaseTestCase):
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.paths,
-                                 [os.path.join(HotSOSConfig.DATA_ROOT,
+                                 [os.path.join(HotSOSConfig.data_root,
                                                'foo/bar1*')])
 
     def test_yaml_def_requires_grouped(self):
@@ -756,7 +757,7 @@ class TestYamlChecks(utils.BaseTestCase):
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.paths,
-                                 [os.path.join(HotSOSConfig.DATA_ROOT,
+                                 [os.path.join(HotSOSConfig.data_root,
                                                'foo/bar2*')])
 
     def test_yaml_def_entry_input_override(self):
@@ -765,7 +766,7 @@ class TestYamlChecks(utils.BaseTestCase):
             group = YDefsSection(name, group)
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.paths,
-                                 [os.path.join(HotSOSConfig.DATA_ROOT,
+                                 [os.path.join(HotSOSConfig.data_root,
                                                'foo/bar3*')])
 
     @utils.create_data_root({'data.txt': 'hello\nbrave\nworld\n',
@@ -776,7 +777,7 @@ class TestYamlChecks(utils.BaseTestCase):
         plugin_checks = yaml.safe_load(_yaml).get('myplugin')
         for name, group in plugin_checks.items():
             group = YDefsSection(name, group)
-            data_file = os.path.join(HotSOSConfig.DATA_ROOT, 'data.txt')
+            data_file = os.path.join(HotSOSConfig.data_root, 'data.txt')
             for entry in group.leaf_sections:
                 self.assertEqual(entry.input.paths,
                                  ['{}*'.format(data_file)])
@@ -784,8 +785,8 @@ class TestYamlChecks(utils.BaseTestCase):
         test_self = self
         match_count = {'count': 0}
         callbacks_called = {}
-        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
-                     PLUGIN_NAME='myplugin')
+        HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
+        HotSOSConfig.plugin_name = 'myplugin'
         EVENTCALLBACKS = CallbackHelper()
 
         class MyEventHandler(events.YEventCheckerBase):
@@ -854,7 +855,7 @@ class TestYamlChecks(utils.BaseTestCase):
                 'APTPackageHelper')
     def test_yaml_def_scenarios_no_issue(self, apt_check):
         apt_check.is_installed.return_value = True
-        setup_config(PLUGIN_NAME='juju')
+        HotSOSConfig.plugin_name = 'juju'
         scenarios.YScenarioChecker()()
         self.assertEqual(IssuesManager().load_issues(), {})
 
@@ -986,11 +987,11 @@ class TestYamlChecks(utils.BaseTestCase):
     def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.date.return_value = "2022-01-07 00:00:00"
-        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
-                     PLUGIN_NAME='myplugin')
+        HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
+        HotSOSConfig.plugin_name = 'myplugin'
 
         s = FileSearcher()
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'foo.log')
+        path = os.path.join(HotSOSConfig.data_root, 'foo.log')
         s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
         results = s.search().find_by_tag('all')
 
@@ -1005,8 +1006,8 @@ class TestYamlChecks(utils.BaseTestCase):
 
     def test_yaml_def_scenario_result_filters_by_period(self):
         with tempfile.TemporaryDirectory() as dtmp:
-            setup_config(PLUGIN_YAML_DEFS=dtmp, DATA_ROOT=dtmp,
-                         PLUGIN_NAME='myplugin')
+            HotSOSConfig.set(plugin_yaml_defs=dtmp, data_root=dtmp,
+                             plugin_name='myplugin')
             logfile = os.path.join(dtmp, 'foo.log')
 
             contents = ['2021-04-01 00:01:00.000 an event\n']
@@ -1063,8 +1064,8 @@ class TestYamlChecks(utils.BaseTestCase):
         do not supersceded overrides of the same type used by definitions in
         the same directory.
         """
-        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
-                     PLUGIN_NAME='myplugin')
+        HotSOSConfig.set(plugin_yaml_defs=HotSOSConfig.data_root,
+                         plugin_name='myplugin')
         expected = {'mytype': {
                         'requires': {
                             'property': 'foo'}},
@@ -1083,8 +1084,8 @@ class TestYamlChecks(utils.BaseTestCase):
         do not supersceded overrides of the same type used by definitions in
         the same directory.
         """
-        setup_config(PLUGIN_YAML_DEFS=HotSOSConfig.DATA_ROOT,
-                     PLUGIN_NAME='myplugin')
+        HotSOSConfig.set(plugin_yaml_defs=HotSOSConfig.data_root,
+                         plugin_name='myplugin')
         expected = {'mytype': {
                         'requires': {
                             'property': 'foo'}},
@@ -1330,7 +1331,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @init_test_scenario(CONFIG_SCENARIO)
     def test_config_scenario_fail(self):
-        cfg = os.path.join(HotSOSConfig.DATA_ROOT, 'test.conf')
+        cfg = os.path.join(HotSOSConfig.data_root, 'test.conf')
         contents = ['[DEFAULT]\nkey1 = 101\n']
         with open(cfg, 'w') as fd:
             for line in contents:
@@ -1343,7 +1344,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @init_test_scenario(CONFIG_SCENARIO)
     def test_config_scenario_pass(self):
-        cfg = os.path.join(HotSOSConfig.DATA_ROOT, 'test.conf')
+        cfg = os.path.join(HotSOSConfig.data_root, 'test.conf')
         contents = ['[DEFAULT]\nkey1 = 102\n']
         with open(cfg, 'w') as fd:
             for line in contents:

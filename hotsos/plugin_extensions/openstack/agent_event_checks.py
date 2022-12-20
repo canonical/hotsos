@@ -246,7 +246,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
     def check_vrrp_transitions(self, transitions):
         # there will likely be a large number of transitions if we look across
         # all time so dont run this check.
-        if HotSOSConfig.USE_ALL_LOGS:
+        if HotSOSConfig.use_all_logs:
             return
 
         max_transitions = 0
@@ -270,7 +270,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
         """ Args callback for event cli command """
         args = []
         kwargs = {'unit': 'neutron-l3-agent'}
-        if not HotSOSConfig.USE_ALL_LOGS:
+        if not HotSOSConfig.use_all_logs:
             kwargs['date'] = self.cli.date(format="--iso-8601")
 
         return args, kwargs

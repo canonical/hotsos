@@ -28,8 +28,8 @@ class IssueEntryBase(abc.ABC):
         self.context = context
         self.ref = ref
         self.description = description
-        self.origin = "{}.{}".format(HotSOSConfig.PLUGIN_NAME,
-                                     HotSOSConfig.PART_NAME)
+        self.origin = "{}.{}".format(HotSOSConfig.plugin_name,
+                                     HotSOSConfig.part_name)
 
     @abc.abstractproperty
     def content(self):
@@ -43,7 +43,7 @@ class IssueEntry(IssueEntryBase):
         _content = {self.key: self.ref,
                     'desc': self.description,
                     'origin': self.origin}
-        if HotSOSConfig.MACHINE_READABLE:
+        if HotSOSConfig.machine_readable:
             if len(self.context or {}):
                 _content['context'] = self.context.to_dict()
 
@@ -53,9 +53,9 @@ class IssueEntry(IssueEntryBase):
 class IssuesStoreBase(abc.ABC):
 
     def __init__(self):
-        if not os.path.isdir(HotSOSConfig.PLUGIN_TMP_DIR):
+        if not os.path.isdir(HotSOSConfig.plugin_tmp_dir):
             raise Exception("plugin tmp dir  '{}' not found".
-                            format(HotSOSConfig.PLUGIN_TMP_DIR))
+                            format(HotSOSConfig.plugin_tmp_dir))
 
     @abstractproperty
     def store_path(self):
@@ -74,7 +74,7 @@ class KnownBugsStore(IssuesStoreBase):
 
     @property
     def store_path(self):
-        return os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, 'known_bugs.yaml')
+        return os.path.join(HotSOSConfig.plugin_tmp_dir, 'known_bugs.yaml')
 
     def load(self):
         """
@@ -106,7 +106,7 @@ class IssuesStore(IssuesStoreBase):
 
     @property
     def store_path(self):
-        return os.path.join(HotSOSConfig.PLUGIN_TMP_DIR, 'issues.yaml')
+        return os.path.join(HotSOSConfig.plugin_tmp_dir, 'issues.yaml')
 
     def load(self):
         """
@@ -152,7 +152,7 @@ class IssuesManager(object):
 
     def load_issues(self):
         issues = self.issuestore.load()
-        if issues and not HotSOSConfig.MACHINE_READABLE:
+        if issues and not HotSOSConfig.machine_readable:
             types = {}
             for issue in issues[self.SUMMARY_OUT_ISSUES_ROOT]:
                 # pluralise the type for display purposes

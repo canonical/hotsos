@@ -8,7 +8,7 @@ from hotsos.core.host_helpers.common import HostHelperFactoryBase
 class FileObj(object):
 
     def __init__(self, filename):
-        self.filename = os.path.join(HotSOSConfig.DATA_ROOT, filename)
+        self.filename = os.path.join(HotSOSConfig.data_root, filename)
 
     @property
     def mtime(self):

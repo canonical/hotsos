@@ -1,7 +1,7 @@
 import os
 from .. import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 
 CEPH_MGR_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')
@@ -11,7 +11,8 @@ class CephMgrTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(DATA_ROOT=CEPH_MGR_DATA_ROOT, PLUGIN_NAME='storage')
+        HotSOSConfig.data_root = CEPH_MGR_DATA_ROOT
+        HotSOSConfig.plugin_name = 'storage'
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-mgr')

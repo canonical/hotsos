@@ -2,7 +2,7 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.juju import summary
 
 
@@ -10,7 +10,7 @@ class JujuTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='juju')
+        HotSOSConfig.plugin_name = 'juju'
 
 
 class TestJujuSummary(JujuTestsBase):

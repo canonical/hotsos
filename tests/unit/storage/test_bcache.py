@@ -1,6 +1,6 @@
 from .. import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.storage import bcache as bcache_core
 from hotsos.plugin_extensions.storage import bcache_summary
 
@@ -9,7 +9,7 @@ class BCacheTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='storage')
+        HotSOSConfig.plugin_name = 'storage'
 
 
 class TestBcacheBase(BCacheTestsBase):

@@ -85,8 +85,8 @@ class KernLogBase(object):
 
     @property
     def path(self):
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'var/log/kern.log')
-        if HotSOSConfig.USE_ALL_LOGS:
+        path = os.path.join(HotSOSConfig.data_root, 'var/log/kern.log')
+        if HotSOSConfig.use_all_logs:
             return "{}*".format(path)
 
         return path

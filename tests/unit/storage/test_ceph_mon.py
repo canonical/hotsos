@@ -5,7 +5,7 @@ import json
 
 from .. import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
@@ -151,7 +151,8 @@ class CephMonTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(DATA_ROOT=CEPH_MON_DATA_ROOT, PLUGIN_NAME='storage')
+        HotSOSConfig.data_root = CEPH_MON_DATA_ROOT
+        HotSOSConfig.plugin_name = 'storage'
 
     def setup_fake_cli_osds_imbalanced_pgs(self, mock_cli_helper):
         """

@@ -3,7 +3,7 @@ from unittest import mock
 from . import utils
 
 from hotsos.plugin_extensions.kernel import summary
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel import CallTraceManager
 from hotsos.core.plugins.kernel.net import SockStat
@@ -41,7 +41,7 @@ net.ipv4.tcp_mem = 189864	253153	379728
 class TestKernelBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='kernel')
+        HotSOSConfig.plugin_name = 'kernel'
 
 
 class TestKernelCallTraceManager(TestKernelBase):

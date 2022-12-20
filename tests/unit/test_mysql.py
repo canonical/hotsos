@@ -1,7 +1,7 @@
 import os
 from . import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.mysql import summary
 
 
@@ -33,9 +33,9 @@ class MySQLTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='mysql',
-                     DATA_ROOT=os.path.join(utils.TESTS_DIR,
-                                            'fake_data_root/vault'))
+        HotSOSConfig.plugin_name = 'mysql'
+        HotSOSConfig.data_root = os.path.join(utils.TESTS_DIR,
+                                              'fake_data_root/vault')
 
 
 class TestMySQLSummary(MySQLTestsBase):

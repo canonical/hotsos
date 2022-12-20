@@ -9,7 +9,7 @@ import yaml
 
 from progress.spinner import Spinner
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import setup_logging, log
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.client import HotSOSClient, OutputManager, PLUGIN_CATALOG
@@ -232,13 +232,13 @@ def main():
         elif very_short:
             minimal_mode = 'very-short'
 
-        setup_config(FORCE_MODE=force)
+        HotSOSConfig.force_mode = force
         repo_info = get_repo_info()
         if repo_info:
-            setup_config(REPO_INFO=repo_info)
+            HotSOSConfig.repo_info = repo_info
 
         _version = get_version()
-        setup_config(HOTSOS_VERSION=_version)
+        HotSOSConfig.hotsos_version = _version
 
         if version:
             print(_version)
@@ -247,18 +247,22 @@ def main():
         if not user_summary:
             data_root = fix_data_root(data_root)
 
-        setup_config(USE_ALL_LOGS=all_logs, PLUGIN_YAML_DEFS=defs_path,
-                     DATA_ROOT=data_root,
-                     AGENT_ERROR_KEY_BY_TIME=agent_error_key_by_time,
-                     MAX_LOGROTATE_DEPTH=max_logrotate_depth,
-                     MAX_PARALLEL_TASKS=max_parallel_tasks,
-                     MACHINE_READABLE=machine_readable)
+        HotSOSConfig.set(use_all_logs=all_logs, plugin_yaml_defs=defs_path,
+                         data_root=data_root,
+                         agent_error_key_by_time=agent_error_key_by_time,
+                         max_logrotate_depth=max_logrotate_depth,
+                         max_parallel_tasks=max_parallel_tasks,
+                         machine_readable=machine_readable)
 
         if debug and quiet:
             sys.stderr.write('ERROR: cannot use both --debug and --quiet\n')
             return
 
-        setup_logging(debug)
+        HotSOSConfig.debug_mode = debug
+
+        setup_logging()
+        # Set a name so that logs have this until real plugins are run.
+        log.name = 'hotsos.cli'
 
         if list_plugins:
             sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))

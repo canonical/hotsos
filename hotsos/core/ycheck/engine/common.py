@@ -56,19 +56,19 @@ class YDefsLoader(object):
     def plugin_defs(self):
         """ Load yaml defs for the current plugin and type. """
         log.debug('loading %s definitions for plugin=%s', self.ytype,
-                  HotSOSConfig.PLUGIN_NAME)
+                  HotSOSConfig.plugin_name)
 
         if self._loaded_defs:
             return self._loaded_defs
 
-        path = os.path.join(HotSOSConfig.PLUGIN_YAML_DEFS, self.ytype,
-                            HotSOSConfig.PLUGIN_NAME)
+        path = os.path.join(HotSOSConfig.plugin_yaml_defs, self.ytype,
+                            HotSOSConfig.plugin_name)
         # reset
         self.stats_num_files_loaded = 0
         if os.path.isdir(path):
             loaded = self._get_defs_recursive(path)
             log.debug("YDefsLoader: plugin %s loaded %s file(s)",
-                      HotSOSConfig.PLUGIN_NAME, self.stats_num_files_loaded)
+                      HotSOSConfig.plugin_name, self.stats_num_files_loaded)
             # only return if we loaded actual definitions (not just globals)
             if self.stats_num_files_loaded:
                 self._loaded_defs = loaded

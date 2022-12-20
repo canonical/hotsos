@@ -114,8 +114,8 @@ class AgentExceptionChecks(OpenstackChecksBase):
             for agent, log_paths in project.log_paths(
                     include_deprecated_services=False):
                 for path in log_paths:
-                    path = os.path.join(HotSOSConfig.DATA_ROOT, path)
-                    if HotSOSConfig.USE_ALL_LOGS:
+                    path = os.path.join(HotSOSConfig.data_root, path)
+                    if HotSOSConfig.use_all_logs:
                         path = "{}*".format(path)
 
                     self._add_agent_searches(project, agent, path,
@@ -136,7 +136,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 agent_exceptions[exc_tag] = {}
 
             ts_date = result.get(1)
-            if HotSOSConfig.AGENT_ERROR_KEY_BY_TIME:
+            if HotSOSConfig.agent_error_key_by_time:
                 # use hours and minutes only
                 ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
                 key = "{}_{}".format(ts_date, ts_time)

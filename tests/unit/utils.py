@@ -9,7 +9,7 @@ import unittest
 
 # disable for stestr otherwise output is much too verbose
 from hotsos.core.log import log, logging, setup_logging
-from hotsos.core.config import HotSOSConfig, setup_config
+from hotsos.core.config import HotSOSConfig
 
 from hotsos.core.issues import IssuesManager
 from hotsos.core.ycheck.scenarios import YScenarioChecker
@@ -18,7 +18,7 @@ from hotsos.core.ycheck.scenarios import YScenarioChecker
 TESTS_DIR = os.environ["TESTS_DIR"]
 DEFS_TESTS_DIR = os.path.join(os.environ['TESTS_DIR'], 'defs', 'tests')
 DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
-setup_config(DATA_ROOT=os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT))
+HotSOSConfig.data_root = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
 TEST_TEMPLATE_SCHEMA = set(['target-name', 'data-root', 'mock',
                             'raised-issues', 'raised-bugs'])
 
@@ -291,7 +291,7 @@ def is_def_filter(def_filename):
 def create_data_root(files_to_create, copy_from_original=None):
     """
     Decorator helper to create any number of files with provided content within
-    a temporary DATA_ROOT.
+    a temporary data_root.
 
     @param files_to_create: a dictionary of <filename>: <contents> pairs.
     @param copy_from_original: a list of files to copy from the original
@@ -305,7 +305,7 @@ def create_data_root(files_to_create, copy_from_original=None):
 
             with tempfile.TemporaryDirectory() as dtmp:
                 for _file in copy_from_original or []:
-                    src = os.path.join(HotSOSConfig.DATA_ROOT, _file)
+                    src = os.path.join(HotSOSConfig.data_root, _file)
                     dst = os.path.join(dtmp, _file)
                     if not os.path.exists(os.path.dirname(dst)):
                         os.makedirs(os.path.dirname(dst))
@@ -321,10 +321,10 @@ def create_data_root(files_to_create, copy_from_original=None):
                     with open(path, 'w') as fd:
                         fd.write(content)
 
-                orig_data_root = HotSOSConfig.DATA_ROOT
-                setup_config(DATA_ROOT=dtmp)
+                orig_data_root = HotSOSConfig.data_root
+                HotSOSConfig.data_root = dtmp
                 ret = f(*args, **kwargs)
-                setup_config(DATA_ROOT=orig_data_root)
+                HotSOSConfig.data_root = orig_data_root
                 return ret
 
         return create_files_inner2
@@ -338,16 +338,16 @@ class BaseTestCase(unittest.TestCase):
         super().__init__(*args, **kwargs)
         self.global_tmp_dir = None
         self.plugin_tmp_dir = None
-        self.hotsos_config = {'DATA_ROOT':
+        self.hotsos_config = {'data_root':
                               os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT),
-                              'PLUGIN_NAME': 'testplugin',
-                              'PLUGIN_YAML_DEFS':
+                              'plugin_name': 'testplugin',
+                              'plugin_yaml_defs':
                               os.path.join(TESTS_DIR, 'defs'),
-                              'PART_NAME': 'testpart',
-                              'GLOBAL_TMP_DIR': None,
-                              'PLUGIN_TMP_DIR': None,
-                              'USE_ALL_LOGS': True,
-                              'MACHINE_READABLE': True}
+                              'part_name': 'testpart',
+                              'global_tmp_dir': None,
+                              'plugin_tmp_dir': None,
+                              'use_all_logs': True,
+                              'machine_readable': True}
 
     def part_output_to_actual(self, output):
         actual = {}
@@ -361,15 +361,15 @@ class BaseTestCase(unittest.TestCase):
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals
-        setup_config(**self.hotsos_config)
+        HotSOSConfig.set(**self.hotsos_config)
         self.global_tmp_dir = tempfile.mkdtemp()
         self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
-        setup_config(GLOBAL_TMP_DIR=self.global_tmp_dir,
-                     PLUGIN_TMP_DIR=self.plugin_tmp_dir)
-        setup_logging(debug_mode=True)
+        HotSOSConfig.global_tmp_dir = self.global_tmp_dir
+        HotSOSConfig.plugin_tmp_dir = self.plugin_tmp_dir
+        setup_logging()
         log.setLevel(logging.INFO)
 
     def tearDown(self):
         HotSOSConfig.reset()
-        setup_config(**self.hotsos_config)
+        HotSOSConfig.set(**self.hotsos_config)
         shutil.rmtree(self.global_tmp_dir)

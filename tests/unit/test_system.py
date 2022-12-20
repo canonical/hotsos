@@ -6,7 +6,7 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.core.config import setup_config, HotSOSConfig
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.system.system import NUMAInfo
 from hotsos.plugin_extensions.system import (
     checks,
@@ -32,7 +32,7 @@ class SystemTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='system')
+        HotSOSConfig.plugin_name = 'system'
 
 
 class TestSystemSummary(SystemTestsBase):
@@ -92,8 +92,8 @@ class TestSYSCtlChecks(SystemTestsBase):
                             'actual': '4194304',
                             'expected': '2097152'}}}
         with tempfile.TemporaryDirectory() as dtmp:
-            orig_data_root = HotSOSConfig.DATA_ROOT
-            setup_config(DATA_ROOT=dtmp)
+            orig_data_root = HotSOSConfig.data_root
+            HotSOSConfig.data_root = dtmp
             os.makedirs(os.path.join(dtmp, 'etc'))
             etc_sysctl_conf = os.path.join(orig_data_root, 'etc/sysctl.conf')
             etc_sysctl_d = os.path.join(orig_data_root, 'etc/sysctl.d')

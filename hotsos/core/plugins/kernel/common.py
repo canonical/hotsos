@@ -33,7 +33,7 @@ class KernelBase(object):
     def boot_parameters(self):
         """Returns list of boot parameters."""
         parameters = []
-        path = os.path.join(HotSOSConfig.DATA_ROOT, "proc/cmdline")
+        path = os.path.join(HotSOSConfig.data_root, "proc/cmdline")
         if os.path.exists(path):
             cmdline = open(path).read().strip()
             for entry in cmdline.split():

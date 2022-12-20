@@ -96,7 +96,7 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
         total_cores = sysinfo.num_cpus
         vcpu_info["system-cores"] = total_cores
 
-        nova_config = OpenstackConfig(os.path.join(HotSOSConfig.DATA_ROOT,
+        nova_config = OpenstackConfig(os.path.join(HotSOSConfig.data_root,
                                                    "etc/nova/nova.conf"))
         pinset = nova_config.get("vcpu_pin_set",
                                  expand_to_list=True) or []
@@ -131,7 +131,7 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
         if instances:
             _info['running'] = [i.uuid for i in instances]
 
-        etc_libvirt_qemu = os.path.join(HotSOSConfig.DATA_ROOT,
+        etc_libvirt_qemu = os.path.join(HotSOSConfig.data_root,
                                         'etc/libvirt/qemu')
 
         cpu_models = self._get_cpu_models(etc_libvirt_qemu)

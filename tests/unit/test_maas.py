@@ -2,7 +2,7 @@ from unittest import mock
 
 from . import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.maas import summary
 
 SYSTEMD_UNITS = """
@@ -47,7 +47,7 @@ class MAASTestsBase(utils.BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        setup_config(PLUGIN_NAME='maas')
+        HotSOSConfig.plugin_name = 'maas'
 
 
 class TestMAASSummary(MAASTestsBase):

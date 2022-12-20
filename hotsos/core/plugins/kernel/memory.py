@@ -12,7 +12,7 @@ class VMStat(object):
 
     @property
     def path(self):
-        return os.path.join(HotSOSConfig.DATA_ROOT, 'proc/vmstat')
+        return os.path.join(HotSOSConfig.data_root, 'proc/vmstat')
 
     @property
     def compaction_failures_percent(self):
@@ -52,7 +52,7 @@ class SlabInfo(object):
 
     @property
     def path(self):
-        return os.path.join(HotSOSConfig.DATA_ROOT, "proc/slabinfo")
+        return os.path.join(HotSOSConfig.data_root, "proc/slabinfo")
 
     @property
     def contents(self):
@@ -133,7 +133,7 @@ class BuddyInfo(object):
 
     @property
     def path(self):
-        return os.path.join(HotSOSConfig.DATA_ROOT, "proc/buddyinfo")
+        return os.path.join(HotSOSConfig.data_root, "proc/buddyinfo")
 
     @property
     def nodes(self):

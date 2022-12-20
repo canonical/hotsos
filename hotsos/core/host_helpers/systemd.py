@@ -191,7 +191,7 @@ class SystemdHelper(object):
         Returns list of lines from ps that match the service pids.
         """
         ps_filtered = []
-        path = os.path.join(HotSOSConfig.DATA_ROOT,
+        path = os.path.join(HotSOSConfig.data_root,
                             'sys/fs/cgroup/unified/system.slice')
         for svc in self.services:
             for svc in self.get_services_expanded(svc):

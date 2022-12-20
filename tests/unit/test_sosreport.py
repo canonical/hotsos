@@ -1,6 +1,6 @@
 from . import utils
 
-from hotsos.core.config import setup_config
+from hotsos.core.config import HotSOSConfig
 import hotsos.core.plugins.sosreport as sosreport_core
 from hotsos.plugin_extensions.sosreport import summary
 
@@ -9,7 +9,7 @@ class TestSOSReportBase(utils.BaseTestCase):
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
-        setup_config(PLUGIN_NAME='sosreport')
+        HotSOSConfig.plugin_name = 'sosreport'
 
 
 class TestSOSReportCore(TestSOSReportBase):

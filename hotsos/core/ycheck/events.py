@@ -223,7 +223,7 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
                   len(group.leaf_sections))
 
         for event in group.leaf_sections:
-            if (not HotSOSConfig.FORCE_MODE and event.requires and not
+            if (not HotSOSConfig.force_mode and event.requires and not
                     event.requires.passes):
                 log.error("event '%s' pre-requisites not met - "
                           "skipping", event.name)

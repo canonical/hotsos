@@ -36,8 +36,8 @@ class YPropertyInputBase(object):
     def expand_paths(self, paths):
         _paths = []
         for path in paths:
-            path = os.path.join(HotSOSConfig.DATA_ROOT, path)
-            if (HotSOSConfig.USE_ALL_LOGS and not
+            path = os.path.join(HotSOSConfig.data_root, path)
+            if (HotSOSConfig.use_all_logs and not
                     self.options['disable-all-logs']):
                 path = "{}*".format(path)
 

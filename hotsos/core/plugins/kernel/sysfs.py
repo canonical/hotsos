@@ -12,9 +12,9 @@ class SYSFSBase(object):
         """
         Read a sysfs entry and return its value.
 
-        @param relpath: path relative to DATA_ROOT/sys
+        @param relpath: path relative to <data_root>sys
         """
-        path = os.path.join(HotSOSConfig.DATA_ROOT, 'sys', relpath)
+        path = os.path.join(HotSOSConfig.data_root, 'sys', relpath)
         if not os.path.exists(path):
             return
 
