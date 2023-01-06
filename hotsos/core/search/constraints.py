@@ -348,6 +348,13 @@ class BinarySeekSearchBase(ConstraintBase):
         log.debug("seek %s", state)
         newpos = self._check_line(state)
         if newpos == -1:
+            if not HotSOSConfig.allow_constraints_for_unverifiable_logs:
+                log.info("file contains unverifiable lines and "
+                         "allow_constraints_for_unverifiable_logs is False  "
+                         "- aborting constraints for this file.")
+                state.rc = state.RC_ERROR
+                return state
+
             # until we get out of a skip range we want to leave the pos at the
             # start but we rely on the caller to enforce this so that we don't
             # have to seek(0) after every skip.
