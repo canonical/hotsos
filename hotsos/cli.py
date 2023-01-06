@@ -121,6 +121,8 @@ def get_prefix(user_summary, data_root):
 
 def main():
     @click.command(name='hotsos')
+    @click.option('--allow-constraints-for-unverifiable-logs', default=False,
+                  is_flag=True)
     @click.option('--output-path', default=None,
                   help=('Optional path to use for saving output (with '
                         '--save).'))
@@ -198,6 +200,7 @@ def main():
             format, html_escape, user_summary, short, very_short,
             force, full, agent_error_key_by_time, max_logrotate_depth,
             max_parallel_tasks, list_plugins, machine_readable, output_path,
+            allow_constraints_for_unverifiable_logs,
             **kwargs):
         """
         Run this tool on a host or against an unpacked sosreport to perform
@@ -253,6 +256,8 @@ def main():
                          max_logrotate_depth=max_logrotate_depth,
                          max_parallel_tasks=max_parallel_tasks,
                          machine_readable=machine_readable)
+        HotSOSConfig.allow_constraints_for_unverifiable_logs = \
+            allow_constraints_for_unverifiable_logs
 
         if debug and quiet:
             sys.stderr.write('ERROR: cannot use both --debug and --quiet\n')

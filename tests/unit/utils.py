@@ -347,7 +347,8 @@ class BaseTestCase(unittest.TestCase):
                               'global_tmp_dir': None,
                               'plugin_tmp_dir': None,
                               'use_all_logs': True,
-                              'machine_readable': True}
+                              'machine_readable': True,
+                              'allow_constraints_for_unverifiable_logs': True}
 
     def part_output_to_actual(self, output):
         actual = {}
