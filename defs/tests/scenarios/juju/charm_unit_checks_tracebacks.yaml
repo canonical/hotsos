@@ -1,0 +1,16 @@
+target-name: charm_unit_checks.yaml
+data-root:
+  files:
+    var/log/juju/unit-vault-0.log: |
+      2022-02-09 10:28:35 WARNING unit.vault/0.update-status logger.go:60 Traceback (most recent call last):
+    var/log/juju/unit-foo-0.log: |
+      2022-02-10 10:28:35 WARNING unit.foo/0.update-status logger.go:60 Traceback (most recent call last):
+    var/log/juju/unit-bar-0.log: |
+      2022-01-10 10:28:35 WARNING unit.foo/0.update-status logger.go:60 Traceback (most recent call last):
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  JujuWarning: >-
+    Juju logs for unit(s) 'vault/0, foo/0' contain 2 Traceback(s) from
+    the last 48 hours - please check.

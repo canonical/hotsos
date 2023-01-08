@@ -4,6 +4,8 @@ from hotsos.core import plugintools
 from hotsos.core.host_helpers import SystemdHelper
 from hotsos.core.plugins.juju.resources import JujuBase
 
+# matches date and time at start if log lines
+JUJU_UNIT_LOGS_TS_EXPR = r"^([\d-]+)\s+([\d:]+)"
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
 JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
