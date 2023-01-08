@@ -136,7 +136,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 agent_exceptions[exc_tag] = {}
 
             ts_date = result.get(1)
-            if HotSOSConfig.agent_error_key_by_time:
+            if HotSOSConfig.event_tally_granularity == 'time':
                 # use hours and minutes only
                 ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
                 key = "{}_{}".format(ts_date, ts_time)

@@ -88,6 +88,13 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
         self.add(ConfigOpt(name='plugin_name',
                            description='Name of current plugin being executed',
                            default_value=None))
+        self.add(ConfigOpt(name='event_tally_granularity',
+                           description=("By default event tallies are listed "
+                                        "by date in the summary. This option "
+                                        "can be set to one of 'date' or "
+                                        "'time' to get the corresponding "
+                                        "granularity of results."),
+                           default_value='date'))
 
     @property
     def name(self):
@@ -140,21 +147,6 @@ class SearchtoolsConfigOpts(ConfigOptGroupBase):
         return 'searchtools'
 
 
-class OpenstackPluginConfigOpts(ConfigOptGroupBase):
-    def __init__(self):
-        super().__init__()
-        self.add(ConfigOpt(name='agent_error_key_by_time',
-                           description=('By default events are listed by date '
-                                        'in the summary. If this is set to '
-                                        'True the granularity is increased to '
-                                        'include time.'),
-                           default_value=False))
-
-    @property
-    def name(self):
-        return 'openstack_plugin'
-
-
 class RegisteredOpts(UserDict):
 
     def __init__(self, *optgroups):
@@ -165,7 +157,6 @@ class RegisteredOpts(UserDict):
 
 class ConfigMeta(abc.ABCMeta):
     REGISTERED = RegisteredOpts(HotSOSConfigOpts,
-                                OpenstackPluginConfigOpts,
                                 SearchtoolsConfigOpts)
     CONFIG = copy.deepcopy(REGISTERED)
 

@@ -141,10 +141,13 @@ def main():
                         'to this value. Only applies when --all-logs is '
                         'provided.'))
     @click.option('--agent-error-key-by-time', default=False, is_flag=True,
-                  help=('When displaying agent error counts, they will be '
-                        'grouped by date. This option will result in '
-                        'grouping by date and time which may be more useful '
-                        'for cross-referencing with other logs.'))
+                  help=('DEPRECATED: use --event-tally-granularity'))
+    @click.option('--event-tally-granularity', default='date',
+                  help=('By default event tallies will be grouped by date, '
+                        'for example when tallying occurrences of an event '
+                        'in a file and displaying them in the summary. If '
+                        'finer granularity is required this can be set to '
+                        '"time".'))
     @click.option('--force', default=False, is_flag=True,
                   help=('By default plugins will only run if their '
                         'pre-requisites are met (i.e. they are "runnable").'
@@ -198,10 +201,10 @@ def main():
     @click.argument('data_root', required=False, type=click.Path(exists=True))
     def cli(data_root, version, defs_path, all_logs, quiet, debug, save,
             format, html_escape, user_summary, short, very_short,
-            force, full, agent_error_key_by_time, max_logrotate_depth,
-            max_parallel_tasks, list_plugins, machine_readable, output_path,
-            allow_constraints_for_unverifiable_logs,
-            **kwargs):
+            force, full, agent_error_key_by_time, event_tally_granularity,
+            max_logrotate_depth, max_parallel_tasks, list_plugins,
+            machine_readable, output_path,
+            allow_constraints_for_unverifiable_logs, **kwargs):
         """
         Run this tool on a host or against an unpacked sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -250,9 +253,14 @@ def main():
         if not user_summary:
             data_root = fix_data_root(data_root)
 
+        if agent_error_key_by_time:
+            print("WARNING: option --agent-error-key-by-time is DEPRECATED "
+                  "and longer has any effect. Use --event-tally-granularity "
+                  "instead.")
+
         HotSOSConfig.set(use_all_logs=all_logs, plugin_yaml_defs=defs_path,
                          data_root=data_root,
-                         agent_error_key_by_time=agent_error_key_by_time,
+                         event_tally_granularity=event_tally_granularity,
                          max_logrotate_depth=max_logrotate_depth,
                          max_parallel_tasks=max_parallel_tasks,
                          machine_readable=machine_readable)

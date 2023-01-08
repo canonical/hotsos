@@ -243,6 +243,7 @@ class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
 
     def categorise_events(self, *args, **kwargs):
         if 'include_time' not in kwargs:
-            kwargs['include_time'] = HotSOSConfig.agent_error_key_by_time
+            include_time = HotSOSConfig.event_tally_granularity == 'time'
+            kwargs['include_time'] = include_time
 
         return super().categorise_events(*args, **kwargs)

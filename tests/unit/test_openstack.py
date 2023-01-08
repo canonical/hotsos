@@ -284,7 +284,6 @@ class TestOpenstackBase(utils.BaseTestCase):
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         HotSOSConfig.plugin_name = 'openstack'
-        HotSOSConfig.agent_error_key_by_time = False
 
         if self.IP_LINK_SHOW is None:
             path = os.path.join(HotSOSConfig.data_root,
@@ -950,7 +949,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         self.assertEqual(actual['apparmor'], expected)
 
         # now try with key by time
-        HotSOSConfig.agent_error_key_by_time = True
+        HotSOSConfig.event_tally_granularity = 'time'
         expected = {'denials': {
                         'neutron': {
                             '/usr/bin/neutron-dhcp-agent': {
