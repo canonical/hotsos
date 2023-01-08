@@ -7,6 +7,13 @@ checks:
       expr: '^(\S+) (\S+) .+ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "(\S+)"'
       constraints:
         search-result-age-hours: 168  # 7 days
+  units_have_tracebacks:
+    search:
+      expr:
+        - Traceback \('
+        - '^(\S+) (\S+) (?:ERROR|WARNING) unit\.([^\.]+)\.\S+ .+ Traceback \('
+      constraints:
+        search-result-age-hours: 48
   has_unknown_relation_errors:
     expr: '(\S+) (\S+) ERROR juju.worker.uniter agent.go:\d+ resolver loop error: unknown relation: \d+'
     constraints:
@@ -34,6 +41,16 @@ conclusions:
         the last 7 days. Please investigate.
       format-dict:
         units: '@checks.units_have_leadership_errors.search.results_group_2:comma_join'
+  units-have-tracebacks:
+    decision: units_have_tracebacks
+    raises:
+      type: JujuWarning
+      message: >-
+        Juju logs for unit(s) '{units}' contain {num_tracebacks} Traceback(s) from
+        the last 48 hours - please check.
+      format-dict:
+        units: '@checks.units_have_tracebacks.search.results_group_2:comma_join'
+        num_tracebacks: '@checks.units_have_tracebacks.search.results_group_2:len'
   lp1812361:
     decision: has_lp1812361
     raises:

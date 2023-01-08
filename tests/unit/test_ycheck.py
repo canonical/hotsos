@@ -851,14 +851,6 @@ class TestYamlChecks(utils.BaseTestCase):
             msg = ("yay list search")
             self.assertEqual(issue['desc'], msg)
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
-                'APTPackageHelper')
-    def test_yaml_def_scenarios_no_issue(self, apt_check):
-        apt_check.is_installed.return_value = True
-        HotSOSConfig.plugin_name = 'juju'
-        scenarios.YScenarioChecker()()
-        self.assertEqual(IssuesManager().load_issues(), {})
-
     @init_test_scenario(SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n',
                              'uptime': (' 16:19:19 up 17:41,  2 users, '

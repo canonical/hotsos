@@ -18,8 +18,7 @@ class TestJujuSummary(JujuTestsBase):
     def test_summary_keys(self):
         inst = summary.JujuSummary()
         self.assertEqual(list(inst.output.keys()),
-                         ['charm-repo-info',
-                          'charms',
+                         ['charms',
                           'machine',
                           'services',
                           'units',
@@ -60,7 +59,30 @@ class TestJujuSummary(JujuTestsBase):
 
     def test_get_unit_info(self):
         expected = {'local': ['ceph-osd-0', 'neutron-openvswitch-1',
-                              'nova-compute-0']}
+                              'nova-compute-0'],
+                    'logs': {
+                        'ceph-osd-0': {
+                            'warning': {
+                                'server.go': {
+                                    '2022-02-04': 14,
+                                    '2022-02-09': 19,
+                                    '2022-02-10': 197}}},
+                            'neutron-openvswitch-1': {
+                                'warning': {
+                                    'server.go': {
+                                        '2022-02-04': 346,
+                                        '2022-02-09': 160,
+                                        '2022-02-10': 1950}}},
+                            'nova-compute-0': {
+                                'warning': {
+                                    'server.go': {
+                                        '2022-02-04': 115,
+                                        '2022-02-09': 50,
+                                        '2022-02-10': 392}}}},
+                    'repo-info': {'ceph-osd-0': 'a5e0c6e',
+                                  'neutron-openvswitch-1': '9951bee',
+                                  'nova-compute-0': 'fcddc4a'}}
+
         inst = summary.JujuSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['units'],
                          expected)
