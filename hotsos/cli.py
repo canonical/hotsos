@@ -175,9 +175,11 @@ def main():
     @click.option('--html-escape', default=False, is_flag=True,
                   help=('Apply html escaping to the output so that it is safe '
                         'to display in html.'))
-    @click.option('--format', default='yaml',
-                  help=('Output format. Supported formats are yaml and json. '
-                        'Default is yaml.'))
+    @click.option('--format',
+                  type=click.Choice(['yaml', 'json', 'markdown', 'html']),
+                  default='yaml',
+                  show_default=True,
+                  help=('Output format.'))
     @click.option('--save', '-s', default=False, is_flag=True,
                   help=('Save output to a file.'))
     @click.option('--quiet', default=False, is_flag=True,
