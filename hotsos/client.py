@@ -184,13 +184,10 @@ PLUGIN_CATALOG = {'hotsos': {
 class OutputManager(object):
     FILTER_SCHEMA = [IssuesManager.SUMMARY_OUT_ISSUES_ROOT,
                      IssuesManager.SUMMARY_OUT_BUGS_ROOT]
+    SUMMARY_FORMATS = ['yaml', 'json', 'markdown', 'html']
 
     def __init__(self, initial=None):
         self._summary = initial or {}
-
-    @property
-    def supported_summary_formats(self):
-        return ['yaml', 'json']
 
     def _get_short_format(self, summary):
         filtered = {}
@@ -256,7 +253,7 @@ class OutputManager(object):
         return summary
 
     def get(self, format=None, html_escape=False, minimal_mode=None,
-            plugin=None):
+            plugin=None, max_level=2):
         if plugin:
             filtered = {plugin: self._summary[plugin]}
         else:
@@ -265,14 +262,25 @@ class OutputManager(object):
         if minimal_mode:
             filtered = self.minimise(filtered, minimal_mode)
 
-        if format == 'json':
-            log.debug('Converting master yaml file to %s', format)
-            filtered = json.dumps(filtered, indent=2, sort_keys=True)
-        else:
+        if format is None:
+            format = 'yaml'
+
+        if format not in self.SUMMARY_FORMATS:
+            raise Exception("unsupported summary format '{}'".format(format))
+
+        log.debug('Saving summary as %s', format)
+        if format == 'yaml':
             filtered = plugintools.yaml_dump(filtered)
+        elif format == 'json':
+            filtered = json.dumps(filtered, indent=2, sort_keys=True)
+        elif format == 'markdown':
+            filtered = plugintools.MarkdownFormatter().dump(filtered)
+        elif format == 'html':
+            filtered = plugintools.HTMLFormatter().dump(filtered,
+                                                        max_level=max_level)
 
         if html_escape:
-            log.debug('Encoding output file to html')
+            log.debug('Applying html escaping to summary')
             filtered = html.escape(filtered)
 
         return filtered
@@ -300,7 +308,7 @@ class OutputManager(object):
 
         for minimal_mode in ['full', 'short', 'very-short']:
             _minimal_mode = minimal_mode.replace('-', '_')
-            for format in self.supported_summary_formats:
+            for format in self.SUMMARY_FORMATS:
                 output_path = os.path.join(output_root, name, 'summary',
                                            _minimal_mode, format)
                 if minimal_mode == 'full':

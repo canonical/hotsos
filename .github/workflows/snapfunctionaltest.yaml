@@ -11,11 +11,24 @@ jobs:
       - uses: actions/checkout@v3
       - uses: snapcore/action-build@v1
         id: snapcraft
-      - name: Run snap
+      - name: Install snap
         run: |
           sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
-          hotsos
-      - uses: actions/upload-artifact@v3
+      - name: Run snap (functional test)
+        run: hotsos > output.yaml
+      - name: Run snap (JSON output)
+        run: hotsos --format json tests/unit/fake_data_root/openstack > output.json
+      - name: Run snap (HTML output)
+        run: hotsos --format html tests/unit/fake_data_root/openstack > output.html
+      - name: Run snap (Markdown output)
+        run: hotsos --format markdown tests/unit/fake_data_root/openstack > output.md
+      - name: Upload snap
+        uses: actions/upload-artifact@v3
         with:
           name: snap
           path: ${{ steps.snapcraft.outputs.snap }}
+      - name: Upload outputs
+        uses: actions/upload-artifact@v3
+        with:
+          name: functional-test-outputs
+          path: output.*

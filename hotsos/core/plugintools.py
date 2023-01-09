@@ -1,6 +1,8 @@
 import os
 import yaml
 
+from pathlib import Path
+
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core.issues import IssuesManager
@@ -36,6 +38,144 @@ def yaml_dump(data):
         HOTSOSDumper.represent_dict_preserve_order)
     return yaml.dump(data, Dumper=HOTSOSDumper,
                      default_flow_style=False).rstrip("\n")
+
+
+class HTMLFormatter(object):
+
+    @property
+    def templates_dir(self):
+        return os.path.join(os.path.dirname(Path(__file__).resolve()),
+                            'templates')
+
+    @property
+    def header(self):
+        with open(os.path.join(self.templates_dir, 'header.html')) as fd:
+            return fd.read()
+
+    @property
+    def footer(self):
+        with open(os.path.join(self.templates_dir, 'footer.html')) as fd:
+            return fd.read()
+
+    def _get_indent(self, indent, shift):
+        """Get a string with a few spaces.
+
+        @param indent: The current indentation string
+        @param shift: The additional shift
+        @return: string with the indentation string.
+        """
+        return indent + ''.join([' ' * shift])
+
+    def _expand_list(self, data, level, indent, max_level=0):
+        markup_output = f'{indent}<ul>\n'
+        for item in data:
+            markup_output += f'{indent}    <li>\n'
+            markup_output += self._expand(item, level, indent + '        ',
+                                          max_level=max_level)
+            markup_output += f'{indent}    </li>\n'
+
+        return markup_output + f'{indent}</ul>\n'
+
+    def _expand_dict(self, data, level, indent, max_level=0):
+        add_class = ''
+        collapsible = level < max_level
+        if level == 1:
+            add_class = ' class="tree"'
+
+        markup_output = f'{indent}<ul{add_class}>\n'
+        for key in data.keys():
+            markup_output += f'{self._get_indent(indent, 4)}<li>\n'
+            if collapsible:
+                markup_output += f'{self._get_indent(indent, 8)}<details>\n'
+                markup_output += \
+                    f'{self._get_indent(indent, 12)}<summary>{key}</summary>\n'
+                additional_indent = 12
+            else:
+                markup_output += f'{self._get_indent(indent, 8)}<b>{key}</b>\n'
+                additional_indent = 8
+
+            markup_output += self._expand(data[key], level + 1,
+                                          self._get_indent(indent,
+                                                           additional_indent),
+                                          max_level=max_level)
+            if collapsible:
+                markup_output += f'{self._get_indent(indent, 8)}</details>\n'
+
+            markup_output += f'{self._get_indent(indent, 4)}</li>\n'
+
+        return markup_output + f'{indent}</ul>\n'
+
+    def _expand(self, data, level, indent, max_level=0):
+        """Expand the data object.
+
+        @param data: The data object. This can be a dict, list, or a flat type
+                     such as int or str.
+        @param level: The current header level
+        @param indent: A string with spaces for indentation
+        @param max_level: The HTML will be collapsible up to max_level
+        @return: A string expansion formatted in HTML of the data object.
+        """
+        if isinstance(data, dict):
+            return self._expand_dict(data, level, indent, max_level)
+        elif isinstance(data, list):
+            return self._expand_list(data, level, indent, max_level)
+
+        return f'{indent}{data}\n'
+
+    def dump(self, data, max_level=2):
+        """Convert the data (dict) into an html document.
+
+        Ref: https://iamkate.com/code/tree-views/
+
+        @param dist: The data
+        @param max_level: The HTML will be collapsible up to max_level
+        @return: the html document as a string.
+        """
+        content = self._expand(data, 1, '    ', max_level=max_level)
+        return self.header + content + self.footer
+
+
+class MarkdownFormatter():
+
+    def _expand_dict(self, data, level):
+        level_prefix = ''.join(['#' for i in range(level)])
+        markdown_output = ''
+        for key in data:
+            markdown_output += f'\n{level_prefix} {key}\n'
+            markdown_output += self._expand(data[key], level + 1)
+
+        return markdown_output
+
+    def _expand_list(self, data):
+        markdown_output = '\n'
+        for item in data:
+            markdown_output += f'- {item}\n'
+
+        return markdown_output
+
+    def _expand(self, data, level):
+        """Expand the data object.
+
+        @param data: The data object. This can be a dict, list, or a flat type
+                     such as int or str.
+        @param level: The current header level
+        @return: string expansion formatted in markdown of the data object.
+        """
+        if isinstance(data, dict):
+            return self._expand_dict(data, level)
+        elif isinstance(data, list):
+            return self._expand_list(data)
+
+        return f'\n{data}\n'
+
+    def dump(self, data):
+        """Convert the data (dict) into a markdown document.
+
+        @param data: dict:- The data
+        @return: str: The markdown document
+        """
+        markdown = '# hotsos summary\n' + self._expand(data, 2)
+        return markdown.rstrip('\n')
 
 
 class ApplicationBase(object):
