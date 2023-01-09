@@ -255,8 +255,8 @@ class OutputManager(object):
         log.warning("Unknown minimalmode '%s'", mode)
         return summary
 
-    def get(self, format=None, html_escape=False, minimal_mode=None,
-            plugin=None):
+    def get(self, format='yaml', html_escape=False, minimal_mode=None,
+            plugin=None, max_level=2):
         if plugin:
             filtered = {plugin: self._summary[plugin]}
         else:
@@ -265,12 +265,18 @@ class OutputManager(object):
         if minimal_mode:
             filtered = self.minimise(filtered, minimal_mode)
 
-        if format == 'json':
-            log.debug('Converting master yaml file to %s', format)
-            filtered = json.dumps(filtered, indent=2, sort_keys=True)
-        else:
+        if format == 'yaml':
             filtered = plugintools.yaml_dump(filtered)
-
+        else:
+            log.debug('Converting master yaml file to %s', format)
+            if format == 'json':
+                filtered = json.dumps(filtered, indent=2, sort_keys=True)
+            elif format == 'markdown':
+                filtered = plugintools.markdown_dump(filtered)
+            elif format == 'html':
+                filtered = plugintools.html_dump(filtered, max_level=max_level)
+            else:
+                raise Exception(f'unknown format {format}')
         if html_escape:
             log.debug('Encoding output file to html')
             filtered = html.escape(filtered)
