@@ -1,0 +1,10 @@
+target-name: jujud_machine_checks.yaml
+mock:
+  patch:
+    hotsos.core.host_helpers.systemd.SystemdHelper.processes:
+      kwargs:
+        new: {}
+raised-issues:
+  JujuWarning: >-
+    No jujud process(es) found running on this host but it seems
+    there should be since Juju is installed - please check.

@@ -1,0 +1,60 @@
+input:
+  # default path can be overriden by any check
+  path: 'var/log/juju/machine-*.log'
+checks:
+  jujud_not_found:
+    property:
+      path: hotsos.core.plugins.juju.JujuChecksBase.systemd_processes
+      ops: [[contains, jujud], [not_]]
+  has_lp1983140:
+    expr: '.* quiescing, timed out waiting for agents to report'
+  has_lp1983506:
+    expr: '.* failed to migrate binaries: charm local:.+(\S) unexpectedly assigned local:.+'
+  has_lp1852502:
+    input:
+      command: journalctl
+      options:
+        kwargs:
+          unit: juju-db
+    expr: '.* CappedPositionLost: CollectionScan died due to position in capped collection being deleted'
+  has_lp1996230:
+    expr: '.* manifold worker .+ error: could not retrieve action (\S+): action no longer available'
+    hint: 'manifold worker returned unexpected error'
+conclusions:
+  jujud-not-found:
+    decision: jujud_not_found
+    raises:
+      type: JujuWarning
+      message: >-
+        No jujud process(es) found running on this host but it seems there should
+        be since Juju is installed - please check.
+  lp1852502:
+    decision: has_lp1852502
+    raises:
+      type: LaunchpadBug
+      bug-id: 1852502
+      message: >-
+        A known mongodb bug has been identified that is known to affect backups - https://jira.mongodb.org/browse/TOOLS-1636.
+        Workaround is to pass --no-logs to juju create-backup. This issue only
+        affects Mongo 3 so using a higher version should avoid the issue.
+  lp1983140:
+    decision: has_lp1983140
+    raises:
+      type: LaunchpadBug
+      bug-id: 1983140
+      message: model migration failed - see LP bug for workaround.
+  lp1983506:
+    decision: has_lp1983506
+    raises:
+      type: LaunchpadBug
+      bug-id: 1983506
+      message: model migration failed - see LP bug for workaround.
+  lp1996230:
+    decision: has_lp1996230
+    raises:
+      type: LaunchpadBug
+      bug-id: 1996230
+      message: >-
+        There are inconsistencies in the actionnotifications mongodb collection. See
+        https://canonical.lightning.force.com/lightning/r/Knowledge__kav/ka44K000000PRFmQAO/view
+        for instructions on how to fix.

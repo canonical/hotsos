@@ -1,3 +1,4 @@
+target-name: charm_unit_checks.yaml
 data-root:
   files:
     var/log/juju/unit-glance-simplestreams-sync-0.log: |
@@ -11,9 +12,9 @@ data-root:
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/1812361: >-
-    known glance-simplestream-sync bug identified - this happens
-    because the relation data received from keystone does not have
-    some of the expected data (internal_host and internal_port).
+    A known glance-simplestream-sync bug has been identified - this happens
+    because the relation data received from keystone is missing some
+    expected settings (internal_host and internal_port).
     Upgrading charm-keystone to version >= stable/539 should fix the
     problem.
 

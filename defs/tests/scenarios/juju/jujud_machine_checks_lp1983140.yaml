@@ -1,4 +1,4 @@
-target-name: juju_core_bugs.yaml
+target-name: jujud_machine_checks.yaml
 data-root:
   files:
     var/log/juju/machine-2.log: |
@@ -9,6 +9,10 @@ data-root:
   copy-from-original:
     - uptime
     - sos_commands/date/date
+    # the following are needed to ensure the jujud not found issue is not raised
+    - sos_commands/systemd
+    - ps
+    - sys/fs/cgroup/unified/system.slice/jujud-machine-1.service
 raised-bugs:
   https://bugs.launchpad.net/bugs/1983140: >-
     model migration failed - see LP bug for workaround.

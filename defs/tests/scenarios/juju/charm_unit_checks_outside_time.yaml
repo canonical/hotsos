@@ -1,4 +1,4 @@
-target-name: charm_checks.yaml
+target-name: charm_unit_checks.yaml
 data-root:
   files:
     var/log/juju/unit-keystone-2.log: |

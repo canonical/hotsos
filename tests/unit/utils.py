@@ -304,13 +304,16 @@ def create_data_root(files_to_create, copy_from_original=None):
                 return f(*args, **kwargs)
 
             with tempfile.TemporaryDirectory() as dtmp:
-                for _file in copy_from_original or []:
-                    src = os.path.join(HotSOSConfig.data_root, _file)
-                    dst = os.path.join(dtmp, _file)
+                for path in copy_from_original or []:
+                    src = os.path.join(HotSOSConfig.data_root, path)
+                    dst = os.path.join(dtmp, path)
                     if not os.path.exists(os.path.dirname(dst)):
                         os.makedirs(os.path.dirname(dst))
 
-                    shutil.copy(src, dst)
+                    if os.path.isfile(src):
+                        shutil.copy(src, dst)
+                    else:
+                        shutil.copytree(src, dst)
 
                 for path, content in files_to_create.items():
                     path = os.path.join(dtmp, path)
@@ -348,7 +351,8 @@ class BaseTestCase(unittest.TestCase):
                               'plugin_tmp_dir': None,
                               'use_all_logs': True,
                               'machine_readable': True,
-                              'allow_constraints_for_unverifiable_logs': True}
+                              'allow_constraints_for_unverifiable_logs': True,
+                              'debug_mode': True}
 
     def part_output_to_actual(self, output):
         actual = {}
