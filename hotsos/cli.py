@@ -12,7 +12,11 @@ from progress.spinner import Spinner
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import setup_logging, log
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.client import HotSOSClient, OutputManager, PLUGIN_CATALOG
+from hotsos.client import (
+    HotSOSClient,
+    OutputManager,
+    PLUGIN_CATALOG,
+)
 
 
 def get_hotsos_root():
@@ -175,9 +179,12 @@ def main():
     @click.option('--html-escape', default=False, is_flag=True,
                   help=('Apply html escaping to the output so that it is safe '
                         'to display in html.'))
-    @click.option('--format', default='yaml',
-                  help=('Output format. Supported formats are yaml and json. '
-                        'Default is yaml.'))
+    @click.option('--format',
+                  type=click.Choice(OutputManager.SUMMARY_FORMATS),
+                  default='yaml',
+                  show_default=True,
+                  help=('Output format. Supported formats are {}.'.
+                        format(', '.join(OutputManager.SUMMARY_FORMATS))))
     @click.option('--save', '-s', default=False, is_flag=True,
                   help=('Save output to a file.'))
     @click.option('--quiet', default=False, is_flag=True,

@@ -96,3 +96,242 @@ class TestPluginTools(utils.BaseTestCase):
         filtered = OutputManager(summary).get(format='json')
         self.assertEqual(filtered, json.dumps(summary, indent=2,
                                               sort_keys=True))
+
+    def test_apply_output_formatting_markdown(self):
+        summary = {
+            'item-1':
+                {
+                    'level-2': [
+                        'value-1',
+                        'value-2',
+                        'value-3',
+                        'value-4',
+                    ],
+                    'level-3': 'plain value',
+                },
+            'item-2':
+                ['a', 'b', 'c'],
+            }
+        expected = '''# hotsos summary
+
+## item-1
+
+### level-2
+
+- value-1
+- value-2
+- value-3
+- value-4
+
+### level-3
+
+plain value
+
+## item-2
+
+- a
+- b
+- c'''
+        filtered = OutputManager(summary).get(format='markdown')
+        self.assertEqual(filtered, expected)
+
+    def test_apply_output_formatting_html_1(self):
+        htmlout = plugintools.HTMLFormatter()
+        summary = {
+            'item-1':
+                {
+                    'level-2': [
+                        'value-1',
+                        'value-2',
+                        'value-3',
+                        'value-4',
+                    ],
+                    'level-3': 'plain value',
+                },
+            'item-2':
+                ['a', 'b', 'c'],
+            }
+        content = '''    <ul class="tree">
+        <li>
+            <details>
+                <summary>item-1</summary>
+                <ul>
+                    <li>
+                        <details>
+                            <summary>level-2</summary>
+                            <ul>
+                                <li>
+                                    value-1
+                                </li>
+                                <li>
+                                    value-2
+                                </li>
+                                <li>
+                                    value-3
+                                </li>
+                                <li>
+                                    value-4
+                                </li>
+                            </ul>
+                        </details>
+                    </li>
+                    <li>
+                        <details>
+                            <summary>level-3</summary>
+                            plain value
+                        </details>
+                    </li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary>item-2</summary>
+                <ul>
+                    <li>
+                        a
+                    </li>
+                    <li>
+                        b
+                    </li>
+                    <li>
+                        c
+                    </li>
+                </ul>
+            </details>
+        </li>
+    </ul>
+'''
+        expected = htmlout.header + content + htmlout.footer
+        filtered = OutputManager(summary).get(format='html', max_level=100)
+        self.assertEqual(filtered, expected)
+
+    def test_apply_output_formatting_html_2(self):
+        htmlout = plugintools.HTMLFormatter()
+        summary = {
+            'item-1':
+                {
+                    'level-2': [
+                        'value-1',
+                        'value-2',
+                        'value-3',
+                        'value-4',
+                    ],
+                    'level-3': 'plain value',
+                },
+            'item-2':
+                ['a', 'b', 'c'],
+            }
+        content = '''    <ul class="tree">
+        <li>
+            <b>item-1</b>
+            <ul>
+                <li>
+                    <b>level-2</b>
+                    <ul>
+                        <li>
+                            value-1
+                        </li>
+                        <li>
+                            value-2
+                        </li>
+                        <li>
+                            value-3
+                        </li>
+                        <li>
+                            value-4
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <b>level-3</b>
+                    plain value
+                </li>
+            </ul>
+        </li>
+        <li>
+            <b>item-2</b>
+            <ul>
+                <li>
+                    a
+                </li>
+                <li>
+                    b
+                </li>
+                <li>
+                    c
+                </li>
+            </ul>
+        </li>
+    </ul>
+'''
+        expected = htmlout.header + content + htmlout.footer
+        filtered = OutputManager(summary).get(format='html', max_level=1)
+        self.assertEqual(filtered, expected)
+
+    def test_apply_output_formatting_html_3(self):
+        htmlout = plugintools.HTMLFormatter()
+        summary = {
+            'item-1':
+                {
+                    'level-2': [
+                        'value-1',
+                        'value-2',
+                        'value-3',
+                        'value-4',
+                    ],
+                    'level-3': 'plain value',
+                },
+            'item-2':
+                ['a', 'b', 'c'],
+            }
+        content = '''    <ul class="tree">
+        <li>
+            <details>
+                <summary>item-1</summary>
+                <ul>
+                    <li>
+                        <b>level-2</b>
+                        <ul>
+                            <li>
+                                value-1
+                            </li>
+                            <li>
+                                value-2
+                            </li>
+                            <li>
+                                value-3
+                            </li>
+                            <li>
+                                value-4
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>level-3</b>
+                        plain value
+                    </li>
+                </ul>
+            </details>
+        </li>
+        <li>
+            <details>
+                <summary>item-2</summary>
+                <ul>
+                    <li>
+                        a
+                    </li>
+                    <li>
+                        b
+                    </li>
+                    <li>
+                        c
+                    </li>
+                </ul>
+            </details>
+        </li>
+    </ul>
+'''
+        expected = htmlout.header + content + htmlout.footer
+        filtered = OutputManager(summary).get(format='html', max_level=2)
+        self.assertEqual(filtered, expected)
