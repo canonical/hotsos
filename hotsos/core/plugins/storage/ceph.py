@@ -1,8 +1,12 @@
-from datetime import datetime
 import os
 import re
+import sys
 import subprocess
 
+from datetime import datetime
+
+from hotsos.core.factory import FactoryBase
+from hotsos.core.log import log
 from hotsos.core.utils import (
     cached_property,
     mktemp_dump,
@@ -1043,55 +1047,85 @@ class CephChecksBase(StorageBase):
         return False
 
 
-class CephDaemonConfigShow(object):
+class CephDaemonCommand(object):
     """
-    This class is used to lookup config for a given OSD using Ceph admin
-    admin socket. Config values are obtained by getting an attribute with
-    the name of the config key.
+    This class is used to run a ceph daemon command that must be supported by
+    CLIHelper. Attributes of the output can then be retrieved by calling them
+    on the returned object.
+    """
 
-    Config are accessed as attributes on the class object so that they may be
-    accessed like properties rather than having to call a method.
-    """
+    def __init__(self, command, *args, **kwargs):
+        self.command = command
+        self.output = getattr(CLIHelper(), command)(*args, **kwargs)
+
+    def __getattr__(self, name):
+        if name in self.output:
+            return self.output[name]
+
+        raise AttributeError("{} not found in output of {}".
+                             format(name, self.command))
+
+
+class CephDaemonConfigShow(object):
 
     def __init__(self, osd_id):
-        self.cli = CLIHelper()
-        self.config = {}
-        cexpr = re.compile(r'\s*"(\S+)":\s+"(\S+)".*')
-        for line in self.cli.ceph_daemon_config_show(osd_id=osd_id):
-            ret = re.match(cexpr, line)
-            if ret:
-                self.config[ret.group(1)] = ret.group(2)
+        self.cmd = CephDaemonCommand('ceph_daemon_osd_config_show',
+                                     osd_id=osd_id)
 
     def __getattr__(self, name):
-        if name in self.config:
-            return self.config[name]
-
-        raise AttributeError("{} not found in {}".
-                             format(name, self.__class__.__name__))
+        return getattr(self.cmd, name)
 
 
-class CephDaemonConfigShowAllOSDs(object):
-    """
-    This class is used to lookup config for all OSDs. When a config value
-    is requested, the value for that key is fetch from all OSDs and a
-    list of unique values is returned. This can be used to determine whether
-    all OSDs are using the same value.
+class CephDaemonDumpMemPools(object):
 
-    Config are accessed as attributes on the class object so that they may be
-    accessed like properties rather than having to call a method.
-    """
-
-    def __init__(self):
-        self.ceph_base = CephChecksBase()
+    def __init__(self, osd_id):
+        self.cmd = CephDaemonCommand('ceph_daemon_osd_dump_mempools',
+                                     osd_id=osd_id)
 
     def __getattr__(self, name):
+        val = getattr(self.cmd, 'mempool')
+        if val:
+            return val.get('by_pool', {}).get(name, {}).get('items')
+
+
+class CephDaemonAllOSDsCommand(object):
+    """
+    This class is used to CephDaemonCommand for all local OSDs.
+    """
+
+    def __init__(self, command):
+        self.checks_base = CephChecksBase()
+        self.command = command
+
+    def __getattr__(self, name=None):
+        """
+        First instantiates the requested ceph daemon command handler then
+        retrieves the requested attribute/operand and returns as a list of
+        unique values.
+        """
         vals = set()
-        for osd in self.ceph_base.local_osds:
-            config = CephDaemonConfigShow(osd_id=osd.id)
+        for osd in self.checks_base.local_osds:
+            try:
+                config = getattr(sys.modules[__name__],
+                                 self.command)(osd_id=osd.id)
+            except ImportError:
+                log.warning("no ceph daemon command handler found for '%s'")
+                break
+
             if hasattr(config, name):
                 vals.add(getattr(config, name))
 
         return list(vals)
+
+
+class CephDaemonAllOSDsFactory(FactoryBase):
+    """
+    A factory interface to allow dynamic access to ceph daemon commands and
+    attributes of the output.
+    """
+
+    def __getattr__(self, command):
+        return CephDaemonAllOSDsCommand(command)
 
 
 class CephEventChecksBase(CephChecksBase, YEventCheckerBase):

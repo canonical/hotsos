@@ -92,7 +92,7 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
             config.bluefs_buffered_io
 
     def test_daemon_osd_all_config(self):
-        config = ceph_core.CephDaemonConfigShowAllOSDs()
+        config = ceph_core.CephDaemonAllOSDsCommand('CephDaemonConfigShow')
         self.assertEqual(config.foo, [])
         self.assertEqual(config.bluefs_buffered_io, ['true'])
 
