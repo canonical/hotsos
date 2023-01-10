@@ -2,7 +2,7 @@ import os
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.common import HostHelperFactoryBase
+from hotsos.core.factory import FactoryBase
 
 
 class FileObj(object):
@@ -21,7 +21,7 @@ class FileObj(object):
         return mt
 
 
-class FileFactory(HostHelperFactoryBase):
+class FileFactory(FactoryBase):
     """
     Factory to dynamically create FileObj objects using file path as input.
 

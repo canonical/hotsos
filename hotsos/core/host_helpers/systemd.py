@@ -6,8 +6,8 @@ import re
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.core.host_helpers.common import HostHelperFactoryBase
 from hotsos.core.utils import cached_property, sorted_dict
 
 SVC_EXPR_TEMPLATES = {
@@ -277,7 +277,7 @@ class SystemdHelper(object):
                 'ps': self._process_info}
 
 
-class ServiceFactory(HostHelperFactoryBase):
+class ServiceFactory(FactoryBase):
     """
     Factory to dynamically create SystemdService objects for given services.
 

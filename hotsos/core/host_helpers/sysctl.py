@@ -1,11 +1,11 @@
 import os
 
-from hotsos.core.host_helpers.common import HostHelperFactoryBase
+from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.utils import cached_property
 
 
-class SYSCtlFactory(HostHelperFactoryBase):
+class SYSCtlFactory(FactoryBase):
     """
     Factory to create interface objects to sysctl. This allows us to load
     values dynamically without continuously loaded from the kernel.
