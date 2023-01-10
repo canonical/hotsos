@@ -71,10 +71,59 @@ CEPH_REL_INFO = {
 CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
 
+def csv_to_set(f):
+    """
+    Decorator used to convert a csv string to a set().
+    """
+    def csv_to_set_inner(*args, **kwargs):
+        val = f(*args, **kwargs)
+        if val is not None:
+            return set([v.strip(',') for v in val.split()])
+
+        return set([])
+
+    return csv_to_set_inner
+
+
 class CephConfig(SectionalConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root, 'etc/ceph/ceph.conf')
         super().__init__(*args, path=path, **kwargs)
+
+    def get(self, key, *args, **kwargs):
+        """
+        First to get value for key and if not found, try alternative key format
+        i.e. ceph config like 'ceph osd debug' and 'ceph_osd_debug' are both
+        valid and equivalent so we try both by converting the key name. If that
+        still does not match we look for key in this object instance since it
+        may have been provided as a property.
+        """
+        val = super().get(key, *args, **kwargs)
+        if val is not None:
+            return val
+
+        orig_key = key
+        if ' ' in key:
+            key = key.replace(' ', '_')
+        else:
+            key = key.replace('_', ' ')
+
+        val = super().get(key, *args, **kwargs)
+        if val is not None:
+            return val
+
+        if hasattr(self, orig_key):
+            return getattr(self, orig_key)
+
+    @property
+    @csv_to_set
+    def cluster_network_set(self):
+        return self.get('cluster network')
+
+    @property
+    @csv_to_set
+    def public_network_set(self):
+        return self.get('public network')
 
 
 class CephCrushMap(object):
