@@ -146,7 +146,7 @@ class YRequirementTypeConfig(YRequirementTypeBase):
     @property
     def assertions(self):
         _assertions = []
-        ctxt = YDefsContext()
+        ctxt = YDefsContext({'vars': self.context.vars})
         # make this available to all assertions
         ctxt.assertions_ctxt = {'cfg_obj': self.cfg,
                                 'cache': self.cache}

@@ -5,7 +5,7 @@ import re
 from hotsos.core.log import log
 
 
-class ConfigBase(object):
+class ConfigBase(abc.ABC):
 
     def __init__(self, path):
         self.path = path

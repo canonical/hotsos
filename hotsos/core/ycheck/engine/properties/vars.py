@@ -74,7 +74,11 @@ class YPropertyVars(YPropertyOverrideBase):
         return resolved
 
     def resolve(self, name):
-        log.debug("resolving var %s", name)
+        log.debug("resolving var '%s'", name)
+        if not name:
+            raise Exception("attempting to resolve invalid varname '{}'".
+                            format(name))
+
         vardef = self._vardefs.get(name)
         if vardef:
             value = vardef.value

@@ -72,7 +72,7 @@ class OpsUtils(object):
 
         return ' -> '.join(_result)
 
-    def apply_op(self, op, input=None, expected=None, force_expected=False):
+    def _apply_op(self, op, input=None, expected=None, force_expected=False):
         """
         @param expected: can be a value or variable name that needs to be
                          resolved. Variable names are identified by having a
@@ -80,12 +80,6 @@ class OpsUtils(object):
         """
         log.debug("op=%s, input=%s, expected=%s, force_expected=%s", op,
                   input, expected, force_expected)
-        if expected is not None:
-            if type(expected) == str and expected.startswith("$"):
-                varname = expected.partition("$")[2]
-                varval = self.context.vars.resolve(varname)
-                expected = varval
-
         try:
             if expected is not None or force_expected:
                 return getattr(operator, op)(input, expected)
@@ -121,11 +115,20 @@ class OpsUtils(object):
                 force_expected = True
                 expected = op[1]
 
-                if expected is not None and normalise_value_types:
-                    input = type(expected)(input)
+                if expected is not None:
+                    if type(expected) == str and expected.startswith("$"):
+                        varname = expected.partition("$")[2]
+                        varval = self.context.vars.resolve(varname)
+                        expected = varval
 
-            input = self.apply_op(op[0], input=input, expected=expected,
-                                  force_expected=force_expected)
+                    if normalise_value_types:
+                        log.debug("normalising type(input)=%s to "
+                                  "type(expected)=%s", type(input),
+                                  type(expected))
+                        input = type(expected)(input)
+
+            input = self._apply_op(op[0], input=input, expected=expected,
+                                   force_expected=force_expected)
 
         return input
 
