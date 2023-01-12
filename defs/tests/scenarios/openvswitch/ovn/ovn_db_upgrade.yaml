@@ -1,0 +1,26 @@
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-02-06T11:04:26.305Z|00017|main|WARN|controller version - 20.03.2-2.7.0-42.0 mismatch with northd version - 20.03.2-2.7.0-42.1
+    sos_commands/systemd/systemctl_list-unit-files: |
+      neutron-ovn-metadata-agent.service         enabled         enabled      
+      ovn-controller.service                     static          enabled      
+      ovn-host.service                           enabled         enabled      
+    sos_commands/systemd/systemctl_list-units: |
+      neutron-ovn-metadata-agent.service                                          loaded active     running         Neutron OVN Metadata Agent                                                   
+      ovn-controller.service                                                      loaded active     running         Open Virtual Network host control daemon                                     
+      ovn-host.service                                                            loaded active     exited          Open Virtual Network host components  
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-ovn-metadata-agent           2:16.4.2-0ubuntu4                                    all          Neutron is a virtual network service for Openstack - OVN metadata agent
+      ii  ovn-common                           20.03.2-0ubuntu0.20.04.3                              amd64        OVN common components
+      ii  ovn-host                             20.03.2-0ubuntu0.20.04.3                              amd64        OVN host components
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-issues:
+  OVNError: >-
+    OVN controller is currently reporting a version mismatch between itself and northd.
+    This usually means ovn-central (ovn-northd etc) services have been upgraded before
+    ovn-controller using a version of ovn that does not support this. To fix this issue
+    you need to upgrade ovn-controller on this host (current=20.03.2-0ubuntu0.20.04.3).
+    See https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for more details.

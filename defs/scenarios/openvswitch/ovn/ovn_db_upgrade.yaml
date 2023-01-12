@@ -1,0 +1,30 @@
+checks:
+  is_ovn_controller:
+    systemd: ovn-controller
+  ovn_controller_not_fixed:
+    apt:
+      ovn-host:
+        - min: 0
+          max: 20.03.2-0ubuntu0.20.04.3
+  has_northd_version_mismatch:
+    input: var/log/ovn/ovn-controller.log
+    expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|main\|WARN\|controller version - (\S+) mismatch with northd version - (\S+)'
+    constraints:
+      search-results-age-hours: 336  # 14 days
+conclusions:
+  has_northd_version_mismatch:
+    decision:
+      - is_ovn_controller
+      - ovn_controller_not_fixed
+      - has_northd_version_mismatch
+    raises:
+      type: OVNError
+      message: >-
+        OVN controller is currently reporting a version mismatch between itself and northd.
+        This usually means ovn-central (ovn-northd etc) services have been upgraded before
+        ovn-controller using a version of ovn that does not support this. To fix this issue
+        you need to upgrade ovn-controller on this host (current={controller-ver}). See
+        https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for more details.
+      format-dict:
+        controller-ver: '@checks.ovn_controller_not_fixed.requires.version'
+        
