@@ -105,46 +105,39 @@ class JujuSummary(JujuChecksBase):
     def __summary_version(self):
         if self.machine:
             return self.machine.version
-        else:
-            return "unknown"
+
+        return "unknown"
 
     @idx(2)
     def __summary_machine(self):
         if self.machine:
             return self.machine.id
-        else:
-            return "unknown"
+
+        return "unknown"
 
     @idx(3)
-    def __summary_charms(self):
-        if self.charms:
-            charms = ["{}-{}".format(c.name, c.version) for c in self.charms]
-            return sorted(charms)
-
-    @idx(4)
     def __summary_units(self):
+        if not self.units:
+            return
+
         unit_info = {}
-        if self.units:
-            loginfo = UnitLogInfo().error_and_warnings()
-            unit_info['local'] = []
-            for u in self.units:
-                unit_info['local'].append(u.name)
-                if u.repo_info:
-                    if 'repo-info' not in unit_info:
-                        unit_info['repo-info'] = {}
-
+        loginfo = UnitLogInfo().error_and_warnings()
+        for u in self.units.values():
+            name, _, ver = u.name.rpartition('-')
+            u_name = "{}/{}".format(name, ver)
+            unit_info[u_name] = {}
+            if u.repo_info:
+                c_name = u.charm_name
+                if c_name:
+                    unit_info[u_name]['charm'] = {'name': c_name}
                     sha1 = u.repo_info.get('commit')
-                    unit_info['repo-info'][u.name] = sha1
+                    unit_info[u_name]['charm']['repo-info'] = sha1
+                    if c_name in self.charms:
+                        unit_info[u_name]['charm']['version'] = \
+                            self.charms[c_name].version
 
-                if u.name in loginfo:
-                    if 'logs' not in unit_info:
-                        unit_info['logs'] = {}
-
-                    unit_info['logs'][u.name] = loginfo[u.name]
-
-        # NOTE: consider removing this as it no longer has much purpose.
-        if self.nonlocal_units:
-            unit_info['lxd'] = sorted([u.name for u in self.nonlocal_units])
+            if u.name in loginfo:
+                unit_info[u_name]['logs'] = loginfo[u.name]
 
         if unit_info:
             return unit_info

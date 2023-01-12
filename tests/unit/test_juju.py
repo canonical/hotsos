@@ -18,8 +18,7 @@ class TestJujuSummary(JujuTestsBase):
     def test_summary_keys(self):
         inst = summary.JujuSummary()
         self.assertEqual(list(inst.output.keys()),
-                         ['charms',
-                          'machine',
+                         ['machine',
                           'services',
                           'units',
                           'version'])
@@ -50,38 +49,33 @@ class TestJujuSummary(JujuTestsBase):
         self.assertEqual(actual['version'], '2.9.9')
         self.assertEqual(actual['machine'], '0-lxd-11')
 
-    def test_charm_versions(self):
-        expected = ['ceph-osd-508', 'neutron-openvswitch-457',
-                    'nova-compute-589']
-        inst = summary.JujuSummary()
-        self.assertEqual(self.part_output_to_actual(inst.output)['charms'],
-                         expected)
-
     def test_get_unit_info(self):
-        expected = {'local': ['ceph-osd-0', 'neutron-openvswitch-1',
-                              'nova-compute-0'],
-                    'logs': {
-                        'ceph-osd-0': {
-                            'warning': {
-                                'server.go': {
-                                    '2022-02-04': 14,
-                                    '2022-02-09': 19,
-                                    '2022-02-10': 197}}},
-                            'neutron-openvswitch-1': {
-                                'warning': {
+        expected = {'ceph-osd/0': {
+                        'charm': {
+                            'name': 'ceph-osd',
+                            'repo-info': 'a5e0c6e',
+                            'version': 508},
+                        'logs': {'warning': {
+                                    'server.go': {'2022-02-04': 14,
+                                                  '2022-02-09': 19,
+                                                  '2022-02-10': 197}}}},
+                    'neutron-openvswitch/1': {
+                        'charm': {'name': 'neutron-openvswitch',
+                                  'repo-info': '9951bee',
+                                  'version': 457},
+                        'logs': {'warning': {
                                     'server.go': {
                                         '2022-02-04': 346,
                                         '2022-02-09': 160,
-                                        '2022-02-10': 1950}}},
-                            'nova-compute-0': {
-                                'warning': {
-                                    'server.go': {
-                                        '2022-02-04': 115,
-                                        '2022-02-09': 50,
-                                        '2022-02-10': 392}}}},
-                    'repo-info': {'ceph-osd-0': 'a5e0c6e',
-                                  'neutron-openvswitch-1': '9951bee',
-                                  'nova-compute-0': 'fcddc4a'}}
+                                        '2022-02-10': 1950}}}},
+                    'nova-compute/0': {
+                        'charm': {
+                            'name': 'nova-compute',
+                            'repo-info': 'fcddc4a', 'version': 589},
+                        'logs': {'warning': {
+                                    'server.go': {'2022-02-04': 115,
+                                                  '2022-02-09': 50,
+                                                  '2022-02-10': 392}}}}}
 
         inst = summary.JujuSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['units'],
