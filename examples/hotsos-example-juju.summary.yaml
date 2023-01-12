@@ -29,29 +29,31 @@ juju:
       - jujud (1)
   version: 2.9.22
   machine: '1'
-  charms:
-    - ceph-osd-508
-    - neutron-openvswitch-457
-    - nova-compute-589
   units:
-    local:
-      - ceph-osd-0
-      - neutron-openvswitch-1
-      - nova-compute-0
-    repo-info:
-      ceph-osd-0: a5e0c6e
-      neutron-openvswitch-1: 9951bee
-      nova-compute-0: fcddc4a
-    logs:
-      ceph-osd-0:
+    ceph-osd/0:
+      charm:
+        name: ceph-osd
+        repo-info: a5e0c6e
+        version: 508
+      logs:
         warning:
           server.go:
             '2022-02-10': 197
-      neutron-openvswitch-1:
+    neutron-openvswitch/1:
+      charm:
+        name: neutron-openvswitch
+        repo-info: 9951bee
+        version: 457
+      logs:
         warning:
           server.go:
             '2022-02-10': 1950
-      nova-compute-0:
+    nova-compute/0:
+      charm:
+        name: nova-compute
+        repo-info: fcddc4a
+        version: 589
+      logs:
         warning:
           server.go:
             '2022-02-10': 392

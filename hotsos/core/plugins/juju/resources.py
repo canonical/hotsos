@@ -5,10 +5,7 @@ import re
 import yaml
 
 from hotsos.core.log import log
-from hotsos.core import (
-    host_helpers,
-    utils,
-)
+from hotsos.core import utils
 from hotsos.core.config import HotSOSConfig
 
 
@@ -70,18 +67,35 @@ class JujuMachine(object):
             id = unit.partition('/')[2]
             path = os.path.join(self.juju_lib_path,
                                 "agents/unit-{}-{}".format(app, id))
-            units.append(JujuUnit(id, app, path))
+            units.append(JujuUnit(id, app, self.juju_lib_path, path=path))
 
         return units
 
 
 class JujuUnit(object):
 
-    def __init__(self, id, application, path=None):
+    def __init__(self, id, application, juju_lib_path, path=None):
         self.id = id
         self.application = application
         self.name = '{}-{}'.format(application, id)
+        self.juju_lib_path = juju_lib_path
         self.path = path
+
+    @utils.cached_property
+    def charm_name(self):
+        """
+        The deployer manifest file will give us the name of the charm used to
+        deploy the unit whose name may not match the charm. It also tells us
+        where the charm was deployed from i.e. cs:, ch: etc
+        """
+        manifest_path = ("agents/unit-{}/state/deployer/manifests/*".
+                         format(self.name))
+        for entry in glob.glob(os.path.join(self.juju_lib_path,
+                                            manifest_path)):
+            # we expect only one
+            manifest_file = os.path.basename(entry)
+            # e.g. ch_3a_amd64_2f_focal_2f_mysql-innodb-cluster-30
+            return manifest_file.split('_')[-1].rpartition('-')[0]
 
     @utils.cached_property
     def repo_info(self):
@@ -108,16 +122,11 @@ class JujuCharm(object):
 
     def __init__(self, name, version):
         self.name = name
-        self.version = version
+        self.version = int(version)
 
 
 class JujuBase(object):
     CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._units = []
-        self._charms = []
 
     @property
     def juju_lib_path(self):
@@ -134,14 +143,17 @@ class JujuBase(object):
 
     @utils.cached_property
     def units(self):
-        if not os.path.exists(self.juju_lib_path):
-            return
+        """
+        Returns units running on this host.
 
-        if self._units:
-            return self._units
+        @return: dict of JujuUnit objects keyed by unit name.
+        """
+        _units = {}
+        if not os.path.exists(self.juju_lib_path):
+            return _units
 
         if self.machine and self.machine.version >= "2.9":
-            self._units = self.machine.deployed_units
+            _units = {u.name: u for u in self.machine.deployed_units}
         else:
             paths = glob.glob(os.path.join(self.juju_lib_path,
                                            "agents/unit-*"))
@@ -151,37 +163,21 @@ class JujuBase(object):
                 if ret:
                     app = ret.group(1)
                     id = ret.group(2)
-                    self._units.append(JujuUnit(id, app, unit))
+                    u = JujuUnit(id, app, self.juju_lib_path, path=unit)
+                    _units[u.name] = u
 
-        return self._units
-
-    @utils.cached_property
-    def nonlocal_units(self):
-        """ These are units that may be running on the local host i.e.
-        their associated jujud process is visible but inside containers.
-        """
-        units_nonlocal = []
-        if self.units:
-            local_units = [u.name for u in self.units]
-        else:
-            local_units = []
-
-        for unit in self.ps_units:
-            if unit.name in local_units:
-                continue
-
-            units_nonlocal.append(unit)
-
-        if units_nonlocal:
-            return units_nonlocal
+        return _units
 
     @utils.cached_property
     def charms(self):
-        if self._charms:
-            return self._charms
+        """
+        Returns charms used by units on this host.
 
+        @return: dict of JujuCharm objects keyed by charm name.
+        """
+        _charms = {}
         if not os.path.exists(self.juju_lib_path):
-            return
+            return _charms
 
         for entry in glob.glob(os.path.join(self.juju_lib_path,
                                             self.CHARM_MANIFEST_GLOB)):
@@ -191,25 +187,13 @@ class JujuBase(object):
                 if ret:
                     name = ret.group(1)
                     version = ret.group(2)
-                    self._charms.append(JujuCharm(name, version))
+                    _charms[name] = JujuCharm(name, version)
 
-        return self._charms
+        return _charms
 
     @utils.cached_property
     def charm_names(self):
         if not self.charms:
             return []
 
-        return [c.name for c in self.charms]
-
-    @utils.cached_property
-    def ps_units(self):
-        """ Units identified from running processes. """
-        units = set()
-        for line in host_helpers.CLIHelper().ps():
-            if "unit-" in line:
-                ret = re.compile(r".+jujud-unit-(\S+)-(\d+).*").match(line)
-                if ret:
-                    units.add(JujuUnit(ret[2], ret[1]))
-
-        return units
+        return list(self.charms.keys())
