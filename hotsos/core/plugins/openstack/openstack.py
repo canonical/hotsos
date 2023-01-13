@@ -8,6 +8,7 @@ from hotsos.core.plugins.openstack.exceptions import (
     BARBICAN_EXCEPTIONS,
     CASTELLAN_EXCEPTIONS,
     CINDER_EXCEPTIONS,
+    DESIGNATE_EXCEPTIONS,
     GLANCE_EXCEPTIONS,
     GLANCE_STORE_EXCEPTIONS,
     KEYSTONE_EXCEPTIONS,
@@ -182,6 +183,7 @@ OST_REL_INFO = {
 
 OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   'cinder': CINDER_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
+                  'designate': DESIGNATE_EXCEPTIONS,
                   'glance': GLANCE_EXCEPTIONS + GLANCE_STORE_EXCEPTIONS,
                   'keystone': KEYSTONE_EXCEPTIONS,
                   'manila': MANILA_EXCEPTIONS,
