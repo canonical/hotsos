@@ -27,7 +27,7 @@ class UnitLogInfo(object):
         searchobj = FileSearcher(constraint=c)
         path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
         for msg in ['ERROR', 'WARNING']:
-            expr = (r'{} {} .+\.juju-log (\S+):\d+ '.
+            expr = (r'{} {} (\S+) (\S+):\d+ '.
                     format(JUJU_UNIT_LOGS_TS_EXPR, msg))
             tag = msg
             hint = msg
@@ -75,14 +75,19 @@ class UnitLogInfo(object):
                 if tag not in events[name]:
                     events[name][tag] = {}
 
-                mod = result.get(3)
-                if mod not in events[name][tag]:
-                    events[name][tag][mod] = {}
+                origin = result.get(3)
+                origin_child = origin.rpartition('.')[2]
+                if origin_child not in events[name][tag]:
+                    events[name][tag][origin_child] = {}
 
-                if key not in events[name][tag][mod]:
-                    events[name][tag][mod][key] = 1
+                mod = result.get(4)
+                if mod not in events[name][tag][origin_child]:
+                    events[name][tag][origin_child][mod] = {}
+
+                if key not in events[name][tag][origin_child][mod]:
+                    events[name][tag][origin_child][mod][key] = 1
                 else:
-                    events[name][tag][mod][key] += 1
+                    events[name][tag][origin_child][mod][key] += 1
 
         # ensure consistent ordering of results
         for tag, units in events.items():

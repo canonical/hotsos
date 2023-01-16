@@ -37,8 +37,9 @@ juju:
         version: 508
       logs:
         warning:
-          server.go:
-            '2022-02-10': 197
+          juju-log:
+            server.go:
+              '2022-02-10': 197
     neutron-openvswitch/1:
       charm:
         name: neutron-openvswitch
@@ -46,8 +47,9 @@ juju:
         version: 457
       logs:
         warning:
-          server.go:
-            '2022-02-10': 1950
+          juju-log:
+            server.go:
+              '2022-02-10': 1950
     nova-compute/0:
       charm:
         name: nova-compute
@@ -55,8 +57,12 @@ juju:
         version: 589
       logs:
         warning:
-          server.go:
-            '2022-02-10': 392
+          juju-log:
+            server.go:
+              '2022-02-10': 392
+          update-status:
+            logger.go:
+              '2022-02-10': 195
   potential-issues:
     JujuWarnings:
       - Juju logs for unit(s) 'nova-compute/0' contain 1 Traceback(s) from the last

@@ -55,27 +55,72 @@ class TestJujuSummary(JujuTestsBase):
                             'name': 'ceph-osd',
                             'repo-info': 'a5e0c6e',
                             'version': 508},
-                        'logs': {'warning': {
-                                    'server.go': {'2022-02-04': 14,
-                                                  '2022-02-09': 19,
-                                                  '2022-02-10': 197}}}},
+                        'logs': {
+                            'warning': {
+                                'config-changed': {
+                                    'logger.go': {'2022-02-04': 3}},
+                                'juju-log': {'server.go': {
+                                    '2022-02-04': 14,
+                                    '2022-02-09': 19,
+                                    '2022-02-10': 197}},
+                                'operation': {
+                                    'leader.go': {
+                                        '2022-02-09': 1}},
+                                'secrets-storage-relation-changed': {
+                                    'logger.go': {
+                                        '2022-02-04': 51}}}}},
                     'neutron-openvswitch/1': {
-                        'charm': {'name': 'neutron-openvswitch',
-                                  'repo-info': '9951bee',
-                                  'version': 457},
-                        'logs': {'warning': {
-                                    'server.go': {
-                                        '2022-02-04': 346,
-                                        '2022-02-09': 160,
-                                        '2022-02-10': 1950}}}},
+                        'charm': {
+                            'name': 'neutron-openvswitch',
+                            'repo-info': '9951bee',
+                            'version': 457},
+                        'logs': {
+                            'warning': {
+                                'config-changed': {
+                                    'logger.go': {'2022-02-04': 2}},
+                                'install': {
+                                    'logger.go': {'2022-02-04': 1}},
+                                'juju-log': {'server.go':
+                                             {'2022-02-04': 346,
+                                              '2022-02-09': 160,
+                                              '2022-02-10': 1950}},
+                                'neutron-plugin-api-relation-changed': {
+                                    'logger.go': {'2022-02-04': 7}},
+                                'neutron-plugin-relation-changed': {
+                                    'logger.go': {'2022-02-04': 4}},
+                                'neutron-plugin-relation-joined': {
+                                    'logger.go': {'2022-02-04': 1}},
+                                'operation': {
+                                    'leader.go': {'2022-02-09': 1}}}}},
                     'nova-compute/0': {
                         'charm': {
                             'name': 'nova-compute',
                             'repo-info': 'fcddc4a', 'version': 589},
-                        'logs': {'warning': {
-                                    'server.go': {'2022-02-04': 115,
-                                                  '2022-02-09': 50,
-                                                  '2022-02-10': 392}}}}}
+                        'logs': {
+                            'error': {
+                                'operation': {
+                                    'runhook.go': {'2022-02-04': 12,
+                                                   '2022-02-09': 6}}},
+                            'warning': {
+                                'ceph-relation-changed': {
+                                    'logger.go': {'2022-02-04': 1}},
+                                'cloud-compute-relation-changed': {
+                                    'logger.go': {'2022-02-04': 28}},
+                                'config-changed': {
+                                    'logger.go': {'2022-02-04': 5}},
+                                'install': {'logger.go': {'2022-02-04': 1}},
+                                'juju-log': {'server.go': {
+                                    '2022-02-04': 115,
+                                    '2022-02-09': 50,
+                                    '2022-02-10': 392}},
+                                'secrets-storage-relation-changed': {
+                                    'logger.go': {'2022-02-04': 10}},
+                                'start': {'logger.go': {
+                                    '2022-02-04': 1, '2022-02-09': 1}},
+                                'update-status': {'logger.go': {
+                                    '2022-02-04': 1013,
+                                    '2022-02-09': 519,
+                                    '2022-02-10': 195}}}}}}
 
         inst = summary.JujuSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['units'],
