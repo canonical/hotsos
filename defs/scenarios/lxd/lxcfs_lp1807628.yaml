@@ -15,7 +15,7 @@ checks:
       ops: [[ne, 'lxc']]
   has_lxc_containers:
     property:
-      path: hotsos.core.plugins.system.lxd.LXD.instances
+      path: hotsos.core.plugins.lxd.LXD.instances
       ops: [[length_hint], [gt, 0]]
 conclusions:
   lxcfs_segfault:

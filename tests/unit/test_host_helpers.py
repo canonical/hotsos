@@ -324,7 +324,8 @@ class TestAPTPackageHelper(utils.BaseTestCase):
 class TestSnapPackageHelper(utils.BaseTestCase):
 
     def test_all(self):
-        expected = {'core20': '20220114'}
+        expected = {'core20': {'channel': 'latest/stable',
+                               'version': '20220114'}}
         obj = host_helpers.SnapPackageHelper(["core20"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded

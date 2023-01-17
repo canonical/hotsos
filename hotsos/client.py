@@ -12,6 +12,7 @@ from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import plugintools
 
+from hotsos.plugin_extensions.lxd.summary import LXDSummary
 from hotsos.plugin_extensions.mysql.summary import MySQLSummary
 from hotsos.plugin_extensions.juju.summary import JujuSummary
 from hotsos.plugin_extensions.openstack import (
@@ -76,6 +77,7 @@ PLUGIN_RUN_ORDER = [
     'kubernetes',
     'storage',
     'vault',
+    'lxd',
     'juju',
     'maas',
     'kernel',
@@ -89,6 +91,10 @@ PLUGIN_CATALOG = {'hotsos': {
                   'juju': {
                      'summary': {
                          'objects': [JujuSummary],
+                         'part_yaml_offset': 0}},
+                  'lxd': {
+                     'summary': {
+                         'objects': [LXDSummary],
                          'part_yaml_offset': 0}},
                   'mysql': {
                      'summary': {

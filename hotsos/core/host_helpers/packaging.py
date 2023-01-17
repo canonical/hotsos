@@ -39,21 +39,6 @@ class DPKGVersionCompare(object):
         return self._exec('ge', b)
 
 
-def dict_to_formatted_str_list(f):
-    """
-    Convert dict returned by function f to a list of strings of format
-    '<name> <version>'.
-    """
-    def _dict_to_formatted_str_list(*args, **kwargs):
-        ret = f(*args, **kwargs)
-        if not ret:
-            return []
-
-        return ["{} {}".format(*e) for e in ret.items()]
-
-    return _dict_to_formatted_str_list
-
-
 class PackageHelperBase(abc.ABC):
 
     def get_version(self, pkg):
@@ -67,13 +52,19 @@ class PackageHelperBase(abc.ABC):
         """ Returns True if pkg is installed """
 
     @property
-    @dict_to_formatted_str_list
     def all_formatted(self):
         """
         Returns list of packages. Each entry in the list is an item
         looking like "<pkgname> <pkgver>".
+
+        Converts dict to a list of strings of format '<name> <version>'.
         """
-        return self.all
+
+        _all = self.all
+        if not _all:
+            return []
+
+        return ["{} {}".format(*e) for e in _all.items()]
 
     @property
     def all(self):
@@ -328,34 +319,51 @@ class SnapPackageHelper(PackageHelperBase):
         self._core_snaps = {}
         self._other_snaps = {}
         self._all_snaps = {}
-        self._match_expr_template = \
-            r"^ii\s+(python3?-)?({}[0-9a-z\-]*)\s+(\S+)\s+.+"
+        self._match_expr_template = r"^({})\s+([\S]+)\s+\d+\s+(\S+)\s+.+"
         self.snap_list_all = CLIHelper().snap_list_all()
 
     def is_installed(self, pkg):
         return pkg in self.all
 
-    def get_version(self, snap):
-        """ Return version of package. """
-        if snap in self._all:
-            return self._all[snap]
-
-        if self.snap_list_all:
-            for line in self.snap_list_all:
-                name, version = self._get_snap_info_from_line(line, snap)
-                if name:
-                    return version
-
-    def _get_snap_info_from_line(self, line, snap):
-        """Returns snap name and version if found in line.
-
-        @return: tuple of (name, version) or None, None
-        """
-        ret = re.compile(r"^({})\s+([\S]+)\s+.+".format(snap)).match(line)
+    def _get_snap_info_from_line(self, line, cexpr):
+        """ Returns snap name and version if found in line. """
+        ret = re.match(cexpr, line)
         if ret:
-            return (ret[1], ret[2])
+            return {'name': ret.group(1),
+                    'version': ret.group(2),
+                    'channel': ret.group(3),
+                    }
 
-        return None, None
+        return
+
+    def get_version(self, snap):
+        """ Return version of package.
+
+        Assumes only one snap will be matched.
+        """
+        info = self._get_snap_info(snap)
+        if info:
+            return info[0]['version']
+
+    def _get_snap_info(self, snap_name_expr):
+        """
+        Return a list of info for snaps matched using the expression.
+
+        @param snap_name_expr: is a regular expression that can match one or
+                               more snaps.
+        @return: a list of snaps and their info.
+        """
+        if not self.snap_list_all:
+            return
+
+        info = []
+        cexpr = re.compile(self._match_expr_template.format(snap_name_expr))
+        for line in self.snap_list_all:
+            snap_info = self._get_snap_info_from_line(line, cexpr)
+            if snap_info:
+                info.append(snap_info)
+
+        return info
 
     @property
     def _all(self):
@@ -368,25 +376,28 @@ class SnapPackageHelper(PackageHelperBase):
         _core = {}
         _other = {}
         all_exprs = self.core_snap_exprs + self.other_snap_exprs
-        for line in self.snap_list_all:
-            for snap in all_exprs:
-                name, version = self._get_snap_info_from_line(line, snap)
-                if not name:
-                    continue
-
+        for snap in all_exprs:
+            for snap_info in self._get_snap_info(snap):
+                name = snap_info['name']
+                version = snap_info['version']
+                channel = snap_info['channel']
                 # only show latest version installed
                 if snap in self.core_snap_exprs:
                     if name in _core:
-                        if version > _core[name]:
-                            _core[name] = version
+                        if version > _core[name]['version']:
+                            _core[name]['version'] = version
+                            _core[name]['channel'] = channel
                     else:
-                        _core[name] = version
+                        _core[name] = {'version': version,
+                                       'channel': channel}
                 else:
                     if name in _other:
-                        if version > _other[name]:
-                            _other[name] = version
+                        if version > _other[name]['version']:
+                            _other[name]['version'] = version
+                            _other[name]['channel'] = channel
                     else:
-                        _other[name] = version
+                        _other[name] = {'version': version,
+                                        'channel': channel}
 
         # ensure sorted
         self._core_snaps = sorted_dict(_core)
@@ -404,6 +415,15 @@ class SnapPackageHelper(PackageHelperBase):
         Return results that matched from the all/any set of snaps.
         """
         return self._all
+
+    @property
+    def all_formatted(self):
+        _all = self.all
+        if not _all:
+            return []
+
+        return ["{} {}".format(name, info['version'])
+                for name, info in _all.items()]
 
     @property
     def core(self):

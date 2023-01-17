@@ -6,8 +6,13 @@ from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
-from hotsos.core.plugins import kubernetes as kubernetes_core
 from hotsos.plugin_extensions.kubernetes import summary
+
+SNAP_LIST_ALL_NO_K8S = """
+Name                     Version    Rev    Tracking       Publisher   Notes
+lxd                      4.0.8      21835  4.0/stable/…   canonical*  -
+snapd                    2.54.2     14549  latest/stable  canonical*  snapd
+"""
 
 
 class KubernetesTestsBase(utils.BaseTestCase):
@@ -62,21 +67,8 @@ class TestKubernetesSummary(KubernetesTestsBase):
 
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')
     def test_snaps_no_k8s(self, mock_helper):
-        snaps_list = host_helpers.CLIHelper().snap_list_all()
-        mock_helper.return_value = mock.MagicMock()
-        filterered_snaps = []
-        for line in snaps_list:
-            found = False
-            for pkg in kubernetes_core.K8S_PACKAGES:
-                obj = summary.KubernetesSummary()
-                if obj.snaps._get_snap_info_from_line(line, pkg):
-                    found = True
-                    break
-
-            if not found:
-                filterered_snaps.append(line)
-
-        mock_helper.return_value.snap_list_all.return_value = filterered_snaps
+        mock_helper.return_value.snap_list_all.return_value = \
+            SNAP_LIST_ALL_NO_K8S.splitlines()
         inst = summary.KubernetesSummary()
         self.assertFalse(inst.plugin_runnable)
         self.assertTrue('snaps' not in inst.output)
