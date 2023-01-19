@@ -1620,6 +1620,13 @@ NEUTRON_EXCEPTIONS = [
     "CallbackNotFound",
     "CallbacksMaxLimitReached",
     "NoAgentDbMixinImplemented",
+    # repo: neutron (extras)
+    "NetworkNamespaceNotFound",
+    "NetworkInterfaceNotFound",
+    "InterfaceOperationNotSupported",
+    "InvalidArgument",
+    "IpAddressAlreadyExists",
+    "InterfaceAlreadyExists",
     # repo:neutron-lib
     "AddressGroupNotFound",
     "AddressGroupInUse",
