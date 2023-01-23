@@ -52,6 +52,23 @@ external_ids        : {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data
 
 """  # noqa
 
+LEADERSHIP_TRANSFERS = """
+2022-07-27T04:55:54.400Z|117956|raft|INFO|Transferring leadership to write a snapshot.
+2022-07-27T05:17:45.365Z|118228|raft|INFO|received leadership transfer from fd77 in term 41911
+"""  # noqa
+
+NBDB_COMPACTION = """
+2022-07-13T23:32:57.624Z|631027|ovsdb|INFO|OVN_Northbound: Database compaction took 2145ms
+2022-07-13T23:43:51.864Z|631056|ovsdb|INFO|OVN_Northbound: Database compaction took 2279ms
+2022-07-13T23:57:57.528Z|631184|ovsdb|INFO|OVN_Northbound: Database compaction took 2151ms
+"""  # noqa
+
+SBDB_COMPACTION = """
+2022-07-14T23:32:57.624Z|631027|ovsdb|INFO|OVN_Southbound: Database compaction took 2145ms
+2022-07-14T23:43:51.864Z|631056|ovsdb|INFO|OVN_Southbound: Database compaction took 2279ms
+2022-07-14T23:57:57.528Z|631184|ovsdb|INFO|OVN_Southbound: Database compaction took 2151ms
+"""  # noqa
+
 
 class TestOpenvswitchBase(utils.BaseTestCase):
 
@@ -281,6 +298,36 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                                                'ovn-abc-xa-2': 1,
                                                'ovn-abc-xa-15': 3}}}}}}
         inst = event_checks.OVSEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn-central.yaml'))
+    @utils.create_data_root({'var/log/ovn/ovsdb-server-nb.log':
+                             LEADERSHIP_TRANSFERS,
+                             'var/log/ovn/ovsdb-server-sb.log':
+                             LEADERSHIP_TRANSFERS},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_ovsdb_leadership_changes(self):
+        expected = {'ovsdb-server-nb': {'leadership-transfers': {
+                                            '2022-07-27': 2}},
+                    'ovsdb-server-sb': {'leadership-transfers': {
+                                            '2022-07-27': 2}}}
+        inst = event_checks.OVNEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn-central.yaml'))
+    @utils.create_data_root({'var/log/ovn/ovsdb-server-nb.log':
+                             NBDB_COMPACTION,
+                             'var/log/ovn/ovsdb-server-sb.log':
+                             SBDB_COMPACTION},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_ovsdb_compactions(self):
+        expected = {'ovsdb-server-nb': {'compactions': {
+                                            '2022-07-13': 3}},
+                    'ovsdb-server-sb': {'compactions': {
+                                            '2022-07-14': 3}}}
+        inst = event_checks.OVNEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
 

@@ -223,7 +223,9 @@ class OVNEventChecks(OpenvSwitchEventChecksBase):
                                           'ovn-northd', 'ovn-controller',
                                           'unreasonably-long-poll-interval',
                                           'inactivity-probe',
-                                          'bridge-not-found-for-port'])
+                                          'bridge-not-found-for-port',
+                                          'leadership-transfers',
+                                          'compactions'])
     def process_log_events(self, event):
         key_by_date = True
         if event.name in ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
