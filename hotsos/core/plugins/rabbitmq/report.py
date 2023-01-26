@@ -28,12 +28,11 @@ class RabbitMQReport(object):
         cli = CLIHelper()
         self._f_report = mktemp_dump(''.join(cli.rabbitmqctl_report()))
         searcher = FileSearcher()
-        searcher.add_search_term(self.connections_searchdef, self._f_report)
-        searcher.add_search_term(self.memory_searchdef, self._f_report)
-        searcher.add_search_term(self.cluster_partition_handling_searchdef,
-                                 self._f_report)
-        searcher.add_search_term(self.queues_searchdef, self._f_report)
-        self.results = searcher.search()
+        searcher.add(self.connections_searchdef, self._f_report)
+        searcher.add(self.memory_searchdef, self._f_report)
+        searcher.add(self.cluster_partition_handling_searchdef, self._f_report)
+        searcher.add(self.queues_searchdef, self._f_report)
+        self.results = searcher.run()
 
     def __del__(self):
         if os.path.exists(self._f_report):

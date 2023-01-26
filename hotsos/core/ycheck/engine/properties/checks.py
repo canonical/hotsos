@@ -1,7 +1,9 @@
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.search import FileSearcher
-from hotsos.core.search.constraints import SearchConstraintSearchSince
+from hotsos.core.search import (
+    FileSearcher,
+    SearchConstraintSearchSince,
+)
 from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
     YPropertyOverrideBase,
@@ -166,7 +168,7 @@ class YPropertyChecks(YPropertyOverrideBase):
 
         # provide results to each check object using global context
         log.debug("executing check searches")
-        self.check_context.search_results = s.search()
+        self.check_context.search_results = s.run()
 
     @cached_yproperty_attr
     def _checks(self):

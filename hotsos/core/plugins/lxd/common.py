@@ -6,7 +6,7 @@ from hotsos.core.host_helpers import (
 )
 from hotsos.core.plugintools import PluginPartBase
 from hotsos.core.utils import cached_property, mktemp_dump
-from hotsos.core.search.searchtools import (
+from hotsos.core.search import (
     FileSearcher, SearchDef,
     SequenceSearchDef
 )
@@ -33,8 +33,8 @@ class LXD(object):
                                 body=SearchDef(r'^\|\s+(\S+)\s+\|'),
                                 end=SearchDef(r'##.*'),
                                 tag='instances')
-        s.add_search_term(seq, path=self.buginfo_tmpfile)
-        results = s.search()
+        s.add(seq, path=self.buginfo_tmpfile)
+        results = s.run()
         for section in results.find_sequence_sections(seq).values():
             for r in section:
                 if 'body' in r.tag:

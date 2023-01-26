@@ -11,8 +11,11 @@ from hotsos.core.plugins.juju.common import (
     JUJU_UNIT_LOGS_TS_EXPR,
 )
 from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.search import FileSearcher, SearchDef
-from hotsos.core.search.constraints import SearchConstraintSearchSince
+from hotsos.core.search import (
+    FileSearcher,
+    SearchDef,
+    SearchConstraintSearchSince,
+)
 from hotsos.core.utils import sorted_dict
 
 
@@ -31,10 +34,9 @@ class UnitLogInfo(object):
                     format(JUJU_UNIT_LOGS_TS_EXPR, msg))
             tag = msg
             hint = msg
-            searchobj.add_search_term(SearchDef(expr, tag=tag, hint=hint),
-                                      path)
+            searchobj.add(SearchDef(expr, tag=tag, hint=hint), path)
 
-        results = searchobj.search()
+        results = searchobj.run()
         log.debug("fetching unit log results")
         events = {}
         date_format = '%Y-%m-%d %H:%M:%S'
@@ -66,8 +68,8 @@ class UnitLogInfo(object):
                     if then < now - timedelta(days=days):
                         continue
 
-                name = re.search(r".+/unit-(\S+).log.*",
-                                 result.source).group(1)
+                path = searchobj.resolve_source_id(result.source_id)
+                name = re.search(r".+/unit-(\S+).log.*", path).group(1)
                 if name not in events:
                     events[name] = {}
 

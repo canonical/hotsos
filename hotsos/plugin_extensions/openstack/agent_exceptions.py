@@ -5,8 +5,11 @@ from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 from hotsos.core.plugins.openstack.openstack import OPENSTACK_LOGS_TS_EXPR
-from hotsos.core.search import FileSearcher, SearchDef
-from hotsos.core.search.constraints import SearchConstraintSearchSince
+from hotsos.core.search import (
+    FileSearcher,
+    SearchDef,
+    SearchConstraintSearchSince,
+)
 
 
 class AgentExceptionChecks(OpenstackChecksBase):
@@ -47,25 +50,23 @@ class AgentExceptionChecks(OpenstackChecksBase):
             if project.name == 'keystone':
                 constraints = False
 
-            self.searchobj.add_search_term(
-                                        SearchDef(expr, tag=tag, hint=hint),
-                                        data_source,
-                                        allow_global_constraints=constraints)
+            self.searchobj.add(SearchDef(expr, tag=tag, hint=hint),
+                               data_source,
+                               allow_global_constraints=constraints)
 
             warn_exprs = self._agent_warnings.get(project.name, [])
             if warn_exprs:
                 values = "(?:{})".format('|'.join(warn_exprs))
                 expr = expr_template.format(values)
-                self.searchobj.add_search_term(SearchDef(expr, tag=tag,
-                                                         hint='WARNING'),
-                                               data_source)
+                self.searchobj.add(SearchDef(expr, tag=tag, hint='WARNING'),
+                                   data_source)
 
         err_exprs = self._agent_errors.get(project.name, [])
         if err_exprs:
             expr = expr_template.format("(?:{})".
                                         format('|'.join(err_exprs)))
             sd = SearchDef(expr, tag=tag, hint='ERROR')
-            self.searchobj.add_search_term(sd, data_source)
+            self.searchobj.add(sd, data_source)
 
     def load(self):
         """Register searches for exceptions as well as any other type of issue
@@ -185,6 +186,6 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
     def __summary_agent_exceptions(self):
         self.load()
-        ret = self.run(self.searchobj.search())
+        ret = self.run(self.searchobj.run())
         if ret:
             return ret

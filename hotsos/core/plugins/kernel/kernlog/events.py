@@ -16,9 +16,9 @@ class KernLogEvents(KernLogBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for event in [OverMTUDroppedPacketEvent()]:
-            self.searcher.add_search_term(event.searchdef, self.path)
+            self.searcher.add(event.searchdef, self.path)
 
-        self.results = self.searcher.search()
+        self.results = self.searcher.run()
 
     @property
     def over_mtu_dropped_packets(self):

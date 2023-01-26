@@ -6,9 +6,10 @@ from hotsos.core.plugins.storage.ceph import (
     CEPH_LOGS_TS_EXPR,
     CephEventChecksBase,
 )
-from hotsos.core.search import FileSearcher
-from hotsos.core.search.constraints import SearchConstraintSearchSince
-
+from hotsos.core.search import (
+    FileSearcher,
+    SearchConstraintSearchSince,
+)
 EVENTCALLBACKS = CallbackHelper()
 CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 
@@ -48,7 +49,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
         c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
         results = []
         for r in event.results:
-            ret = c_expr.match(r.source)
+            ret = c_expr.match(self.searchobj.resolve_source_id(r.source_id))
             if ret:
                 key = "osd.{}".format(ret.group(1))
             else:
@@ -100,7 +101,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
         c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
         results = []
         for r in event.results:
-            ret = c_expr.match(r.source)
+            ret = c_expr.match(self.searchobj.resolve_source_id(r.source_id))
             if ret:
                 key = "osd.{}".format(ret.group(1))
             else:

@@ -7,7 +7,9 @@ from hotsos.core.log import log
 from hotsos.core.host_helpers.common import HostHelpersBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.utils import mktemp_dump
-from hotsos.core.search import (
+# NOTE: we import direct from searchkit rather than hotsos.core.search to
+#       avoid circular dependency issues.
+from searchkit import (
     FileSearcher,
     SearchDef,
     SequenceSearchDef,
@@ -102,8 +104,8 @@ class NetworkPort(HostHelpersBase):
                     end=SearchDef([IP_IFACE_NAME, IP_EOF]),
                     tag="ifaces")
         f_ip_link_show = mktemp_dump(''.join(self.cli_helper.ip_link()))
-        s.add_search_term(seqdef, path=f_ip_link_show)
-        results = s.search()
+        s.add(seqdef, path=f_ip_link_show)
+        results = s.run()
         os.unlink(f_ip_link_show)
         stats_raw = []
         for section in results.find_sequence_sections(seqdef).values():
@@ -212,17 +214,17 @@ class HostNetworkingHelper(HostHelpersBase):
                 ns_name = ns.partition(" ")[0]
                 ip_addr = self.cli.ns_ip_addr(namespace=ns_name)
                 path = mktemp_dump('\n'.join(ip_addr))
-                search_obj.add_search_term(seq, path)
+                search_obj.add(seq, path)
         else:
             path = mktemp_dump('\n'.join(self.cli.ip_addr()))
-            search_obj.add_search_term(seq, path)
+            search_obj.add(seq, path)
 
-        if not search_obj.paths:
+        if not search_obj.files:
             log.debug("no network info found (namespaces=%s)", namespaces)
             return []
 
-        r = search_obj.search()
-        for path in search_obj.paths:
+        r = search_obj.run()
+        for path in search_obj.files:
             # we no longer need this file so can delete it
             os.unlink(path)
             sections = r.find_sequence_sections(seq, path).values()

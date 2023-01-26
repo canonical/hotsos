@@ -49,9 +49,9 @@ class SOSReportChecksBase(PluginPartBase):
 
         searcher = FileSearcher()
         path = os.path.join(HotSOSConfig.data_root, 'sos_logs/ui.log')
-        searcher.add_search_term(SearchDef(r".* Plugin (\S+) timed out.*",
-                                           tag="timeouts"), path=path)
-        results = searcher.search()
+        searcher.add(SearchDef(r".* Plugin (\S+) timed out.*", tag="timeouts"),
+                     path=path)
+        results = searcher.run()
         for r in results.find_by_tag("timeouts"):
             plugin = r.get(1)
             timeouts.append(plugin)

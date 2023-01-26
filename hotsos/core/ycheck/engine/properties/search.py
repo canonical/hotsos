@@ -7,8 +7,8 @@ from hotsos.core.log import log
 from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
+    SearchConstraintSearchSince,
 )
-from hotsos.core.search.constraints import SearchConstraintSearchSince
 from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
     YPropertyOverrideBase,
@@ -66,7 +66,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
     @cached_yproperty_attr
     def filesearch_constraints_obj(self):
         """
-        Create a searchtools constraints object representing the paramaters in
+        Create a search constraints object representing the paramaters in
         this property.
         """
         has_result_hours = 'search-result-age-hours' in self.content
@@ -361,26 +361,23 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         sdef = self.simple_search
         if sdef:
             log.debug("loading simple search")
-            searchobj.add_search_term(
-                                    sdef, search_path,
-                                    allow_global_constraints=allow_constraints)
+            searchobj.add(sdef, search_path,
+                          allow_global_constraints=allow_constraints)
             return
 
         sdef = self.sequence_search
         if sdef:
             log.debug("loading sequence search")
-            searchobj.add_search_term(
-                                    sdef, search_path,
-                                    allow_global_constraints=allow_constraints)
+            searchobj.add(sdef, search_path,
+                          allow_global_constraints=allow_constraints)
             return
 
         sdef = self.sequence_passthrough_search
         if sdef:
             log.debug("loading sequence passthrough searches")
             for _sdef in sdef:
-                searchobj.add_search_term(
-                                    _sdef, search_path,
-                                    allow_global_constraints=allow_constraints)
+                searchobj.add(_sdef, search_path,
+                              allow_global_constraints=allow_constraints)
 
 
 class YPropertySequencePart(YPropertySearchBase):

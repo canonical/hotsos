@@ -131,7 +131,7 @@ def main():
     @click.option('--list-plugins', default=False, is_flag=True,
                   help=('Show available plugins.'))
     @click.option('--max-parallel-tasks', default=8,
-                  help=('The searchtools module will execute searches across '
+                  help=('The search module will execute searches across '
                         'files in parallel. By default the number of cores '
                         'used is limited to a max of 8. You can '
                         'override that value with this option.'))

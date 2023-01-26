@@ -109,8 +109,8 @@ class OpenvSwitchBase(object):
         path = mktemp_dump(''.join(out))
         s = FileSearcher()
         expr = r'.+ \(([a-z]+): ([a-f\d\.:]+)->([a-f\d\.:]+), .+'
-        s.add_search_term(SearchDef(expr, tag='all'), path)
-        results = s.search()
+        s.add(SearchDef(expr, tag='all'), path)
+        results = s.run()
         for r in results.find_by_tag('all'):
             proto = r.get(1)
             if proto not in tunnel_info:

@@ -57,10 +57,10 @@ class EventCheckResult(object):
         """
         @param defs_section: section name from yaml
         @param defs_event: event label/name from yaml
-        @param search_results: search.searchtools.SearchResultsCollection
+        @param search_results: searchkit.SearchResultsCollection
         @param search_tag: unique tag used to identify the results
         @param sequence_def: if set the search results are from a
-                            searchtools.SequenceSearchDef and are therefore
+                            searchkit.SequenceSearchDef and are therefore
                             grouped as sections of results rather than a single
                             set of results.
         """

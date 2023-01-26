@@ -303,8 +303,16 @@ def create_data_root(files_to_create, copy_from_original=None):
             if files_to_create is None:
                 return f(*args, **kwargs)
 
+            _copy_from_original = copy_from_original or []
+            # This almost always needs to exist otherwise hotsos.core.search
+            # will fail to create a search constraints object.
+            date_path = 'sos_commands/date/date'
+            if (date_path not in files_to_create and
+                    date_path not in _copy_from_original):
+                _copy_from_original.append(date_path)
+
             with tempfile.TemporaryDirectory() as dtmp:
-                for path in copy_from_original or []:
+                for path in _copy_from_original:
                     src = os.path.join(HotSOSConfig.data_root, path)
                     dst = os.path.join(dtmp, path)
                     if not os.path.exists(os.path.dirname(dst)):

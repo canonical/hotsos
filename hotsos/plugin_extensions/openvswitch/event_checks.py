@@ -1,8 +1,10 @@
 import re
 
+from hotsos.core.search import (
+    FileSearcher,
+    SearchConstraintSearchSince,
+)
 from hotsos.core.ycheck.events import CallbackHelper
-from hotsos.core.search import FileSearcher
-from hotsos.core.search.constraints import SearchConstraintSearchSince
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
 from hotsos.core.plugins.openvswitch.common import (
     OPENVSWITCH_LOGS_TS_EXPR,

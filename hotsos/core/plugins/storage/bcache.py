@@ -125,8 +125,8 @@ class BcacheBase(StorageBase):
         sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
                                  body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
                                  tag="bcacheinfo")
-        s.add_search_term(sdef, mktemp_dump('\n'.join(udevadm_info)))
-        results = s.search()
+        s.add(sdef, mktemp_dump('\n'.join(udevadm_info)))
+        results = s.run()
         devs = []
         for section in results.find_sequence_sections(sdef).values():
             dev = {}

@@ -61,6 +61,10 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
                            description=('A temporary directory created for '
                                         'each plugin.'),
                            default_value=None))
+        self.add(ConfigOpt(name='use_all_logs',
+                           description=('Automatically convert log paths to '
+                                        'glob e.g. <path> becomes <path>*'),
+                           default_value=False))
         self.add(ConfigOpt(name='machine_readable',
                            description=('If set to True, the summary output'
                                         'will contain extra information '
@@ -105,14 +109,10 @@ class SearchtoolsConfigOpts(ConfigOptGroupBase):
 
     def __init__(self):
         super().__init__()
-        self.add(ConfigOpt(name='use_all_logs',
-                           description=('Automatically convert log paths to '
-                                        'glob e.g. <path> becomes <path>*'),
-                           default_value=False))
         self.add(ConfigOpt(name='max_parallel_tasks',
                            description=('Maximum parallelism for searching '
                                         'files concurrently'),
-                           default_value=9))
+                           default_value=8))
         self.add(ConfigOpt(name='max_logrotate_depth',
                            description=('When log paths are expanded using '
                                         'use_all_logs and they are logrotated '
@@ -144,7 +144,7 @@ class SearchtoolsConfigOpts(ConfigOptGroupBase):
 
     @property
     def name(self):
-        return 'searchtools'
+        return 'search'
 
 
 class RegisteredOpts(UserDict):

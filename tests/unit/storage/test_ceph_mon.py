@@ -395,7 +395,7 @@ class TestCephMonEvents(CephMonTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mon/monlogs.yaml'))
-    @mock.patch('hotsos.core.search.constraints.CLIHelper')
+    @mock.patch('hotsos.core.search.CLIHelper')
     def test_ceph_daemon_log_checker(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         # ensure log file contents are within allowed timeframe ("since")

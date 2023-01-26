@@ -106,7 +106,7 @@ class YHandlerBase(object):
 
         self.load()
         if self.searchobj:
-            ret = self.run(self.searchobj.search())
+            ret = self.run(self.searchobj.run())
         else:
             ret = self.run()
 

@@ -1,9 +1,9 @@
-from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.search import (
-    SearchDef,
     FileSearcher,
+    SearchDef,
+    SearchConstraintSearchSince,
 )
-from hotsos.core.search.constraints import SearchConstraintSearchSince
+from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.plugins.openstack.common import OpenstackEventChecksBase
 from hotsos.core.plugins.openstack.openstack import OPENSTACK_LOGS_TS_EXPR
 
@@ -43,8 +43,9 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
         for result in event.results:
             instance_id = result.get(1)
             event_id = result.get(3)
+            result_path = self.searchobj.resolve_source_id(result.source_id)
             events[event_id] = {'instance_id': instance_id,
-                                'data_source': result.source}
+                                'data_source': result_path}
 
             for stage in EXT_EVENT_META[event.name]['stages_keys']:
                 expr = (r".+\[instance: {}\]\s+{}\s.*\s?event\s+{}-{}.? "
@@ -53,9 +54,9 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
                 tag = "{}_{}_{}".format(instance_id, event_id, stage)
                 sd = SearchDef(expr, tag, hint=event.name,
                                store_result_contents=False)
-                s.add_search_term(sd, result.source)
+                s.add(sd, result_path)
 
-        results = s.search()
+        results = s.run()
         for event_id in events:
             instance_id = events[event_id]['instance_id']
             data_source = events[event_id]['data_source']

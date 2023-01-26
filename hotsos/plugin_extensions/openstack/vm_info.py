@@ -10,8 +10,8 @@ from hotsos.core.search import (
     FileSearcher,
     SearchDef,
     SequenceSearchDef,
+    SearchConstraintSearchSince,
 )
-from hotsos.core.search.constraints import SearchConstraintSearchSince
 from hotsos.core.plugins.openstack.openstack import (
     OpenstackConfig,
     OPENSTACK_LOGS_TS_EXPR,
@@ -47,9 +47,9 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
             seqs[i.name] = SequenceSearchDef(start=start, body=body,
                                              end=end, tag=tag)
             path = os.path.join(etc_libvirt_qemu, "{}.xml".format(i.name))
-            s.add_search_term(seqs[i.name], path)
+            s.add(seqs[i.name], path)
 
-        results = s.search()
+        results = s.run()
         for guest in guests:
             sections = results.find_sequence_sections(seqs[guest]).values()
             for section in sections:
@@ -77,11 +77,10 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
             guests.append(i.name)
             tag = "{}.vcpus".format(i.name)
             path = os.path.join(etc_libvirt_qemu, "{}.xml".format(i.name))
-            s.add_search_term(SearchDef(".+vcpus>([0-9]+)<.+",
-                                        tag=tag), path)
+            s.add(SearchDef(".+vcpus>([0-9]+)<.+", tag=tag), path)
 
         total_vcpus = 0
-        results = s.search()
+        results = s.run()
         for guest in guests:
             for r in results.find_by_tag("{}.vcpus".format(guest)):
                 vcpus = r.get(1)

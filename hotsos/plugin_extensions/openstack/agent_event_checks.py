@@ -13,8 +13,10 @@ from hotsos.core.issues import (
     OpenstackWarning
 )
 from hotsos.core.log import log
-from hotsos.core.search import FileSearcher
-from hotsos.core.search.constraints import SearchConstraintSearchSince
+from hotsos.core.search import (
+    FileSearcher,
+    SearchConstraintSearchSince,
+)
 from hotsos.core import utils
 from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
@@ -42,10 +44,11 @@ class ApacheEventChecks(OpenstackEventChecksBase):
         results = []
         for result in event.results:
             # save some context info
-            if result.source in context:
-                context[result.source].append(result.linenumber)
+            path = self.searchobj.resolve_source_id(result.source_id)
+            if path in context:
+                context[path].append(result.linenumber)
             else:
-                context[result.source] = [result.linenumber]
+                context[path] = [result.linenumber]
 
             month = datetime.datetime.strptime(result.get(1), '%b').month
             day = result.get(2)
@@ -311,7 +314,7 @@ class AgentEventChecks(OpenstackChecksBase):
         for check in check_objs:
             check.load()
 
-        results = s.search()
+        results = s.run()
         _final_results = {}
         for check in check_objs:
             check.run(results)

@@ -69,23 +69,17 @@ class FakeServiceObject(object):
         self.start_time = start_time
 
 
-def init_test_scenario(yaml_contents, set_data_root=True):
+def init_test_scenario(yaml_contents):
     """
     Create a temporary defs path with a scenario yaml under it.
 
     @param param yaml_contents: yaml contents of scenario def.
-    @param param set_data_root: by default the data_root will point to a
-                                temporary dir. Some tests may want to keep
-                                the original one and can do that by setting
-                                this to False.
     """
     def init_test_scenario_inner1(f):
         def init_test_scenario_inner2(*args, **kwargs):
             with tempfile.TemporaryDirectory() as dtmp:
                 HotSOSConfig.plugin_yaml_defs = dtmp
                 HotSOSConfig.plugin_name = 'myplugin'
-                if set_data_root:
-                    HotSOSConfig.data_root = dtmp
                 yroot = os.path.join(dtmp, 'scenarios', 'myplugin')
                 yfile = os.path.join(yroot, 'test.yaml')
                 os.makedirs(os.path.dirname(yfile))
@@ -870,7 +864,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
-    @init_test_scenario(SCENARIO_CHECKS, set_data_root=False)
+    @init_test_scenario(SCENARIO_CHECKS)
     def test_yaml_def_scenario_checks_requires(self):
         checker = scenarios.YScenarioChecker()
         checker.load()
@@ -935,8 +929,8 @@ class TestYamlChecks(utils.BaseTestCase):
                     fd.write(line)
 
         s = FileSearcher()
-        s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
-        return s.search().find_by_tag('all')
+        s.add(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
+        return s.run().find_by_tag('all')
 
     def test_get_datetime_from_result(self):
         result = mock.MagicMock()
@@ -984,8 +978,8 @@ class TestYamlChecks(utils.BaseTestCase):
 
         s = FileSearcher()
         path = os.path.join(HotSOSConfig.data_root, 'foo.log')
-        s.add_search_term(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
-        results = s.search().find_by_tag('all')
+        s.add(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
+        results = s.run().find_by_tag('all')
 
         result = YPropertySearch.filter_by_age(results, 48)
         self.assertEqual(len(result), 1)
@@ -1277,7 +1271,7 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(sorted([issue['desc'] for issue in issues]),
                          sorted(['conc1', 'conc3']))
 
-    @init_test_scenario(YAML_DEF_REQUIRES_MAPPED, set_data_root=False)
+    @init_test_scenario(YAML_DEF_REQUIRES_MAPPED)
     def test_yaml_def_mapped_overrides(self):
         checker = scenarios.YScenarioChecker()
         checker.load()
@@ -1322,26 +1316,16 @@ class TestYamlChecks(utils.BaseTestCase):
                 self.assertEqual(issue['desc'], msg)
 
     @init_test_scenario(CONFIG_SCENARIO)
+    @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
     def test_config_scenario_fail(self):
-        cfg = os.path.join(HotSOSConfig.data_root, 'test.conf')
-        contents = ['[DEFAULT]\nkey1 = 101\n']
-        with open(cfg, 'w') as fd:
-            for line in contents:
-                fd.write(line)
-
         scenarios.YScenarioChecker()()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues],
                          ['cfg is bad', 'cfg is bad2'])
 
     @init_test_scenario(CONFIG_SCENARIO)
+    @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 102\n'})
     def test_config_scenario_pass(self):
-        cfg = os.path.join(HotSOSConfig.data_root, 'test.conf')
-        contents = ['[DEFAULT]\nkey1 = 102\n']
-        with open(cfg, 'w') as fd:
-            for line in contents:
-                fd.write(line)
-
         scenarios.YScenarioChecker()()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
@@ -1373,7 +1357,7 @@ class TestYamlChecks(utils.BaseTestCase):
                        "get more detail")
                 self.assertEqual(issue['desc'], msg)
 
-    @init_test_scenario(VARS, set_data_root=False)
+    @init_test_scenario(VARS)
     def test_vars(self):
         scenarios.YScenarioChecker()()
         issues = list(IssuesStore().load().values())

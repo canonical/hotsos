@@ -426,8 +426,8 @@ class CephCluster(object):
                                    end=SearchDef(r"^\s+\"\S+\":\s+{"),
                                    tag='versions')
 
-        s.add_search_term(sd, path=out_path)
-        for section in s.search().find_sequence_sections(sd).values():
+        s.add(sd, path=out_path)
+        for section in s.run().find_sequence_sections(sd).values():
             _versions = {}
             for result in section:
                 if result.tag == sd.start_tag:
@@ -753,10 +753,10 @@ class CephDaemonBase(object):
         sd = SearchDef(r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+"
                        r".+--id\s+{}\s+.+".format(self.daemon_type, self.id))
         ps_out = mktemp_dump('\n'.join(self.cli.ps()))
-        s.add_search_term(sd, path=ps_out)
+        s.add(sd, path=ps_out)
         rss = 0
         # we only expect one result
-        for result in s.search().find_by_path(ps_out):
+        for result in s.run().find_by_path(ps_out):
             rss = int(int(result.get(1)) / 1024)
             break
 
@@ -970,8 +970,8 @@ class CephChecksBase(StorageBase):
                                body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
                                                r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
-        s.add_search_term(sd, path=out_path)
-        for results in s.search().find_sequence_sections(sd).values():
+        s.add(sd, path=out_path)
+        for results in s.run().find_sequence_sections(sd).values():
             id = None
             fsid = None
             dev = None

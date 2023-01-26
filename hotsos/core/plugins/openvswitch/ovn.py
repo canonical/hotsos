@@ -54,8 +54,8 @@ class OVNDBBase(object):
     def __init__(self):
         contents = mktemp_dump(''.join(self.db_show))
         s = FileSearcher()
-        s.add_search_term(self.resources_sd, contents)
-        self.results = s.search()
+        s.add(self.resources_sd, contents)
+        self.results = s.run()
 
     @abc.abstractproperty
     def db_show(self):

@@ -106,7 +106,7 @@ class GenericTraceType(TraceTypeBase):
         """
         Run through the results.
 
-        @param results: list of search.searchtools.SearchResult objects.
+        @param results: list of search.SearchResult objects.
         """
         log.debug("%s has %s results", self.__class__.__name__, len(result))
         for _trace in result:
@@ -236,7 +236,7 @@ class BcacheDeadlockType(TraceTypeBase):
     def apply(self, result):
         """
         Run through the results.
-        @param results: list of search.searchtools.SearchResult objects.
+        @param results: list of search.SearchResult objects.
         """
         log.debug("%s has %s results", self.__class__.__name__, len(result))
         if len(result) > 0:
@@ -365,9 +365,9 @@ class CallTraceManager(KernLogBase):
 
     def run(self):
         for tracetype in self.tracetypes:
-            self.searcher.add_search_term(tracetype.searchdef, self.path)
+            self.searcher.add(tracetype.searchdef, self.path)
 
-        self.results = self.searcher.search()
+        self.results = self.searcher.run()
         for tracetype in self.tracetypes:
             if type(tracetype.searchdef) == SequenceSearchDef:
                 result = self.results.find_sequence_sections(

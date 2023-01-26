@@ -68,12 +68,10 @@ class TestAnalytics(utils.BaseTestCase):
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
         s = FileSearcher()
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-        s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                          path=fname)
+        s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-        s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                          path=fname)
-        events = analytics.LogEventStats(s.search(), "eventX")
+        s.add(SearchDef(expr, tag="eventX-end"), path=fname)
+        events = analytics.LogEventStats(s.run(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -94,12 +92,10 @@ class TestAnalytics(utils.BaseTestCase):
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
         s = FileSearcher()
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-        s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                          path=fname)
+        s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-        s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                          path=fname)
-        events = analytics.LogEventStats(s.search(), "eventX")
+        s.add(SearchDef(expr, tag="eventX-end"), path=fname)
+        events = analytics.LogEventStats(s.run(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -120,12 +116,10 @@ class TestAnalytics(utils.BaseTestCase):
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
         s = FileSearcher()
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-        s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                          path=fname)
+        s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-        s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                          path=fname)
-        events = analytics.LogEventStats(s.search(), "eventX")
+        s.add(SearchDef(expr, tag="eventX-end"), path=fname)
+        events = analytics.LogEventStats(s.run(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -149,12 +143,10 @@ class TestAnalytics(utils.BaseTestCase):
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
         s = FileSearcher()
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-        s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                          path=fname)
+        s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-        s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                          path=fname)
-        events = analytics.LogEventStats(s.search(), "eventX")
+        s.add(SearchDef(expr, tag="eventX-end"), path=fname)
+        events = analytics.LogEventStats(s.run(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -179,12 +171,10 @@ class TestAnalytics(utils.BaseTestCase):
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
         s = FileSearcher()
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-        s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                          path=fname)
+        s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-        s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                          path=fname)
-        events = analytics.LogEventStats(s.search(), "eventX")
+        s.add(SearchDef(expr, tag="eventX-end"), path=fname)
+        events = analytics.LogEventStats(s.run(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
@@ -205,12 +195,10 @@ class TestAnalytics(utils.BaseTestCase):
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
         s = FileSearcher()
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
-        s.add_search_term(SearchDef(expr, tag="eventX-start"),
-                          path=fname)
+        s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
-        s.add_search_term(SearchDef(expr, tag="eventX-end"),
-                          path=fname)
-        events = analytics.LogEventStats(s.search(), "eventX")
+        s.add(SearchDef(expr, tag="eventX-end"), path=fname)
+        events = analytics.LogEventStats(s.run(), "eventX")
         events.run()
         top5 = events.get_top_n_events_sorted(5)
         self.assertEqual(top5, expected)
