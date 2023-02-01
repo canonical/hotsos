@@ -2,10 +2,16 @@ target-name: bugs.yaml
 data-root:
   files:
     sos_commands/dpkg/dpkg_-l: |
-      ii  python3-keystone 2:17.0.0-0ubuntu0.20.04.1 amd64
+      ii  keystone 2:17.0.0-0ubuntu0.20.04.1 amd64
+    etc/keystone/keystone.conf: |
+      [DEBUG]
+      debug = True
+    etc/keystone/domains/domainX.conf: |
+      [ldap]
+      url = ldap://10.0.0.1
 raised-bugs:
   https://bugs.launchpad.net/bugs/1896125: >-
-    Installed package 'python3-keystone' with version 2:17.0.0-0ubuntu0.20.04.1 has a known bug
+    Installed package 'keystone' with version 2:17.0.0-0ubuntu0.20.04.1 has a known bug
     that causes memory leak over time and causes LDAP logins to fail. It
     is recommended to upgrade to the next point release available for the
     package. To workaround LDAP login failure problem, disable LDAP pooling

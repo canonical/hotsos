@@ -690,8 +690,8 @@ CACHE_KEYS
 ```
 
 #### config
-A dictionary containing the information required to perform some
-config checks.
+A dictionary containing the information required to perform some config checks. 
+Supports applying assertion rules to the contents of one or more config file.
 
 format:
 
@@ -700,7 +700,8 @@ handler: <path>
   Import path to an implementation of core.host_helpers.SectionalConfigBase.
 
 path: <path>
-  Optional path (e.g. config file) to use as argument to handler.
+  Optional path or list of paths used as input when creating config
+  handlers. Each path must be a file or glob path (wildcard).
 
 assertions: ASSERTION
   One or more ASSERTION can be defined and optionally grouped using

@@ -1,7 +1,7 @@
 checks:
   has_1896125:
     apt:
-      python3-keystone:
+      keystone:
         # Train
         - min: 2:16.0.0
           max: 2:16.0.1
@@ -11,6 +11,15 @@ checks:
         # Victoria
         - min: 2:18.0.0
           max: 2:18.0.0-99
+    config:
+      handler: hotsos.core.plugins.openstack.OpenstackConfig
+      # keystone ldap config be defined globally or per-domain
+      path: [etc/keystone/keystone.conf, etc/keystone/domains/*]
+      assertions:
+        - key: url
+          section: ldap
+          ops: [[truth]]  # i.e. does the setting have a value
+          allow-unset: False
 conclusions:
   lp1896125:
     decision: has_1896125

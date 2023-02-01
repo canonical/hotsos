@@ -1,4 +1,5 @@
 import os
+import glob
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
@@ -61,35 +62,44 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
         return False
 
     def get_item_result_callback(self, item, is_default_group=False):
-        cfg_obj = self.context.assertions_ctxt['cfg_obj']
-        if item.section:
-            actual = cfg_obj.get(item.key, section=item.section)
-        else:
-            actual = cfg_obj.get(item.key)
+        handlers = self.context.assertions_ctxt['cfg_handlers']
+        if not handlers:
+            return
 
-        _result = item.allow_unset
-        if item.ops and actual is not None:
-            _result = self.apply_ops(item.ops, input=actual,
-                                     normalise_value_types=True)
-        log.debug("assertion: %s (%s) %s result=%s",
-                  item.key, actual, self.ops_to_str(item.ops or []), _result)
+        for n, cfg_obj in enumerate(handlers):
+            if item.section:
+                actual = cfg_obj.get(item.key, section=item.section)
+            else:
+                actual = cfg_obj.get(item.key)
 
-        cache = self.context.assertions_ctxt['cache']
-        msg = "{} {}/actual=\"{}\"".format(item.key,
-                                           self.ops_to_str(item.ops or []),
-                                           actual)
-        if cache.assertion_results is not None:
-            cache.set('assertion_results', "{}, {}".
-                      format(cache.assertion_results, msg))
-        else:
-            cache.set('assertion_results', msg)
+            _result = item.allow_unset
+            if item.ops and actual is not None:
+                _result = self.apply_ops(item.ops, input=actual,
+                                         normalise_value_types=True)
+            log.debug("assertion: %s (%s) %s result=%s",
+                      item.key, actual, self.ops_to_str(item.ops or []),
+                      _result)
+            if not _result and n < len(handlers) - 1:
+                log.debug("assertion is false and there are more configs to "
+                          "check so trying next")
+                continue
 
-        # NOTE: This can be useful for single assertion checks but should be
-        # used with caution since it will only ever store the last config
-        # checked.
-        cache.set('key', item.key)
-        cache.set('ops', self.ops_to_str(item.ops or []))
-        cache.set('value_actual', actual)
+            cache = self.context.assertions_ctxt['cache']
+            msg = "{} {}/actual=\"{}\"".format(item.key,
+                                               self.ops_to_str(item.ops or []),
+                                               actual)
+            if cache.assertion_results is not None:
+                cache.set('assertion_results', "{}, {}".
+                          format(cache.assertion_results, msg))
+            else:
+                cache.set('assertion_results', msg)
+
+            # NOTE: This can be useful for single assertion checks but should
+            # be used with caution since it will only ever store the last
+            # config checked.
+            cache.set('key', item.key)
+            cache.set('ops', self.ops_to_str(item.ops or []))
+            cache.set('value_actual', actual)
 
         return _result
 
@@ -133,22 +143,42 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         return ['config']
 
     @property
-    def cfg(self):
+    def cfg_handlers(self):
+        """
+        @return: list of config handlers
+        """
         handler = self.content['handler']
         obj = self.get_cls(handler)
-        path = self.content.get('path')
-        if path:
-            path = os.path.join(HotSOSConfig.data_root, path)
-            return obj(path)
+        paths = self.content.get('path')
+        if not paths:
+            log.debug("no config path provided, creating handler %s "
+                      "without args", handler)
+            return [obj()]
 
-        return obj()
+        if type(paths) == str:
+            paths = [paths]
+
+        handlers = []
+        for path in paths:
+            path = os.path.join(HotSOSConfig.data_root, path)
+            if os.path.isfile(path):
+                handlers.append(obj(path))
+
+            if os.path.isdir(path):
+                path = path + '/*'
+
+            for _path in glob.glob(path):
+                if os.path.isfile(_path):
+                    handlers.append(obj(_path))
+
+        return handlers
 
     @property
     def assertions(self):
         _assertions = []
         ctxt = YDefsContext({'vars': self.context.vars})
         # make this available to all assertions
-        ctxt.assertions_ctxt = {'cfg_obj': self.cfg,
+        ctxt.assertions_ctxt = {'cfg_handlers': self.cfg_handlers,
                                 'cache': self.cache}
         section = YDefsSection('config_assertions',
                                {'assertions': self.content.get('assertions')},
