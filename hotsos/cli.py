@@ -65,6 +65,18 @@ def get_defs_path():
     return defs
 
 
+def get_templates_path():
+    templates = os.path.join(get_hotsos_root(), '../templates')
+    if not os.path.isdir(templates):
+        root = os.environ.get('SNAP', '/')
+        templates = os.path.join(root, 'etc/hotsos/templates')
+
+    if not os.path.exists(templates):
+        raise Exception("templates path {} not found".format(templates))
+
+    return templates
+
+
 def spinner(msg, done):
     spinner = Spinner(msg)
     while not done.is_set():
@@ -183,8 +195,7 @@ def main():
                   type=click.Choice(OutputManager.SUMMARY_FORMATS),
                   default='yaml',
                   show_default=True,
-                  help=('Output format. Supported formats are {}.'.
-                        format(', '.join(OutputManager.SUMMARY_FORMATS))))
+                  help=('Summary output format.'))
     @click.option('--save', '-s', default=False, is_flag=True,
                   help=('Save output to a file.'))
     @click.option('--quiet', default=False, is_flag=True,
@@ -202,12 +213,14 @@ def main():
                         'for limits).'))
     @click.option('--defs-path', default=get_defs_path(),
                   help=('Path to yaml definitions (ydefs).'))
+    @click.option('--templates-path', default=get_templates_path(),
+                  help=('Path to Jinja templates.'))
     @click.option('--version', '-v', default=False, is_flag=True,
                   help=('Show the version.'))
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
-    def cli(data_root, version, defs_path, all_logs, quiet, debug, save,
-            format, html_escape, user_summary, short, very_short,
+    def cli(data_root, version, defs_path, templates_path, all_logs, quiet,
+            debug, save, format, html_escape, user_summary, short, very_short,
             force, full, agent_error_key_by_time, event_tally_granularity,
             max_logrotate_depth, max_parallel_tasks, list_plugins,
             machine_readable, output_path,
@@ -266,7 +279,7 @@ def main():
                   "instead.")
 
         HotSOSConfig.set(use_all_logs=all_logs, plugin_yaml_defs=defs_path,
-                         data_root=data_root,
+                         templates_path=templates_path, data_root=data_root,
                          event_tally_granularity=event_tally_granularity,
                          max_logrotate_depth=max_logrotate_depth,
                          max_parallel_tasks=max_parallel_tasks,

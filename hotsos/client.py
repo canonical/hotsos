@@ -252,7 +252,7 @@ class OutputManager(object):
         log.warning("Unknown minimalmode '%s'", mode)
         return summary
 
-    def get(self, format=None, html_escape=False, minimal_mode=None,
+    def get(self, format='yaml', html_escape=False, minimal_mode=None,
             plugin=None, max_level=2):
         if plugin:
             filtered = {plugin: self._summary[plugin]}
@@ -262,12 +262,10 @@ class OutputManager(object):
         if minimal_mode:
             filtered = self.minimise(filtered, minimal_mode)
 
-        if format is None:
-            format = 'yaml'
-
         if format not in self.SUMMARY_FORMATS:
             raise Exception("unsupported summary format '{}'".format(format))
 
+        hostname = CLIHelper().hostname() or ""
         log.debug('Saving summary as %s', format)
         if format == 'yaml':
             filtered = plugintools.yaml_dump(filtered)
@@ -276,8 +274,9 @@ class OutputManager(object):
         elif format == 'markdown':
             filtered = plugintools.MarkdownFormatter().dump(filtered)
         elif format == 'html':
-            filtered = plugintools.HTMLFormatter().dump(filtered,
-                                                        max_level=max_level)
+            filtered = plugintools.HTMLFormatter(
+                                            hostname=hostname,
+                                            max_level=max_level).dump(filtered)
 
         if html_escape:
             log.debug('Applying html escaping to summary')
