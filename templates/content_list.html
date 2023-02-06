@@ -1,0 +1,9 @@
+{%- if list_elements %}
+<ul>
+{% for item in list_elements -%}
+<li>
+{{ item }}
+</li>
+{%- endfor %}
+</ul>
+{%- endif %}

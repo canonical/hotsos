@@ -89,6 +89,9 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
         self.add(ConfigOpt(name='plugin_yaml_defs',
                            description='Path to yaml-defined checks.',
                            default_value=None))
+        self.add(ConfigOpt(name='templates_path',
+                           description='Path to jinja templates.',
+                           default_value='templates'))
         self.add(ConfigOpt(name='plugin_name',
                            description='Name of current plugin being executed',
                            default_value=None))

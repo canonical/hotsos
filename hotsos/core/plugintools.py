@@ -1,7 +1,7 @@
 import os
 import yaml
 
-from pathlib import Path
+from jinja2 import FileSystemLoader, Environment
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
@@ -40,102 +40,88 @@ def yaml_dump(data):
                      default_flow_style=False).rstrip("\n")
 
 
-class HTMLFormatter(object):
+class OutputFormatterBase(object):
 
-    @property
-    def templates_dir(self):
-        return os.path.join(os.path.dirname(Path(__file__).resolve()),
-                            'templates')
+    def render(self, context, template):
+        templates_dir = HotSOSConfig.templates_path
+        if not os.path.isdir(templates_dir):
+            raise Exception("jinja templates directory not found: '{}'".
+                            format(templates_dir))
+
+        env = Environment(loader=FileSystemLoader(templates_dir))
+        template = env.get_template(template)
+        return template.render(context)
+
+
+class HTMLFormatter(OutputFormatterBase):
+    """
+    Format the summary as html.
+
+    Ref: https://iamkate.com/code/tree-views/
+    """
+
+    def __init__(self, hostname, max_level=2):
+        """
+        @param max_level: The HTML will be collapsible up to max_level
+        """
+        self.hostname = hostname
+        self.max_level = max_level
 
     @property
     def header(self):
-        with open(os.path.join(self.templates_dir, 'header.html')) as fd:
-            return fd.read()
+        return self.render({'hostname': self.hostname}, 'header.html')
 
     @property
     def footer(self):
-        with open(os.path.join(self.templates_dir, 'footer.html')) as fd:
+        with open(os.path.join(HotSOSConfig.templates_path,
+                               'footer.html')) as fd:
             return fd.read()
 
-    def _get_indent(self, indent, shift):
-        """Get a string with a few spaces.
-
-        @param indent: The current indentation string
-        @param shift: The additional shift
-        @return: string with the indentation string.
-        """
-        return indent + ''.join([' ' * shift])
-
-    def _expand_list(self, data, level, indent, max_level=0):
-        markup_output = f'{indent}<ul>\n'
+    def _expand_list(self, data, level):
+        context = {'list_elements': [], 'indent': '    '}
         for item in data:
-            markup_output += f'{indent}    <li>\n'
-            markup_output += self._expand(item, level, indent + '        ',
-                                          max_level=max_level)
-            markup_output += f'{indent}    </li>\n'
+            context['list_elements'].append(self._expand(item, level))
 
-        return markup_output + f'{indent}</ul>\n'
+        return self.render(context, 'content_list.html')
 
-    def _expand_dict(self, data, level, indent, max_level=0):
-        add_class = ''
-        collapsible = level < max_level
+    def _expand_dict(self, data, level):
+        context = {'dict_elements': {},
+                   'indent': '    ',
+                   'collapsible': level < self.max_level}
         if level == 1:
-            add_class = ' class="tree"'
+            context['class'] = 'class="tree"'
 
-        markup_output = f'{indent}<ul{add_class}>\n'
-        for key in data.keys():
-            markup_output += f'{self._get_indent(indent, 4)}<li>\n'
-            if collapsible:
-                markup_output += f'{self._get_indent(indent, 8)}<details>\n'
-                markup_output += \
-                    f'{self._get_indent(indent, 12)}<summary>{key}</summary>\n'
-                additional_indent = 12
-            else:
-                markup_output += f'{self._get_indent(indent, 8)}<b>{key}</b>\n'
-                additional_indent = 8
+        for key, value in data.items():
+            context['dict_elements'][key] = self._expand(value, level + 1)
 
-            markup_output += self._expand(data[key], level + 1,
-                                          self._get_indent(indent,
-                                                           additional_indent),
-                                          max_level=max_level)
-            if collapsible:
-                markup_output += f'{self._get_indent(indent, 8)}</details>\n'
+        return self.render(context, 'content_dict.html')
 
-            markup_output += f'{self._get_indent(indent, 4)}</li>\n'
-
-        return markup_output + f'{indent}</ul>\n'
-
-    def _expand(self, data, level, indent, max_level=0):
+    def _expand(self, data, level):
         """Expand the data object.
 
         @param data: The data object. This can be a dict, list, or a flat type
                      such as int or str.
         @param level: The current header level
-        @param indent: A string with spaces for indentation
-        @param max_level: The HTML will be collapsible up to max_level
         @return: A string expansion formatted in HTML of the data object.
         """
         if isinstance(data, dict):
-            return self._expand_dict(data, level, indent, max_level)
+            return self._expand_dict(data, level)
         elif isinstance(data, list):
-            return self._expand_list(data, level, indent, max_level)
+            return self._expand_list(data, level)
 
-        return f'{indent}{data}\n'
+        return data
 
-    def dump(self, data, max_level=2):
+    def dump(self, data):
         """Convert the data (dict) into an html document.
 
-        Ref: https://iamkate.com/code/tree-views/
-
         @param dist: The data
-        @param max_level: The HTML will be collapsible up to max_level
         @return: the html document as a string.
         """
-        content = self._expand(data, 1, '    ', max_level=max_level)
+        content = self._expand(data, 1)
         return self.header + content + self.footer
 
 
-class MarkdownFormatter():
+class MarkdownFormatter(OutputFormatterBase):
 
     def _expand_dict(self, data, level):
         level_prefix = ''.join(['#' for i in range(level)])

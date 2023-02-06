@@ -16,6 +16,7 @@ from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
+HOTSOS_ROOT = os.environ["HOTSOS_ROOT"]
 DEFS_TESTS_DIR = os.path.join(os.environ['TESTS_DIR'], 'defs', 'tests')
 DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
 HotSOSConfig.data_root = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
@@ -354,6 +355,8 @@ class BaseTestCase(unittest.TestCase):
                               'plugin_name': 'testplugin',
                               'plugin_yaml_defs':
                               os.path.join(TESTS_DIR, 'defs'),
+                              'templates_path':
+                              os.path.join(HOTSOS_ROOT, 'templates'),
                               'part_name': 'testpart',
                               'global_tmp_dir': None,
                               'plugin_tmp_dir': None,

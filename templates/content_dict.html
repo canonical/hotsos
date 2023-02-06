@@ -1,0 +1,15 @@
+<ul {{ class }}>
+{%- for key, value in dict_elements.items() %}
+<li>
+{%- if collapsible %}
+<details>
+<summary>{{ key }}</summary>
+{{ value }}
+</details>
+{%- else %}
+<b>{{ key }}</b>
+{{ value }}
+{%- endif %}
+</li>
+{%- endfor %}
+</ul>

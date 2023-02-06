@@ -34,6 +34,7 @@ parts:
       snapcraftctl build
     organize:
       defs: etc/hotsos/defs
+      templates: etc/hotsos/templates
     build-packages: [git]
   hotsos:
     plugin: python
