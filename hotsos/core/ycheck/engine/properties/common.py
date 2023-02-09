@@ -3,10 +3,10 @@ import builtins
 import inspect
 import importlib
 
-from structr import (
-    StructROverrideBase,
-    StructRMappedOverrideBase,
-    StructRSection,
+from propertree import (
+    PTreeOverrideBase,
+    PTreeMappedOverrideBase,
+    PTreeSection,
 )
 
 from hotsos.core.log import log
@@ -20,7 +20,7 @@ class ImportPathIsNotAClass(Exception):
         super().__init__()
 
 
-class YDefsSection(StructRSection):
+class YDefsSection(PTreeSection):
 
     def __init__(self, name, content, context=None):
         """
@@ -471,7 +471,7 @@ class YPropertyBase(object):
         except Exception as exc:
             log.exception("failed to get module attribute %s", import_str)
 
-            # ystruct.StructROverrideBase swallows AttributeError so need to
+            # ystruct.PTreeOverrideBase swallows AttributeError so need to
             # convert to something else.
             if type(exc) == AttributeError:
                 raise ImportError from exc
@@ -495,11 +495,11 @@ class YPropertyBase(object):
         return self.get_attribute(import_str)
 
 
-class YPropertyOverrideBase(YPropertyBase, StructROverrideBase):
+class YPropertyOverrideBase(YPropertyBase, PTreeOverrideBase):
     pass
 
 
-class YPropertyMappedOverrideBase(YPropertyBase, StructRMappedOverrideBase):
+class YPropertyMappedOverrideBase(YPropertyBase, PTreeMappedOverrideBase):
     pass
 
 
