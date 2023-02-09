@@ -45,8 +45,6 @@ test_plugin ()
     echo -n "plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root ..."
     if [[ $type == short ]]; then
         args+=( --short )
-        args+=( --user-summary )
-        data_root=$dtmp/$plugin
         label=".short"
     fi
     export PYTHONPATH=.

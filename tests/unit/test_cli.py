@@ -43,6 +43,5 @@ class TestCLI(unittest.TestCase):
                          'sosreport some/path/')
 
     def test_get_prefix(self):
-        self.assertEqual(hotsos.cli.get_prefix(True, data_root='/'), '')
-        self.assertEqual(hotsos.cli.get_prefix(False, data_root='/'),
-                         'compute4')
+        self.assertEqual(hotsos.cli.get_prefix(data_root='/foo/bar'), 'bar')
+        self.assertEqual(hotsos.cli.get_prefix(data_root='/'), 'compute4')
