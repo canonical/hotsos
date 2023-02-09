@@ -3,6 +3,7 @@ import operator
 
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import YPropertyOverrideBase
+from hotsos.core.utils import cached_property
 
 
 def intercept_exception(f):
@@ -23,7 +24,7 @@ def intercept_exception(f):
     return intercept_exception_inner
 
 
-class CheckItemsBase(object):
+class CheckItemsBase(abc.ABC):
     """
     Provides a standard way for check items to be defined i.e.
 
@@ -47,6 +48,33 @@ class CheckItemsBase(object):
     def __iter__(self):
         for item in self._items.items():
             yield item
+
+
+class PackageCheckItemsBase(CheckItemsBase):
+
+    @cached_property
+    def packages_to_check(self):
+        return [item[0] for item in self]
+
+    @abc.abstractmethod
+    def packaging_helper(self):
+        """
+        Interface for _apt_info and _snap_info
+        """
+
+    @cached_property
+    def installed(self):
+        _installed = []
+        for p in self.packages_to_check:
+            if self.packaging_helper.is_installed(p):
+                _installed.append(p)
+
+        return _installed
+
+    @cached_property
+    def not_installed(self):
+        _all = self.packages_to_check
+        return set(self.installed).symmetric_difference(_all)
 
 
 class OpsUtils(object):
