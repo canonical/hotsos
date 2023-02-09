@@ -5,7 +5,6 @@ import os
 import sys
 import subprocess
 import threading
-import yaml
 
 from progress.spinner import Spinner
 
@@ -118,21 +117,14 @@ def get_analysis_target(data_root):
     return analysis_target
 
 
-def get_prefix(user_summary, data_root):
-    if user_summary:
-        prefix = os.path.basename(data_root)
-        if 'summary' in prefix:
-            prefix = prefix.rpartition('.summary')[0]
-        else:
-            prefix = prefix.rpartition('.')[0]
-    else:
-        if data_root != '/':
-            if data_root.endswith('/'):
-                data_root = data_root.rpartition('/')[0]
-            prefix = os.path.basename(data_root)
-        else:
-            prefix = CLIHelper().hostname()
-    return prefix
+def get_prefix(data_root):
+    if data_root != '/':
+        if data_root.endswith('/'):
+            data_root = data_root.rpartition('/')[0]
+
+        return os.path.basename(data_root)
+
+    return CLIHelper().hostname()
 
 
 def main():
@@ -185,9 +177,10 @@ def main():
     @click.option('--short', default=False, is_flag=True,
                   help=('Filters the full summary so that it only includes '
                         'plugin known-bugs and potential-issues sections.'))
-    @click.option('--user-summary', default=False, is_flag=True,
-                  help=('Provide an existing summary so that it can be '
-                        'post-procesed e.g. --format json.'))
+    @click.option('--user-summary', default=None,
+                  help=('[DEPRECATED] Provide an existing summary so that it '
+                        'can be post-processed e.g. --format json. This '
+                        'option is deprecated and no longer does anything'))
     @click.option('--html-escape', default=False, is_flag=True,
                   help=('Apply html escaping to the output so that it is safe '
                         'to display in html.'))
@@ -220,7 +213,7 @@ def main():
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
     def cli(data_root, version, defs_path, templates_path, all_logs, quiet,
-            debug, save, format, html_escape, user_summary, short, very_short,
+            debug, save, format, html_escape, short, very_short,
             force, full, agent_error_key_by_time, event_tally_granularity,
             max_logrotate_depth, max_parallel_tasks, list_plugins,
             machine_readable, output_path,
@@ -270,9 +263,7 @@ def main():
             print(_version)
             return
 
-        if not user_summary:
-            data_root = fix_data_root(data_root)
-
+        data_root = fix_data_root(data_root)
         if agent_error_key_by_time:
             print("WARNING: option --agent-error-key-by-time is DEPRECATED "
                   "and longer has any effect. Use --event-tally-granularity "
@@ -312,28 +303,23 @@ def main():
             spinner_msg = 'INFO: analysing {} '.format(analysis_target)
 
         with progress_spinner(show_spinner, spinner_msg):
-            if user_summary:
-                log.debug("User summary provided in %s", data_root)
-                with open(data_root) as fd:
-                    summary = OutputManager(yaml.safe_load(fd))
-            else:
-                plugins = []
-                for k, v in kwargs.items():
-                    if v is True:
-                        plugins.append(k)
+            plugins = []
+            for k, v in kwargs.items():
+                if v is True:
+                    plugins.append(k)
 
-                if plugins:
-                    # always run these
-                    plugins.append('hotsos')
-                    if 'system' not in plugins:
-                        plugins.append('system')
+            if plugins:
+                # always run these
+                plugins.append('hotsos')
+                if 'system' not in plugins:
+                    plugins.append('system')
 
-                client = HotSOSClient(plugins)
-                client.run()
-                summary = client.summary
+            client = HotSOSClient(plugins)
+            client.run()
+            summary = client.summary
 
         if save:
-            prefix = get_prefix(user_summary, data_root)
+            prefix = get_prefix(data_root)
             path = summary.save(prefix, html_escape=html_escape,
                                 output_path=output_path)
             sys.stdout.write("INFO: output saved to {}\n".format(path))
