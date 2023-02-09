@@ -6,46 +6,28 @@ from hotsos.core.host_helpers import (
 )
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
-    CheckItemsBase,
     YRequirementTypeBase,
+    PackageCheckItemsBase,
 )
 
 
-class APTCheckItems(CheckItemsBase):
+class APTCheckItems(PackageCheckItemsBase):
 
     @cached_property
-    def packages_to_check(self):
-        return [item[0] for item in self]
-
-    @cached_property
-    def _apt_info(self):
+    def packaging_helper(self):
         return APTPackageHelper(self.packages_to_check)
-
-    @cached_property
-    def installed(self):
-        _installed = []
-        for p in self.packages_to_check:
-            if self._apt_info.is_installed(p):
-                _installed.append(p)
-
-        return _installed
-
-    @cached_property
-    def not_installed(self):
-        _all = self.packages_to_check
-        return set(self.installed).symmetric_difference(_all)
 
     @cached_property
     def installed_versions(self):
         _versions = []
         for p in self.installed:
-            _versions.append(self._apt_info.get_version(p))
+            _versions.append(self.packaging_helper.get_version(p))
 
         return _versions
 
     def package_version_within_ranges(self, pkg, versions):
         result = False
-        version = self._apt_info.get_version(pkg)
+        version = self.packaging_helper.get_version(pkg)
         for item in sorted(versions, key=lambda i: i['max'],
                            reverse=True):
             v_max = str(item['max'])

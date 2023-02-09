@@ -3,34 +3,16 @@ from hotsos.core.utils import cached_property
 from hotsos.core.host_helpers import SnapPackageHelper
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
-    CheckItemsBase,
     YRequirementTypeBase,
+    PackageCheckItemsBase,
 )
 
 
-class SnapCheckItems(CheckItemsBase):
+class SnapCheckItems(PackageCheckItemsBase):
 
     @cached_property
-    def packages_to_check(self):
-        return [item[0] for item in self]
-
-    @cached_property
-    def _snap_info(self):
+    def packaging_helper(self):
         return SnapPackageHelper(core_snaps=self.packages_to_check)
-
-    @cached_property
-    def installed(self):
-        _installed = []
-        for p in self.packages_to_check:
-            if self._snap_info.is_installed(p):
-                _installed.append(p)
-
-        return _installed
-
-    @cached_property
-    def not_installed(self):
-        _all = self.packages_to_check
-        return set(self.installed).symmetric_difference(_all)
 
 
 class YRequirementTypeSnap(YRequirementTypeBase):
