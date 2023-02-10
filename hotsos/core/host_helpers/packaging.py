@@ -319,7 +319,7 @@ class SnapPackageHelper(PackageHelperBase):
         self._core_snaps = {}
         self._other_snaps = {}
         self._all_snaps = {}
-        self._match_expr_template = r"^({})\s+([\S]+)\s+\d+\s+(\S+)\s+.+"
+        self._match_expr_template = r"^({})\s+([\S]+)\s+([\d]+)\s+(\S+)\s+.+"
         self.snap_list_all = CLIHelper().snap_list_all()
 
     def is_installed(self, pkg):
@@ -331,10 +331,18 @@ class SnapPackageHelper(PackageHelperBase):
         if ret:
             return {'name': ret.group(1),
                     'version': ret.group(2),
-                    'channel': ret.group(3),
+                    'revision': ret.group(3),
+                    'channel': ret.group(4),
                     }
 
         return
+
+    def get_revision(self, snap):
+        """ Return revision of package.
+        """
+        info = self._get_snap_info(snap)
+        if info:
+            return info[0]['revision']
 
     def get_version(self, snap):
         """ Return version of package.
