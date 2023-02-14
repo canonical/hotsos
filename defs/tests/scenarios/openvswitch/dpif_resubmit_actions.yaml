@@ -16,5 +16,5 @@ raised-issues:
     silently dropped. One cause of this is when you have too many
     flows and an example is when you have an excess of ovn
     logical flows. Look for "resubmit actions on bridge" in
-    /var/log/ovs-vswitchd.log for more info and see what type of
-    flow is resulting in this limit being hit.
+    /var/log/openvswitch/ovs-vswitchd.log for more info and see what
+    type of flow is resulting in this limit being hit.
