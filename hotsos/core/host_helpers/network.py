@@ -1,9 +1,9 @@
 import copy
-import json
 import os
 import re
 
 from hotsos.core.log import log
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.common import HostHelpersBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.utils import mktemp_dump
@@ -29,50 +29,57 @@ IP_EOF = r"^$"
 
 class NetworkPort(HostHelpersBase):
 
-    def __init__(self, name, addresses, hwaddr, state, encap_info):
+    def __init__(self, name, addresses, hwaddr, state, encap_info,
+                 namespace=None):
         self.name = name
-        super().__init__()
         self.addresses = addresses
         self.hwaddr = hwaddr
         self.state = state
         self.encap_info = encap_info
+        self.namespace = namespace
         self.cli_helper = CLIHelper()
+        super().__init__()
+
+    @property
+    def cache_root(self):
+        """
+        Cache this information at the plugin level rather than globally.
+        """
+        return HotSOSConfig.plugin_tmp_dir
+
+    @property
+    def cache_type(self):
+        return 'network_ports'
 
     @property
     def cache_name(self):
-        return "network-port-{}".format(self.name)
+        if self.namespace:
+            return "ns-{}-port-{}".format(self.namespace, self.name)
+
+        return "port-{}".format(self.name)
 
     def cache_load(self):
-        # Always use plugin context here
-        cache_root = self.plugin_cache_root
-        path = os.path.join(cache_root, 'stats.json')
-        if not os.path.exists(path):
+        contents = self.cache.get('stats')
+        if not contents:
             log.debug("network port %s not found in cache", self.name)
             return
 
-        with open(path) as fd:
-            try:
-                log.debug("loading network port %s from cache", self.name)
-                return json.loads(fd.read())
-            except json.decoder.JSONDecodeError:
-                log.warning("failed to load networkport from cache")
+        log.debug("loading network port %s from cache", self.name)
+        return contents
 
     def cache_save(self, data):
-        # Always use plugin context here
-        cache_root = self.plugin_cache_root
         log.debug("saving network port %s to cache", self.name)
-        if not os.path.isdir(cache_root):
-            os.makedirs(cache_root)
-
-        path = os.path.join(cache_root, 'stats.json')
-        with open(path, 'w') as fd:
-            fd.write(json.dumps(data))
+        self.cache.set('stats', data)
 
     def to_dict(self):
-        return {self.name: {'addresses': copy.deepcopy(self.addresses),
-                            'hwaddr': self.hwaddr,
-                            'state': self.state,
-                            'speed': self.speed}}
+        info = {'addresses': copy.deepcopy(self.addresses),
+                'hwaddr': self.hwaddr,
+                'state': self.state,
+                'speed': self.speed}
+        if self.namespace:
+            info['namespace'] = self.namespace
+
+        return {self.name: info}
 
     @property
     def speed(self):
@@ -148,42 +155,35 @@ class HostNetworkingHelper(HostHelpersBase):
         self.cli = CLIHelper()
 
     @property
+    def cache_type(self):
+        return 'networks'
+
+    @property
     def cache_name(self):
+        # this is a global cache i.e. shared by all plugins
         return 'network-helper'
 
     def cache_load(self, namespaces=False):
-        # Always use global context here
-        cache_root = self.global_cache_root
+        log.debug("loading network helper info from cache (namespaces=%s)",
+                  namespaces)
         if namespaces:
-            path = os.path.join(cache_root, 'ns_interfaces.json')
+            contents = self.cache.get('ns-interfaces')
         else:
-            path = os.path.join(cache_root, 'interfaces.json')
+            contents = self.cache.get('interfaces')
 
-        if not os.path.exists(path):
-            log.debug("network helper info not available in cache "
-                      "(namespaces=%s)", namespaces)
-            return
+        if contents:
+            return contents
 
-        with open(path) as fd:
-            try:
-                log.debug("loading network helper info from cache "
-                          "(namespaces=%s)", namespaces)
-                return json.loads(fd.read())
-            except json.decoder.JSONDecodeError:
-                log.warning("failed to load interfaces from cache")
+        log.debug("network helper info not available in cache "
+                  "(namespaces=%s)", namespaces)
 
     def cache_save(self, data, namespaces=False):
         log.debug("saving network helper info to cache (namespaces=%s)",
                   namespaces)
-        # Always use global context here
-        cache_root = self.global_cache_root
         if namespaces:
-            path = os.path.join(cache_root, 'ns_interfaces.json')
+            self.cache.set('ns-interfaces', data)
         else:
-            path = os.path.join(cache_root, 'interfaces.json')
-
-        with open(path, 'w') as fd:
-            fd.write(json.dumps(data))
+            self.cache.set('interfaces', data)
 
     def _get_interfaces(self, namespaces=False):
         """
@@ -213,7 +213,8 @@ class HostNetworkingHelper(HostHelpersBase):
             for ns in self.cli.ip_netns():
                 ns_name = ns.partition(" ")[0]
                 ip_addr = self.cli.ns_ip_addr(namespace=ns_name)
-                path = mktemp_dump('\n'.join(ip_addr))
+                prefix = "__ns_start__{}__ns__end__".format(ns_name)
+                path = mktemp_dump('\n'.join(ip_addr), prefix=prefix)
                 search_obj.add(seq, path)
         else:
             path = mktemp_dump('\n'.join(self.cli.ip_addr()))
@@ -235,6 +236,14 @@ class HostNetworkingHelper(HostHelpersBase):
                 name = None
                 state = None
                 for result in section:
+                    # infer ns name from filename prefix
+                    ns_name = None
+                    source = search_obj.resolve_source_id(result.source_id)
+                    ret = re.match(r'^__ns_start__(\S+)__ns__end__',
+                                   os.path.basename(source))
+                    if ret:
+                        ns_name = ret.group(1)
+
                     if result.tag == seq.start_tag:
                         name = result.get(1)
                         state = result.get(2)
@@ -251,7 +260,8 @@ class HostNetworkingHelper(HostHelpersBase):
 
                 interfaces_raw.append({'name': name, 'addresses': addrs,
                                        'hwaddr': hwaddr, 'state': state,
-                                       'encap_info': encap_info})
+                                       'encap_info': encap_info,
+                                       'namespace': ns_name})
 
         self.cache_save(interfaces_raw, namespaces=namespaces)
         for iface in interfaces_raw:

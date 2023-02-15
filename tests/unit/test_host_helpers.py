@@ -95,10 +95,53 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
     def test_get_interfaces_cached(self):
         helper = host_helpers.HostNetworkingHelper()
         helper.host_interfaces_all
-        path = helper.global_cache_root
-        for path in [os.path.join(path, 'interfaces.json'),
-                     os.path.join(path, 'ns_interfaces.json')]:
-            self.assertTrue(os.path.exists(path))
+        ifaces = helper.cache.get('interfaces')
+        expected = ['lo',
+                    'ens3',
+                    'ens4',
+                    'ens5',
+                    'ens6',
+                    'ens7',
+                    'ens8',
+                    'ens9',
+                    'br-ens3',
+                    'ovs-system',
+                    'br-tun',
+                    'br-int',
+                    'br-ex',
+                    'br-data',
+                    'lxdbr0',
+                    'veth1883dceb@if16',
+                    'veth5cc250bc@if18',
+                    'veth396824c3@if20',
+                    'vethe7aaf6c3@if22',
+                    'veth59e22e6f@if24',
+                    'veth8aa19e05@if26',
+                    'veth0d284c32@if28',
+                    'vxlan_sys_4789',
+                    'tap0e778df8-ca']
+        self.assertEqual([i['name'] for i in ifaces], expected)
+        ns_ifaces = helper.cache.get('ns-interfaces')
+        expected = [('lo',
+                     'fip-32981f34-497a-4fae-914a-8576055c8d0d'),
+                    ('fpr-984c22fd-6@if2',
+                     'fip-32981f34-497a-4fae-914a-8576055c8d0d'),
+                    ('fg-c8dcce74-c4',
+                     'fip-32981f34-497a-4fae-914a-8576055c8d0d'),
+                    ('lo', 'qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5'),
+                    ('rfp-984c22fd-6@if2',
+                     'qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5'),
+                    ('qr-3a70b31c-3f',
+                     'qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5'),
+                    ('lo', 'snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5'),
+                    ('ha-550dc175-c0',
+                     'snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5'),
+                    ('qg-14f81a43-69',
+                     'snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5'),
+                    ('sg-189f4c40-9d',
+                     'snat-984c22fd-64b3-4fa1-8ddd-87090f401ce5')]
+        self.assertEqual([(i['name'], i['namespace']) for i in ns_ifaces],
+                         expected)
 
         addr = '10.0.0.128'
         iface = helper.get_interface_with_addr(addr)
