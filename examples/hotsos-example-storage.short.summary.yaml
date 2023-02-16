@@ -6,5 +6,5 @@ potential-issues:
         unattended upgrades. (origin=system.auto_scenario_check)
   storage:
     CephWarnings:
-      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph status' for details.
-        (origin=storage.auto_scenario_check)
+      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph health detail'
+        for details. (origin=storage.auto_scenario_check)
