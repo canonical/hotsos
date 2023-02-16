@@ -105,5 +105,5 @@ storage:
           - nova (4)
   potential-issues:
     CephWarnings:
-      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph status' for details.
-        (origin=storage.auto_scenario_check)
+      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph health detail'
+        for details. (origin=storage.auto_scenario_check)

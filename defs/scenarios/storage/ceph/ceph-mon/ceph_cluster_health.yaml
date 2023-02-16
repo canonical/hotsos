@@ -15,7 +15,7 @@ conclusions:
     raises:
       type: CephWarning
       message: >-
-        Ceph cluster is in '{health_status}' state. Please check 'ceph status'
-        for details.
+        Ceph cluster is in '{health_status}' state. Please check
+        'ceph health detail' for details.
       format-dict:
         health_status: '@checks.cluster_unhealthy.requires.value_actual'
