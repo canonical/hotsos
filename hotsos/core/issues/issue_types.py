@@ -152,6 +152,10 @@ class MySQLWarning(IssueTypeBase):
     pass
 
 
+class LXDWarning(IssueTypeBase):
+    pass
+
+
 class LaunchpadBug(BugTypeBase):
 
     @property
