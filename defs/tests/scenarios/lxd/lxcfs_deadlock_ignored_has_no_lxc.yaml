@@ -1,0 +1,22 @@
+target-name: lxcfs_deadlock.yaml
+data-root:
+  files:
+    sos_commands/snap/snap_list_--all: |
+      lxd                  5.9-76c110d  24164  latest/stable  canonical**  -
+    sos_commands/lxd/lxd.buginfo: |
+      ## Instances
+      ```
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      |        NAME         |  STATE  |       IPV4        | IPV6 |   TYPE    | SNAPSHOTS |
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      ```
+      ## Images
+      ```
+mock:
+  patch:
+    hotsos.core.plugins.system.system.SystemBase.virtualisation_type:
+      kwargs:
+        new: null
+raised-issues:
+    ## none expected

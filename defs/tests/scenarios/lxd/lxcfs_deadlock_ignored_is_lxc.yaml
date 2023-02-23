@@ -1,0 +1,25 @@
+target-name: lxcfs_deadlock.yaml
+data-root:
+  files:
+    sos_commands/snap/snap_list_--all: |
+      lxd                  5.9-76c110d  24164  latest/stable  canonical**  -
+    sos_commands/lxd/lxd.buginfo: |
+      ## Instances
+      ```
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      |        NAME         |  STATE  |       IPV4        | IPV6 |   TYPE    | SNAPSHOTS |
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      | juju-04f1e3-1-lxd-0 | RUNNING | 10.0.0.123 (eth0) |      | CONTAINER | 0         |
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      | juju-04f1e3-1-lxd-1 | RUNNING | 10.0.0.110 (eth0) |      | CONTAINER | 0         |
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      ```
+      ## Images
+      ```
+mock:
+  patch:
+    hotsos.core.plugins.system.system.SystemBase.virtualisation_type:
+      kwargs:
+        new: lxc
+raised-issues:
+  ## none expected

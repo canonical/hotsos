@@ -1,0 +1,29 @@
+checks:
+  is_not_a_lxc_container:
+    property:
+      path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+      ops: [[ne, 'lxc']]
+  has_lxc_containers:
+    property:
+      path: hotsos.core.plugins.lxd.LXD.instances
+      ops: [[length_hint], [gt, 0]]
+  has_lxd_version_5_9:
+    snap:
+      lxd:
+        - min: 24096
+          max: 24180
+conclusions:
+  lxcfs_deadlock:
+    decision:
+      - is_not_a_lxc_container
+      - has_lxc_containers
+      - has_lxd_version_5_9
+    raises:
+      type: LXDWarning
+      message: >-
+        This host has lxc containers and is using LXD version 5.9 which is
+        known to be affected by a lxcfs deadlock bug that causes reads and
+        writes to permanently block leading to a large backlog of lxcfs
+        threads and eventually a kernel crash because of hung tasks. The bug
+        is fixed in LXD 5.10. For more information see
+        https://github.com/lxc/lxcfs/issues/471.
