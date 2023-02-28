@@ -21,6 +21,8 @@ from hotsos.core.ycheck.engine.properties.search import (
 )
 from hotsos.core.ycheck.engine.properties.input import YPropertyInput
 
+MAX_CACHED_SEARCH_RESULTS = 100
+
 
 @add_to_property_catalog
 class YPropertyCheck(YPropertyMappedOverrideBase):
@@ -32,7 +34,9 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
     @property
     def _search_results(self):
         """
-        Retrieve the search results for the search property within this check.
+        Retrieve the global searchkit.SearchResultsCollection from this
+        property's context. We filter results using our tag and apply any
+        search constraints requested.
         """
         global_results = self.context.search_results
         if global_results is not None:
@@ -64,29 +68,40 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
 
     def _set_search_cache_info(self, results):
         """
+        Set information in the local property cache that can be retrieved
+        using PropertyCacheRefResolver. This information is typically used
+        when creating messages as part of raising issues.
+
         @param results: search results for query in search property found in
                         this check.
         """
         self.search.cache.set('num_results', len(results))
-        if results:
-            # The following aggregates results by group/index and stores in
-            # the property cache to make them accessible via
-            # PropertyCacheRefResolver.
-            results_by_idx = {}
-            for i, result in enumerate(results):
-                # cap to save memory
-                if i > 100:
-                    break
+        if not results:
+            return
 
-                for idx, value in enumerate(result):
-                    if idx not in results_by_idx:
-                        results_by_idx[idx] = set()
+        # The following aggregates results by group/index and stores in
+        # the property cache to make them accessible via
+        # PropertyCacheRefResolver.
+        # NOTE: we cap at MAX_CACHED_SEARCH_RESULTS results to save memory
+        results_by_idx = {}
+        for i, result in enumerate(results):
+            if i > MAX_CACHED_SEARCH_RESULTS:
+                break
 
-                    results_by_idx[idx].add(value)
+            for idx, value in enumerate(result):
+                if idx not in results_by_idx:
+                    results_by_idx[idx] = set()
 
-            for idx in results_by_idx:
-                self.search.cache.set('results_group_{}'.format(idx),
-                                      list(results_by_idx[idx]))
+                results_by_idx[idx].add(value)
+
+        for idx in results_by_idx:
+            self.search.cache.set('results_group_{}'.format(idx),
+                                  list(results_by_idx[idx]))
+
+        # Saves a list of files that contained search results.
+        sources = set([r.source_id for r in results])
+        files = [self.context.search_obj.resolve_source_id(s) for s in sources]
+        self.search.cache.set('files', files)
 
         # make it available from this property
         self.cache.set('search', self.search.cache)
@@ -168,6 +183,7 @@ class YPropertyChecks(YPropertyOverrideBase):
 
         # provide results to each check object using global context
         log.debug("executing check searches")
+        self.check_context.search_obj = s
         self.check_context.search_results = s.run()
 
     @cached_yproperty_attr

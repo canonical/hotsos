@@ -19,11 +19,14 @@ from hotsos.plugin_extensions.openstack import (
     summary as ost_summary,
     service_features,
     service_network_checks,
-    agent_event_checks,
     vm_info,
-    agent_exceptions,
     nova_external_events,
 )
+from hotsos.plugin_extensions.openstack.agent import (
+    events as agent_events,
+    exceptions as agent_exceptions,
+)
+
 from hotsos.plugin_extensions.openvswitch import (
     summary as ovs_summary,
     event_checks,
@@ -124,7 +127,7 @@ PLUGIN_CATALOG = {'hotsos': {
                         'objects': [agent_exceptions.AgentExceptionChecks],
                         'part_yaml_offset': 5},
                     'agent_event_checks': {
-                        'objects': [agent_event_checks.AgentEventChecks],
+                        'objects': [agent_events.AgentEventChecks],
                         'part_yaml_offset': 6}},
                   'openvswitch': {
                      'summary': {

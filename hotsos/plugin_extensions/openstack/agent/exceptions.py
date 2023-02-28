@@ -1,6 +1,9 @@
 import os
 import re
 
+from collections import UserDict
+from searchkit.utils import MPCache
+
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
@@ -12,10 +15,97 @@ from hotsos.core.search import (
 )
 
 
+class AgentExceptionCheckResults(UserDict):
+
+    def __init__(self, service_obj, results, search_obj):
+        self.results = results
+        self.service = service_obj
+        self.search_obj = search_obj
+        self.data = {}
+        for name, _results in self.results.items():
+            self.data[name] = self._get_agent_results(_results)
+
+    @property
+    def agents(self):
+        """
+        Returns a list of agents for this service that have raised exceptions.
+        """
+        return list(self.results.keys())
+
+    def _get_agent_results(self, results):
+        """ Process exception search results.
+
+        Determine frequency of occurrences. By default they are
+        grouped/presented by date but can optionally be grouped by time for
+        more granularity.
+
+        Results are expected to have the following groups:
+            1: date
+            2: time
+            3: exception name
+        """
+        exceptions = {}
+        for result in results:
+            # strip leading/trailing quotes
+            exc_name = result.get(3).strip("'")
+            if exc_name not in exceptions:
+                exceptions[exc_name] = {}
+
+            # results are grouped by date or datetime
+            ts_date = result.get(1)
+            if HotSOSConfig.event_tally_granularity == 'time':
+                # use hours and minutes only
+                ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
+                key = "{}_{}".format(ts_date, ts_time)
+            else:
+                key = str(ts_date)
+
+            if key not in exceptions[exc_name]:
+                exceptions[exc_name][key] = 0
+
+            exceptions[exc_name][key] += 1
+
+        if not exceptions:
+            return
+
+        for exc_type in exceptions:
+            exceptions_sorted = {}
+            for k, v in sorted(exceptions[exc_type].items(),
+                               key=lambda x: x[0]):
+                exceptions_sorted[k] = v
+
+            exceptions[exc_type] = exceptions_sorted
+
+        return exceptions
+
+    @property
+    def exceptions_raised(self):
+        """ Return a list of exceptions raised by this agent. """
+        _exceptions = set()
+        for results in self.values():
+            for exception in results:
+                _exceptions.add(exception)
+
+        return list(_exceptions)
+
+    @property
+    def files_w_exceptions(self):
+        """ Return a list of files containing exceptions. """
+        files = []
+        for results in self.results.values():
+            sources = set([r.source_id for r in results])
+            files.extend([self.search_obj.resolve_source_id(s)
+                          for s in sources])
+
+        return files
+
+
 class AgentExceptionChecks(OpenstackChecksBase):
 
     def __init__(self):
         super().__init__()
+        self.cache = MPCache('agent_exception_checks', 'openstack_extensions',
+                             HotSOSConfig.global_tmp_dir)
         c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
         self.searchobj = FileSearcher(constraint=c)
         # The following are expected to be WARNING
@@ -36,7 +126,16 @@ class AgentExceptionChecks(OpenstackChecksBase):
             'keystone': [r'\([a-zA-Z\.]+\)']
             }
 
-    def _add_agent_searches(self, project, agent, data_source, expr_template):
+    def _add_agent_searches(self, project, agent, logs_path, expr_template):
+        """
+        Add searches we want to apply to agent.
+
+        @param project: OSTProject object
+        @param agent: name of agent
+        @param logs_path: path to logs we want to search
+        @param expr_template: generic search template we use to search all/any
+                              exception types in any log file.
+        """
         if project.exceptions:
             values = "(?:{})".format('|'.join(project.exceptions))
             expr = expr_template.format(values)
@@ -51,7 +150,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 constraints = False
 
             self.searchobj.add(SearchDef(expr, tag=tag, hint=hint),
-                               data_source,
+                               logs_path,
                                allow_global_constraints=constraints)
 
             warn_exprs = self._agent_warnings.get(project.name, [])
@@ -59,14 +158,14 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 values = "(?:{})".format('|'.join(warn_exprs))
                 expr = expr_template.format(values)
                 self.searchobj.add(SearchDef(expr, tag=tag, hint='WARNING'),
-                                   data_source)
+                                   logs_path)
 
         err_exprs = self._agent_errors.get(project.name, [])
         if err_exprs:
             expr = expr_template.format("(?:{})".
                                         format('|'.join(err_exprs)))
             sd = SearchDef(expr, tag=tag, hint='ERROR')
-            self.searchobj.add(sd, data_source)
+            self.searchobj.add(sd, logs_path)
 
     def load(self):
         """Register searches for exceptions as well as any other type of issue
@@ -122,70 +221,45 @@ class AgentExceptionChecks(OpenstackChecksBase):
                     self._add_agent_searches(project, agent, path,
                                              expr_template)
 
-    def get_exceptions_results(self, results):
-        """ Process exception search results.
+    def run(self, search_results):
+        """ Process search results to see if we got any hits.
 
-        Determine frequency of occurrences. By default they are
-        grouped/presented by date but can optionally be grouped by time for
-        more granularity.
+        @param search_results: a searchkit.SearchResultsCollection object.
+        @return: a dictionary of services and underlying agents with any
+                 exceptions they have raised.
         """
-        agent_exceptions = {}
-        for result in results:
-            # strip leading/trailing quotes
-            exc_tag = result.get(3).strip("'")
-            if exc_tag not in agent_exceptions:
-                agent_exceptions[exc_tag] = {}
+        agent_exceptions = self.cache.get('agent_exceptions') or {}
+        if agent_exceptions:
+            return agent_exceptions
 
-            ts_date = result.get(1)
-            if HotSOSConfig.event_tally_granularity == 'time':
-                # use hours and minutes only
-                ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
-                key = "{}_{}".format(ts_date, ts_time)
-            else:
-                key = str(ts_date)
-
-            if key not in agent_exceptions[exc_tag]:
-                agent_exceptions[exc_tag][key] = 0
-
-            agent_exceptions[exc_tag][key] += 1
-
-        if not agent_exceptions:
-            return
-
-        for exc_type in agent_exceptions:
-            agent_exceptions_sorted = {}
-            for k, v in sorted(agent_exceptions[exc_type].items(),
-                               key=lambda x: x[0]):
-                agent_exceptions_sorted[k] = v
-
-            agent_exceptions[exc_type] = agent_exceptions_sorted
-
-        return agent_exceptions
-
-    def run(self, results):
-        """Process search results to see if we got any hits."""
         log.debug("processing exception search results")
-        _final_results = {}
         for name, project in self.ost_projects.all.items():
             if not project.installed:
                 continue
 
+            agent_results = {}
             for agent in project.services:
                 tag = "{}.{}".format(name, agent)
-                _results = results.find_by_tag(tag)
-                log.debug("processing project=%s agent=%s (results=%s)", name,
-                          agent, len(_results))
-                ret = self.get_exceptions_results(_results)
-                if ret:
-                    if name not in _final_results:
-                        _final_results[name] = {}
+                results = search_results.find_by_tag(tag)
+                if results:
+                    agent_results[agent] = results
 
-                    _final_results[name][agent] = ret
+            if not agent_results:
+                continue
 
-        return _final_results
+            agent_exceptions[name] = AgentExceptionCheckResults(
+                                                    self.ost_projects[name],
+                                                    agent_results,
+                                                    self.searchobj)
+
+        self.cache.set('agent_exceptions', agent_exceptions)
+        return agent_exceptions
+
+    def execute(self):
+        self.load()
+        return self.run(self.searchobj.run())
 
     def __summary_agent_exceptions(self):
-        self.load()
-        ret = self.run(self.searchobj.run())
-        if ret:
-            return ret
+        exc_info = self.execute()
+        if exc_info:
+            return {agent: dict(info) for agent, info in exc_info.items()}

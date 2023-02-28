@@ -19,8 +19,7 @@ from hotsos.plugin_extensions.openstack import (
     summary,
     service_network_checks,
     service_features,
-    agent_event_checks,
-    agent_exceptions,
+    agent,
 )
 
 OCTAVIA_UNIT_FILES = """
@@ -825,7 +824,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'start': '2022-02-10 00:53:27.434000'}}}}
 
         section_key = "neutron-ovs-agent"
-        inst = agent_event_checks.NeutronAgentEventChecks(
+        inst = agent.events.NeutronAgentEventChecks(
                                                       searchobj=FileSearcher())
         inst.run_checks()
         actual = self.part_output_to_actual(inst.output)
@@ -886,7 +885,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'start': '2022-02-10 16:10:35.711000'}}}}
 
         section_key = "neutron-l3-agent"
-        inst = agent_event_checks.NeutronAgentEventChecks(
+        inst = agent.events.NeutronAgentEventChecks(
                                                       searchobj=FileSearcher())
         inst.run_checks()
         actual = self.part_output_to_actual(inst.output)
@@ -912,7 +911,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                     }
         for section_key in ["octavia-worker", "octavia-health-manager"]:
             sobj = FileSearcher()
-            inst = agent_event_checks.OctaviaAgentEventChecks(
+            inst = agent.events.OctaviaAgentEventChecks(
                                                             searchobj=sobj)
             inst.run_checks()
             actual = self.part_output_to_actual(inst.output)
@@ -926,7 +925,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
         for section_key in ['connection-refused']:
             sobj = FileSearcher()
-            inst = agent_event_checks.ApacheEventChecks(searchobj=sobj)
+            inst = agent.events.ApacheEventChecks(searchobj=sobj)
             inst.run_checks()
             actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual['apache'].get(section_key),
@@ -943,12 +942,13 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                             '/usr/bin/neutron-openvswitch-agent': {
                                 'Mar 3': 4}}}}
         sobj = FileSearcher()
-        inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
+        inst = agent.events.AgentApparmorChecks(searchobj=sobj)
         inst.run_checks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['apparmor'], expected)
 
-        # now try with key by time
+    @utils.create_data_root({'var/log/kern.log': AA_MSGS})
+    def test_run_apparmor_checks_w_time_granularity(self):
         HotSOSConfig.event_tally_granularity = 'time'
         expected = {'denials': {
                         'neutron': {
@@ -965,7 +965,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                     '22:57:22': 1,
                                     '22:57:24': 2}}}}}
         sobj = FileSearcher()
-        inst = agent_event_checks.AgentApparmorChecks(searchobj=sobj)
+        inst = agent.events.AgentApparmorChecks(searchobj=sobj)
         inst.run_checks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['apparmor'], expected)
@@ -977,7 +977,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                         '2021-09-17': {'0000:3b:0f.7': 1,
                                        '0000:3b:10.0': 1}}}
         sobj = FileSearcher()
-        inst = agent_event_checks.NovaComputeEventChecks(searchobj=sobj)
+        inst = agent.events.NovaComputeEventChecks(searchobj=sobj)
         inst.run_checks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["nova"], expected)
@@ -988,12 +988,13 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                       '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                           '2022-02-10': 1}}}}
         sobj = FileSearcher()
-        inst = agent_event_checks.NeutronL3HAEventChecks(searchobj=sobj)
+        inst = agent.events.NeutronL3HAEventChecks(searchobj=sobj)
         inst.run_checks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
 
-    @mock.patch.object(agent_event_checks, "VRRP_TRANSITION_WARN_THRESHOLD", 0)
+    @mock.patch.object(agent.events, "VRRP_TRANSITION_WARN_THRESHOLD",
+                       0)
     def test_run_neutron_l3ha_checks_w_issue(self):
         HotSOSConfig.use_all_logs = False
         expected = {'keepalived': {
@@ -1001,7 +1002,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                       '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                        '2022-02-10': 1}}}}
         sobj = FileSearcher()
-        inst = agent_event_checks.NeutronL3HAEventChecks(searchobj=sobj)
+        inst = agent.events.NeutronL3HAEventChecks(searchobj=sobj)
         inst.run_checks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
@@ -1014,7 +1015,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              NEUTRON_HTTP})
     def test_api_events(self):
         sobj = FileSearcher()
-        inst = agent_event_checks.APIEvents(searchobj=sobj)
+        inst = agent.events.APIEvents(searchobj=sobj)
         inst.run_checks()
         expected = {'http-requests': {'neutron': {
                                         '2022-05-11': {'GET': 2,
@@ -1068,7 +1069,25 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                     '2022-02-09': 56}}}
 
         expected = {"nova": nova_expected, "neutron": neutron_expected}
-        inst = agent_exceptions.AgentExceptionChecks()
+        inst = agent.exceptions.AgentExceptionChecks()
+        files = {}
+        exceptions = {}
+        for service, results in inst.execute().items():
+            files[service] = (len(results.files_w_exceptions),
+                              os.path.basename(results.files_w_exceptions[0]))
+            exceptions[service] = results.exceptions_raised
+
+        self.assertEqual(files, {'neutron': (4, 'neutron-dhcp-agent.log.1'),
+                                 'nova': (2, 'nova-api-metadata.log.1.gz')})
+        expected_exceptions = {
+            'neutron':
+                ['oslo_messaging.exceptions.MessagingTimeout'],
+            'nova':
+                ['nova.exception.ResourceProviderAllocationRetrievalFailed',
+                 'oslo_messaging.exceptions.MessagingTimeout',
+                 'nova.exception.ResourceProviderRetrievalFailed']}
+        self.assertEqual(exceptions, expected_exceptions)
+
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['agent-exceptions'], expected)
 
