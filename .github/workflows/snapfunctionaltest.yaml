@@ -27,8 +27,15 @@ jobs:
         with:
           name: snap
           path: ${{ steps.snapcraft.outputs.snap }}
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: snap-logs
+          path: /home/runner/.cache/snapcraft/log/*.log
       - name: Upload outputs
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: functional-test-outputs
           path: output.*
@@ -56,6 +63,7 @@ jobs:
           grep "The following certificates will expire in less than 60 days: ssl-cert/etc/apache2/ssl/keystone/cert_10.5.1.45" output.yaml
       - name: Upload outputs
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: focal-ssl-test
           path: output.*
@@ -83,6 +91,7 @@ jobs:
           grep "The following certificates will expire in less than 60 days: ssl-cert/etc/apache2/ssl/keystone/cert_10.5.1.45" output.yaml
       - name: Upload outputs
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: jammy-ssl-test
           path: output.*
