@@ -80,7 +80,7 @@ class SYSCtlConfHelper(object):
                 split = line.partition("=")
                 if split[1]:
                     key = split[0].strip()
-                    value = split[2].strip()
+                    value = split[2].split('#')[0].strip()
 
                     # ignore wildcarded keys'
                     if '*' in key:
