@@ -1,0 +1,31 @@
+target-name: autoscaler_bug.yaml
+data-root:
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+    - sos_commands/dpkg/dpkg_-l
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephCrushMap.ceph_report:
+      kwargs:
+        new:
+          osdmap:
+            pools:
+              - pool: 1
+              - pg_autoscale_mode: 'off'
+              - pool: 2
+              - pg_autoscale_mode: 'off'
+raised-bugs:
+  https://tracker.ceph.com/issues/53729: >-
+    This Ceph cluster is vulnerable to bug https://tracker.ceph.com/issues/53729
+    in which OSD(s) can consume considerable amounts of memory and eventually be
+    OOM killed due to potentially millions of duplicate entries for PG(s). If
+    affected, it is very hard to recover the OSD(s) so the recommendation is to
+    get the cluster upgraded to a version containing a fix if available. At the
+    time of writing a partial fix is available for Octopus/15.2.17 (offline PG
+    trimming via ceph-objectstore-tool) but Octopus, Pacific and Quincy are
+    still pending release of the full fix. See
+    https://bugs.launchpad.net/ubuntu/+source/ceph/+bug/1978913 for full update
+    on Ubuntu package fixes.

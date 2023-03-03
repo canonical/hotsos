@@ -301,16 +301,20 @@ class CephCrushMap(object):
             return ", ".join(unequal)
 
     @cached_property
-    def autoscaler_disabled_for_any_pool(self):
+    def autoscaler_enabled_pools(self):
         if not self.ceph_report:
-            return True
+            return []
 
         pools = self.ceph_report['osdmap']['pools']
-        for pool in pools:
-            if (pool.get('pg_autoscale_mode') is None) or \
-                    pool['pg_autoscale_mode'] != 'on':
-                return True
-        return False
+        return [p for p in pools if p.get('pg_autoscale_mode') == 'on']
+
+    @cached_property
+    def autoscaler_disabled_pools(self):
+        if not self.ceph_report:
+            return []
+
+        pools = self.ceph_report['osdmap']['pools']
+        return [p for p in pools if p.get('pg_autoscale_mode') != 'on']
 
 
 class CephCluster(object):

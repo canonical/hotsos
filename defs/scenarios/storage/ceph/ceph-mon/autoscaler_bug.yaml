@@ -1,0 +1,60 @@
+vars:
+  autoscaler_enabled_pools: '@hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_enabled_pools'
+  msg_main: >-
+    This Ceph cluster is vulnerable to bug https://tracker.ceph.com/issues/53729 in
+    which OSD(s) can consume considerable amounts of memory and eventually be OOM
+    killed due to potentially millions of duplicate entries for PG(s). If affected,
+    it is very hard to recover the OSD(s) so the recommendation is to get
+    the cluster upgraded to a version containing a fix if available. At the time of
+    writing a partial fix is available for Octopus/15.2.17 (offline PG trimming via
+    ceph-objectstore-tool) but Octopus, Pacific and Quincy are still pending release
+    of the full fix. See https://bugs.launchpad.net/ubuntu/+source/ceph/+bug/1978913
+    for full update on Ubuntu package fixes.
+checks:
+  ct53729_not_fixed:
+    apt:
+      ceph:
+        # focal/ussuri uca
+        - min: 15.0.0
+          max: 15.2.16-0ubuntu0.20.04.1
+        # xena uca
+        - min: 16.0.0
+          max: 16.2.9-0ubuntu0
+        # jammy/yoga uca
+        - min: 17.0.0
+          max: 17.2.0-0ubuntu0
+        # kinetic
+        - min: 17.2.0-0ubuntu0
+          max: 17.2.0-0ubuntu4
+    systemd:
+      ceph-mon:
+        state: enabled
+  autoscaler_enabled:
+    varops: [[$autoscaler_enabled_pools], [length_hint]]
+  autoscaler_disabled:
+    varops: [[$autoscaler_enabled_pools], [length_hint], [eq, 0]]
+conclusions:
+  cephtracker53729_autoscaler_disabled:
+    decision:
+      - ct53729_not_fixed
+      - autoscaler_disabled
+    raises:
+      type: CephTrackerBug
+      bug-id: 53729
+      message: >-
+        {msg_main}
+      format-dict:
+        msg_main: $msg_main
+  cephtracker53729_autoscaler_enabled:
+    decision:
+      - ct53729_not_fixed
+      - autoscaler_enabled
+    raises:
+      type: CephTrackerBug
+      bug-id: 53729
+      message: >-
+        {msg_main} Please disable PG autoscaler for all pools (set them to 'warn' mode) as PG splitting/merging
+        can exacerbate the possibility of hitting this bug.
+      format-dict:
+        msg_main: $msg_main
+

@@ -103,6 +103,20 @@ storage:
           - glance (2)
           - cinder-ceph (3)
           - nova (4)
+  bugs-detected:
+    - desc: This Ceph cluster is vulnerable to bug https://tracker.ceph.com/issues/53729
+        in which OSD(s) can consume considerable amounts of memory and eventually
+        be OOM killed due to potentially millions of duplicate entries for PG(s).
+        If affected, it is very hard to recover the OSD(s) so the recommendation is
+        to get the cluster upgraded to a version containing a fix if available. At
+        the time of writing a partial fix is available for Octopus/15.2.17 (offline
+        PG trimming via ceph-objectstore-tool) but Octopus, Pacific and Quincy are
+        still pending release of the full fix. See https://bugs.launchpad.net/ubuntu/+source/ceph/+bug/1978913
+        for full update on Ubuntu package fixes. Please disable PG autoscaler for
+        all pools (set them to 'warn' mode) as PG splitting/merging can exacerbate
+        the possibility of hitting this bug.
+      id: https://tracker.ceph.com/issues/53729
+      origin: storage.auto_scenario_check
   potential-issues:
     CephWarnings:
       - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph health detail'

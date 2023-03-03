@@ -12,7 +12,8 @@ checks:
       path: hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools
   autoscaler_disabled_for_any_pool:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_for_any_pool
+      path: hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_pools
+      ops: [[length_hint]]
 conclusions:
   cluster-osds-with-pgs-above-max:
     decision: cluster_has_osds_with_pgs_above_max

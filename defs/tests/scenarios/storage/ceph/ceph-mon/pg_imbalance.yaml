@@ -10,9 +10,15 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 mock:
   patch:
-    hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_for_any_pool:
+    hotsos.core.plugins.storage.ceph.CephCrushMap.ceph_report:
       kwargs:
-        new: true
+        new:
+          osdmap:
+            pools:
+              - pool: 1
+              - pg_autoscale_mode: 'off'
+              - pool: 2
+              - pg_autoscale_mode: 'on'
     hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools:
       kwargs:
         new: true
