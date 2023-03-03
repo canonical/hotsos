@@ -1,0 +1,6 @@
+requires:
+  # don't run these checks if we are inside a lxc container
+  property:
+    path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
+    ops: [[ne, lxc]]
+
