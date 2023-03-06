@@ -471,7 +471,7 @@ class YPropertyBase(object):
         except Exception as exc:
             log.exception("failed to get module attribute %s", import_str)
 
-            # ystruct.PTreeOverrideBase swallows AttributeError so need to
+            # propertree.PTreeOverrideBase swallows AttributeError so need to
             # convert to something else.
             if type(exc) == AttributeError:
                 raise ImportError from exc

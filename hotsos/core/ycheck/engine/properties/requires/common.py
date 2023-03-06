@@ -9,9 +9,9 @@ from hotsos.core.utils import cached_property
 def intercept_exception(f):
     """
     If a call raises an AttributeError it will first be handled by
-    the ystruct engine which can produce confusing/misleading logs
+    the propertree engine which can produce confusing/misleading logs
     as to the origin of the exception. This can be used to wrap these
-    calls so any exception is printed with its orginial traceback
+    calls so any exception is printed with its original traceback
     before being re-raised.
     """
     def intercept_exception_inner(*args, **kwargs):

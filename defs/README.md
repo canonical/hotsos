@@ -32,7 +32,7 @@ In summary:
  * Sub levels contain definitions which can be organised using any
    combination of files and directories, using them to logically group your
    definitions.
- * The backbone of this approach is [ystruct](http://github.com/dosaboy/ystruct) i.e. a
+ * The backbone of this approach is [propertree](https://github.com/dosaboy/propertree) i.e. a
    tree where each level contains override properties and "content".
    Overrides follow an inheritance model so that they can be defined and
    superseded at any level. The content is always found at the leaf nodes of
@@ -121,11 +121,11 @@ characters incl. ones that would not be valid in a property name.
 
 #### MappedProperties
 
-Some properties use the ystruct mapped properties feature meaning they are
-implemented as a root property with one or more "member" properties and the two
-map to each other. For example if we have a property *mainprop* and it has two
-member properties *mp1* and *mp2* it can be defined using either of the
-following formats:
+Some properties use the [propertree](https://github.com/dosaboy/propertree)
+mapped properties feature meaning they are implemented as a root property with
+one or more "member" properties and the two map to each other. For example if
+we have a property *mainprop* and it has two member properties *mp1* and *mp2*
+it can be defined using either of the following formats:
 
 ```
 myleaf:
@@ -610,7 +610,7 @@ CACHE_KEYS
 
 #### apt
 Takes an apt package name or APT_INFO. Returns True if the package
-exists and, if APT_INFO provided, version is within ranges.
+exists and if APT_INFO provided, version is within ranges.
 
 format
 
@@ -635,18 +635,29 @@ CACHE_KEYS
 ```
 
 #### snap
-Takes a snap package name. Returns True if the package
-exists.
+Takes a snap package name or SNAP_INFO. Returns True if the package
+exists and if SNAP_INFO provided, revision is within ranges.
 
 format
 
 ```
-snap: package name
+snap: [package name|SNAP_INFO]
+
+SNAP_INFO
+  single package name, list of packages or dictionary of
+  <package name>: <revision ranges> e.g.
+  
+  mypackage:
+    - min: 0.0
+      max: 1.0
+    - min: 4.0
+      max: 5.0
 ```
 
 ```
 CACHE_KEYS
   package
+  revision
 ```
 
 #### systemd
