@@ -55,7 +55,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         if not fdict:
             return self.message
 
-        for key, value in fdict.items():
+        for key, value in fdict.items():  # pylint: disable=E1101
             if PropertyCacheRefResolver.is_valid_cache_ref(value):
                 rvalue = PropertyCacheRefResolver(value,
                                                   vars=self.context.vars,

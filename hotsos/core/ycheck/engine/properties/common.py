@@ -274,9 +274,9 @@ class YPropertyBase(object):
             return name
 
         if hasattr(self, 'context'):
-            if self.context.vars:
+            if self.context.vars:  # pylint: disable=E1101
                 _name = name.partition('$')[2]
-                return self.context.vars.resolve(_name)
+                return self.context.vars.resolve(_name)  # noqa, pylint: disable=E1101
 
         return name
 
@@ -293,13 +293,13 @@ class YPropertyBase(object):
 
         @param key: key to retrieve
         """
-        if not self.context:
+        if not self.context:  # pylint: disable=E1101
             log.info("context not available - cannot load '%s'")
             return
 
         # we save all imports in a dict called "import_cache" within the
         # global context so that all properties have access.
-        c = getattr(self.context, 'import_cache')
+        c = getattr(self.context, 'import_cache')  # pylint: disable=E1101
         if c:
             return c.get(key)
 
@@ -338,16 +338,16 @@ class YPropertyBase(object):
         @param key: key to save
         @param value: value to save
         """
-        if not self.context:
+        if not self.context:  # pylint: disable=E1101
             log.info("context not available - cannot save '%s'")
             return
 
-        c = getattr(self.context, 'import_cache')
+        c = getattr(self.context, 'import_cache')  # pylint: disable=E1101
         if c:
             c[key] = value
         else:
             c = {key: value}
-            setattr(self.context, 'import_cache', c)
+            setattr(self.context, 'import_cache', c)  # pylint: disable=E1101
 
     def get_cls(self, import_str):
         """ Import and instantiate Python class.
@@ -675,10 +675,10 @@ class LogicalCollectionHandler(abc.ABC):
         return final_results
 
     def run_collection(self):
-        log.debug("run_collection:start (%s)", self._override_name)
+        log.debug("run_collection:start (%s)", self._override_name)  # noqa, pylint: disable=E1101
         all_results = self.run_level(self)
         log.debug("all_results: %s", all_results)
         result = all(all_results)
         log.debug("final result=%s", result)
-        log.debug("run_collection:end (%s)", self._override_name)
+        log.debug("run_collection:end (%s)", self._override_name)  # noqa, pylint: disable=E1101
         return result

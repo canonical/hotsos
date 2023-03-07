@@ -79,7 +79,7 @@ class YPropertyVars(YPropertyOverrideBase):
             raise Exception("attempting to resolve invalid varname '{}'".
                             format(name))
 
-        vardef = self._vardefs.get(name)
+        vardef = self._vardefs.get(name)  # pylint: disable=E1101
         if vardef:
             value = vardef.value
             log.debug("resolved var %s=%s (type=%s)", name, value, type(value))
@@ -91,6 +91,6 @@ class YPropertyVars(YPropertyOverrideBase):
 
     def __iter__(self):
         log.debug("iterating over vars")
-        for name, var in self._vardefs.items():
+        for name, var in self._vardefs.items():  # pylint: disable=E1101
             log.debug("returning var %s", name)
             yield name, var.vardef

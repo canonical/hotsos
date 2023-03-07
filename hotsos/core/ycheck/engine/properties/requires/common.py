@@ -59,14 +59,15 @@ class PackageCheckItemsBase(CheckItemsBase):
     @abc.abstractmethod
     def packaging_helper(self):
         """
-        Interface for _apt_info and _snap_info
+        Returns and implementation of host_helpers.packaging.PackageHelperBase
+        e.g. APTPackagehelper or SnapPackageHelper.
         """
 
     @cached_property
     def installed(self):
         _installed = []
         for p in self.packages_to_check:
-            if self.packaging_helper.is_installed(p):
+            if self.packaging_helper.is_installed(p):  # pylint: disable=E1101
                 _installed.append(p)
 
         return _installed
@@ -146,7 +147,7 @@ class OpsUtils(object):
                 if expected is not None:
                     if type(expected) == str and expected.startswith("$"):
                         varname = expected.partition("$")[2]
-                        varval = self.context.vars.resolve(varname)
+                        varval = self.context.vars.resolve(varname)  # noqa, pylint: disable=E1101
                         expected = varval
 
                     if normalise_value_types:

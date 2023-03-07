@@ -20,18 +20,18 @@ class YPropertyInputBase(object):
                     'kwargs': {},
                     'args-callback': None}
 
-        if type(self.content) == dict:
-            _options = self.content.get('options', defaults)
+        if type(self.content) == dict:  # pylint: disable=E1101
+            _options = self.content.get('options', defaults)  # noqa, pylint: disable=E1101
             defaults.update(_options)
 
         return defaults
 
     @property
     def command(self):
-        if type(self.content) != dict:
+        if type(self.content) != dict:  # pylint: disable=E1101
             return
 
-        return self.content.get('command')
+        return self.content.get('command')  # pylint: disable=E1101
 
     def expand_paths(self, paths):
         _paths = []
@@ -53,10 +53,10 @@ class YPropertyInputBase(object):
     def paths(self):
         _paths = []
         fs_path = None
-        if type(self.content) in [str, list]:
-            fs_path = self.content
+        if type(self.content) in [str, list]:  # pylint: disable=E1101
+            fs_path = self.content  # pylint: disable=E1101
         else:
-            fs_path = self.content.get('path')
+            fs_path = self.content.get('path')  # pylint: disable=E1101
 
         if fs_path:
             if type(fs_path) == list:
@@ -68,13 +68,13 @@ class YPropertyInputBase(object):
             return self.expand_paths(_paths)
 
         if self.command:
-            cmd_tmp_path = self.cache.cmd_tmp_path
+            cmd_tmp_path = self.cache.cmd_tmp_path  # pylint: disable=E1101
             if cmd_tmp_path:
                 return [cmd_tmp_path]
 
             args_callback = self.options['args-callback']
             if args_callback:
-                args, kwargs = self.get_method(args_callback)
+                args, kwargs = self.get_method(args_callback)  # noqa, pylint: disable=E1101
             else:
                 args = self.options['args']
                 kwargs = self.options['kwargs']
@@ -91,7 +91,7 @@ class YPropertyInputBase(object):
                 out = str(out)
 
             cmd_tmp_path = mktemp_dump(out)
-            self.cache.set('cmd_tmp_path', cmd_tmp_path)
+            self.cache.set('cmd_tmp_path', cmd_tmp_path)  # noqa, pylint: disable=E1101
             return [cmd_tmp_path]
 
         log.debug("no input provided")

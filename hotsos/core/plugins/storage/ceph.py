@@ -507,7 +507,7 @@ class CephCluster(object):
         """
         Same as versions property but with release names instead of versions.
         """
-        return self.cluster.daemon_release_names('osd')
+        return self.daemon_release_names('osd')
 
     @cached_property
     def require_osd_release(self):
@@ -731,6 +731,7 @@ class CephDaemonBase(object):
 
     def __init__(self, daemon_type):
         self.daemon_type = daemon_type
+        self.id = None
         self.cli = CLIHelper()
         self.date_in_secs = self.get_date_secs()
 
@@ -754,8 +755,14 @@ class CephDaemonBase(object):
         """
         s = FileSearcher()
         # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
-        sd = SearchDef(r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+"
-                       r".+--id\s+{}\s+.+".format(self.daemon_type, self.id))
+        if self.id is not None:
+            id = r"--id\s+{}".format(self.id)
+        else:
+            id = ''
+
+        expr = (r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+.+{}\s+.+"
+                r".+".format(self.daemon_type, id))
+        sd = SearchDef(expr)
         ps_out = mktemp_dump('\n'.join(self.cli.ps()))
         s.add(sd, path=ps_out)
         rss = 0
@@ -774,6 +781,9 @@ class CephDaemonBase(object):
         ps_auxww.
         """
         if not get_ps_axo_flags_available():
+            return
+
+        if self.id is None:
             return
 
         ps_info = []
