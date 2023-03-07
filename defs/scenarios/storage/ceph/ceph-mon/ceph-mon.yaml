@@ -1,6 +1,13 @@
+# This requirement is used to define whether or not checks contained within this
+# path are allowed to run. Both mon and osd nodes will have a ceph-mon package
+# and systemd service installed so their existance alone is not enough to
+# determine what kind of node this is. Since a ceph cluster will typically have
+# more than one mon we also do not necessarily want to skip checks that can run
+# if *any* mon is running. To achieve this we make this requirement sufficiently
+# permissive such that the local ceph-mon service need not necessarily be
+# active - checks themselves can apply more restrictive pre-requisites
+# if necessary.
 requires:
+  # ensures that a ceph-mon unit is enabled but does not assert that it is active
   systemd:
-    # both mon and osd nodes will have a ceph-mon package and service installed
-    # but it will typically be disabled if not in used so we use that as a
-    # means of knowing what type of node it is.
     ceph-mon: enabled

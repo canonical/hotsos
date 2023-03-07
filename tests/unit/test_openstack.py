@@ -23,16 +23,16 @@ from hotsos.plugin_extensions.openstack import (
 )
 
 OCTAVIA_UNIT_FILES = """
-apache-htcacheclean.service               disabled       
-apache-htcacheclean@.service              disabled       
-apache2.service                           enabled        
-apache2@.service                          disabled       
-jujud-unit-octavia-0.service              enabled        
-jujud-unit-octavia-hacluster-5.service    enabled        
-octavia-api.service                       masked         
-octavia-health-manager.service            enabled        
-octavia-housekeeping.service              enabled        
-octavia-worker.service                    enabled 
+ apache-htcacheclean.service               disabled    enabled       
+ apache-htcacheclean@.service              disabled    enabled       
+ apache2.service                           enabled     enabled
+ apache2@.service                          disabled    enabled
+ jujud-unit-octavia-0.service              enabled     enabled
+ jujud-unit-octavia-hacluster-5.service    enabled     enabled      
+ octavia-api.service                       masked      enabled      
+ octavia-health-manager.service            enabled     enabled      
+ octavia-housekeeping.service              enabled     enabled      
+ octavia-worker.service                    enabled     enabled
 """  # noqa
 
 APT_SOURCE_PATH = 'etc/apt/sources.list.d/cloud-archive-{}.list'
@@ -466,9 +466,7 @@ class TestOpenstackSummary(TestOpenstackBase):
                             'neutron-openvswitch-agent',
                             'neutron-ovs-cleanup',
                             'nova-api-metadata',
-                            'nova-compute',
-                        ],
-                        'indirect': ['vaultlocker-decrypt'],
+                            'nova-compute'],
                     },
                     'ps': [
                         'haproxy (3)',

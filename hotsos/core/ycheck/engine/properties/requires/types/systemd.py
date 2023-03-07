@@ -67,6 +67,7 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
     def _check_service(self, svc, ops, started_after=None):
         """
         @param svc: SystemdService object of service we are checking.
+        @param ops: list of operations to apply
         @param started_after: optional SystemdService object. If provided we
                                        will assert that svc was started after
                                        this service.

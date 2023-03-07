@@ -19,9 +19,10 @@ SVC_EXPR_TEMPLATES = {
 
 class SystemdService(object):
 
-    def __init__(self, name, state):
+    def __init__(self, name, state, has_instances=False):
         self.name = name
         self.state = state
+        self.has_instances = has_instances
 
     @cached_property
     def start_time(self):
@@ -47,7 +48,7 @@ class SystemdService(object):
 
     @cached_property
     def start_time_secs(self):
-        """ Get most recent start time of this service unit in secs.
+        """ Get most recent start time of this service unit in seconds.
 
         @returns: posix timestamp
         """
@@ -57,21 +58,26 @@ class SystemdService(object):
 
         return t.timestamp()
 
+    def __repr__(self):
+        return ("name={}, state={}, start_time={}, has_instances={}".
+                format(self.name, self.state, self.start_time,
+                       self.has_instances))
+
 
 class SystemdHelper(object):
-    """This class should be used by any plugin that wants to identify
-    and check the status of running services."""
+    """ Helper class used to query systemd services. """
 
     def __init__(self, service_exprs, ps_allow_relative=True):
         """
-        @param service_exprs: list of python.re expressions used to match a
-        service name.
+        @param service_exprs: list of python.re expressions used to match
+                              service names.
         @param ps_allow_relative: whether to allow commands to be identified
-                                  from ps as not run using an absolute binary
+                                  from ps as run using an relative binary
                                   path e.g. mycmd as opposed to /bin/mycmd.
         """
         self._ps_allow_relative = ps_allow_relative
         self._service_exprs = set(service_exprs)
+        self._cached_unit_files_exprs = {}
 
     @cached_property
     def _systemctl_list_units(self):
@@ -81,73 +87,100 @@ class SystemdHelper(object):
     def _ps(self):
         return CLIHelper().ps()
 
-    def _get_systemd_units(self, expr):
+    def _has_unit_instances(self, expr, ignore_exited=True):
         """
-        Search systemd unit instances.
+        Determine if unit has instances that match the given expression.
 
-        @param expr: expression used to match one or more units in --list-units
+        @param expr: expression used to match one or more units in
+                     systemctl list-units.
+        @param ignore_exited: filter units that are "exited"
         """
-        units = []
         for line in self._systemctl_list_units:
             ret = re.compile(expr).match(line)
             if ret:
-                units.append(ret.group(1))
+                if ignore_exited and ret.group(4) == 'exited':
+                    continue
 
-        return units
+                return True
+
+        return False
+
+    def _unit_files_expr(self, svc_name_expr):
+        """
+        Returns search expression used to match unit files based in service
+        name expression.
+
+        @param svc_name_expr: expression to match service name.
+        """
+        if svc_name_expr in self._cached_unit_files_exprs:
+            return self._cached_unit_files_exprs[svc_name_expr]
+
+        # Add snap prefix/suffixes
+        base_expr = r"(?:snap\.)?{}(?:\.daemon)?".format(svc_name_expr)
+        # NOTE: we include indirect services (ending with @) so that
+        #       we can search for related units later.
+        unit_expr = r'^\s*({}@?)\.service\s+(\S+)'.format(base_expr)
+        # match entries in systemctl list-unit-files
+        self._cached_unit_files_exprs[svc_name_expr] = re.compile(unit_expr)
+        return self._cached_unit_files_exprs[svc_name_expr]
 
     @cached_property
     def services(self):
         """
         Return a dict of identified systemd services and their state.
 
-        Services are represented as either direct or indirect units and
-        typically use one or the other. We homongenise these to present state
-        based on the one we think is being used. Enabled units are aggregated
-        but masked units are not so that they can be identified and reported.
+        Service units are either direct or indirect. We unify these types,
+        taking the state of whichever is actually in use i.e. has in-memory
+        instances. Enabled units are aggregated but masked units are not so
+        that they can be identified and reported.
         """
-        svc_info = {}
-        indirect_svc_info = {}
+        _services = {}
         for line in CLIHelper().systemctl_list_unit_files():
-            for expr in self._service_exprs:
-                # Add snap prefix/suffixes
-                base_expr = r"(?:snap\.)?{}(?:\.daemon)?".format(expr)
-                # NOTE: we include indirect services (ending with @) so that
-                #       we can search for related units later.
-                unit_expr = r'^\s*({}(?:@\S*)?)\.service'.format(base_expr)
-                # match entries in systemctl list-unit-files
-                unit_files_expr = r'{}\s+(\S+)'.format(unit_expr)
+            for svc_name_expr in self._service_exprs:
+                # check each matched unit file for instances
+                ret = self._unit_files_expr(svc_name_expr).match(line)
+                if not ret:
+                    continue
 
-                ret = re.compile(unit_files_expr).match(line)
-                if ret:
-                    unit = ret.group(1)
-                    state = ret.group(2)
-                    if unit.endswith('@'):
-                        # indirect or "template" units can have "instantiated"
-                        # units where only the latter represents whether the
-                        # unit is in use. If an indirect unit has instanciated
-                        # units we use them to represent the state of the
-                        # service.
-                        unit_svc_expr = r"\s+({}\d*)".format(unit)
-                        unit = unit.partition('@')[0]
-                        if self._get_systemd_units(unit_svc_expr):
-                            state = 'enabled'
+                unit = ret.group(1)
+                state = ret.group(2)
+                has_instances = False
+                units_expr = r"\*?\s+({})\.service\s+(\S+)\s+(\S+)\s+(\S+)"
+                if unit.endswith('@'):
+                    # indirect or "template" units can have "instantiated"
+                    # units where only the latter represents whether the
+                    # unit is in use. If an indirect unit has instantiated
+                    # units we use them to represent the state of the
+                    # service.
+                    units_expr = units_expr.format(unit + r'\S+')
+                    unit = unit.partition('@')[0]
+                else:
+                    units_expr = units_expr.format(unit)
 
-                        indirect_svc_info[unit] = state
-                    else:
-                        svc_info[unit] = SystemdService(unit, state)
+                if state != 'disabled':
+                    if self._has_unit_instances(units_expr):
+                        has_instances = True
+                elif unit in _services:
+                    # don't override enabled with disabled
+                    continue
 
-        if indirect_svc_info:
-            # Allow indirect unit info to override given certain conditions
-            for unit, state in indirect_svc_info.items():
-                if unit in svc_info:
-                    if state == 'disabled' or svc_info[unit] == 'enabled':
+                if state == 'indirect' and not has_instances:
+                    continue
+
+                if unit in _services:
+                    if (_services[unit].state == 'indirect' and
+                            _services[unit].has_instances):
                         continue
 
-                    svc_info[unit].state = state
-                else:
-                    svc_info[unit] = SystemdService(unit, state)
+                _services[unit] = SystemdService(unit, state, has_instances)
 
-        return svc_info
+        # NOTE: assumes that indirect instances always supersede direct ones
+        #       i.e. you can't have both.
+        for info in _services.values():
+            if info.state == 'indirect':
+                info.state = 'enabled'
+
+        return _services
 
     @property
     def masked_services(self):
@@ -171,7 +204,7 @@ class SystemdHelper(object):
 
     def get_services_expanded(self, name):
         _expanded = []
-        for line in CLIHelper().systemctl_list_units():
+        for line in self._systemctl_list_units:
             expr = r'^\s*({}(@\S*)?)\.service'.format(name)
             ret = re.compile(expr).match(line)
             if ret:

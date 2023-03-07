@@ -125,7 +125,6 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
                                     'ceph-mon',
                                     'ceph-radosgw',
                                     ],
-                                'indirect': ['ceph-volume'],
                                 'generated': ['radosgw']},
                     'ps': ['ceph-crash (1)', 'ceph-osd (1)']}
         release_info = {'name': 'octopus', 'days-to-eol': 3000}

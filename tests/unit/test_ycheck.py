@@ -56,17 +56,18 @@ class FakeServiceObjectManager(object):
     def __init__(self, start_times):
         self._start_times = start_times
 
-    def __call__(self, name, state):
-        return FakeServiceObject(name, state,
+    def __call__(self, name, state, has_instances):
+        return FakeServiceObject(name, state, has_instances,
                                  start_time=self._start_times[name])
 
 
 class FakeServiceObject(object):
 
-    def __init__(self, name, state, start_time):
+    def __init__(self, name, state, has_instances, start_time):
         self.name = name
         self.state = state
         self.start_time = start_time
+        self.has_instances = has_instances
 
 
 def init_test_scenario(yaml_contents):

@@ -6,16 +6,16 @@ from hotsos.plugin_extensions.mysql import summary
 
 
 SYSTEMD_UNITS = """
-  jujud-unit-hacluster-mysql-1.service   loaded active     running   juju unit agent for hacluster-mysql/1
-  jujud-unit-mysql-1.service             loaded active     running   juju unit agent for mysql/1
-  mysql.service                          loaded active     running   Percona XtraDB Cluster daemon
+ jujud-unit-hacluster-mysql-1.service   loaded active     running   juju unit agent for hacluster-mysql/1
+ jujud-unit-mysql-1.service             loaded active     running   juju unit agent for mysql/1
+ mysql.service                          loaded active     running   Percona XtraDB Cluster daemon
 """  # noqa
 
 SYSTEMD_UNIT_FILES = """
-jujud-unit-hacluster-mysql-1.service   enabled
-jujud-unit-mysql-1.service             enabled
-mysql.service                          enabled
-mysql@.service                         disabled
+ jujud-unit-hacluster-mysql-1.service   enabled  enabled
+ jujud-unit-mysql-1.service             enabled  enabled
+ mysql.service                          enabled  enabled
+ mysql@.service                         disabled disabled
 """  # noqa
 
 DPKG_L = """

@@ -38,8 +38,6 @@ openstack:
         - nova-compute
       disabled:
         - radvd
-      indirect:
-        - vaultlocker-decrypt
     ps:
       - haproxy (3)
       - keepalived (2)

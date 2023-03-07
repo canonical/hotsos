@@ -6,26 +6,26 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.maas import summary
 
 SYSTEMD_UNITS = """
-UNIT                                                                                             LOAD   ACTIVE SUB       DESCRIPTION 
-maas-dhcpd.service                                                                               loaded active running   MAAS instance of ISC DHCP server for IPv4                                    
-maas-http.service                                                                                loaded active running   MAAS HTTP server and reverse proxy server                                    
-maas-proxy.service                                                                               loaded active running   MAAS Proxy                                                                   
-maas-rackd.service                                                                               loaded active running   MAAS Rack Controller                                                         
-maas-regiond.service                                                                             loaded active running   MAAS Region Controller                                                       
-maas-syslog.service                                                                              loaded active running   MAAS Syslog Service
+ UNIT                                                                                             LOAD   ACTIVE SUB       DESCRIPTION 
+ maas-dhcpd.service                                                                               loaded active running   MAAS instance of ISC DHCP server for IPv4                                    
+ maas-http.service                                                                                loaded active running   MAAS HTTP server and reverse proxy server                                    
+ maas-proxy.service                                                                               loaded active running   MAAS Proxy                                                                   
+ maas-rackd.service                                                                               loaded active running   MAAS Rack Controller                                                         
+ maas-regiond.service                                                                             loaded active running   MAAS Region Controller                                                       
+ maas-syslog.service                                                                              loaded active running   MAAS Syslog Service
 """  # noqa
 
 SYSTEMD_UNIT_FILES = """
-UNIT FILE                              STATE 
-maas-dhcpd.service                     enabled        
-maas-dhcpd6.service                    enabled        
-maas-http.service                      enabled        
-maas-proxy.service                     enabled        
-maas-rackd.service                     enabled        
-maas-regiond.service                   enabled        
-maas-syslog.service                    enabled
-postgresql.service                     disabled       
-postgresql@.service                    disabled  
+ UNIT FILE                              STATE 
+ maas-dhcpd.service                     enabled        
+ maas-dhcpd6.service                    enabled        
+ maas-http.service                      enabled        
+ maas-proxy.service                     enabled        
+ maas-rackd.service                     enabled        
+ maas-regiond.service                   enabled        
+ maas-syslog.service                    enabled
+ postgresql.service                     disabled       
+ postgresql@.service                    disabled  
 """  # noqa
 
 MAAS_DPKG = """
