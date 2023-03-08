@@ -1,3 +1,5 @@
 #!/bin/bash
+
+PYTHON=$(command -v python3)
 export PYTHONPATH=$(dirname $0)/..
-$(dirname $0)/../hotsos/cli.py $@
+${PYTHON} $(dirname $0)/../hotsos/cli.py "$@"
