@@ -1,8 +1,12 @@
+import os
+import shutil
+
 from unittest import mock
 
 from . import utils
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.plugins.juju.resources import JujuBase
 from hotsos.plugin_extensions.juju import summary
 
 
@@ -11,6 +15,35 @@ class JujuTestsBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'juju'
+
+
+class TestJujuResources(JujuTestsBase):
+
+    def test_charm(self):
+        charms = JujuBase().charms
+        self.assertEqual(sorted(list(charms.keys())),
+                         sorted(['nova-compute', 'neutron-openvswitch',
+                                 'ceph-osd']))
+        versions = [c.version for c in charms.values()]
+        self.assertEqual(sorted(versions), [457, 508, 589])
+
+    @utils.create_data_root({},
+                            copy_from_original=[
+                                    'var/lib/juju/agents/unit-nova-compute-0'])
+    def test_charm_w_version_history(self):
+        path = os.path.join(HotSOSConfig.data_root,
+                            ('var/lib/juju/agents/unit-nova-compute-0/state/'
+                             'deployer/manifests'))
+        shutil.rmtree(path)
+        os.makedirs(path)
+        open(os.path.join(path, 'cs_3a_nova-compute-3'), 'w').close()
+        open(os.path.join(path, 'cs_3a_nova-compute-4'), 'w').close()
+        open(os.path.join(path, 'cs_3a_nova-compute-100'), 'w').close()
+        open(os.path.join(path, 'cs_3a_nova-compute-2'), 'w').close()
+        charms = JujuBase().charms
+        self.assertEqual(list(charms.keys()), ['nova-compute'])
+        versions = [c.version for c in charms.values()]
+        self.assertEqual(sorted(versions), [100])
 
 
 class TestJujuSummary(JujuTestsBase):

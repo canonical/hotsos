@@ -181,13 +181,17 @@ class JujuBase(object):
 
         for entry in glob.glob(os.path.join(self.juju_lib_path,
                                             self.CHARM_MANIFEST_GLOB)):
+            name = None
+            versions = []
             for manifest in os.listdir(entry):
                 base = os.path.basename(manifest)
                 ret = re.compile(r".+_(\S+)-(\d+)$").match(base)
                 if ret:
                     name = ret.group(1)
-                    version = ret.group(2)
-                    _charms[name] = JujuCharm(name, version)
+                    versions.append(int(ret.group(2)))
+
+            if name and versions:
+                _charms[name] = JujuCharm(name, max(versions))
 
         return _charms
 
