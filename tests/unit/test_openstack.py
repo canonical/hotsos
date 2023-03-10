@@ -267,6 +267,13 @@ NEUTRON_HTTP = """
 2022-05-11 18:03:04.079 27285 INFO neutron.wsgi [req-3817bf2e-b023-4f81-9223-bc75bb468a16 b09bc7f6ea1a491ebefaef515aa41858 c80a5b62cfe6435ab44315de3d670b2f - 3ef3cedadd5a4331a11118211060834e 3ef3cedadd5a4331a11118211060834e] 10.55.12.152,127.0.0.1 "GET /v2.0/security-groups?id=9146f70d-2882-4ddc-9d55-dd325ee3fb90&id=ab4ac2c0-93b9-4b9e-b241-4c121738a26a&id=513a6430-7941-4518-bc1b-04174895a375&id=2643b274-78f1-4a74-a551-ad8676e423be&fields=id&fields=name HTTP/1.1" status: 200  len: 578 time: 0.0304003
 """  # noqa
 
+NC_LOGS = """
+2022-02-04 10:58:39.233 396832 WARNING nova.servicegroup.drivers.db [-] Lost connection to nova-conductor for reporting service status.: oslo_messaging.exceptions.MessagingTimeout: Timed out waiting for a reply to message ID 38469b4f29c143f8933e4e55ac13f431
+2022-02-09 22:59:47.029 53085 WARNING nova.servicegroup.drivers.db [-] Lost connection to nova-conductor for reporting service status.: oslo_messaging.exceptions.MessagingTimeout: Timed out waiting for a reply to message ID 8ff3787c74564ecf893faf92bdcf2305
+2022-02-09 23:00:12.155 53085 ERROR oslo_service.periodic_task [req-4215634a-130e-4473-b9a3-045c25aa4e96 - - - - -] Error during ComputeManager.update_available_resource: oslo_messaging.exceptions.MessagingTimeout: Timed out waiting for a reply to message ID 900f3db832cb4c5b95f21a421d5dcffa
+2022-02-09 23:00:12.155 53085 ERROR oslo_service.periodic_task oslo_messaging.exceptions.MessagingTimeout: Timed out waiting for a reply to message ID 900f3db832cb4c5b95f21a421d5dcffa
+""" # noqa
+
 
 class TestOpenstackBase(utils.BaseTestCase):
 
@@ -1026,34 +1033,75 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
 
 class TestOpenstackAgentExceptions(TestOpenstackBase):
 
-    def test_get_agent_exceptions(self):
-        neutron_expected = {
+    @utils.create_data_root({'var/log/nova/nova-compute.log': NC_LOGS},
+                            copy_from_original=['sos_commands/systemd',
+                                                'sos_commands/dpkg'])
+    def test_agent_exception_checks_simple(self):
+        expected = {'error': {
+                        'nova': {
+                            'nova-compute': {
+                                'oslo_messaging.exceptions.MessagingTimeout': {
+                                    '2022-02-09': 2}
+                                }}},
+                    'warning': {
+                        'nova': {
+                            'nova-compute': {
+                                'oslo_messaging.exceptions.MessagingTimeout': {
+                                    '2022-02-04': 1,
+                                    '2022-02-09': 1}
+                                }}}}
+        inst = agent.exceptions.AgentExceptionChecks()
+        files = {}
+        logs = {}
+        for loglevel, services in inst.execute().items():
+            for service, results in services.items():
+                files[service] = (
+                              len(results.files_w_exceptions),
+                              os.path.basename(results.files_w_exceptions[0]))
+                logs[service] = results.exceptions_raised
+
+            if loglevel == 'error':
+                self.assertEqual(files, {'nova': (1, 'nova-compute.log')})
+                expected_exceptions = {
+                    'nova': ['oslo_messaging.exceptions.MessagingTimeout']}
+                self.assertEqual(logs, expected_exceptions)
+            else:
+                self.assertEqual(files, {'nova': (1, 'nova-compute.log')})
+                expected_exceptions = {
+                    'nova': ['oslo_messaging.exceptions.MessagingTimeout']}
+                self.assertEqual(logs, expected_exceptions)
+
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['agent-exceptions'], expected['error'])
+        self.assertEqual(actual['agent-warnings'], expected['warning'])
+
+    def test_agent_exception_checks(self):
+        neutron_error_exceptions = {
             'neutron-openvswitch-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
-                    '2022-02-04': 88,
-                    '2022-02-09': 9
+                    '2022-02-04': 75,
+                    '2022-02-09': 3
                     }},
             'neutron-dhcp-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
-                    '2022-02-04': 126,
-                    '2022-02-09': 18
+                    '2022-02-04': 124,
+                    '2022-02-09': 17
                     }},
             'neutron-l3-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
-                    '2022-02-04': 82,
-                    '2022-02-09': 9
+                    '2022-02-04': 73,
+                    '2022-02-09': 3
                     }},
             'neutron-metadata-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 48,
                     '2022-02-09': 14}},
             }
-
-        nova_expected = {
+        nova_error_exceptions = {
             'nova-compute': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
-                    '2022-02-04': 123,
-                    '2022-02-09': 3,
+                    '2022-02-04': 64,
+                    '2022-02-09': 2,
                     },
                 'nova.exception.ResourceProviderRetrievalFailed': {
                     '2022-02-04': 6
@@ -1065,29 +1113,74 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 110,
                     '2022-02-09': 56}}}
+        neutron_warn_exceptions = {
+            'neutron-dhcp-agent': {
+                'oslo_messaging.exceptions.MessagingTimeout': {
+                    '2022-02-04': 2,
+                    '2022-02-09': 1}},
+            'neutron-l3-agent': {
+                'oslo_messaging.exceptions.MessagingTimeout':
+                    {'2022-02-04': 9,
+                     '2022-02-09': 6}},
+            'neutron-openvswitch-agent': {
+                'oslo_messaging.exceptions.MessagingTimeout': {
+                    '2022-02-04': 13,
+                    '2022-02-09': 6}}
+            }
+        nova_warn_exceptions = {
+            'nova-compute': {
+                'oslo_messaging.exceptions.MessagingTimeout': {
+                    '2022-02-04': 59,
+                    '2022-02-09': 1,
+                    },
+            }}
+        expected = {'error': {
+                        'neutron': neutron_error_exceptions,
+                        'nova': nova_error_exceptions},
+                    'warning': {
+                        'neutron': neutron_warn_exceptions,
+                        'nova': nova_warn_exceptions},
+                    }
 
-        expected = {"nova": nova_expected, "neutron": neutron_expected}
         inst = agent.exceptions.AgentExceptionChecks()
         files = {}
         exceptions = {}
-        for service, results in inst.execute().items():
-            files[service] = (len(results.files_w_exceptions),
-                              os.path.basename(results.files_w_exceptions[0]))
-            exceptions[service] = results.exceptions_raised
+        for loglevel, services in inst.execute().items():
+            for service, results in services.items():
+                files[service] = (len(results.files_w_exceptions),
+                                  os.path.basename(
+                                                results.files_w_exceptions[0]))
+                exceptions[service] = results.exceptions_raised
 
-        self.assertEqual(files, {'neutron': (4, 'neutron-dhcp-agent.log.1'),
-                                 'nova': (2, 'nova-api-metadata.log.1.gz')})
-        expected_exceptions = {
-            'neutron':
-                ['oslo_messaging.exceptions.MessagingTimeout'],
-            'nova':
-                ['nova.exception.ResourceProviderAllocationRetrievalFailed',
-                 'oslo_messaging.exceptions.MessagingTimeout',
-                 'nova.exception.ResourceProviderRetrievalFailed']}
-        self.assertEqual(exceptions, expected_exceptions)
+            if loglevel == 'error':
+                self.assertEqual(files, {'neutron':
+                                         (4, 'neutron-dhcp-agent.log.1'),
+                                         'nova':
+                                         (2, 'nova-api-metadata.log.1.gz')})
+                expected_exceptions = {
+                    'neutron': [
+                        'oslo_messaging.exceptions.MessagingTimeout'],
+                    'nova': [
+                        ('nova.exception.ResourceProviderAllocation'
+                         'RetrievalFailed'),
+                        'oslo_messaging.exceptions.MessagingTimeout',
+                        'nova.exception.ResourceProviderRetrievalFailed']}
+                self.assertEqual(exceptions, expected_exceptions)
+            else:
+                self.assertEqual(files, {'neutron':
+                                         (3, 'neutron-dhcp-agent.log.1'),
+                                         'nova':
+                                         (1, 'nova-compute.log.1.gz')})
+                expected_exceptions = {
+                    'neutron': [
+                        'oslo_messaging.exceptions.MessagingTimeout'],
+                    'nova': [
+                        'oslo_messaging.exceptions.MessagingTimeout']}
+                self.assertEqual(exceptions, expected_exceptions)
 
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual['agent-exceptions'], expected)
+        self.assertEqual(actual['agent-exceptions'], expected['error'])
+        self.assertEqual(actual['agent-warnings'], expected['warning'])
 
 
 @utils.load_templated_tests('scenarios/openstack')

@@ -18,31 +18,34 @@ from hotsos.core.search import (
 class AgentExceptionCheckResults(UserDict):
 
     def __init__(self, service_obj, results, search_obj):
-        self.results = results
+        """
+        @param service_obj: OSTProject object
+        @param results: list of searchkit.SearchResult objects grouped by
+                        agent/log in which they were found.
+        @param search_obj: FileSearcher object
+        """
         self.service = service_obj
+        self.results = results
         self.search_obj = search_obj
         self.data = {}
         for name, _results in self.results.items():
-            self.data[name] = self._get_agent_results(_results)
+            self.data[name] = self._tally_results(_results)
 
     @property
     def agents(self):
-        """
-        Returns a list of agents for this service that have raised exceptions.
-        """
+        """ Returns a list of agents for that have raised exceptions. """
         return list(self.results.keys())
 
-    def _get_agent_results(self, results):
-        """ Process exception search results.
+    def _tally_results(self, results):
+        """ Tally search results.
 
-        Determine frequency of occurrences. By default they are
-        grouped/presented by date but can optionally be grouped by time for
-        more granularity.
+        Returns a dictionary with results grouped/presented by date but
+        can optionally be grouped by time for more granularity.
 
-        Results are expected to have the following groups:
+        Each search result is expected to have the following match groups:
             1: date
             2: time
-            3: exception name
+            3: log entry
         """
         exceptions = {}
         for result in results:
@@ -101,6 +104,12 @@ class AgentExceptionCheckResults(UserDict):
 
 
 class AgentExceptionChecks(OpenstackChecksBase):
+    """
+    Openstack services/agents will log exceptions using ERROR and
+    WARNING log levels depending on who raised them and their
+    importance. This class provides a way to identify exceptions in
+    logs and provide a per-agent tally by date or time.
+    """
 
     def __init__(self):
         super().__init__()
@@ -108,10 +117,11 @@ class AgentExceptionChecks(OpenstackChecksBase):
                              HotSOSConfig.global_tmp_dir)
         c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
         self.searchobj = FileSearcher(constraint=c)
-        # The following are expected to be WARNING
+        # The following are expected to be logged using WARNING log level.
         self._agent_warnings = {
             'nova': ['MessagingTimeout',
                      'DiskNotFound',
+                     r"Timeout waiting for \[\('\S+',",
                      ],
             'neutron': [r'OVS is dead',
                         r'MessagingTimeout',
@@ -126,46 +136,48 @@ class AgentExceptionChecks(OpenstackChecksBase):
             'keystone': [r'\([a-zA-Z\.]+\)']
             }
 
-    def _add_agent_searches(self, project, agent, logs_path, expr_template):
+    def _add_agent_searches(self, project, agent_name, logs_path,
+                            expr_template):
         """
         Add searches we want to apply to agent.
 
         @param project: OSTProject object
-        @param agent: name of agent
+        @param agent_name: name of agent
         @param logs_path: path to logs we want to search
         @param expr_template: generic search template we use to search all/any
                               exception types in any log file.
         """
+        constraints = True
+        # keystone logs have cruft at the start of each line and won't be
+        # verifiable with the standard log expr so just disable constraints
+        # for these logs for now.
+        if project.name == 'keystone':
+            constraints = False
+
+        tag = "{}.{}".format(project.name, agent_name)
         if project.exceptions:
-            values = "(?:{})".format('|'.join(project.exceptions))
-            expr = expr_template.format(values)
-            hint = '( ERROR | Traceback)'
-            tag = "{}.{}".format(project.name, agent)
-
-            constraints = True
-            # keystone logs have cruft at the start of each line and won't be
-            # verifiable with the standard log expr so just disable constraints
-            # for these logs for now.
-            if project.name == 'keystone':
-                constraints = False
-
-            self.searchobj.add(SearchDef(expr, tag=tag, hint=hint),
+            exc_names = "(?:{})".format('|'.join(project.exceptions))
+            expr = expr_template.format(exc_names)
+            self.searchobj.add(SearchDef(expr, tag=tag + '.error',
+                                         hint='( ERROR | Traceback)'),
                                logs_path,
                                allow_global_constraints=constraints)
 
-            warn_exprs = self._agent_warnings.get(project.name, [])
-            if warn_exprs:
-                values = "(?:{})".format('|'.join(warn_exprs))
-                expr = expr_template.format(values)
-                self.searchobj.add(SearchDef(expr, tag=tag, hint='WARNING'),
-                                   logs_path)
+        warn_exprs = self._agent_warnings.get(project.name, [])
+        if warn_exprs:
+            values = "(?:{})".format('|'.join(warn_exprs))
+            expr = expr_template.format(values)
+            self.searchobj.add(SearchDef(expr, tag=tag + '.warning',
+                                         hint='WARNING'), logs_path,
+                               allow_global_constraints=constraints)
 
         err_exprs = self._agent_errors.get(project.name, [])
         if err_exprs:
-            expr = expr_template.format("(?:{})".
-                                        format('|'.join(err_exprs)))
-            sd = SearchDef(expr, tag=tag, hint='ERROR')
-            self.searchobj.add(sd, logs_path)
+            values = "(?:{})".format('|'.join(err_exprs))
+            expr = expr_template.format(values)
+            sd = SearchDef(expr, tag=tag + '.error', hint='ERROR')
+            self.searchobj.add(sd, logs_path,
+                               allow_global_constraints=constraints)
 
     def load(self):
         """Register searches for exceptions as well as any other type of issue
@@ -237,20 +249,24 @@ class AgentExceptionChecks(OpenstackChecksBase):
             if not project.installed:
                 continue
 
-            agent_results = {}
-            for agent in project.services:
-                tag = "{}.{}".format(name, agent)
-                results = search_results.find_by_tag(tag)
-                if results:
-                    agent_results[agent] = results
+            for log_level in ['warning', 'error']:
+                agent_results = {}
+                for agent in project.services:
+                    tag = "{}.{}".format(name, agent)
+                    results = search_results.find_by_tag(tag + '.' + log_level)
+                    if results:
+                        agent_results[agent] = results
 
-            if not agent_results:
-                continue
+                if not agent_results:
+                    continue
 
-            agent_exceptions[name] = AgentExceptionCheckResults(
-                                                    self.ost_projects[name],
-                                                    agent_results,
-                                                    self.searchobj)
+                if log_level not in agent_exceptions:
+                    agent_exceptions[log_level] = {}
+
+                _results = AgentExceptionCheckResults(self.ost_projects[name],
+                                                      agent_results,
+                                                      self.searchobj)
+                agent_exceptions[log_level][name] = _results
 
         self.cache.set('agent_exceptions', agent_exceptions)
         return agent_exceptions
@@ -259,7 +275,26 @@ class AgentExceptionChecks(OpenstackChecksBase):
         self.load()
         return self.run(self.searchobj.run())
 
-    def __summary_agent_exceptions(self):
+    def __summary_agent_warnings(self):
+        """
+        Only WARNING level exceptions
+        """
         exc_info = self.execute()
-        if exc_info:
-            return {agent: dict(info) for agent, info in exc_info.items()}
+        if exc_info and 'warning' in exc_info:
+            _exc_info = {}
+            for svc, results in exc_info['warning'].items():
+                _exc_info[svc] = dict(results)
+
+            return {agent: dict(info) for agent, info in _exc_info.items()}
+
+    def __summary_agent_exceptions(self):
+        """
+        Only ERROR level exceptions
+        """
+        exc_info = self.execute()
+        if exc_info and 'error' in exc_info:
+            _exc_info = {}
+            for svc, results in exc_info['error'].items():
+                _exc_info[svc] = dict(results)
+
+            return {agent: dict(info) for agent, info in _exc_info.items()}
