@@ -1907,6 +1907,48 @@ NEUTRON_EXCEPTIONS = [
     "CsrValidationFailure",
 ]
 
+# sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' ./neutronclient/common/exceptions.py
+_NEUTRONCLIENT_EXCEPTIONS = [
+    "NeutronException",
+    "NeutronClientException",
+    "BadRequest",
+    "Unauthorized",
+    "Forbidden",
+    "NotFound",
+    "Conflict",
+    "InternalServerError",
+    "ServiceUnavailable",
+    "NetworkNotFoundClient",
+    "PortNotFoundClient",
+    "StateInvalidClient",
+    "NetworkInUseClient",
+    "PortInUseClient",
+    "IpAddressInUseClient",
+    "IpAddressAlreadyAllocatedClient",
+    "InvalidIpForNetworkClient",
+    "InvalidIpForSubnetClient",
+    "OverQuotaClient",
+    "IpAddressGenerationFailureClient",
+    "MacAddressInUseClient",
+    "HostNotCompatibleWithFixedIpsClient",
+    "ExternalIpAddressExhaustedClient",
+    "NoAuthURLProvided",
+    "EndpointNotFound",
+    "EndpointTypeNotFound",
+    "AmbiguousEndpoints",
+    "RequestURITooLong",
+    "ConnectionFailed",
+    "SslCertificateValidationError",
+    "MalformedResponseBody",
+    "InvalidContentType",
+    "NeutronCLIError",
+    "CommandError",
+    "UnsupportedVersion",
+    "NeutronClientNoUniqueMatch",
+]
+NEUTRONCLIENT_EXCEPTIONS = ["neutronclient.common.exceptions.{}".format(exc)
+                            for exc in _NEUTRONCLIENT_EXCEPTIONS]
+
 # Including this as a dep of (at least) Neutron
 # sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' ovsdbapp/exceptions.py
 OVSDBAPP_EXCEPTIONS = [
