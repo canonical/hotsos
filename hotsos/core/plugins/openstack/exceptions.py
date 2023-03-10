@@ -2194,6 +2194,32 @@ HEAT_EXCEPTIONS = [
     "UnableToAutoAllocateNetwork",
 ]
 
+# sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p'  ./os_vif/exception.py
+# sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p'  ./vif_plug_ovs/exception.py
+_OS_VIF_EXCEPTIONS = [
+    "ExceptionBase",
+    "LibraryNotInitialized",
+    "NoMatchingPlugin",
+    "NoMatchingPortProfileClass",
+    "NoSupportedPortProfileVersion",
+    "NoMatchingVIFClass",
+    "NoSupportedVIFVersion",
+    "PlugException",
+    "UnplugException",
+    "NetworkMissingPhysicalNetwork",
+    "NetworkInterfaceNotFound",
+    "NetworkInterfaceTypeNotDefined",
+    "ExternalImport",
+    "NotImplementedForOS",
+    "AgentError",
+    "MissingPortProfile",
+    "WrongPortProfile",
+    "RepresentorNotFound",
+    "PciDeviceNotFoundById",
+]
+OS_VIF_EXCEPTIONS = ["os_vif.exception.{}".format(exc)
+                     for exc in _OS_VIF_EXCEPTIONS]
+
 # Exceptions common to any project should be defined here
 EXCEPTIONS_COMMON = [
     r'AMQP server on .+ is unreachable',
