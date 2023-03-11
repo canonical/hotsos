@@ -2,12 +2,24 @@ import datetime
 import glob
 import json
 import os
+import pickle
 import re
 import subprocess
 import tempfile
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.common import HostHelpersBase
+
+
+class CLIExecError(Exception):
+
+    def __init__(self, return_value=None):
+        """
+        @param return_value: default return value that a command
+                             should return if execution fails.
+        """
+        self.return_value = return_value
 
 
 def catch_exceptions(*exc_types):
@@ -18,9 +30,9 @@ def catch_exceptions(*exc_types):
             except exc_types as exc:
                 log.debug("%s: %s", type(exc), exc)
                 if type(exc) == json.JSONDecodeError:
-                    return {}
-                else:
-                    return []
+                    raise CLIExecError(return_value={}) from exc
+
+                raise CLIExecError(return_value=[]) from exc
 
         return catch_exceptions_inner2
 
@@ -329,23 +341,25 @@ class OVSOFCTLBinCmd(BinCmd):
         try with version.
         """
         self.cmd = "ovs-ofctl {}".format(self.cmd)
-        ret = super().__call__(*args, **kwargs)
-        if ret:
-            return ret
+        try:
+            return super().__call__(*args, **kwargs)
+        except CLIExecError:
+            log.debug("ofctl command with no protocol version failed")
 
         # If the command raised an exception it will have been caught by the
         # catch_exceptions decorator and [] returned. We have no way of knowing
         # if that was the actual return or an exception was raised so we just
         # go ahead and retry with specific OF versions until we get a result.
         for ver in self.OFPROTOCOL_VERSIONS:
-            log.debug("retrying ofctl command with protocol version %s", ver)
+            log.debug("trying ofctl command with protocol version %s", ver)
             self.reset()
             self.cmd = "ovs-ofctl -O {} {}".format(ver, self.cmd)
-            ret = super().__call__(*args, **kwargs)
-            if ret:
-                return ret
+            try:
+                return super().__call__(*args, **kwargs)
+            except CLIExecError:
+                log.debug("ofctl command with protocol version %s failed", ver)
 
-        return ret
+        return []
 
 
 class DateBinCmd(BinCmd):
@@ -457,31 +471,101 @@ class CephJSONFileCmd(FileCmd):
 
 class SourceRunner(object):
 
-    def __init__(self, sources):
+    def __init__(self, cmdkey, sources, cache):
+        """
+        @param cmdkey: unique key identifying this command.
+        @param sources: list of command source implementations.
+        @param cache: CLICacheWrapper object.
+        """
+        self.cmdkey = cmdkey
         self.sources = sources
+        self.cache = cache
 
     def __call__(self, *args, **kwargs):
+        """
+        Execute the command using the appropriate source runner. These can be
+        binary or file-based depending on whether data root points to / or a
+        sosreport. File-based are attempted first.
+
+        A command can have more than one source implementation so we must
+        ensure they all have a chance to run.
+        """
         # always try file sources first
-        for fsource in [s for s in self.sources
-                        if s.TYPE == "FILE"]:
+        for fsource in [s for s in self.sources if s.TYPE == "FILE"]:
             try:
                 return fsource(*args, **kwargs)
+            except CLIExecError as exc:
+                return exc.return_value
             except SourceNotFound:
                 pass
 
         if HotSOSConfig.data_root != '/':
             return NullSource()()
 
-        # binary sources only apply if data_root is localhost root
-        for bsource in [s for s in self.sources
-                        if s.TYPE == "BIN"]:
-            return bsource(*args, **kwargs)
+        # binary sources only apply if data_root is system root
+        for bsource in [s for s in self.sources if s.TYPE == "BIN"]:
+            cache = False
+            # NOTE: we currently only support caching commands with no
+            #       args.
+            if not any([args, kwargs]):
+                cache = True
+                out = self.cache.load(self.cmdkey)
+                if out is not None:
+                    return out
+
+            try:
+                out = bsource(*args, **kwargs)
+            except CLIExecError as exc:
+                return exc.return_value
+
+            if cache and out is not None:
+                try:
+                    self.cache.save(self.cmdkey, out)
+                except pickle.PicklingError as exc:
+                    log.info("unable to cache command '%s' output: %s",
+                             self.cmdkey, exc)
+
+            return out
 
 
-class CLIHelper(object):
+class CLICacheWrapper(object):
+
+    def __init__(self, cache_load_f, cache_save_f):
+        self.load_f = cache_load_f
+        self.save_f = cache_save_f
+
+    def load(self, key):
+        return self.load_f(key)
+
+    def save(self, key, value):
+        return self.save_f(key, value)
+
+
+class CLIHelper(HostHelpersBase):
 
     def __init__(self):
         self._command_catalog = None
+        super().__init__()
+        self.cli_cache = CLICacheWrapper(self.cache_load, self.cache_save)
+
+    @property
+    def cache_root(self):
+        """ Cache at plugin level rather than globally. """
+        return HotSOSConfig.plugin_tmp_dir
+
+    @property
+    def cache_type(self):
+        return 'cli'
+
+    @property
+    def cache_name(self):
+        return "commands"
+
+    def cache_load(self, cmdname):
+        return self.cache.get(cmdname)
+
+    def cache_save(self, cmdname, output):
+        return self.cache.set(cmdname, output)
 
     @property
     def command_catalog(self):
@@ -787,9 +871,9 @@ class CLIHelper(object):
     def __getattr__(self, cmdname):
         cmd = self.command_catalog.get(cmdname)
         if cmd:
-            return SourceRunner(cmd)
-        else:
-            raise CommandNotFound(cmdname)
+            return SourceRunner(cmdname, cmd, self.cli_cache)
+
+        raise CommandNotFound(cmdname)
 
 
 def get_ps_axo_flags_available():
