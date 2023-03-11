@@ -372,7 +372,7 @@ class HotSOSClient(object):
         os.makedirs(os.path.join(global_tmp_dir, 'locks'))
 
     def teardown_global_env(self):
-        log.debug("tearing down gloval env")
+        log.debug("tearing down global env")
         if os.path.exists(HotSOSConfig.global_tmp_dir):
             shutil.rmtree(HotSOSConfig.global_tmp_dir)
 
