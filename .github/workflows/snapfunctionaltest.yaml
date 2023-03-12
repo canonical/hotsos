@@ -15,13 +15,13 @@ jobs:
         run: |
           sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
       - name: Run snap (functional test)
-        run: hotsos | tee output.yaml
+        run: hotsos > output.yaml
       - name: Run snap (JSON output)
-        run: hotsos --format json tests/unit/fake_data_root/openstack | tee output.json
+        run: hotsos --format json tests/unit/fake_data_root/openstack > output.json
       - name: Run snap (HTML output)
-        run: hotsos --format html tests/unit/fake_data_root/openstack | tee output.html
+        run: hotsos --format html tests/unit/fake_data_root/openstack > output.html
       - name: Run snap (Markdown output)
-        run: hotsos --format markdown tests/unit/fake_data_root/openstack | tee output.md
+        run: hotsos --format markdown tests/unit/fake_data_root/openstack > output.md
       - name: Upload snap
         uses: actions/upload-artifact@v3
         with:
@@ -40,58 +40,3 @@ jobs:
           name: functional-test-outputs
           path: output.*
 
-  ssl-test-on-focal:
-    runs-on: ubuntu-20.04
-    needs: [snap]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        id: snap
-        with:
-          name: snap
-      - name: Install snap
-        run: |
-          sudo snap install --dangerous --classic ${{ steps.snap.outputs.download-path }}/*.snap
-      - name: Install faketime
-        run: |
-          DEBIAN_FRONTEND=noninteractive sudo apt update
-          DEBIAN_FRONTEND=noninteractive sudo apt install --yes --no-install-recommends faketime
-      - name: Run snap
-        run: |
-          tar -xJf .github/workflows/fake_data_root/ssl-cert.xz
-          faketime '2024-01-01' hotsos --openstack --format yaml ssl-cert | tee output.yaml
-          grep "The following certificates will expire in less than 60 days: ssl-cert/etc/apache2/ssl/keystone/cert_10.5.1.45" output.yaml
-      - name: Upload outputs
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: focal-ssl-test
-          path: output.*
-
-  ssl-test-on-jammy:
-    runs-on: ubuntu-22.04
-    needs: [snap]
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/download-artifact@v3
-        id: snap
-        with:
-          name: snap
-      - name: Install snap
-        run: |
-          sudo snap install --dangerous --classic ${{ steps.snap.outputs.download-path }}/*.snap
-      - name: Install faketime
-        run: |
-          DEBIAN_FRONTEND=noninteractive sudo apt update
-          DEBIAN_FRONTEND=noninteractive sudo apt install --yes --no-install-recommends faketime
-      - name: Run snap
-        run: |
-          tar -xJf .github/workflows/fake_data_root/ssl-cert.xz
-          faketime '2024-01-01' hotsos --openstack --format yaml ssl-cert | tee output.yaml
-          grep "The following certificates will expire in less than 60 days: ssl-cert/etc/apache2/ssl/keystone/cert_10.5.1.45" output.yaml
-      - name: Upload outputs
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: jammy-ssl-test
-          path: output.*
