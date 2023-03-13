@@ -6,6 +6,7 @@ import sys
 import subprocess
 import threading
 
+from importlib import metadata, resources
 from progress.spinner import Spinner
 
 from hotsos.core.config import HotSOSConfig
@@ -23,7 +24,17 @@ def get_hotsos_root():
 
 
 def get_version():
-    return os.environ.get('SNAP_REVISION', 'development')
+    ver = os.environ.get('SNAP_REVISION')
+    if ver is None:
+        try:
+            ver = metadata.version('hotsos')
+        except metadata.PackageNotFoundError:
+            pass
+
+    if ver is not None:
+        return ver
+
+    return 'development'
 
 
 def get_repo_info():
@@ -31,6 +42,12 @@ def get_repo_info():
     if repo_info and os.path.exists(repo_info):
         with open(repo_info) as fd:
             return fd.read().strip()
+
+    # pypi
+    with resources.path('hotsos', '.repo-info') as repo_info:
+        if repo_info and os.path.exists(repo_info):
+            with open(repo_info) as fd:
+                return fd.read().strip()
 
     try:
         out = subprocess.check_output(['git', '-C',  get_hotsos_root(),
@@ -53,8 +70,15 @@ def set_plugin_options(f):
 
 
 def get_defs_path():
-    defs = os.path.join(get_hotsos_root(), '../defs')
+    # source
+    defs = os.path.join(get_hotsos_root(), 'defs')
     if not os.path.isdir(defs):
+        # pypi
+        with resources.path('hotsos', 'defs') as path:
+            defs = path
+
+    if not os.path.isdir(defs):
+        # snap
         root = os.environ.get('SNAP', '/')
         defs = os.path.join(root, 'etc/hotsos/defs')
 
@@ -65,8 +89,15 @@ def get_defs_path():
 
 
 def get_templates_path():
-    templates = os.path.join(get_hotsos_root(), '../templates')
+    # source
+    templates = os.path.join(get_hotsos_root(), 'templates')
     if not os.path.isdir(templates):
+        # pypi
+        with resources.path('hotsos', 'templates') as path:
+            templates = path
+
+    if not os.path.isdir(templates):
+        # snap
         root = os.environ.get('SNAP', '/')
         templates = os.path.join(root, 'etc/hotsos/templates')
 
