@@ -1,6 +1,6 @@
 # Overview
 
-Hotsos is a framework for software-defined analysis. It provides a library of plugins written in Python along with a [high-level language](defs/README.md) in which to implement checks and analysis and report problems. Supported plugins include:
+Hotsos is a framework for software-defined analysis. It provides a library of plugins written in Python along with a [high-level language](hotsos/defs/README.md) in which to implement checks and analysis and report problems. Supported plugins include:
 
   * Openstack
   * Kubernetes
@@ -22,7 +22,7 @@ Hotsos is either run directly against a host or a [sosreport](https://github.com
 The code has the following structure:
 
   * core library (includes plugins)
-  * yaml-defined checks (see documentation at [defs](defs/README.md))
+  * yaml-defined checks (see documentation at [defs](hotsos/defs/README.md))
   * plugin extensions e.g. summary output
   * tests
 
