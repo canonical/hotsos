@@ -833,6 +833,9 @@ class CLIHelper(HostHelpersBase):
                  # Older sosrepot uses 'wchan' option while newer ones use
                  # 'wchan:20' - thus the glob is to cover both
                  FileCmd(get_ps_axo_flags_available() or "")],
+            'pro_status':
+                [BinCmd('ua status'),
+                 FileCmd('sos_commands/ubuntu/ua_status')],
             'rabbitmqctl_report':
                 [BinCmd('rabbitmqctl report'),
                  FileCmd('sos_commands/rabbitmq/rabbitmqctl_report')],

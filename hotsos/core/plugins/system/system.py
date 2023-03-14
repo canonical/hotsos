@@ -1,6 +1,7 @@
 import re
 import os
 
+from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper, SYSCtlFactory
 from hotsos.core.utils import cached_property
@@ -127,6 +128,84 @@ class SystemBase(object):
                     return True
 
         return False
+
+    @cached_property
+    def ubuntu_pro_status(self):
+        """Parse and retrieve Ubuntu Pro status
+
+        Returns:
+            Dictionary: Ubuntu pro status as a dictionary, e.g.::
+            {
+                "status": "<attached|not-attached|error>"
+                "services": {
+                    "esm-apps": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    }, /* ... */
+                },
+                "account": "ACME Corporation",
+                "subscription": "Ubuntu Pro (Apps-only) - Virtual",
+                "technical_support_level": "essential",
+                "valid_until": "Sat Jan  1 01:01:01 9999 +03"
+            }
+
+        """
+
+        # TODO(mkg): Unfortunately, sos does not capture `pro status
+        # --format json` output at the moment. We have to parse the
+        # human-readable output for now. This function should ideally
+        # rely on the json output when the upstream sos starts to
+        # include it.
+        pro_status = CLIHelper().pro_status()
+
+        not_attached = re.compile(
+            r".*not attached to.*(Ubuntu (Pro|Advantage)|UA).*"
+        )
+        header = re.compile(r"^SERVICE +ENTITLED +STATUS +DESCRIPTION")
+        service_status = re.compile(
+            r"^([a-zA-Z0-9-]+) +([a-zA-Z0-9-/]+) +([a-zA-Z0-9-/]+) +(.+)\n")
+        kv = re.compile(r"^([A-Za-z0-9 ]+): (.*)\n")
+
+        if not pro_status:
+            log.info("badness: `pro status` output is None")
+            return {"status": "error"}
+
+        # Check if the machine is attached to `ubuntu pro`
+        if list(filter(not_attached.match, pro_status)):
+            return {"status": "not-attached"}
+
+        if not header.match(pro_status[0]):
+            # Unexpected `pro status` header format
+            log.info("badness: unexpected `pro status` header: %s",
+                     pro_status[0])
+            return {"status": "error"}
+
+        # Remove the header line
+        pro_status.pop(0)
+
+        result = {}
+        result["status"] = "attached"
+        result["services"] = {}
+
+        for line in pro_status:
+            fields = service_status.match(line)
+            if fields:
+                result["services"][fields.group(1)] = {
+                    "entitled": fields.group(2),
+                    "status": fields.group(3)
+                }
+            else:
+                kv_pair = kv.match(line)
+                if not kv_pair:
+                    continue
+                key, value = [kv_pair.group(1).strip(), kv_pair.group(2)]
+                # Skip the info line
+                if key == "Enable services with":
+                    continue
+                key_alpha_lower = re.sub(r'\W+', '_', key).lower()
+                result[key_alpha_lower] = value
+
+        return result
 
     @cached_property
     def sysctl_all(self):
