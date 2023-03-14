@@ -10,6 +10,8 @@ system:
   rootfs: /dev/vda2        308585260 24784824 268055824   9% /
   unattended-upgrades: ENABLED
   date: Thu 10 Feb 09:47:16 UTC 2022
+  ubuntu-pro:
+    status: not-attached
   sysctl-mismatch:
     kernel.pid_max:
       actual: '4194304'

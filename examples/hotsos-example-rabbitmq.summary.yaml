@@ -10,6 +10,8 @@ system:
   rootfs: /dev/vda2        308585260 24695924 268144724   9% /
   unattended-upgrades: ENABLED
   date: Thu 10 Feb 09:39:52 UTC 2022
+  ubuntu-pro:
+    status: not-attached
   potential-issues:
     SystemWarnings:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to

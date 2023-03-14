@@ -50,3 +50,7 @@ class SystemSummary(SystemChecksBase):
     @idx(7)
     def __summary_date(self):
         return self.date
+
+    @idx(8)
+    def __summary_ubuntu_pro(self):
+        return self.ubuntu_pro_status
