@@ -72,6 +72,12 @@ sudo snap install hotsos --classic
 
 See https://snapcraft.io/hotsos for more info on usage.
 
+or install from [PyPi](https://pypi.org/project/hotsos/), e.g.
+
+```console
+pip install hotsos
+```
+
 or run from source e.g.
 
 ```
@@ -79,4 +85,3 @@ $ git clone https://github.com/canonical/hotsos
 $ pip install -r hotsos/requirements.txt
 $ ./hotsos/scripts/hotsos
 ```
-
