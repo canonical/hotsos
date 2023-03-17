@@ -64,9 +64,25 @@ An example **short** (yaml) summary can be found [here](examples/hotsos-example-
 
 ## Install
 
+HotSOS is distributed using the following methods:
+
+### pypi
+
+You can install using Python pip e.g.
+
+```
+sudo apt install python3-pip
+pip install hotsos
+```
+
+NOTE: currently requires Python >= 3.8
+
+### snap
+
 You can install as a snap e.g.
 
 ```
+sudo apt install snapd
 sudo snap install hotsos --classic
 ```
 
