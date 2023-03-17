@@ -1,12 +1,16 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools", "wheel", "setuptools-git-versioning"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools-git-versioning]
+enabled = true
 
 [project]
 name = "hotsos"
 description = "Software analysis toolkit. Define checks in high-level language and leverage library to perform analysis of common Cloud applications."
+readme = "README.md"
 requires-python = ">=3.8"
-version = "0.1.12"
+dynamic = ["version"]
 dependencies = [
     'importlib-metadata; python_version >= "3.8"',
     'click',

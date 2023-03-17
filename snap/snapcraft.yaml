@@ -1,5 +1,5 @@
 name: hotsos
-version: '1.0'
+adopt-info: hotsos
 summary: Collect application operational information.
 description:
   Software analysis toolkit. Define checks in high-level
@@ -39,6 +39,8 @@ parts:
   hotsos:
     plugin: python
     source: .
+    build-packages:
+      - python3-pip
     stage-packages:
       - bsdmainutils
       - coreutils
@@ -53,6 +55,10 @@ parts:
       - requirements.txt
     build-environment:
       - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
+    override-pull: |
+      snapcraftctl pull
+      pip install setuptools-git-versioning
+      snapcraftctl set-version "$(setuptools-git-versioning)"
     filesets:
       # need to exclude these files since they are dangling symlinks
       # that cause the snapstore to reject the upload.
