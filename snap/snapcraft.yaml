@@ -1,5 +1,5 @@
 name: hotsos
-version: '1.0'
+adopt-info: hotsos-cli 
 summary: Collect application operational information.
 description:
   Software analysis toolkit. Define checks in high-level
@@ -28,6 +28,11 @@ parts:
   hotsos-cli:
     plugin: dump
     source: .
+    override-pull: |
+      tag=$(git describe --tags)
+      count=$(git rev-list $tag.. --count)
+      snapcraftctl set-version $tag+$count
+      snapcraftctl pull
     override-build: |
       rm -rf tests
       git rev-parse --short HEAD > repo-info
@@ -53,6 +58,9 @@ parts:
       - requirements.txt
     build-environment:
       - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
+    override-build: |
+      git describe --tag > git_build_version
+      snapcraftctl build
     filesets:
       # need to exclude these files since they are dangling symlinks
       # that cause the snapstore to reject the upload.
