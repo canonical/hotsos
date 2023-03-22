@@ -764,6 +764,9 @@ class CLIHelper(HostHelpersBase):
             'lscpu':
                 [BinCmd('lscpu'),
                  FileCmd('sos_commands/processor/lscpu')],
+            'lsof_bMnlP':
+                [BinCmd('lsof -b +M -n -l -P'),
+                 FileCmd('sos_commands/filesys/lsof_-b_M_-n_-l_-P')],
             'lxd_buginfo':
                 [BinCmd('lxd.buginfo'),
                  FileCmd('sos_commands/lxd/lxd.buginfo')],
