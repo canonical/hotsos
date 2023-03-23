@@ -13,17 +13,6 @@ jobs:
           fetch-depth: 0
       - uses: snapcore/action-build@v1
         id: snapcraft
-      - name: Install snap
-        run: |
-          sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
-      - name: Run snap (functional test)
-        run: hotsos > output.yaml
-      - name: Run snap (JSON output)
-        run: hotsos --format json tests/unit/fake_data_root/openstack > output.json
-      - name: Run snap (HTML output)
-        run: hotsos --format html tests/unit/fake_data_root/openstack > output.html
-      - name: Run snap (Markdown output)
-        run: hotsos --format markdown tests/unit/fake_data_root/openstack > output.md
       - name: Upload snap
         uses: actions/upload-artifact@v3
         with:
@@ -35,10 +24,52 @@ jobs:
         with:
           name: snap-logs
           path: /home/runner/.cache/snapcraft/log/*.log
+
+  snap-test:
+    needs: [snap]
+    strategy:
+      matrix:
+        os: [bionic, focal, jammy]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download snap
+        uses: actions/download-artifact@v3
+        with:
+          name: snap
+      - name: Set up lxd
+        run: |
+          set -e -u -x
+          sudo groupadd --force --system lxd
+          sudo usermod --append --groups lxd runner
+          sudo snap refresh lxd
+          sudo lxd init --auto
+      - name: Install in ${{ matrix.os }} container
+        run: |
+          set -e -u -x
+          sudo lxc launch --quiet ubuntu:${{ matrix.os }} ${{ matrix.os }}
+          sudo lxc config device add ${{ matrix.os }} pwd disk source=${PWD} path=/pwd
+          while true; do
+            sudo lxc exec ${{ matrix.os }} -- ping -q -c 1 1.1.1.1 && break
+            sleep 1
+          done
+          sudo lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get update'
+          sudo lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get purge --yes --autoremove snapd'
+          sudo lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install --yes snapd'
+          sudo lxc exec ${{ matrix.os }} -- snap list
+          sudo lxc exec ${{ matrix.os }} -- snap install --dangerous --classic /pwd/hotsos_*snap
+          sudo lxc exec ${{ matrix.os }} -- hotsos --version
+      - name: Run snap on ${{ matrix.os }} (functional test)
+        run: sudo lxc exec ${{ matrix.os }} -- hotsos > output-${{ matrix.os }}.yaml
+      - name: Run snap on ${{ matrix.os }} (JSON output)
+        run: sudo lxc exec ${{ matrix.os }} -- hotsos --format json tests/unit/fake_data_root/openstack > output-${{ matrix.os }}.json
+      - name: Run snap on ${{ matrix.os }} (HTML output)
+        run: sudo lxc exec ${{ matrix.os }} -- hotsos --format html tests/unit/fake_data_root/openstack > output-${{ matrix.os }}.html
+      - name: Run snap on ${{ matrix.os }} (Markdown output)
+        run: sudo lxc exec ${{ matrix.os }} -- hotsos --format markdown tests/unit/fake_data_root/openstack > output-${{ matrix.os }}.md
       - name: Upload outputs
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: functional-test-outputs
+          name: functional-test-outputs-${{ matrix.os }}
           path: output.*
-

@@ -2,17 +2,15 @@ name: hotsos
 adopt-info: hotsos
 summary: Collect application operational information.
 description:
-  Software analysis toolkit. Define checks in high-level
-  language and leverage library to perform analysis of
-  common Cloud applications.
+  Software analysis toolkit. Define checks in high-level language and leverage
+  library to perform analysis of common Cloud applications.
 confinement: classic
 grade: stable
 base: core20
 environment:
-  REPO_INFO_PATH: $SNAP/repo-info
-  LC_ALL: C.UTF-8
   LANG: C.UTF-8
-  PYTHONPATH: $SNAP/lib/python3.8/site-packages
+  LC_ALL: C.UTF-8
+  PYTHONPATH: ${SNAP}/lib/python3.8/site-packages
 
 # dpkg won't work without this
 layout:
@@ -25,49 +23,20 @@ apps:
   hotsos:
     command: bin/hotsos
 parts:
-  hotsos-cli:
-    plugin: dump
-    source: .
-    override-build: |
-      rm -rf tests
-      git rev-parse --short HEAD > repo-info
-      snapcraftctl build
-    organize:
-      hotsos/defs: etc/hotsos/defs
-      hotsos/templates: etc/hotsos/templates
-    build-packages: [git]
   hotsos:
     plugin: python
     source: .
     build-packages:
+      - git
       - python3-pip
-    stage-packages:
-      - bsdmainutils
-      - coreutils
-      - dpkg
-      - systemd
-    python-packages:
-      - cryptography==3.4.8
-      - pip
-      - setuptools
-      - wheel
-    requirements:
-      - requirements.txt
-    build-environment:
-      - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
     override-pull: |
+      set -e -u -x
       snapcraftctl pull
       pip install setuptools-git-versioning
       snapcraftctl set-version "$(setuptools-git-versioning)"
-    filesets:
-      # need to exclude these files since they are dangling symlinks
-      # that cause the snapstore to reject the upload.
-      exclude-systemd-files:
-        - -lib/systemd/system/hwclock.service
-        - -lib/systemd/system/rc.service
-        - -lib/systemd/system/x11-common.service
-        - -lib/systemd/system/cryptdisks-early.service
-        - -lib/systemd/system/rcS.service
-        - -lib/systemd/system/cryptdisks.service
+    override-build: |
+      set -e -u -x
+      git rev-parse --short HEAD > hotsos/.repo-info
+      snapcraftctl build
     stage:
-      - $exclude-systemd-files
+     - -tests
