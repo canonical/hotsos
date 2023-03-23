@@ -5,6 +5,15 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools-git-versioning]
 enabled = true
 
+# Used if no untracked files and current commit is tagged.
+template = "{tag}"
+
+# Used if there are no untracked files, and current commit is not tagged.
+dev_template = "{tag}.post{ccount}"
+
+# Used if untracked files exist or uncommitted changes have been made.
+dirty_template = "{tag}.post{ccount}+dirty"
+
 [project]
 name = "hotsos"
 description = "Software analysis toolkit. Define checks in high-level language and leverage library to perform analysis of common Cloud applications."
