@@ -10,8 +10,8 @@ for more information on this.
 First choose what [type](#handlers) of check you want to write and in which
 plugin context the check should be run.
 
-Definitions are organised beneath a directory that shares the name of the
-plugin that will run them and can be grouped using files and directories. All
+Definitions are organised beneath a directory that shares the name of the plugin
+that will run them and can be grouped using files and directories. All
 definitions have the same basic structure using a mixture of properties.
 
 This approach provides a way to write checks and analysis in a way that focuses
@@ -27,16 +27,15 @@ level.
 
 In summary:
 
- * Top directory shares its name with the plugin the checks belong to e.g.
-   [openstack](scenarios/openstack).
- * Sub levels contain definitions which can be organised using any
-   combination of files and directories, using them to logically group your
-   definitions.
- * The backbone of this approach is [propertree](https://github.com/dosaboy/propertree) i.e. a
-   tree where each level contains override properties and "content".
-   Overrides follow an inheritance model so that they can be defined and
-   superseded at any level. The content is always found at the leaf nodes of
-   the tree.
+* Top directory shares its name with the plugin the checks belong to e.g.
+  [openstack](scenarios/openstack).
+* Sub levels contain definitions which can be organised using any combination of
+  files and directories, using them to logically group your definitions.
+* The backbone of this approach is
+  [propertree](https://github.com/dosaboy/propertree) i.e. a tree where each
+  level contains override properties and "content". Overrides follow an
+  inheritance model so that they can be defined and superseded at any level. The
+  content is always found at the leaf nodes of the tree.
 
 TIP: to use a single quote ' inside a yaml string you need to replace it with
      two single quotes.
@@ -48,7 +47,7 @@ can do so by putting them in a file that shares the name of its parent directory
 In the following example *mychecks.yaml* contains a [requires](#requires) and
 the rest of the directory will only be run if it resolves to *True*.
 
-```
+```console
 $ ls myplugin/mychecks/
 mychecks.yaml myotherchecks.yaml
 $ cat myplugin/mychecks/mychecks.yaml
@@ -65,11 +64,11 @@ consumed by [handlers](#handlers).
 
 ### Property Globals
 
-Overrides abide by rules of inheritance. They are accessed at leaf nodes
-and can be defined and overridden at any level. Since definitions can be
-organised using files and directories, the latter requires a means for
-applying directory globals. Similar to pre-requisites, this is done by defining
-overrides in file that shares the name of the directory e.g.
+Overrides abide by rules of inheritance. They are accessed at leaf nodes and can
+be defined and overridden at any level. Since definitions can be organised using
+files and directories, the latter requires a means for applying directory
+globals. Similar to pre-requisites, this is done by defining overrides in file
+that shares the name of the directory e.g.
 
 ```
 myplugin/
@@ -81,9 +80,9 @@ myplugin/
     └── someotherchecks
 ```
 
-Here *mychecks* and *somemorechecks* are directories and *mychecks.yaml*
-defines overrides that apply to everything under *mychecks* such that any
-properties defined in *mychecks.yaml* will be available in *checkthis.yaml*,
+Here *mychecks* and *somemorechecks* are directories and *mychecks.yaml* defines
+overrides that apply to everything under *mychecks* such that any properties
+defined in *mychecks.yaml* will be available in *checkthis.yaml*,
 *checkthat.yaml* and any definitions under *somemorechecks* (but not
 *altchecks*).
 
@@ -94,7 +93,7 @@ dynamically generate a handler using an input provided as an attribute call
 then in turn call to a property on that handler. While a property would
 normally be imported as follows:
 
-```
+```python
 from mymod import myclass
 obj = myclass.myprop
 val = obj.myattr
@@ -102,7 +101,7 @@ val = obj.myattr
 
 A factory is used as follows:
 
-```
+```python
 from mymod import myfactoryclass
 val = myfactoryclass.inattr.fattr
 ```
@@ -112,7 +111,7 @@ Which would result in a new object created using *inattr* as input and then
 
 This allows us to define a property for import in [vars](#vars) as follows:
 
-```
+```yaml
 val: '@mymod.myfactoryclass.fattr:inattr'
 ```
 
@@ -123,11 +122,11 @@ characters incl. ones that would not be valid in a property name.
 
 Some properties use the [propertree](https://github.com/dosaboy/propertree)
 mapped properties feature meaning they are implemented as a root property with
-one or more "member" properties and the two map to each other. For example if
-we have a property *mainprop* and it has two member properties *mp1* and *mp2*
-it can be defined using either of the following formats:
+one or more "member" properties and the two map to each other. For example if we
+have a property *mainprop* and it has two member properties *mp1* and *mp2* it
+can be defined using either of the following formats:
 
-```
+```yaml
 myleaf:
   mainprop:
     mp1:
@@ -138,7 +137,7 @@ myleaf:
 
 or
 
-```
+```yaml
 myleaf:
   mp1:
     ...
@@ -174,7 +173,7 @@ where the items may be a single item, list of items, one or more groups or a
 list of groups of items organised by logical operator that will be used to
 determine their collective result. For example:
 
-```
+```yaml
 and: [C1, C2]
 or: [C3, C4]
 not: C5
@@ -183,14 +182,14 @@ nor: [C1, C5]
 
 This would be the same as doing:
 
-```
+```yaml
 (C1 and C2) and (C3 or C4) and (not C5) and not (C1 or C5)
 ```
 
 And this can be implemented as a list of dictionaries for a more complex
 operation e.g.
 
-```
+```yaml
 - and: [C1, C2]
   or: [C3, C4]
 - not: C5
@@ -199,7 +198,7 @@ operation e.g.
 
 Which is equivalent to:
 
-```
+```yaml
 ((C1 and C2) and (C3 or C4)) and ((not C5) and C6)
 ```
 
@@ -214,38 +213,40 @@ definitions provided that their [handlers](#handlers) supports them. The
 *format* subsection describes how they can be used in yaml definitions and the
 *usage* subsection describes how they are consumed by handlers.
 
-
 #### vars
-This property supports defining one or more variables that can be referenced from
-other properties. They are defined as a list of key: value pairs where value can
-be standard types like str, int, bool etc or it can be a Python property that is
-called to get its value.
+
+This property supports defining one or more variables that can be referenced
+from other properties. They are defined as a list of key: value pairs where
+value can be standard types like str, int, bool etc or it can be a Python
+property that is called to get its value.
 
 To set a variable to the value of an imported Python property you need to prefix
 the import string with '@'. If the property being imported belongs to an
 [factory](#factoryobjects) it must have the following form:
 
+```yaml
 @<modpath>.<factoryclassname>.<property>:<inputvalue>
+```
 
 Variables are referenced/access in other properties by prefixing their name
 with a '$'. See [varops](#varops) for more info.
 
 format:
 
-```
+```yaml
 vars:
   <name>: <value>
 ```
 
 usage:
 
-```
+```yaml
 <iter>
 ```
 
 example:
 
-```
+```yaml
 vars:
   myintvar: 10
   mystrvar: 'hello'
@@ -269,37 +270,39 @@ checks.
 
 format
 
-```
+```yaml
 decision: CHECKS
 ```
 
 usage
 
-```
+```yaml
 <iter>
 ```
 
 #### input
 
-Provides a common way to define input to other properties. Supports a
-filesystem path or [core.host_helpers.CLIHelper](../hotsos/core/host_helpers/cli.py)
-command. When a command is provided, its output is written to a
-temporary file and *input.path* returns the path to that file. Only one of
-*path* or *command* can be provided at once.
+Provides a common way to define input to other properties. Supports a filesystem
+path or [`core.host_helpers.CLIHelper`](../hotsos/core/host_helpers/cli.py)
+command. When a command is provided, its output is written to a temporary file
+and *input.path* returns the path to that file. Only one of *path* or *command*
+can be provided at once.
 
 This property is required by and used as input to the [search](#search)
 property.
 
 format
 
-```
+```yaml
 input:
   command: hotsos.core.host_helpers.CLIHelper command
   path: FS_PATH
   options: OPTIONS
+```
 
 or
 
+```yaml
 input: FS_PATH
 
 FS_PATH
@@ -316,7 +319,7 @@ OPTIONS
     args: [arg1, ...]
       Used in combination with *command*. This is a list of args
       that will be provided to the command.
-       
+
     kwargs: {kwarg1: val, ...}
       Used in combination with *command*. This is a dictionary
       of kwargs that will be provided to the command.
@@ -341,7 +344,7 @@ input.paths
 
 Defines an integer priority. This is a very simple property that is typically
 used by [conclusions](#conclusions) to associate a priority or precedence to
-conclusions. 
+conclusions.
 
 format
 
@@ -392,7 +395,7 @@ the search pattern provided.
 ```
 PROPERTY_CACHE_REF
   A reference to a property cache item that takes one of two forms:
-  
+
   '@<propertyname>.CACHE_KEY'
   '@checks.<checkname>.<propertyname>.CACHE_KEY'
 
@@ -569,7 +572,7 @@ return a True/False value.
 
 This has the same format as the input property and is used to
 assert if a path exists or not. Note that all-logs is not applied
-to the path. 
+to the path.
 
 format
 
@@ -620,7 +623,7 @@ apt: [package name|APT_INFO]
 APT_INFO
   single package name, list of packages or dictionary of
   <package name>: <version ranges> e.g.
-  
+
   mypackage:
     - min: 0.0
       max: 1.0
@@ -646,7 +649,7 @@ snap: [package name|SNAP_INFO]
 SNAP_INFO
   single package name, list of packages or dictionary of
   <package name>: <revision ranges> e.g.
-  
+
   mypackage:
     - min: 0.0
       max: 1.0
@@ -701,7 +704,7 @@ CACHE_KEYS
 ```
 
 #### config
-A dictionary containing the information required to perform some config checks. 
+A dictionary containing the information required to perform some config checks.
 Supports applying assertion rules to the contents of one or more config file.
 
 format:
@@ -720,7 +723,7 @@ assertions: ASSERTION
   final result is either True/False for *passes*.
 
 ASSERTION
-  key: name of setting we want to check.    
+  key: name of setting we want to check.
   section: optional config file section name.
   value: expected value. Default is None.
   ops: OPS_LIST
@@ -789,7 +792,7 @@ checks:
   check2:
     <property3>
     <property4>
-  ... 
+  ...
 
 CACHE_KEYS
   search
@@ -823,7 +826,7 @@ info and examples.
 
 The message can optionally use format fields which, if used, require
 format-dict to be provided with required key/value pairs. The values must be
-an importable attribute, property or method. 
+an importable attribute, property or method.
 
 format
 
@@ -883,7 +886,7 @@ positives. This is helpful for defining fallback conclusions.
 
 Supported Properties
   * none
-  
+
 Supported PropertyCollection
   * [checks](#checks)
   * [conclusions](#conclusions)
@@ -908,7 +911,7 @@ event callback.
 Supported Properties
   * [input](#input)
   * [search](#search)
-  
+
 Supported PropertyCollection
   * none
 
