@@ -4,7 +4,11 @@ import os
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper, SYSCtlFactory
-from hotsos.core.utils import cached_property
+from hotsos.core.utils import cached_property, mktemp_dump
+from hotsos.core.search import (
+    FileSearcher, SearchDef,
+    SequenceSearchDef
+)
 
 
 class NUMAInfo(object):
@@ -156,54 +160,55 @@ class SystemBase(object):
         # human-readable output for now. This function should ideally
         # rely on the json output when the upstream sos starts to
         # include it.
-        pro_status = CLIHelper().pro_status()
+        s = FileSearcher()
+        service_status_seqdef = SequenceSearchDef(
+            start=SearchDef(r"^SERVICE +ENTITLED +STATUS +DESCRIPTION"),
+            body=SearchDef(r"^(\S+) +(\S+) +(\S+) +(.+)\n"),
+            end=SearchDef(r"\n"),
+            tag="service-status")
+        account_status_seqdef = SequenceSearchDef(
+            start=SearchDef(r" *?(Account): (.*)\n"),
+            body=SearchDef(r" *?([\S ]+): (.*)\n"),
+            end=SearchDef(r" *?(Technical support level): (.*)\n"),
+            tag="account-status")
+        not_attached_def = SearchDef(
+            r".*not attached to.*(Ubuntu (Pro|Advantage)|UA).*",
+            tag="not-attached")
 
-        not_attached = re.compile(
-            r".*not attached to.*(Ubuntu (Pro|Advantage)|UA).*"
-        )
-        header = re.compile(r"^SERVICE +ENTITLED +STATUS +DESCRIPTION")
-        service_status = re.compile(
-            r"^([a-zA-Z0-9-]+) +([a-zA-Z0-9-/]+) +([a-zA-Z0-9-/]+) +(.+)\n")
-        kv = re.compile(r"^([A-Za-z0-9 ]+): (.*)\n")
+        f = mktemp_dump("".join(CLIHelper().pro_status()))
+        s.add(not_attached_def, f)
+        s.add(service_status_seqdef, f)
+        s.add(account_status_seqdef, f)
+        results = s.run()
 
-        if not pro_status:
-            log.info("badness: `pro status` output is None")
-            return {"status": "error"}
-
-        # Check if the machine is attached to `ubuntu pro`
-        if list(filter(not_attached.match, pro_status)):
+        if results.find_by_tag("not-attached"):
             return {"status": "not-attached"}
 
-        if not header.match(pro_status[0]):
-            # Unexpected `pro status` header format
-            log.info("badness: unexpected `pro status` header: %s",
-                     pro_status[0])
+        ssects = results.find_sequence_sections(service_status_seqdef)
+        asects = results.find_sequence_sections(account_status_seqdef)
+        if not all([ssects, asects]):
+            log.debug("badness: `pro status` does not match "
+                      "the expected format")
             return {"status": "error"}
-
-        # Remove the header line
-        pro_status.pop(0)
 
         result = {}
         result["status"] = "attached"
         result["services"] = {}
 
-        for line in pro_status:
-            fields = service_status.match(line)
-            if fields:
-                result["services"][fields.group(1)] = {
-                    "entitled": fields.group(2),
-                    "status": fields.group(3)
+        for id in ssects:
+            result["services"] = {**result["services"], **{
+                v.get(1): {
+                    "entitled": v.get(2),
+                    "status": v.get(3)
                 }
-            else:
-                kv_pair = kv.match(line)
-                if not kv_pair:
-                    continue
-                key, value = [kv_pair.group(1).strip(), kv_pair.group(2)]
-                # Skip the info line
-                if key == "Enable services with":
-                    continue
-                key_alpha_lower = re.sub(r'\W+', '_', key).lower()
-                result[key_alpha_lower] = value
+                for v in ssects[id] if v.tag == service_status_seqdef.body_tag
+            }}
+
+        for id in asects:
+            result = {**result, **{
+                re.sub(r'\W+', '_', v.get(1).strip()).lower(): v.get(2).strip()
+                for v in asects[id]
+            }}
 
         return result
 
