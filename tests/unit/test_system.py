@@ -13,6 +13,7 @@ from hotsos.plugin_extensions.system import (
     summary,
 )
 
+
 NUMACTL = """
 available: 2 nodes (0-1)
 node 0 cpus: 0 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38
@@ -76,6 +77,25 @@ Enable services with: ua enable <service>
             Valid until: 3999-12-31 23:59:59
 Technical support level: essential
 """.splitlines(keepends=True)  # noqa
+
+UA_ATTACHED_WITH_NOTICE = r"""SERVICE          ENTITLED  STATUS    DESCRIPTION
+cis              yes                enabled            Security compliance and audit tools
+esm-infra        yes                enabled            Expanded Security Maintenance for Infrastructure
+fips-updates     yes                enabled            NIST-certified core packages with priority security updates
+
+NOTICES
+A change has been detected in your contract.
+Please run `sudo ua refresh`.
+A change has been detected in your contract.
+Please run `sudo pro refresh`.
+
+Enable services with: pro enable <service>
+
+                Account: ACME Corporation
+           Subscription: UA Infra - Standard (Physical)
+            Valid until: Sat Nov 18 12:49:59 2153 EST
+Technical support level: standard
+""".splitlines(keepends=True) # noqa
 
 
 class SystemTestsBase(utils.BaseTestCase):
@@ -192,12 +212,11 @@ class TestSYSCtlChecks(SystemTestsBase):
 class TestUbuntuPro(SystemTestsBase):
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_pro_attached(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.pro_status.return_value = UBUNTU_PRO_ATTACHED
+    def test_ubuntu_pro_attached(self, mh):
+        mh.return_value = mock.MagicMock()
+        mh.return_value.pro_status.return_value = UBUNTU_PRO_ATTACHED
         result = SystemBase().ubuntu_pro_status
         self.assertNotEqual(result, None)
-        print(result)
         self.assertNotEqual(result, False)
 
         expected_result = {
@@ -229,9 +248,9 @@ class TestUbuntuPro(SystemTestsBase):
         self.assertEqual(result, expected_result)
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_pro_not_attached(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.pro_status.return_value = UBUNTU_PRO_NOT_ATTACHED # noqa, pylint: disable=C0301
+    def test_ubuntu_pro_not_attached(self, mh):
+        mh.return_value = mock.MagicMock()
+        mh.return_value.pro_status.return_value = UBUNTU_PRO_NOT_ATTACHED
         result = SystemBase().ubuntu_pro_status
         expected_result = {
             "status": "not-attached"
@@ -239,9 +258,9 @@ class TestUbuntuPro(SystemTestsBase):
         self.assertEqual(result, expected_result)
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_advantage_attached(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.pro_status.return_value = UA_ATTACHED
+    def test_ubuntu_advantage_attached(self, mh):
+        mh.return_value = mock.MagicMock()
+        mh.return_value.pro_status.return_value = UA_ATTACHED
         result = SystemBase().ubuntu_pro_status
         self.assertNotEqual(result, None)
 
@@ -278,9 +297,37 @@ class TestUbuntuPro(SystemTestsBase):
         self.assertEqual(result, expected_result)
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_advantage_not_attached(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.pro_status.return_value = UA_NOT_ATTACHED
+    def test_ubuntu_advantage_attached_with_notice(self, mh):
+        mh.return_value = mock.MagicMock()
+        mh.return_value.pro_status.return_value = UA_ATTACHED_WITH_NOTICE
+        result = SystemBase().ubuntu_pro_status
+        expected_result = {
+            "status": "attached",
+            "services": {
+                "cis": {
+                    "entitled": "yes",
+                    "status": "enabled"
+                },
+                "esm-infra": {
+                    "entitled": "yes",
+                    "status": "enabled"
+                },
+                "fips-updates": {
+                    "entitled": "yes",
+                    "status": "enabled"
+                }
+            },
+            "account": "ACME Corporation",
+            "subscription": "UA Infra - Standard (Physical)",
+            "technical_support_level": "standard",
+            "valid_until": "Sat Nov 18 12:49:59 2153 EST"
+        }
+        self.assertEqual(result, expected_result)
+
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
+    def test_ubuntu_advantage_not_attached(self, mh):
+        mh.return_value = mock.MagicMock()
+        mh.return_value.pro_status.return_value = UA_NOT_ATTACHED
         result = SystemBase().ubuntu_pro_status
         expected_result = {
             "status": "not-attached"
@@ -288,11 +335,11 @@ class TestUbuntuPro(SystemTestsBase):
         self.assertEqual(result, expected_result)
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_pro_invalid(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
+    def test_ubuntu_pro_invalid(self, mh):
+        mh.return_value = mock.MagicMock()
         invalid_UBUNTU_PRO = UBUNTU_PRO_ATTACHED
         invalid_UBUNTU_PRO[0] = "MERVICE          ENTITLED  STATUS    DESCRIPTION" # noqa, pylint: disable=C0301
-        mock_helper.return_value.pro_status.return_value = invalid_UBUNTU_PRO
+        mh.return_value.pro_status.return_value = invalid_UBUNTU_PRO
         result = SystemBase().ubuntu_pro_status
         expected_result = {
             "status": "error"
