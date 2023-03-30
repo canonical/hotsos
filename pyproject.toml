@@ -28,7 +28,7 @@ dependencies = [
     'simplejson',
     'jinja2',
     'cryptography',
-    'searchkit',
+    'searchkit >= 0.1.17',
     'propertree'
 ]
 
