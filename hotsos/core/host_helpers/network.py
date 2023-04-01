@@ -214,10 +214,10 @@ class HostNetworkingHelper(HostHelpersBase):
                 ns_name = ns.partition(" ")[0]
                 ip_addr = self.cli.ns_ip_addr(namespace=ns_name)
                 prefix = "__ns_start__{}__ns__end__".format(ns_name)
-                path = mktemp_dump('\n'.join(ip_addr), prefix=prefix)
+                path = mktemp_dump(''.join(ip_addr), prefix=prefix)
                 search_obj.add(seq, path)
         else:
-            path = mktemp_dump('\n'.join(self.cli.ip_addr()))
+            path = mktemp_dump(''.join(self.cli.ip_addr()))
             search_obj.add(seq, path)
 
         if not search_obj.files:
