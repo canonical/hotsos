@@ -384,12 +384,12 @@ class HotSOSClient(object):
                                                        dir=global_tmp)
 
     def _run(self, plugin):
-        log.debug("running plugin %s", plugin)
         if plugin not in PLUGIN_CATALOG:
             raise Exception("unknown plugin {}".format(plugin))
 
-        HotSOSConfig.plugin_name = plugin
         log.name = 'plugin.{}'.format(plugin)
+        log.debug("running plugin %s", plugin)
+        HotSOSConfig.plugin_name = plugin
         parts = PLUGIN_CATALOG[plugin]
         return plugintools.PluginRunner(parts).run()
 
