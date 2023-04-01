@@ -308,6 +308,15 @@ class TestUptimeHelper(utils.BaseTestCase):
         self.assertEqual(host_helpers.UptimeHelper().seconds, 109620)
         self.assertEqual(host_helpers.UptimeHelper().hours, 30)
 
+    @utils.create_data_root({'uptime':
+                             (' 19:12:40 up  1:55,  2 users,  '
+                              'load average: 3.92, 4.05, 3.90')})
+    def test_uptime_alt_format2(self):
+        self.assertEqual(host_helpers.UptimeHelper().seconds, 6900)
+        self.assertEqual(host_helpers.UptimeHelper().hours, 1)
+        self.assertEqual(host_helpers.UptimeHelper().loadavg,
+                         '3.92, 4.05, 3.90')
+
 
 class TestSysctlHelper(utils.BaseTestCase):
 

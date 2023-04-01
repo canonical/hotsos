@@ -13,7 +13,8 @@ class UptimeHelper(object):
         # this needs to take into account the different formats supported by
         # https://gitlab.com/procps-ng/procps/-/blob/newlib/library/uptime.c
         etime_expr = r"(?:([\d:]+)|(\d+\s+\S+,\s+[\d:]+)|(\d+\s+\S+)),"
-        expr = r"\s*[\d:]+ up {}.+ load average: (.+)".format(etime_expr)
+        expr = (r"\s*[\d:]+\s+up\s+{}.+\s+load average:\s+(.+)".
+                format(etime_expr))
         ret = re.compile(expr).match(self.uptime)
         self.subgroups = {}
         if ret:
