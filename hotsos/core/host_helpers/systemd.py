@@ -226,6 +226,12 @@ class SystemdHelper(object):
         ps_filtered = []
         path = os.path.join(HotSOSConfig.data_root,
                             'sys/fs/cgroup/unified/system.slice')
+        if not os.path.exists(path):
+            # Seems that this path changed between Ubuntu Focal and Jammy
+            # releases.
+            path = os.path.join(HotSOSConfig.data_root,
+                                'sys/fs/cgroup/system.slice')
+
         for svc in self.services:
             for svc in self.get_services_expanded(svc):
                 _path = os.path.join(path, "{}.service".format(svc),
