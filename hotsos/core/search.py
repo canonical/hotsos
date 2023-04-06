@@ -35,6 +35,7 @@ class SearchConstraintSearchSince(_SearchConstraintSearchSince):
         if not current_date or type(current_date) != str:
             log.error("current date '%s' being provided to search "
                       "constraints is not valid.", current_date)
+            return
 
         super().__init__(*args,
                          current_date=current_date,
