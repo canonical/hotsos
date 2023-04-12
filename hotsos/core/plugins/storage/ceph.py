@@ -915,7 +915,7 @@ class CephChecksBase(StorageBase):
     def days_to_eol(self):
         if self.release_name != 'unknown':
             eol = CEPH_EOL_INFO[self.release_name]
-            today = datetime.fromtimestamp(int(CLIHelper().date()))
+            today = datetime.utcfromtimestamp(int(CLIHelper().date()))
             delta = (eol - today).days
             return delta
 
