@@ -182,7 +182,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
         if self.release_name != 'unknown':
             eol = OST_EOL_INFO.get(self.release_name)
             if eol is not None:
-                today = datetime.fromtimestamp(int(CLIHelper().date()))
+                today = datetime.utcfromtimestamp(int(CLIHelper().date()))
                 delta = (eol - today).days
                 return delta
             else:
