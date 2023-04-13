@@ -88,4 +88,6 @@ raised-issues:
     Bcache cache set registration deadlock has occurred. This is caused by a
     bug that has been fixed in kernel 5.15.11 (current is 5.3).
     See https://www.spinics.net/lists/stable/msg566639.html for full detail.
+  KernelError: >-
+    1 reports of hung tasks in kern.log - please check.
 
