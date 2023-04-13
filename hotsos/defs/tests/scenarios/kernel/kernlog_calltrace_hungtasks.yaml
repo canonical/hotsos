@@ -1,0 +1,37 @@
+target-name: kernlog_calltrace.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      Jan 07 00:07:12 ic-hrvart4-s4anq599 kernel: o-hm0: dropped over-mtu packet: 2829 > 1500
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel: INFO: task df:1177107 blocked for more than 120 seconds.
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:       Tainted: P           O      5.15.0-53-generic #59~20.04.1-Ubuntu
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel: "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel: task:df              state:D stack:    0 pid:1177107 ppid:  6953 flags:0x00004224
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel: Call Trace:
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:  <TASK>
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:  __schedule+0x2cd/0x890
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:  schedule+0x69/0x110
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:  request_wait_answer+0x136/0x210
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:  ? wait_woken+0x60/0x60
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:  fuse_simple_request+0x1ac/0x2f0
+      Jan 07 00:07:13 ic-hrvart4-s4anq599 kernel:  fuse_do_getattr+0xd7/0x340
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  fuse_getattr+0xa9/0x130
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  vfs_getattr_nosec+0xba/0xe0
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  vfs_getattr+0x37/0x50
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  vfs_statx+0x89/0x110
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  __do_sys_newstat+0x3e/0x80
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  __x64_sys_newstat+0x16/0x20
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  do_syscall_64+0x59/0xc0
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  ? exit_to_user_mode_prepare+0x9c/0x1c0
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  ? syscall_exit_to_user_mode+0x27/0x50
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  ? __x64_sys_newstat+0x16/0x20
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  ? do_syscall_64+0x69/0xc0
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  ? irqentry_exit_to_user_mode+0x9/0x20
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  ? irqentry_exit+0x1d/0x30
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  ? sysvec_apic_timer_interrupt+0x4e/0x90
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel:  entry_SYSCALL_64_after_hwframe+0x61/0xcb
+      Jan 07 00:07:14 ic-hrvart4-s4anq599 kernel: RIP: 0033:0x7f7004c274ba
+
+raised-issues:
+  KernelError: >-
+    1 reports of hung tasks in kern.log - please check.
