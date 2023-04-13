@@ -17,16 +17,17 @@ from hotsos.core.search import (
 
 class AgentExceptionCheckResults(UserDict):
 
-    def __init__(self, service_obj, results, search_obj):
+    def __init__(self, results, source_id_resolver_callback):
         """
-        @param service_obj: OSTProject object
         @param results: list of searchkit.SearchResult objects grouped by
                         agent/log in which they were found.
-        @param search_obj: FileSearcher object
+        @param source_id_resolver_callback: searchkit results contain a
+                                            reference to the path that matched
+                                            the result and this callback is
+                                            called to resolve back to a path.
         """
-        self.service = service_obj
         self.results = results
-        self.search_obj = search_obj
+        self.source_id_resolver_callback = source_id_resolver_callback
         self.data = {}
         for name, _results in self.results.items():
             self.data[name] = self._tally_results(_results)
@@ -97,7 +98,7 @@ class AgentExceptionCheckResults(UserDict):
         files = []
         for results in self.results.values():
             sources = set([r.source_id for r in results])
-            files.extend([self.search_obj.resolve_source_id(s)
+            files.extend([self.source_id_resolver_callback(s)
                           for s in sources])
 
         return files
@@ -263,9 +264,8 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 if log_level not in agent_exceptions:
                     agent_exceptions[log_level] = {}
 
-                _results = AgentExceptionCheckResults(self.ost_projects[name],
-                                                      agent_results,
-                                                      self.searchobj)
+                callback = self.searchobj.catalog.source_id_to_path
+                _results = AgentExceptionCheckResults(agent_results, callback)
                 agent_exceptions[log_level][name] = _results
 
         self.cache.set('agent_exceptions', agent_exceptions)
