@@ -11,6 +11,10 @@ checks:
     property:
       path: hotsos.core.plugins.kernel.CallTraceManager.calltrace-bcache
       ops: [[length_hint]]
+  has_hungtasks:
+    property:
+      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_hungtask
+      ops: [[length_hint]]
 conclusions:
   stacktraces:
     # Give this one lowest priority so that if any other call trace types match they
@@ -44,3 +48,12 @@ conclusions:
         detail.
       format-dict:
         kver: hotsos.core.plugins.kernel.KernelBase.version
+  hungtasks:
+    priority: 2
+    decision: has_hungtasks
+    raises:
+      type: KernelError
+      message: >-
+        {numreports} reports of hung tasks in kern.log - please check.
+      format-dict:
+        numreports: '@checks.has_hungtasks.requires.value_actual:len'

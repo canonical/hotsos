@@ -354,13 +354,62 @@ class OOMKillerTraceType(TraceTypeBase):
             yield oom_trace
 
 
+class HungtaskTraceType(TraceTypeBase):
+
+    def __init__(self):
+        self._search_def = None
+        self.hungtasks = []
+
+    @property
+    def name(self):
+        return 'calltrace-hungtask'
+
+    @property
+    def searchdef(self):
+        if self._search_def:
+            return self._search_def
+
+        start = SearchDef(r'{}.+\s+task (\s+):(\d+) blocked for '
+                          r'more than (\d+) seconds.'.
+                          format(KERNLOG_PREFIX))
+        body = SearchDef('.+')
+        end = SearchDef(r'{}.+\s+do_syscall_(\S+)'.format(KERNLOG_PREFIX))
+        self._search_def = SequenceSearchDef(start, tag='hungtask', body=body,
+                                             end=end)
+        return self._search_def
+
+    def apply(self, result):
+        """
+        Run through the results.
+        @param results: list of searchtools.SearchResult objects.
+        """
+        log.debug("%s has %s results", self.__class__.__name__, len(result))
+        if len(result) > 0:
+            # we have found at least one blocked task
+            self.hungtasks.append(True)
+
+    @property
+    def heuristics(self):
+        """
+        Register any heuristics we want to run here.
+        """
+        return []
+
+    def __len__(self):
+        return len(self.hungtasks)
+
+    def __iter__(self):
+        for hungtasks in self.hungtasks:
+            yield hungtasks
+
+
 class CallTraceManager(KernLogBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # All trace types should be registered here.
         self.tracetypes = [GenericTraceType(), OOMKillerTraceType(),
-                           BcacheDeadlockType()]
+                           BcacheDeadlockType(), HungtaskTraceType()]
         self.run()
 
     def run(self):
