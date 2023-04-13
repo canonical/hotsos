@@ -38,27 +38,42 @@ jobs:
         with:
           name: snap
       - name: Set up lxd
-        run: |
-          set -e -u -x
-          sudo groupadd --force --system lxd
-          sudo usermod --append --groups lxd runner
-          sudo snap refresh lxd
-          sudo lxd init --auto
+        uses: canonical/setup-lxd@v0.1.0
       - name: Install in ${{ matrix.os }} container
         run: |
           set -e -u -x
-          sudo lxc launch --quiet ubuntu:${{ matrix.os }} ${{ matrix.os }}
-          sudo lxc config device add ${{ matrix.os }} pwd disk source=${PWD} path=/pwd
-          while true; do
-            sudo lxc exec ${{ matrix.os }} -- ping -q -c 1 1.1.1.1 && break
+          dpkg -l '*docker*'
+          lxc network list
+          lxc network info lxdbr0
+          ip --details address
+          sudo sysctl -a | grep forwarding
+          sudo iptables --policy FORWARD ACCEPT
+          sudo iptables --list FORWARD
+          pgrep -alf dnsmasq
+          lxc launch --quiet ubuntu:${{ matrix.os }} ${{ matrix.os }}
+          lxc config device add ${{ matrix.os }} pwd disk source=${PWD} path=/pwd
+          declare -i network_is_working=0
+          for i in $(seq 10); do
+            echo "${i}: testing network connectivity in container"
+            lxc exec ${{ matrix.os }} -- ip --details address
+            ip --details address
+            ip route get 1.1.1.1
+            if lxc exec ${{ matrix.os }} -- ping -q -c 1 1.1.1.1; then
+              network_is_working=1
+              break
+            fi
             sleep 1
           done
-          sudo lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get update'
-          sudo lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get purge --yes --autoremove snapd'
-          sudo lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install --yes snapd'
-          sudo lxc exec ${{ matrix.os }} -- snap list
-          sudo lxc exec ${{ matrix.os }} -- snap install --dangerous --classic /pwd/hotsos_*snap
-          sudo lxc exec ${{ matrix.os }} -- hotsos --version
+          if (( network_is_working != 1 )); then
+            echo "container failed to get a network"
+            exit 1
+          fi
+          lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get update'
+          lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get purge --yes --autoremove snapd'
+          lxc exec ${{ matrix.os }} -- bash -c 'DEBIAN_FRONTEND=noninteractive apt-get install --yes snapd'
+          lxc exec ${{ matrix.os }} -- snap list
+          lxc exec ${{ matrix.os }} -- snap install --dangerous --classic /pwd/hotsos_*snap
+          lxc exec ${{ matrix.os }} -- hotsos --version
       - name: Run snap on ${{ matrix.os }} (functional test)
         run: sudo lxc exec ${{ matrix.os }} -- hotsos > output-${{ matrix.os }}.yaml
       - name: Run snap on ${{ matrix.os }} (JSON output)
