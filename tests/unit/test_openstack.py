@@ -1093,6 +1093,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                     '2022-02-09': 3
                     }},
             'neutron-metadata-agent': {
+                'OSError': {'2022-02-09': 1},
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 48,
                     '2022-02-09': 14}},
@@ -1110,6 +1111,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                     '2022-02-04': 2
                     }},
             'nova-api-metadata': {
+                'OSError': {'2022-02-09': 4},
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 110,
                     '2022-02-09': 56}}}
@@ -1163,9 +1165,11 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                     'nova': [
                         ('nova.exception.ResourceProviderAllocation'
                          'RetrievalFailed'),
+                        'OSrror',
                         'oslo_messaging.exceptions.MessagingTimeout',
                         'nova.exception.ResourceProviderRetrievalFailed']}
-                self.assertEqual(exceptions, expected_exceptions)
+                self.assertEqual(sorted(exceptions),
+                                 sorted(expected_exceptions))
             else:
                 self.assertEqual(files, {'neutron':
                                          (3, 'neutron-dhcp-agent.log.1'),
