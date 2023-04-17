@@ -1,6 +1,7 @@
 import os
 import re
 
+from hotsos.core.plugins.kernel.sysfs import CPU
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.openstack import (
     OSTServiceBase,
@@ -10,6 +11,11 @@ from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.plugins.kernel.config import (
     KernelConfig,
     SystemdConfig,
+)
+from hotsos.core.search import (
+    FileSearcher,
+    SearchDef,
+    SequenceSearchDef,
 )
 from hotsos.core.plugins.system.system import (
     NUMAInfo,
@@ -99,6 +105,122 @@ class NovaBase(OSTServiceBase):
             interfaces['live_migration_inbound_addr'] = port
 
         return interfaces
+
+
+class NovaLibvirt(NovaBase):
+    """ Interface to Nova information from libvirt. """
+
+    @property
+    def xmlpath(self):
+        return os.path.join(HotSOSConfig.data_root, 'etc/libvirt/qemu')
+
+    @cached_property
+    def cpu_models(self):
+        """ Fetch cpu models used by all nova instances.
+
+        @return: dictionary of cpu models each with a count of how many
+                 guests are using them.
+        """
+        _cpu_models = {}
+        if not self.instances:
+            return _cpu_models
+
+        guests = []
+        seqs = {}
+        s = FileSearcher()
+        for i in self.instances.values():
+            guests.append(i.name)
+            start = SearchDef(r"\s+<cpu .+>")
+            body = SearchDef(r".+")
+            end = SearchDef(r"\s+</cpu>")
+            tag = "{}.cpu".format(i.name)
+            seqs[i.name] = SequenceSearchDef(start=start, body=body,
+                                             end=end, tag=tag)
+            path = os.path.join(self.xmlpath, "{}.xml".format(i.name))
+            s.add(seqs[i.name], path)
+
+        results = s.run()
+        for guest in guests:
+            sections = results.find_sequence_sections(seqs[guest]).values()
+            for section in sections:
+                for r in section:
+                    if 'body' not in r.tag:
+                        continue
+
+                    if '<model' not in r.get(0):
+                        continue
+
+                    ret = re.search(r'.+>(\S+)<.+', r.get(0))
+                    if ret:
+                        model = ret.group(1)
+                        if model in _cpu_models:
+                            _cpu_models[model] += 1
+                        else:
+                            _cpu_models[model] = 1
+
+        return _cpu_models
+
+    @property
+    def vcpu_info(self):
+        """ Fetch vcpu usage info used by all nova instances.
+
+        @return: dictionary of cpu resource usage.
+        """
+        vcpu_info = {}
+        if not self.instances:
+            return vcpu_info
+
+        guests = []
+        s = FileSearcher()
+        for i in self.instances.values():
+            guests.append(i.name)
+            tag = "{}.vcpus".format(i.name)
+            path = os.path.join(self.xmlpath, "{}.xml".format(i.name))
+            s.add(SearchDef(".+vcpus>([0-9]+)<.+", tag=tag), path)
+
+        total_vcpus = 0
+        results = s.run()
+        for guest in guests:
+            for r in results.find_by_tag("{}.vcpus".format(guest)):
+                vcpus = r.get(1)
+                total_vcpus += int(vcpus)
+
+        vcpu_info["used"] = total_vcpus
+
+        sysinfo = SystemBase()
+        if sysinfo.num_cpus is None:
+            return vcpu_info
+
+        total_cores = sysinfo.num_cpus
+        vcpu_info["system-cores"] = total_cores
+
+        nova_config = OpenstackConfig(os.path.join(HotSOSConfig.data_root,
+                                                   "etc/nova/nova.conf"))
+        pinset = nova_config.get("vcpu_pin_set",
+                                 expand_to_list=True) or []
+        pinset += nova_config.get("cpu_dedicated_set",
+                                  expand_to_list=True) or []
+        pinset += nova_config.get("cpu_shared_set",
+                                  expand_to_list=True) or []
+        if pinset:
+            # if pinning is used, reduce total num of cores available
+            # to those included in nova cpu sets.
+            available_cores = len(set(pinset))
+        else:
+            available_cores = total_cores
+
+        vcpu_info["available-cores"] = available_cores
+
+        cpu = CPU()
+        # put this here so that available cores value has
+        # context
+        if cpu.smt is not None:
+            vcpu_info["smt"] = cpu.smt
+
+        factor = float(total_vcpus) / available_cores
+        vcpu_info["overcommit-factor"] = round(factor, 2)
+
+        return vcpu_info
 
 
 class CPUPinning(NovaBase):
