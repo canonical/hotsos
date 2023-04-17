@@ -1,127 +1,25 @@
-import os
-import re
-
 from datetime import datetime
 
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.analytics import LogEventStats
+from hotsos.core.plugins.openstack.openstack import (
+    OpenstackTimestampMatcher,
+)
 from hotsos.core.search import (
     FileSearcher,
-    SearchDef,
-    SequenceSearchDef,
     SearchConstraintSearchSince,
-)
-from hotsos.core.plugins.openstack.openstack import (
-    OpenstackConfig,
-    OpenstackTimestampMatcher,
 )
 from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
-from hotsos.core.plugins.system.system import SystemBase
-from hotsos.core.plugins.kernel.sysfs import CPU
+from hotsos.core.plugins.openstack.nova import NovaLibvirt
 from hotsos.core import utils
 
 EVENTCALLBACKS = CallbackHelper()
 
 
 class OpenstackInstanceChecks(OpenstackChecksBase):
-
-    def _get_cpu_models(self, etc_libvirt_qemu):
-        """ Get CPU models used by instances. """
-        cpu_models = {}
-        if not self.nova.instances:
-            return cpu_models
-
-        guests = []
-        seqs = {}
-        s = FileSearcher()
-        for i in self.nova.instances.values():
-            guests.append(i.name)
-            start = SearchDef(r"\s+<cpu .+>")
-            body = SearchDef(r".+")
-            end = SearchDef(r"\s+</cpu>")
-            tag = "{}.cpu".format(i.name)
-            seqs[i.name] = SequenceSearchDef(start=start, body=body,
-                                             end=end, tag=tag)
-            path = os.path.join(etc_libvirt_qemu, "{}.xml".format(i.name))
-            s.add(seqs[i.name], path)
-
-        results = s.run()
-        for guest in guests:
-            sections = results.find_sequence_sections(seqs[guest]).values()
-            for section in sections:
-                for r in section:
-                    if 'body' in r.tag:
-                        if '<model' in r.get(0):
-                            ret = re.search(r'.+>(\S+)<.+', r.get(0))
-                            if ret:
-                                model = ret.group(1)
-                                if model in cpu_models:
-                                    cpu_models[model] += 1
-                                else:
-                                    cpu_models[model] = 1
-
-        return cpu_models
-
-    def _get_vcpu_info(self, etc_libvirt_qemu):
-        vcpu_info = {}
-        if not self.nova.instances:
-            return vcpu_info
-
-        guests = []
-        s = FileSearcher()
-        for i in self.nova.instances.values():
-            guests.append(i.name)
-            tag = "{}.vcpus".format(i.name)
-            path = os.path.join(etc_libvirt_qemu, "{}.xml".format(i.name))
-            s.add(SearchDef(".+vcpus>([0-9]+)<.+", tag=tag), path)
-
-        total_vcpus = 0
-        results = s.run()
-        for guest in guests:
-            for r in results.find_by_tag("{}.vcpus".format(guest)):
-                vcpus = r.get(1)
-                total_vcpus += int(vcpus)
-
-        vcpu_info["used"] = total_vcpus
-
-        sysinfo = SystemBase()
-        if sysinfo.num_cpus is None:
-            return vcpu_info
-
-        total_cores = sysinfo.num_cpus
-        vcpu_info["system-cores"] = total_cores
-
-        nova_config = OpenstackConfig(os.path.join(HotSOSConfig.data_root,
-                                                   "etc/nova/nova.conf"))
-        pinset = nova_config.get("vcpu_pin_set",
-                                 expand_to_list=True) or []
-        pinset += nova_config.get("cpu_dedicated_set",
-                                  expand_to_list=True) or []
-        pinset += nova_config.get("cpu_shared_set",
-                                  expand_to_list=True) or []
-        if pinset:
-            # if pinning is used, reduce total num of cores available
-            # to those included in nova cpu sets.
-            available_cores = len(set(pinset))
-        else:
-            available_cores = total_cores
-
-        vcpu_info["available-cores"] = available_cores
-
-        cpu = CPU()
-        # put this here so that available cores value has
-        # context
-        if cpu.smt is not None:
-            vcpu_info["smt"] = cpu.smt
-
-        factor = float(total_vcpus) / available_cores
-        vcpu_info["overcommit-factor"] = round(factor, 2)
-
-        return vcpu_info
 
     def __summary_vm_info(self):
         _info = {}
@@ -130,14 +28,12 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
         if instances:
             _info['running'] = [i.uuid for i in instances]
 
-        etc_libvirt_qemu = os.path.join(HotSOSConfig.data_root,
-                                        'etc/libvirt/qemu')
-
-        cpu_models = self._get_cpu_models(etc_libvirt_qemu)
+        novalibvirt = NovaLibvirt()
+        cpu_models = novalibvirt.cpu_models
         if cpu_models:
             _info["cpu-models"] = cpu_models
 
-        vm_vcpu_info = self._get_vcpu_info(etc_libvirt_qemu)
+        vm_vcpu_info = novalibvirt.vcpu_info
         if vm_vcpu_info:
             _info["vcpu-info"] = vm_vcpu_info
 
