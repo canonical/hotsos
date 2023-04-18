@@ -2,6 +2,7 @@ import os
 
 from searchkit import (   # noqa: F403,F401, pylint: disable=W0611
     FileSearcher as _FileSearcher,
+    ResultFieldInfo,
     SearchDef,
     SequenceSearchDef,
 )
