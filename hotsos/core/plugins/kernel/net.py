@@ -1,11 +1,14 @@
 import abc
 import os
-import re
-import itertools
-from typing import Iterator
+
+from collections import OrderedDict, UserList
+
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import SYSCtlFactory, CLIHelper
+from hotsos.core.search import FileSearcher, SearchDef, ResultFieldInfo
+from hotsos.core.utils import mktemp_dump
+from abc import abstractmethod, abstractproperty
 
 
 class ProcNetBase(abc.ABC):
@@ -398,170 +401,140 @@ class SockStat(ProcNetBase):
                              format(fld, self.__class__.__name__))
 
 
-class STOVParser(abc.ABC):
-    """Structured table of values parser.
+class STOVParserBase(UserList):
 
-    A common base class for table parsers.
-    """
+    def __init__(self):
+        self.data = []
+        self._load()
 
-    class LineObject(object):
-        def __init__(self, finfos, fvalues) -> None:
-            assert len(finfos) == len(fvalues)
-            for idx, (fname, ftype_info) in enumerate(finfos):
-                fvalue = fvalues[idx]
-                if fvalues[idx] is not None:
-                    if isinstance(ftype_info, type) or callable(ftype_info):
-                        try:
-                            fvalue = ftype_info(fvalue)
-                        except Exception as e:
-                            log.warning(
-                                "failed to parse %s as %s", fvalue, ftype_info)
-                            raise e
-                    else:
-                        raise Exception(
-                            f"Unknown type info value {ftype_info}")
-                setattr(self, fname, fvalue)
+    @abstractmethod
+    def _load(self):
+        """ Load data from source. """
 
-        def __str__(self) -> str:
-            # Return a | separated list of field_name:field_value's
-            return " | ".join(
-                # Get all attributes of the LineObject object, filter out
-                # the built-in ones and stringify the rest in "name:value"
-                # format
-                [f" {v}:{str(getattr(self, v))}" for v in filter(
-                    lambda x: not x.startswith("__"), dir(self))]
-            )
-
-    @abc.abstractmethod
-    def header_matcher(self) -> re.Pattern:
-        """Regex pattern for matching against the
-        table header, if any. It is used as a preliminary
-        check to see whether the input is in expected format.
+    @abstractproperty
+    def _search_field_info(self):
+        """
+        Returns a ResultFieldInfo object to make columns addressable by their
+        name as well as mapping them to a specific type.
         """
 
-    @abc.abstractmethod
-    def field_matcher(self) -> re.Pattern:
-        """Regex pattern to extract each field from a
-        table row. Each field MUST be represented as a
-        regex capture group. The amount of capture groups
-        MUST be same with the field number.
-        """
+    @abstractproperty
+    def _header_matcher(self):
+        """ python.re regular expression to match each header. """
 
-    @abc.abstractproperty
+    @abstractproperty
+    def _field_matcher(self):
+        """ python.re regular expression to match each row. """
+
+    @abstractproperty
     def fields(self):
-        """ (name, type|func) pairs, describing each field's
-        respective name and the data type (or a parser function).
-        All extracted fields will be put as an attribute with the
-        designated field name and the "value" will be either;
-          - casted to "type" if the second value of the pair is a
-            type name
-          - passed to "func" as an argument if the second value of
-            the pair is a callable "thing". The called "thing" must
-            return the desired version of the value to be stored.
+        """
+        This is a dictionary of fields exposed by this object along with their
+        type. This provides an opportunity to split/translate fields into sub
+        fields but can also mirror _search_field_info.
         """
 
-    @abc.abstractmethod
-    def input(self) -> Iterator[str]:
-        """The raw input. The parser will call this function to obtain
-        an iterator to the raw data, and use header_matcher & field_matcher
-        to parse the data.
-        """
 
-    def __init__(self) -> None:
-        super().__init__()
-        self._data = []
+class FieldTranslator(object):
 
-    def data(self):
-        return self._data
+    def __init__(self, result, translations):
+        self.result = result
+        self.translations = translations
 
-    def parse(self):
-        input = self.input()
-        hdr_m = self.header_matcher()
-        fld_m = self.field_matcher()
+    def __getattr__(self, key):
+        if key in self.translations:
+            return self.translations[key](self.result)
 
-        # Header matcher is optional.
-        if hdr_m:
-            try:
-                # Skip empty lines, if any
-                input = itertools.dropwhile(lambda x: x.isspace(), input)
-                hline = next(input).lstrip()
-                if not hdr_m.match(hline):
-                    log.warning(
-                        "badness: header line is not in expected format: '%s'",
-                        hline)
-                    return
-            except StopIteration:
-                return
-
-        for line in input:
-            match = fld_m.match(line)
-            if not match:
-                log.warning("badness: line does not match format: '%s'", line)
-                continue
-            try:
-                self._data.append(STOVParser.LineObject(
-                    self.fields, match.groups()))
-            except Exception as e:
-                log.warning("badness: failed to parse statistics line "
-                            " bad data `%s` (%s)",
-                            line, e)
+        return getattr(self.result, key)
 
 
-class Lsof(STOVParser):
+class Lsof(STOVParserBase):
     """
     Provides a way to extract fields from lsof output.
 
     Expected file format is:
 
-    COMMAND PID TID USER  FD TYPE DEVICE SIZE/OFF  NODE NAME
-    systemd   1        0 cwd  DIR    9,1     4096     2 /
-    systemd   1        0 rtd  DIR    9,1     4096     2 /
-    systemd   1        0 txt  REG    9,1  1589552 54275 /lib/
-    systemd   1        0 mem  REG    9,1    18976 51133 /lib/
+    COMMAND PID TID TASKCMD USER  FD TYPE DEVICE SIZE/OFF  NODE NAME
+    systemd   1                0 cwd  DIR    9,1     4096     2 /
+    systemd   1                0 rtd  DIR    9,1     4096     2 /
+    systemd   1                0 txt  REG    9,1  1589552 54275 /lib/
+    systemd   1                0 mem  REG    9,1    18976 51133 /lib/
     /*...*/
     """
 
-    def header_matcher(self):
-        return re.compile(
-            r"COMMAND +PID +TID +USER +FD "
-            r"+TYPE +DEVICE +SIZE/OFF +NODE +NAME\n")
+    def _load(self):
+        search = FileSearcher()
+        ftmp = mktemp_dump(''.join(CLIHelper().lsof_bMnlP()))
+        search.add(SearchDef(self._header_matcher, tag='header'), ftmp)
+        search.add(SearchDef(self._field_matcher, tag='content',
+                             field_info=self._search_field_info), ftmp)
+        results = search.run()
+        for r in results.find_by_tag('content'):
+            self.data.append(r)
 
-    def field_matcher(self):
-        return re.compile(
-            r"([^ ]+) +([^ ]+) +([^ ]+)? +([^ ]+) "
-            r"+([^ ]+) +([^ ]+) +([^ ]+) +([^ ]+) "
-            r"+([^ ]+) +(.*)\n")
+    def _int_if_numeric(self, value):
+        if value.isnumeric():
+            return int(value)
 
-    def input(self):
-        yield from CLIHelper().lsof_bMnlP() or []
+        return value
+
+    def _strip(self, value):
+        return value.strip()
+
+    @property
+    def _search_field_info(self):
+        finfo = OrderedDict({'COMMAND': str, 'PID': int, 'TID': int,
+                             'TASKCMD': str, 'USER': int, 'FD': str,
+                             'TYPE': str, 'DEVICE': str, 'SIZE/OFF': str,
+                             # NOTE(mkg): Although this column is designated as
+                             #            `inode` number, sockets tend to write
+                             #            L4 protocol name (e.g. TCP) here as
+                             #            well..
+                             'NODE': self._int_if_numeric,
+                             'NAME': self._strip})
+        return ResultFieldInfo(finfo)
+
+    @property
+    def _header_matcher(self):
+        expr = []
+        for key in self._search_field_info.keys():
+            # TASKCMD might not exist on older systems.
+            if key in ['TASKCMD']:
+                expr.append('(?:TASKCMD)?')
+            else:
+                expr.append(key)
+
+        return r'\s+'.join(expr)
+
+    @property
+    def _field_matcher(self):
+        expr = []
+        for key, vtype in self._search_field_info.items():
+            if vtype == int:
+                _expr = r'(\d+)'
+            elif key == 'NAME':
+                _expr = r'(\S+\s*\S*)'
+            else:
+                _expr = r'(\S+)'
+
+            # These fields can be empty/None
+            if key in ['TID', 'TASKCMD', 'TYPE', 'DEVICE', 'SIZE/OFF', 'NODE']:
+                _expr = '{}?'.format(_expr)
+
+            expr.append(_expr)
+
+        return r'\s*' + r'\s+'.join(expr)
 
     @property
     def fields(self):
-        return [
-            ('command', str),
-            ('pid', int),
-            ('tid', int),
-            ('user', int),
-            ('fd', str),
-            ('type', str),
-            ('device', str),
-            ('size_off', str),
-            # Although this column is designated as `inode` number,
-            # sockets tend to write L4 protocol name (e.g. TCP)
-            # here as well..
-            ('node', lambda x: int(x) if x.isnumeric() else x),
-            ('name', lambda x: x.strip())
-        ]
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.parse()
+        """ This has a one-to-one mapping. """
+        return self._search_field_info
 
     def all_with_inode(self, inode):
-        return list(filter(lambda x: (x.node == inode), self._data))
+        return list(filter(lambda x: (x.NODE == inode), self.data))
 
 
-class NetLink(STOVParser):
+class NetLink(STOVParserBase):
     """
     Provides a way to extract fields from /proc/net/netlink.
 
@@ -573,56 +546,69 @@ class NetLink(STOVParser):
     /*...*/
     """
 
-    def header_matcher(self):
-        return re.compile(
-            r"sk +Eth +Pid +Groups +Rmem +Wmem +Dump +Locks +Drops +Inode\n")
+    def _load(self):
+        search = FileSearcher()
+        path = os.path.join(HotSOSConfig.data_root, 'proc/net/netlink')
+        search.add(SearchDef(self._header_matcher, tag='header'), path)
+        search.add(SearchDef(self._field_matcher, tag='content',
+                             field_info=self._search_field_info), path)
+        results = search.run()
+        for r in results.find_by_tag('content'):
+            self.data.append(FieldTranslator(r, self.fields))
 
-    def field_matcher(self):
-        return re.compile(
-            r"(\d+) +(\d+) +(\d+) +([\da-fA-F]+) "
-            r"+(\d+) +(\d+) +(\d+) +(\d+) +(\d+) "
-            r"+(\d+) *\n")
+    @property
+    def _search_field_info(self):
+        finfo = OrderedDict({'sk': int, 'Eth': int, 'Pid': int,
+                             'Groups': str, 'Rmem': int, 'Wmem': int,
+                             'Dump': int, 'Locks': int, 'Drops': int,
+                             'Inode': int})
+        return ResultFieldInfo(finfo)
 
-    def input(self):
-        path = os.path.join(HotSOSConfig.data_root,
-                            'proc/net/netlink')
-        if not os.path.exists(path):
-            log.debug("file not found '%s' - skipping load", path)
-            return []
+    @property
+    def _header_matcher(self):
+        return r'\s+'.join(self._search_field_info.keys())
 
-        yield from open(path)
+    @property
+    def _field_matcher(self):
+        expr = []
+        for vtype in self._search_field_info.values():
+            if vtype == int:
+                _expr = r'(\d+)'
+            else:
+                _expr = r'(\S+)'
+
+            expr.append(_expr)
+
+        return r'\s*' + r'\s+'.join(expr)
 
     @property
     def fields(self):
-        return [
+        return {
             # socket pointer addr
-            ('sk_addr', lambda v: int(v, 16)),
+            'sk_addr': lambda result: int(str(getattr(result, 'sk')), 16),
             # which protocol this socket belongs in this network family
-            ('sk_protocol', int),
+            'sk_protocol': lambda result: getattr(result, 'sk'),
             # Netlink port id (Pid)
-            ('netlink_port_id', int),
+            'netlink_port_id': lambda result: getattr(result, 'Pid'),
             # Netlink groups
-            ('netlink_groups', lambda v: int(v, 16)),
+            'netlink_groups': lambda result: int(str(getattr(result,
+                                                             'Groups')), 16),
             # Allocated rmem for the socket
-            ('sk_rmem', int),
+            'sk_rmem': lambda result: getattr(result, 'Rmem'),
             # Allocated wmem for the socket
-            ('sk_wmem', int),
+            'sk_wmem': lambda result: getattr(result, 'Wmem'),
             # Netlink dump running?
-            ('netlink_dump', int),
+            'netlink_dump': lambda result: getattr(result, 'Dump'),
             # Socket reference count
-            ('sk_references', int),
+            'sk_references': lambda result: getattr(result, 'Locks'),
             # Dropped packet counter
-            ('sk_drops', int),
+            'sk_drops': lambda result: getattr(result, 'Drops'),
             # Socket's inode number
-            ('sk_inode_num', int)
-        ]
-
-    def __init__(self) -> None:
-        super().__init__()
-        self.parse()
+            'sk_inode_num': lambda result: getattr(result, 'Inode'),
+        }
 
     def all_with_drops(self):
-        v = list(filter(lambda x: (x.sk_drops > 0), self._data))
+        v = list(filter(lambda x: (x.sk_drops > 0), self.data))
         if v:
             # Correlate netlink sockets with process id's by inode
             # only if there's matching data.
@@ -630,5 +616,5 @@ class NetLink(STOVParser):
             for nlsock in v:
                 correlate_result = lsof.all_with_inode(nlsock.sk_inode_num)
                 nlsock.procs = set(
-                    [f"{v.command}/{v.pid}" for v in correlate_result])
+                    [f"{v.COMMAND}/{v.PID}" for v in correlate_result])
         return v
