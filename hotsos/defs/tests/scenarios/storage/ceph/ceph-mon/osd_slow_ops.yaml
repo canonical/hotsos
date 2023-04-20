@@ -1,10 +1,11 @@
 data-root:
   files:
     var/log/ceph/ceph.log: |
-      2022-03-18T18:36:14.293172+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766581 : cluster [WRN] Health check update: 3 slow ops, oldest one blocked for 65 sec, daemons [osd.12,osd.22,osd.6] have slow ops. (SLOW_OPS)
-      2022-03-18T18:36:19.295103+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766590 : cluster [WRN] Health check update: 0 slow ops, oldest one blocked for 41 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
-      2022-03-18T18:36:24.296782+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766593 : cluster [WRN] Health check update: 1 slow ops, oldest one blocked for 45 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
-      2022-03-18T18:36:29.298882+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766603 : cluster [WRN] Health check update: 2 slow ops, oldest one blocked for 51 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+      2022-02-09T18:35:14.293172+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766581 : cluster [WRN] Health check update: 3 slow ops, oldest one blocked for 65 sec, daemons [osd.12,osd.22,osd.6] have slow ops. (SLOW_OPS)
+      2022-02-09T18:36:14.293172+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766581 : cluster [WRN] Health check update: 3 slow ops, oldest one blocked for 65 sec, daemons [osd.12,osd.22,osd.6] have slow ops. (SLOW_OPS)
+      2022-02-09T18:36:19.295103+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766590 : cluster [WRN] Health check update: 0 slow ops, oldest one blocked for 41 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+      2022-02-09T18:36:24.296782+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766593 : cluster [WRN] Health check update: 1 slow ops, oldest one blocked for 45 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
+      2022-02-09T18:36:29.298882+0000 mon.juju-a79b06-10-lxd-0 (mon.0) 9766603 : cluster [WRN] Health check update: 2 slow ops, oldest one blocked for 51 sec, daemons [osd.12,osd.13] have slow ops. (SLOW_OPS)
   copy-from-original:
     - sos_commands/date/date
     - sos_commands/systemd/systemctl_list-units
