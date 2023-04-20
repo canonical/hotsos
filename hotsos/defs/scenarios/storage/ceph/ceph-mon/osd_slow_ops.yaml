@@ -4,7 +4,13 @@ checks:
   osd_slow_ops:
     input:
       path: var/log/ceph/ceph*.log
-    expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ slow ops, oldest one blocked .+'
+    search:
+      expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ slow ops, oldest one blocked .+'
+      constraints:
+        # i.e. must occur 5 times within same 24 hour period
+        min-results: 5
+        search-period-hours: 1
+        search-result-age-hours: 24
   ceph_interfaces_have_errors:
     property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors
 conclusions:
