@@ -262,6 +262,36 @@ class TestCLIHelper(utils.BaseTestCase):
             helper = host_helpers.cli.CLIHelper()
             self.assertEqual(helper.ovs_ofctl_show(bridge='br-int'), [])
 
+    @mock.patch.object(host_helpers.cli.CLIHelper, 'command_catalog',
+                       {'sleep': [host_helpers.cli.BinCmd('time sleep 2')]})
+    def test_cli_timeout(self):
+        cli = host_helpers.cli.CLIHelper()
+        orig_cfg = HotSOSConfig.CONFIG
+        try:
+            # ensure bin command executed
+            HotSOSConfig.data_root = '/'
+            HotSOSConfig.command_timeout = 1
+            out = cli.sleep()
+            # a returned [] implies an exception was raised and caught
+            self.assertEqual(out, [])
+        finally:
+            # restore
+            HotSOSConfig.set(**orig_cfg)
+
+    @mock.patch.object(host_helpers.cli.CLIHelper, 'command_catalog',
+                       {'sleep': [host_helpers.cli.BinCmd('time sleep 1')]})
+    def test_cli_no_timeout(self):
+        cli = host_helpers.cli.CLIHelper()
+        orig_cfg = HotSOSConfig.CONFIG
+        try:
+            # ensure bin command executed
+            HotSOSConfig.data_root = '/'
+            out = cli.sleep()
+            self.assertEqual(len(out), 2)
+        finally:
+            # restore
+            HotSOSConfig.set(**orig_cfg)
+
 
 class TestSystemdHelper(utils.BaseTestCase):
 
