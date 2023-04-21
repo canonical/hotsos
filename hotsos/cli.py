@@ -160,6 +160,9 @@ def get_prefix(data_root):
 
 def main():
     @click.command(name='hotsos')
+    @click.option('--command-timeout', default=HotSOSConfig.command_timeout,
+                  help=('Amount of time command execution will wait before '
+                        'timing out and moving on.'))
     @click.option('--allow-constraints-for-unverifiable-logs', default=False,
                   is_flag=True)
     @click.option('--output-path', default=None,
@@ -248,7 +251,8 @@ def main():
             force, full, agent_error_key_by_time, event_tally_granularity,
             max_logrotate_depth, max_parallel_tasks, list_plugins,
             machine_readable, output_path,
-            allow_constraints_for_unverifiable_logs, **kwargs):
+            allow_constraints_for_unverifiable_logs, command_timeout,
+            **kwargs):
         """
         Run this tool on a host or against an unpacked sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -289,6 +293,7 @@ def main():
 
         _version = get_version()
         HotSOSConfig.hotsos_version = _version
+        HotSOSConfig.command_timeout = command_timeout
 
         if version:
             print(_version)

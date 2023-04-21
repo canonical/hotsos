@@ -102,6 +102,12 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
                                         "'time' to get the corresponding "
                                         "granularity of results."),
                            default_value='date'))
+        self.add(ConfigOpt(name='command_timeout',
+                           description=("Maximum time in seconds before "
+                                        "command execution will timeout. Used "
+                                        "by host_helpers.cli when executing "
+                                        "binary commands"),
+                           default_value=300))
 
     @property
     def name(self):

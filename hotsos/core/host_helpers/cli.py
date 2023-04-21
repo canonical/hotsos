@@ -11,6 +11,10 @@ from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.common import HostHelpersBase
 
+CLI_COMMON_EXCEPTIONS = (OSError, subprocess.CalledProcessError,
+                         subprocess.TimeoutExpired,
+                         json.JSONDecodeError)
+
 
 class CLIExecError(Exception):
 
@@ -28,7 +32,12 @@ def catch_exceptions(*exc_types):
             try:
                 return f(*args, **kwargs)
             except exc_types as exc:
-                log.debug("%s: %s", type(exc), exc)
+                msg = "{}: {}".format(type(exc), exc)
+                if isinstance(exc, subprocess.TimeoutExpired):
+                    log.info(msg)
+                else:
+                    log.debug(msg)
+
                 if type(exc) == json.JSONDecodeError:
                     raise CLIExecError(return_value={}) from exc
 
@@ -153,8 +162,7 @@ class BinCmd(CmdBase):
         self.json_decode = self.original_json_decode
         self.singleline = self.original_singleline
 
-    @catch_exceptions(OSError, subprocess.CalledProcessError,
-                      json.JSONDecodeError)
+    @catch_exceptions(*CLI_COMMON_EXCEPTIONS)
     @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
@@ -167,7 +175,9 @@ class BinCmd(CmdBase):
             cmd = cmd.format(**kwargs)
 
         _cmd = cmd.split() + self.original_cmd_extras
-        output = subprocess.check_output(_cmd, stderr=subprocess.STDOUT)
+        output = subprocess.check_output(_cmd,
+                                         timeout=HotSOSConfig.command_timeout,
+                                         stderr=subprocess.STDOUT)
 
         if self.json_decode:
             return json.loads(output.decode('UTF-8'))
@@ -195,8 +205,7 @@ class FileCmd(CmdBase):
         self.json_decode = self.original_json_decode
         self.singleline = self.original_singleline
 
-    @catch_exceptions(OSError, subprocess.CalledProcessError,
-                      json.JSONDecodeError)
+    @catch_exceptions(*CLI_COMMON_EXCEPTIONS)
     @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
@@ -230,8 +239,7 @@ class BinFileCmd(FileCmd):
     """ This is used when we are executing an actual binary/command against a
     file. """
 
-    @catch_exceptions(OSError, subprocess.CalledProcessError,
-                      json.JSONDecodeError)
+    @catch_exceptions(*CLI_COMMON_EXCEPTIONS)
     @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
@@ -258,6 +266,7 @@ class BinFileCmd(FileCmd):
 
         # Now split into a command and run
         output = subprocess.check_output(self.path.split(),
+                                         timeout=HotSOSConfig.command_timeout,
                                          stderr=subprocess.STDOUT, env=env)
 
         return output.decode('UTF-8').splitlines(keepends=True)
@@ -415,7 +424,8 @@ class DateFileCmd(FileCmd):
         if format:
             cmd.append(format)
 
-        output = subprocess.check_output(cmd)
+        output = subprocess.check_output(cmd,
+                                         timeout=HotSOSConfig.command_timeout)
         # date sometimes adds multiple whitespaces between fields so collapse
         # them.
         output = re.compile(r"\s+").sub(' ', output.decode('UTF-8'))
