@@ -1,0 +1,55 @@
+target-name: rgw_frontend.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  librgw2  15.2.14-0ubuntu0.20.04.1   amd64
+    sos_commands/ceph_mon/ceph_report: |
+      { "servicemap": {
+        "epoch": 448225,
+        "modified": "2023-03-06T09:55:01.348690+0000",
+        "services": {
+            "rgw": {
+                "daemons": {
+                    "summary": "",
+                    "hostname_xyz": {
+                        "start_epoch": 448150,
+                        "start_stamp": "2023-03-06T06:00:18.992140+0000",
+                        "gid": 572814700,
+                        "addr": "172.25.80.91:0/2078728304",
+                        "metadata": {
+                            "arch": "x86_64",
+                            "ceph_release": "octopus",
+                            "ceph_version": "ceph version 15.2.14 (cd3bb7e87a2f62c1b862ff3fd8b1eec13391a5be) octopus (stable)",
+                            "ceph_version_short": "15.2.14",
+                            "cpu": "Intel(R) Xeon(R) Gold 6240R CPU @ 2.40GHz",
+                            "distro": "ubuntu",
+                            "distro_description": "Ubuntu 20.04.3 LTS",
+                            "distro_version": "20.04",
+                            "frontend_config#0": "civetweb port=423",
+                            "frontend_type#0": "civetweb",
+                            "hostname": "hostname_xyz",
+                            "kernel_description": "#100-Ubuntu SMP Fri Sep 24 14:50:10 UTC 2021",
+                            "kernel_version": "5.4.0-89-generic",
+                            "mem_swap_kb": "31248380",
+                            "mem_total_kb": "196685076",
+                            "num_handles": "1",
+                            "os": "Linux",
+                            "pid": "2617246",
+                            "zone_id": "ec68b007-968b-4e1a-a928-27f7aff4a558",
+                            "zone_name": "xyz",
+                            "zonegroup_id": "e8fdad5a-e096-4eb0-b3bf-844d65b15a8b",
+                            "zonegroup_name": "default"
+                        },
+                        "task_status": {}
+                    }}}}}}
+
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephRGWWarning: >-
+    Ceph RGW is using the 'civetweb' frontend. You are recommended to switch to 'beast'
+    which provides better performance (civetweb has been removed from Ceph Pacific
+    (16.2.0) onwards). Upgrading the ceph-radosgw charm (from stable/21.10 or newer) will
+    switch to use the beast frontend.

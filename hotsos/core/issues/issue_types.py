@@ -84,6 +84,10 @@ class CephMgrError(IssueTypeBase):
     pass
 
 
+class CephRGWWarning(IssueTypeBase):
+    pass
+
+
 class CephDaemonWarning(IssueTypeBase):
     pass
 

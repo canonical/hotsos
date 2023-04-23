@@ -316,6 +316,21 @@ class CephCrushMap(object):
         pools = self.ceph_report['osdmap']['pools']
         return [p for p in pools if p.get('pg_autoscale_mode') != 'on']
 
+    @cached_property
+    def is_rgw_using_civetweb(self):
+        if not self.ceph_report:
+            return []
+
+        try:
+            rgws = self.ceph_report['servicemap']['services']['rgw']['daemons']
+            for _, outer_d in rgws.items():
+                if isinstance(outer_d, dict):
+                    if outer_d['metadata']['frontend_type#0'] == 'civetweb':
+                        return True
+        except(ValueError, KeyError):
+            pass
+        return False
+
 
 class CephCluster(object):
     OSD_META_LIMIT_PERCENT = 5

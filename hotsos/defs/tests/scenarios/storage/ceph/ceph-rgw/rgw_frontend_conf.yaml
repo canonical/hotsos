@@ -1,0 +1,19 @@
+target-name: rgw_frontend.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  librgw2  15.2.14-0ubuntu0.20.04.1   amd64
+    etc/ceph/ceph.conf: |
+      [client.rgw.xyz]
+      host = xyz
+      rgw frontends = civetweb port=423
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephRGWWarning: >-
+    Ceph RGW is using the 'civetweb' frontend. You are recommended to switch to 'beast'
+    which provides better performance (civetweb has been removed from Ceph Pacific
+    (16.2.0) onwards). Upgrading the ceph-radosgw charm (from stable/21.10 or newer) will
+    switch to use the beast frontend.

@@ -1,0 +1,31 @@
+checks:
+  node_is_ceph_rgw_and_beast_supported_version:
+    apt:
+      librgw2:
+        - min: 14.2.0
+          max: 100.0.0
+  rgw_outdated_frontend:
+    config:
+      handler: hotsos.core.plugins.storage.ceph.CephConfig
+      assertions:
+        - key: rgw_frontends
+          ops: [[ne, null]]
+        - key: rgw_frontends
+          ops: [[contains, civetweb]]
+  is_rgw_using_civetweb:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCrushMap.is_rgw_using_civetweb
+conclusions:
+  rgw_outdated_frontend:
+    decision:
+      - node_is_ceph_rgw_and_beast_supported_version
+      - or:
+        - is_rgw_using_civetweb
+        - rgw_outdated_frontend
+    raises:
+      type: CephRGWWarning
+      message: >-
+        Ceph RGW is using the 'civetweb' frontend. You are recommended to switch to 'beast'
+        which provides better performance (civetweb has been removed from Ceph Pacific
+        (16.2.0) onwards). Upgrading the ceph-radosgw charm (from stable/21.10 or newer) will
+        switch to use the beast frontend.
