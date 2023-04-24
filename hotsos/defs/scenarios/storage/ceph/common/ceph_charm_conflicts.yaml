@@ -1,0 +1,42 @@
+vars:
+  local_charms: '@hotsos.core.plugins.juju.JujuChecksBase.charms'
+checks:
+  ceph_osd_has_conflicts:
+    varops: [[$local_charms], [contains, ceph-osd]]
+    or:
+      - varops: [[$local_charms], [contains, ceph-mon]]
+      - varops: [[$local_charms], [contains, ceph-fs]]
+      - varops: [[$local_charms], [contains, ceph-radosgw]]
+  ceph_mon_has_conflicts:
+    varops: [[$local_charms], [contains, ceph-mon]]
+    or:
+      - varops: [[$local_charms], [contains, ceph-fs]]
+      - varops: [[$local_charms], [contains, ceph-osd]]
+      - varops: [[$local_charms], [contains, ceph-radosgw]]
+  ceph_fs_has_conflicts:
+    varops: [[$local_charms], [contains, ceph-fs]]
+    or:
+      - varops: [[$local_charms], [contains, ceph-mon]]
+      - varops: [[$local_charms], [contains, ceph-osd]]
+      - varops: [[$local_charms], [contains, ceph-radosgw]]
+  ceph_radosgw_has_conflicts:
+    varops: [[$local_charms], [contains, ceph-radosgw]]
+    or:
+      - varops: [[$local_charms], [contains, ceph-fs]]
+      - varops: [[$local_charms], [contains, ceph-mon]]
+      - varops: [[$local_charms], [contains, ceph-osd]]
+conclusions:
+  ceph_charm_conflicts:
+    decision:
+      or:
+        - ceph_fs_has_conflicts
+        - ceph_mon_has_conflicts
+        - ceph_osd_has_conflicts
+        - ceph_radosgw_has_conflicts
+    raises:
+      type: CephWarning
+      message: >-
+        This host is running more than one ceph charm (ceph-osd, ceph-mon etc)
+        which is not supported and will lead to unexpected behaviour such
+        as conflicts when more than one charm writes ceph.conf at once.
+
