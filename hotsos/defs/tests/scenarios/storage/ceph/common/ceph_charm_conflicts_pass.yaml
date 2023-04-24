@@ -1,0 +1,9 @@
+target-name: ceph_charm_conflicts.yaml
+mock:
+  patch:
+    hotsos.core.plugins.juju.JujuChecksBase.charms:
+      kwargs:
+        new:
+          ceph-osd: foo
+# none expected
+raised-issues:

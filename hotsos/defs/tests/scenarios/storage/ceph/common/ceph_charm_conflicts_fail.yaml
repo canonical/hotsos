@@ -1,0 +1,13 @@
+target-name: ceph_charm_conflicts.yaml
+mock:
+  patch:
+    hotsos.core.plugins.juju.JujuChecksBase.charms:
+      kwargs:
+        new:
+          ceph-osd: foo
+          ceph-radosgw: foo
+raised-issues:
+  CephWarning: >-
+    This host is running more than one ceph charm (ceph-osd, ceph-mon etc) which is not
+    supported and will lead to unexpected behaviour such as conflicts when more than one
+    charm writes ceph.conf at once.

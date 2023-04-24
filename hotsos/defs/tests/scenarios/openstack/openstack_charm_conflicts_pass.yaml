@@ -1,0 +1,9 @@
+target-name: openstack_charm_conflicts.yaml
+mock:
+  patch:
+    hotsos.core.plugins.juju.JujuChecksBase.charms:
+      kwargs:
+        new:
+          neutron-api: foo
+# none expected
+raised-issues:

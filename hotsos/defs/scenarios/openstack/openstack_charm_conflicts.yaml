@@ -1,0 +1,26 @@
+vars:
+  local_charms: '@hotsos.core.plugins.juju.JujuChecksBase.charms'
+checks:
+  neutron_conflicts:
+    - varops: [[$local_charms], [contains, neutron-api]]
+    - varops: [[$local_charms], [contains, neutron-gateway]]
+  nova_conflicts:
+    - varops: [[$local_charms], [contains, nova-cloud-controller]]
+    - varops: [[$local_charms], [contains, nova-compute]]
+conclusions:
+  neutron_charm_conflicts:
+    decision: neutron_conflicts
+    raises:
+      type: OpenstackWarning
+      message: >-
+        This host is running both neutron-api and neutron-gateway charms
+        which is not supported and will lead to unexpected behaviour such
+        as conflicts when more than one charm writes neutron.conf at once.
+  nova_charm_conflicts:
+    decision: nova_conflicts
+    raises:
+      type: OpenstackWarning
+      message: >-
+        This host is running both nova-cloud-controller and nova-compute charms
+        which is not supported and will lead to unexpected behaviour such
+        as conflicts when more than one charm writes nova.conf at once.
