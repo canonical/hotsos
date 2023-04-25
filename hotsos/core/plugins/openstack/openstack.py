@@ -45,7 +45,20 @@ OST_EOL_INFO = {
 
 
 OST_REL_INFO = {
+    'aodh-common': {
+        'antelope': '1:16.0.0',
+        'zed': '1:15.0.0',
+        'yoga': '1:14.0.0',
+        'xena': '1:13.0.0',
+        'wallaby': '1:12.0.0',
+        'victoria': '11.0.0',
+        'ussuri': '10.0.0',
+        'train': '9.0.0',
+        'stein': '8.0.0',
+        'rocky': '7.0.0',
+        'queens': '6.0.0'},
     'barbican-common': {
+        'antelope': '2:16.0.0',
         'zed': '2:15.0.0',
         'yoga': '2:14.0.0',
         'xena': '1:13.0.0',
@@ -57,6 +70,7 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'cinder-common': {
+        'antelope': '2:22.0.0',
         'zed': '2:21.0.0',
         'yoga': '2:20.0.0',
         'xena': '2:19.0.0',
@@ -68,6 +82,7 @@ OST_REL_INFO = {
         'rocky': '2:13.0.0',
         'queens': '2:12.0.0'},
     'designate-common': {
+        'antelope': '1:16.0.0',
         'zed': '1:15.0.0',
         'yoga': '1:14.0.0',
         'xena': '1:13.0.0',
@@ -79,6 +94,7 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'glance-common': {
+        'antelope': '2:26.0.0',
         'zed': '2:25.0.0',
         'yoga': '2:24.0.0',
         'xena': '2:23.0.0',
@@ -90,6 +106,7 @@ OST_REL_INFO = {
         'rocky': '2:17.0.0',
         'queens': '2:16.0.0'},
     'heat-common': {
+        'antelope': '1:20.0.0',
         'zed': '1:19.0.0',
         'yoga': '1:18.0.0',
         'xena': '1:17.0.0',
@@ -101,6 +118,7 @@ OST_REL_INFO = {
         'rocky': '1:11.0.0',
         'queens': '1:10.0.0'},
     'keystone': {
+        'antelope': '2:23.0.0',
         'zed': '2:22.0.0',
         'yoga': '2:21.0.0',
         'xena': '2:20.0.0',
@@ -113,26 +131,8 @@ OST_REL_INFO = {
         'queens': '2:13.0.0',
         'pike': '2:12.0.0',
         'ocata': '2:11.0.0'},
-    'nova-common': {
-        'zed': '3:26.0.0',
-        'yoga': '3:25.0.0',
-        'xena': '3:24.0.0',
-        'wallaby': '3:23.0.0',
-        'victoria': '2:22.0.0',
-        'ussuri': '2:21.0.0',
-        'train': '2:20.0.0',
-        'stein': '2:19.0.0',
-        'rocky': '2:18.0.0',
-        'queens': '2:17.0.0',
-        'pike': '2:16.0.0',
-        'ocata': '2:15.0.0',
-        'newton': '2:14.0.0',
-        'mitaka': '2:13.0.0',
-        'liberty': '2:12.0.0',
-        'kilo': '1:2015.1.0',
-        'juno': '1:2014.2.0',
-        'icehouse': '1:2014.1.0'},
     'masakari-common': {
+        'antelope': '15.0.0',
         'zed': '14.0.0',
         'yoga': '13.0.0',
         'xena': '12.0.0',
@@ -143,6 +143,7 @@ OST_REL_INFO = {
         'stein': '7.0.0',
         'rocky': '6.0.0'},
     'neutron-common': {
+        'antelope': '2:22.0.0',
         'zed': '2:21.0.0',
         'yoga': '2:20.0.0',
         'xena': '2:19.0.0',
@@ -161,7 +162,28 @@ OST_REL_INFO = {
         'kilo': '1:2015.1.0',
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
+    'nova-common': {
+        'antelope': '3:27.0.0',
+        'zed': '3:26.0.0',
+        'yoga': '3:25.0.0',
+        'xena': '3:24.0.0',
+        'wallaby': '3:23.0.0',
+        'victoria': '2:22.0.0',
+        'ussuri': '2:21.0.0',
+        'train': '2:20.0.0',
+        'stein': '2:19.0.0',
+        'rocky': '2:18.0.0',
+        'queens': '2:17.0.0',
+        'pike': '2:16.0.0',
+        'ocata': '2:15.0.0',
+        'newton': '2:14.0.0',
+        'mitaka': '2:13.0.0',
+        'liberty': '2:12.0.0',
+        'kilo': '1:2015.1.0',
+        'juno': '1:2014.2.0',
+        'icehouse': '1:2014.1.0'},
     'octavia-common': {
+        'antelope': '1:12.0.0',
         'zed': '1:11.0.0',
         'yoga': '1:10.0.0',
         'xena': '1:9.0.0',
@@ -172,6 +194,7 @@ OST_REL_INFO = {
         'stein': '4.0.0',
         'rocky': '3.0.0'},
     'openstack-dashboard-common': {
+        'antelope': '4:23.1.0',
         'zed': '4:22.2.0',
         'yoga': '4:22.0.0',
         'xena': '4:20.0.0',
@@ -181,7 +204,17 @@ OST_REL_INFO = {
         'train': '3:16.0.0',
         'stein': '3:15.0.0',
         'rocky': '3:14.0.0',
-        'queens': '3:13.0.0'}
+        'queens': '3:13.0.0'},
+    'placement-common': {
+        'antelope': '1:9.0.0',
+        'zed': '1:8.0.0',
+        'yoga': '1:7.0.0',
+        'xena': '1:6.0.0',
+        'wallaby': '1:5.0.0',
+        'victoria': '4.0.0',
+        'ussuri': '3.0.0',
+        'train': '2.0.0',
+        'stein': '1.0.0'}
     }
 
 OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
