@@ -1,7 +1,9 @@
 checks:
   octavia_worker_installed:
-    - property: hotsos.core.plugins.openstack.octavia.OctaviaBase.installed
-    - systemd: octavia-worker
+    property: hotsos.core.plugins.openstack.octavia.OctaviaBase.installed
+    or:
+      systemd: octavia-worker
+      pebble: octavia-worker
   hm_port_has_no_packet_drops_or_errors:
     property: hotsos.core.plugins.openstack.octavia.OctaviaBase.hm_port_healthy
   hm_port_address_check:

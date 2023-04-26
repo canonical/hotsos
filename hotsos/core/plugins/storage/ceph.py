@@ -20,9 +20,9 @@ from hotsos.core.host_helpers import (
     CLIHelper,
     DPKGVersionCompare,
     HostNetworkingHelper,
+    PebbleHelper,
     SystemdHelper,
     SectionalConfigBase,
-    SVC_EXPR_TEMPLATES,
 )
 from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
 from hotsos.core.plugins.storage import StorageBase
@@ -808,7 +808,7 @@ class CephDaemonBase(object):
             if not ret:
                 continue
 
-            expt_tmplt = SVC_EXPR_TEMPLATES["absolute"]
+            expt_tmplt = SystemdHelper.PS_CMD_EXPR_TEMPLATES['absolute']
             ret = re.compile(expt_tmplt.format(daemon)).search(line)
             if ret:
                 ps_info.append(ret.group(0))
@@ -896,6 +896,7 @@ class CephChecksBase(StorageBase):
         self.bcache = BcacheBase()
         self.apt = APTPackageHelper(core_pkgs=CEPH_PKGS_CORE,
                                     other_pkgs=CEPH_PKGS_OTHER)
+        self.pebble = PebbleHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
         self.cli = CLIHelper()

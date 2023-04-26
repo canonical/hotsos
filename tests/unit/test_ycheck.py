@@ -187,6 +187,15 @@ pluginX:
             max: '5.2'
 """
 
+YAML_DEF_REQUIRES_PEBBLE_FAIL = """
+pluginX:
+  groupA:
+    requires:
+      pebble:
+        foo:
+          state: active
+"""
+
 
 YAML_DEF_REQUIRES_SYSTEMD_PASS_1 = """
 pluginX:
@@ -1290,6 +1299,12 @@ class TestYamlChecks(utils.BaseTestCase):
                 self.assertEqual(entry.requires.passes, result)
 
         self.assertEqual(tested, len(expected))
+
+    def test_yaml_def_requires_pebble_fail(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_PEBBLE_FAIL))
+        for entry in mydef.leaf_sections:
+            self.assertFalse(entry.requires.passes)
 
     def test_yaml_def_requires_systemd_pass(self):
         mydef = YDefsSection('mydef',

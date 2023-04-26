@@ -2,6 +2,7 @@ from datetime import datetime
 import os
 
 from hotsos.core import host_helpers
+from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.exceptions import (
     EXCEPTIONS_COMMON,
@@ -308,6 +309,11 @@ class OSTProject(object):
     def services(self):
         exprs = self.services_expr
         info = host_helpers.SystemdHelper(service_exprs=exprs)
+        if not info.services:
+            log.debug("no systemd services found for '%s' - trying pebble",
+                      self.name)
+            info = host_helpers.PebbleHelper(service_exprs=exprs)
+
         return info.services
 
     def log_paths(self, include_deprecated_services=True):

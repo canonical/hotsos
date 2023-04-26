@@ -663,6 +663,39 @@ CACHE_KEYS
   revision
 ```
 
+#### pebble
+Takes a pebble service and optionally some parameters to check.
+Returns True if service exists and, if provided, parameters match.
+Short and long forms are supported as follows.
+
+format
+
+```
+pebble: <service name>  (state not checked here)
+
+or
+
+pebble: [svc1, svc2 ...]  (state not checked here)
+
+or
+
+pebble: SVCS
+
+where SVCS is a dict of one or more services e.g.
+
+pebble:
+  service_name:
+    state: <service state>
+    op: <python operator>  (optional. default is 'eq')
+    processes: list of processes we expect to be running  (optional)
+  ...
+```
+
+```
+CACHE_KEYS
+  services
+```
+
 #### systemd
 Takes a systemd service and optionally some parameters to check.
 Returns True if service exists and, if provided, parameters match.

@@ -107,6 +107,8 @@ class JujuSummary(JujuChecksBase):
     def __summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
+        elif self.pebble.services:
+            return self.pebble.summary
 
     @idx(1)
     def __summary_version(self):

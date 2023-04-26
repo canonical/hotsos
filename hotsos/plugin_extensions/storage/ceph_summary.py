@@ -15,6 +15,8 @@ class CephSummary(CephChecksBase):
         """Get string info for running services."""
         if self.systemd.services:
             return self.systemd.summary
+        elif self.pebble.services:
+            return self.pebble.summary
 
     @idx(2)
     def __summary_dpkg(self):
