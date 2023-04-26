@@ -1,5 +1,9 @@
 from hotsos.core import plugintools
-from hotsos.core.host_helpers import APTPackageHelper, SystemdHelper
+from hotsos.core.host_helpers import (
+    APTPackageHelper,
+    PebbleHelper,
+    SystemdHelper,
+)
 from hotsos.core.plugins.rabbitmq.report import RabbitMQReport
 
 RMQ_SERVICES_EXPRS = [
@@ -24,6 +28,7 @@ class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.apt = APTPackageHelper(core_pkgs=RMQ_PACKAGES)
+        self.pebble = PebbleHelper(service_exprs=RMQ_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=RMQ_SERVICES_EXPRS)
 
     @property

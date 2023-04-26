@@ -8,13 +8,8 @@ from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers.common import ServiceManagerBase
 from hotsos.core.utils import cached_property, sorted_dict
-
-SVC_EXPR_TEMPLATES = {
-    "absolute": r".+\S+bin/({})(?:\s+.+|$)",
-    "snap": r".+\S+\d+/({})(?:\s+.+|$)",
-    "relative": r".+\s({})(?:\s+.+|$)",
-    }
 
 
 class SystemdService(object):
@@ -64,19 +59,11 @@ class SystemdService(object):
                        self.has_instances))
 
 
-class SystemdHelper(object):
+class SystemdHelper(ServiceManagerBase):
     """ Helper class used to query systemd services. """
 
-    def __init__(self, service_exprs, ps_allow_relative=True):
-        """
-        @param service_exprs: list of python.re expressions used to match
-                              service names.
-        @param ps_allow_relative: whether to allow commands to be identified
-                                  from ps as run using an relative binary
-                                  path e.g. mycmd as opposed to /bin/mycmd.
-        """
-        self._ps_allow_relative = ps_allow_relative
-        self._service_exprs = set(service_exprs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._cached_unit_files_exprs = {}
 
     @cached_property
@@ -125,7 +112,7 @@ class SystemdHelper(object):
         return self._cached_unit_files_exprs[svc_name_expr]
 
     @cached_property
-    def services(self):
+    def services(self):  # pylint: disable=W0236
         """
         Return a dict of identified systemd services and their state.
 
@@ -190,18 +177,6 @@ class SystemdHelper(object):
 
         return self._service_info.get('masked', [])
 
-    def get_process_cmd_from_line(self, line, expr):
-        for expr_type, expr_tmplt in SVC_EXPR_TEMPLATES.items():
-            if expr_type == 'relative' and not self._ps_allow_relative:
-                continue
-
-            ret = re.compile(expr_tmplt.format(expr)).match(line)
-            if ret:
-                svc = ret.group(1)
-                log.debug("matched process %s with %s expr", svc,
-                          expr_type)
-                return svc
-
     def get_services_expanded(self, name):
         _expanded = []
         for line in self._systemctl_list_units:
@@ -256,11 +231,11 @@ class SystemdHelper(object):
         return ps_filtered
 
     @cached_property
-    def processes(self):
+    def processes(self):  # pylint: disable=W0236
         """
         Identify running processes from ps that are associated with resolved
-        systemd services. The same search pattern used for identifying systemd
-        services is to match the process binary name.
+        systemd services. The search pattern used to identify a service is also
+        used to match the process binary name.
 
         Returns a dictionary of process names along with the number of each.
         """
@@ -278,12 +253,14 @@ class SystemdHelper(object):
 
                 /var/lib/<svc> and /var/log/<svc>
                 """
-                cmd = self.get_process_cmd_from_line(line, expr)
-                if cmd:
-                    if cmd in _proc_info:
-                        _proc_info[cmd] += 1
-                    else:
-                        _proc_info[cmd] = 1
+                cmd = self.get_cmd_from_ps_line(line, expr)
+                if not cmd:
+                    continue
+
+                if cmd in _proc_info:
+                    _proc_info[cmd] += 1
+                else:
+                    _proc_info[cmd] = 1
 
         return _proc_info
 

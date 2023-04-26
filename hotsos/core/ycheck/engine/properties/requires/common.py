@@ -193,3 +193,51 @@ class YRequirementTypeWithOpsBase(YRequirementTypeBase):
             return self.default_ops
 
         return self.content.get('ops', self.default_ops)
+
+
+class ServiceCheckItemsBase(CheckItemsBase):
+
+    @cached_property
+    def _started_after_services(self):
+        svcs = []
+        for _, settings in self:
+            if type(settings) != dict:
+                continue
+
+            svc = settings.get('started-after')
+            if svc:
+                svcs.append(svc)
+
+        return svcs
+
+    @cached_property
+    def _services_to_check(self):
+        return [item[0] for item in self]
+
+    @property
+    def _svcs_all(self):
+        """
+        We include started-after services since if a check has specified one it
+        is expected to exist for that check to pass.
+        """
+        return self._services_to_check + self._started_after_services
+
+    @property
+    @abc.abstractmethod
+    def _svcs_info(self):
+        """ ServiceManagerBase implementation with _svcs_all as input. """
+
+    @cached_property
+    def not_installed(self):
+        _installed = self.installed.keys()
+        return set(_installed).symmetric_difference(self._svcs_all)
+
+    @cached_property
+    def installed(self):
+        return self._svcs_info.services
+
+    def processes_running(self, processes):
+        """ Check any processes provided. """
+        a = set(processes)
+        b = set(self._svcs_info.processes.keys())
+        return a.issubset(b)

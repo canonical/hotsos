@@ -4,8 +4,11 @@ checks:
   pr_installed:
     apt: pacemaker-remote
   pr_enabled:
-    systemd:
-      pacemaker_remote: enabled
+    or:
+      systemd:
+        pacemaker_remote: enabled
+      pebble:
+        pacemaker_remote: active 
 conclusions:
   pacemaker_not_installed:
     priority: 2

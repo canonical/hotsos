@@ -13,13 +13,15 @@ from .packaging import (  # noqa: F403,F401
     DockerImageHelper,
     SnapPackageHelper,
 )
+from .pebble import (  # noqa: F403,F401
+    PebbleHelper,
+)
 from .ssl import (  # noqa: F403,F401
     SSLCertificate,
     SSLCertificatesHelper,
 )
 from .systemd import (  # noqa: F403,F401
     SystemdHelper,
-    SVC_EXPR_TEMPLATES,
 )
 from .uptime import (  # noqa: F403,F401
     UptimeHelper,

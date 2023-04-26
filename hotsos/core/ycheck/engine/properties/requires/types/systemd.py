@@ -4,57 +4,16 @@ from hotsos.core.log import log
 from hotsos.core.host_helpers import SystemdHelper
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
-    CheckItemsBase,
+    ServiceCheckItemsBase,
     YRequirementTypeBase,
 )
-from hotsos.core.utils import cached_property
 
 
-class ServiceCheckItems(CheckItemsBase):
-
-    @cached_property
-    def _started_after_services(self):
-        svcs = []
-        for _, settings in self:
-            if type(settings) != dict:
-                continue
-
-            svc = settings.get('started-after')
-            if svc:
-                svcs.append(svc)
-
-        return svcs
-
-    @cached_property
-    def _services_to_check(self):
-        return [item[0] for item in self]
+class SystemdServiceCheckItems(ServiceCheckItemsBase):
 
     @property
-    def _svcs_all(self):
-        """
-        We include started-after services since if a check has specified one it
-        is expected to exist for that check to pass.
-        """
-        return self._services_to_check + self._started_after_services
-
-    @cached_property
     def _svcs_info(self):
         return SystemdHelper(self._svcs_all)
-
-    @cached_property
-    def not_installed(self):
-        _installed = self.installed.keys()
-        return set(_installed).symmetric_difference(self._svcs_all)
-
-    @cached_property
-    def installed(self):
-        return self._svcs_info.services
-
-    def processes_running(self, processes):
-        """ Check any processes provided. """
-        a = set(processes)
-        b = set(self._svcs_info.processes.keys())
-        return a.issubset(b)
 
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
@@ -118,7 +77,7 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
         default_op = 'eq'
         _result = True
 
-        items = ServiceCheckItems(self.content)
+        items = SystemdServiceCheckItems(self.content)
         if not items.not_installed:
             for svc, settings in items:
                 svc_obj = items.installed[svc]

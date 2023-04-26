@@ -5,4 +5,5 @@ from .common import (  # noqa: F403,F401
     YRequirementTypeBase,
     YRequirementTypeWithOpsBase,
     PackageCheckItemsBase,
+    ServiceCheckItemsBase,
 )

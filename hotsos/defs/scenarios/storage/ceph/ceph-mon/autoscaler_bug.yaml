@@ -28,9 +28,13 @@ checks:
           max: 17.2.0-0ubuntu4
     # NOTE: this is in fact already checked by the root requirements for ceph-mon checks
     # but since those are not currently loaded by unit tests we do this here as well.
-    systemd:
-      ceph-mon:
-        state: enabled
+    or:
+      systemd:
+        ceph-mon:
+          state: enabled
+      pebble:
+        ceph-mon:
+          state: active
   autoscaler_enabled:
     varops: [[$autoscaler_enabled_pools], [length_hint]]
   autoscaler_disabled:

@@ -1,5 +1,9 @@
 from hotsos.core import plugintools
-from hotsos.core.host_helpers import APTPackageHelper, SystemdHelper
+from hotsos.core.host_helpers import (
+    APTPackageHelper,
+    PebbleHelper,
+    SystemdHelper,
+)
 from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.utils import cached_property, sorted_dict
 
@@ -30,6 +34,7 @@ class OpenvSwitchChecksBase(plugintools.PluginPartBase):
         p_deps = OVS_PKGS_DEPS + [PY_CLIENT_PREFIX.format(p)
                                   for p in OVS_PKGS_DEPS]
         self.apt = APTPackageHelper(core_pkgs=p_core, other_pkgs=p_deps)
+        self.pebble = PebbleHelper(service_exprs=OVS_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=OVS_SERVICES_EXPRS)
 
     @cached_property

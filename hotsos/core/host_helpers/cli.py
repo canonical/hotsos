@@ -513,6 +513,7 @@ class SourceRunner(object):
             return NullSource()()
 
         # binary sources only apply if data_root is system root
+        bin_out = None
         for bsource in [s for s in self.sources if s.TYPE == "BIN"]:
             cache = False
             # NOTE: we currently only support caching commands with no
@@ -524,18 +525,21 @@ class SourceRunner(object):
                     return out
 
             try:
-                out = bsource(*args, **kwargs)
+                bin_out = bsource(*args, **kwargs)
+                if cache and bin_out is not None:
+                    try:
+                        self.cache.save(self.cmdkey, bin_out)
+                    except pickle.PicklingError as exc:
+                        log.info("unable to cache command '%s' output: %s",
+                                 self.cmdkey, exc)
+
+                # if command executed but returned nothing that still counts
+                # as success.
+                break
             except CLIExecError as exc:
-                return exc.return_value
+                bin_out = exc.return_value
 
-            if cache and out is not None:
-                try:
-                    self.cache.save(self.cmdkey, out)
-                except pickle.PicklingError as exc:
-                    log.info("unable to cache command '%s' output: %s",
-                             self.cmdkey, exc)
-
-            return out
+        return bin_out
 
 
 class CLICacheWrapper(object):
@@ -837,6 +841,14 @@ class CLIHelper(HostHelpersBase):
             'pacemaker_crm_status':
                 [BinCmd('crm status'),
                  FileCmd('sos_commands/pacemaker/crm_status')],
+            'pebble_services':
+                [BinCmd('pebble services'),
+                 # This is how operator charms run it
+                 BinCmd('/charm/bin/pebble services'),
+                 # The following does not exist in sosreport yet but adding
+                 # since it is useful for testing and will hopefully be
+                 # supported in sos at some point.
+                 FileCmd('sos_commands/pebble/pebble_services')],
             'ps':
                 [BinCmd('ps auxwww'),
                  FileCmd('ps')],

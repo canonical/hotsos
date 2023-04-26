@@ -20,6 +20,7 @@ from hotsos.core.host_helpers import (
     APTPackageHelper,
     DockerImageHelper,
     DPKGVersionCompare,
+    PebbleHelper,
     SystemdHelper,
     SSLCertificate,
     SSLCertificatesHelper,
@@ -93,8 +94,9 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ost_projects = OSTProjectCatalog()
-        self.systemd = SystemdHelper(
-                           service_exprs=self.ost_projects.service_exprs)
+        service_exprs = self.ost_projects.service_exprs
+        self.pebble = PebbleHelper(service_exprs=service_exprs)
+        self.systemd = SystemdHelper(service_exprs=service_exprs)
         self.apt = APTPackageHelper(
                        core_pkgs=self.ost_projects.packages_core_exprs,
                        other_pkgs=self.ost_projects.packages_dep_exprs)

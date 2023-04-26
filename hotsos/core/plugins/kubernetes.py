@@ -5,6 +5,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     HostNetworkingHelper,
+    PebbleHelper,
     SnapPackageHelper,
     SystemdHelper,
 )
@@ -107,6 +108,7 @@ class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase):
         snap_deps = deps + K8S_PACKAGE_DEPS_SNAP
         self.snaps = SnapPackageHelper(core_snaps=K8S_PACKAGES,
                                        other_snaps=snap_deps)
+        self.pebble = PebbleHelper(service_exprs=SERVICES)
         self.systemd = SystemdHelper(service_exprs=SERVICES)
 
     @property

@@ -9,5 +9,7 @@
 # if necessary.
 requires:
   # ensures that a ceph-mon unit is enabled but does not assert that it is active
-  systemd:
-    ceph-mon: enabled
+  or:
+    systemd:
+      ceph-mon: enabled
+    pebble: ceph-mon
