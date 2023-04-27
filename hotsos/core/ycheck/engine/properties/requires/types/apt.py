@@ -27,14 +27,18 @@ class APTCheckItems(PackageCheckItemsBase):
 
     def package_version_within_ranges(self, pkg, versions):
         result = False
-        version = self.packaging_helper.get_version(pkg)
-        for item in sorted(versions, key=lambda i: i['max'],
-                           reverse=True):
-            v_max = str(item['max'])
+        versions = sorted(versions, key=lambda i: i['min'], reverse=True)
+        pkg_version = self.packaging_helper.get_version(pkg)
+        for item in versions:
             v_min = str(item['min'])
-            lte_max = version <= DPKGVersionCompare(v_max)
+            if 'max' in item:
+                v_max = str(item['max'])
+                lte_max = pkg_version <= DPKGVersionCompare(v_max)
+            else:
+                lte_max = True
+
             if v_min:
-                lt_broken = version < DPKGVersionCompare(v_min)
+                lt_broken = pkg_version < DPKGVersionCompare(v_min)
             else:
                 lt_broken = None
 
@@ -49,7 +53,7 @@ class APTCheckItems(PackageCheckItemsBase):
             break
 
         log.debug("package %s=%s within version ranges %s "
-                  "(result=%s)", pkg, version, versions, result)
+                  "(result=%s)", pkg, pkg_version, versions, result)
         return result
 
 

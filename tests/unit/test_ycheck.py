@@ -26,6 +26,9 @@ from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
 )
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
+from hotsos.core.ycheck.engine.properties.requires.types.apt import (
+    APTCheckItems,
+)
 
 
 class TestProperty(YPropertyBase):
@@ -705,6 +708,81 @@ conclusions:
       type: SystemWarning
       message:
 """
+
+DPKG_L = """
+ii  openssh-server                       1:8.2p1-4ubuntu0.4                                   amd64        secure shell (SSH) server, for secure access from remote machines
+"""  # noqa
+
+
+class TestYamlCheckRequiresTypes(utils.BaseTestCase):
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_true(self):
+        ci = APTCheckItems('ssh')
+        result = ci.package_version_within_ranges('openssh-server',
+                                                  [{'min': '1:8.2',
+                                                    'max': '1:8.3'}])
+        self.assertEqual(result, True)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_false(self):
+        ci = APTCheckItems('ssh')
+        result = ci.package_version_within_ranges('openssh-server',
+                                                  [{'min': '1:8.2',
+                                                    'max': '1:8.2'}])
+        self.assertEqual(result, False)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_multi(self):
+        ci = APTCheckItems('ssh')
+        result = ci.package_version_within_ranges('openssh-server',
+                                                  [{'min': '1:8.0',
+                                                    'max': '1:8.1'},
+                                                   {'min': '1:8.2',
+                                                    'max': '1:8.3'}])
+        self.assertEqual(result, True)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_no_max_true(self):
+        ci = APTCheckItems('ssh')
+        result = ci.package_version_within_ranges('openssh-server',
+                                                  [{'min': '1:8.0'},
+                                                   {'min': '1:8.1'},
+                                                   {'min': '1:8.2'},
+                                                   {'min': '1:8.3'}])
+        self.assertEqual(result, True)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_no_max_false(self):
+        ci = APTCheckItems('ssh')
+        result = ci.package_version_within_ranges('openssh-server',
+                                                  [{'min': '1:8.3'},
+                                                   {'min': '1:8.4'},
+                                                   {'min': '1:8.5'}])
+        self.assertEqual(result, False)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_mixed_true(self):
+        ci = APTCheckItems('ssh')
+        result = ci.package_version_within_ranges('openssh-server',
+                                                  [{'min': '1:8.0'},
+                                                   {'min': '1:8.1',
+                                                    'max': '1:8.1.1'},
+                                                   {'min': '1:8.2'},
+                                                   {'min': '1:8.3'}])
+        self.assertEqual(result, True)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_mixed_false(self):
+        ci = APTCheckItems('ssh')
+        result = ci.package_version_within_ranges('openssh-server',
+                                                  [{'min': '1:8.0'},
+                                                   {'min': '1:8.1',
+                                                    'max': '1:8.1.1'},
+                                                   {'min': '1:8.2',
+                                                    'max': '1:8.2'},
+                                                   {'min': '1:8.3'}])
+        self.assertEqual(result, False)
 
 
 class TestYamlChecks(utils.BaseTestCase):

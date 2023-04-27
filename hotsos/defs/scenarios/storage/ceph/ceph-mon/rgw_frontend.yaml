@@ -3,7 +3,6 @@ checks:
     apt:
       librgw2:
         - min: 14.2.0
-          max: 100.0.0
   rgw_outdated_frontend:
     config:
       handler: hotsos.core.plugins.storage.ceph.CephConfig
