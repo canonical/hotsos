@@ -13,6 +13,7 @@ from hotsos.core.search import (
     SearchDef,
     SearchConstraintSearchSince,
 )
+from hotsos.core.utils import cached_property
 
 
 class AgentExceptionCheckResults(UserDict):
@@ -180,7 +181,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
             self.searchobj.add(sd, logs_path,
                                allow_global_constraints=constraints)
 
-    def load(self):
+    def _load(self):
         """Register searches for exceptions as well as any other type of issue
         we might want to catch like warnings etc which may not be errors or
         exceptions.
@@ -234,7 +235,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
                     self._add_agent_searches(project, agent, path,
                                              expr_template)
 
-    def run(self, search_results):
+    def _run(self, search_results):
         """ Process search results to see if we got any hits.
 
         @param search_results: a searchkit.SearchResultsCollection object.
@@ -271,18 +272,18 @@ class AgentExceptionChecks(OpenstackChecksBase):
         self.cache.set('agent_exceptions', agent_exceptions)
         return agent_exceptions
 
-    def execute(self):
-        self.load()
-        return self.run(self.searchobj.run())
+    @cached_property
+    def agent_results(self):
+        self._load()
+        return self._run(self.searchobj.run())
 
     def __summary_agent_warnings(self):
         """
         Only WARNING level exceptions
         """
-        exc_info = self.execute()
-        if exc_info and 'warning' in exc_info:
+        if self.agent_results and 'warning' in self.agent_results:
             _exc_info = {}
-            for svc, results in exc_info['warning'].items():
+            for svc, results in self.agent_results['warning'].items():
                 _exc_info[svc] = dict(results)
 
             return {agent: dict(info) for agent, info in _exc_info.items()}
@@ -291,10 +292,9 @@ class AgentExceptionChecks(OpenstackChecksBase):
         """
         Only ERROR level exceptions
         """
-        exc_info = self.execute()
-        if exc_info and 'error' in exc_info:
+        if self.agent_results and 'error' in self.agent_results:
             _exc_info = {}
-            for svc, results in exc_info['error'].items():
+            for svc, results in self.agent_results['error'].items():
                 _exc_info[svc] = dict(results)
 
             return {agent: dict(info) for agent, info in _exc_info.items()}

@@ -1053,7 +1053,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
         inst = agent.exceptions.AgentExceptionChecks()
         files = {}
         logs = {}
-        for loglevel, services in inst.execute().items():
+        for loglevel, services in inst.agent_results.items():
             for service, results in services.items():
                 files[service] = (
                               len(results.files_w_exceptions),
@@ -1147,7 +1147,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
         inst = agent.exceptions.AgentExceptionChecks()
         files = {}
         exceptions = {}
-        for loglevel, services in inst.execute().items():
+        for loglevel, services in inst.agent_results.items():
             for service, results in services.items():
                 files[service] = (len(results.files_w_exceptions),
                                   os.path.basename(
