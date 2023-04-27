@@ -1,10 +1,10 @@
 ovs-vswitchd:
   input:
     path: 'var/log/openvswitch/ovs-vswitchd.log'
-  hint: '(ERR|WARN)'
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
+  hint: '(ERR|WARN|EMER)'
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN|EMER)\|.+'
 ovsdb-server:
   input:
     path: 'var/log/openvswitch/ovsdb-server.log'
-  hint: '(ERR|WARN)'
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN)\|.+'
+  hint: '(ERR|WARN|EMER)'
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|(ERR|ERROR|WARN|EMER)\|.+'
