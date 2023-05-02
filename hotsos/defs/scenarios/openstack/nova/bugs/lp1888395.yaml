@@ -1,0 +1,25 @@
+checks:
+  has_1888395_pt1:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: '.+NotImplementedError: Cannot load ''vifs'' in the base class'
+    hint: 'NotImplementedError'
+  has_1888395_pt2:
+    apt:
+      nova-common:
+        # train
+        - min: 2:20.0.0
+          max: 2:20.6.0-0ubuntu0
+        # ussuri
+        - min: 2:21.0.0
+          max: 2:21.1.2-0ubuntu1
+conclusions:
+  lp1888395:
+    decision:
+      - has_1888395_pt1
+      - has_1888395_pt2
+    raises:
+      type: LaunchpadBug
+      bug-id: 1888395
+      message: known nova bug identified
+

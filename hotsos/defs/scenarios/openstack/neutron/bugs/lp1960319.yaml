@@ -1,0 +1,21 @@
+checks:
+  has_1960319_log:
+    input: var/log/neutron/neutron-server.log
+    expr: '(\S+\s+[\d:]+).\S+ .+ ovsdbapp.event FileNotFoundError: \[Errno 2\] No such file or directory: ''ovsdb-client'''
+    constraints:
+      search-result-age-hours: 168  # 7 days
+  has_1960319_package:
+    apt: openvswitch-common
+conclusions:
+  lp_1960319:
+    decision:
+      - has_1960319_log
+      - not: has_1960319_package
+    raises:
+      type: LaunchpadBug
+      bug-id: 1960319
+      message: >-
+        neutron-server is reporting that ovsdb-client is not installed so is
+        unable to perform some tasks. This is because package 'openvswitch-common'
+        is missing. To workaround the problem you can manually install this
+        package.

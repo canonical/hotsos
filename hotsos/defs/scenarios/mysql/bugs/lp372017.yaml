@@ -1,0 +1,14 @@
+checks:
+  free_blocks_difficult:
+    input:
+      path: 'var/log/mysql/error.log'
+    expr: '(.+ \d+) (\d+:\d+:\d+) .+ (\S+) Difficult to find free blocks in the buffer pool'
+conclusions:
+  lp372017:
+    decision: free_blocks_difficult
+    raises:
+      type: LaunchpadBug
+      bug-id: 372017
+      message: >-
+        mariabackup ran out of innodb buffer pool.
+        See https://jira.mariadb.org/browse/MDEV-26784

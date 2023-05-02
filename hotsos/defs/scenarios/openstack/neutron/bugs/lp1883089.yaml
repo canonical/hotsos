@@ -1,0 +1,15 @@
+checks:
+  has_1883089:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
+    hint: 'AttributeError'
+conclusions:
+  lp1883089:
+    decision: has_1883089
+    raises:
+      type: LaunchpadBug
+      bug-id: 1883089
+      message: >-
+        Known neutron l3-agent bug identified that affects dvr floating ips.
+

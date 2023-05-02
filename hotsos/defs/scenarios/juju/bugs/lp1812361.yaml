@@ -1,0 +1,16 @@
+checks:
+  has_lp1812361:
+    input: 'var/log/juju/unit-glance-simplestreams-sync*.log'
+    expr: '.* Missing required data: internal_host internal_port'
+conclusions:
+  lp1812361:
+    decision: has_lp1812361
+    raises:
+      type: LaunchpadBug
+      bug-id: 1812361
+      message: >-
+        A known glance-simplestream-sync bug has been identified - this happens because
+        the relation data received from keystone is missing some
+        expected settings (internal_host and internal_port). Upgrading
+        charm-keystone to version >= stable/539 should fix the problem.
+

@@ -1,0 +1,37 @@
+vars:
+  bluestore_volume_selection_policy: '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_volume_selection_policy:CephDaemonConfigShow'
+  bluestore_cache_onode: '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_cache_onode:CephDaemonDumpMemPools'
+checks:
+  has_1996010_osd_log:
+    # NOTE: this needs quite a high debug level to appear - debug_bluestore=30/30
+    input: var/log/ceph/ceph-osd.*.log
+    expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ bluestore\.MempoolThread\(\S+\) _resize_shards max_shard_onodes: 0 '
+  has_1996010_mempools:
+    # this is a hack to check if a value less than 10 exists in the list
+    or:
+      - varops: [[$bluestore_cache_onode], [contains, 0]]
+      - varops: [[$bluestore_cache_onode], [contains, 1]]
+      - varops: [[$bluestore_cache_onode], [contains, 2]]
+      - varops: [[$bluestore_cache_onode], [contains, 3]]
+      - varops: [[$bluestore_cache_onode], [contains, 4]]
+      - varops: [[$bluestore_cache_onode], [contains, 5]]
+      - varops: [[$bluestore_cache_onode], [contains, 6]]
+      - varops: [[$bluestore_cache_onode], [contains, 7]]
+      - varops: [[$bluestore_cache_onode], [contains, 8]]
+      - varops: [[$bluestore_cache_onode], [contains, 9]]
+conclusions:
+  lp1996010:
+    decision:
+      or:
+        - has_1996010_osd_log
+        - has_1996010_mempools
+    raises:
+      type: LaunchpadBug
+      bug-id: 1996010
+      message: >-
+        One or more OSDs are reporting that their Bluestore onode cache might be completely disabled.
+        This is caused by an entry leak in bluestore_cache_other mempool and can cause high io latency
+        as size 0 cache will significantly increase the need to fetch metadata from rocksdb or
+        disk. Another potential impact is that it may hit hitting the race condition in Onode::put
+        (see https://tracker.ceph.com/issues/56382) which will crash osds, especially in large clusters.
+        You can check for the leaked bluestore_cache_other mempool in the output of "ceph daemon osd.id dump_mempools".

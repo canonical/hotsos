@@ -14,23 +14,6 @@ checks:
         - '^(\S+) (\S+) (?:ERROR|WARNING) unit\.([^\.]+)\.\S+ .+ Traceback \('
       constraints:
         search-result-age-hours: 48
-  has_unknown_relation_errors:
-    expr: '(\S+) (\S+) ERROR juju.worker.uniter agent.go:\d+ resolver loop error: unknown relation: \d+'
-    constraints:
-      # within 7 days
-      search-result-age-hours: 168
-  has_lp1812361:
-    input: 'var/log/juju/unit-glance-simplestreams-sync*.log'
-    expr: '.* Missing required data: internal_host internal_port'
-  has_lp1858519:
-    input: 'var/log/juju/unit-ceph-osd*.log'
-    expr: '.* Cannot zap a device used by lvm'
-  has_lp1910958:
-    expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
-    hint: 'manifold worker returned unexpected error'
-  has_lp1948906:
-    expr: '.* manifold worker .+ error: executing operation \"run post-series-upgrade hook\" for (\S+): upgrade series status \"complete running\"'
-    hint: 'manifold worker returned unexpected error'
 conclusions:
   units-have-leadership-errors:
     decision: units_have_leadership_errors
@@ -51,50 +34,3 @@ conclusions:
       format-dict:
         units: '@checks.units_have_tracebacks.search.results_group_2:comma_join'
         num_tracebacks: '@checks.units_have_tracebacks.search.results_group_2:len'
-  lp1812361:
-    decision: has_lp1812361
-    raises:
-      type: LaunchpadBug
-      bug-id: 1812361
-      message: >-
-        A known glance-simplestream-sync bug has been identified - this happens because
-        the relation data received from keystone is missing some
-        expected settings (internal_host and internal_port). Upgrading
-        charm-keystone to version >= stable/539 should fix the problem.
-  lp1858519:
-    decision: has_lp1858519
-    raises:
-      type: LaunchpadBug
-      bug-id: 1858519
-      message: >-
-        A known ceph-osd charm bug has been identified - charm tried to zap a disk but
-        failed since the disk has an LVM header. If you are sure the disk is
-        not in active use by LVM, you may run pvremove on it before using it as
-        an OSD - see LP bug for details.
-  lp1895040:
-    decision: has_unknown_relation_errors
-    raises:
-      type: LaunchpadBug
-      bug-id: 1895040
-      message: >-
-        One or more charms on this host has "unknown relation" errors which is
-        an indication of this bug. Upgrading Juju to a version >= 2.9.13 should
-        fix the problem.
-  lp1910958:
-    decision: has_lp1910958
-    raises:
-      type: LaunchpadBug
-      bug-id: 1910958
-      message: >-
-        Unit {} failed to start due to members in relation {} that cannot be
-        removed.
-      search-result-format-groups: [1, 2]
-  lp1948906:
-    decision: has_lp1948906
-    raises:
-      type: LaunchpadBug
-      bug-id: 1948906
-      message: >-
-        Juju post-series-upgrade failed, issues with unit {} - see LP bug for
-        workaround.
-      search-result-format-groups: [1]

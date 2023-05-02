@@ -1,0 +1,13 @@
+checks:
+  has_1944619:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: '.+attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device'
+    hint: 'libvirtError'
+conclusions:
+  lp1944619:
+    decision: has_1944619
+    raises:
+      type: LaunchpadBug
+      bug-id: 1944619
+      message: known nova bug identified

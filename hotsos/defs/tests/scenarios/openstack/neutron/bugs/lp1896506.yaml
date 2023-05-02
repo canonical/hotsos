@@ -1,0 +1,10 @@
+data-root:
+  files:
+    var/log/syslog: |
+      Apr  6 06:36:09 kermath Keepalived_vrrp[23396]: Unknown configuration entry 'no_track' for ip address - ignoring
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1896506: >-
+    Known neutron l3-agent bug identified that critically impacts keepalived.

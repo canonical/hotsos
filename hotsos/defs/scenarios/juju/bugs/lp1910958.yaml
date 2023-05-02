@@ -1,0 +1,16 @@
+checks:
+  has_lp1910958:
+    input:
+      path: 'var/log/juju/unit-*.log'
+    expr: '.* manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
+    hint: 'manifold worker returned unexpected error'
+conclusions:
+  lp1910958:
+    decision: has_lp1910958
+    raises:
+      type: LaunchpadBug
+      bug-id: 1910958
+      message: >-
+        Unit {} failed to start due to members in relation {} that cannot be
+        removed.
+      search-result-format-groups: [1, 2]

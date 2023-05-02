@@ -1,0 +1,45 @@
+checks:
+  has_1971565:
+    apt:
+      mysql-router:
+        # focal:
+        - min: 8.0.29-0ubuntu0.20.04.2
+          max: 8.0.29-0ubuntu0.20.04.2
+        # impish:
+        - min: 8.0.29-0ubuntu0.21.10.1
+          max: 8.0.29-0ubuntu0.21.10.1
+        # jammy:
+        - min: 8.0.29-0ubuntu0.22.04.1
+          max: 8.0.29-0ubuntu0.22.04.1
+  mysql_router_enabled:
+    or:
+      - systemd: aodh-mysql-router
+      - systemd: barbican-mysql-router
+      - systemd: cinder-mysql-router
+      - systemd: designate-mysql-router
+      - systemd: glance-mysql-router
+      - systemd: gnocchi-mysql-router
+      - systemd: heat-mysql-router
+      - systemd: keystone-mysql-router
+      - systemd: manila-mysql-router
+      - systemd: masakari-mysql-router
+      - systemd: neutron-api-mysql-router
+      - systemd: nova-cloud-controller-mysql-router
+      - systemd: octavia-mysql-router
+      - systemd: placement-mysql-router
+      - systemd: vault-mysql-router
+conclusions:
+  lp1971565:
+    decision:
+      - has_1971565
+      - mysql_router_enabled
+    raises:
+      type: LaunchpadBug
+      bug-id: 1971565
+      message: >-
+        Installed package '{package}' with version {version} has a known bug
+        that prevents mysql-router from starting. Please upgrade to the latest
+        version to fix this issue.
+      format-dict:
+        package: '@checks.has_1971565.requires.package'
+        version: '@checks.has_1971565.requires.version'

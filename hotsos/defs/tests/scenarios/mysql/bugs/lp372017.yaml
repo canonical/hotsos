@@ -1,0 +1,12 @@
+data-root:
+  files:
+    var/log/mysql/error.log: |
+      Aug  3 08:32:23 [Note] InnoDB: Starting a batch to recover 9962 pages from redo log.
+      Aug  3 08:32:23 [Warning] InnoDB: Difficult to find free blocks in the buffer pool (21 search iterations)! 21 failed attempts to flush a page! Consider increasing innodb_buffer_pool_size. Pending flushes (fsync) log: 0; buffer pool: 0. 582296 OS file reads, 504266 OS file writes, 2396 OS fsyncs.
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/372017: >-
+    mariabackup ran out of innodb buffer pool. See
+    https://jira.mariadb.org/browse/MDEV-26784
+

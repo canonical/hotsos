@@ -394,7 +394,8 @@ class TestCephMonSummary(CephMonTestsBase):
 class TestCephMonEvents(CephMonTestsBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('mon/monlogs.yaml'))
+                new=utils.is_def_filter('mon/monlogs.yaml',
+                                        'events/storage/ceph'))
     @mock.patch('hotsos.core.search.CLIHelper')
     def test_ceph_daemon_log_checker(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()

@@ -1,0 +1,13 @@
+data-root:
+  files:
+    var/log/juju/unit-rabbitmq-server-0.log: |
+      2022-02-17 08:18:44 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
+      2022-02-17 08:20:34 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: failed to initialize uniter for "unit-rabbitmq-server-0": cannot create relation state tracker: cannot remove persisted state, relation 236 has members
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1910958: >-
+    Unit unit-rabbitmq-server-0 failed to start due to members in relation 236
+    that cannot be removed.
+

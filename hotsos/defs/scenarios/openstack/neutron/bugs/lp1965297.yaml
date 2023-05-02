@@ -1,0 +1,15 @@
+checks:
+  has_1965297:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
+conclusions:
+  lp1965297:
+    decision: has_1965297
+    raises:
+      type: LaunchpadBug
+      bug-id: 1965297
+      message: >-
+        known neutron l3-agent bug identified that impacts HA routers and can
+        cause router updates to stall.
+

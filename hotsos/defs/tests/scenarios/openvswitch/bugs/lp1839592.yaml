@@ -1,0 +1,10 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  libc-bin 2.26-3ubuntu1.3 amd64
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1839592:
+    Installed package 'libc-bin' with version
+    2.26-3ubuntu1.3 has a known critical bug which
+    causes ovs deadlocks. If this environment is
+    using OVS it should be upgraded asap.

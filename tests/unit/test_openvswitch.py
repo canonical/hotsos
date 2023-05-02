@@ -175,7 +175,8 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 class TestOpenvswitchEvents(TestOpenvswitchBase):
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovs-vswitchd.yaml'))
+                new=utils.is_def_filter('ovs-vswitchd.yaml',
+                                        'events/openvswitch'))
     def test_ovs_vswitchd_checks(self):
         expected = {
             'ovs-vswitchd': {
@@ -187,7 +188,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('errors-and-warnings.yaml'))
+                new=utils.is_def_filter('errors-and-warnings.yaml',
+                                        'events/openvswitch'))
     def test_ovs_common_log_checks(self):
         expected = {
             'errors-and-warnings': {
@@ -205,7 +207,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('datapath-checks.yaml'))
+                new=utils.is_def_filter('datapath-checks.yaml',
+                                        'events/openvswitch'))
     @utils.create_data_root({('sos_commands/openvswitch/'
                               'ovs-appctl_dpctl.show_-s_system_ovs-system'):
                              DPCTL_SHOW,
@@ -222,7 +225,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn-central.yaml'))
+                new=utils.is_def_filter('ovn-central.yaml',
+                                        'events/openvswitch'))
     def test_ovn_central_checks(self):
         expected = {'ovsdb-server-sb': {
                         'inactivity-probe': {
@@ -246,7 +250,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn-controller.yaml'))
+                new=utils.is_def_filter('ovn-controller.yaml',
+                                        'events/openvswitch'))
     def test_ovn_controller_checks(self):
         expected = {'ovn-controller':
                     {'unreasonably-long-poll-interval': {
@@ -263,7 +268,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('errors-and-warnings.yaml'))
+                new=utils.is_def_filter('errors-and-warnings.yaml',
+                                        'events/openvswitch'))
     def test_ovn_common_log_checks(self):
         expected = {'errors-and-warnings': {
                         'ovn-controller': {
@@ -283,7 +289,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('bfd.yaml'))
+                new=utils.is_def_filter('bfd.yaml',
+                                        'events/openvswitch'))
     @utils.create_data_root({'var/log/openvswitch/ovs-vswitchd.log':
                              BFD_STATE_CHANGES},
                             copy_from_original=['sos_commands/date/date'])
@@ -301,7 +308,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn-central.yaml'))
+                new=utils.is_def_filter('ovn/ovn-central.yaml',
+                                        'events/openvswitch'))
     @utils.create_data_root({'var/log/ovn/ovsdb-server-nb.log':
                              LEADERSHIP_TRANSFERS,
                              'var/log/ovn/ovsdb-server-sb.log':
@@ -316,7 +324,8 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn-central.yaml'))
+                new=utils.is_def_filter('ovn/ovn-central.yaml',
+                                        'events/openvswitch'))
     @utils.create_data_root({'var/log/ovn/ovsdb-server-nb.log':
                              NBDB_COMPACTION,
                              'var/log/ovn/ovsdb-server-sb.log':
@@ -343,7 +352,8 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.systemd.'
                 'SystemdHelper')
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn_central_services.yaml'))
+                new=utils.is_def_filter('ovn_central_services.yaml',
+                                        'scenarios/openvswitch'))
     def test_ovn_northd_running(self, mock_systemd):
 
         class FakeSystemdHelper(object):
@@ -366,7 +376,8 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml'))
+                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml',
+                                        'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-central.crt': ''},
                             copy_from_original=['sos_commands/date/date',
@@ -394,7 +405,8 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
             self.assertEqual(len(issues), 0)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml'))
+                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml',
+                                        'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-central.crt': ''},
                             copy_from_original=['sos_commands/date/date',
@@ -426,7 +438,8 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
             self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
+                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml',
+                                        'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-chassis.crt': ''},
                             copy_from_original=['sos_commands/date/date',
@@ -449,7 +462,8 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
             self.assertEqual(len(issues), 0)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml'))
+                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml',
+                                        'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-chassis.crt': ''},
                             copy_from_original=['sos_commands/date/date',

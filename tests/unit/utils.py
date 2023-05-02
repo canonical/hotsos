@@ -1,6 +1,8 @@
 import os
 import importlib
 import mock
+import re
+import sys
 import yaml
 
 import shutil
@@ -25,6 +27,11 @@ TEST_TEMPLATE_SCHEMA = set(['target-name', 'data-root', 'mock',
 
 
 def find_all_templated_tests(path):
+    """
+    Generator to recursively find all templates (files) under path.
+
+    @return: path to test.
+    """
     for testdef in os.listdir(path):
         if testdef.endswith('.disabled'):
             continue
@@ -44,6 +51,7 @@ def load_templated_tests(path):
                  defs/tests.
     """
     def _inner(cls):
+        count = 0
         _path = os.path.join(DEFS_TESTS_DIR, path)
         for testdef in find_all_templated_tests(_path):
             tg = TemplatedTestGenerator(path, testdef)
@@ -52,8 +60,12 @@ def load_templated_tests(path):
                                 "a test with this name already exists".
                                 format(tg.test_method_name))
 
+            count += 1
             setattr(cls, tg.test_method_name, tg.test_method)
 
+        if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') == 'yes':
+            sys.stderr.write("[test template loader] loaded {} templated "
+                             "test(s) from {}\n".format(count, path))
         return cls
 
     return _inner
@@ -62,7 +74,8 @@ def load_templated_tests(path):
 class TemplatedTest(object):
 
     def __init__(self, target_path, data_root, mocks, expected_bugs,
-                 expected_issues):
+                 expected_issues, sub_root):
+        self.sub_root = sub_root
         self.target_path = target_path
         self.data_root = data_root
         self.mocks = mocks
@@ -128,7 +141,7 @@ class TemplatedTest(object):
         @create_data_root(self.data_root.get('files'),
                           self.data_root.get('copy-from-original'))
         @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                    new=is_def_filter(self.target_path))
+                    new=is_def_filter(self.target_path, self.sub_root))
         def inner(test_inst):
             patch_contexts = []
             if 'patch' in self.mocks:
@@ -149,6 +162,7 @@ class TemplatedTest(object):
                     patch_contexts.append(c)
                     c.start()
 
+            log.debug("running scenario under test")
             try:
                 YScenarioChecker()()
                 raised_issues = IssuesManager().load_issues()
@@ -218,7 +232,7 @@ class TemplatedTestGenerator(object):
         bugs = self.testdef.get('raised-bugs')
         issues = self.testdef.get('raised-issues')
         return TemplatedTest(self.target_path, data_root, mocks, bugs,
-                             issues)()
+                             issues, self.test_defs_root)()
 
 
 def expand_log_template(template, hours=None, mins=None, secs=None,
@@ -248,27 +262,40 @@ def expand_log_template(template, hours=None, mins=None, secs=None,
     return out
 
 
-def is_def_filter(def_filename):
+def is_def_filter(def_path, sub_root):
     """
     Filter hotsos.core.ycheck.YDefsLoader._is_def to only match a file with the
     given name. This permits a unit test to only run the ydef checks that are
     under test.
 
-    Note that in order for directory globals to run def_filename must be a
+    Note that in order for directory globals to run def_path must be a
     relative path that includes the parent directory name e.g. foo/bar.yaml
     where bar contains the checks and there is also a file called foo/foo.yaml
     that contains directory globals.
+
+    @param def_path: path to yaml def relative to plugin defs root
+    @param sub_root: plugin test defs root
     """
     def inner(_inst, abs_path):
-        log.debug("filter def: %s", def_filename)
+        log.debug("filter def: %s (%s)", def_path, abs_path)
+        if not abs_path.endswith(def_path):
+            return False
+
         # filename may optionally have a parent dir which allows us to permit
         # directory globals to be run.
-        parent_dir = os.path.dirname(def_filename)
+        parent_dir = os.path.dirname(def_path)
         """ Ensure we only load/run the yaml def with the given name. """
         if parent_dir:
             log.debug("parent_dir=%s", parent_dir)
-            # allow directory global to run
-            base_dir = os.path.basename(os.path.dirname(abs_path))
+
+            # strip down to relative path
+            _root_dir = os.path.join(HotSOSConfig.plugin_yaml_defs, sub_root)
+            _rel_path = re.sub(_root_dir, '', abs_path).lstrip('/')
+            base_dir = os.path.dirname(_rel_path)
+            if not base_dir:
+                # if path is a file with no dirs it must be a match.
+                return True
+
             if base_dir != parent_dir:
                 return False
 
@@ -278,7 +305,8 @@ def is_def_filter(def_filename):
                 assert _inst.stats_num_files_loaded < 2
                 return True
 
-        if abs_path.endswith(def_filename):
+        log.debug("abs_path=%s", abs_path)
+        if abs_path.endswith(def_path):
             log.debug("files loaded so far=%s",
                       _inst.stats_num_files_loaded)
             assert _inst.stats_num_files_loaded < 2

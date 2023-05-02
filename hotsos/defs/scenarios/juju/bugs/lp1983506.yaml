@@ -1,0 +1,13 @@
+checks:
+  has_lp1983506:
+    input:
+      path: 'var/log/juju/machine-*.log'
+    expr: '.* failed to migrate binaries: charm local:.+(\S) unexpectedly assigned local:.+'
+conclusions:
+  lp1983506:
+    decision: has_lp1983506
+    raises:
+      type: LaunchpadBug
+      bug-id: 1983506
+      message: model migration failed - see LP bug for workaround.
+

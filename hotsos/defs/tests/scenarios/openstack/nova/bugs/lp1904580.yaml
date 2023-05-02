@@ -1,0 +1,15 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2022-02-03 19:02:58.275 29845 INFO nova.compute.manager [req-1ca6c5ea-839d-454a-a7ac-f1f7df882f95 ca1265ef24834623b3ff360f95bbec9b caadf4ef9ccb4eae8a2f6ca0cb142827 - 28c08ee9c0114334a269a1f56b1d6724 28c08ee9c0114334a269a1f56b1d6724] [instance: ba04a48c-1dff-4015-a4f1-625946a40611] Setting instance back to active after: Instance rollback performed due to: Resize error: not able to execute ssh command: Unexpected error while running command.
+      Command: ssh -o BatchMode=yes 10.5.1.153 mkdir -p /var/lib/nova/instances/ba04a48c-1dff-4015-a4f1-625946a40611
+      Exit code: 255
+      Stdout: ''
+      Stderr: '@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\n@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @\r\n@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\r\nPermissions 0644 for \'/var/lib/nova/.ssh/id_rsa\' are too open.\r\nIt is required that your private key files are NOT accessible by others.\r\nThis private key will be ignored.\r\nLoad key "/var/lib/nova/.ssh/id_rsa": bad permissions\r\nnova@10.5.1.153: Permission denied (publickey).\r\n'
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1904580: >-
+    known nova compute package upgrade bug which affects private ssh key permissions.
+    Change private key file \'/var/lib/nova/.ssh/id_rsa\' permission from 0644 to 0600
+    to fix the issue.

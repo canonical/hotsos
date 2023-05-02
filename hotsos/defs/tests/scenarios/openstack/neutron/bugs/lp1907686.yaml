@@ -1,0 +1,15 @@
+data-root:
+  files:
+    var/log/neutron/neutron-openvswitch-agent.log: |
+      2022-02-05 22:30:08.542 69188 ERROR neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn [-] OVS database connection to OVN_Southbound failed with error: 'Timeout'. Verify that the OVS and OVN services are available and that the 'ovn_nb_connection' and 'ovn_sb_connection' configuration options are correct.: Exception: Timeout
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+mock:
+  patch:
+    hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled:
+      kwargs:
+        return_value: true
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1907686: >-
+    Known neutron-ovn bug identified that impacts OVN db connections.

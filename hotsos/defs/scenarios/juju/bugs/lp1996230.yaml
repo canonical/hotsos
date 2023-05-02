@@ -1,0 +1,16 @@
+checks:
+  has_lp1996230:
+    input:
+      path: 'var/log/juju/machine-*.log'
+    expr: '.* manifold worker .+ error: could not retrieve action (\S+): action no longer available'
+    hint: 'manifold worker returned unexpected error'
+conclusions:
+  lp1996230:
+    decision: has_lp1996230
+    raises:
+      type: LaunchpadBug
+      bug-id: 1996230
+      message: >-
+        There are inconsistencies in the actionnotifications mongodb collection. See
+        https://canonical.lightning.force.com/lightning/r/Knowledge__kav/ka44K000000PRFmQAO/view
+        for instructions on how to fix.

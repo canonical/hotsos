@@ -1,0 +1,18 @@
+checks:
+  has_1794991:
+    systemd:
+      openvswitch-switch:
+        started-after: neutron-openvswitch-agent
+conclusions:
+  lp1794991:
+    decision: has_1794991
+    raises:
+      type: LaunchpadBug
+      bug-id: 1794991
+      message: >-
+        This host may be affected by a bug in Openstack Neutron ML2 whereby
+        if the neutron-openvswitch-agent service is not restarted after a
+        restart of openvswitch-switch this can lead to inconsistent l2pop
+        flows. If you think this node is impacted you can fix this with a
+        restart of neutron-openvswitch-agent.
+

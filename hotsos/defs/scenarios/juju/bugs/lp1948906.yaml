@@ -1,0 +1,16 @@
+checks:
+  has_lp1948906:
+    input:
+      path: 'var/log/juju/unit-*.log'
+    expr: '.* manifold worker .+ error: executing operation \"run post-series-upgrade hook\" for (\S+): upgrade series status \"complete running\"'
+    hint: 'manifold worker returned unexpected error'
+conclusions:
+  lp1948906:
+    decision: has_lp1948906
+    raises:
+      type: LaunchpadBug
+      bug-id: 1948906
+      message: >-
+        Juju post-series-upgrade failed, issues with unit {} - see LP bug for
+        workaround.
+      search-result-format-groups: [1]

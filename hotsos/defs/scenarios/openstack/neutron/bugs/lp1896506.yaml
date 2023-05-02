@@ -1,0 +1,16 @@
+checks:
+  has_1896506:
+    input:
+      path: 'var/log/syslog'
+    expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
+    hint: 'no_track'
+conclusions:
+  lp1896506:
+    decision: has_1896506
+    raises:
+      type: LaunchpadBug
+      bug-id: 1896506
+      message: >-
+        Known neutron l3-agent bug identified that critically impacts
+        keepalived.
+

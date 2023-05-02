@@ -1,0 +1,13 @@
+checks:
+  has_lp1983140:
+    input:
+      path: 'var/log/juju/machine-*.log'
+    expr: '.* quiescing, timed out waiting for agents to report'
+conclusions:
+  lp1983140:
+    decision: has_lp1983140
+    raises:
+      type: LaunchpadBug
+      bug-id: 1983140
+      message: model migration failed - see LP bug for workaround.
+

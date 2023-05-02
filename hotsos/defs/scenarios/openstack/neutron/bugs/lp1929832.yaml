@@ -1,0 +1,15 @@
+checks:
+  has_1929832:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    expr: '.+Error while deleting router \S+: \S+ProcessExecutionError: .+ /usr/bin/neutron-rootwrap: Unauthorized command: kill -15 \d+ \(no filter matched\)'
+    hint: 'ProcessExecutionError'
+conclusions:
+  lp1929832:
+    decision: has_1929832
+    raises:
+      type: LaunchpadBug
+      bug-id: 1929832
+      message: >-
+        Known neutron l3-agent bug identified that impacts deletion of neutron routers.
+

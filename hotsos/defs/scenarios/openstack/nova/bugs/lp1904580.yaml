@@ -1,0 +1,17 @@
+checks:
+  has_1904580:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: '.+Permissions (\d{4}) for (\S+) are too open'
+    hint: 'Permissions'
+conclusions:
+  lp1904580:
+    decision: has_1904580
+    raises:
+      type: LaunchpadBug
+      bug-id: 1904580
+      message: >-
+        known nova compute package upgrade bug which affects private ssh key
+        permissions. Change private key file {} permission from {} to 0600 to fix the issue.
+      search-result-format-groups: [2,1]
+

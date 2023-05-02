@@ -1,0 +1,24 @@
+checks:
+  has_1979089:
+    input:
+      path: 'var/log/neutron/neutron-l3-agent.log'
+    search:
+      expr: '(\S+\s+[\d:]+).\S+ .+ Cannot open network namespace "qrouter-\S+": No such file or directory'
+      hint: 'ERROR neutron.agent.linux.utils'
+      constraints:
+        # if we hit this bug there will be a large number in a small space of time
+        min-results: 10
+        search-period-hours: 1
+        search-result-age-hours: 48
+conclusions:
+  lp_1979089:
+    decision: has_1979089
+    raises:
+      type: LaunchpadBug
+      bug-id: 1979089
+      message: >-
+        The neutron-l3-agent service on this node appears to be impacted by the mentioned bug whereby
+        it is consumed by the task of continuously respawning haproxy for a router that has
+        been deleted. To workaround this problem you can manually create the missing
+        namespace to allow the operation to complete. See bug report for details.
+

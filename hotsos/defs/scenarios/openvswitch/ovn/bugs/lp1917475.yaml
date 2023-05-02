@@ -1,0 +1,12 @@
+checks:
+  has_1917475:
+    input:
+      path: 'var/log/ovn/ovn-controller.log'
+    expr: '.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
+conclusions:
+  lp1917475:
+    decision: has_1917475
+    raises:
+      type: LaunchpadBug
+      bug-id: 1917475
+      message: known ovn bug identified - db rbac errors

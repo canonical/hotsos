@@ -1,0 +1,18 @@
+target-name: lp1996010.yaml
+data-root:
+  files:
+    var/log/ceph/ceph-osd.0.log: |
+      2022-02-11T00:47:26.562+0000 7f424f78e700 30 bluestore.MempoolThread(0x564a9dae2a68) _resize_shards max_shard_onodes: 0 max_shard_buffer: 8388608
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1996010: >-
+    One or more OSDs are reporting that their Bluestore onode cache might be completely disabled.
+    This is caused by an entry leak in bluestore_cache_other mempool and can cause high io latency
+    as size 0 cache will significantly increase the need to fetch metadata from rocksdb or
+    disk. Another potential impact is that it may hit hitting the race condition in Onode::put
+    (see https://tracker.ceph.com/issues/56382) which will crash osds, especially in large clusters.
+    You can check for the leaked bluestore_cache_other mempool in the output of "ceph daemon osd.id dump_mempools".

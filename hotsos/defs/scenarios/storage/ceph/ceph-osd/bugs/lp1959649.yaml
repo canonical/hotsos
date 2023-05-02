@@ -1,0 +1,22 @@
+vars:
+  bluestore_volume_selection_policy: '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_volume_selection_policy:CephDaemonConfigShow'
+  bluestore_cache_onode: '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_cache_onode:CephDaemonDumpMemPools'
+checks:
+  has_1959649:
+    - apt:
+        ceph-osd:
+          - min: 15.2.6
+            max: 15.2.10
+    - varops: [[$bluestore_volume_selection_policy], [ne, [use_some_extra]]]
+    - varops: [[$bluestore_volume_selection_policy], [ne, []]]
+conclusions:
+  lp1959649:
+    decision: has_1959649
+    raises:
+      type: LaunchpadBug
+      bug-id: 1959649
+      message: >-
+        This host is vulnerable to known bug https://tracker.ceph.com/issues/38745.
+        RocksDB needs more space than the leveled space available so it is using
+        storage from the data disk.
+        Please set bluestore_volume_selection_policy of all OSDs to use_some_extra

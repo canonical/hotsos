@@ -1,0 +1,22 @@
+data-root:
+  files:
+    var/log/neutron/neutron-l3-agent.log: |
+      2022-05-21 06:26:13.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:26:23.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:26:33.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:26:43.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:26:53.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:26:03.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:27:13.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:27:23.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:27:33.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-05-21 06:27:43.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1979089: >-
+    The neutron-l3-agent service on this node appears to be impacted by the mentioned bug
+    whereby it is consumed by the task of continuously respawning haproxy for a router
+    that has been deleted. To workaround this problem you can manually create the
+    missing namespace to allow the operation to complete. See bug report for details.

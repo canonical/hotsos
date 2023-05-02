@@ -1,0 +1,23 @@
+checks:
+  has_1865127:
+    input:
+      path: 'var/log/ovn/ovn-controller.log'
+    expr: '.+ERR\|bridge not found for localnet port \S+ with network name'
+  1865127_broken_package:
+    apt:
+      ovn-common:
+        - min: 0
+          max: 20.12.0~1
+conclusions:
+  lp1865127:
+    decision:
+      - has_1865127
+      - 1865127_broken_package
+    raises:
+      type: LaunchpadBug
+      bug-id: 1865127
+      message: >-
+        The version of ovn on this node is affected by a known bug where the
+        ovn-controller logs are being spammed with error messages containing
+        "No bridge for localnet port ..." when that is in fact not an error.
+        Upgrading to a version >= 20.12.0 will fix the issue.

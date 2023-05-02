@@ -1,0 +1,10 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-barbican             2:12.0.0-0ubuntu1 amd64          barbican
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1946787: >-
+    Installed package 'python3-barbican' with version 2:12.0.0-0ubuntu1 has a known bug
+    that prevents cinder from creating encrypted volumes. To fix this you
+    need to the latest version.
+

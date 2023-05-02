@@ -1,0 +1,15 @@
+checks:
+  has_1928031:
+    input:
+      path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
+    expr: '.+AttributeError: ''MetadataProxyHandler'' object has no attribute ''sb_idl'''
+    hint: 'AttributeError'
+conclusions:
+  lp1928031:
+    decision: has_1928031
+    raises:
+      type: LaunchpadBug
+      bug-id: 1928031
+      message: >-
+        Known neutron-ovn bug identified that impacts OVN sbdb connections.
+

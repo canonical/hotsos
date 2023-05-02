@@ -1,0 +1,18 @@
+checks:
+  has_unknown_relation_errors:
+    input:
+      path: 'var/log/juju/unit-*.log'
+    expr: '(\S+) (\S+) ERROR juju.worker.uniter agent.go:\d+ resolver loop error: unknown relation: \d+'
+    constraints:
+      # within 7 days
+      search-result-age-hours: 168
+conclusions:
+  lp1895040:
+    decision: has_unknown_relation_errors
+    raises:
+      type: LaunchpadBug
+      bug-id: 1895040
+      message: >-
+        One or more charms on this host has "unknown relation" errors which is
+        an indication of this bug. Upgrading Juju to a version >= 2.9.13 should
+        fix the problem.

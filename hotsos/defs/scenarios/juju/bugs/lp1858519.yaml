@@ -1,0 +1,15 @@
+checks:
+  has_lp1858519:
+    input: 'var/log/juju/unit-ceph-osd*.log'
+    expr: '.* Cannot zap a device used by lvm'
+conclusions:
+  lp1858519:
+    decision: has_lp1858519
+    raises:
+      type: LaunchpadBug
+      bug-id: 1858519
+      message: >-
+        A known ceph-osd charm bug has been identified - charm tried to zap a disk but
+        failed since the disk has an LVM header. If you are sure the disk is
+        not in active use by LVM, you may run pvremove on it before using it as
+        an OSD - see LP bug for details.

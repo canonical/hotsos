@@ -1,0 +1,12 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  mysql-router                      8.0.29-0ubuntu0.21.10.1                        amd64        route connections from MySQL clients to MySQL servers
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1971565: >-
+    Installed package 'mysql-router' with version 8.0.29-0ubuntu0.21.10.1
+    has a known bug that prevents mysql-router from starting. Please upgrade to
+    the latest version to fix this issue.

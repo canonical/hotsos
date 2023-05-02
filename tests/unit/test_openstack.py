@@ -1197,7 +1197,8 @@ class TestOpenstackScenarios(TestOpenstackBase):
     """
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('openstack_apache2_certificates.yaml'))
+                new=utils.is_def_filter('openstack_apache2_certificates.yaml',
+                                        'scenarios/openstack'))
     @mock.patch('hotsos.core.host_helpers.ssl.datetime')
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':

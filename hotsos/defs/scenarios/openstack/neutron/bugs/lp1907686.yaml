@@ -1,0 +1,18 @@
+checks:
+  isolcpus_enabled:
+    property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
+  has_1907686:
+    input:
+      path: 'var/log/neutron/neutron-openvswitch-agent.log'
+    expr: '.+OVS database connection to OVN_\S+bound failed with error: ''Timeout''.+'
+conclusions:
+  lp1907686:
+    decision:
+      - isolcpus_enabled
+      - has_1907686
+    raises:
+      type: LaunchpadBug
+      bug-id: 1907686
+      message: >-
+        Known neutron-ovn bug identified that impacts OVN db connections.
+
