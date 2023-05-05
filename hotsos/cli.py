@@ -240,11 +240,14 @@ def main():
                   help='Path to yaml definitions (ydefs).')
     @click.option('--version', '-v', default=False, is_flag=True,
                   help='Show the version.')
+    @click.option('--use-hyperscan', default=True, is_flag=True,
+                  help="Use hyperscan/vectorscan instead of python's `re` for "
+                       "searches.")
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
-    def cli(data_root, version, defs_path, templates_path, all_logs, debug,
-            quiet, save, output_format, html_escape, short, very_short,
-            force, event_tally_granularity, max_logrotate_depth,
+    def cli(data_root, use_hyperscan, version, defs_path, templates_path,
+            all_logs, debug, quiet, save, output_format, html_escape, short,
+            very_short, force, event_tally_granularity, max_logrotate_depth,
             max_parallel_tasks, list_plugins, machine_readable, output_path,
             command_timeout, sos_unpack_dir, scenario, event, **kwargs):
         """
@@ -288,7 +291,8 @@ def main():
                   'machine_readable': machine_readable,
                   'debug_mode': debug,
                   'scenario_filter': scenario,
-                  'event_filter': event}
+                  'event_filter': event,
+                  'use_hyperscan': use_hyperscan}
         HotSOSConfig.set(**config)
 
         with LoggingManager() as logmanager:

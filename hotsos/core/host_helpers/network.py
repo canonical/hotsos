@@ -2,12 +2,10 @@ import copy
 import os
 import re
 
-# NOTE: we import direct from searchkit rather than hotsos.core.search to
-#       avoid circular dependency issues.
-from searchkit import (
+from hotsos.core.search import (
     FileSearcher,
     SearchDef,
-    SequenceSearchDef,
+    SequenceSearchDef
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.cli import CLIHelper, CLIHelperFile
