@@ -258,6 +258,54 @@ class BcacheDeadlockType(TraceTypeBase):
             yield deadlocks
 
 
+class FanotifyDeadlockType(TraceTypeBase):
+
+    def __init__(self):
+        self._search_def = None
+        self.fanotify_hangs = []
+
+    @property
+    def name(self):
+        return 'calltrace-fanotify'
+
+    @property
+    def searchdef(self):
+        if self._search_def:
+            return self._search_def
+
+        start = SearchDef(r'.+ blocked for more than (\d+) seconds.')
+        body = SearchDef(r'(\S+) schedule(\S+) fanotify_handle_event(\S+)'
+                         r' fsnotify(\S+)')
+        end = SearchDef(r'.+\s+do_sys_open(\S+)')
+        self._search_def = SequenceSearchDef(start, tag='fanotify', body=body,
+                                             end=end)
+        return self._search_def
+
+    def apply(self, result):
+        """
+        Run through the results.
+        @param results: list of search.SearchResult objects.
+        """
+        log.debug("%s has %s results", self.__class__.__name__, len(result))
+        if len(result) > 0:
+            # we have found at least one fanotify related hang
+            self.fanotify_hangs.append(True)
+
+    @property
+    def heuristics(self):
+        """
+        Register any heuristics we want to run here.
+        """
+        return []
+
+    def __len__(self):
+        return len(self.fanotify_hangs)
+
+    def __iter__(self):
+        for fanotify_hangs in self.fanotify_hangs:
+            yield fanotify_hangs
+
+
 class OOMKillerTraceType(TraceTypeBase):
 
     def __init__(self):
@@ -407,7 +455,8 @@ class CallTraceManager(KernLogBase):
         super().__init__(*args, **kwargs)
         # All trace types should be registered here.
         self.tracetypes = [GenericTraceType(), OOMKillerTraceType(),
-                           BcacheDeadlockType(), HungtaskTraceType()]
+                           BcacheDeadlockType(), HungtaskTraceType(),
+                           FanotifyDeadlockType()]
         self.run()
 
     def run(self):
