@@ -15,6 +15,10 @@ checks:
     property:
       path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_hungtask
       ops: [[length_hint]]
+  has_fanotify_hang:
+    property:
+      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace-fanotify
+      ops: [[length_hint]]
 conclusions:
   stacktraces:
     # Give this one lowest priority so that if any other call trace types match they
@@ -57,3 +61,13 @@ conclusions:
         {numreports} reports of hung tasks in kern.log - please check.
       format-dict:
         numreports: '@checks.has_hungtasks.requires.value_actual:len'
+  fanotify_hangs:
+    priority: 2
+    decision: has_fanotify_hang
+    raises:
+      type: KernelError
+      message: >-
+        {numreports} reports of fanotify related hangs in kern.log. This may
+        be related to antivirus software running in the system.
+      format-dict:
+        numreports: '@checks.has_fanotify_hang.requires.value_actual:len'
