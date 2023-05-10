@@ -454,17 +454,17 @@ class Lsof(STOVParserBase):
 
     Expected file format is:
 
-    COMMAND PID TID TASKCMD USER  FD TYPE DEVICE SIZE/OFF  NODE NAME
-    systemd   1                0 cwd  DIR    9,1     4096     2 /
-    systemd   1                0 rtd  DIR    9,1     4096     2 /
-    systemd   1                0 txt  REG    9,1  1589552 54275 /lib/
-    systemd   1                0 mem  REG    9,1    18976 51133 /lib/
+    COMMAND PID USER  FD TYPE DEVICE SIZE/OFF  NODE NAME
+    systemd   1 0 cwd  DIR    9,1     4096     2 /
+    systemd   1 0 rtd  DIR    9,1     4096     2 /
+    systemd   1 0 txt  REG    9,1  1589552 54275 /lib/
+    systemd   1 0 mem  REG    9,1    18976 51133 /lib/
     /*...*/
     """
 
     def _load(self):
         search = FileSearcher()
-        ftmp = mktemp_dump(''.join(CLIHelper().lsof_bMnlP()))
+        ftmp = mktemp_dump(''.join(CLIHelper().lsof_Mnlc()))
         search.add(SearchDef(self._header_matcher, tag='header'), ftmp)
         search.add(SearchDef(self._field_matcher, tag='content',
                              field_info=self._search_field_info), ftmp)
@@ -483,9 +483,9 @@ class Lsof(STOVParserBase):
 
     @property
     def _search_field_info(self):
-        finfo = OrderedDict({'COMMAND': str, 'PID': int, 'TID': int,
-                             'TASKCMD': str, 'USER': int, 'FD': str,
-                             'TYPE': str, 'DEVICE': str, 'SIZE/OFF': str,
+        finfo = OrderedDict({'COMMAND': str, 'PID': int, 'USER': int,
+                             'FD': str, 'TYPE': str, 'DEVICE': str,
+                             'SIZE/OFF': str,
                              # NOTE(mkg): Although this column is designated as
                              #            `inode` number, sockets tend to write
                              #            L4 protocol name (e.g. TCP) here as
@@ -496,15 +496,7 @@ class Lsof(STOVParserBase):
 
     @property
     def _header_matcher(self):
-        expr = []
-        for key in self._search_field_info.keys():
-            # TASKCMD might not exist on older systems.
-            if key in ['TASKCMD']:
-                expr.append('(?:TASKCMD)?')
-            else:
-                expr.append(key)
-
-        return r'\s+'.join(expr)
+        return r'\s+'.join(self._search_field_info.keys())
 
     @property
     def _field_matcher(self):
@@ -518,7 +510,7 @@ class Lsof(STOVParserBase):
                 _expr = r'(\S+)'
 
             # These fields can be empty/None
-            if key in ['TID', 'TASKCMD', 'TYPE', 'DEVICE', 'SIZE/OFF', 'NODE']:
+            if key in ['TYPE', 'DEVICE', 'SIZE/OFF', 'NODE']:
                 _expr = '{}?'.format(_expr)
 
             expr.append(_expr)
