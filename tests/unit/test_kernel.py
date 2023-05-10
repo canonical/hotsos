@@ -50,57 +50,57 @@ PROC_NETLINK = r"""sk               Eth Pid        Groups   Rmem     Wmem     Du
 0000000000000000 0   3426       00000440 0        0        0     2        0        89397 
 """ # noqa
 
-LSOF_BMNLP = r"""                                                                                                                                                                                                                                    COMMAND     PID   TID     USER   FD      TYPE             DEVICE     SIZE/OFF       NODE NAME
-systemd       1              0  cwd       DIR                9,1         4096          2 /
-systemd       1              0  rtd       DIR                9,1         4096          2 /
-systemd       1              0  txt       REG                9,1      1589552      54275 /lib/systemd/systemd
-ksoftirqd   180              0  rtd       DIR                9,1         4096          2 /
-watchdog/   382              0  rtd       DIR                9,1         4096          2 /
-kswapd0     590              0  rtd       DIR                9,1         4096          2 /
-rsyslogd   4084              0  mem       REG                9,1        18976      51133 /lib/x86_64-linux-gnu/libuuid.so.1.3.0
-ceilomete  4129  9845      116  mem       REG                9,1        43200      48271 /usr/lib/x86_64-linux-gnu/libyajl.so.2.1.0
-kworker/1 10645              0  rtd       DIR                9,1         4096          2 /
-ovs-vswit 13936              0  mem-R     REG               0,43      2097152     129906 /mnt/huge_ovs_2M/rtemap_286
-ovs-vswit 13936              0  mem-R     REG               0,43      2097152      44403 /mnt/huge_ovs_2M/rtemap_33226
-ovs-vswit 13936              0   16u  a_inode               0,13            0      11305 [timerfd]
-ovs-vswit 13936              0  616uR     REG               0,43      2097152      34703 /mnt/huge_ovs_2M/rtemap_586
-eal-intr- 13936 13937        0  mem-R     REG               0,43      2097152      43181 /mnt/huge_ovs_2M/rtemap_260
-eal-intr- 13936 13937        0  mem       REG                9,1      1088952      31573 /lib/x86_64-linux-gnu/libm-2.23.so
-eal-intr- 13936 13937        0 1790uR     REG               0,43      2097152      44681 /mnt/huge_ovs_2M/rtemap_33504
-rte_mp_ha 13936 13938        0  mem-R     REG               0,43      2097152      43155 /mnt/huge_ovs_2M/rtemap_234
-dpdk_watc 13936 13943        0  mem-R     REG               0,43      2097152      43129 /mnt/huge_ovs_2M/rtemap_208
-ct_clean4 13936 13946        0  mem-R     REG               0,43      2097152      43103 /mnt/huge_ovs_2M/rtemap_182
-ipf_clean 13936 13947        0  mem-R     REG               0,43      2097152      43077 /mnt/huge_ovs_2M/rtemap_156
-urcu3     13936 13949        0  mem-R     REG               0,43      2097152      43051 /mnt/huge_ovs_2M/rtemap_130
-urcu3     13936 13949        0 1660uR     REG               0,43      2097152      44551 /mnt/huge_ovs_2M/rtemap_33374
-pmd7      13936 13987        0  mem-R     REG               0,43      2097152      43025 /mnt/huge_ovs_2M/rtemap_104
-pmd8      13936 14010        0  mem-R     REG               0,43      2097152      39927 /mnt/huge_ovs_2M/rtemap_78
-pmd8      13936 14010        0 1608uR     REG               0,43      2097152      44499 /mnt/huge_ovs_2M/rtemap_33322
-pmd9      13936 14034        0  mem-R     REG               0,43      2097152      39901 /mnt/huge_ovs_2M/rtemap_52
-pmd9      13936 14034        0 1582uR     REG               0,43      2097152      44473 /mnt/huge_ovs_2M/rtemap_33296
-pmd10     13936 14059        0  mem-R     REG               0,43      2097152      39875 /mnt/huge_ovs_2M/rtemap_26
-vhost_rec 13936 14069        0  mem-R     REG               0,43      2097152      39849 /mnt/huge_ovs_2M/rtemap_0
-vhost_rec 13936 14069        0 1530uR     REG               0,43      2097152      44421 /mnt/huge_ovs_2M/rtemap_33244
-vhost_rec 13936 14069        0 2130r     FIFO               0,12          0t0      41344 pipe
-vhost-eve 13936 14083        0  mem-R     REG               0,43      2097152      43495 /mnt/huge_ovs_2M/rtemap_574
-vhost-eve 13936 14083        0 2104u      CHR             10,200          0t0        136 /dev/net/tun
-monitor13 13936 15177        0  mem-R     REG               0,43      2097152     411370 /mnt/huge_ovs_2M/rtemap_548
-monitor13 13936 15177        0 2078u  a_inode               0,13            0      11305 [vfio-device]
-revalidat 13936 15188        0  mem-R     REG               0,43      2097152      43417 /mnt/huge_ovs_2M/rtemap_496
-zabbix_ag 17684            111  cwd       DIR                9,1         4096          2 /
-zabbix_ag 17712            111  mem       REG                9,1       219240      33580 /usr/lib/x86_64-linux-gnu/libnettle.so.6.3
-ceilomete 18072 18074      116   48w     FIFO               0,12          0t0      81191 pipe
-ceilomete 18072 25272      116  114w     FIFO               0,12          0t0      81243 pipe
-qemu-syst 20986              0   44u  a_inode               0,13            0      34703 [eventfd]
-CPU\x201/ 20986 25117        0  mem       REG                9,1        43648      49833 /usr/lib/x86_64-linux-gnu/libcacard.so.0.0.0
-CPU\x2028 20986 25145        0   74u  a_inode               0,13            0      11305 kvm-vcpu
-CPU\x2031 20986 25148        0   17u  a_inode               0,13            0      11305 kvm-vm
-agetty    23623              0  rtd       DIR                9,1         4096          2 /
-libvirtd  44443 44447        0   25u     unix 0xffffa01631378000          0t0    2022202 /var/run/libvirt/libvirt-sock-ro type=STREAM
-libvirtd  44443 44452        0  mem       REG                9,1       408472      33585 /usr/lib/x86_64-linux-gnu/libp11-kit.so.0.1.0
-nova-comp 49287 49510      114  mem       REG                9,1        68512      33561 /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
-nova-comp 49287 49527      114   21u     IPv4            2914832          0t0        TCP 192.168.2.24:46064->192.168.2.45:5673 (ESTABLISHED)
-sosreport 67605 67802        0    5r     FIFO               0,12          0t0  289262208 pipe
+LSOF_MNLC = r"""                                                                                                                                                                                                                                    COMMAND     PID   USER   FD      TYPE             DEVICE     SIZE/OFF       NODE NAME
+systemd       1        0  cwd       DIR                9,1         4096          2 /
+systemd       1        0  rtd       DIR                9,1         4096          2 /
+systemd       1        0  txt       REG                9,1      1589552      54275 /lib/systemd/systemd
+ksoftirqd   180        0  rtd       DIR                9,1         4096          2 /
+watchdog/   382        0  rtd       DIR                9,1         4096          2 /
+kswapd0     590        0  rtd       DIR                9,1         4096          2 /
+rsyslogd   4084        0  mem       REG                9,1        18976      51133 /lib/x86_64-linux-gnu/libuuid.so.1.3.0
+ceilomete  4129      116  mem       REG                9,1        43200      48271 /usr/lib/x86_64-linux-gnu/libyajl.so.2.1.0
+kworker/1 10645        0  rtd       DIR                9,1         4096          2 /
+ovs-vswit 13936        0  mem-R     REG               0,43      2097152     129906 /mnt/huge_ovs_2M/rtemap_286
+ovs-vswit 13936        0  mem-R     REG               0,43      2097152      44403 /mnt/huge_ovs_2M/rtemap_33226
+ovs-vswit 13936        0   16u  a_inode               0,13            0      11305 [timerfd]
+ovs-vswit 13936        0  616uR     REG               0,43      2097152      34703 /mnt/huge_ovs_2M/rtemap_586
+eal-intr- 13936        0  mem-R     REG               0,43      2097152      43181 /mnt/huge_ovs_2M/rtemap_260
+eal-intr- 13936        0  mem       REG                9,1      1088952      31573 /lib/x86_64-linux-gnu/libm-2.23.so
+eal-intr- 13936        0 1790uR     REG               0,43      2097152      44681 /mnt/huge_ovs_2M/rtemap_33504
+rte_mp_ha 13936        0  mem-R     REG               0,43      2097152      43155 /mnt/huge_ovs_2M/rtemap_234
+dpdk_watc 13936        0  mem-R     REG               0,43      2097152      43129 /mnt/huge_ovs_2M/rtemap_208
+ct_clean4 13936        0  mem-R     REG               0,43      2097152      43103 /mnt/huge_ovs_2M/rtemap_182
+ipf_clean 13936        0  mem-R     REG               0,43      2097152      43077 /mnt/huge_ovs_2M/rtemap_156
+urcu3     13936        0  mem-R     REG               0,43      2097152      43051 /mnt/huge_ovs_2M/rtemap_130
+urcu3     13936        0 1660uR     REG               0,43      2097152      44551 /mnt/huge_ovs_2M/rtemap_33374
+pmd7      13936        0  mem-R     REG               0,43      2097152      43025 /mnt/huge_ovs_2M/rtemap_104
+pmd8      13936        0  mem-R     REG               0,43      2097152      39927 /mnt/huge_ovs_2M/rtemap_78
+pmd8      13936        0 1608uR     REG               0,43      2097152      44499 /mnt/huge_ovs_2M/rtemap_33322
+pmd9      13936        0  mem-R     REG               0,43      2097152      39901 /mnt/huge_ovs_2M/rtemap_52
+pmd9      13936        0 1582uR     REG               0,43      2097152      44473 /mnt/huge_ovs_2M/rtemap_33296
+pmd10     13936        0  mem-R     REG               0,43      2097152      39875 /mnt/huge_ovs_2M/rtemap_26
+vhost_rec 13936        0  mem-R     REG               0,43      2097152      39849 /mnt/huge_ovs_2M/rtemap_0
+vhost_rec 13936        0 1530uR     REG               0,43      2097152      44421 /mnt/huge_ovs_2M/rtemap_33244
+vhost_rec 13936        0 2130r     FIFO               0,12          0t0      41344 pipe
+vhost-eve 13936        0  mem-R     REG               0,43      2097152      43495 /mnt/huge_ovs_2M/rtemap_574
+vhost-eve 13936        0 2104u      CHR             10,200          0t0        136 /dev/net/tun
+monitor13 13936        0  mem-R     REG               0,43      2097152     411370 /mnt/huge_ovs_2M/rtemap_548
+monitor13 13936        0 2078u  a_inode               0,13            0      11305 [vfio-device]
+revalidat 13936        0  mem-R     REG               0,43      2097152      43417 /mnt/huge_ovs_2M/rtemap_496
+zabbix_ag 17684      111  cwd       DIR                9,1         4096          2 /
+zabbix_ag 17712      111  mem       REG                9,1       219240      33580 /usr/lib/x86_64-linux-gnu/libnettle.so.6.3
+ceilomete 18072      116   48w     FIFO               0,12          0t0      81191 pipe
+ceilomete 18072      116  114w     FIFO               0,12          0t0      81243 pipe
+qemu-syst 20986        0   44u  a_inode               0,13            0      34703 [eventfd]
+CPU\x201/ 20986        0  mem       REG                9,1        43648      49833 /usr/lib/x86_64-linux-gnu/libcacard.so.0.0.0
+CPU\x2028 20986        0   74u  a_inode               0,13            0      11305 kvm-vcpu
+CPU\x2031 20986        0   17u  a_inode               0,13            0      11305 kvm-vm
+agetty    23623        0  rtd       DIR                9,1         4096          2 /
+libvirtd  44443        0   25u     unix 0xffffa01631378000          0t0    2022202 /var/run/libvirt/libvirt-sock-ro type=STREAM
+libvirtd  44443        0  mem       REG                9,1       408472      33585 /usr/lib/x86_64-linux-gnu/libp11-kit.so.0.1.0
+nova-comp 49287      114  mem       REG                9,1        68512      33561 /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
+nova-comp 49287      114   21u     IPv4            2914832          0t0        TCP 192.168.2.24:46064->192.168.2.45:5673 (ESTABLISHED)
+sosreport 67605        0    5r     FIFO               0,12          0t0  289262208 pipe
 """ # noqa
 
 
@@ -290,114 +290,104 @@ class TestKernelNetworkInfo(TestKernelBase):
         self.assertEqual(uut.TCPMemUsagePct, 0)
 
     @utils.create_data_root(
-        {'sos_commands/filesys/lsof_-b_M_-n_-l_-P': LSOF_BMNLP}
+        {'sos_commands/process/lsof_M_-n_-l_-c': LSOF_MNLC}
     )
     def test_lsof_parse(self):
         uut = Lsof()
 
         expected_output = [
-            ("systemd", 1, None, None, 0, "cwd", "DIR", "9,1", "4096", 2, "/"),
-            ("systemd", 1, None, None, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
-            ("systemd", 1, None, None, 0, "txt", "REG", "9,1",
-             "1589552", 54275, "/lib/systemd/systemd"),
-            ("ksoftirqd", 180, None, None, 0, "rtd", "DIR", "9,1", "4096", 2,
-             "/"),
-            ("watchdog/", 382, None, None, 0, "rtd", "DIR", "9,1", "4096", 2,
-             "/"),
-            ("kswapd0", 590, None, None, 0, "rtd", "DIR", "9,1", "4096", 2,
-             "/"),
-            ("rsyslogd", 4084, None, None, 0, "mem", "REG", "9,1", "18976",
-             51133, "/lib/x86_64-linux-gnu/libuuid.so.1.3.0"),
-            ("ceilomete", 4129, 9845, None, 116, "mem", "REG", "9,1", "43200",
-             48271, "/usr/lib/x86_64-linux-gnu/libyajl.so.2.1.0"),
-            ("kworker/1", 10645, None, None, 0, "rtd", "DIR", "9,1", "4096", 2,
-             "/"),
-            ("ovs-vswit", 13936, None, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 129906, "/mnt/huge_ovs_2M/rtemap_286"),
-            ("ovs-vswit", 13936, None, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 44403, "/mnt/huge_ovs_2M/rtemap_33226"),
-            ("ovs-vswit", 13936, None, None, 0, "16u",
-             "a_inode", "0,13", "0", 11305, "[timerfd]"),
-            ("ovs-vswit", 13936, None, None, 0, "616uR", "REG", "0,43",
-             "2097152", 34703, "/mnt/huge_ovs_2M/rtemap_586"),
-            ("eal-intr-", 13936, 13937, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43181, "/mnt/huge_ovs_2M/rtemap_260"),
-            ("eal-intr-", 13936, 13937, None, 0, "mem", "REG", "9,1",
-             "1088952", 31573, "/lib/x86_64-linux-gnu/libm-2.23.so"),
-            ("eal-intr-", 13936, 13937, None, 0, "1790uR", "REG", "0,43",
-             "2097152", 44681, "/mnt/huge_ovs_2M/rtemap_33504"),
-            ("rte_mp_ha", 13936, 13938, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43155, "/mnt/huge_ovs_2M/rtemap_234"),
-            ("dpdk_watc", 13936, 13943, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43129, "/mnt/huge_ovs_2M/rtemap_208"),
-            ("ct_clean4", 13936, 13946, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43103, "/mnt/huge_ovs_2M/rtemap_182"),
-            ("ipf_clean", 13936, 13947, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43077, "/mnt/huge_ovs_2M/rtemap_156"),
-            ("urcu3", 13936, 13949, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43051, "/mnt/huge_ovs_2M/rtemap_130"),
-            ("urcu3", 13936, 13949, None, 0, "1660uR", "REG", "0,43",
-             "2097152", 44551, "/mnt/huge_ovs_2M/rtemap_33374"),
-            ("pmd7", 13936, 13987, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43025, "/mnt/huge_ovs_2M/rtemap_104"),
-            ("pmd8", 13936, 14010, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 39927, "/mnt/huge_ovs_2M/rtemap_78"),
-            ("pmd8", 13936, 14010, None, 0, "1608uR", "REG", "0,43",
-             "2097152", 44499, "/mnt/huge_ovs_2M/rtemap_33322"),
-            ("pmd9", 13936, 14034, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 39901, "/mnt/huge_ovs_2M/rtemap_52"),
-            ("pmd9", 13936, 14034, None, 0, "1582uR", "REG", "0,43",
-             "2097152", 44473, "/mnt/huge_ovs_2M/rtemap_33296"),
-            ("pmd10", 13936, 14059, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 39875, "/mnt/huge_ovs_2M/rtemap_26"),
-            ("vhost_rec", 13936, 14069, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 39849, "/mnt/huge_ovs_2M/rtemap_0"),
-            ("vhost_rec", 13936, 14069, None, 0, "1530uR", "REG", "0,43",
-             "2097152", 44421, "/mnt/huge_ovs_2M/rtemap_33244"),
-            ("vhost_rec", 13936, 14069, None, 0, "2130r",
-             "FIFO", "0,12", "0t0", 41344, "pipe"),
-            ("vhost-eve", 13936, 14083, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43495, "/mnt/huge_ovs_2M/rtemap_574"),
-            ("vhost-eve", 13936, 14083, None, 0, "2104u",
-             "CHR", "10,200", "0t0", 136, "/dev/net/tun"),
-            ("monitor13", 13936, 15177, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 411370, "/mnt/huge_ovs_2M/rtemap_548"),
-            ("monitor13", 13936, 15177, None, 0, "2078u",
-             "a_inode", "0,13", "0", 11305, "[vfio-device]"),
-            ("revalidat", 13936, 15188, None, 0, "mem-R", "REG", "0,43",
-             "2097152", 43417, "/mnt/huge_ovs_2M/rtemap_496"),
-            ("zabbix_ag", 17684, None, None, 111, "cwd", "DIR", "9,1", "4096",
-             2, "/"),
-            ("zabbix_ag", 17712, None, None, 111, "mem", "REG", "9,1",
-             "219240",
-             33580, "/usr/lib/x86_64-linux-gnu/libnettle.so.6.3"),
-            ("ceilomete", 18072, 18074, None, 116, "48w",
-             "FIFO", "0,12", "0t0", 81191, "pipe"),
-            ("ceilomete", 18072, 25272, None, 116, "114w",
-             "FIFO", "0,12", "0t0", 81243, "pipe"),
-            ("qemu-syst", 20986, None, None, 0, "44u",
-             "a_inode", "0,13", "0", 34703, "[eventfd]"),
-            (r"CPU\x201/", 20986, 25117, None, 0, "mem", "REG", "9,1", "43648",
-             49833, "/usr/lib/x86_64-linux-gnu/libcacard.so.0.0.0"),
-            (r"CPU\x2028", 20986, 25145, None, 0, "74u",
-             "a_inode", "0,13", "0", 11305, "kvm-vcpu"),
-            (r"CPU\x2031", 20986, 25148, None, 0, "17u",
-             "a_inode", "0,13", "0", 11305, "kvm-vm"),
-            ("agetty", 23623, None, None, 0, "rtd", "DIR", "9,1", "4096", 2,
-             "/"),
-            ("libvirtd", 44443, 44447, None, 0, "25u", "unix",
-             "0xffffa01631378000", "0t0", 2022202,
-             "/var/run/libvirt/libvirt-sock-ro type=STREAM"),
-            ("libvirtd", 44443, 44452, None, 0, "mem", "REG", "9,1", "408472",
-             33585, "/usr/lib/x86_64-linux-gnu/libp11-kit.so.0.1.0"),
-            ("nova-comp", 49287, 49510, None, 114, "mem", "REG", "9,1",
-             "68512", 33561,
+            ("systemd", 1, 0, "cwd", "DIR", "9,1", "4096", 2, "/"),
+            ("systemd", 1, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
+            ("systemd", 1, 0, "txt", "REG", "9,1", "1589552", 54275,
+             "/lib/systemd/systemd"),
+            ("ksoftirqd", 180, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
+            ("watchdog/", 382, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
+            ("kswapd0", 590, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
+            ("rsyslogd", 4084, 0, "mem", "REG", "9,1", "18976", 51133,
+             "/lib/x86_64-linux-gnu/libuuid.so.1.3.0"),
+            ("ceilomete", 4129, 116, "mem", "REG", "9,1", "43200", 48271,
+             "/usr/lib/x86_64-linux-gnu/libyajl.so.2.1.0"),
+            ("kworker/1", 10645, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
+            ("ovs-vswit", 13936,  0, "mem-R", "REG", "0,43", "2097152",
+             129906, "/mnt/huge_ovs_2M/rtemap_286"),
+            ("ovs-vswit", 13936, 0, "mem-R", "REG", "0,43", "2097152", 44403,
+             "/mnt/huge_ovs_2M/rtemap_33226"),
+            ("ovs-vswit", 13936, 0, "16u", "a_inode", "0,13", "0", 11305,
+             "[timerfd]"),
+            ("ovs-vswit", 13936, 0, "616uR", "REG", "0,43", "2097152", 34703,
+             "/mnt/huge_ovs_2M/rtemap_586"),
+            ("eal-intr-", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43181,
+             "/mnt/huge_ovs_2M/rtemap_260"),
+            ("eal-intr-", 13936, 0, "mem", "REG", "9,1", "1088952", 31573,
+             "/lib/x86_64-linux-gnu/libm-2.23.so"),
+            ("eal-intr-", 13936, 0, "1790uR", "REG", "0,43", "2097152", 44681,
+             "/mnt/huge_ovs_2M/rtemap_33504"),
+            ("rte_mp_ha", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43155,
+             "/mnt/huge_ovs_2M/rtemap_234"),
+            ("dpdk_watc", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43129,
+             "/mnt/huge_ovs_2M/rtemap_208"),
+            ("ct_clean4", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43103,
+             "/mnt/huge_ovs_2M/rtemap_182"),
+            ("ipf_clean", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43077,
+             "/mnt/huge_ovs_2M/rtemap_156"),
+            ("urcu3", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43051,
+             "/mnt/huge_ovs_2M/rtemap_130"),
+            ("urcu3", 13936, 0, "1660uR", "REG", "0,43", "2097152", 44551,
+             "/mnt/huge_ovs_2M/rtemap_33374"),
+            ("pmd7", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43025,
+             "/mnt/huge_ovs_2M/rtemap_104"),
+            ("pmd8", 13936, 0, "mem-R", "REG", "0,43", "2097152", 39927,
+             "/mnt/huge_ovs_2M/rtemap_78"),
+            ("pmd8", 13936, 0, "1608uR", "REG", "0,43", "2097152", 44499,
+             "/mnt/huge_ovs_2M/rtemap_33322"),
+            ("pmd9", 13936, 0, "mem-R", "REG", "0,43", "2097152", 39901,
+             "/mnt/huge_ovs_2M/rtemap_52"),
+            ("pmd9", 13936, 0, "1582uR", "REG", "0,43", "2097152", 44473,
+             "/mnt/huge_ovs_2M/rtemap_33296"),
+            ("pmd10", 13936, 0, "mem-R", "REG", "0,43", "2097152", 39875,
+             "/mnt/huge_ovs_2M/rtemap_26"),
+            ("vhost_rec", 13936, 0, "mem-R", "REG", "0,43", "2097152", 39849,
+             "/mnt/huge_ovs_2M/rtemap_0"),
+            ("vhost_rec", 13936, 0, "1530uR", "REG", "0,43", "2097152", 44421,
+             "/mnt/huge_ovs_2M/rtemap_33244"),
+            ("vhost_rec", 13936, 0, "2130r", "FIFO", "0,12", "0t0", 41344,
+             "pipe"),
+            ("vhost-eve", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43495,
+             "/mnt/huge_ovs_2M/rtemap_574"),
+            ("vhost-eve", 13936, 0, "2104u", "CHR", "10,200", "0t0", 136,
+             "/dev/net/tun"),
+            ("monitor13", 13936, 0, "mem-R", "REG", "0,43", "2097152", 411370,
+             "/mnt/huge_ovs_2M/rtemap_548"),
+            ("monitor13", 13936, 0, "2078u", "a_inode", "0,13", "0", 11305,
+             "[vfio-device]"),
+            ("revalidat", 13936, 0, "mem-R", "REG", "0,43", "2097152", 43417,
+             "/mnt/huge_ovs_2M/rtemap_496"),
+            ("zabbix_ag", 17684, 111, "cwd", "DIR", "9,1", "4096", 2, "/"),
+            ("zabbix_ag", 17712, 111, "mem", "REG", "9,1", "219240", 33580,
+             "/usr/lib/x86_64-linux-gnu/libnettle.so.6.3"),
+            ("ceilomete", 18072, 116, "48w", "FIFO", "0,12", "0t0", 81191,
+             "pipe"),
+            ("ceilomete", 18072, 116, "114w", "FIFO", "0,12", "0t0", 81243,
+             "pipe"),
+            ("qemu-syst", 20986, 0, "44u", "a_inode", "0,13", "0", 34703,
+             "[eventfd]"),
+            (r"CPU\x201/", 20986, 0, "mem", "REG", "9,1", "43648", 49833,
+             "/usr/lib/x86_64-linux-gnu/libcacard.so.0.0.0"),
+            (r"CPU\x2028", 20986, 0, "74u", "a_inode", "0,13", "0", 11305,
+             "kvm-vcpu"),
+            (r"CPU\x2031", 20986, 0, "17u", "a_inode", "0,13", "0", 11305,
+             "kvm-vm"),
+            ("agetty", 23623, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
+            ("libvirtd", 44443, 0, "25u", "unix", "0xffffa01631378000", "0t0",
+             2022202, "/var/run/libvirt/libvirt-sock-ro type=STREAM"),
+            ("libvirtd", 44443, 0, "mem", "REG", "9,1", "408472", 33585,
+             "/usr/lib/x86_64-linux-gnu/libp11-kit.so.0.1.0"),
+            ("nova-comp", 49287, 114, "mem", "REG", "9,1", "68512", 33561,
              "/usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9"),
-            ("nova-comp", 49287, 49527, None, 114, "21u", "IPv4", "2914832",
-             "0t0",
+            ("nova-comp", 49287, 114, "21u", "IPv4", "2914832", "0t0",
              "TCP", "192.168.2.24:46064->192.168.2.45:5673 (ESTABLISHED)"),
-            ("sosreport", 67605, 67802, None, 0, "5r",
-             "FIFO", "0,12", "0t0", 289262208, "pipe"),
+            ("sosreport", 67605, 0, "5r", "FIFO", "0,12", "0t0", 289262208,
+             "pipe"),
         ]
 
         self.assertEqual(len(uut.data), 50)
@@ -435,7 +425,7 @@ class TestKernelNetworkInfo(TestKernelBase):
 
     @utils.create_data_root(
         {'proc/net/netlink': PROC_NETLINK,
-         'sos_commands/filesys/lsof_-b_M_-n_-l_-P': LSOF_BMNLP}
+         'sos_commands/process/lsof_M_-n_-l_-c': LSOF_MNLC}
     )
     def test_netlink_parse_with_drops(self):
         uut = NetLink()
