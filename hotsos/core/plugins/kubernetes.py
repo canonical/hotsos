@@ -18,6 +18,7 @@ SERVICES = [r"etcd\S*",
             r"dockerd\S*",
             r"kubelet\S*",
             r"kube-\S*",
+            r"microk8s\S*",
             ]
 
 # Packages that only exist in a K8s deployment
@@ -29,6 +30,7 @@ K8S_PACKAGES = [r'cdk-addons',
                 r'kubelet',
                 r'kubeadm',
                 r'kubefed',
+                r'microk8s'
                 ]
 # Packages that are used in a K8s deployment
 K8S_PACKAGE_DEPS = [r'charm[\S]+',

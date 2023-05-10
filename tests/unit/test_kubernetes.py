@@ -14,6 +14,18 @@ lxd                      4.0.8      21835  4.0/stable/…   canonical*  -
 snapd                    2.54.2     14549  latest/stable  canonical*  snapd
 """
 
+SNAP_LIST_ALL_MICROK8S = """
+Name      Version        Rev    Tracking       Publisher    Notes
+core18    20230320       2721   latest/stable  canonical*   base
+core20    20230308       1852   latest/stable  canonical*   base
+core22    20230404       617    latest/stable  canonical*   base
+hotsos    1.1.13.post32  707    latest/stable  hopem        classic
+lxd       5.0.2-838e1b2  24322  5.0/stable/…   canonical*   -
+microk8s  v1.26.4        5219   1.26/stable    canonical*   classic
+nvim      v0.9.0         2801   latest/stable  neovim-snap  classic
+snapd     2.59.1         18933  latest/stable  canonical*   snapd
+"""
+
 
 class KubernetesTestsBase(utils.BaseTestCase):
 
@@ -81,6 +93,19 @@ class TestKubernetesSummary(KubernetesTestsBase):
         inst = summary.KubernetesSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['flannel'],
                          expected)
+
+    @mock.patch.object(host_helpers.packaging, 'CLIHelper')
+    def test_snaps_microk8s(self, mock_helper):
+        mock_helper.return_value.snap_list_all.return_value = \
+                SNAP_LIST_ALL_MICROK8S.splitlines()
+        inst = summary.KubernetesSummary()
+        result = ['core18 20230320',
+                  'core20 20230308',
+                  'core22 20230404',
+                  'microk8s v1.26.4']
+        self.assertTrue(inst.plugin_runnable)
+        self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
+                         result)
 
 
 @utils.load_templated_tests('scenarios/kubernetes')
