@@ -1,0 +1,17 @@
+checks:
+  node_is_ceph_osd_and_has_version:
+    apt:
+      ceph-osd:
+        - min: 17.2.0
+          max: 17.2.5-0ubuntu2
+conclusions:
+  node_affected_by_bug_2013960:
+    decision: node_is_ceph_osd_and_has_version
+    raises:
+      type: LaunchpadBug
+      bug-id: 2013960
+      message: >-
+        This host has Ceph OSDs using Quincy version < 17.2.6 and are
+        vulnerable to LP bug 2013960. The workaround is to use 'wpq'
+        scheduler: set osd_op_queue to 'wpq' and restart OSDs. LP#2013960
+        has fix in 17.2.6.
