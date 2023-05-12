@@ -32,6 +32,8 @@ from hotsos.core.search import (
     SequenceSearchDef,
     SearchDef
 )
+from hotsos.core.plugins.kernel.net import Lsof
+
 
 CEPH_LOGS_TS_EXPR = r"^([\d-]+)[\sT]([\d:]+)"
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
@@ -900,6 +902,7 @@ class CephChecksBase(StorageBase):
         self.systemd = SystemdHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
         self.cli = CLIHelper()
+        self.lsof = Lsof()
 
     @property
     def summary_subkey(self):
@@ -1075,6 +1078,23 @@ class CephChecksBase(StorageBase):
                     return True
 
         return False
+
+    @cached_property
+    def linked_with_tcmalloc(self):
+        """
+        Checks that each ceph-osd process has libtcmalloc linked.
+
+        Returns True if every OSD has it linked, otherwise False.
+        """
+        osds = {}
+        tcmalloc_osds = 0
+        for row in self.lsof:
+            if row.COMMAND == 'ceph-osd':
+                osds[row.PID] = 1
+                if re.search("libtcmalloc", row.NAME):
+                    tcmalloc_osds += 1
+
+        return len(osds) == tcmalloc_osds
 
 
 class CephDaemonCommand(object):

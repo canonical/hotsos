@@ -1,0 +1,23 @@
+checks:
+  node_is_ceph_osd:
+    apt:
+      ceph-osd:
+        # The specific bug currently affects only Pacific and Quincy
+        # releases. But we can always check if any of our supported
+        # packages have this issue in the past or future.
+        - min: 12.2.0
+  linked_with_tcmalloc:
+    property: hotsos.core.plugins.storage.ceph.CephChecksBase.linked_with_tcmalloc
+conclusions:
+  node_affected_by_bug_2016845:
+    decision:
+      - node_is_ceph_osd
+      - not: linked_with_tcmalloc
+    raises:
+      type: LaunchpadBug
+      bug-id: 2016845
+      message: >-
+        Ceph OSDs running on this node do not have tcmalloc library linked.
+        This bug affects Pacific and Quincy releases in Ubuntu and can
+        adversely affect performance. Recommended to upgrade Ceph packages
+        with a version containing the fix.

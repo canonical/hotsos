@@ -1,0 +1,64 @@
+target-name: lp2016845.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-osd  17.2.5-0ubuntu0.22.04.2  amd64
+    sos_commands/process/lsof_M_-n_-l_-c: |
+      ceph-osd  1097908    64045  txt       REG              253,1    24038968     138297 /usr/bin/ceph-osd
+      ceph-osd  1097908    64045  mem       REG              253,1       39168     263555 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_hello.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1     1710288     263566 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_rgw.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1      235720     263567 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_rgw_gc.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       39016     263559 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_log.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1     1300680     263565 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_refcount.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       22632     263561 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_numops.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       47360     263553 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_cas.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       39168     263554 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_cephfs.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       34920     263569 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_timeindex.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       67768     263558 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_lock.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       88240     263556 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_journal.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       55480     263570 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_user.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1       84368     798657 /usr/lib/liboath.so.0.1.3
+      ceph-osd  1097908    64045  mem       REG              253,1       59496     263562 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_otp.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1      506112     263564 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_rbd.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1      170856     263542 /usr/lib/x86_64-linux-gnu/ceph/erasure-code/libec_isa.so
+      ceph-osd  1097908    64045  mem       REG              253,1     2017536     263547 /usr/lib/x86_64-linux-gnu/ceph/erasure-code/libec_lrc.so
+      ceph-osd  1097908    64045  mem       REG              253,1      334232     263543 /usr/lib/x86_64-linux-gnu/ceph/erasure-code/libec_jerasure.so
+      ceph-osd  1097908    64045  mem       REG              253,1       51832     792319 /usr/lib/x86_64-linux-gnu/libnss_files-2.31.so
+      ceph-osd  1097908    64045  mem       REG              253,1       30824     263571 /usr/lib/x86_64-linux-gnu/rados-classes/libcls_version.so.1.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1      137912     795234 /usr/lib/x86_64-linux-gnu/libnl-3.so.200.26.0
+      ceph-osd  1097908    64045  mem       REG              253,1      477584     798606 /usr/lib/x86_64-linux-gnu/libnl-route-3.so.200.26.0
+      ceph-osd  1097908    64045  mem       REG              253,1      686160     792427 /usr/lib/x86_64-linux-gnu/libzstd.so.1.4.4
+      ceph-osd  1097908    64045  mem       REG              253,1      162264     792291 /usr/lib/x86_64-linux-gnu/liblzma.so.5.2.4
+      ceph-osd  1097908    64045  mem       REG              253,1       74848     792181 /usr/lib/x86_64-linux-gnu/libbz2.so.1.0.4
+      ceph-osd  1097908    64045  mem       REG              253,1       55480     792400 /usr/lib/x86_64-linux-gnu/libunwind.so.8.0.1
+      ceph-osd  1097908    64045  mem       REG              253,1     2029224     792182 /usr/lib/x86_64-linux-gnu/libc-2.31.so
+      ceph-osd  1097908    64045  mem       REG              253,1      157224     792354 /usr/lib/x86_64-linux-gnu/libpthread-2.31.so
+      ceph-osd  1097908    64045  mem       REG              253,1      104984     792229 /usr/lib/x86_64-linux-gnu/libgcc_s.so.1
+      ceph-osd  1097908    64045  mem       REG              253,1     1369352     792293 /usr/lib/x86_64-linux-gnu/libm-2.31.so
+      ceph-osd  1097908    64045  mem       REG              253,1     1956992     792378 /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.28
+      ceph-osd  1097908    64045  mem       REG              253,1      117920     798610 /usr/lib/x86_64-linux-gnu/librdmacm.so.1.2.28.0
+      ceph-osd  1097908    64045  mem       REG              253,1      121552     798608 /usr/lib/x86_64-linux-gnu/libibverbs.so.1.8.28.0
+      ceph-osd  1097908    64045  mem       REG              253,1      178528     792394 /usr/lib/x86_64-linux-gnu/libudev.so.1.6.17
+      ceph-osd  1097908    64045  mem       REG              253,1     2954080     792189 /usr/lib/x86_64-linux-gnu/libcrypto.so.1.1
+      ceph-osd  1097908    64045  mem       REG              253,1      153768     798604 /usr/lib/x86_64-linux-gnu/libboost_iostreams.so.1.71.0
+      ceph-osd  1097908    64045  mem       REG              253,1      174272     798605 /usr/lib/x86_64-linux-gnu/libboost_thread.so.1.71.0
+      ceph-osd  1097908    64045  mem       REG              253,1       18816     792200 /usr/lib/x86_64-linux-gnu/libdl-2.31.so
+      ceph-osd  1097908    64045  mem       REG              253,1      101320     792358 /usr/lib/x86_64-linux-gnu/libresolv-2.31.so
+      ceph-osd  1097908    64045  mem       REG              253,1       14336     792161 /usr/lib/x86_64-linux-gnu/libaio.so.1.0.1
+      ceph-osd  1097908    64045  mem       REG              253,1      108936     792426 /usr/lib/x86_64-linux-gnu/libz.so.1.2.11
+      ceph-osd  1097908    64045  mem       REG              253,1      129248     792290 /usr/lib/x86_64-linux-gnu/liblz4.so.1.9.2
+      ceph-osd  1097908    64045  mem       REG              253,1       39272     798653 /usr/lib/x86_64-linux-gnu/libsnappy.so.1.1.8
+      ceph-osd  1097908    64045  mem       REG              253,1      375960     798655 /usr/lib/x86_64-linux-gnu/libleveldb.so.1.22.0
+      ceph-osd  1097908    64045  mem       REG              253,1      252184     792225 /usr/lib/x86_64-linux-gnu/libfuse.so.2.9.9
+      ceph-osd  1097908    64045  mem       REG              253,1      351352     792176 /usr/lib/x86_64-linux-gnu/libblkid.so.1.1.0
+      ceph-osd  1097908    64045  mem       REG              253,1       26784     263514 /usr/lib/x86_64-linux-gnu/ceph/compressor/libceph_lz4.so.2.0.0
+      ceph-osd  1097908    64045  mem       REG              253,1      191472     792151 /usr/lib/x86_64-linux-gnu/ld-2.31.so
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2016845: >-
+    Ceph OSDs running on this node do not have tcmalloc library linked.
+    This bug affects Pacific and Quincy releases in Ubuntu and can
+    adversely affect performance. Recommended to upgrade Ceph packages
+    with a version containing the fix.
