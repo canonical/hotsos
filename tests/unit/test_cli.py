@@ -2,13 +2,14 @@ import os
 import sys
 import tempfile
 
-import unittest
 from unittest import mock
 
 import hotsos.cli
 
+from . import utils
 
-class TestCLI(unittest.TestCase):
+
+class TestCLI(utils.BaseTestCase):
 
     def test_get_hotsos_root(self):
         with mock.patch.object(sys, 'argv', ['/usr/bin/hotsos', '1', '2']):

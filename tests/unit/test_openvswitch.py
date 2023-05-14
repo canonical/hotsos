@@ -151,25 +151,26 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['tunnels'],
                          expected)
 
-    @mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
-                'host_interfaces_all', [NetworkPort('bondX', ['10.3.4.24'],
-                                                    None, None, None)])
     @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_ofproto.'
                              'list-tunnels':
                              OFPROTO_LIST_TUNNELS,
                              'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
                              'Open_vSwitch': OVS_DB_GENEVE_ENCAP})
     def test_summary_tunnels_ovn(self):
-        expected = {'geneve': {
-                        'iface': {
-                            'bondX': {'addresses': ['10.3.4.24'],
-                                      'hwaddr': None,
-                                      'speed': 'unknown',
-                                      'state': None}},
-                        'remotes': 2}}
-        inst = summary.OpenvSwitchSummary()
-        self.assertEqual(self.part_output_to_actual(inst.output)['tunnels'],
-                         expected)
+        with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
+                        'host_interfaces_all',
+                        [NetworkPort('bondX', ['10.3.4.24'],
+                                     None, None, None)]):
+            expected = {'geneve': {
+                            'iface': {
+                                'bondX': {'addresses': ['10.3.4.24'],
+                                          'hwaddr': None,
+                                          'speed': 'unknown',
+                                          'state': None}},
+                            'remotes': 2}}
+            inst = summary.OpenvSwitchSummary()
+            actual = self.part_output_to_actual(inst.output)['tunnels']
+            self.assertEqual(actual, expected)
 
 
 class TestOpenvswitchEvents(TestOpenvswitchBase):
