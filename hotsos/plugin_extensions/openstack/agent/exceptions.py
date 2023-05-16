@@ -2,7 +2,6 @@ import os
 import re
 
 from collections import UserDict
-from searchkit.utils import MPCache
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
@@ -13,7 +12,6 @@ from hotsos.core.search import (
     SearchDef,
     SearchConstraintSearchSince,
 )
-from hotsos.core.utils import cached_property
 
 
 class AgentExceptionCheckResults(UserDict):
@@ -115,8 +113,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
     def __init__(self):
         super().__init__()
-        self.cache = MPCache('agent_exception_checks', 'openstack_extensions',
-                             HotSOSConfig.global_tmp_dir)
+        self._agent_results = None
         c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
         self.searchobj = FileSearcher(constraint=c)
         # The following are expected to be logged using WARNING log level.
@@ -242,11 +239,8 @@ class AgentExceptionChecks(OpenstackChecksBase):
         @return: a dictionary of services and underlying agents with any
                  exceptions they have raised.
         """
-        agent_exceptions = self.cache.get('agent_exceptions') or {}
-        if agent_exceptions:
-            return agent_exceptions
-
         log.debug("processing exception search results")
+        agent_exceptions = {}
         for name, project in self.ost_projects.all.items():
             if not project.installed:
                 continue
@@ -269,13 +263,16 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 _results = AgentExceptionCheckResults(agent_results, callback)
                 agent_exceptions[log_level][name] = _results
 
-        self.cache.set('agent_exceptions', agent_exceptions)
         return agent_exceptions
 
-    @cached_property
+    @property
     def agent_results(self):
+        if self._agent_results is not None:
+            return self._agent_results
+
         self._load()
-        return self._run(self.searchobj.run())
+        self._agent_results = self._run(self.searchobj.run())
+        return self._agent_results
 
     def __summary_agent_warnings(self):
         """
