@@ -27,4 +27,3 @@ conclusions:
         https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for more details.
       format-dict:
         controller-ver: '@checks.ovn_controller_not_fixed.requires.version'
-        

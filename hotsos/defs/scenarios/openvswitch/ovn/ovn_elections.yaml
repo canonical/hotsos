@@ -1,0 +1,51 @@
+checks:
+  sb_ovn_elections:
+    input:
+      path:
+        - var/log/ovn/ovsdb-server-sb.log
+    search:
+      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|raft\|INFO\|term ([0-9]+):\s(([0-9]+) ms timeout expired, )?starting election$'
+      constraints:
+        min-results: 5
+        search-period-hours: 1
+        search-result-age-hours: 48
+  nb_ovn_elections:
+    input:
+      path:
+        - var/log/ovn/ovsdb-server-nb.log
+    search:
+      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|raft\|INFO\|term ([0-9]+):\s(([0-9]+) ms timeout expired, )?starting election$'
+      constraints:
+        min-results: 5
+        search-period-hours: 1
+        search-result-age-hours: 48
+conclusions:
+  ovn_frequent_elections_sb:
+    priority: 1
+    decision: sb_ovn_elections
+    raises:
+      type: OVNWarning
+      message: >-
+        The OVN SB database is experiencing frequent raft elections. This can
+        have an impact on the performance of the cloud and might indicate an
+        issue with the ovn-central cluster. Please investigate.
+  ovn_frequent_elections_nb:
+    priority: 1
+    decision: nb_ovn_elections
+    raises:
+      type: OVNWarning
+      message: >-
+        The OVN NB database is experiencing frequent raft elections. This can
+        have an impact on the performance of the cloud and might indicate an
+        issue with the ovn-central cluster. Please investigate.
+  ovn_frequent_elections_all:
+    priority: 2
+    decision:
+      - sb_ovn_elections
+      - nb_ovn_elections
+    raises:
+      type: OVNWarning
+      message: >-
+        The OVN SB and NB databases are experiencing frequent raft elections.
+        This can have an impact on the performance of the cloud and might
+        indicate an issue with the ovn-central cluster. Please investigate.

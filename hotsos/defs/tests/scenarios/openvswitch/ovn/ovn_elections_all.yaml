@@ -1,0 +1,56 @@
+target-name: ovn_elections.yaml
+data-root:
+  copy-from-original:
+    - sos_commands/date/date
+  files:
+    var/log/ovn/ovsdb-server-nb.log: |-
+      2022-02-10T15:56:11.414Z|19755|raft|INFO|term 2873: 1620 ms timeout expired, starting election
+      2022-02-10T15:56:13.188Z|19590|raft|INFO|term 2874: 1138 ms timeout expired, starting election
+      2022-02-10T15:56:39.219Z|16087|raft|INFO|term 2879: 1017 ms timeout expired, starting election
+      2022-02-10T15:56:52.926Z|19823|raft|INFO|term 2883: 1169 ms timeout expired, starting election
+      2022-02-10T15:57:11.497Z|19689|raft|INFO|term 2887: 1451 ms timeout expired, starting election
+      2022-02-10T15:57:35.669Z|16207|raft|INFO|term 2893: 1377 ms timeout expired, starting election
+      2022-02-10T15:58:05.309Z|19921|raft|INFO|term 2900: 1020 ms timeout expired, starting election
+      2022-02-10T15:58:09.304Z|19797|raft|INFO|term 2901: 1020 ms timeout expired, starting election
+      2022-02-10T15:58:43.221Z|16277|raft|INFO|term 2907: starting election
+      2022-02-10T15:59:11.259Z|19994|raft|INFO|term 2913: 1361 ms timeout expired, starting election
+      2022-02-10T15:59:44.511Z|19907|raft|INFO|term 2915: 1151 ms timeout expired, starting election
+      2022-02-10T15:59:54.758Z|20045|raft|INFO|term 2916: 1139 ms timeout expired, starting election
+      2022-02-10T15:59:59.892Z|16372|raft|INFO|term 2917: 1274 ms timeout expired, starting election
+      2022-02-10T17:00:25.937Z|19934|raft|INFO|term 2919: 1143 ms timeout expired, starting election
+      2022-02-10T17:00:55.262Z|16396|raft|INFO|term 2921: 1050 ms timeout expired, starting election
+      2022-02-10T17:01:05.290Z|20107|raft|INFO|term 2922: 1266 ms timeout expired, starting election
+      2022-02-10T17:01:21.685Z|19956|raft|INFO|term 2923: 1338 ms timeout expired, starting election
+      2022-02-10T17:01:58.065Z|20142|raft|INFO|term 2926: 1154 ms timeout expired, starting election
+      2022-02-10T17:02:14.646Z|19988|raft|INFO|term 2927: 1204 ms timeout expired, starting election
+      2022-02-10T17:02:40.497Z|16430|raft|INFO|term 2929: 1258 ms timeout expired, starting election
+      2022-02-10T17:03:11.530Z|20024|raft|INFO|term 2931: 1175 ms timeout expired, starting election
+      2022-02-10T17:03:24.486Z|16460|raft|INFO|term 2932: 1226 ms timeout expired, starting election
+    var/log/ovn/ovsdb-server-sb.log: |-
+      2022-02-10T15:56:11.414Z|19755|raft|INFO|term 2873: 1620 ms timeout expired, starting election
+      2022-02-10T15:56:13.188Z|19590|raft|INFO|term 2874: 1138 ms timeout expired, starting election
+      2022-02-10T15:56:39.219Z|16087|raft|INFO|term 2879: 1017 ms timeout expired, starting election
+      2022-02-10T15:56:52.926Z|19823|raft|INFO|term 2883: 1169 ms timeout expired, starting election
+      2022-02-10T15:57:11.497Z|19689|raft|INFO|term 2887: 1451 ms timeout expired, starting election
+      2022-02-10T15:57:35.669Z|16207|raft|INFO|term 2893: 1377 ms timeout expired, starting election
+      2022-02-10T15:58:05.309Z|19921|raft|INFO|term 2900: 1020 ms timeout expired, starting election
+      2022-02-10T15:58:09.304Z|19797|raft|INFO|term 2901: 1020 ms timeout expired, starting election
+      2022-02-10T15:58:43.221Z|16277|raft|INFO|term 2907: starting election
+      2022-02-10T15:59:11.259Z|19994|raft|INFO|term 2913: 1361 ms timeout expired, starting election
+      2022-02-10T15:59:44.511Z|19907|raft|INFO|term 2915: 1151 ms timeout expired, starting election
+      2022-02-10T15:59:54.758Z|20045|raft|INFO|term 2916: 1139 ms timeout expired, starting election
+      2022-02-10T15:59:59.892Z|16372|raft|INFO|term 2917: 1274 ms timeout expired, starting election
+      2022-02-10T17:00:25.937Z|19934|raft|INFO|term 2919: 1143 ms timeout expired, starting election
+      2022-02-10T17:00:55.262Z|16396|raft|INFO|term 2921: 1050 ms timeout expired, starting election
+      2022-02-10T17:01:05.290Z|20107|raft|INFO|term 2922: 1266 ms timeout expired, starting election
+      2022-02-10T17:01:21.685Z|19956|raft|INFO|term 2923: 1338 ms timeout expired, starting election
+      2022-02-10T17:01:58.065Z|20142|raft|INFO|term 2926: 1154 ms timeout expired, starting election
+      2022-02-10T17:02:14.646Z|19988|raft|INFO|term 2927: 1204 ms timeout expired, starting election
+      2022-02-10T17:02:40.497Z|16430|raft|INFO|term 2929: 1258 ms timeout expired, starting election
+      2022-02-10T17:03:11.530Z|20024|raft|INFO|term 2931: 1175 ms timeout expired, starting election
+      2022-02-10T17:03:24.486Z|16460|raft|INFO|term 2932: 1226 ms timeout expired, starting election
+raised-issues:
+  OVNWarning: >-
+    The OVN SB and NB databases are experiencing frequent raft elections. This
+    can have an impact on the performance of the cloud and might indicate an
+    issue with the ovn-central cluster. Please investigate.
