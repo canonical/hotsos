@@ -1,0 +1,20 @@
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db [req-e6d270d2-fbde-42d7-a75b-2c8a67c42fcb 2dc4151f6dba4c3e8ba8537c9c354c13 f548268d5255424591baa8783f1cf277 - 6a71047e7d7f4e01945ec58df06ae63f 6a71047e7d7f4e01945ec58df06ae63f] Error deleting Floating IP data from external DNS service. Name: 'vm-2'. Domain: 'compute.stack.vpn.'. IP addresses '192.168.21.217'. DNS service driver message 'Name vm-2.compute.stack.vpn. is duplicated in the external DNS service': neutron_lib.exceptions.dns.DuplicateRecordSet: Name vm-2.compute.stack.vpn. is duplicated in the external DNS service
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db Traceback (most recent call last):
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db File "/usr/lib/python3/dist-packages/neutron/db/dns_db.py", line 214, in _delete_floatingip_from_external_dns_service
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db self.dns_driver.delete_record_set(context, dns_domain, dns_name,
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db File "/usr/lib/python3/dist-packages/neutron/services/externaldns/drivers/designate/driver.py", line 172, in delete_record_set
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db ids_to_delete = self._get_ids_ips_to_delete(
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db File "/usr/lib/python3/dist-packages/neutron/services/externaldns/drivers/designate/driver.py", line 200, in _get_ids_ips_to_delete
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db raise dns_exc.DuplicateRecordSet(dns_name=name)
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db neutron_lib.exceptions.dns.DuplicateRecordSet: Name vm-2.compute.stack.vpn. is duplicated in the external DNS service
+      2022-10-19 02:24:12.497 67548 ERROR neutron.db.dns_db
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1993628: >-
+    Neutron has some DuplicateRecordSet exceptions which could be a result of this
+    bug where zones are not being updated properly when ports are deleted.
