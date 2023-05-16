@@ -1,0 +1,16 @@
+checks:
+  logs:
+    input: var/log/neutron/neutron-server.log
+    search:
+      expr: '(\S+\s+[\d:]+).\S+ .+ neutron_lib.exceptions.dns.DuplicateRecordSet: Name \S+ is duplicated in the external DNS service'
+      constraints:
+        search-result-age-hours: 168  # max 7 days
+conclusions:
+  has_lp_1993628:
+    decision: logs
+    raises:
+      type: LaunchpadBug
+      bug-id: 1993628
+      message: >-
+        Neutron has some DuplicateRecordSet exceptions which could be a result of this bug where zones are not
+        being updated properly when ports are deleted.
