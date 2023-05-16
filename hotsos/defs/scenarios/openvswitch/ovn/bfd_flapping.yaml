@@ -70,4 +70,3 @@ conclusions:
       format-dict:
         bfd_count: '@checks.bfd_state_changes.search.num_results'
         timeout_count: '@checks.vswitchd_to_ovn_controller_inactivity_timeouts.search.num_results'
-
