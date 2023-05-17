@@ -175,7 +175,7 @@ class SystemdHelper(ServiceManagerBase):
         if not self.services:
             return []
 
-        return self._service_info.get('masked', [])
+        return sorted(self._service_info.get('masked', []))
 
     def get_services_expanded(self, name):
         _expanded = []

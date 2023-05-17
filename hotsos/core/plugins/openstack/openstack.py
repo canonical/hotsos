@@ -473,7 +473,7 @@ class OSTProjectCatalog(object):
         for p in self.all.values():
             masked += p.systemd_masked_services
 
-        return masked
+        return sorted(masked)
 
     def add(self, name, *args, **kwargs):
         self._projects[name] = OSTProject(name, *args, **kwargs)
