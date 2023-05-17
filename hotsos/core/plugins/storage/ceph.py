@@ -658,7 +658,8 @@ class CephCluster(object):
                 if daemon_type in exclude_daemons:
                     continue
 
-            unique_versions[daemon_type] = list(set(versions[daemon_type]))
+            unique_versions[daemon_type] = sorted(
+                list(set(versions[daemon_type])))
 
         return unique_versions
 

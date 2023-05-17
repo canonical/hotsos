@@ -239,8 +239,8 @@ class TestCoreCephCluster(CephMonTestsBase):
                              CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED})
     def test_ceph_daemon_versions_unique_not(self):
         result = {'mgr': ['15.2.11'],
-                  'mon': ['15.2.11',
-                          '15.2.10'],
+                  'mon': ['15.2.10',
+                          '15.2.11'],
                   'osd': ['15.2.11',
                           '15.2.13']}
         cluster = ceph_core.CephCluster()
