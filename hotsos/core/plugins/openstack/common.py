@@ -215,7 +215,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
             return []
 
         expected_masked = self.ost_projects.default_masked_services
-        return list(masked.difference(expected_masked))
+        return sorted(list(masked.difference(expected_masked)))
 
     @cached_property
     def openstack_installed(self):
