@@ -47,45 +47,37 @@ class OpenstackBase(object):
         return os.path.exists(self.apache2_ssl_config_file)
 
     @cached_property
-    def apache2_certificates_list(self):
-        certificate_path_list = []
-        certificate_list = []
-        if self.ssl_enabled:
-            try:
-                with open(self.apache2_ssl_config_file) as fd:
-                    for line in fd:
-                        regex_match = re.search(r'SSLCertificateFile /(.*)',
-                                                line)
-                        if regex_match:
-                            certificate_path = os.path.join(
-                                               HotSOSConfig.data_root,
-                                               regex_match.group(1))
-                            if certificate_path not in certificate_path_list:
-                                certificate_path_list.append(certificate_path)
-            except OSError:
-                log.debug("Unable to open apache2 configuration file %s",
-                          self.apache2_ssl_config_file)
-                return certificate_list
+    def _apache2_certificates(self):
+        """ Returns list of ssl cert paths relative to data_root. """
+        certificate_paths = []
+        if not self.ssl_enabled:
+            return certificate_paths
 
-        if len(certificate_path_list) > 0:
-            for certificate_path in certificate_path_list:
-                try:
-                    ssl_certificate = SSLCertificate(certificate_path)
-                    certificate_list.append(ssl_certificate)
-                except OSError:
-                    continue
+        with open(self.apache2_ssl_config_file) as fd:
+            for line in fd:
+                ret = re.search(r'SSLCertificateFile /(\S+)', line)
+                if ret:
+                    path = ret.group(1)
+                    if path not in certificate_paths:
+                        certificate_paths.append(path)
 
-        return certificate_list
+            return certificate_paths
 
     @cached_property
     def apache2_certificates_expiring(self):
         apache2_certificates_expiring = []
-        certificate_list = self.apache2_certificates_list
-        for certificate in certificate_list:
-            ssl_checks = SSLCertificatesHelper(certificate,
-                                               self.certificate_expire_days)
+        max_days = self.certificate_expire_days
+        for path in self._apache2_certificates:
+            try:
+                ssl_checks = SSLCertificatesHelper(SSLCertificate(path),
+                                                   max_days)
+            except OSError:
+                log.info("cert path not found: %s", path)
+                continue
+
             if ssl_checks.certificate_expires_soon:
-                apache2_certificates_expiring.append(certificate.path)
+                apache2_certificates_expiring.append(path)
+
         return apache2_certificates_expiring
 
 

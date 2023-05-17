@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 from unittest import mock
 
@@ -11,7 +10,6 @@ import hotsos.core.plugins.openstack.neutron as neutron_core
 from hotsos.core import host_helpers
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.search import FileSearcher
 from hotsos.plugin_extensions.openstack import (
     vm_info,
@@ -1196,29 +1194,6 @@ class TestOpenstackScenarios(TestOpenstackBase):
     required. See defs/tests/README.md for more info.
     """
 
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('openstack_apache2_certificates.yaml',
-                                        'scenarios/openstack'))
-    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
-    @utils.create_data_root(
-        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
-         APACHE2_SSL_CONF,
-         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
-    def test_apache2_ssl_certificate_expiring(self, mock_datetime):
-        mocked_today = datetime(2023, 4, 12)
-        mock_datetime.return_value = mock.MagicMock()
-        mock_datetime.today.return_value = mocked_today
-        base = openstack_core.OpenstackBase()
-        YScenarioChecker()()
-        full_cert_path = os.path.join(
-                                    HotSOSConfig.data_root,
-                                    'etc/apache2/ssl/keystone/cert_10.5.100.2')
-        msg = ("The following certificates will expire in less than {0} "
-               "days: {1}".format(base.certificate_expire_days,
-                                  full_cert_path))
-        issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
-
 
 class TestOpenstackApache2SSL(TestOpenstackBase):
 
@@ -1239,28 +1214,24 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
     def test_ssl_certificate_list(self):
         base = openstack_core.OpenstackBase()
-        self.assertTrue(len(base.apache2_certificates_list), 1)
+        self.assertTrue(len(base._apache2_certificates), 1)
+        self.assertEqual(base._apache2_certificates,
+                         ['etc/apache2/ssl/keystone/cert_10.5.100.2'])
 
-    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF,
-         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
-    def test_ssl_expiration_false(self, mock_datetime):
-        mocked_today = datetime(2022, 4, 12)
-        mock_datetime.return_value = mock.MagicMock()
-        mock_datetime.today.return_value = mocked_today
+         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE,
+         'sos_commands/date/date': 'Thu Apr 12 16:19:17 UTC 2022'})
+    def test_ssl_expiration_false(self):
         base = openstack_core.OpenstackBase()
         self.assertEqual(len(base.apache2_certificates_expiring), 0)
 
-    @mock.patch('hotsos.core.host_helpers.ssl.datetime')
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF,
-         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
-    def test_ssl_expiration_true(self, mock_datetime):
-        mocked_today = datetime(2023, 4, 12)
-        mock_datetime.return_value = mock.MagicMock()
-        mock_datetime.today.return_value = mocked_today
+         'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE,
+         'sos_commands/date/date': 'Thu Apr 12 16:19:17 UTC 2023'})
+    def test_ssl_expiration_true(self):
         base = openstack_core.OpenstackBase()
         self.assertTrue(len(base.apache2_certificates_expiring), 1)

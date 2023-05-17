@@ -1,4 +1,4 @@
-target-name: ovn_central_ssl_certs.yaml
+target-name: ovn_central_certs_logs.yaml
 data-root:
   files:
     var/log/ovn/ovn-northd.log: |

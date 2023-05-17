@@ -377,7 +377,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml',
+                new=utils.is_def_filter('ovn/ovn_central_certs_logs.yaml',
                                         'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-central.crt': ''},
@@ -406,7 +406,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
             self.assertEqual(len(issues), 0)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_central_ssl_certs.yaml',
+                new=utils.is_def_filter('ovn/ovn_central_certs_logs.yaml',
                                         'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-central.crt': ''},
@@ -439,7 +439,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
             self.assertEqual([issue['desc'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml',
+                new=utils.is_def_filter('ovn/ovn_chassis_certs_logs.yaml',
                                         'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-chassis.crt': ''},
@@ -463,7 +463,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
             self.assertEqual(len(issues), 0)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn/ovn_chassis_ssl_certs.yaml',
+                new=utils.is_def_filter('ovn/ovn_chassis_certs_logs.yaml',
                                         'scenarios/openvswitch'))
     @utils.create_data_root({'etc/ovn/cert_host': '',
                              'etc/ovn/ovn-chassis.crt': ''},
