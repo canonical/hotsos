@@ -1,0 +1,65 @@
+vars:
+  ml2_mechanism_driver: '@hotsos.core.plugins.openstack.neutron.Config.mechanism_drivers:plugins/ml2/ml2_conf.ini'
+  data_root_is_sosreport: '@hotsos.core.plugins.sosreport.SOSReportChecksBase.data_root_is_sosreport'
+  ovn_cert_host_exists: '@hotsos.core.host_helpers.filestat.FileFactory.exists:etc/ovn/cert_host'
+  ovn_cert_host_days: '@hotsos.core.host_helpers.ssl.SSLCertificatesFactory.days_to_expire:etc/ovn/cert_host'
+  neutron_ml2_cert_host_exists: '@hotsos.core.host_helpers.filestat.FileFactory.exists:etc/neutron/plugins/ml2/cert_host'
+  neutron_ml2_cert_host_days: '@hotsos.core.host_helpers.ssl.SSLCertificatesFactory.days_to_expire:etc/neutron/plugins/ml2/cert_host'
+checks:
+  is_not_sosreport_data_root:
+    varops: [[$data_root_is_sosreport], [ne, true]]
+  is_ovn_central:
+    apt: ovn-central
+  neutron_ml2_ovn_enabled:
+    - varops: [[$ml2_mechanism_driver], [ne, null]]
+    - varops: [[$ml2_mechanism_driver], [contains, 'ovn']]
+  central_cert_exists:
+    varops: [[$ovn_cert_host_exists], [truth]]
+  central_cert_expiring:
+    varops: [[$ovn_cert_host_days], [lt, 30]]
+  is_neutron_server:
+    apt: neutron-server
+  neutron_cert_exists:
+    varops: [[$neutron_ml2_cert_host_exists], [truth]]
+  neutron_cert_expiring:
+    varops: [[$neutron_ml2_cert_host_days], [lt, 30]]
+conclusions:
+  central_missing_cert:
+    decision:
+      - is_ovn_central
+      - is_not_sosreport_data_root
+      - not: central_cert_exists
+    raises:
+      type: OVNError
+      message: >-
+        This host is running ovn-central and is missing /etc/ovn/cert_host.
+  neutron_missing_cert:
+    decision:
+      - is_neutron_server
+      - neutron_ml2_ovn_enabled
+      - is_not_sosreport_data_root
+      - not: neutron_cert_exists
+    raises:
+      type: OVNError
+      message: >-
+        This host is running neutron-server and configured to use ml2-ovn but
+        is missing /etc/neutron/plugins/ml2/cert_host.
+  central_cert_expiring:
+    decision:
+      - is_ovn_central
+      - central_cert_exists
+      - central_cert_expiring
+    raises:
+      type: OVNError
+      message: >-
+        This ovn-central host's cert (/etc/ovn/cert_host) is going to expire in less than 30 days.
+  neutron_cert_expiring:
+    decision:
+      - is_neutron_server
+      - neutron_ml2_ovn_enabled
+      - neutron_cert_exists
+      - neutron_cert_expiring
+    raises:
+      type: OVNError
+      message: >-
+        This neutron-server host's ml2-ovn cert (/etc/neutron/plugins/ml2/cert_host) is going to expire in less than 30 days.

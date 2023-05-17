@@ -2,9 +2,13 @@ import os
 import re
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.openstack.openstack import OSTServiceBase
+from hotsos.core.plugins.openstack.openstack import (
+    OpenstackConfig,
+    OSTServiceBase,
+)
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.utils import cached_property
+from hotsos.core.factory import FactoryBase
 
 
 class NeutronBase(OSTServiceBase):
@@ -115,3 +119,10 @@ class NeutronHAInfo(object):
         for r in self.ha_routers:
             if r.vr_id == id:
                 return r
+
+
+class Config(FactoryBase):
+
+    def __getattr__(self, path):
+        path = os.path.join(HotSOSConfig.data_root, 'etc/neutron', path)
+        return OpenstackConfig(path)

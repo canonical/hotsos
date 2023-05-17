@@ -1,0 +1,29 @@
+target-name: ovn_certs_valid.yaml
+mock:
+  patch:
+    # this is needed because we are using sosreport-like data_root for dummy
+    # data and the check is disabled for sosreports since they wont contain
+    # the cert file.
+    hotsos.core.plugins.sosreport.SOSReportChecksBase.data_root_is_sosreport:
+      kwargs:
+        new: False
+data-root:
+  files:
+    sos_commands/systemd/systemctl_list-unit-files: |
+      ovn-central.service                        enabled         enabled      
+      ovn-nb-ovsdb.service                       enabled         enabled      
+      ovn-northd.service                         static          enabled      
+      ovn-ovsdb-server-nb.service                enabled         enabled      
+      ovn-ovsdb-server-sb.service                enabled         enabled      
+      ovn-sb-ovsdb.service                       enabled         enabled 
+    sos_commands/systemd/systemctl_list-units: |
+      ovn-central.service                                                         loaded active exited    Open Virtual Network central components
+      ovn-northd.service                                                          loaded active running   Open Virtual Network central control daemon
+      ovn-ovsdb-server-nb.service                                                 loaded active running   Open vSwitch database server for OVN Northbound database
+      ovn-ovsdb-server-sb.service                                                 loaded active running   Open vSwitch database server for OVN Southbound database
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-central                     20.03.2-0ubuntu0.20.04.4          amd64        OVN central components
+      ii  ovn-common                      20.03.2-0ubuntu0.20.04.4          amd64        OVN common components
+raised-issues:
+  OVNError: >-
+    This host is running ovn-central and is missing /etc/ovn/cert_host.

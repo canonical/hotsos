@@ -11,8 +11,15 @@ class FileObj(object):
         self.filename = os.path.join(HotSOSConfig.data_root, filename)
 
     @property
+    def exists(self):
+        if os.path.exists(self.filename):
+            return True
+
+        return False
+
+    @property
     def mtime(self):
-        if not os.path.exists(self.filename):
+        if not self.exists:
             log.debug("mtime %s - file not found", self.filename)
             return 0
 
