@@ -1,0 +1,44 @@
+target-name: ovn_certs_valid.yaml
+data-root:
+  files:
+    etc/neutron/plugins/ml2/ml2_conf.ini: |
+      [ml2]
+      extension_drivers=port_security,dns_domain_ports
+      type_drivers = geneve,gre,vlan,flat,local
+      tenant_network_types = geneve,gre,vlan,flat,local
+      mechanism_drivers = ovn
+    etc/neutron/plugins/ml2/cert_host: |
+      -----BEGIN CERTIFICATE-----
+      MIIDazCCAlOgAwIBAgIURnrIcMq1xz1IHx2w8qxRUReo0qEwDQYJKoZIhvcNAQEL
+      BQAwPTE7MDkGA1UEAxMyVmF1bHQgUm9vdCBDZXJ0aWZpY2F0ZSBBdXRob3JpdHkg
+      KGNoYXJtLXBraS1sb2NhbCkwHhcNMjIwNDE0MTUwNjQ4WhcNMzIwNDExMTQwNzE3
+      WjA9MTswOQYDVQQDEzJWYXVsdCBSb290IENlcnRpZmljYXRlIEF1dGhvcml0eSAo
+      Y2hhcm0tcGtpLWxvY2FsKTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEB
+      AKVsc8HPqanw5xpz9smsWfRydyMzg+aOFJUPYfeYgznym6VNGXkGCBNr4wYwhBZs
+      +4ECGHs3yxn66f0WWsXAVvLqdQGDk097AhIpqH14kFnGHRSYSd/KnQUDPS7HsLgO
+      LLjvrdB6+lEsjDVmYRqFdnVADo0McbGznoiJqy589fDY5zaCeJYdLYGVd7Oho4Tp
+      5f1dzSw6maUXoyXXynSQnrIaHNlBeUKKJSZHoWptRkQphBdxiX/f+T2gZpy7Y45D
+      FbzD3Xzp/0LoCfXSBCa/MOn2QLGfzH5v+5EBArw43zSYzrLv9S64UDPiFAyRXvVv
+      i+FpTMNCreTbXLp7un6i33MCAwEAAaNjMGEwDgYDVR0PAQH/BAQDAgEGMA8GA1Ud
+      EwEB/wQFMAMBAf8wHQYDVR0OBBYEFPfmQ0jJghDWSu2x2JuSgk8JH4bbMB8GA1Ud
+      IwQYMBaAFPfmQ0jJghDWSu2x2JuSgk8JH4bbMA0GCSqGSIb3DQEBCwUAA4IBAQAK
+      TCIR6CEhKYTn7YcnVss1K6ksBJfA3qNtcBigrYdgESj2xAPOjz4XEqQNVPln+p+P
+      bv4M0zmQ0QgUoULT/wQChcFitaY9HEPD9R7Y4H+a84gqsxHBd1UMt2rOrPZr+vnI
+      ZTJFCkpSLMMQWjCRqvzSGTP4U9SXMqJtzXZKCUpbS9Kufp3CKRFUx+b6QD1FUqQd
+      6ZT2QCLxzA+u7YEFay9t2x2pY4ESrYhHp52Mbx4zckLHiVpHczatCgu4FPYk3P5s
+      MKIxU/QYvaBrorsfe0U7z37EN6x2naODCEZrm8ipNn+axVZoT4RMMARpqgOuDFW1
+      ASN0gL0njyv/jQVn0wcB
+      -----END CERTIFICATE-----
+    sos_commands/date/date:
+      Thu Feb 10 16:19:17 UTC 2034
+    sos_commands/systemd/systemctl_list-unit-files: |
+      neutron-api-mysql-router.service           enabled         enabled
+      neutron-server.service                     enabled         enabled
+    sos_commands/systemd/systemctl_list-units: |
+      neutron-api-mysql-router.service                                            loaded active running   MySQL Router
+      neutron-server.service                                                      loaded active running   OpenStack Neutron Server
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-server                  2:16.4.2-0ubuntu6.2               all          Neutron is a virtual network service for Openstack - server
+raised-issues:
+  OVNError: >-
+    This neutron-server host's ml2-ovn cert (/etc/neutron/plugins/ml2/cert_host) is going to expire in less than 30 days.

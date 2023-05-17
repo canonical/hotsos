@@ -237,7 +237,9 @@ OPENSTACK_LOGS_TS_EXPR = r"^([\d-]+\s+[\d:]+)"
 
 
 class OpenstackConfig(host_helpers.SectionalConfigBase):
-    pass
+
+    def __getattr__(self, key):
+        return self.get(key)
 
 
 class OSTProject(object):
