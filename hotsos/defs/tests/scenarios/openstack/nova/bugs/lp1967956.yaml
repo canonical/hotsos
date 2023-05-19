@@ -1,0 +1,12 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2022-02-04 03:18:09.700 653208 ERROR nova.compute.manager [instance: b3247fa2-fdef-4608-b661-0677fd68f96a] libvirt.libvirtError: Cannot access storage file '/var/lib/nova/instances/b3247fa2-fdef-4608-b661-0677fd68f96a/disk' (as uid:64055, gid:108): Permission denied
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-common                          3:25.0.0-0ubuntu1~cloud0                                    all          OpenStack Compute - common files
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1967956: |
+    This host is affected by an Openstack Nova bug that breaks vm image resize
+    operations on CIS hardened nodes.

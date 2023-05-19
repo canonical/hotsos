@@ -1,0 +1,26 @@
+checks:
+  logs:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    search:
+      expr: '^([\d-]+\s+[\d:]+)\S+ .+ libvirt.libvirtError: Cannot access storage file ''\S+'' \(as uid:\d+, gid:\d+\): Permission denied'
+      hint: ERROR
+      constraints:
+        search-result-age-hours: 168  # 7 days
+  pkg:
+    apt:
+      nova-common:
+        # every version up to kinetic/zed initial release has the bug
+        - min: 3:0.0.0
+          max: 3:26.0.0-0ubuntu1~cloud0~1
+conclusions:
+  lp1967956:
+    decision:
+      - logs
+      - pkg
+    raises:
+      type: LaunchpadBug
+      bug-id: 1967956
+      message: |
+        This host is affected by an Openstack Nova bug that breaks vm image resize
+        operations on CIS hardened nodes.
