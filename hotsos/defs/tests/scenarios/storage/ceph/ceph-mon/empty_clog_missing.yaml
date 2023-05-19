@@ -1,0 +1,34 @@
+target-name: empty_clog.yaml
+data-root:
+  files:
+    sos_commands/systemd/systemctl_list-units: |
+      var-lib-ceph-osd-ceph\x2d0.mount                                            loaded active mounted   /var/lib/ceph/osd/ceph-0                                                      
+      ceph-crash.service                                                          loaded active running   Ceph crash dump collector                                                     
+      ceph-osd@0.service                                                          loaded active running   Ceph object storage daemon osd.0                                              
+      system-ceph\x2dosd.slice                                                    loaded active active    system-ceph\x2dosd.slice                                                      
+      system-ceph\x2dvolume.slice                                                 loaded active active    system-ceph\x2dvolume.slice                                                   
+      ceph-mds.target                                                             loaded active active    ceph target allowing to start/stop all ceph-mds@.service instances at once    
+      ceph-mgr.target                                                             loaded active active    ceph target allowing to start/stop all ceph-mgr@.service instances at once    
+      ceph-mon.target                                                             loaded active active    ceph target allowing to start/stop all ceph-mon@.service instances at once    
+      ceph-osd.target                                                             loaded active active    ceph target allowing to start/stop all ceph-osd@.service instances at once    
+      ceph-radosgw.target                                                         loaded active active    ceph target allowing to start/stop all ceph-radosgw@.service instances at once
+      ceph.target                                                                 loaded active active    ceph target allowing to start/stop all ceph*@.service instances at once  
+    sos_commands/systemd/systemctl_list-unit-files: |
+      ceph-crash.service                              enabled         enabled      
+      ceph-mds@.service                               disabled        enabled      
+      ceph-mgr@.service                               disabled        enabled      
+      ceph-mon.service                                disabled        enabled      
+      ceph-mon@.service                               disabled        enabled      
+      ceph-osd@.service                               indirect        enabled      
+      ceph-radosgw@.service                           disabled        enabled      
+      ceph-volume@.service                            indirect        enabled      
+      ceph-mds.target                                 enabled         enabled      
+      ceph-mgr.target                                 enabled         enabled      
+      ceph-mon.target                                 enabled         enabled      
+      ceph-osd.target                                 enabled         enabled      
+      ceph-radosgw.target                             enabled         enabled      
+      ceph.target                                     enabled         enabled 
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+    - sos_commands/dpkg/dpkg_-l
