@@ -1,0 +1,24 @@
+vars:
+  clog_size: '@hotsos.core.host_helpers.filestat.FileFactory.size:var/log/ceph/ceph.log'
+
+checks:
+  empty_clog_size:
+    varops: [[$clog_size], [eq, 0]]
+
+conclusions:
+  empty_clog:
+    decision:
+      - empty_clog_size
+    raises:
+      type: CephTrackerBug
+      bug-id: 55383
+      message: >-
+        The ceph.log file is empty, this is likely because the version of
+        ceph-mon on this node does not re-open
+        /var/log/ceph/{ceph.log,ceph.audit.log} after log rotation. This leaves
+        ceph.log empty and the logs are written to a deleted file. This will prevent
+        you from seeing the cluster log and hotsos checks for information from these
+        logs will not trigger. This issue is fixed in 17.2.5. You can work around
+        this issue temporarily by setting
+        `ceph config set global mon_cluster_log_to_journald false` and running
+        `killall -HUP ceph-mon`.

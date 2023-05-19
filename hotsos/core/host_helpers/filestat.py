@@ -27,6 +27,16 @@ class FileObj(object):
         log.debug("mtime %s=%s", self.filename, mt)
         return mt
 
+    @property
+    def size(self):
+        if not os.path.exists(self.filename):
+            log.debug("size %s - file not found", self.filename)
+            return -1
+
+        size = os.path.getsize(self.filename)
+        log.debug("size %s=%d", self.filename, size)
+        return size
+
 
 class FileFactory(FactoryBase):
     """
