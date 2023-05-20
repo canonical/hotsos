@@ -333,6 +333,13 @@ class CephCrushMap(object):
             pass
         return False
 
+    @cached_property
+    def is_any_ec_pool(self):
+        for p in self.rules.values():
+            if p['type'] == 'erasure-coded':
+                return True
+        return False
+
 
 class CephCluster(object):
     OSD_META_LIMIT_PERCENT = 5

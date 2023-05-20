@@ -1,0 +1,16 @@
+checks:
+  ec_pools:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCrushMap.is_any_ec_pool
+conclusions:
+  has-ec-pools:
+    decision: ec_pools
+    raises:
+      type: CephWarning
+      message: >-
+        One or more erasure-coded pools are being used. If cluster is
+        experiencing performance issues and/or applications using EC pools
+        are latency-sensitive, it may be better served to use replicated
+        pools instead. When using EC pools, the additional computational
+        cost involved should be considered against the storage efficiency
+        it provides.
