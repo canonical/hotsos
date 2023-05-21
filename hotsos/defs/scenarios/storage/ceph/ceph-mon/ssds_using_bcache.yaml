@@ -1,0 +1,20 @@
+checks:
+  ssds_using_bcache:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.ssds_using_bcache
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  ssd_osds_using_bcache:
+    decision: ssds_using_bcache
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Found the osd(s) {osds} using bcache and their underlying block
+        device of these OSDS appear to be SSDs. It's nearly always the case
+        that the benefit of using bcache for SSD OSDs is nil and can even
+        adversely affect performance in some cases. So this is likely to be a
+        misconfiguration and it's probably better to remove the bcache and use
+        the OSDs directly instead. Please compare the IOPs of the SSD (OSDs)
+        vs. the bcache device (SSD/NVMe) to ascertain.
+      format-dict:
+        osds: hotsos.core.plugins.storage.ceph.CephCluster.ssds_using_bcache

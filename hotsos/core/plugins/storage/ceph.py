@@ -744,6 +744,21 @@ class CephCluster(object):
 
         return sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
 
+    @cached_property
+    def ssds_using_bcache(self):
+        report = self.cli.ceph_report_json_decoded()
+        if not report:
+            return []
+
+        ssd_osds_using_bcache = []
+        for osd in report['osd_metadata']:
+            if osd['bluestore_bdev_type'] == 'ssd' and \
+                    osd['bluestore_bdev_rotational'] == '0' and \
+                    re.search("bcache", osd['bluestore_bdev_devices']):
+                ssd_osds_using_bcache.append(osd['id'])
+
+        return sorted(ssd_osds_using_bcache)
+
 
 class CephDaemonBase(object):
 

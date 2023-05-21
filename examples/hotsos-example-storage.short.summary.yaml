@@ -5,6 +5,14 @@ potential-issues:
         this environment. If maintenance windows are required please consider disabling
         unattended upgrades. (origin=system.auto_scenario_check)
   storage:
+    CephOSDWarnings:
+      - Found the osd(s) [0, 1, 2] using bcache and their underlying block device
+        of these OSDS appear to be SSDs. It's nearly always the case that the benefit
+        of using bcache for SSD OSDs is nil and can even adversely affect performance
+        in some cases. So this is likely to be a misconfiguration and it's probably
+        better to remove the bcache and use the OSDs directly instead. Please compare
+        the IOPs of the SSD (OSDs) vs. the bcache device (SSD/NVMe) to ascertain.
+        (origin=storage.auto_scenario_check)
     CephWarnings:
       - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph health detail'
         for details. (origin=storage.auto_scenario_check)

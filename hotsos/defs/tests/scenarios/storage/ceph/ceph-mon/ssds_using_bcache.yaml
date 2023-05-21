@@ -1,0 +1,69 @@
+target-name: ssds_using_bcache.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_report: |
+      {
+        "osd_metadata": [
+          {
+            "id": 0,
+            "arch": "x86_64",
+            "back_addr": "[v2:192.168.248.67:6800/739607,v1:192.168.248.67:6801/739607]",
+            "back_iface": "bond1.3313",
+            "bluefs": "1",
+            "bluefs_dedicated_db": "0",
+            "bluefs_dedicated_wal": "0",
+            "bluefs_single_shared_device": "1",
+            "bluestore_bdev_access_mode": "blk",
+            "bluestore_bdev_block_size": "4096",
+            "bluestore_bdev_dev_node": "/dev/dm-4",
+            "bluestore_bdev_devices": "bcache9",
+            "bluestore_bdev_driver": "KernelDevice",
+            "bluestore_bdev_partition_path": "/dev/dm-4",
+            "bluestore_bdev_rotational": "0",
+            "bluestore_bdev_size": "6001155637248",
+            "bluestore_bdev_support_discard": "0",
+            "bluestore_bdev_type": "ssd",
+            "ceph_release": "octopus",
+            "ceph_version": "ceph version 15.2.12 (ce065eabfa5ce81323b009786bdf5bb03127cbe1) octopus (stable)",
+            "ceph_version_short": "15.2.12",
+            "cpu": "Intel(R) Xeon(R) Gold 5218R CPU @ 2.10GHz",
+            "default_device_class": "ssd",
+            "device_ids": "",
+            "device_paths": "",
+            "devices": "bcache9",
+            "distro": "ubuntu",
+            "distro_description": "Ubuntu 20.04.2 LTS",
+            "distro_version": "20.04",
+            "front_addr": "[v2:172.25.80.73:6800/739607,v1:172.25.80.73:6801/739607]",
+            "front_iface": "bond0.3325",
+            "hb_back_addr": "[v2:192.168.248.67:6802/739607,v1:192.168.248.67:6803/739607]",
+            "hb_front_addr": "[v2:172.25.80.73:6802/739607,v1:172.25.80.73:6803/739607]",
+            "hostname": "USE01STGRV007",
+            "journal_rotational": "0",
+            "kernel_description": "#86-Ubuntu SMP Thu Jun 17 02:35:03 UTC 2021",
+            "kernel_version": "5.4.0-77-generic",
+            "mem_swap_kb": "31248380",
+            "mem_total_kb": "196681500",
+            "network_numa_unknown_ifaces": "bond0.3325,bond1.3313",
+            "objectstore_numa_unknown_devices": "bcache9",
+            "os": "Linux",
+            "osd_data": "/var/lib/ceph/osd/ceph-0",
+            "osd_objectstore": "bluestore",
+            "osdspec_affinity": "",
+            "rotational": "0"
+          }
+        ]
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    Found the osd(s) [0] using bcache and their underlying block
+    device of these OSDS appear to be SSDs. It's nearly always the case
+    that the benefit of using bcache for SSD OSDs is nil and can even
+    adversely affect performance in some cases. So this is likely to be a
+    misconfiguration and it's probably better to remove the bcache and use
+    the OSDs directly instead. Please compare the IOPs of the SSD (OSDs)
+    vs. the bcache device (SSD/NVMe) to ascertain.
