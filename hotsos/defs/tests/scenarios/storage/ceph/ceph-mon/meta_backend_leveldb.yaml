@@ -1,0 +1,19 @@
+target-name: meta_backend_mon.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-mon  15.2.14-0ubuntu0.20.04.1   amd64
+    var/lib/ceph/mon/ceph-mon-host/kv_backend: |
+      leveldb
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephMonWarning: >-
+    Ceph mon is using 'leveldb' backend. 'rocksdb' has been the default
+    backend since Luminous release for performance reasons and 'leveldb'
+    support has been removed since Quincy release. Recommended
+    converting the Ceph mons to use 'rocksdb' backend. Please check
+    https://portal.support.canonical.com/ua/s/article/How-to-migrate-the-key-value-store-from-leveldb-to-rocksdb-in-the-Ceph-cluster-using-Juju
+    for instructions.

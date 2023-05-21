@@ -1,0 +1,12 @@
+target-name: meta_backend_osd.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-osd  15.2.14-0ubuntu0.20.04.1   amd64
+    var/lib/ceph/osd/ceph-osd-host/kv_backend: |
+      rocksdb
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues: {}

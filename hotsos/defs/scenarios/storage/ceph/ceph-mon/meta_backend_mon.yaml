@@ -1,0 +1,23 @@
+checks:
+  ceph_is_luminous_or_newer:
+    apt:
+      ceph-mon:
+        - min: 12.2.0
+  backend_type:
+    input:
+      path: var/lib/ceph/mon/*/kv_backend
+    expr: 'leveldb'
+conclusions:
+  deprecated_type:
+    decision:
+      - ceph_is_luminous_or_newer
+      - backend_type
+    raises:
+      type: CephMonWarning
+      message: >-
+        Ceph mon is using 'leveldb' backend. 'rocksdb' has been the default
+        backend since Luminous release for performance reasons and 'leveldb'
+        support has been removed since Quincy release. Recommended
+        converting the Ceph mons to use 'rocksdb' backend. Please check
+        https://portal.support.canonical.com/ua/s/article/How-to-migrate-the-key-value-store-from-leveldb-to-rocksdb-in-the-Ceph-cluster-using-Juju
+        for instructions.
