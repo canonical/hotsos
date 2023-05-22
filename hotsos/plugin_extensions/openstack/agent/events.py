@@ -22,7 +22,7 @@ from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
     OpenstackEventChecksBase,
 )
-from hotsos.core.plugins.openstack.openstack import OPENSTACK_LOGS_TS_EXPR
+from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core.utils import sorted_dict
 
@@ -308,7 +308,8 @@ class AgentEventChecks(OpenstackChecksBase):
         if not self.openstack_installed:
             return
 
-        c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
+        c = SearchConstraintSearchSince(
+                                      ts_matcher_cls=OpenstackTimestampMatcher)
         s = FileSearcher(constraint=c)
         check_objs = [c(searchobj=s) for c in checks]
         for check in check_objs:

@@ -980,7 +980,6 @@ class TestYamlChecks(utils.BaseTestCase):
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @init_test_scenario(SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log':
                              ('2021-04-01 00:31:00.000 an event\n'
@@ -992,9 +991,7 @@ class TestYamlChecks(utils.BaseTestCase):
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
                                  'Thu Mar 31 16:19:17 UTC 2021'})
-    def test_yaml_def_scenario_checks_expr(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.date.return_value = "2021-04-03 00:00:00"
+    def test_yaml_def_scenario_checks_expr(self):
         checker = scenarios.YScenarioChecker()
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)

@@ -1,11 +1,10 @@
 import os
 
+from searchkit.constraints import TimestampMatcherBase
+
 from hotsos.core import plugintools
 from hotsos.core.host_helpers import PebbleHelper, SystemdHelper
 from hotsos.core.plugins.juju.resources import JujuBase
-
-# matches date and time at start if log lines
-JUJU_UNIT_LOGS_TS_EXPR = r"^([\d-]+)\s+([\d:]+)"
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
 JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
@@ -13,6 +12,20 @@ JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
                   # catch juju-db but filter out processes with juju-db in
                   # their args list.
                   r'(?:^|[^\s])juju-db{}'.format(SVC_VALID_SUFFIX)]
+
+
+class JujuTimestampMatcher(TimestampMatcherBase):
+    """
+    NOTE: remember to update
+          hotsos.core.ycheck.engine.properties.search.CommonTimestampMatcher
+          if necessary.
+    """
+
+    @property
+    def patterns(self):
+        # matches date and time at start of log lines
+        return [r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})+\s+'
+                r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)']
 
 
 class JujuChecksBase(plugintools.PluginPartBase, JujuBase):

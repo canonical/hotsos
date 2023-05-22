@@ -3,7 +3,7 @@ import re
 from hotsos.core.issues import IssuesManager, CephOSDError
 from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.plugins.storage.ceph import (
-    CEPH_LOGS_TS_EXPR,
+    CephTimestampMatcher,
     CephEventChecksBase,
 )
 from hotsos.core.search import (
@@ -17,7 +17,7 @@ CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 class CephDaemonLogChecks(CephEventChecksBase):
 
     def __init__(self):
-        c = SearchConstraintSearchSince(exprs=[CEPH_LOGS_TS_EXPR])
+        c = SearchConstraintSearchSince(ts_matcher_cls=CephTimestampMatcher)
         super().__init__(EVENTCALLBACKS, yaml_defs_group='ceph',
                          searchobj=FileSearcher(constraint=c))
 

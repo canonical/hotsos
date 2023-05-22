@@ -2,32 +2,31 @@ target-name: kernlog_calltrace.yaml
 data-root:
   files:
     var/log/kern.log: |
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.259590] INFO: task controller:1428 blocked for more than 120 seconds.
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.260681]       Not tainted 4.4.0-142-generic #168-Ubuntu
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261199] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261737] controller      D ffff8800b8593af8     0  1428   1333 0x10000000
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261741]  ffff8800b8593af8 ffff8800348e5d10 ffff88023627d500 ffff8800ba573fc0
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261743]  ffff8800b8594000 ffff8800a4ab5980 ffff8800348e5dd8 ffff8800348e5d00
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261745]  ffff88022fc7b000 ffff8800b8593b10 ffffffff8185cb45 0000000000000000
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261746] Call Trace:
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261752]  [<ffffffff8185cb45>] schedule+0x35/0x80
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261755]  [<ffffffff8126321e>] fanotify_handle_event+0x18e/0x2d0
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261757]  [<ffffffff8125f795>] ? fsnotify+0x5/0x4b0
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261760]  [<ffffffff810ca000>] ? wake_atomic_t_function+0x60/0x60
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261761]  [<ffffffff8125fa77>] fsnotify+0x2e7/0x4b0
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261764]  [<ffffffff81358a71>] security_file_open+0x91/0xa0
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261767]  [<ffffffff81219512>] do_dentry_open+0x112/0x310
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261768]  [<ffffffff8121a794>] vfs_open+0x54/0x80
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261771]  [<ffffffff8122656b>] ? may_open+0x5b/0xf0
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261773]  [<ffffffff81229aaf>] path_openat+0x20f/0x1360
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261775]  [<ffffffff81062999>] ? kprobe_ftrace_handler+0x69/0x120
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261777]  [<ffffffff8122c7d1>] do_filp_open+0x91/0x100
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261779]  [<ffffffff8122c745>] ? do_filp_open+0x5/0x100
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261780]  [<ffffffff8122c745>] ? do_filp_open+0x5/0x100
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261782]  [<ffffffff81060c79>] kretprobe_trampoline_holder+0x9/0x9
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261784]  [<ffffffff8121aa35>] ? do_sys_open+0x5/0x2a0
-      May  3 15:40:27 DELRHIUCBM002V kernel: [ 1920.261785]  [<ffffffff81060c79>] kretprobe_trampoline_holder+0
-
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.259590] INFO: task controller:1428 blocked for more than 120 seconds.
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.260681]       Not tainted 4.4.0-142-generic #168-Ubuntu
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261199] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261737] controller      D ffff8800b8593af8     0  1428   1333 0x10000000
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261741]  ffff8800b8593af8 ffff8800348e5d10 ffff88023627d500 ffff8800ba573fc0
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261743]  ffff8800b8594000 ffff8800a4ab5980 ffff8800348e5dd8 ffff8800348e5d00
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261745]  ffff88022fc7b000 ffff8800b8593b10 ffffffff8185cb45 0000000000000000
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261746] Call Trace:
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261752]  [<ffffffff8185cb45>] schedule+0x35/0x80
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261755]  [<ffffffff8126321e>] fanotify_handle_event+0x18e/0x2d0
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261757]  [<ffffffff8125f795>] ? fsnotify+0x5/0x4b0
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261760]  [<ffffffff810ca000>] ? wake_atomic_t_function+0x60/0x60
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261761]  [<ffffffff8125fa77>] fsnotify+0x2e7/0x4b0
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261764]  [<ffffffff81358a71>] security_file_open+0x91/0xa0
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261767]  [<ffffffff81219512>] do_dentry_open+0x112/0x310
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261768]  [<ffffffff8121a794>] vfs_open+0x54/0x80
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261771]  [<ffffffff8122656b>] ? may_open+0x5b/0xf0
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261773]  [<ffffffff81229aaf>] path_openat+0x20f/0x1360
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261775]  [<ffffffff81062999>] ? kprobe_ftrace_handler+0x69/0x120
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261777]  [<ffffffff8122c7d1>] do_filp_open+0x91/0x100
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261779]  [<ffffffff8122c745>] ? do_filp_open+0x5/0x100
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261780]  [<ffffffff8122c745>] ? do_filp_open+0x5/0x100
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261782]  [<ffffffff81060c79>] kretprobe_trampoline_holder+0x9/0x9
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261784]  [<ffffffff8121aa35>] ? do_sys_open+0x5/0x2a0
+      Feb  4 15:40:27 DELRHIUCBM002V kernel: [ 1920.261785]  [<ffffffff81060c79>] kretprobe_trampoline_holder+0
 raised-issues:
   KernelError: >-
     1 reports of fanotify related hangs in kern.log. This may be related to antivirus software running in the system.
