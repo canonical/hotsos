@@ -1,6 +1,8 @@
 from datetime import datetime
 import os
 
+from searchkit.constraints import TimestampMatcherBase
+
 from hotsos.core import host_helpers
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
@@ -233,7 +235,18 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   'placement': PLACEMENT_EXCEPTIONS,
                   }
 
-OPENSTACK_LOGS_TS_EXPR = r"^([\d-]+\s+[\d:]+)"
+
+class OpenstackTimestampMatcher(TimestampMatcherBase):
+    """
+    NOTE: remember to update
+          hotsos.core.ycheck.engine.properties.search.CommonTimestampMatcher
+          if necessary.
+    """
+
+    @property
+    def patterns(self):
+        return [r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})+\s+'
+                r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)']
 
 
 class OpenstackConfig(host_helpers.SectionalConfigBase):

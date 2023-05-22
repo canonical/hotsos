@@ -1,3 +1,5 @@
+from searchkit.constraints import TimestampMatcherBase
+
 from hotsos.core import plugintools
 from hotsos.core.host_helpers import (
     APTPackageHelper,
@@ -22,7 +24,19 @@ OVS_PKGS_DEPS = ['libc-bin',
                  'openvswitch-switch-dpdk',
                  ]
 PY_CLIENT_PREFIX = r"python3?-{}\S*"
-OPENVSWITCH_LOGS_TS_EXPR = r"^([0-9-]+)T([0-9:]+)"
+
+
+class OVSTimestampMatcher(TimestampMatcherBase):
+    """
+    NOTE: remember to update
+          hotsos.core.ycheck.engine.properties.search.CommonTimestampMatcher
+          if necessary.
+    """
+
+    @property
+    def patterns(self):
+        return [(r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})T'
+                 r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)')]
 
 
 class OpenvSwitchChecksBase(plugintools.PluginPartBase):

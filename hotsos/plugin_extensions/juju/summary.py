@@ -8,7 +8,7 @@ from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.juju.common import (
     JujuChecksBase,
-    JUJU_UNIT_LOGS_TS_EXPR,
+    JujuTimestampMatcher,
 )
 from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.search import (
@@ -26,12 +26,12 @@ class UnitLogInfo(object):
 
     def error_and_warnings(self):
         log.debug("searching unit logs for errors and warnings")
-        c = SearchConstraintSearchSince(exprs=[JUJU_UNIT_LOGS_TS_EXPR])
+        c = SearchConstraintSearchSince(ts_matcher_cls=JujuTimestampMatcher)
         searchobj = FileSearcher(constraint=c)
         path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
+        ts_expr = r"^([\d-]+)\s+([\d:]+)"
         for msg in ['ERROR', 'WARNING']:
-            expr = (r'{} {} (\S+) (\S+):\d+ '.
-                    format(JUJU_UNIT_LOGS_TS_EXPR, msg))
+            expr = (r'{} {} (\S+) (\S+):\d+ '.format(ts_expr, msg))
             tag = msg
             hint = msg
             searchobj.add(SearchDef(expr, tag=tag, hint=hint), path)
@@ -39,7 +39,7 @@ class UnitLogInfo(object):
         results = searchobj.run()
         log.debug("fetching unit log results")
         events = {}
-        date_format = '%Y-%m-%d %H:%M:%S'
+        date_format = JujuTimestampMatcher.DEFAULT_DATETIME_FORMAT
         now = CLIHelper().date(format="+{}".format(date_format))
         now = datetime.strptime(now, date_format)
 

@@ -1,13 +1,50 @@
 import abc
 import os
 
+from searchkit.constraints import TimestampMatcherBase
+
+from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
-from hotsos.core.search import FileSearcher
+from hotsos.core.search import FileSearcher, SearchConstraintSearchSince
 
 KERNLOG_TS = r'\[\s*\d+\.\d+\]'
 KERNLOG_PREFIX = (r'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{}'.
                   format(KERNLOG_TS))
+
+
+class KernLogTimestampMatcher(TimestampMatcherBase):
+    """
+    kern.log has a slightly esoteric timestamp format so we have to do a little
+    juggling to get it into a standard format that can be used with search
+    constraints.
+
+    NOTE: remember to update
+          hotsos.core.ycheck.engine.properties.search.CommonTimestampMatcher
+          if necessary.
+    """
+    MONTH_MAP = {'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5,
+                 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10,
+                 'nov': 11, 'dec': 12}
+
+    @property
+    def year(self):
+        """ Use current year as it is not normally included in the logs """
+        return CLIHelper().date(format='+%Y')
+
+    @property
+    def month(self):
+        _month = self.result.group('month').lower()
+        for sm, im in self.MONTH_MAP.items():
+            if _month.startswith(sm):
+                return im
+
+        log.error("could not establish month integer from '%s'", _month)
+
+    @property
+    def patterns(self):
+        return [r'^(?P<month>\w{3,5})\s+(?P<day>\d{1,2})\s+'
+                r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d{2})']
 
 
 class CallTraceHeuristicBase(object):
@@ -79,7 +116,8 @@ class TraceTypeBase(abc.ABC):
 class KernLogBase(object):
 
     def __init__(self):
-        self.searcher = FileSearcher()
+        c = SearchConstraintSearchSince(ts_matcher_cls=KernLogTimestampMatcher)
+        self.searcher = FileSearcher(constraint=c)
         self.hostnet_helper = HostNetworkingHelper()
         self.cli_helper = CLIHelper()
 

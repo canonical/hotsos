@@ -14,7 +14,7 @@ from hotsos.core.search import (
 )
 from hotsos.core.plugins.openstack.openstack import (
     OpenstackConfig,
-    OPENSTACK_LOGS_TS_EXPR,
+    OpenstackTimestampMatcher,
 )
 from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
@@ -148,7 +148,8 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
 class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
+        c = SearchConstraintSearchSince(
+                                      ts_matcher_cls=OpenstackTimestampMatcher)
         super().__init__(EVENTCALLBACKS, *args,
                          yaml_defs_group='nova.migrations',
                          searchobj=FileSearcher(constraint=c),

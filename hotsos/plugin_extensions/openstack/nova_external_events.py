@@ -5,7 +5,7 @@ from hotsos.core.search import (
 )
 from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.plugins.openstack.common import OpenstackEventChecksBase
-from hotsos.core.plugins.openstack.openstack import OPENSTACK_LOGS_TS_EXPR
+from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                           ['Preparing', 'Received',
@@ -38,7 +38,8 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
         events = {}
         events_found = {}
 
-        c = SearchConstraintSearchSince(exprs=[OPENSTACK_LOGS_TS_EXPR])
+        c = SearchConstraintSearchSince(
+                                      ts_matcher_cls=OpenstackTimestampMatcher)
         s = FileSearcher(constraint=c)
         for result in event.results:
             instance_id = result.get(1)

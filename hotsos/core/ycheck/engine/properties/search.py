@@ -1,3 +1,5 @@
+from searchkit.constraints import TimestampMatcherBase
+
 from datetime import (
     datetime,
     timedelta,
@@ -16,9 +18,59 @@ from hotsos.core.ycheck.engine.properties.common import (
     add_to_property_catalog,
 )
 
-# use some common expressions. these include from openstack and  ceph plugins.
-COMMON_LOG_DATETIME_EXPRS = [r"^([\d-]+\s+[\d:]+)", r"^([\d-]+)[\sT]([\d:]+)",
-                             r"^([0-9-]+)T([0-9:]+)"]
+
+class CommonTimestampMatcher(TimestampMatcherBase):
+    MONTH_MAP = {'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5,
+                 'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10,
+                 'nov': 11, 'dec': 12}
+
+    @property
+    def year(self):
+        """ Needed for kernlog which has no year group. """
+        if 'year' in self.result.groups():
+            return self.result.group('year')
+
+        return CLIHelper().date(format='+%Y')
+
+    @property
+    def month(self):
+        """ Needed for kernlog which has a string month. """
+        try:
+            return int(self.result.group('month'))
+        except ValueError:
+            pass
+
+        _month = self.result.group('month').lower()
+        for sm, im in self.MONTH_MAP.items():
+            if _month.startswith(sm):
+                return im
+
+        log.error("could not establish month integer from '%s'", _month)
+
+    @property
+    def patterns(self):
+        """
+        This needs to contain timestamp patterns for any/all types of file
+        we want to analyse where SearchConstraintsSince is to be applied.
+
+        NOTE: this would typically be defined by the core plugins but we can't
+              import them due to circular dependency issues.
+        """
+        # should match plugins.openstack.openstack.OpenstackDateTimeMatcher
+        openstack = (r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})+\s+'
+                     r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)')
+        # since they are identical we wont add but leaving in case we want to.
+        # edit later.
+        # juju = openstack
+        # should match plugins.storage.ceph.CephDateTimeMatcher
+        ceph = (r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})[\sT]'
+                r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)')
+        # since they are identical we wont add but leaving in case we want to
+        # edit later.
+        # openvswitch = ceph
+        kernlog = (r'^(?P<month>\w{3,5})\s+(?P<day>\d{1,2})\s+'
+                   r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d{2})')
+        return [openstack, ceph, kernlog]
 
 
 class YPropertySearchConstraints(YPropertyOverrideBase):
@@ -83,8 +135,9 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
             hours = min(hours,
                         max(uptime_etime_hours - min_hours_since_last_boot, 0))
 
-        return SearchConstraintSearchSince(exprs=COMMON_LOG_DATETIME_EXPRS,
-                                           hours=hours)
+        return SearchConstraintSearchSince(
+                                         ts_matcher_cls=CommonTimestampMatcher,
+                                         hours=hours)
 
 
 class YPropertySearchOpt(YPropertyOverrideBase):

@@ -5,6 +5,8 @@ import subprocess
 
 from datetime import datetime
 
+from searchkit.constraints import TimestampMatcherBase
+
 from hotsos.core.factory import FactoryBase
 from hotsos.core.log import log
 from hotsos.core.utils import (
@@ -34,8 +36,6 @@ from hotsos.core.search import (
 )
 from hotsos.core.plugins.kernel.net import Lsof
 
-
-CEPH_LOGS_TS_EXPR = r"^([\d-]+)[\sT]([\d:]+)"
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]
 CEPH_PKGS_CORE = [r"ceph",
@@ -89,6 +89,19 @@ def csv_to_set(f):
         return set([])
 
     return csv_to_set_inner
+
+
+class CephTimestampMatcher(TimestampMatcherBase):
+    """
+    NOTE: remember to update
+          hotsos.core.ycheck.engine.properties.search.CommonTimestampMatcher
+          if necessary.
+    """
+
+    @property
+    def patterns(self):
+        return [r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})[\sT]'
+                r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)']
 
 
 class CephConfig(SectionalConfigBase):

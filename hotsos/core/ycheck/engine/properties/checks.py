@@ -17,7 +17,7 @@ from hotsos.core.ycheck.engine.properties.requires.requires import (
 )
 from hotsos.core.ycheck.engine.properties.search import (
     YPropertySearch,
-    COMMON_LOG_DATETIME_EXPRS,
+    CommonTimestampMatcher,
 )
 from hotsos.core.ycheck.engine.properties.input import YPropertyInput
 
@@ -162,7 +162,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         else:
             hours = 24
 
-        c = SearchConstraintSearchSince(exprs=COMMON_LOG_DATETIME_EXPRS,
+        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher,
                                         hours=hours)
         s = FileSearcher(constraint=c)
         # first load all the search definitions into the searcher
