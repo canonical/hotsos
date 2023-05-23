@@ -93,6 +93,9 @@ class TemplatedTest(object):
         if not expected:
             test_inst.assertTrue('bugs-detected' not in actual)
             return
+        elif 'bugs-detected' not in actual:
+            raise Exception("test expects one or more bugs to have "
+                            "been raised did not find any.")
 
         actual = {item['id']: item['desc'] for item in actual['bugs-detected']}
         # first check issue types
@@ -112,7 +115,9 @@ class TemplatedTest(object):
         if not expected:
             test_inst.assertTrue('potential-issues' not in actual)
             return
-
+        elif 'potential-issues' not in actual:
+            raise Exception("test expects one or more issues to have "
+                            "been raised did not find any.")
         _expected = {}
         for itype, msgs in expected.items():
             if itype not in _expected:
