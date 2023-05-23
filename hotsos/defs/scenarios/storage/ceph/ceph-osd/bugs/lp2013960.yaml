@@ -12,6 +12,8 @@ conclusions:
       bug-id: 2013960
       message: >-
         This host has Ceph OSDs using Quincy version < 17.2.6 and are
-        vulnerable to LP bug 2013960. The workaround is to use 'wpq'
-        scheduler: set osd_op_queue to 'wpq' and restart OSDs. LP#2013960
-        has fix in 17.2.6.
+        vulnerable to LP bug 2013960 which has fix in 17.2.6 release.
+        The workaround is to use 'wpq' scheduler with the steps:
+        1. set osd_op_queue to 'wpq': `sudo ceph config set osd osd_op_queue wpq`
+        2. Rolling restart of all the OSDs with `noout` and `norebalance` flags set
+        3. Confirm that 'wpq' is now set: `ceph tell osd.* config get osd_op_queue`
