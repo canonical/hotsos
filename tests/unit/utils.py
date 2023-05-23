@@ -355,12 +355,20 @@ def create_data_root(files_to_create, copy_from_original=None):
                     else:
                         shutil.copytree(src, dst)
 
+                log_artifacts = os.environ.get('TESTS_LOG_TEST_ARTIFACTS',
+                                               'no') == 'yes'
+
                 for path, content in files_to_create.items():
                     path = os.path.join(dtmp, path)
                     if not os.path.exists(os.path.dirname(path)):
                         os.makedirs(os.path.dirname(path))
 
                     log.debug("creating test file %s", path)
+                    if log_artifacts:
+                        log.debug("test file contents\n%s", "\n".join(
+                            [f'{path}: {line}'
+                             for line in content.split("\n")]))
+
                     with open(path, 'w') as fd:
                         fd.write(content)
 

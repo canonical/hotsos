@@ -152,9 +152,19 @@ for debugging a test by doing:
 
   export TESTS_LOG_LEVEL_DEBUG=yes
 
+If your test scenario includes verbatim test files, i.e. you are using the
+`data-root` key, setting
+
+.. code-block:: console
+
+  export TESTS_LOG_LEVEL_DEBUG=yes
+  export TESTS_LOG_TEST_ARTIFACTS=yes
+
+before running the tests will include the contents of the test files in the
+debug output.
+
 You can then re-run a failing test directly without running all tests and get the debug output for that test specifically e.g.
 
 .. code-block:: console
 
   tox -epy3 tests.unit.test_system.TestUbuntuPro.test_ubuntu_pro_attached
-
