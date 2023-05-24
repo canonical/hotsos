@@ -35,11 +35,11 @@ class KernLogTimestampMatcher(TimestampMatcherBase):
     @property
     def month(self):
         _month = self.result.group('month').lower()
-        for sm, im in self.MONTH_MAP.items():
-            if _month.startswith(sm):
-                return im
-
-        log.error("could not establish month integer from '%s'", _month)
+        try:
+            return self.MONTH_MAP[_month[:3]]
+        except KeyError:
+            log.exception("could not establish month integer from '%s'",
+                          _month)
 
     @property
     def patterns(self):
