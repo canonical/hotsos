@@ -1,8 +1,7 @@
 checks:
   sb_ovn_elections:
     input:
-      path:
-        - var/log/ovn/ovsdb-server-sb.log
+      path: var/log/ovn/ovsdb-server-sb.log
     search:
       expr: '([0-9-]+)T([0-9:\.]+)Z.+\|raft\|INFO\|term ([0-9]+):\s(([0-9]+) ms timeout expired, )?starting election$'
       constraints:
@@ -11,8 +10,7 @@ checks:
         search-result-age-hours: 48
   nb_ovn_elections:
     input:
-      path:
-        - var/log/ovn/ovsdb-server-nb.log
+      path: var/log/ovn/ovsdb-server-nb.log
     search:
       expr: '([0-9-]+)T([0-9:\.]+)Z.+\|raft\|INFO\|term ([0-9]+):\s(([0-9]+) ms timeout expired, )?starting election$'
       constraints:
