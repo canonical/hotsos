@@ -4,7 +4,7 @@ import yaml
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
-from abc import abstractproperty, abstractmethod
+from hotsos.core.utils import sorted_dict
 
 
 class IssueContext(object):
@@ -57,15 +57,15 @@ class IssuesStoreBase(abc.ABC):
             raise Exception("plugin tmp dir  '{}' not found".
                             format(HotSOSConfig.plugin_tmp_dir))
 
-    @abstractproperty
+    @abc.abstractproperty
     def store_path(self):
         pass
 
-    @abstractmethod
+    @abc.abstractmethod
     def load(self):
         pass
 
-    @abstractmethod
+    @abc.abstractmethod
     def add(self):
         pass
 
@@ -167,7 +167,7 @@ class IssuesManager(object):
             for itype in types:
                 types[itype] = sorted(types[itype])
 
-            issues = {self.SUMMARY_OUT_ISSUES_ROOT: types}
+            issues = {self.SUMMARY_OUT_ISSUES_ROOT: sorted_dict(types)}
 
         return issues
 
