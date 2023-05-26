@@ -120,6 +120,10 @@ OST_REL_INFO = {
         'stein': '1:12.0.0',
         'rocky': '1:11.0.0',
         'queens': '1:10.0.0'},
+    'ironic-common': {
+        'antelope': '1:21.2',
+        'zed': '1:20.2.0',
+        'yoga': '1:19.0.0'},
     'keystone': {
         'antelope': '2:23.0.0',
         'zed': '2:22.0.0',
@@ -403,6 +407,7 @@ class OSTProjectCatalog(object):
                  systemd_extra_services=['apache2']),
         self.add('horizon', apt_core_alt=['openstack-dashboard'],
                  systemd_extra_services=['apache2']),
+        self.add('ironic', config={'main': 'ironic.conf'}),
         self.add('keystone', config={'main': 'keystone.conf'},
                  systemd_masked_services=['keystone'],
                  systemd_extra_services=['apache2'],
