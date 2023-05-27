@@ -1,10 +1,17 @@
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager, HotSOSScenariosWarning
 from hotsos.core.log import log
+from hotsos.core.search import (
+    FileSearcher,
+    SearchConstraintSearchSince,
+)
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
     YDefsSection,
     YHandlerBase,
+)
+from hotsos.core.ycheck.engine.properties.search import (
+    CommonTimestampMatcher,
 )
 
 
@@ -47,6 +54,16 @@ class YScenarioChecker(YHandlerBase):
                   len(yscenarios.leaf_sections))
 
         to_skip = set()
+
+        if HotSOSConfig.use_all_logs:
+            hours = 24 * HotSOSConfig.max_logrotate_depth
+        else:
+            hours = 24
+
+        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher,
+                                        hours=hours)
+        searcher = FileSearcher(constraint=c)
+        checks = []
         for scenario in yscenarios.leaf_sections:
             # Only register scenarios if requirements are satisfied.
             group_name = scenario.parent.name
@@ -58,11 +75,18 @@ class YScenarioChecker(YHandlerBase):
                 to_skip.add(group_name)
                 continue
 
-            scenario.checks.initialise(scenario.vars, scenario.input)
+            checks.append(scenario.checks)
+            scenario.checks.initialise(scenario.vars, scenario.input, searcher,
+                                       scenario)
             scenario.conclusions.initialise(scenario.vars)
             self._scenarios.append(Scenario(scenario.name,
                                             scenario.checks,
                                             scenario.conclusions))
+
+        log.debug("executing check searches")
+        results = searcher.run()
+        for check in checks:
+            check.check_context.search_results = results
 
     @property
     def scenarios(self):

@@ -4,7 +4,7 @@ input:
 checks:
   dpif_resubmit_limit_reached:
     search:
-      expr: '([0-9-]+)T[0-9:\.]+Z.+\|WARN\|over (\d+) resubmit actions on bridge (\S+) while processing'
+      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|WARN\|over (\d+) resubmit actions on bridge (\S+) while processing'
       constraints:
         min-results: 5
         search-result-period: 24
@@ -22,5 +22,5 @@ conclusions:
         "resubmit actions on bridge" in /var/log/openvswitch/ovs-vswitchd.log
         for more info and see what type of flow is resulting in this limit
         being hit.
-      search-result-format-groups: [2]
+      search-result-format-groups: [3]
 

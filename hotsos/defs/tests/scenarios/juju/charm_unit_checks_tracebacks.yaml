@@ -4,9 +4,9 @@ data-root:
     var/log/juju/unit-vault-0.log: |
       2022-02-09 10:28:35 WARNING unit.vault/0.update-status logger.go:60 Traceback (most recent call last):
     var/log/juju/unit-foo-0.log: |
-      2022-02-10 10:28:35 WARNING unit.foo/0.update-status logger.go:60 Traceback (most recent call last):
+      2022-02-10 10:28:36 WARNING unit.foo/0.update-status logger.go:60 Traceback (most recent call last):
     var/log/juju/unit-bar-0.log: |
-      2022-01-10 10:28:35 WARNING unit.foo/0.update-status logger.go:60 Traceback (most recent call last):
+      2022-01-10 10:28:37 WARNING unit.bar/0.update-status logger.go:60 Traceback (most recent call last):
   copy-from-original:
     - sos_commands/date/date
     - uptime

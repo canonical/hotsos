@@ -4,14 +4,14 @@ input:
 checks:
   units_have_leadership_errors:
     search:
-      expr: '^(\S+) (\S+) .+ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "(\S+)"'
+      expr: '(\S+) (\S+) .+ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "(\S+)"'
       constraints:
         search-result-age-hours: 168  # 7 days
   units_have_tracebacks:
     search:
       expr:
         - Traceback \('
-        - '^(\S+) (\S+) (?:ERROR|WARNING) unit\.([^\.]+)\.\S+ .+ Traceback \('
+        - '(\S+) (\S+) (?:ERROR|WARNING) unit\.([^\.]+)\.\S+ .+ Traceback \('
       constraints:
         search-result-age-hours: 48
 conclusions:
@@ -33,4 +33,4 @@ conclusions:
         the last 48 hours - please check.
       format-dict:
         units: '@checks.units_have_tracebacks.search.results_group_2:comma_join'
-        num_tracebacks: '@checks.units_have_tracebacks.search.results_group_2:len'
+        num_tracebacks: '@checks.units_have_tracebacks.search.results_group_1:len'

@@ -4,8 +4,8 @@ vars:
   northd_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-northd'
   ovsdb_nb_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-ovsdb-server-nb'
   ovsdb_sb_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-ovsdb-server-sb'
-  cert_expired_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired'
-  cert_invalid_expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
+  cert_expired_expr: '([0-9-]+)T([0-9:\.]+)Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired'
+  cert_invalid_expr: '([0-9-]+)T([0-9:\.]+)Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
 checks:
   services_not_restarted_after_cert_update:
     - systemd: [ovn-northd, ovn-ovsdb-server-nb, ovn-ovsdb-server-sb]

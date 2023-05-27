@@ -6,6 +6,7 @@ from datetime import (
 )
 from hotsos.core.host_helpers import UptimeHelper, CLIHelper
 from hotsos.core.log import log
+from hotsos.core.utils import cached_property
 from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
@@ -24,13 +25,19 @@ class CommonTimestampMatcher(TimestampMatcherBase):
                  'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10,
                  'nov': 11, 'dec': 12}
 
+    @cached_property
+    def _current_year(self):
+        return CLIHelper().date(format='+%Y')
+
     @property
     def year(self):
         """ Needed for kernlog which has no year group. """
-        if 'year' in self.result.groups():
+        try:
             return self.result.group('year')
+        except IndexError:
+            pass
 
-        return CLIHelper().date(format='+%Y')
+        return self._current_year
 
     @property
     def month(self):
@@ -184,23 +191,15 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         ts = result.get(1)
         if result.get(2):
             ts = "{} {}".format(ts, result.get(2))
+        else:
+            ts = "{} 00:00:00".format(ts)
 
-        ts_formats = ["%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d"]
-        for format in ts_formats:
-            try:
-                return datetime.strptime(ts, format)
-            except ValueError:
-                continue
+        ts_matcher = CommonTimestampMatcher(ts)
+        if ts_matcher.matched:
+            return ts_matcher.strptime
 
-        ts = result.get(1)
-        for format in ts_formats:
-            try:
-                return datetime.strptime(ts, format)
-            except ValueError:
-                continue
-
-        log.warning("failed to parse timestamp string 1='%s' 2='%s' - "
-                    "returning None", result.get(1), result.get(2))
+        log.warning("failed to parse timestamp string '%s' (num_group=%s) - "
+                    "returning None", ts, len(result))
 
     @classmethod
     def filter_by_age(cls, results, result_age_hours):
@@ -262,6 +261,14 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         return [r[1] for r in results]
 
     def apply_constraints(self, results):
+        """
+        NOTE: this is mostly unneeded now that we apply constraints in the
+              searches themselves but for occasions where timestamp cannot be
+              extracted form the start of a line, the searcher will assume the
+              line is valid and therefore we still need to post-process these
+              lines. The number of lines this applies to should always be very
+              small.
+        """
         if not self.constraints:
             log.debug("no search constraints to apply")
             return results

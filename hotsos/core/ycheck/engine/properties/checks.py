@@ -1,9 +1,4 @@
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.search import (
-    FileSearcher,
-    SearchConstraintSearchSince,
-)
 from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
     YPropertyOverrideBase,
@@ -17,7 +12,6 @@ from hotsos.core.ycheck.engine.properties.requires.requires import (
 )
 from hotsos.core.ycheck.engine.properties.search import (
     YPropertySearch,
-    CommonTimestampMatcher,
 )
 from hotsos.core.ycheck.engine.properties.input import YPropertyInput
 
@@ -145,26 +139,24 @@ class YPropertyChecks(YPropertyOverrideBase):
     def _override_keys(cls):
         return ['checks']
 
-    def initialise(self, vars, input):
+    def initialise(self, vars, input, searcher, scenario):
         """
         Perform initialisation tasks for this set of checks.
 
         * create context containing vars for each check
         * pre-load searches from all/any checks and get results. This needs to
           be done before check results are consumed.
+
+        @param vars: YPropertyVars object containing all variables defined in
+                     the context of these checks and that we wil pass on to all
+                     check def and properties.
+        @param input: YPropertyInput object
+        @param searcher: FileSearcher object
         """
         self.check_context = YDefsContext({'vars': vars})
 
-        log.debug("loading checks searchdefs into filesearcher")
-
-        if HotSOSConfig.use_all_logs:
-            hours = 24 * HotSOSConfig.max_logrotate_depth
-        else:
-            hours = 24
-
-        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher,
-                                        hours=hours)
-        s = FileSearcher(constraint=c)
+        log.debug("pre-loading scenario '%s' checks searches into "
+                  "filesearcher", scenario.name)
         # first load all the search definitions into the searcher
         for c in self._checks:
             if c.search:
@@ -178,13 +170,11 @@ class YPropertyChecks(YPropertyOverrideBase):
 
                 for path in _input.paths:
                     log.debug("loading searches for check %s", c.check_name)
-                    c.search.load_searcher(s, path,
+                    c.search.load_searcher(searcher, path,
                                            allow_constraints=allow_constraints)
 
         # provide results to each check object using global context
-        log.debug("executing check searches")
-        self.check_context.search_obj = s
-        self.check_context.search_results = s.run()
+        self.check_context.search_obj = searcher
 
     @cached_yproperty_attr
     def _checks(self):

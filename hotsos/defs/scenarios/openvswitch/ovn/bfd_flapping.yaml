@@ -13,7 +13,7 @@ checks:
     input:
       path: var/log/openvswitch/ovs-vswitchd.log
     search:
-      expr: '([0-9-]+)T([0-9:\.])+Z.+\|bfd\(\S+\)\|INFO\|[a-z0-9-]+: BFD state change'
+      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|bfd\(\S+\)\|INFO\|[a-z0-9-]+: BFD state change'
       constraints:
         # trigger if we at least this many in 1 hour period and look at last 24 hours only.
         min-results: 10

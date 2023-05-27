@@ -5,7 +5,7 @@ checks:
       options:
         kwargs:
           unit: juju-db
-    expr: '.* CappedPositionLost: CollectionScan died due to position in capped collection being deleted'
+    expr: '(\S+) .+ CappedPositionLost: CollectionScan died due to position in capped collection being deleted'
 conclusions:
   lp1852502:
     decision: has_lp1852502

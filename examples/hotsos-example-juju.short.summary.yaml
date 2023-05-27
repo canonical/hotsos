@@ -6,5 +6,5 @@ potential-issues:
         unattended upgrades. (origin=system.auto_scenario_check)
   juju:
     JujuWarnings:
-      - Juju logs for unit(s) 'nova-compute/0' contain 1 Traceback(s) from the last
+      - Juju logs for unit(s) 'nova-compute/0' contain 6 Traceback(s) from the last
         48 hours - please check. (origin=juju.auto_scenario_check)

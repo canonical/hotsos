@@ -8,7 +8,7 @@ checks:
           max: 20.03.2-0ubuntu0.20.04.3
   has_northd_version_mismatch:
     input: var/log/ovn/ovn-controller.log
-    expr: '([0-9-]+)T[0-9:\.]+Z\|\S+\|main\|WARN\|controller version - (\S+) mismatch with northd version - (\S+)'
+    expr: '([0-9-]+)T([0-9:\.]+)Z\|\S+\|main\|WARN\|controller version - (\S+) mismatch with northd version - (\S+)'
     constraints:
       search-results-age-hours: 336  # 14 days
 conclusions:

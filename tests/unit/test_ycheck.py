@@ -982,11 +982,11 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @init_test_scenario(SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log':
-                             ('2021-04-01 00:31:00.000 an event\n'
-                              '2021-04-01 00:32:00.000 an event\n'
-                              '2021-04-01 00:33:00.000 an event\n'
-                              '2021-04-02 00:00:00.000 an event\n'
-                              '2021-04-02 00:36:00.000 an event\n'),
+                             ('2021-03-29 00:31:00.000 an event\n'
+                              '2021-03-30 00:32:00.000 an event\n'
+                              '2021-03-30 00:33:00.000 an event\n'
+                              '2021-03-30 00:00:00.000 an event\n'
+                              '2021-03-30 00:36:00.000 an event\n'),
                              'uptime': (' 16:19:19 up 17:41,  2 users, '
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
@@ -1023,7 +1023,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
         _result = {1: '2022-01-06', 2: '12:34:56.123'}
         ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56, 123000))
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06', 2: '12:34:56'}
         ts = YPropertySearch.get_datetime_from_result(result)
@@ -1035,7 +1035,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
         _result = {1: '2022-01-06 12:34:56.123'}
         ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56, 123000))
+        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06 12:34:56'}
         ts = YPropertySearch.get_datetime_from_result(result)
@@ -1047,7 +1047,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
         _result = {1: '2022-01-06', 2: 'foo'}
         ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
+        self.assertEqual(ts, None)
 
         _result = {1: 'foo'}
         ts = YPropertySearch.get_datetime_from_result(result)
