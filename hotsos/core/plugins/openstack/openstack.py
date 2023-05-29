@@ -33,6 +33,7 @@ from hotsos.core.utils import cached_property
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
 # versions page: https://ubuntu.com/openstack/docs/supported-versions
 OST_EOL_INFO = {
+    'antelope': datetime(2026, 4, 30),
     'zed': datetime(2024, 4, 30),
     'yoga': datetime(2027, 4, 30),
     'xena': datetime(2023, 4, 30),
