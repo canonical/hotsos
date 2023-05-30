@@ -1,6 +1,7 @@
 import os
 import sys
 import tempfile
+import distro
 
 from unittest import mock
 
@@ -22,6 +23,37 @@ class TestCLI(utils.BaseTestCase):
 
     def test_get_version(self):
         self.assertEqual(hotsos.cli.get_version(), 'development')
+
+    def test_is_not_snap(self):
+        self.assertFalse(hotsos.cli.is_snap())
+
+    def test_is_snap(self):
+        with mock.patch.dict(os.environ, {'SNAP_NAME': 'hotsos'}):
+            self.assertTrue(hotsos.cli.is_snap())
+
+    def test_get_os_id(self):
+        with mock.patch.object(distro, 'id', return_value='ubuntu-test'):
+            self.assertEqual(hotsos.cli.get_os_id(), 'ubuntu-test')
+
+    def test_get_os_version(self):
+        with mock.patch.object(distro, 'version', return_value='22.04'):
+            self.assertEqual(hotsos.cli.get_os_version(), 22.04)
+
+    def test_is_os_version_supported_in_snap(self):
+        with mock.patch.object(sys, 'exit') as mock_exit:
+            with mock.patch.dict(os.environ, {'SNAP_NAME': 'hotsos'}):
+                with mock.patch.object(distro, 'id',
+                                       return_value='ubuntu-test'):
+                    hotsos.cli.exit_if_os_version_not_supported_in_snap()
+                with mock.patch.object(distro, 'id',
+                                       return_value='ubuntu'):
+                    with mock.patch.object(distro, 'version',
+                                           return_value='20.04'):
+                        hotsos.cli.exit_if_os_version_not_supported_in_snap()
+                    with mock.patch.object(distro, 'version',
+                                           return_value='18.04'):
+                        hotsos.cli.exit_if_os_version_not_supported_in_snap()
+            mock_exit.assert_has_calls([mock.call(1), mock.call(2)])
 
     def test_get_templates_path_pypi(self):
         with tempfile.TemporaryDirectory() as workdir:

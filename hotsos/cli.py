@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import click
 import contextlib
+import distro
 import os
 import sys
 import subprocess
@@ -17,6 +18,18 @@ from hotsos.client import (
     OutputManager,
     PLUGIN_CATALOG,
 )
+
+
+def is_snap():
+    return os.environ.get('SNAP_NAME', '') == 'hotsos'
+
+
+def get_os_id():
+    return distro.id()
+
+
+def get_os_version():
+    return float(distro.version())
 
 
 def get_hotsos_root():
@@ -368,5 +381,16 @@ def main():
     cli(prog_name='hotsos')
 
 
+def exit_if_os_version_not_supported_in_snap():
+    if is_snap():
+        if get_os_id() != 'ubuntu':
+            print("This snap has only been verified to run on Ubuntu")
+            sys.exit(1)
+        if get_os_version() < 20.04:
+            print("This snap has only been verified to run on Focal and above")
+            sys.exit(2)
+
+
 if __name__ == '__main__':
+    exit_if_os_version_not_supported_in_snap()
     main()
