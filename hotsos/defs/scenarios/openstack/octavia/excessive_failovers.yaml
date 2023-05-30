@@ -1,0 +1,60 @@
+checks:
+  auto_failovers_day_limit:
+    input:
+      path: 'var/log/octavia/octavia-health-manager.log'
+    expr: '([\d-]+) ([\d:]+)\.\d+ \d+ INFO \S+ \S+ Performing failover for amphora: (.+)'
+    constraints:
+      search-results-age-hours: 48
+      search-period-hours: 24
+      min-results: 100
+  auto_failovers_hour_limit:
+    input:
+      path: 'var/log/octavia/octavia-health-manager.log'
+    expr: '([\d-]+) ([\d:]+)\.\d+ \d+ INFO \S+ \S+ Performing failover for amphora: (.+)'
+    constraints:
+      search-results-age-hours: 48
+      search-period-hours: 1
+      min-results: 10
+  over_mtu_drops_ohm0_kernlog:
+    input:
+      path: 'var/log/kern.log'
+    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+) \S+ \S+ \S+ o-hm0: dropped over-mtu packet: \d+ > (\d+)'
+    constraints:
+      search-results-age-hours: 48
+  over_mtu_drops_ohm0_dmesg:
+    input:
+      command: dmesg
+    expr: '\S+ o-hm0: dropped over-mtu packet: \d+ > (\d+)'
+conclusions:
+  excessive-failovers-w-mtu-drops:
+    priority: 2
+    decision:
+      - auto_failovers_day_limit
+      - auto_failovers_hour_limit
+      - or:
+          # sometimes kern.log is missing from sosreports so try both of these
+          - over_mtu_drops_ohm0_kernlog
+          - over_mtu_drops_ohm0_dmesg
+    raises:
+      type: OpenstackWarning
+      message: >-
+        Octavia is reporting a large number of automatic loadbalancer failovers in the last 48 hours
+        e.g. {num_hour} in an hour and {num_day} in a day. There are also reports of over-mtu drops
+        on the health manager interface o-hm0. This should be investigated.
+      format-dict:
+        num_hour: '@checks.auto_failovers_hour_limit.search.num_results'
+        num_day: '@checks.auto_failovers_day_limit.search.num_results'
+  excessive-failovers:
+    decision:
+      - auto_failovers_day_limit
+      - auto_failovers_hour_limit
+    raises:
+      type: OpenstackWarning
+      message: >-
+        Octavia is reporting a large number of automatic loadbalancer failovers in the last 48 hours
+        e.g. {num_hour} in an hour and {num_day} in a day. This should be investigated. Some
+        potential causes are network health issues with the health manager port (o-hm0)
+        and connectivity between amphora vms and the octavia control units.
+      format-dict:
+        num_hour: '@checks.auto_failovers_hour_limit.search.num_results'
+        num_day: '@checks.auto_failovers_day_limit.search.num_results'
