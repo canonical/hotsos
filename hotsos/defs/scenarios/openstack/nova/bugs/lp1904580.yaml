@@ -12,6 +12,8 @@ conclusions:
       bug-id: 1904580
       message: >-
         known nova compute package upgrade bug which affects private ssh key
-        permissions. Change private key file {} permission from {} to 0600 to fix the issue.
-      search-result-format-groups: [2,1]
+        permissions. Change private key file {file} permission from {permissions} to 0600 to fix the issue.
+      format-dict:
+        permissions: '@checks.has_1904580.search.results_group_1:first'
+        file: '@checks.has_1904580.search.results_group_2:first'
 

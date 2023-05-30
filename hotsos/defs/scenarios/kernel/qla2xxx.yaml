@@ -9,7 +9,8 @@ conclusions:
     raises:
       type: KernelWarning
       message: >-
-        The qla2xxx driver did not perform SCSI scan on host/port {}.
+        The qla2xxx driver did not perform SCSI scan on host/port {port}.
         Some SCSI disks/paths might not be present. (Module option
         'qla2xxx.qlini_mode')
-      search-result-format-groups: [1]
+      format-dict:
+        port: '@checks.qla2xxx_skipping_scsi_scan_host.search.results_group_1:first'

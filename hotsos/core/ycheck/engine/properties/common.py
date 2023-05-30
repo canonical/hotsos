@@ -192,27 +192,67 @@ class PropertyCacheRefResolver(object):
 
         return _key.partition(':')[2]
 
-    def apply_renderer_function(self, value):
+    @staticmethod
+    def apply_renderer(value, func):
         """
-        The last section of a ref string can be a colon followed by a function
-        name which itself can be one of two things; any method supported by
-        builtins or "comma_join".
+        A cache reference or import path can be suffixed with :<function>
+        where <function> can be one of two things; either a builtins function
+        or one of the extras defined here. Obviously not all builtins can be
+        used and their use depends on the type() of value.
+
+        @param value: value to apply renderer function to
+        @param func: function to apply to value
         """
-        func = self.property_cache_value_renderer_function
-        if func:
-            if func == "comma_join":
-                # needless to say this will only work with lists, dicts etc.
-                return ', '.join(value)
+        extras = {'comma_join': {
+                    'requirements': [lambda value: isinstance(value, list),
+                                     lambda value: isinstance(value, dict)],
+                    'action': lambda value: ', '.join(value)},
+                  'unique_comma_join': {
+                    'requirements': [lambda value: isinstance(value, list),
+                                     lambda value: isinstance(value, dict)],
+                    'action': lambda value: ', '.join(sorted(set(value)))},
+                  'first': {
+                    'requirements': [lambda value: isinstance(value, list)],
+                    'action': lambda value: value[0]}}
 
-            return getattr(builtins, func)(value)
+        if func in extras:
+            if not any([req(value) for req in extras[func]['requirements']]):
+                log.warning("attempted to apply '%s' to value of "
+                            "type %s", func, type(value))
+                return value
 
-        return value
+            return extras[func]['action'](value)
+
+        return getattr(builtins, func)(value)
+
+    def _get_search_result_group(self, cache_key):
+        """
+        Extract values at the given group index from all search results.
+        """
+        val = []
+        group = int(cache_key.partition('results_group_')[2])
+        for result in self.checks[self.check_name]._search_results:
+            if len(result) >= group:
+                val.append(result.get(group))
+
+        return sorted(val)
 
     def resolve(self):
+        """
+        Resolve value associated with a check property result or variable.
+
+        Values are then run through an optional renderer function.
+        """
         if self.reftype == 'checks':
-            check_cache = self.checks[self.check_name].cache
-            property_cache = getattr(check_cache, self.property_name)
-            val = getattr(property_cache, self.property_cache_key)
+            cache_key = self.property_cache_key
+            # This provides an interface to extract the values of specific
+            # search result groups.
+            if cache_key.startswith('results_group_'):
+                val = self._get_search_result_group(cache_key)
+            else:
+                check_cache = self.checks[self.check_name].cache
+                property_cache = getattr(check_cache, self.property_name)
+                val = getattr(property_cache, cache_key)
         else:
             varname = self.refstr.partition("$")[2]
             varname = varname.partition(':')[0]
@@ -221,7 +261,12 @@ class PropertyCacheRefResolver(object):
         if val is None:
             return
 
-        return self.apply_renderer_function(val)
+        func = self.property_cache_value_renderer_function
+        if not func:
+            # noop
+            return val
+
+        return self.apply_renderer(val, func)
 
 
 class PropertyCache(object):

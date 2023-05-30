@@ -1,5 +1,3 @@
-import builtins
-
 from hotsos.core.exceptions import ScenarioException
 from hotsos.core.issues import IssueContext
 from hotsos.core.log import log
@@ -44,7 +42,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         """ optional setting. do this to allow querying. """
         return self.content.get('message')
 
-    def message_with_format_dict_applied(self, checks=None):
+    def message_formatted(self, checks=None):
         """
         If a format-dict is provided this will resolve any cache references
         then format the message. Returns formatted message.
@@ -70,44 +68,15 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         return message
 
-    def message_with_format_list_applied(self, searchresult):
-        """
-        If format-groups have been provided this will extract their
-        corresponding values from searchresult and use them to format the
-        message. Returns formatted message.
-
-        @param searchresult: a search.SearchResult object.
-        """
-        if not self.format_groups:
-            return self.message
-
-        format_list = []
-        for idx in self.format_groups:
-            format_list.append(searchresult.get(idx))
-
-        message = self.message
-        if message is not None:
-            message = str(message).format(*format_list)
-
-        return message
-
-    def apply_renderer_function(self, value, func):
-        if not func:
-            return value
-
-        if func == "comma_join":
-            # needless to say this will only work with lists, dicts etc.
-            return ', '.join(value)
-
-        return getattr(builtins, func)(value)
-
     @cached_yproperty_attr
     def format_dict(self):
         """
         Optional dict of key/val pairs used to format the message string.
 
-        Keys that start with @ are used as references to properties allowing
-        us to extract cached values.
+        Keys that start with @ are used as references to yaml properties
+        allowing us to extract cached values. Alternatively an import path
+        can be specified in which case the value is imported immediately and
+        optional rendering function applied.
         """
         _format_dict = self.content.get('format-dict')
         if not _format_dict:
@@ -116,20 +85,19 @@ class YPropertyRaises(YPropertyOverrideBase):
         fdict = {}
         for k, v in _format_dict.items():
             if PropertyCacheRefResolver.is_valid_cache_ref(v):
-                # save string for later parsing/extraction
+                # save for later parsing/extraction
                 fdict[k] = v
-            else:
-                func = v.partition(':')[2]
-                v = v.partition(':')[0]
-                fdict[k] = self.apply_renderer_function(self.get_import(v),
-                                                        func)
+                continue
+
+            # process now since there is no cache to resolve
+            path, _, func = v.partition(':')
+            value = self.get_import(path)
+            if func:
+                value = PropertyCacheRefResolver.apply_renderer(value, func)
+
+            fdict[k] = value
 
         return fdict
-
-    @cached_yproperty_attr
-    def format_groups(self):
-        """ optional setting. do this to allow querying. """
-        return self.content.get('search-result-format-groups')
 
     @cached_yproperty_attr
     def type(self):
@@ -216,33 +184,6 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
         if not result:
             return False
 
-        first_search_result = None
-        for check in checks.values():
-            if check.search and check.first_search_result:
-                first_search_result = check.first_search_result
-
-            # FIXME: disabling for now because if the cache contains
-            # data that cant be saved at yaml this will lead to errors.
-            """
-            if check.requires:
-                # Dump the requires cache into the context. We improve this
-                # later by adding more info.
-                self.issue_context.set(**check.requires.cache.data)
-            """
-
-        if self.raises.format_groups:
-            if first_search_result:
-                # we only use the first result
-                message = self.raises.message_with_format_list_applied(
-                                                           first_search_result)
-            else:
-                message = self.raises.message
-                log.warning("no search results found so not applying format "
-                            "groups")
-        else:
-            message = self.raises.message_with_format_dict_applied(
-                                                                 checks=checks)
-
         bug_id = self.raises.bug_id
         bug_type = self.raises.type.ISSUE_TYPE
         is_bug_type = bug_type == 'bug'
@@ -252,6 +193,7 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
                    "required in order to raise a bug".format(bug_id, bug_type))
             raise ScenarioException(msg)
 
+        message = self.raises.message_formatted(checks=checks)
         if self.raises.type.ISSUE_TYPE == 'bug':
             self.issue = self.raises.type(self.raises.bug_id, message)
         else:

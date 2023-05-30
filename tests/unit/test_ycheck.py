@@ -23,6 +23,7 @@ from hotsos.core.ycheck.engine import (
 from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.ycheck.engine.properties.common import (
     YPropertyBase,
+    PropertyCacheRefResolver,
     cached_yproperty_attr,
 )
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
@@ -431,7 +432,7 @@ checks:
   logmatch:
     input:
       path: foo.log
-    expr: '^([0-9-]+)\S* (\S+) .+'
+    expr: '(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}\.\d{3}) (\S+) \S+'
     constraints:
       min-results: 3
       search-period-hours: 24
@@ -470,9 +471,10 @@ conclusions:
     decision: logmatch
     raises:
       type: SystemWarning
-      message: log matched {num} times
+      message: log matched {num} times ({group})
       format-dict:
         num: '@checks.logmatch.search.num_results'
+        group: '@checks.logmatch.search.results_group_2:comma_join'
   logandsnap:
     priority: 2
     decision:
@@ -1003,7 +1005,8 @@ class TestYamlChecks(utils.BaseTestCase):
         # now run the scenarios
         checker.run()
 
-        msg = ("log matched 4 times")
+        msg = ("log matched 4 times (00:00:00.000, 00:32:00.000, "
+               "00:33:00.000, 00:36:00.000)")
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues], [msg])
 
@@ -1480,3 +1483,16 @@ class TestYamlChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker()()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
+
+    def test_cache_resolver(self):
+        self.assertFalse(PropertyCacheRefResolver.is_valid_cache_ref('foo'))
+        for test in [('foo', 'first', 'foo'),
+                     (['foo', 'second'], 'first', 'foo'),
+                     (['1', '2'], 'comma_join', '1, 2'),
+                     (['1', '2', '1'], 'unique_comma_join', '1, 2'),
+                     ({'1': 'foo', '2': 'bar', '3': 'blah'},
+                      'comma_join', '1, 2, 3'),
+                     ({'1': 'foo', '2': 'bar', '3': 'blah'},
+                      'len', 3)]:
+            out = PropertyCacheRefResolver.apply_renderer(test[0], test[1])
+            self.assertEqual(out, test[2])

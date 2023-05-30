@@ -374,7 +374,6 @@ raises:
   bug-id: <str>
   message: <str>
   format-dict: <dict>
-  search-result-format-groups: [<int>, ...]
 ```
 
 If *type* is a [bug type](../hotsos/core/issues/issue_types.py) then a *bug-id*
@@ -387,24 +386,26 @@ using one of two methods:
 format field in the message string and *value* is either a Python property
 import path or a ``PROPERTY_CACHE_REF``
 
-* search-result-format-groups - a list of integer indexes representing
-search result group IDs from a [search](#search) result. The group
-indexes refer to items in a core.searchtools.SearchResult and tie with those in
-the search pattern provided.
-
 ```
 PROPERTY_CACHE_REF
   A reference to a property cache item that takes one of two forms:
 
-  '@<propertyname>.CACHE_KEY'
-  '@checks.<checkname>.<propertyname>.CACHE_KEY'
+  '@<propertyname>.CACHE_KEY[:function]'
+  '@checks.<checkname>.<propertyname>.CACHE_KEY[:function]'
 
-  The latter is used if the property is within a checks property.
+  The latter is used if the property is within a "check" property.
 
 CACHE_KEY
   See individual property CACHE_KEYS for supported cache keys.
 ```
 
+Both import paths and cache references can be suffixed with an optional
+``:<function>`` where function is the name of a [python builtins](https://docs.python.org/3/library/functions.html) function
+or one of the following:
+
+  * **comma_join** - takes a list or dict as input and returns ``', '.join(input)``
+  * **unique_comma_join** - takes a list or dict as input and returns ``', '.join(set(input))``
+  * **first** - takes a list as input and returns ``input[0]``
 
 usage
 
@@ -412,7 +413,6 @@ usage
 raises.type
 raises.message
 raises.format_dict
-raises.format_groups
 ```
 
 #### requires

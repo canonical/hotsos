@@ -10,6 +10,7 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1948906
       message: >-
-        Juju post-series-upgrade failed, issues with unit {} - see LP bug for
+        Juju post-series-upgrade failed, issues with unit {units} - see LP bug for
         workaround.
-      search-result-format-groups: [1]
+      format-dict:
+        units: '@checks.has_lp1948906.search.results_group_1:unique_comma_join'

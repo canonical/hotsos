@@ -23,7 +23,7 @@ conclusions:
         Juju unit(s) '{units}' are showing leadership errors in their logs from
         the last 7 days. Please investigate.
       format-dict:
-        units: '@checks.units_have_leadership_errors.search.results_group_2:comma_join'
+        units: '@checks.units_have_leadership_errors.search.results_group_3:unique_comma_join'
   units-have-tracebacks:
     decision: units_have_tracebacks
     raises:
@@ -32,5 +32,5 @@ conclusions:
         Juju logs for unit(s) '{units}' contain {num_tracebacks} Traceback(s) from
         the last 48 hours - please check.
       format-dict:
-        units: '@checks.units_have_tracebacks.search.results_group_2:comma_join'
-        num_tracebacks: '@checks.units_have_tracebacks.search.results_group_1:len'
+        units: '@checks.units_have_tracebacks.search.results_group_3:unique_comma_join'
+        num_tracebacks: '@checks.units_have_tracebacks.search.num_results'

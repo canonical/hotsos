@@ -11,6 +11,8 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1910958
       message: >-
-        Unit {} failed to start due to members in relation {} that cannot be
+        Unit {unit} failed to start due to members in relation {rel} that cannot be
         removed.
-      search-result-format-groups: [1, 2]
+      format-dict:
+        unit: '@checks.has_lp1910958.search.results_group_1:unique_comma_join'
+        rel: '@checks.has_lp1910958.search.results_group_2:unique_comma_join'

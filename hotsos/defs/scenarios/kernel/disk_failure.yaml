@@ -9,6 +9,7 @@ conclusions:
     raises:
       type: KernelError
       message: >-
-        critical medium error detected in kern.log for device {}.
+        critical medium error detected in kern.log for device {dev}.
         This implies that this disk has a hardware issue!
-      search-result-format-groups: [1]
+      format-dict:
+        dev: '@checks.disk_failure.search.results_group_1:comma_join'
