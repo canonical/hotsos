@@ -78,7 +78,10 @@ class YDefsContext(object):
 
     def __setattr__(self, key, value):
         if key != '_ydefs_context':
-            log.debug("%s setting %s=%s", self.__class__.__name__, key, value)
+            # don't print values as they can be very large and e.g. search
+            # results will be expanded re-duplicated.
+            log.debug("%s setting %s with value of type '%s'",
+                      self.__class__.__name__, key, type(value))
             self._ydefs_context[key] = value
             return
 

@@ -742,6 +742,9 @@ class CLIHelper(HostHelpersBase):
             'df':
                 [BinCmd('df'),
                  FileCmd('df')],
+            'dmesg':
+                [BinCmd('dmesg'),
+                 FileCmd('sos_commands/kernel/dmesg')],
             'docker_images':
                 [BinCmd('docker images'),
                  FileCmd('sos_commands/docker/docker_images')],
