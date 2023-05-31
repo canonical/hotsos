@@ -603,6 +603,7 @@ class NetLink(STOVParserBase):
             'sk_inode_num': lambda result: getattr(result, 'Inode'),
         }
 
+    @property
     def all_with_drops(self):
         v = list(filter(lambda x: (x.sk_drops > 0), self.data))
         if v:
@@ -614,3 +615,13 @@ class NetLink(STOVParserBase):
                 nlsock.procs = set(
                     f"{v.COMMAND}/{v.PID}" for v in correlate_result)
         return v
+
+    @property
+    def all_with_drops_str(self):
+        if not self.all_with_drops:
+            return
+        drops_info = [
+            f"\tnlsock inode `{nlsock.sk_inode_num}`: "
+            f"procs[{','.join(nlsock.procs)}]"
+            for nlsock in self.all_with_drops]
+        return "\n".join(drops_info)

@@ -1,0 +1,17 @@
+checks:
+  has_socks_with_drops:
+    property: hotsos.core.plugins.kernel.net.NetLink.all_with_drops
+conclusions:
+  netlink-socks-with-drops:
+    decision: has_socks_with_drops
+    raises:
+      type: NetworkWarning
+      message: >-
+        This host is reporting dropped packets for the following netlink sockets:
+        
+        {socks_with_drops}
+        
+        This may be a symptom of problems in the associated process(es)
+        and should be investigated further.
+      format-dict:
+        socks_with_drops: hotsos.core.plugins.kernel.net.NetLink.all_with_drops_str

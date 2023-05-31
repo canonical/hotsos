@@ -430,7 +430,7 @@ class TestKernelNetworkInfo(TestKernelBase):
     )
     def test_netlink_parse_with_drops(self):
         uut = NetLink()
-        awd = uut.all_with_drops()
+        awd = uut.all_with_drops
         self.assertEqual(len(awd), 1)
         self.assertEqual(awd[0].sk_addr, 0)
         self.assertEqual(awd[0].sk_protocol, 0)
