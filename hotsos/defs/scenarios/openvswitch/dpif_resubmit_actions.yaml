@@ -7,7 +7,7 @@ checks:
       expr: '([0-9-]+)T([0-9:\.]+)Z.+\|WARN\|over (\d+) resubmit actions on bridge (\S+) while processing'
       constraints:
         min-results: 5
-        search-result-period: 24
+        search-period-hours: 24
         search-result-age-hours: 336  # 14 days
 conclusions:
   has_resubmit_limit_reached:

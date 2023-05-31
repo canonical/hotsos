@@ -86,6 +86,11 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
     def _override_keys(cls):
         return ['constraints']
 
+    @property
+    def valid_attributes(self):
+        return ['search-period-hours', 'search-result-age-hours',
+                'min-hours-since-last-boot', 'min-results']
+
     @cached_yproperty_attr
     def search_period_hours(self):
         """
@@ -128,6 +133,17 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         Create a search constraints object representing the paramaters in
         this property.
         """
+        invalid = []
+        for attr in self.content:
+            if attr not in self.valid_attributes:
+                invalid.append(attr)
+
+        if invalid:
+            raise Exception("Invalid search constraints attributes found: {}. "
+                            "Valid options are: {}".
+                            format(', '.join(invalid),
+                                   ', '.join(self.valid_attributes)))
+
         has_result_hours = 'search-result-age-hours' in self.content
         has_boot_hours = 'min-hours-since-last-boot' in self.content
         if not any([has_result_hours, has_boot_hours]):
@@ -203,6 +219,7 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
     @classmethod
     def filter_by_age(cls, results, result_age_hours):
+        """ Return results from the last result_age_hours. """
         if not result_age_hours:
             log.debug("result age filter not specified - skipping")
             return results
@@ -228,6 +245,7 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
     @classmethod
     def filter_by_period(cls, results, period_hours):
+        """ Return the most recent period_hours worth of results. """
         if not period_hours:
             log.debug("period filter not specified - skipping")
             return results
@@ -242,18 +260,12 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
         results = []
         last = None
-        prev = None
 
         for r in sorted(_results, key=lambda i: i[0], reverse=True):
             if last is None:
                 last = r[0]
             elif r[0] < last - timedelta(hours=period_hours):
-                last = prev
-                prev = None
-                # pop first element since it is now invalidated
-                results = results[1:]
-            elif prev is None:
-                prev = r[0]
+                break
 
             results.append(r)
 

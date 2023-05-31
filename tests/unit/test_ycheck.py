@@ -1095,7 +1095,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         ]
             results = self._create_search_results(logfile, contents)
             result = YPropertySearch.filter_by_period(results, 24)
-            self.assertEqual(len(result), 2)
+            self.assertEqual(len(result), 1)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
                         '2021-04-01 00:01:00.000 an event\n',
@@ -1105,6 +1105,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         ]
             results = self._create_search_results(logfile, contents)
             result = YPropertySearch.filter_by_period(results, 24)
+            self.assertEqual(len(result), 4)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
                         '2021-04-01 00:01:00.000 an event\n',
@@ -1125,7 +1126,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         ]
             results = self._create_search_results(logfile, contents)
             result = YPropertySearch.filter_by_period(results, 24)
-            self.assertEqual(len(result), 4)
+            self.assertEqual(len(result), 2)
 
     @utils.create_data_root({'mytype/myplugin/defs.yaml':
                              'foo: bar\n',

@@ -139,6 +139,6 @@ data-root:
 raised-issues:
   OpenstackWarning: >-
     Octavia is reporting a large number of automatic loadbalancer failovers in the last 48 hours
-    e.g. 112 in an hour and 132 in a day. This should be investigated. Some potential causes are
+    e.g. 14 in an hour and 132 in a day. This should be investigated. Some potential causes are
     network health issues with the health manager port (o-hm0) and connectivity between amphora
     vms and the octavia control units.
