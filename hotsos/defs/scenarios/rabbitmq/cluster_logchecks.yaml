@@ -5,10 +5,10 @@ checks:
     expr: '.+ \S+_partitioned_network'
     hint: 'partition'
   no_sync:
-    expr: 'Mirrored queue ''.+'' in vhost ''.+'': Stopping'
+    expr: '.+ Mirrored queue ''.+'' in vhost ''.+'': Stopping'
     hint: 'synchronised'
   discard:
-    expr: 'Discarding message.+old incarnation'
+    expr: '.+ Discarding message.+old incarnation'
     hint: 'Discarding'
 conclusions:
   cluster-has-had-partions:
