@@ -110,6 +110,15 @@ $ sudo apt install snapd
 $ sudo snap install hotsos --classic
 ```
 
+### Package
+
+You can install as a package e.g.
+
+```console
+$ sudo add-apt-repository ppa:ubuntu-support-team/hotsos
+$ sudo apt install hotsos
+```
+
 See <https://snapcraft.io/hotsos> for more info on usage.
 
 or run from source e.g.
