@@ -372,8 +372,8 @@ class TestCephMonSummary(CephMonTestsBase):
     def test_ceph_pg_imbalance_unavailable(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertFalse('osd-pgs-suboptimal' in actual)
-        self.assertFalse('osd-pgs-near-limit' in actual)
+        self.assertNotIn('osd-pgs-suboptimal', actual)
+        self.assertNotIn('osd-pgs-near-limit', actual)
 
     def test_ceph_versions(self):
         result = {'mgr': ['15.2.14'],

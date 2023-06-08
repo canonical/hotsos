@@ -205,7 +205,7 @@ class TestCLIHelper(utils.BaseTestCase):
     def test_ns_ip_addr(self):
         ns = "qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5"
         out = host_helpers.cli.CLIHelper().ns_ip_addr(namespace=ns)
-        self.assertEqual(type(out), list)
+        self.assertIsInstance(out, list)
         self.assertEqual(len(out), 18)
 
     def test_udevadm_info_dev(self):
@@ -311,7 +311,7 @@ class TestSystemdHelper(utils.BaseTestCase):
         svc = host_helpers.systemd.ServiceFactory().rsyslog
         self.assertEqual(svc.start_time_secs, 1644446297.0)
 
-        self.assertEqual(host_helpers.systemd.ServiceFactory().noexist, None)
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
 
     def test_systemd_helper(self):
         expected = {'ps': ['nova-api-metadata (5)', 'nova-compute (1)'],
@@ -349,7 +349,7 @@ class TestPebbleHelper(utils.BaseTestCase):
         svc = getattr(host_helpers.pebble.ServiceFactory(), 'nova-conductor')
         self.assertEqual(svc.state, 'backoff')
 
-        self.assertEqual(host_helpers.pebble.ServiceFactory().noexist, None)
+        self.assertIsNone(host_helpers.pebble.ServiceFactory().noexist)
 
     @utils.create_data_root({'sos_commands/pebble/pebble_services':
                              PEBBLE_SERVICES,
@@ -482,7 +482,7 @@ class TestConfigHelper(utils.BaseTestCase):
         self.assertTrue(cfg.exists)
         self.assertEqual(cfg.get('a-key'), '1023')
         self.assertEqual(cfg.get('a-key', section='a-section'), '1023')
-        self.assertEqual(cfg.get('a-key', section='missing-section'), None)
+        self.assertIsNone(cfg.get('a-key', section='missing-section'))
         self.assertEqual(cfg.get('a-key', expand_to_list=True), [1023])
 
         expanded = cfg.get('b-key', expand_to_list=True)

@@ -1,8 +1,8 @@
 import os
 import importlib
-import mock
 import re
 import sys
+from unittest import mock
 import yaml
 
 import shutil
@@ -91,7 +91,7 @@ class TemplatedTest(object):
         """
 
         if not expected:
-            test_inst.assertTrue('bugs-detected' not in actual)
+            test_inst.assertNotIn('bugs-detected', actual)
             return
         elif 'bugs-detected' not in actual:
             raise Exception("test expects one or more bugs to have "
@@ -113,7 +113,7 @@ class TemplatedTest(object):
         """
 
         if not expected:
-            test_inst.assertTrue('potential-issues' not in actual)
+            test_inst.assertNotIn('potential-issues', actual)
             return
         elif 'potential-issues' not in actual:
             raise Exception("test expects one or more issues to have "

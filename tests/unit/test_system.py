@@ -216,8 +216,7 @@ class TestUbuntuPro(SystemTestsBase):
         mh.return_value = mock.MagicMock()
         mh.return_value.pro_status.return_value = UBUNTU_PRO_ATTACHED
         result = SystemBase().ubuntu_pro_status
-        self.assertNotEqual(result, None)
-        self.assertNotEqual(result, False)
+        self.assertIsNotNone(result)
 
         expected_result = {
             "status": "attached",
@@ -262,7 +261,7 @@ class TestUbuntuPro(SystemTestsBase):
         mh.return_value = mock.MagicMock()
         mh.return_value.pro_status.return_value = UA_ATTACHED
         result = SystemBase().ubuntu_pro_status
-        self.assertNotEqual(result, None)
+        self.assertIsNotNone(result)
 
         expected_result = {
             "status": "attached",

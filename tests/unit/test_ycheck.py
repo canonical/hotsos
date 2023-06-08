@@ -800,7 +800,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
     def test_yproperty_attr_cache(self):
         p = TestProperty()
-        self.assertEqual(getattr(p.cache, '__yproperty_attr__myattr'), None)
+        self.assertIsNone(getattr(p.cache, '__yproperty_attr__myattr'))
         self.assertEqual(p.myattr, '123')
         self.assertEqual(getattr(p.cache, '__yproperty_attr__myattr'), '123')
         self.assertEqual(p.myattr, '123')
@@ -1050,11 +1050,11 @@ class TestYamlChecks(utils.BaseTestCase):
 
         _result = {1: '2022-01-06', 2: 'foo'}
         ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, None)
+        self.assertIsNone(ts)
 
         _result = {1: 'foo'}
         ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, None)
+        self.assertIsNone(ts)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
     @utils.create_data_root({'foo.log': '2022-01-06 00:00:00.000 an event\n'})

@@ -37,6 +37,7 @@ net.ipv4.udp_mem = 379728	506307	762456
 net.ipv4.tcp_mem = 189864	253153	379728
 """
 
+# pylint: disable=C0301
 PROC_NETLINK = r"""sk               Eth Pid        Groups   Rmem     Wmem     Dump  Locks    Drops    Inode
 0000000000000000 0   23984      00000113 0        0        0     2        0        129906  
 0000000000000000 0   142171     00000113 0        0        0     2        0        411370  
@@ -48,8 +49,9 @@ PROC_NETLINK = r"""sk               Eth Pid        Groups   Rmem     Wmem     Du
 0000000000000000 0   10542      00000113 0        0        0     2        0        114127  
 0000000000000000 0   2199       000405d1 0        0        0     2        1        34703   
 0000000000000000 0   3426       00000440 0        0        0     2        0        89397 
-""" # noqa
+"""  # noqa
 
+# pylint: disable=C0301
 LSOF_MNLC = r"""                                                                                                                                                                                                                                    COMMAND     PID   USER   FD      TYPE             DEVICE     SIZE/OFF       NODE NAME
 systemd       1        0  cwd       DIR                9,1         4096          2 /
 systemd       1        0  rtd       DIR                9,1         4096          2 /
@@ -101,7 +103,7 @@ libvirtd  44443        0  mem       REG                9,1       408472      335
 nova-comp 49287      114  mem       REG                9,1        68512      33561 /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
 nova-comp 49287      114   21u     IPv4            2914832          0t0        TCP 192.168.2.24:46064->192.168.2.45:5673 (ESTABLISHED)
 sosreport 67605        0    5r     FIFO               0,12          0t0  289262208 pipe
-""" # noqa
+"""  # noqa
 
 
 class TestKernelBase(utils.BaseTestCase):
