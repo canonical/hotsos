@@ -83,7 +83,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
             SNAP_LIST_ALL_NO_K8S.splitlines()
         inst = summary.KubernetesSummary()
         self.assertFalse(inst.plugin_runnable)
-        self.assertTrue('snaps' not in inst.output)
+        self.assertNotIn('snaps', inst.output)
 
     def test_network_info(self):
         expected = {'flannel.1': {'addr': '10.1.84.0',

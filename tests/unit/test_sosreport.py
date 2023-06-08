@@ -34,7 +34,7 @@ class TestSOSReportSummary(TestSOSReportBase):
     def test_check_plugin_timouts_none(self):
         inst = summary.SOSReportSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertFalse('plugin-timeouts' in actual)
+        self.assertNotIn('plugin-timeouts', actual)
 
     @utils.create_data_root({'sos_logs/ui.log':
                              (" Plugin networking timed out\n"

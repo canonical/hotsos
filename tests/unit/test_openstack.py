@@ -685,7 +685,7 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
         mock_helper.return_value.ip_link.return_value = []
         inst = service_network_checks.OpenstackNetworkChecks()
         actual = self.part_output_to_actual(inst.output)
-        self.assertFalse('namespaces' in actual)
+        self.assertNotIn('namespaces', actual)
 
     def test_get_network_checker(self):
         expected = {

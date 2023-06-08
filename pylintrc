@@ -1,5 +1,14 @@
-[MASTER]
+[MAIN]
 jobs=0
+ignore=.git,tests/unit/fake_data_root
+
+# List of plugins (as comma separated values of python module names) to load,
+# usually to register additional checkers.
+load-plugins=pylint.extensions.no_self_use
+
+# When enabled, pylint would attempt to guess common misconfiguration and emit
+# user-friendly hints instead of false-positive error messages.
+suggestion-mode=yes
 
 [FORMAT]
 max-line-length=79
@@ -48,9 +57,15 @@ disable=
  no-self-use,
  simplifiable-if-statement,
  broad-except,
- trailing-comma-tuple,
  redefined-outer-name,
- expression-not-assigned,
  unnecessary-lambda,
- pointless-string-statement,
  arguments-differ,
+ broad-exception-raised,
+ superfluous-parens,
+ unspecified-encoding,
+ consider-using-f-string,
+ consider-using-join,
+ consider-using-with,
+ consider-using-dict-items,
+ consider-using-generator,
+ unused-private-member,
