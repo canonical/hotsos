@@ -16,33 +16,30 @@ report problems. Supported plugins include:
 * RabbitMQ
 * and more
 
-Each plugin has a set of associated checks or "scenarios" that run in the
-context of that plugin and seek to identify issues. The output of running hotsos
-is a summary produced by each plugin including key information about the runtime
-of that application along with any issues detected. This summary also aims to
-contain as much information needed to aid manual analysis beyond the automated
-checks and is easily extensible.
+Each plugin has associated checks or "scenarios" that seek to identify issues
+and known bugs. The output is a summary from each plugin including key runtime
+information as well issues or bugs detected along with suggestions on how to
+deal with them. This information can be useful as an aid for further manual
+analysis.
 
 The default summary format is yaml and a number of other options and formats are
 provided.
 
-Hotsos is either run directly against a host or a
-[sosreport](https://github.com/sosreport/sos).
+Hotsos is run directly on a host or against a [sosreport](https://github.com/sosreport/sos).
 
 The code has the following structure:
 
-* core library (includes plugins)
-* yaml-defined checks (see documentation at [defs](hotsos/defs/README.md))
-* plugin extensions e.g. summary output
+* core python library (includes plugins)
+* checks/scenarios (see documentation at [defs](hotsos/defs/README.md))
+* python plugin extensions
 * tests
 
 ## Usage
 
-Let's say for example that you are running an Openstack Cloud and one of your
-hypervisor nodes that also happens to be running part of a Ceph storage cluster
-is experiencing a problem with network connectivity to workloads. You can simply
-run hotsos either against a sosreport generated from that node or on that node
-directly as follows:
+Say for example that you are running an Openstack Cloud and one of your
+hypervisor nodes that is also running part of a Ceph storage cluster
+is experiencing a problem with network connectivity to workloads. Simply
+run hotsos on the node or against a sosreport generated from that node e.g.
 
 ```console
 ubuntu@ncpu1$ hotsos -s
@@ -59,7 +56,7 @@ ubuntu@ncpu1$ cat hotsos-output-1673868979/ncpu1.summary.yaml
 ```
 
 This file will contain a per-plugin summary of information found along with any
-issues detected. By default hotsos will only look at the last 24 hours of logs.
+issues or bugs detected. By default hotsos will only look at the last 24 hours of logs.
 You can increase this with `--all-logs` which will by default give you 7 days
 worth and if you want more you can use `--max-logrotate-depth <days>`.
 
@@ -88,18 +85,33 @@ An example **short** (yaml) summary can be found
 
 ## Install
 
-HotSOS is distributed using the following methods:
+HotSOS can be installed in the following ways:
+
+### Daily build Debian package
+
+NOTE: this is the recommended method.
+
+```console
+$ sudo add-apt-repository ppa:ubuntu-support-team/hotsos
+$ sudo apt install hotsos
+```
+
 
 ### pypi
 
-You can install using Python pip e.g.
+NOTE: requires Python >= 3.8
 
 ```console
 $ sudo apt install python3-pip
 $ pip install hotsos
 ```
 
-NOTE: currently requires Python >= 3.8
+NOTE: when upgrading be sure to upgrade dependencies since pip will not do this by default.
+      To forcibly upgrade all dependencies you can use:
+
+```
+pip install --upgrade hotsos --upgrade-strategy eager
+```
 
 ### snap
 
@@ -110,18 +122,11 @@ $ sudo apt install snapd
 $ sudo snap install hotsos --classic
 ```
 
-### Package
-
-You can install as a package e.g.
-
-```console
-$ sudo add-apt-repository ppa:ubuntu-support-team/hotsos
-$ sudo apt install hotsos
-```
-
 See <https://snapcraft.io/hotsos> for more info on usage.
 
-or run from source e.g.
+NOTE: the snap only currently works properly on Ubuntu Focal.
+
+### source
 
 ```console
 $ git clone https://github.com/canonical/hotsos
