@@ -32,6 +32,11 @@ DPCTL_SHOW = r"""  port 6: br-int (internal)
     RX bytes:7878 (7.7 KiB)  TX bytes:5026 (4.9 KiB)
 """  # noqa
 
+VSWITCHD_LOG = """
+2023-06-08T07:31:02.643Z|00017|util(pmd-c11/id:3)|EMER|../include/openvswitch/ofpbuf.h:194: assertion offset + size <= b->size failed in ofpbuf_at_assert()
+2023-06-08T07:39:03.134Z|00002|util(pmd-c11/id:7)|EMER|../lib/conntrack.c:1095: assertion conn->conn_type == CT_CONN_TYPE_DEFAULT failed in conn_update_state()
+"""  # noqa
+
 BFD_STATE_CHANGES = """
 2022-07-27T08:49:57.903Z|00007|bfd|INFO|ovn-abc-xa-15: BFD state change: admin_down->down "No Diagnostic"->"No Diagnostic".
 2022-07-27T08:49:57.903Z|00007|bfd(handler7)|INFO|ovn-abc-xa-15: BFD state change: down->init "No Diagnostic"->"No Diagnostic".
@@ -189,6 +194,21 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovs-vswitchd.yaml',
+                                        'events/openvswitch'))
+    @utils.create_data_root({('var/log/openvswitch/'
+                              'ovs-vswitchd.log'):
+                             VSWITCHD_LOG})
+    def test_ovs_vswitchd_assertion_failures(self):
+        # TODO(haleyb): combine with above code to have all checks in one place
+        expected = {
+            'ovs-vswitchd': {
+                'assertion-failures':
+                    {'2023-06-08': 2}}}
+        inst = event_checks.OVSEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml',
                                         'events/openvswitch'))
     def test_ovs_common_log_checks(self):
@@ -204,6 +224,22 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         '2022-02-04': 6,
                         '2022-02-09': 2,
                         '2022-02-10': 4}}}}
+        inst = event_checks.OVSEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('errors-and-warnings.yaml',
+                                        'events/openvswitch'))
+    @utils.create_data_root({('var/log/openvswitch/'
+                              'ovs-vswitchd.log'):
+                             VSWITCHD_LOG})
+    def test_ovs_emer_log_checks(self):
+        # TODO(haleyb): combine with above code to have all checks in one place
+        expected = {
+            'errors-and-warnings': {
+                'ovs-vswitchd': {
+                    'EMER': {
+                        '2023-06-08': 2}}}}
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 

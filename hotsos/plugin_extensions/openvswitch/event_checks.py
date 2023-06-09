@@ -42,6 +42,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
                                     'receive-tunnel-port-not-found',
                                     'rx-packet-on-unassociated-datapath-port',
                                     'dpif-netlink-lost-packet-on-handler',
+                                    'assertion-failures',
                                     'unreasonably-long-poll-interval'])
     def process_log_events(self, event):
         key_by_date = True

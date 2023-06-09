@@ -17,3 +17,6 @@ inactivity-probe:
 involuntary-context-switches:
   expr: '([0-9-]+)T(\d+):\d+:\d+\.\S+Z.+\|timeval\|WARN\|context switches: 0 voluntary, (\d+) involuntary'
   hint: timeval
+assertion-failures:
+  expr: '([0-9-]+)T[0-9:\.]+Z.+\|util.+\|EMER\|\S+: assertion '
+  hint: assertion
