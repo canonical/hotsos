@@ -1,0 +1,31 @@
+mock:
+  patch.object:
+    hotsos.core.ycheck.engine.properties.input.CLIHelper:
+      kwargs:
+        create: true
+        attribute: journalctl
+        return_value: 
+          - "2022-02-10T17:52:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T17:53:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T17:54:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T17:55:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T17:56:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T17:57:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T17:58:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T17:59:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:00:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:01:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:02:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:03:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:04:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:05:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:06:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:07:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:08:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:09:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:10:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:11:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+          - "2022-02-10T18:12:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...\n"
+raised-issues:
+  OpenvSwitchWarning: >-
+    The ovs-vswitchd service appears to be restarting very frequently (21 times in an hour). Please check.
