@@ -5,16 +5,16 @@ mock:
         create: true
         attribute: journalctl
         return_value:
-          - '-- Logs begin at Thu 2021-04-29 17:44:42 BST, end at Thu 2021-05-06 09:05:01 BST. --'
-          - '2022-04-29T17:52:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...'
-          - '2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 sudo[15179]:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/r'
-          - '2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session opened for user root by (uid=0)'
-          - '2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 ovs-vsctl[15183]: ovs|00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=5 --id=@manager -- create Manager "target=\'
-          - '2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session closed for user root'
-          - '2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.'
-          - '2022-05-03T06:17:29+0100 juju-9c28ce-ubuntu-11 systemd[1]: Stopped OpenStack Neutron OVS cleanup.'
-          - '2022-05-04T10:05:56+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...'
-          - '2022-05-04T10:06:20+0100 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.'
+          - "-- Logs begin at Thu 2021-04-29 17:44:42 BST, end at Thu 2021-05-06 09:05:01 BST. --\n"
+          - "2022-04-29T17:52:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...\n"
+          - "2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 sudo[15179]:  neutron : TTY=unknown ; PWD=/var/lib/neutron ; USER=root ; COMMAND=/usr/bin/neutron-rootwrap /etc/neutron/r\n"
+          - "2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session opened for user root by (uid=0)\n"
+          - "2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 ovs-vsctl[15183]: ovs|00001|vsctl|INFO|Called as /usr/bin/ovs-vsctl --timeout=5 --id=@manager -- create Manager \"target=\\n"
+          - "2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 sudo[15179]: pam_unix(sudo:session): session closed for user root\n"
+          - "2022-04-29T17:52:39+0100 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.\n"
+          - "2022-05-03T06:17:29+0100 juju-9c28ce-ubuntu-11 systemd[1]: Stopped OpenStack Neutron OVS cleanup.\n"
+          - "2022-05-04T10:05:56+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting OpenStack Neutron OVS cleanup...\n"
+          - "2022-05-04T10:06:20+0100 juju-9c28ce-ubuntu-11 systemd[1]: Started OpenStack Neutron OVS cleanup.\n"
 raised-issues:
   OpenstackWarning: >-
     The neutron-ovs-cleanup systemd service has been manually run

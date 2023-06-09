@@ -1,0 +1,21 @@
+checks:
+  ovs_frequent_restarts:
+    input:
+      command: journalctl
+      kwargs:
+        unit: ovs-vswitchd
+    search:
+      expr: '([\d-]+)T([\d:]+)\+\d+ .+ Starting Open vSwitch Forwarding Unit...'
+      constraints:
+        min-results: 20
+        search-period-hours: 1
+        search-result-age-hours: 24
+conclusions:
+  ovs_frequent_restarts:
+    decision: ovs_frequent_restarts
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        The ovs-vswitchd service appears to be restarting very frequently ({count} times in an hour). Please check.
+      format-dict:
+        count: '@checks.ovs_frequent_restarts.search.num_results'
