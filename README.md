@@ -87,7 +87,7 @@ An example **short** (yaml) summary can be found
 
 HotSOS can be installed in the following ways:
 
-### Daily build Debian package
+### debian package daily build
 
 NOTE: this is the recommended method.
 
@@ -102,16 +102,11 @@ $ sudo apt install hotsos
 NOTE: requires Python >= 3.8
 
 ```console
-$ sudo apt install python3-pip
-$ pip install hotsos
+$ sudo apt install pipx
+$ pipx install hotsos
 ```
 
-NOTE: when upgrading be sure to upgrade dependencies since pip will not do this by default.
-      To forcibly upgrade all dependencies you can use:
-
-```
-pip install --upgrade hotsos --upgrade-strategy eager
-```
+NOTE: use pipx instead of pip as it is considered more secure and installs in a venv
 
 ### snap
 
