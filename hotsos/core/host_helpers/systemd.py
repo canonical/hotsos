@@ -53,6 +53,27 @@ class SystemdService(object):
 
         return t.timestamp()
 
+    @property
+    def memory_current(self):
+        """ Returns service current memory usage in bytes. """
+        path = os.path.join(HotSOSConfig.data_root,
+                            'sys/fs/cgroup/memory/system.slice',
+                            "{}.service".format(self.name),
+                            'memory.usage_in_bytes')
+        if not os.path.exists(path):
+            # path changed between Ubuntu Focal and Jammy releases.
+            path = os.path.join(HotSOSConfig.data_root,
+                                'sys/fs/cgroup/system.slice',
+                                "{}.service".format(self.name),
+                                'memory.current')
+
+        if not os.path.exists(path):
+            log.warning("service memory info not found at %s", path)
+            return 0
+
+        with open(path) as fd:
+            return int(fd.read())
+
     def __repr__(self):
         return ("name={}, state={}, start_time={}, has_instances={}".
                 format(self.name, self.state, self.start_time,
