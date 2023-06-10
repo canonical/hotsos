@@ -1,0 +1,20 @@
+target-name: service_mem_usage.yaml
+data-root:
+  files:
+    sys/fs/cgroup/system.slice/ovn-northd.service/memory.current: '536870912'
+    sos_commands/systemd/systemctl_list-unit-files: |
+      ovn-central.service                        enabled         enabled
+      ovn-nb-ovsdb.service                       enabled         enabled
+      ovn-northd.service                         static          enabled
+      ovn-ovsdb-server-nb.service                enabled         enabled
+      ovn-ovsdb-server-sb.service                enabled         enabled
+      ovn-sb-ovsdb.service                       enabled         enabled
+    sos_commands/systemd/systemctl_list-units: |
+      ovn-central.service                                                         loaded active exited    Open Virtual Network central components
+      ovn-northd.service                                                          loaded active running   Open Virtual Network central control daemon
+      ovn-ovsdb-server-nb.service                                                 loaded active running   Open vSwitch database server for OVN Northbound database
+      ovn-ovsdb-server-sb.service                                                 loaded active running   Open vSwitch database server for OVN Southbound database
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-central                     20.03.2-0ubuntu0.20.04.4          amd64        OVN central components
+      ii  ovn-common                      20.03.2-0ubuntu0.20.04.4          amd64        OVN common components
+raised-issues:
