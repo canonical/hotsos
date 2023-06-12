@@ -20,15 +20,17 @@ description = "Software analysis toolkit. Define checks in high-level language a
 readme = "README.md"
 requires-python = ">=3.8"
 dynamic = ["version"]
+# NOTE: updates to this section must also be relected in requirements.txt
 dependencies = [
     'importlib-metadata; python_version >= "3.8"',
     'click',
+    'distro',
     'progress',
     'pyyaml',
     'simplejson',
     'jinja2',
     'cryptography',
-    'searchkit >= 0.2.3',
+    'searchkit >= 0.2.7',
     'propertree'
 ]
 
