@@ -1,4 +1,5 @@
-start: '^([0-9\-]+) (\S+)\.\d+ .+ \[instance: (\S+)\] About to invoke the migrate API _live_migration_operation'
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
+start: '([\d-]+) ([\d:]+)\.\d{3} .+ \[instance: (\S+)\] About to invoke the migrate API _live_migration_operation'
 body:
-  - '^([0-9\-]+) (\S+)\.\d+ .+ \[instance: (\S+)\] Migration running for \d+ secs, memory (\d+)% remaining .+ disk (\d+)% remaining'
-end: '^([0-9\-]+) (\S+)\.\d+ .+ \[instance: (\S+)\] Migration operation has completed'
+  - '([\d-]+) ([\d:]+)\.\d{3} .+ \[instance: (\S+)\] Migration running for \d+ secs, memory (\d+)% remaining .+ disk (\d+)% remaining'
+end: '([\d-]+) ([\d:]+)\.\d{3} .+ \[instance: (\S+)\] Migration operation has completed'

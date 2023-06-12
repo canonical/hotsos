@@ -5,7 +5,7 @@ checks:
     input:
       path: var/log/ceph/ceph*.log
     search:
-      expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ slow ops, oldest one blocked .+'
+      expr: '^([\d-]+)[T ]([\d:]+)\S+ .+ slow ops, oldest one blocked .+'
       constraints:
         # i.e. must occur 5 times within same 24 hour period
         min-results: 5

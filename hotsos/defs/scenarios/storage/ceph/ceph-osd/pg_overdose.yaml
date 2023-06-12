@@ -7,7 +7,7 @@ checks:
     input:
       path: [var/log/ceph/ceph-osd*.log, var/log/ceph/ceph.log]
     search:
-      expr: '.+ (osd.+) .+ maybe_wait_for_max_pg withhold creation of pg .+: (.+) >= (.+)'
+      expr: '[\d-]+[T ][\d:]+\S+ .+ (osd.+) .+ maybe_wait_for_max_pg withhold creation of pg .+: (.+) >= (.+)'
 conclusions:
   pending_creating_pgs:
     decision:

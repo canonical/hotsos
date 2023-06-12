@@ -3,7 +3,7 @@ checks:
     input:
       path: var/log/ceph/ceph*.log
     search:
-      expr: '^([\d-]+)T([\d:]+\.\d)\S+ .+ Slow OSD heartbeats on .+'
+      expr: '^([\d-]+)[T ]([\d:]+)\S+ .+ Slow OSD heartbeats on .+'
       constraints:
         # i.e. must occur 10 times within an hour
         min-results: 10

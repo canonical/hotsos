@@ -1,7 +1,7 @@
 checks:
   has_lp1812361:
     input: 'var/log/juju/unit-glance-simplestreams-sync*.log'
-    expr: '\S+ \S+ INFO unit.glance-simplestreams-sync/\d+\.juju-log \S+ (identity-service:\d+): Missing required data: internal_host internal_port'
+    expr: '[\d-]+ [\d:]+ INFO unit.glance-simplestreams-sync/\d+\.juju-log \S+ (identity-service:\d+): Missing required data: internal_host internal_port'
 conclusions:
   lp1812361:
     decision: has_lp1812361

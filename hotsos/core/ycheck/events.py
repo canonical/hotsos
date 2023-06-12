@@ -122,7 +122,18 @@ class EventProcessingUtils(object):
                                         'key': r.get(3)})
                     else:
                         _fail_count += 1
+                elif len(r) < 1:
+                    msg = ("result (tag={}) does not have enough groups "
+                           "(min 1) to be categorised - aborting".
+                           format(r.tag))
+                    raise Exception(msg)
                 else:
+                    if len(r) < 2:
+                        # results with just a date will have None for the key
+                        log.debug("result (tag=%s) has just one group which "
+                                  "is assumed to be a date and using key=None",
+                                  r.tag)
+
                     results.append({'date': r.get(1), 'key': r.get(2)})
 
             if _fail_count:

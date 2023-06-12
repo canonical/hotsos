@@ -2,7 +2,7 @@ checks:
   has_lp1996230:
     input:
       path: 'var/log/juju/machine-*.log'
-    expr: '\S+ \S+ ERROR juju.worker.dependency engine.go:\d+ "\S+" manifold worker .+ error: could not retrieve action (\S+): action no longer available'
+    expr: '[\d-]+ [\d:]+ ERROR juju.worker.dependency engine.go:\d+ "\S+" manifold worker .+ error: could not retrieve action (\S+): action no longer available'
 conclusions:
   lp1996230:
     decision: has_lp1996230

@@ -2,7 +2,7 @@ checks:
   auto_failovers_day_limit:
     input:
       path: 'var/log/octavia/octavia-health-manager.log'
-    expr: '([\d-]+) ([\d:]+)\.\d+ \d+ INFO \S+ \S+ Performing failover for amphora: (.+)'
+    expr: '([\d-]+) ([\d:]+)\.\d{3} \d+ INFO \S+ \S+ Performing failover for amphora: (.+)'
     constraints:
       search-result-age-hours: 48
       search-period-hours: 24
@@ -10,7 +10,7 @@ checks:
   auto_failovers_hour_limit:
     input:
       path: 'var/log/octavia/octavia-health-manager.log'
-    expr: '([\d-]+) ([\d:]+)\.\d+ \d+ INFO \S+ \S+ Performing failover for amphora: (.+)'
+    expr: '([\d-]+) ([\d:]+)\.\d{3} \d+ INFO \S+ \S+ Performing failover for amphora: (.+)'
     constraints:
       search-result-age-hours: 48
       search-period-hours: 1

@@ -1,3 +1,4 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
   path: 'var/log/nova/nova-compute.log'
   options:
@@ -7,6 +8,6 @@ input:
 # Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
 events:
   network-changed:
-    expr: '.+\[instance: (\S+)\].+Received event (network-changed)-(\S+)\s+'
+    expr: '[\d-]+ [\d:]+\.\d{3} .+\[instance: (\S+)\].+Received event (network-changed)-(\S+)\s+'
   network-vif-plugged:
-    expr: '.+\[instance: (\S+)\].+Preparing to wait for external event (network-vif-plugged)-(\S+)\s+'
+    expr: '[\d-]+ [\d:]+\.\d{3} .+\[instance: (\S+)\].+Preparing to wait for external event (network-vif-plugged)-(\S+)\s+'

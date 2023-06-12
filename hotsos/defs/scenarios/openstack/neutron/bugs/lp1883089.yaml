@@ -2,7 +2,7 @@ checks:
   has_1883089:
     input:
       path: 'var/log/neutron/neutron-l3-agent.log'
-    expr: '.+AttributeError: ''NoneType'' object has no attribute ''get'''
+    expr: '([\d-]+) [\d:]+\.\d{3} .+AttributeError: ''NoneType'' object has no attribute ''get'''
     hint: 'AttributeError'
 conclusions:
   lp1883089:

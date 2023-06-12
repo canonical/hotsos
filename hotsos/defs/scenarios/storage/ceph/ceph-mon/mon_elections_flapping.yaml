@@ -3,7 +3,7 @@ checks:
     input:
       path: var/log/ceph/ceph*.log
     search:
-      expr: '^([0-9-]+)\S* (\S+) .+ mon.\S+ calling monitor election'
+      expr: '^([\d-]+)[T ]([\d:]+)\S+ (\S+) .+ mon.\S+ calling monitor election'
       constraints:
         # i.e. must occur 5 times within same 24 hour period
         min-results: 5

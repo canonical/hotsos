@@ -1,3 +1,5 @@
+import re
+
 from searchkit.constraints import TimestampMatcherBase
 
 from datetime import (
@@ -335,6 +337,15 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
         # can be supplied as a single string or list of strings
         patterns = self._resolve_exprs(list(self.content.keys()))
+        if len(patterns) == 0:
+            raise Exception("no search pattern (expr) defined")
+
+        for pattern in patterns:
+            if not re.search(r"[^\\]\(", pattern):
+                log.info("pattern '%s' does not contain a subgroup. this "
+                         "is inefficient and can result in unnecessary "
+                         "memory consumption", pattern)
+
         if len(patterns) == 1:
             return patterns[0]
 

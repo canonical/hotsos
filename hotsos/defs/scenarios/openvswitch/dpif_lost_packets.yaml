@@ -22,7 +22,7 @@ checks:
     varops: [[$num_lost_packets], [gt, 5]]  # allow a very small number
   dpif_netlink_lost_packet_on_handler:
     search:
-      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|system@ovs-system: lost packet on port channel.+'
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|system@ovs-system: lost packet on port channel.+'
       constraints:
         min-results: 10  # allow a very small number
         search-period-hours: 24

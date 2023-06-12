@@ -1,3 +1,4 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 passthrough-results: True
-start: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] pre_live_migration data is LibvirtLiveMigrateData'
-end: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] pre_live_migration result data is LibvirtLiveMigrateData'
+start: '([\d-]+) ([\d:]+)\.\d{3} .+ \[instance: (\S+)\] pre_live_migration data is LibvirtLiveMigrateData'
+end: '([\d-]+) ([\d:]+)\.\d{3} .+ \[instance: (\S+)\] pre_live_migration result data is LibvirtLiveMigrateData'

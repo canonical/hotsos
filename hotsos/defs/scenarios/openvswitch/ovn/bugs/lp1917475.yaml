@@ -1,8 +1,10 @@
 checks:
   has_1917475:
-    input:
-      path: 'var/log/ovn/ovn-controller.log'
-    expr: '.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
+    input: 'var/log/ovn/ovn-controller.log'
+    search:
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
+      constraints:
+        search-result-age-hours: 24
 conclusions:
   lp1917475:
     decision: has_1917475

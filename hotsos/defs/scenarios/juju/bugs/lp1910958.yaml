@@ -2,7 +2,7 @@ checks:
   has_lp1910958:
     input:
       path: 'var/log/juju/unit-*.log'
-    expr: '\S+ \S+ ERROR juju.worker.dependency engine.go:\d+ "uniter" manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
+    expr: '[\d-]+ [\d:]+ ERROR juju.worker.dependency engine.go:\d+ "uniter" manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
     hint: 'manifold worker returned unexpected error'
 conclusions:
   lp1910958:

@@ -3,7 +3,7 @@ checks:
     input:
       - var/log/neutron/neutron-server.log
       - var/log/neutron/neutron-ovn-metadata-agent.log
-    expr: '.+ ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send\(\) on <class ''eventlet.green.ssl.GreenSSLSocket''>'
+    expr: '([\d-]+) [\d:]+\.\d{3} .+ ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send\(\) on <class ''eventlet.green.ssl.GreenSSLSocket''>'
     hint: ERROR
   has_pyovs_with_reconnection_bug:
     apt:

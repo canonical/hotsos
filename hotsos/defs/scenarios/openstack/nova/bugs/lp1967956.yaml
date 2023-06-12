@@ -3,7 +3,7 @@ checks:
     input:
       path: 'var/log/nova/nova-compute.log'
     search:
-      expr: '^([\d-]+\s+[\d:]+)\S+ .+ libvirt.libvirtError: Cannot access storage file ''\S+'' \(as uid:\d+, gid:\d+\): Permission denied'
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+ libvirt.libvirtError: Cannot access storage file ''\S+'' \(as uid:\d+, gid:\d+\): Permission denied'
       hint: ERROR
       constraints:
         search-result-age-hours: 168  # 7 days

@@ -1,22 +1,24 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
   path: 'var/log/openvswitch/ovs-vswitchd.log'
 netdev-linux-no-such-device:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|(\S+): .+ \S+: No such device'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(\S+): .+ \S+: No such device'
 bridge-no-such-device:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|could not open network device (\S+) \(No such device\)'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|could not open network device (\S+) \(No such device\)'
 unreasonably-long-poll-interval:
-  expr: '^([0-9-]+)T[0-9:\.]+Z.+\|timeval(?:\([a-zA-Z]+\d+\))?\|WARN\|Unreasonably long \d+ms poll interval'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|timeval(?:\([a-zA-Z]+\d+\))?\|WARN\|Unreasonably long \d+ms poll interval'
 rx-packet-on-unassociated-datapath-port:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|received packet on unassociated datapath port (\d+)'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|received packet on unassociated datapath port (\d+)'
 receive-tunnel-port-not-found:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|receive tunnel port not found \((\w+),'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|receive tunnel port not found \((\w+),'
 dpif-netlink-lost-packet-on-handler:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|system@ovs-system: lost packet on port channel.+'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|system@ovs-system: lost packet on port channel.+'
 inactivity-probe:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
 involuntary-context-switches:
-  expr: '([0-9-]+)T(\d+):\d+:\d+\.\S+Z.+\|timeval\|WARN\|context switches: 0 voluntary, (\d+) involuntary'
+  # we capture date and hour as subgroups
+  expr: '([\d-]+)T(\d+):[\d:]+\.\d+Z.+\|timeval\|WARN\|context switches: 0 voluntary, (\d+) involuntary'
   hint: timeval
 assertion-failures:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|util.+\|EMER\|\S+: assertion '
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|util.+\|EMER\|\S+: assertion '
   hint: assertion

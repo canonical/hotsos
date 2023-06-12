@@ -1,3 +1,4 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 passthrough-results: True
-start: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] _post_live_migration() is started'
-end: '^([0-9\-]+) (\S+) .+ \[instance: (\S+)\] VM Stopped (Lifecycle Event)'
+start: '([\d-]+) ([\d:]+)\.\d{3} .+ \[instance: (\S+)\] _post_live_migration() is started'
+end: '([\d-]+) ([\d:]+)\.\d{3} .+ \[instance: (\S+)\] VM Stopped (Lifecycle Event)'
