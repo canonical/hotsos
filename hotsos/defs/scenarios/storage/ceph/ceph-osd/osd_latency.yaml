@@ -3,7 +3,7 @@ checks:
     input:
       path: var/log/ceph/ceph*.log
     search:
-      expr: '^([\d-]+)[T ]([\d:]+\.\d)\S+ .+ slow operation observed .+'
+      expr: '^([\d-]+)[T ]([\d:]+)\S+ .+ slow operation observed .+'
       constraints:
         # Expect several in a row; anything that's temporary wouldn't result in
         # slow ops and likely to be a result of momentary extreme load.

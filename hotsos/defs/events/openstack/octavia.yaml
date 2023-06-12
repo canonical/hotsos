@@ -1,15 +1,16 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 octavia-health-manager:
   input:
     path: 'var/log/octavia/octavia-health-manager.log'
   amp-missed-heartbeats:
-    expr: '^(\S+) \S+ .+ Amphora (\S+) health message was processed too slowly:.+'
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Amphora (\S+) health message was processed too slowly:.+'
     hint: 'Amphora'
   lb-failover-auto:
-    expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Performing failover for amphora:\s+(.+)'
     hint: 'failover'
 octavia-worker:
   lb-failover-manual:
     input:
       path: 'var/log/octavia/octavia-worker.log'
-    expr: '^(\S+) \S+ .+ Performing failover for amphora:\s+(.+)'
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Performing failover for amphora:\s+(.+)'
     hint: 'failover'

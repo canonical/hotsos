@@ -4,7 +4,7 @@ input:
 checks:
   dpif_resubmit_limit_reached:
     search:
-      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|WARN\|over (\d+) resubmit actions on bridge (\S+) while processing'
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|WARN\|over (\d+) resubmit actions on bridge (\S+) while processing'
       constraints:
         min-results: 5
         search-period-hours: 24

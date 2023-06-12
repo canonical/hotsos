@@ -1,15 +1,16 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
   path: ['var/log/ceph/ceph.log', 'var/log/ceph/ceph-mon*.log']
 osd-reported-failed:
-  expr: '^([0-9-]+)\S* \S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
   hint: 'reported failed'
 mon-elections-called:
-  expr: '^([0-9-]+)\S* \S+ .+ (mon.\S+) calling monitor election'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ (mon.\S+) calling monitor election'
   hint: 'calling monitor election'
 long-heartbeat-pings:
-  expr: '^([0-9-]+)\S* \S+ .+ Long heartbeat ping times on \S+ interface seen'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ Long heartbeat ping times on \S+ interface seen'
   hint: 'Long heartbeat ping'
 heartbeat-no-reply:
-  expr: '^([0-9-]+)\S* \S+ \S+ \S+ osd.[0-9]+ .+ heartbeat_check: no reply from [0-9.:]+ (osd.[0-9]+)'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ osd.[0-9]+ .+ heartbeat_check: no reply from [0-9.:]+ (osd.[0-9]+)'
   hint: 'heartbeat_check'
 

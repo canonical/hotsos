@@ -2,7 +2,7 @@ checks:
   logs:
     input: var/log/neutron/neutron-server.log
     search:
-      expr: '(\S+\s+[\d:]+).\S+ .+ neutron_lib.exceptions.dns.DuplicateRecordSet: Name \S+ is duplicated in the external DNS service'
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+ neutron_lib.exceptions.dns.DuplicateRecordSet: Name \S+ is duplicated in the external DNS service'
       constraints:
         search-result-age-hours: 168  # max 7 days
 conclusions:

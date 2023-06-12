@@ -2,7 +2,7 @@ checks:
   has_1860743:
     input:
       path: 'var/log/nova/nova-compute.log'
-    expr: '.+Live Migration failure: operation failed: Failed to connect to remote libvirt URI .+Cannot recv data: Host key verification failed\.: Connection reset by peer: libvirtError: operation failed: Failed to connect to remote libvirt URI.+Cannot recv data: Host key verification failed\.: Connection reset by peer'
+    expr: '([\d-]+) [\d:]+\.\d{3} .+Live Migration failure: operation failed: Failed to connect to remote libvirt URI .+Cannot recv data: Host key verification failed\.: Connection reset by peer: libvirtError: operation failed: Failed to connect to remote libvirt URI.+Cannot recv data: Host key verification failed\.: Connection reset by peer'
     hint: 'libvirtError'
 conclusions:
   lp1860743:

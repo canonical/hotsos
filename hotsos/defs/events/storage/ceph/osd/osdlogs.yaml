@@ -1,14 +1,11 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
   path: 'var/log/ceph/ceph-osd*.log'
 slow-requests:
-  expr: '^([0-9-]+)\S* \S+ .+ ([0-9]+) slow requests are blocked .+ \(REQUEST_SLOW\)'
-  hint: 'REQUEST_SLOW'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ ([0-9]+) slow requests are blocked .+ \(REQUEST_SLOW\)'
 crc-err-bluestore:
-  expr: '^([0-9-]+)\S* .+ _verify_csum bad .+'
-  hint: '_verify_csum'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ _verify_csum bad .+'
 crc-err-rocksdb:
-  expr: '^([0-9-]+)\S* .+ rocksdb: .+block checksum mismatch'
-  hint: 'checksum mismatch'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb: .+block checksum mismatch'
 superblock-read-error:
-  expr: '.+ unable to read osd superblock'
-  hint: 'osd superblock'
+  expr: '([\d-]+)[T ]([\d:]+)\S+ .+ unable to read osd superblock'

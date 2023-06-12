@@ -2,7 +2,7 @@ checks:
   has_1965297:
     input:
       path: 'var/log/neutron/neutron-l3-agent.log'
-    expr: '.+Gateway interface for router \S+ was not set up; router will not work properly'
+    expr: '([\d-]+) [\d:]+\.\d{3} .+Gateway interface for router \S+ was not set up; router will not work properly'
 conclusions:
   lp1965297:
     decision: has_1965297

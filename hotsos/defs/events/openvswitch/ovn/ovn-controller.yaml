@@ -1,11 +1,13 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
   path: 'var/log/ovn/ovn-controller.log'
 unreasonably-long-poll-interval:
-  expr: '^([0-9-]+)T[0-9:\.]+Z.+\|timeval(?:\([a-zA-Z]+\d+\))?\|WARN\|Unreasonably long \d+ms poll interval'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|timeval(?:\([a-zA-Z]+\d+\))?\|WARN\|Unreasonably long \d+ms poll interval'
   hint: 'Unreasonably'
 bridge-not-found-for-port:
-  expr: '([0-9-]+)T[0-9:\.]+Z.+\|\S+\|ERR\|bridge not found for localnet port ''(\S+)'' with network name ''\S+'''
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|\S+\|ERR\|bridge not found for localnet port ''(\S+)'' with network name ''\S+'''
   hint: 'bridge not found'
 involuntary-context-switches:
-  expr: '([0-9-]+)T(\d+):\d+:\d+\.\S+Z.+\|timeval\|WARN\|context switches: \d+ voluntary, (\d+) involuntary'
+  # we capture date and hour as subgroups
+  expr: '([\d-]+)T(\d+):[\d:]+\.\d+Z.+\|timeval\|WARN\|context switches: \d+ voluntary, (\d+) involuntary'
   hint: timeval

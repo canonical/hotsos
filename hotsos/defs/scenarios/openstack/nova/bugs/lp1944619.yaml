@@ -2,7 +2,7 @@ checks:
   has_1944619:
     input:
       path: 'var/log/nova/nova-compute.log'
-    expr: '.+attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device'
+    expr: '([\d-]+) [\d:]+\.\d{3} .+attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device'
     hint: 'libvirtError'
 conclusions:
   lp1944619:

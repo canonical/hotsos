@@ -1,6 +1,7 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
   path: 'var/log/nova/nova-compute.log'
 warnings:
   pci-dev-not-found:
-    expr: '^([0-9\-]+) (\S+) .+ No net device was found for VF \S+: nova.exception.PciDeviceNotFoundById: PCI device (\S+) not found'
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ No net device was found for VF \S+: nova.exception.PciDeviceNotFoundById: PCI device (\S+) not found'
     hint: 'WARNING'

@@ -1,7 +1,7 @@
 checks:
   has_lp1858519:
     input: 'var/log/juju/unit-ceph-osd*.log'
-    expr: '\S+ \S+ INFO unit.(ceph-osd/\d+).juju-log server.go:\d+ Cannot zap a device used by lvm'
+    expr: '[\d-]+ [\d:]+ INFO unit.(ceph-osd/\d+).juju-log server.go:\d+ Cannot zap a device used by lvm'
 conclusions:
   lp1858519:
     decision: has_lp1858519

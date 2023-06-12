@@ -1,7 +1,9 @@
+# NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 l3ha:
   vrrp-transitions:
     input:
       command: journalctl
       options:
         args-callback: hotsos.plugin_extensions.openstack.agent.events.NeutronL3HAEventChecks.journalctl_args
-    expr: '^([0-9-]+)T\S+ \S+ Keepalived_vrrp\[\d+\]: (?:VRRP_Instance)?\(VR_(\d+)\) .+ (\S+) STATE'
+    # timestamp at start of line will be in journalctl -oshort-iso format
+    expr: '([\d-]+)T([\d:]+)\S+ \S+ Keepalived_vrrp\[\d+\]: (?:VRRP_Instance)?\(VR_(\d+)\) .+ (\S+) STATE'

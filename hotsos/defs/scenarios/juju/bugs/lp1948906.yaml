@@ -2,7 +2,7 @@ checks:
   has_lp1948906:
     input:
       path: 'var/log/juju/unit-*.log'
-    expr: '\S+ \S+ ERROR juju.worker.dependency engine.go:\d+ "uniter" manifold worker .+ error: executing operation "run post-series-upgrade hook" for (\S+): upgrade series status "complete running"'
+    expr: '[\d-]+ [\d:]+ ERROR juju.worker.dependency engine.go:\d+ "uniter" manifold worker .+ error: executing operation "run post-series-upgrade hook" for (\S+): upgrade series status "complete running"'
 conclusions:
   lp1948906:
     decision: has_lp1948906

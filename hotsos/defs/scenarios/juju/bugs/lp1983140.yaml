@@ -2,7 +2,7 @@ checks:
   has_lp1983140:
     input:
       path: 'var/log/juju/machine-*.log'
-    expr: '.* quiescing, timed out waiting for agents to report'
+    expr: '([\d-]+) [\d:]+ .+ quiescing, timed out waiting for agents to report'
 conclusions:
   lp1983140:
     decision: has_lp1983140

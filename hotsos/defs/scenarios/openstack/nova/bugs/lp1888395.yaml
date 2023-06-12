@@ -2,7 +2,7 @@ checks:
   has_1888395_pt1:
     input:
       path: 'var/log/nova/nova-compute.log'
-    expr: '.+NotImplementedError: Cannot load ''vifs'' in the base class'
+    expr: '([\d-]+) [\d:]+\.\d{3} .+NotImplementedError: Cannot load ''vifs'' in the base class'
     hint: 'NotImplementedError'
   has_1888395_pt2:
     apt:

@@ -95,8 +95,7 @@ class APIEvents(OpenstackEventChecksBase):
                              event_names=['neutron'])
     def http_requests(self, event):
         results = [{'date': r.get(1),
-                    'time': r.get(2),
-                    'key': r.get(3)} for r in event.results]
+                    'key': r.get(2)} for r in event.results]
         ret = self.categorise_events(event, results=results)
         if ret:
             return ret
@@ -168,12 +167,12 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
     def lb_failovers(self, event):
         results = []
         for e in event.results:
-            payload = yaml.safe_load(e.get(2))
+            payload = yaml.safe_load(e.get(3))
             lb_id = payload.get('load_balancer_id')
             if lb_id is None:
                 continue
 
-            results.append({'date': e.get(1), 'key': lb_id})
+            results.append({'date': e.get(1), 'time': e.get(2), 'key': lb_id})
 
         ret = self.categorise_events(event, results=results, key_by_date=False)
         if ret:
@@ -282,12 +281,13 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
     def vrrp_transitions(self, event):
         results = []
         for r in event.results:
-            router = self.ha_info.find_router_with_vr_id(r.get(2))
+            router = self.ha_info.find_router_with_vr_id(r.get(3))
             if not router:
-                log.debug("could not find router with vr_id %s", r.get(2))
+                log.debug("could not find router with vr_id %s", r.get(3))
                 continue
 
-            results.append({'date': r.get(1), 'key': router.uuid})
+            results.append({'date': r.get(1), 'time': r.get(2),
+                            'key': router.uuid})
 
         transitions = self.categorise_events(event, results=results,
                                              key_by_date=False)

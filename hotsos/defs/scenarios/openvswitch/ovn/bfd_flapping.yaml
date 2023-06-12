@@ -3,7 +3,7 @@ checks:
     input:
       path: var/log/openvswitch/ovs-vswitchd.log
     search:
-      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
       constraints:
         # trigger if we at least this many in 1 hour period and look at last 24 hours only.
         min-results: 10
@@ -13,7 +13,7 @@ checks:
     input:
       path: var/log/openvswitch/ovs-vswitchd.log
     search:
-      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|bfd\(\S+\)\|INFO\|[a-z0-9-]+: BFD state change'
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|bfd\(\S+\)\|INFO\|[a-z0-9-]+: BFD state change'
       constraints:
         # trigger if we at least this many in 1 hour period and look at last 24 hours only.
         min-results: 10
@@ -23,7 +23,7 @@ checks:
     input:
       path: var/log/ovn/ovn-controller.log
     search:
-      expr: '([0-9-]+)T([0-9:\.]+)Z.+\|binding\|INFO\|(Claiming|Releasing) lport cr-lrp-\S+ for this chassis.'
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|binding\|INFO\|(Claiming|Releasing) lport cr-lrp-\S+ for this chassis.'
       constraints:
         # trigger if we see at least this many in last 24 hours.
         min-results: 20

@@ -11,7 +11,7 @@ checks:
   has_2008099_logs:
     input:
       path: 'var/log/octavia/octavia-worker.log'
-    expr: '.+octavia.amphorae.drivers.haproxy.exceptions .+ Removing incomplete section ''peers'
+    expr: '([\d-]+) [\d:]+\.\d{3} \d+ ERROR octavia.amphorae.drivers.haproxy.exceptions .+ Removing incomplete section ''peers'
     hint: octavia.amphorae.drivers.haproxy.exceptions
 conclusions:
   2008099:
