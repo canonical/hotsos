@@ -411,10 +411,11 @@ class BaseTestCase(unittest.TestCase):
         os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals
         HotSOSConfig.set(**self.hotsos_config)
-        self.global_tmp_dir = tempfile.mkdtemp()
-        self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
-        HotSOSConfig.global_tmp_dir = self.global_tmp_dir
-        HotSOSConfig.plugin_tmp_dir = self.plugin_tmp_dir
+        if not self.global_tmp_dir:
+            self.global_tmp_dir = tempfile.mkdtemp()
+            self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
+            HotSOSConfig.global_tmp_dir = self.global_tmp_dir
+            HotSOSConfig.plugin_tmp_dir = self.plugin_tmp_dir
         setup_logging()
         if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') != 'yes':
             log.setLevel(logging.INFO)
