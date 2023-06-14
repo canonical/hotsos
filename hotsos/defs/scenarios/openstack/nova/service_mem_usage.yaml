@@ -1,0 +1,17 @@
+vars:
+  limit: 536870912  # 5G
+  libvirtd_usage: '@hotsos.core.host_helpers.systemd.ServiceFactory.memory_current:libvirtd'
+checks:
+  libvirtd_mem_use_above_limit:
+    systemd: libvirtd
+    varops: [[$libvirtd_usage], [gt, $limit]]
+conclusions:
+  northd_overuse:
+    decision: libvirtd_mem_use_above_limit
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The libvirtd service is consuming more than 5G memory (current={usage}). This is
+        not normal and could indicate a memory leak. Please check.
+      format-dict:
+        usage: $libvirtd_usage
