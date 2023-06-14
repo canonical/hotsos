@@ -1,0 +1,28 @@
+checks:
+  no_monitor_cond_since:
+    apt:
+      openvswitch-common:
+        - min: 0
+          max: 2.17.0
+  has_1996594:
+    input:
+      path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
+    search:
+      expr: '([0-9-]+)\s([0-9:]+)\.\d{3}.+OVSDB Error: no error details.+'
+      constraints:
+        min-results: 1
+        min-hours-since-last-boot: 0
+        search-period-hours: 24
+        search-result-age-hours: 48
+conclusions:
+  lp1996594:
+    decision:
+      - has_1996594
+      - no_monitor_cond_since
+    raises:
+      type: LaunchpadBug
+      bug-id: 1996594
+      message: >-
+        neutron-ovn-metadata-agent is impacted by a known bug that can cause
+        the agent to randomly stop processing metadata requests. Upgrading
+        to a version of openvswitch >= 2.17.0 should resolve the problem.
