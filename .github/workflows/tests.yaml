@@ -40,3 +40,6 @@ jobs:
     - name: Run functional
       run: tox -e functional
       if: matrix.python-version == '3.10'
+    - name: Build docs
+      run: tox -e docs
+      if: matrix.python-version == '3.10'
