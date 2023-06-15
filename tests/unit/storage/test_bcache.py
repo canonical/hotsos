@@ -1,8 +1,8 @@
-from .. import utils
-
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.storage import bcache as bcache_core
 from hotsos.plugin_extensions.storage import bcache_summary
+
+from .. import utils
 
 
 class BCacheTestsBase(utils.BaseTestCase):

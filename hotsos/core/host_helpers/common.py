@@ -1,10 +1,9 @@
 import abc
 import re
 
-from searchkit.utils import MPCache
-
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
+from searchkit.utils import MPCache
 
 
 class HostHelpersBase(abc.ABC):

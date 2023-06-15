@@ -1,7 +1,8 @@
 import os
-from .. import utils
 
 from hotsos.core.config import HotSOSConfig
+
+from .. import utils
 
 CEPH_MGR_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')

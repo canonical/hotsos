@@ -1,8 +1,5 @@
 import os
-
 from unittest import mock
-
-from . import utils
 
 import hotsos.core.plugins.openstack as openstack_core
 import hotsos.core.plugins.openstack.nova as nova_core
@@ -19,6 +16,8 @@ from hotsos.plugin_extensions.openstack import (
     service_features,
     agent,
 )
+
+from . import utils
 
 OCTAVIA_UNIT_FILES = """
  apache-htcacheclean.service               disabled    enabled       

@@ -1,10 +1,7 @@
 import os
 import shutil
 import tempfile
-
 from unittest import mock
-
-from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.system.system import NUMAInfo, SystemBase
@@ -12,6 +9,8 @@ from hotsos.plugin_extensions.system import (
     checks,
     summary,
 )
+
+from . import utils
 
 
 NUMACTL = """

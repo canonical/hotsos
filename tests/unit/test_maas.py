@@ -1,9 +1,9 @@
 from unittest import mock
 
-from . import utils
-
 from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.maas import summary
+
+from . import utils
 
 SYSTEMD_UNITS = """
  UNIT                                                                                             LOAD   ACTIVE SUB       DESCRIPTION 

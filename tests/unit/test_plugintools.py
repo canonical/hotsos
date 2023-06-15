@@ -1,11 +1,11 @@
 import json
 
-from . import utils
-
 from hotsos.core import plugintools
 from hotsos.client import OutputManager
 from hotsos.core.issues import IssuesManager
 from hotsos.core.host_helpers.cli import CLIHelper
+
+from . import utils
 
 HTML1 = """<ul class="tree">
 <li>

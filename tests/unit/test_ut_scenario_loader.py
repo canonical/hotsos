@@ -1,9 +1,9 @@
 import os
 import tempfile
+from unittest import mock
 import uuid
 
 from hotsos.core.config import HotSOSConfig
-from unittest import mock
 
 from . import utils
 

@@ -1,6 +1,5 @@
-import statistics
-
 from datetime import datetime
+import statistics
 
 
 class EventCollection(object):

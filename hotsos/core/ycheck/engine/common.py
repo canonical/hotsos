@@ -1,8 +1,8 @@
 import os
-import yaml
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
+import yaml
 
 
 class YDefsLoader(object):

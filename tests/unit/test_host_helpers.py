@@ -1,13 +1,12 @@
 import os
 import subprocess
-
 from unittest import mock
-
-from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.host_helpers.filestat import FileFactory
+
+from . import utils
 
 DUMMY_CONFIG = """
 [a-section]

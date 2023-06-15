@@ -1,8 +1,8 @@
-from . import utils
-
 from hotsos.core.config import HotSOSConfig
 import hotsos.core.plugins.sosreport as sosreport_core
 from hotsos.plugin_extensions.sosreport import summary
+
+from . import utils
 
 
 class TestSOSReportBase(utils.BaseTestCase):

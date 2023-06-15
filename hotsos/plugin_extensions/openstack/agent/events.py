@@ -1,5 +1,4 @@
 import datetime
-import yaml
 
 from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.config import HotSOSConfig
@@ -25,6 +24,7 @@ from hotsos.core.plugins.openstack.common import (
 from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core.utils import sorted_dict
+import yaml
 
 EVENTCALLBACKS = CallbackHelper()
 VRRP_TRANSITION_WARN_THRESHOLD = 8

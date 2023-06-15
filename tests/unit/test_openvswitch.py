@@ -1,8 +1,5 @@
 import os
-
 from unittest import mock
-
-from . import utils
 
 from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.host_helpers.systemd import SystemdService
@@ -14,6 +11,8 @@ from hotsos.plugin_extensions.openvswitch import (
     event_checks,
     summary,
 )
+
+from . import utils
 
 DPCTL_SHOW = r"""  port 6: br-int (internal)
     RX packets:0 errors:0 dropped:1887 overruns:0 frame:0

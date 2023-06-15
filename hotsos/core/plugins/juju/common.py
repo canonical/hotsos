@@ -1,10 +1,9 @@
 import os
 
-from searchkit.constraints import TimestampMatcherBase
-
 from hotsos.core import plugintools
 from hotsos.core.host_helpers import PebbleHelper, SystemdHelper
 from hotsos.core.plugins.juju.resources import JujuBase
+from searchkit.constraints import TimestampMatcherBase
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
 JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),

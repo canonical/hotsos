@@ -1,7 +1,5 @@
 from unittest import mock
 
-from .. import utils
-
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.plugins.storage import (
@@ -11,6 +9,8 @@ from hotsos.plugin_extensions.storage import (
     ceph_summary,
     ceph_event_checks,
 )
+
+from .. import utils
 
 CEPH_CONF_NO_BLUESTORE = """
 [global]

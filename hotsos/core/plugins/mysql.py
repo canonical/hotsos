@@ -1,5 +1,6 @@
 import os
 import glob
+
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     PebbleHelper,

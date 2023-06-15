@@ -1,11 +1,8 @@
+from datetime import datetime
 import os
 import re
-import sys
 import subprocess
-
-from datetime import datetime
-
-from searchkit.constraints import TimestampMatcherBase
+import sys
 
 from hotsos.core.factory import FactoryBase
 from hotsos.core.log import log
@@ -35,6 +32,7 @@ from hotsos.core.search import (
     SearchDef
 )
 from hotsos.core.plugins.kernel.net import Lsof
+from searchkit.constraints import TimestampMatcherBase
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]

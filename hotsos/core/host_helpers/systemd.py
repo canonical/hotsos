@@ -1,7 +1,6 @@
 from datetime import datetime
-import os
 import glob
-
+import os
 import re
 
 from hotsos.core.log import log

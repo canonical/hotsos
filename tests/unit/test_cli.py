@@ -1,10 +1,9 @@
 import os
 import sys
 import tempfile
-import distro
-
 from unittest import mock
 
+import distro
 import hotsos.cli
 
 from . import utils

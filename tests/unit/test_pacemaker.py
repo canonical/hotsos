@@ -1,9 +1,8 @@
 import os
 
-from tests.unit import utils
-
 from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.pacemaker import summary
+from tests.unit import utils
 
 
 class TestPacemakerBase(utils.BaseTestCase):

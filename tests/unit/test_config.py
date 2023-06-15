@@ -1,10 +1,10 @@
-from . import utils
-
 from hotsos.core.config import (
     ConfigOpt,
     ConfigOptGroupBase,
     HotSOSConfig
     )
+
+from . import utils
 
 
 class TestOptGroup(ConfigOptGroupBase):

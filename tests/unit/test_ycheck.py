@@ -1,11 +1,7 @@
 import datetime
 import os
 import tempfile
-
 from unittest import mock
-import yaml
-
-from . import utils
 
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
@@ -30,6 +26,9 @@ from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 from hotsos.core.ycheck.engine.properties.requires.types.apt import (
     APTCheckItems,
 )
+import yaml
+
+from . import utils
 
 
 class TestProperty(YPropertyBase):
