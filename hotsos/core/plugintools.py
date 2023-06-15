@@ -1,11 +1,11 @@
 import os
 
-from hotsos.core.config import HotSOSConfig
-from hotsos.core.log import log
-from hotsos.core.issues import IssuesManager
-from hotsos.core.ycheck.scenarios import YScenarioChecker
-from jinja2 import FileSystemLoader, Environment
 import yaml
+from jinja2 import FileSystemLoader, Environment
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.issues import IssuesManager
+from hotsos.core.log import log
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 
 def summary_entry_offset(offset):

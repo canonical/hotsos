@@ -1,7 +1,11 @@
 from datetime import datetime
 
-from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.analytics import LogEventStats
+from hotsos.core.plugins.openstack.common import (
+    OpenstackChecksBase,
+    OpenstackEventChecksBase,
+)
+from hotsos.core.plugins.openstack.nova import NovaLibvirt
 from hotsos.core.plugins.openstack.openstack import (
     OpenstackTimestampMatcher,
 )
@@ -9,12 +13,8 @@ from hotsos.core.search import (
     FileSearcher,
     SearchConstraintSearchSince,
 )
-from hotsos.core.plugins.openstack.common import (
-    OpenstackChecksBase,
-    OpenstackEventChecksBase,
-)
-from hotsos.core.plugins.openstack.nova import NovaLibvirt
 from hotsos.core import utils
+from hotsos.core.ycheck.events import CallbackHelper
 
 EVENTCALLBACKS = CallbackHelper()
 

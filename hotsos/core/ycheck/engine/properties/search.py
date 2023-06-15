@@ -1,9 +1,10 @@
+import re
 from datetime import (
     datetime,
     timedelta,
 )
-import re
 
+from searchkit.constraints import TimestampMatcherBase
 from hotsos.core.host_helpers import UptimeHelper, CLIHelper
 from hotsos.core.log import log
 from hotsos.core.utils import cached_property
@@ -18,7 +19,6 @@ from hotsos.core.ycheck.engine.properties.common import (
     YPropertyMappedOverrideBase,
     add_to_property_catalog,
 )
-from searchkit.constraints import TimestampMatcherBase
 
 
 class CommonTimestampMatcher(TimestampMatcherBase):

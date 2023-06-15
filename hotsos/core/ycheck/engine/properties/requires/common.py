@@ -2,8 +2,8 @@ import abc
 import operator
 
 from hotsos.core.log import log
-from hotsos.core.ycheck.engine.properties.common import YPropertyOverrideBase
 from hotsos.core.utils import cached_property
+from hotsos.core.ycheck.engine.properties.common import YPropertyOverrideBase
 
 
 def intercept_exception(f):

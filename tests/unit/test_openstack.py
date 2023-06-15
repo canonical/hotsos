@@ -1,12 +1,12 @@
 import os
 from unittest import mock
 
+from hotsos.core.config import HotSOSConfig
+from hotsos.core import host_helpers
+from hotsos.core.issues.utils import IssuesStore
 import hotsos.core.plugins.openstack as openstack_core
 import hotsos.core.plugins.openstack.nova as nova_core
 import hotsos.core.plugins.openstack.neutron as neutron_core
-from hotsos.core import host_helpers
-from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.search import FileSearcher
 from hotsos.plugin_extensions.openstack import (
     vm_info,

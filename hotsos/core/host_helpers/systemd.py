@@ -1,13 +1,13 @@
-from datetime import datetime
 import glob
 import os
 import re
+from datetime import datetime
 
-from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.host_helpers.common import ServiceManagerBase
+from hotsos.core.log import log
 from hotsos.core.utils import cached_property, sorted_dict
 
 

@@ -9,9 +9,9 @@ from searchkit import (   # noqa: F403,F401, pylint: disable=W0611
 from searchkit.constraints import (
     SearchConstraintSearchSince as _SearchConstraintSearchSince
 )
-from hotsos.core.log import log
-from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.log import log
 
 
 class FileSearcher(_FileSearcher):

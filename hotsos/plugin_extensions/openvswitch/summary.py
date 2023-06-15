@@ -1,8 +1,8 @@
-from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.plugins.openvswitch import OpenvSwitchChecksBase
-from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
 from hotsos.core.plugins.openvswitch.ovn import OVNBase
+from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
+from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class OpenvSwitchSummary(OpenvSwitchChecksBase):

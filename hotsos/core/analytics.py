@@ -1,5 +1,5 @@
-from datetime import datetime
 import statistics
+from datetime import datetime
 
 
 class EventCollection(object):

@@ -1,10 +1,9 @@
 import datetime
 
-from hotsos.core.plugintools import summary_entry_offset as idx
-from hotsos.core.config import HotSOSConfig
+import yaml
 from hotsos.core.analytics import LogEventStats, SearchResultIndices
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.issues import (
     IssueContext,
     IssuesManager,
@@ -12,19 +11,20 @@ from hotsos.core.issues import (
     OpenstackWarning
 )
 from hotsos.core.log import log
+from hotsos.core.plugins.openstack.common import (
+    OpenstackChecksBase,
+    OpenstackEventChecksBase,
+)
+from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
+from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
+from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.search import (
     FileSearcher,
     SearchConstraintSearchSince,
 )
 from hotsos.core import utils
-from hotsos.core.plugins.openstack.common import (
-    OpenstackChecksBase,
-    OpenstackEventChecksBase,
-)
-from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
-from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core.utils import sorted_dict
-import yaml
+from hotsos.core.ycheck.events import CallbackHelper
 
 EVENTCALLBACKS = CallbackHelper()
 VRRP_TRANSITION_WARN_THRESHOLD = 8

@@ -1,14 +1,14 @@
-import re
 import os
+import re
 
-from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper, SYSCtlFactory
-from hotsos.core.utils import cached_property, mktemp_dump
+from hotsos.core.log import log
 from hotsos.core.search import (
     FileSearcher, SearchDef,
     SequenceSearchDef
 )
+from hotsos.core.utils import cached_property, mktemp_dump
 
 
 class NUMAInfo(object):

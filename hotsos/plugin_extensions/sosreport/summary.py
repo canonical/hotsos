@@ -1,5 +1,5 @@
-from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.plugins.sosreport import SOSReportChecksBase
+from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class SOSReportSummary(SOSReportChecksBase):

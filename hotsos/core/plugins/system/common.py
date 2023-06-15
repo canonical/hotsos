@@ -1,5 +1,5 @@
-from hotsos.core import plugintools
 from hotsos.core.plugins.system.system import SystemBase
+from hotsos.core import plugintools
 
 
 class SystemChecksBase(SystemBase, plugintools.PluginPartBase):

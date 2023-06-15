@@ -1,5 +1,5 @@
-from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.plugins.kubernetes import KubernetesChecksBase
+from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class KubernetesSummary(KubernetesChecksBase):

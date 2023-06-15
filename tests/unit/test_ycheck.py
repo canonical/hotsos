@@ -3,11 +3,12 @@ import os
 import tempfile
 from unittest import mock
 
+import yaml
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.config import SectionalConfigBase
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.search import FileSearcher, SearchDef
-from hotsos.core.host_helpers.config import SectionalConfigBase
 from hotsos.core.ycheck import (
     events,
     scenarios,
@@ -16,7 +17,6 @@ from hotsos.core.ycheck.engine import (
     YDefsSection,
     YDefsLoader,
 )
-from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.ycheck.engine.properties.common import (
     YPropertyBase,
     PropertyCacheRefResolver,
@@ -26,7 +26,7 @@ from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 from hotsos.core.ycheck.engine.properties.requires.types.apt import (
     APTCheckItems,
 )
-import yaml
+from hotsos.core.ycheck.events import CallbackHelper
 
 from . import utils
 

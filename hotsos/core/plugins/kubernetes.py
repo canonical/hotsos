@@ -1,6 +1,5 @@
 import os
 
-from hotsos.core import plugintools
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     APTPackageHelper,
@@ -9,6 +8,7 @@ from hotsos.core.host_helpers import (
     SnapPackageHelper,
     SystemdHelper,
 )
+from hotsos.core import plugintools
 from hotsos.core.utils import cached_property
 
 SERVICES = [r"etcd\S*",

@@ -1,7 +1,7 @@
 from datetime import timedelta
 
-from hotsos.core.log import log
 from hotsos.core.host_helpers import SystemdHelper
+from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
     ServiceCheckItemsBase,

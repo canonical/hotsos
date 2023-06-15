@@ -1,5 +1,5 @@
-import os
 import importlib
+import os
 import re
 import shutil
 import sys
@@ -7,12 +7,12 @@ import tempfile
 import unittest
 from unittest import mock
 
-# disable for stestr otherwise output is much too verbose
-from hotsos.core.log import log, logging, setup_logging
+import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
+# disable for stestr otherwise output is much too verbose
+from hotsos.core.log import log, logging, setup_logging
 from hotsos.core.ycheck.scenarios import YScenarioChecker
-import yaml
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
