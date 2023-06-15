@@ -1,7 +1,6 @@
 import abc
-import copy
-
 from collections import UserDict
+import copy
 
 
 class ConfigException(Exception):

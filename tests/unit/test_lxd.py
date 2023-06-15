@@ -1,7 +1,7 @@
-from . import utils
-
 from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.lxd import summary
+
+from . import utils
 
 
 class LXDTestsBase(utils.BaseTestCase):

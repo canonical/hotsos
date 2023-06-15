@@ -1,10 +1,8 @@
-import os
-
 from datetime import datetime
+import os
 
 from cryptography import x509
 from cryptography.hazmat.backends import default_backend
-
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
 from hotsos.core.factory import FactoryBase

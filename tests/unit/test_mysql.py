@@ -1,8 +1,9 @@
 import os
-from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.mysql import summary
+
+from . import utils
 
 
 SYSTEMD_UNITS = """

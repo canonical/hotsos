@@ -1,15 +1,14 @@
-import os
-
-from unittest import mock
 import json
-
-from .. import utils
+import os
+from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
 from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
+
+from .. import utils
 
 CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED = """
 {

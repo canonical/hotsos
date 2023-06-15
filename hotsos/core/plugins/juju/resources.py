@@ -1,12 +1,11 @@
-import os
-
 import glob
+import os
 import re
-import yaml
 
 from hotsos.core.log import log
 from hotsos.core import utils
 from hotsos.core.config import HotSOSConfig
+import yaml
 
 
 class JujuMachine(object):

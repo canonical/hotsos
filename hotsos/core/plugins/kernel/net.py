@@ -1,7 +1,6 @@
 import abc
-import os
-
 from collections import OrderedDict, UserList
+import os
 
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig

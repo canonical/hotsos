@@ -1,13 +1,12 @@
 import os
 import shutil
-
 from unittest import mock
-
-from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.juju.resources import JujuBase
 from hotsos.plugin_extensions.juju import summary
+
+from . import utils
 
 
 class JujuTestsBase(utils.BaseTestCase):

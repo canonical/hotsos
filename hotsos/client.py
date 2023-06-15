@@ -11,7 +11,6 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import plugintools
-
 from hotsos.plugin_extensions.lxd.summary import LXDSummary
 from hotsos.plugin_extensions.mysql.summary import MySQLSummary
 from hotsos.plugin_extensions.juju.summary import JujuSummary
@@ -26,7 +25,6 @@ from hotsos.plugin_extensions.openstack.agent import (
     events as agent_events,
     exceptions as agent_exceptions,
 )
-
 from hotsos.plugin_extensions.openvswitch import (
     summary as ovs_summary,
     event_checks,

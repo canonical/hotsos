@@ -1,11 +1,10 @@
 import os
-
 from unittest import mock
-
-from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.rabbitmq import summary
+
+from . import utils
 
 
 class TestRabbitmqBase(utils.BaseTestCase):

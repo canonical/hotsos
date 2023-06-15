@@ -1,6 +1,6 @@
-from . import utils
-
 from hotsos.core import utils as core_utils
+
+from . import utils
 
 
 class TestUtils(utils.BaseTestCase):

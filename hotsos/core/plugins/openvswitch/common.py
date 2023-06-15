@@ -1,4 +1,3 @@
-from searchkit.constraints import TimestampMatcherBase
 
 from hotsos.core import plugintools
 from hotsos.core.host_helpers import (
@@ -8,6 +7,7 @@ from hotsos.core.host_helpers import (
 )
 from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.utils import cached_property, sorted_dict
+from searchkit.constraints import TimestampMatcherBase
 
 OVS_SERVICES_EXPRS = [r'ovsdb[a-zA-Z-]*',
                       r'ovs-vswitch[a-zA-Z-]*',

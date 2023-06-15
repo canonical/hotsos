@@ -1,12 +1,11 @@
 import abc
 import os
 
-from searchkit.constraints import TimestampMatcherBase
-
 from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
 from hotsos.core.search import FileSearcher, SearchConstraintSearchSince
+from searchkit.constraints import TimestampMatcherBase
 
 KERNLOG_TS = r'\[\s*\d+\.\d+\]'
 KERNLOG_PREFIX = (r'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{}'.

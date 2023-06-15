@@ -1,9 +1,9 @@
 import os
 
-from . import utils
-
 from hotsos.core.config import HotSOSConfig
 from hotsos.plugin_extensions.vault import summary
+
+from . import utils
 
 
 class VaultTestsBase(utils.BaseTestCase):

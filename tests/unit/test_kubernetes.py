@@ -1,12 +1,11 @@
 import os
-
 from unittest import mock
-
-from . import utils
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.plugin_extensions.kubernetes import summary
+
+from . import utils
 
 SNAP_LIST_ALL_NO_K8S = """
 Name                     Version    Rev    Tracking       Publisher   Notes
