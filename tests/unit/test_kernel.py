@@ -1,15 +1,15 @@
 from unittest import mock
 
-from hotsos.plugin_extensions.kernel import summary
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel import CallTraceManager
-from hotsos.core.plugins.kernel.net import SockStat, NetLink, Lsof
+from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel.memory import (
     BuddyInfo,
     SlabInfo,
     MallocInfo,
 )
+from hotsos.core.plugins.kernel.net import SockStat, NetLink, Lsof
+from hotsos.plugin_extensions.kernel import summary
 
 from . import utils
 

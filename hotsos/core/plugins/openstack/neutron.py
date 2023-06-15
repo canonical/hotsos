@@ -2,13 +2,13 @@ import os
 import re
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.factory import FactoryBase
+from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.plugins.openstack.openstack import (
     OpenstackConfig,
     OSTServiceBase,
 )
-from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.utils import cached_property
-from hotsos.core.factory import FactoryBase
 
 
 class NeutronBase(OSTServiceBase):

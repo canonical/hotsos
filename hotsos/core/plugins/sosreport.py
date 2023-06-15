@@ -1,7 +1,7 @@
 import os
 
-from hotsos.core.host_helpers import APTPackageHelper
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers import APTPackageHelper
 from hotsos.core.plugintools import PluginPartBase
 from hotsos.core.search import (
     SearchDef,

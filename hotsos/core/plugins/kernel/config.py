@@ -1,8 +1,8 @@
 import os
 import re
 
-from hotsos.core import host_helpers
 from hotsos.core.config import HotSOSConfig
+from hotsos.core import host_helpers
 
 
 class KernelConfig(host_helpers.ConfigBase):

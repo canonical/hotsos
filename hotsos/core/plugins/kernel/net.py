@@ -1,10 +1,10 @@
 import abc
-from collections import OrderedDict, UserList
 import os
+from collections import OrderedDict, UserList
 
-from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import SYSCtlFactory, CLIHelper
+from hotsos.core.log import log
 from hotsos.core.search import FileSearcher, SearchDef, ResultFieldInfo
 from hotsos.core.utils import mktemp_dump
 

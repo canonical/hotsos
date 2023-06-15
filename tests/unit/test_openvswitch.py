@@ -1,10 +1,10 @@
 import os
 from unittest import mock
 
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openvswitch import OpenvSwitchBase
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.openvswitch import (

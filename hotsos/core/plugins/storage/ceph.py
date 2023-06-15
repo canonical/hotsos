@@ -1,19 +1,13 @@
-from datetime import datetime
 import os
 import re
 import subprocess
 import sys
+from datetime import datetime
 
-from hotsos.core.factory import FactoryBase
-from hotsos.core.log import log
-from hotsos.core.utils import (
-    cached_property,
-    mktemp_dump,
-    sorted_dict,
-    seconds_to_date,
-)
+from searchkit.constraints import TimestampMatcherBase
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.ycheck.events import YEventCheckerBase
+from hotsos.core.factory import FactoryBase
+from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     CLIHelper,
@@ -23,7 +17,8 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
     SectionalConfigBase,
 )
-from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
+from hotsos.core.log import log
+from hotsos.core.plugins.kernel.net import Lsof
 from hotsos.core.plugins.storage import StorageBase
 from hotsos.core.plugins.storage.bcache import BcacheBase
 from hotsos.core.search import (
@@ -31,8 +26,13 @@ from hotsos.core.search import (
     SequenceSearchDef,
     SearchDef
 )
-from hotsos.core.plugins.kernel.net import Lsof
-from searchkit.constraints import TimestampMatcherBase
+from hotsos.core.utils import (
+    cached_property,
+    mktemp_dump,
+    sorted_dict,
+    seconds_to_date,
+)
+from hotsos.core.ycheck.events import YEventCheckerBase
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]

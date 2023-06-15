@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta
 import os
 import re
+from datetime import datetime, timedelta
 
-from hotsos.core.log import log
-from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.log import log
 from hotsos.core.plugins.juju.common import (
     JujuChecksBase,
     JujuTimestampMatcher,

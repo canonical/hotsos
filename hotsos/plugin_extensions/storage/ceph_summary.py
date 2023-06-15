@@ -1,5 +1,5 @@
-from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.plugins.storage.ceph import CephChecksBase
+from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.utils import sorted_dict
 
 

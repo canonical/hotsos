@@ -1,10 +1,10 @@
 import re
 
-from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.plugins.kernel.common import KernelChecksBase
 from hotsos.core.plugins.kernel.config import SystemdConfig
-from hotsos.core.plugins.kernel.sysfs import CPU
 from hotsos.core.plugins.kernel.memory import MemoryChecks
+from hotsos.core.plugins.kernel.sysfs import CPU
+from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class KernelSummary(KernelChecksBase):

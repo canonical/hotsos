@@ -1,13 +1,8 @@
-import os
 import glob
+import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.ycheck.engine.properties.requires import (
-    intercept_exception,
-    OpsUtils,
-    YRequirementTypeBase,
-)
 from hotsos.core.ycheck.engine.properties.common import (
     add_to_property_catalog,
     YDefsSection,
@@ -15,6 +10,11 @@ from hotsos.core.ycheck.engine.properties.common import (
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
     LogicalCollectionHandler,
+)
+from hotsos.core.ycheck.engine.properties.requires import (
+    intercept_exception,
+    OpsUtils,
+    YRequirementTypeBase,
 )
 
 

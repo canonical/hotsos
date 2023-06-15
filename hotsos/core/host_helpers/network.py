@@ -2,11 +2,6 @@ import copy
 import os
 import re
 
-from hotsos.core.log import log
-from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.common import HostHelpersBase
-from hotsos.core.host_helpers.cli import CLIHelper
-from hotsos.core.utils import mktemp_dump
 # NOTE: we import direct from searchkit rather than hotsos.core.search to
 #       avoid circular dependency issues.
 from searchkit import (
@@ -14,6 +9,11 @@ from searchkit import (
     SearchDef,
     SequenceSearchDef,
 )
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.host_helpers.common import HostHelpersBase
+from hotsos.core.log import log
+from hotsos.core.utils import mktemp_dump
 
 # compatible with ip addr and ip link
 # this one is name and state

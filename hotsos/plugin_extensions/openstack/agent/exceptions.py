@@ -1,9 +1,9 @@
-from collections import UserDict
 import os
 import re
+from collections import UserDict
 
-from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.log import log
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 from hotsos.core.search import (

@@ -1,9 +1,10 @@
-from datetime import datetime
 import os
+from datetime import datetime
 
+from searchkit.constraints import TimestampMatcherBase
+from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.log import log
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.openstack.exceptions import (
     EXCEPTIONS_COMMON,
     BARBICAN_EXCEPTIONS,
@@ -26,7 +27,6 @@ from hotsos.core.plugins.openstack.exceptions import (
     MASAKARI_EXCEPTIONS,
 )
 from hotsos.core.utils import cached_property
-from searchkit.constraints import TimestampMatcherBase
 
 
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported

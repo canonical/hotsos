@@ -2,19 +2,7 @@ from datetime import datetime
 import os
 import re
 
-from hotsos.core.utils import cached_property
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.plugins.openstack.openstack import (
-    OSTProjectCatalog,
-    OST_EOL_INFO,
-    OST_REL_INFO,
-)
-from hotsos.core.log import log
-from hotsos.core import plugintools
-from hotsos.core.plugins.openstack.nova import NovaBase
-from hotsos.core.plugins.openstack.neutron import NeutronBase
-from hotsos.core.plugins.openstack.octavia import OctaviaBase
-from hotsos.core.ycheck.events import YEventCheckerBase
 from hotsos.core.host_helpers.cli import CLIHelper, CmdBase
 from hotsos.core.host_helpers import (
     APTPackageHelper,
@@ -25,6 +13,18 @@ from hotsos.core.host_helpers import (
     SSLCertificate,
     SSLCertificatesHelper,
 )
+from hotsos.core.log import log
+from hotsos.core.plugins.openstack.openstack import (
+    OSTProjectCatalog,
+    OST_EOL_INFO,
+    OST_REL_INFO,
+)
+from hotsos.core.plugins.openstack.neutron import NeutronBase
+from hotsos.core.plugins.openstack.nova import NovaBase
+from hotsos.core.plugins.openstack.octavia import OctaviaBase
+from hotsos.core import plugintools
+from hotsos.core.utils import cached_property
+from hotsos.core.ycheck.events import YEventCheckerBase
 
 
 class OpenstackBase(object):

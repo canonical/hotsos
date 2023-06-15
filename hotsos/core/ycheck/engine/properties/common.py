@@ -1,14 +1,14 @@
 import abc
 import builtins
-import inspect
 import importlib
+import inspect
 
-from hotsos.core.log import log
 from propertree import (
     PTreeOverrideBase,
     PTreeMappedOverrideBase,
     PTreeSection,
 )
+from hotsos.core.log import log
 
 YPropertiesCatalog = []
 

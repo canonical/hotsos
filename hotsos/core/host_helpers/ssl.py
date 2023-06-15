@@ -1,12 +1,12 @@
-from datetime import datetime
 import os
+from datetime import datetime
 
-from cryptography import x509
 from cryptography.hazmat.backends import default_backend
+from cryptography import x509
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
-from hotsos.core.factory import FactoryBase
-from hotsos.core.config import HotSOSConfig
 
 
 class SSLCertificate(object):

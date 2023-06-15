@@ -1,9 +1,9 @@
 import json
 
-from hotsos.core import plugintools
 from hotsos.client import OutputManager
-from hotsos.core.issues import IssuesManager
 from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.issues import IssuesManager
+from hotsos.core import plugintools
 
 from . import utils
 

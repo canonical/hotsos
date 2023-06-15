@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 import contextlib
-from importlib import metadata, resources
 import os
-import sys
 import subprocess
+import sys
 import threading
+from importlib import metadata, resources
 
 import click
 import distro
+from progress.spinner import Spinner
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import setup_logging, log
 from hotsos.core.host_helpers import CLIHelper
@@ -16,7 +17,6 @@ from hotsos.client import (
     OutputManager,
     PLUGIN_CATALOG,
 )
-from progress.spinner import Spinner
 
 
 def is_snap():

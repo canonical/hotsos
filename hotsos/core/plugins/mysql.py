@@ -1,6 +1,7 @@
-import os
 import glob
+import os
 
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     PebbleHelper,
@@ -10,7 +11,6 @@ from hotsos.core import (
     host_helpers,
     plugintools,
 )
-from hotsos.core.config import HotSOSConfig
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
 MYSQL_SVC_EXPRS = [r'mysql{}'.format(SVC_VALID_SUFFIX)]

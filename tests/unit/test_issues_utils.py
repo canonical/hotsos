@@ -1,5 +1,6 @@
 import os
 
+import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import (
     LaunchpadBug,
@@ -7,7 +8,6 @@ from hotsos.core.issues import (
     IssueContext,
     IssuesManager,
 )
-import yaml
 
 from . import utils
 

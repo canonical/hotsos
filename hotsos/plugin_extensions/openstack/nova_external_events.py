@@ -1,11 +1,11 @@
+from hotsos.core.plugins.openstack.common import OpenstackEventChecksBase
+from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
     SearchConstraintSearchSince,
 )
 from hotsos.core.ycheck.events import CallbackHelper
-from hotsos.core.plugins.openstack.common import OpenstackEventChecksBase
-from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                           ['Preparing', 'Received',

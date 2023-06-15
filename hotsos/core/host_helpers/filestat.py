@@ -1,8 +1,8 @@
 import os
 
-from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
+from hotsos.core.log import log
 
 
 class FileObj(object):

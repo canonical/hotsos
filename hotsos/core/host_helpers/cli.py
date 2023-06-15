@@ -7,9 +7,9 @@ import re
 import subprocess
 import tempfile
 
-from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.common import HostHelpersBase
+from hotsos.core.log import log
 
 CLI_COMMON_EXCEPTIONS = (OSError, subprocess.CalledProcessError,
                          subprocess.TimeoutExpired,

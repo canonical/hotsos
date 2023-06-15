@@ -6,14 +6,17 @@ import os
 import shutil
 import tempfile
 
-from hotsos.core.log import log
-from hotsos.core.issues import IssuesManager
-from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.issues import IssuesManager
+from hotsos.core.log import log
 from hotsos.core import plugintools
-from hotsos.plugin_extensions.lxd.summary import LXDSummary
-from hotsos.plugin_extensions.mysql.summary import MySQLSummary
 from hotsos.plugin_extensions.juju.summary import JujuSummary
+from hotsos.plugin_extensions.kernel import summary as kern_summary
+from hotsos.plugin_extensions.kubernetes.summary import KubernetesSummary
+from hotsos.plugin_extensions.lxd.summary import LXDSummary
+from hotsos.plugin_extensions.maas.summary import MAASSummary
+from hotsos.plugin_extensions.mysql.summary import MySQLSummary
 from hotsos.plugin_extensions.openstack import (
     summary as ost_summary,
     service_features,
@@ -29,11 +32,7 @@ from hotsos.plugin_extensions.openvswitch import (
     summary as ovs_summary,
     event_checks,
 )
-from hotsos.plugin_extensions.system.summary import SystemSummary
-from hotsos.plugin_extensions.system.checks import SYSCtlChecks
-from hotsos.plugin_extensions.maas.summary import MAASSummary
-from hotsos.plugin_extensions.kernel import summary as kern_summary
-from hotsos.plugin_extensions.kubernetes.summary import KubernetesSummary
+from hotsos.plugin_extensions.pacemaker.summary import PacemakerSummary
 from hotsos.plugin_extensions.rabbitmq.summary import RabbitMQSummary
 from hotsos.plugin_extensions.sosreport.summary import SOSReportSummary
 from hotsos.plugin_extensions.storage import (
@@ -41,8 +40,9 @@ from hotsos.plugin_extensions.storage import (
     ceph_event_checks,
     bcache_summary,
 )
+from hotsos.plugin_extensions.system.checks import SYSCtlChecks
+from hotsos.plugin_extensions.system.summary import SystemSummary
 from hotsos.plugin_extensions.vault.summary import VaultSummary
-from hotsos.plugin_extensions.pacemaker.summary import PacemakerSummary
 
 
 class HotSOSSummary(plugintools.PluginPartBase):

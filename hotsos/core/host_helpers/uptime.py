@@ -1,7 +1,7 @@
 import re
 
-from hotsos.core.log import log
 from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.log import log
 from hotsos.core.utils import cached_property
 
 

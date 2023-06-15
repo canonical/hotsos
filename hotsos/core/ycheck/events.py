@@ -1,5 +1,5 @@
-from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
