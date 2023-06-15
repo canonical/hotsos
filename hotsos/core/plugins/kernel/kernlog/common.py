@@ -77,13 +77,15 @@ class TraceTypeBase(abc.ABC):
     are typically registered with a CallTraceManager for processing.
     """
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def name(self):
         """
         Name used to identify the type of call trace e.g. "oomkiller".
         """
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def searchdef(self):
         """
         A search definition object (simple or sequence) used to identify this
@@ -99,7 +101,8 @@ class TraceTypeBase(abc.ABC):
         of our search.
         """
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def heuristics(self):
         """ Return a list of CallTraceHeuristic objects that can be used to
         run checks on any identified call traces. """

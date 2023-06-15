@@ -102,14 +102,14 @@ class GenericTraceType(TraceTypeBase):
         self._search_def = SearchDef(expr, tag=self.name)
         return self._search_def
 
-    def apply(self, result):
+    def apply(self, results):
         """
         Run through the results.
 
         @param results: list of search.SearchResult objects.
         """
-        log.debug("%s has %s results", self.__class__.__name__, len(result))
-        for _trace in result:
+        log.debug("%s has %s results", self.__class__.__name__, len(results))
+        for _trace in results:
             # just a save a value i.e. to make the list length represent the
             # number of call traces.
             self.generics.append(True)
@@ -141,11 +141,13 @@ class MemFieldsBase(object):
             if ret:
                 part.add(field, ret.group(1))
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def expr(self):
         """ Search pattern template used to match a field and its value. """
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def fields(self):
         """ List of fields we want extract from a given section. """
 
@@ -233,13 +235,13 @@ class BcacheDeadlockType(TraceTypeBase):
                                              end=end)
         return self._search_def
 
-    def apply(self, result):
+    def apply(self, results):
         """
         Run through the results.
         @param results: list of search.SearchResult objects.
         """
-        log.debug("%s has %s results", self.__class__.__name__, len(result))
-        if len(result) > 0:
+        log.debug("%s has %s results", self.__class__.__name__, len(results))
+        if len(results) > 0:
             # we have found at least one deadlock
             self.deadlocks.append(True)
 
@@ -281,13 +283,13 @@ class FanotifyDeadlockType(TraceTypeBase):
                                              end=end)
         return self._search_def
 
-    def apply(self, result):
+    def apply(self, results):
         """
         Run through the results.
         @param results: list of search.SearchResult objects.
         """
-        log.debug("%s has %s results", self.__class__.__name__, len(result))
-        if len(result) > 0:
+        log.debug("%s has %s results", self.__class__.__name__, len(results))
+        if len(results) > 0:
             # we have found at least one fanotify related hang
             self.fanotify_hangs.append(True)
 
@@ -334,9 +336,9 @@ class OOMKillerTraceType(TraceTypeBase):
                                              end=end)
         return self._search_def
 
-    def apply(self, result):
-        log.debug("%s has %s results", self.__class__.__name__, len(result))
-        for trace in result.values():
+    def apply(self, results):
+        log.debug("%s has %s results", self.__class__.__name__, len(results))
+        for trace in results.values():
             oom_kill = OOMCallTraceState()
             oom_kill.add('nodes', {})
             current_node = None
@@ -424,13 +426,13 @@ class HungtaskTraceType(TraceTypeBase):
                                              end=end)
         return self._search_def
 
-    def apply(self, result):
+    def apply(self, results):
         """
         Run through the results.
         @param results: list of searchtools.SearchResult objects.
         """
-        log.debug("%s has %s results", self.__class__.__name__, len(result))
-        if len(result) > 0:
+        log.debug("%s has %s results", self.__class__.__name__, len(results))
+        if len(results) > 0:
             # we have found at least one blocked task
             self.hungtasks.append(True)
 
@@ -466,12 +468,12 @@ class CallTraceManager(KernLogBase):
         self.results = self.searcher.run()
         for tracetype in self.tracetypes:
             if type(tracetype.searchdef) == SequenceSearchDef:
-                result = self.results.find_sequence_sections(
+                results = self.results.find_sequence_sections(
                                                            tracetype.searchdef)
             else:
-                result = self.results.find_by_tag(tracetype.searchdef.tag)
+                results = self.results.find_by_tag(tracetype.searchdef.tag)
 
-            tracetype.apply(result)
+            tracetype.apply(results)
 
     def __getattr__(self, name):
         """

@@ -8,7 +8,6 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import SYSCtlFactory, CLIHelper
 from hotsos.core.search import FileSearcher, SearchDef, ResultFieldInfo
 from hotsos.core.utils import mktemp_dump
-from abc import abstractmethod, abstractproperty
 
 
 class ProcNetBase(abc.ABC):
@@ -84,12 +83,14 @@ class ProcNetBase(abc.ABC):
         """
         return self._data.get(header, {}).get(field, 0)
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def _header(self):
         """
         """
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def _fields(self):
         """
         """
@@ -407,26 +408,30 @@ class STOVParserBase(UserList):
         self.data = []
         self._load()
 
-    @abstractmethod
+    @abc.abstractmethod
     def _load(self):
         """ Load data from source. """
 
-    @abstractproperty
+    @property
+    @abc.abstractmethod
     def _search_field_info(self):
         """
         Returns a ResultFieldInfo object to make columns addressable by their
         name as well as mapping them to a specific type.
         """
 
-    @abstractproperty
+    @property
+    @abc.abstractmethod
     def _header_matcher(self):
         """ python.re regular expression to match each header. """
 
-    @abstractproperty
+    @property
+    @abc.abstractmethod
     def _field_matcher(self):
         """ python.re regular expression to match each row. """
 
-    @abstractproperty
+    @property
+    @abc.abstractmethod
     def fields(self):
         """
         This is a dictionary of fields exposed by this object along with their

@@ -19,11 +19,13 @@ class BugTypeBase(abc.ABC, IssueTypeBase):
         self.id = id
         self.msg = msg
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def base_url(self):
         pass
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def url(self):
         pass
 

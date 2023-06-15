@@ -23,11 +23,13 @@ class HostHelpersBase(abc.ABC):
         """
         return HotSOSConfig.global_tmp_dir
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def cache_name(self):
         """ Unique name for cache used by instance of this object. """
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def cache_type(self):
         """
         Unique name for the type of cache used by instance of this object.

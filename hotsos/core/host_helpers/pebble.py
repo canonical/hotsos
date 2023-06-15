@@ -41,24 +41,22 @@ class PebbleHelper(ServiceManagerBase):
         """
         Identify running processes from ps that are associated with resolved
         pebble services.  The search pattern used to identify a service is also
-        used to match the process binary name.
+        used to match the process binary/cmd name.
+
+        Accounts for different types of process cmd path e.g.
+
+        /snap/<name>/1830/<svc>
+        /usr/bin/<svc>
+
+        and filter e.g.
+
+        /var/lib/<svc> and /var/log/<svc>
 
         Returns a dictionary of process names along with the number of each.
         """
         _proc_info = {}
         for line in CLIHelper().ps():
             for expr in self._service_exprs:
-                """
-                look for running process with this name.
-                We need to account for different types of process binary e.g.
-
-                /snap/<name>/1830/<svc>
-                /usr/bin/<svc>
-
-                and filter e.g.
-
-                /var/lib/<svc> and /var/log/<svc>
-                """
                 cmd = self.get_cmd_from_ps_line(line, expr)
                 if cmd:
                     if cmd in _proc_info:

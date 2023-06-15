@@ -344,12 +344,12 @@ class SnapPackageHelper(PackageHelperBase):
         if info:
             return info[0]['revision']
 
-    def get_version(self, snap):
-        """ Return version of package.
+    def get_version(self, pkg):
+        """ Return version of snap package.
 
         Assumes only one snap will be matched.
         """
-        info = self._get_snap_info(snap)
+        info = self._get_snap_info(pkg)
         if info:
             return info[0]['version']
 

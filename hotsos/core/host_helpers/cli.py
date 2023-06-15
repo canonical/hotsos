@@ -111,6 +111,7 @@ def reset_command(f):
 
 
 class CmdBase(object):
+    """ Base class for all command source types. """
 
     def __init__(self):
         self.hooks = {}
@@ -125,7 +126,6 @@ class CmdBase(object):
         """
         raise NotImplementedError
 
-    """ Base class for all command source types. """
     @classmethod
     def safe_readlines(cls, path):
         return open(path, 'r', errors="surrogateescape").readlines()
