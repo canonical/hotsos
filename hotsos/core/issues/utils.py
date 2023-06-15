@@ -31,7 +31,8 @@ class IssueEntryBase(abc.ABC):
         self.origin = "{}.{}".format(HotSOSConfig.plugin_name,
                                      HotSOSConfig.part_name)
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def content(self):
         """ The is the final representation of the object. """
 
@@ -57,7 +58,8 @@ class IssuesStoreBase(abc.ABC):
             raise Exception("plugin tmp dir  '{}' not found".
                             format(HotSOSConfig.plugin_tmp_dir))
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def store_path(self):
         pass
 

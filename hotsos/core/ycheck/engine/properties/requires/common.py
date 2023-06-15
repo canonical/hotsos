@@ -56,6 +56,7 @@ class PackageCheckItemsBase(CheckItemsBase):
     def packages_to_check(self):
         return [item[0] for item in self]
 
+    @property
     @abc.abstractmethod
     def packaging_helper(self):
         """
@@ -164,7 +165,8 @@ class OpsUtils(object):
 
 class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def _result(self):
         """ Assert whether the requirement is met.
 

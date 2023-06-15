@@ -21,7 +21,8 @@ class ConfigOptGroupBase(UserDict):
     def __init__(self):
         self.opts = []
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def name(self):
         """ OptGroup name """
 

@@ -289,7 +289,7 @@ def is_def_filter(def_path, sub_root):
         # filename may optionally have a parent dir which allows us to permit
         # directory globals to be run.
         parent_dir = os.path.dirname(def_path)
-        """ Ensure we only load/run the yaml def with the given name. """
+        # Ensure we only load/run the yaml def with the given name.
         if parent_dir:
             log.debug("parent_dir=%s", parent_dir)
 

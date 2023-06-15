@@ -57,7 +57,8 @@ class OVNDBBase(object):
         s.add(self.resources_sd, contents)
         self.results = s.run()
 
-    @abc.abstractproperty
+    @property
+    @abc.abstractmethod
     def db_show(self):
         """ e.g. ovn-sbctl show  """
 

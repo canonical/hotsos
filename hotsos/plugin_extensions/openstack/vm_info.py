@@ -173,10 +173,8 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
         results = {"top": top5}
         # There can be a very large number of incomplete migrations so need to
         # find a useful way to represent this
-        """
-        if stats.data.incomplete_events:
-            results['incomplete-migrations'] = stats.data.incomplete_events
-        """
+        # if stats.data.incomplete_events:
+        #     results['incomplete-migrations'] = stats.data.incomplete_events
 
         return results
 
