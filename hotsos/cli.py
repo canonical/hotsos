@@ -313,6 +313,16 @@ def main():
             return
 
         data_root = fix_data_root(data_root)
+
+        if is_snap() and data_root == '/':
+            print("WARNING: hotsos is installed as a snap which only "
+                  "supports running against a sosreport due to access "
+                  "restrictions. If you want to analyse a host you need to "
+                  "use an alternative installation method e.g. debian "
+                  "package - see https://github.com/canonical/hotsos#install "
+                  "for more information.")
+            sys.exit(1)
+
         if agent_error_key_by_time:
             print("WARNING: option --agent-error-key-by-time is DEPRECATED "
                   "and longer has any effect. Use --event-tally-granularity "
