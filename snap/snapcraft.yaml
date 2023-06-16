@@ -5,9 +5,12 @@ description:
   Software analysis toolkit. Define checks in high-level
   language and leverage library to perform analysis of
   common Cloud applications.
-confinement: classic
+confinement: strict
 grade: stable
-base: core20
+base: core22
+plugs:
+  shared-memory:
+    private: true
 environment:
   REPO_INFO_PATH: $SNAP/repo-info
   LC_ALL: C.UTF-8
@@ -24,6 +27,10 @@ layout:
 apps:
   hotsos:
     command: bin/hotsos
+    plugs:
+      - home
+      - network
+      - network-bind
 parts:
   hotsos-cli:
     plugin: dump
@@ -31,7 +38,7 @@ parts:
     override-build: |
       rm -rf tests
       git rev-parse --short HEAD > repo-info
-      snapcraftctl build
+      craftctl default
     organize:
       hotsos/defs: etc/hotsos/defs
       hotsos/templates: etc/hotsos/templates
@@ -51,23 +58,11 @@ parts:
       - pip
       - setuptools
       - wheel
-    requirements:
+    python-requirements:
       - requirements.txt
     build-environment:
       - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
     override-pull: |
-      snapcraftctl pull
+      craftctl default
       pip install setuptools-git-versioning
-      snapcraftctl set-version "$(setuptools-git-versioning)"
-    filesets:
-      # need to exclude these files since they are dangling symlinks
-      # that cause the snapstore to reject the upload.
-      exclude-systemd-files:
-        - -lib/systemd/system/hwclock.service
-        - -lib/systemd/system/rc.service
-        - -lib/systemd/system/x11-common.service
-        - -lib/systemd/system/cryptdisks-early.service
-        - -lib/systemd/system/rcS.service
-        - -lib/systemd/system/cryptdisks.service
-    stage:
-      - $exclude-systemd-files
+      craftctl set version="$(setuptools-git-versioning)"

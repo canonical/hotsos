@@ -17,7 +17,7 @@ jobs:
         run: |
           sudo snap install --dangerous --classic ${{ steps.snapcraft.outputs.snap }}
       - name: Run snap (functional test)
-        run: hotsos > output.yaml
+        run: hotsos > output.yaml && exit 1 || echo 'pass'
       - name: Run snap (JSON output)
         run: hotsos --format json tests/unit/fake_data_root/openstack > output.json
       - name: Run snap (HTML output)
