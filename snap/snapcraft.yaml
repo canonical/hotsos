@@ -2,9 +2,8 @@ name: hotsos
 adopt-info: hotsos
 summary: Collect application operational information.
 description:
-  Software analysis toolkit. Define checks in high-level
-  language and leverage library to perform analysis of
-  common Cloud applications.
+  Software analysis toolkit. Define checks in high-level language and leverage
+  library to perform analysis of common Cloud applications.
 confinement: strict
 grade: stable
 base: core22
@@ -15,7 +14,6 @@ environment:
   REPO_INFO_PATH: $SNAP/repo-info
   LC_ALL: C.UTF-8
   LANG: C.UTF-8
-  PYTHONPATH: $SNAP/lib/python3.8/site-packages
 
 # dpkg won't work without this
 layout:
@@ -32,17 +30,6 @@ apps:
       - network
       - network-bind
 parts:
-  hotsos-cli:
-    plugin: dump
-    source: .
-    override-build: |
-      rm -rf tests
-      git rev-parse --short HEAD > repo-info
-      craftctl default
-    organize:
-      hotsos/defs: etc/hotsos/defs
-      hotsos/templates: etc/hotsos/templates
-    build-packages: [git]
   hotsos:
     plugin: python
     source: .
@@ -53,16 +40,11 @@ parts:
       - coreutils
       - dpkg
       - systemd
-    python-packages:
-      - cryptography==3.4.8
-      - pip
-      - setuptools
-      - wheel
     python-requirements:
       - requirements.txt
-    build-environment:
-      - "CRYPTOGRAPHY_DONT_BUILD_RUST": "1"
-    override-pull: |
-      craftctl default
+    override-build: |
+      set -e -u -x
+      git rev-parse --short HEAD > hotsos/.repo-info
       pip install setuptools-git-versioning
       craftctl set version="$(setuptools-git-versioning)"
+      craftctl default

@@ -24,14 +24,14 @@ dynamic = ["version"]
 dependencies = [
     'importlib-metadata; python_version >= "3.8"',
     'click',
-    'distro',
-    'progress',
-    'pyyaml',
-    'simplejson',
-    'jinja2',
     'cryptography',
+    'distro',
+    'jinja2',
+    'progress',
+    'propertree',
+    'pyyaml',
     'searchkit >= 0.2.7',
-    'propertree'
+    'simplejson'
 ]
 
 [project.scripts]
