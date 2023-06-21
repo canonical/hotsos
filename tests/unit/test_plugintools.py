@@ -244,7 +244,7 @@ class TestPluginTools(utils.BaseTestCase):
                 },
             'item-2':
                 ['a', 'b', 'c'],
-            }
+        }
         expected = '''# hotsos summary
 
 ## item-1
@@ -283,7 +283,7 @@ plain value
                 },
             'item-2':
                 ['a', 'b', 'c'],
-            }
+        }
         expected = htmlout.header + HTML1 + htmlout.footer
         filtered = OutputManager(summary).get(format='html')
         self.assertEqual(filtered, expected)
@@ -303,7 +303,7 @@ plain value
                 },
             'item-2':
                 ['a', 'b', 'c'],
-            }
+        }
         expected = htmlout.header + HTML2 + htmlout.footer
         filtered = OutputManager(summary).get(format='html')
         self.assertEqual(filtered, expected)
@@ -323,7 +323,7 @@ plain value
                 },
             'item-2':
                 ['a', 'b', 'c'],
-            }
+        }
         expected = htmlout.header + HTML3 + htmlout.footer
         filtered = OutputManager(summary).get(format='html')
         self.assertEqual(filtered, expected)

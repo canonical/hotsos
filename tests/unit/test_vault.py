@@ -32,7 +32,7 @@ class TestVaultSummary(VaultTestsBase):
                         'enabled': [
                             'vault',
                             'vault-mysql-router']
-                        }}
+                    }}
         inst = summary.VaultSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['services'],
                          expected)

@@ -222,7 +222,7 @@ OST_REL_INFO = {
         'ussuri': '3.0.0',
         'train': '2.0.0',
         'stein': '1.0.0'}
-    }
+}
 
 OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   'cinder': CINDER_EXCEPTIONS + CASTELLAN_EXCEPTIONS,

@@ -98,8 +98,8 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 
                     log_stats = False
                     if packets:
-                        dropped_pcent = int((100/packets) * dropped)
-                        errors_pcent = int((100/packets) * errors)
+                        dropped_pcent = int((100 / packets) * dropped)
+                        errors_pcent = int((100 / packets) * errors)
                         if dropped_pcent > 1 or errors_pcent > 1:
                             log_stats = True
                     elif errors or dropped:

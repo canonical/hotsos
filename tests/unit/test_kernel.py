@@ -309,7 +309,7 @@ class TestKernelNetworkInfo(TestKernelBase):
             ("ceilomete", 4129, 116, "mem", "REG", "9,1", "43200", 48271,
              "/usr/lib/x86_64-linux-gnu/libyajl.so.2.1.0"),
             ("kworker/1", 10645, 0, "rtd", "DIR", "9,1", "4096", 2, "/"),
-            ("ovs-vswit", 13936,  0, "mem-R", "REG", "0,43", "2097152",
+            ("ovs-vswit", 13936, 0, "mem-R", "REG", "0,43", "2097152",
              129906, "/mnt/huge_ovs_2M/rtemap_286"),
             ("ovs-vswit", 13936, 0, "mem-R", "REG", "0,43", "2097152", 44403,
              "/mnt/huge_ovs_2M/rtemap_33226"),

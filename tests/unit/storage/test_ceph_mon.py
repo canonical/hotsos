@@ -133,13 +133,14 @@ CEPH_OSD_CRUSH_DUMP = """
     }
 """
 
-PG_DUMP_JSON_DECODED = {'pg_map': {
-                          'pg_stats': [
-                            {'stat_sum': {'num_large_omap_objects': 1},
-                             'last_scrub_stamp': '2021-09-16T21:26:00.00',
-                             'last_deep_scrub_stamp': '2021-09-16T21:26:00.00',
-                             'pgid': '2.f',
-                             'state': 'active+clean+laggy'}]}}
+PG_DUMP_JSON_DECODED = {
+    'pg_map':
+        {'pg_stats': [
+         {'stat_sum': {'num_large_omap_objects': 1},
+          'last_scrub_stamp': '2021-09-16T21:26:00.00',
+          'last_deep_scrub_stamp': '2021-09-16T21:26:00.00',
+          'pgid': '2.f',
+          'state': 'active+clean+laggy'}]}}
 
 
 CEPH_MON_DATA_ROOT = os.path.join(utils.TESTS_DIR,
@@ -287,14 +288,12 @@ class TestCephMonSummary(CephMonTestsBase):
         svc_info = {'systemd': {'enabled': [
                                     'ceph-crash',
                                     'ceph-mgr',
-                                    'ceph-mon',
-                                    ],
+                                    'ceph-mon'],
                                 'disabled': [
                                     'ceph-mds',
                                     'ceph-osd',
                                     'ceph-radosgw',
-                                    'ceph-volume'
-                                    ],
+                                    'ceph-volume'],
                                 'generated': ['radosgw'],
                                 'masked': ['ceph-create-keys']},
                     'ps': ['ceph-crash (1)', 'ceph-mgr (1)', 'ceph-mon (1)']}

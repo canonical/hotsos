@@ -112,12 +112,9 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
     def test_get_resource_checks(self):
         expected = {'systemd': {
                         'enabled': [
-                            'openvswitch-switch'
-                            ],
+                            'openvswitch-switch'],
                         'static': [
-                            'ovs-vswitchd', 'ovsdb-server'
-                            ]
-                        },
+                            'ovs-vswitchd', 'ovsdb-server']},
                     'ps': [
                         'ovs-vswitchd (1)',
                         'ovsdb-server (1)']}
@@ -255,8 +252,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         'qr-aa623763-fd': {
                             'RX': {
                                 'dropped': 1394875,
-                                'packets': 309
-                                }}}}
+                                'packets': 309}}}}
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
