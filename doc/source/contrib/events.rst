@@ -23,7 +23,7 @@ Supported Properties
 Event Callbacks
 ===============
 Events are coupled with a callback function that is called if the event has
-mathes and takes search results as input.
+matches and takes search results as input.
 
 Event callbacks will typically use `EventProcessingUtils <https://github.com/canonical/hotsos/blob/main/hotsos/core/ycheck/events.py>`_
 to categorise data for display in the summary. Search patterns using this

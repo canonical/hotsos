@@ -12,7 +12,7 @@ This approach provides a way to write checks and analysis in a way that focuses
 on the structure and logic of the check rather than the underlying
 implementation. This is achieved by leveraging the properties provided along
 with library/shared code (e.g. `core plugins <https://github.com/canonical/hotsos/tree/main/hotsos/core/plugins>`_
-as much as possible.
+as much as possible).
 
 The yaml definitions are loaded into a tree structure, with leaf nodes
 containing the consumable information such as checks. This structure supports

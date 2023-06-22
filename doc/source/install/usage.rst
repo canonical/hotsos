@@ -26,10 +26,10 @@ run hotsos on the node or against a sosreport generated from that node e.g.
 Now you will find a folder called `hotsos-output-1673868979` containing a
 summary of information in a number of different formats. This summary contains
 per-plugin information as described above. By default hotsos will look at the
-last 24 hours of logs. You can increase this with `--all-logs` which will by
-default give you 7 days and that is adjustable with `--max-logrotate-depth <days>`.
+last 24 hours of logs. You can increase this with `\-\-all-logs` which will by
+default give you 7 days and that is adjustable with `\-\-max-logrotate-depth <days>`.
 
-Taking the yaml format and using `yq <https://snapcraft.io/yq>`_ to query it we get:
+Taking the yaml format and using `yq <https://snapcraft.io/yq>`_ (install with `snap install yq`) to query it we get:
 
 .. code-block:: bash
 
@@ -62,5 +62,5 @@ Using this useful tool we can easily query for specific information e.g.
 Examples
 ========
 
-Some example outputs for each plugin can be found `here <https://github.com/canonical/hotsos/tree/main/examples>`_. The *\*.short.\** summary files were generated using the ``--short`` option.
+Some example outputs for each plugin can be found `here <https://github.com/canonical/hotsos/tree/main/examples>`_. The *\*.short.\** summary files were generated using the `\-\-short` option. Note that if using the `\-\-save` option, all formats are saved automatically so this option would have no effect.
 

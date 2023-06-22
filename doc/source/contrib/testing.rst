@@ -2,7 +2,7 @@ Testing Checks
 ==============
 
 All checks contributed to Hotsos should be accompanied by a unit test and there are
-two ways to do this. You can write tests the "old" way i.e. as a Python unittest
+two ways to do this. You can write tests the "old" way i.e. as a Python `unittest <https://docs.python.org/3/library/unittest.html>`_
 implementation under *tests/unit_tests* or you can write them in yaml
 which is explained here.
 
@@ -10,7 +10,7 @@ Writing tests in Yaml
 ---------------------
 
 Checks written in yaml can have one or more associated unit test also written
-in yaml. These will be loaded at runtime into the main unittest runner and run
+in yaml. These will be loaded at runtime into the main unit test runner and run
 as part of the existing Python unit tests.
 
 To write a test you must mimic the path to the check under test i.e. the "target".
@@ -23,7 +23,7 @@ The point of using the same sub path and filename is that the runner will then a
 target has the same name.
 
 To write more than one test for a given target, perhaps to test both pass and fail cases, you
-can give the test file a meaningful name and inside your test specific the target file name
+can give the test file a meaningful name and inside your test specify the target file name
 using the ``target-name: <name>.yaml`` stanza e.g. ::
 
     hotsos/defs/scenarios/myplugin/foo.yaml
@@ -33,7 +33,7 @@ using the ``target-name: <name>.yaml`` stanza e.g. ::
 Test Reference
 --------------
 
-The first line in a test can optionally be a target name. This is required of the path to your
+The first line in a test can optionally be a target name. This is required if the path to your
 test does not match that used for that check under test:
 
 .. code-block:: yaml
@@ -141,3 +141,20 @@ and run these tests:
 The **MyScenarioTests** class can still define tests in Python if required
 although it is recommended that tests for yaml checks use the yaml format as
 well.
+
+Troubleshooting Tests
+---------------------
+
+By default the unit tests will not output DEBUG level logs but it is possible to force this
+for debugging a test by doing:
+
+.. code-block:: console
+
+  export TESTS_LOG_LEVEL_DEBUG=yes
+
+You can then re-run a failing test directly without running all tests and get the debug output for that test specifically e.g.
+
+.. code-block:: console
+
+  tox -epy3 tests.unit.test_system.TestUbuntuPro.test_ubuntu_pro_attached
+
