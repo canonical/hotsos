@@ -5,8 +5,14 @@ checks:
   libvirtd_mem_use_above_limit:
     systemd: libvirtd
     varops: [[$libvirtd_usage], [gt, $limit]]
+  pkg_has_lp2024114:
+    apt:
+      libvirt-daemon:
+        # jammy
+        - min: 8.0.0
+          max: 8.0.0-1ubuntu7.5
 conclusions:
-  northd_overuse:
+  libvirtd_overuse:
     decision: libvirtd_mem_use_above_limit
     raises:
       type: OpenstackWarning
@@ -15,3 +21,18 @@ conclusions:
         not normal and could indicate a memory leak. Please check.
       format-dict:
         usage: $libvirtd_usage
+  libvirtd_mem_leak_lp2024114:
+    priority: 2
+    decision:
+      - libvirtd_mem_use_above_limit
+      - pkg_has_lp2024114
+    raises:
+      type: LaunchpadBug
+      bug-id: 2024114
+      message: >-
+        The libvirtd service on this host is consuming more than 5G memory (current={usage}). This is
+        not normal and could indicate a memory leak. The installed version ({installed})
+        is also known to be impacted by a memory leak bug. Recommendation is to upgrade.
+      format-dict:
+        usage: $libvirtd_usage
+        installed: '@checks.pkg_has_lp2024114.requires.version'
