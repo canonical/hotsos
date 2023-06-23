@@ -314,12 +314,14 @@ def main():
         data_root = fix_data_root(data_root)
 
         if is_snap() and data_root == '/':
-            print("WARNING: hotsos is installed as a snap which only "
+            print("ERROR: hotsos is installed as a snap which only "
                   "supports running against a sosreport due to access "
-                  "restrictions. If you want to analyse a host you need to "
+                  "restrictions.\n\n"
+                  "If you want to analyse a host you need to "
                   "use an alternative installation method e.g. debian "
-                  "package - see https://github.com/canonical/hotsos#install "
-                  "for more information.")
+                  "package - see "
+                  "https://hotsos.readthedocs.io/en/latest/install/index.html"
+                  " for more information.")
             sys.exit(1)
 
         if agent_error_key_by_time:
