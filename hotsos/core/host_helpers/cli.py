@@ -793,7 +793,9 @@ class CLIHelper(HostHelpersBase):
             'ns_ip_addr':
                 [BinCmd('ip netns exec {namespace} ip address show'),
                  FileCmd('sos_commands/networking/'
-                         'ip_netns_exec_{namespace}_ip_address_show')],
+                         'ip_netns_exec_{namespace}_ip_address_show'),
+                 FileCmd('sos_commands/networking/namespaces/{namespace}/'
+                         'ip_netns_exec_{namespace}_ip_-d_address_show')],
             'ovn_nbctl_show':
                 [BinCmd('ovn-nbctl show'),
                  FileCmd('sos_commands/ovn_central/ovn-nbctl_show')],
