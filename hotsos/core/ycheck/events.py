@@ -286,7 +286,7 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
         """
         return self.__final_event_results
 
-    def run(self, results):
+    def run(self, results=None):
         """
         Provide a default way for results to be processed.
 

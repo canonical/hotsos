@@ -13,7 +13,7 @@ from hotsos.core.ycheck.engine.properties.requires.requires import (
 from hotsos.core.ycheck.engine.properties.search import (
     YPropertySearch,
 )
-from hotsos.core.ycheck.engine.properties.input import YPropertyInput
+from hotsos.core.ycheck.engine.properties.inputdef import YPropertyInput
 
 
 @add_to_property_catalog
@@ -70,7 +70,7 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
             return
 
         # Saves a list of files that contained search results.
-        sources = set([r.source_id for r in results])
+        sources = set(r.source_id for r in results)
         files = [self.context.search_obj.resolve_source_id(s) for s in sources]
         self.search.cache.set('files', files)
 
@@ -84,7 +84,7 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
                 return False
 
             return True
-        elif self.requires:
+        if self.requires:
             if self.cache.requires:
                 result = self.cache.requires.passes
                 log.debug("check %s - using cached result=%s", self.name,
@@ -94,9 +94,9 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
                 self.cache.set('requires', self.requires.cache)
 
             return result
-        else:
-            raise Exception("no supported properties found in check {}".format(
-                            self.name))
+
+        raise Exception("no supported properties found in check {}".format(
+                        self.name))
 
     @cached_yproperty_attr
     def result(self):
@@ -113,21 +113,21 @@ class YPropertyChecks(YPropertyOverrideBase):
     def _override_keys(cls):
         return ['checks']
 
-    def initialise(self, vars, input, searcher, scenario):
+    def initialise(self, local_vardefs, global_input, searcher, scenario):
         """
         Perform initialisation tasks for this set of checks.
 
-        * create context containing vars for each check
+        * create context containing vardefs for each check
         * pre-load searches from all/any checks and get results. This needs to
           be done before check results are consumed.
 
-        @param vars: YPropertyVars object containing all variables defined in
-                     the context of these checks and that we wil pass on to all
-                     check def and properties.
-        @param input: YPropertyInput object
+        @param local_vardefs: YPropertyVars object containing all variables
+                              defined in the context of these checks and that
+                              we wil pass on the all check def and properties.
+        @param global_input: YPropertyInput object
         @param searcher: FileSearcher object
         """
-        self.check_context = YDefsContext({'vars': vars})
+        self.check_context = YDefsContext({'vars': local_vardefs})
 
         log.debug("pre-loading scenario '%s' checks searches into "
                   "filesearcher", scenario.name)
@@ -135,7 +135,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         for c in self._checks:
             if c.search:
                 # local takes precedence over global
-                _input = c.input or input
+                _input = c.input or global_input
                 if _input.command:
                     # don't apply constraints to command outputs
                     allow_constraints = False

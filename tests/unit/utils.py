@@ -91,7 +91,7 @@ class TemplatedTest(object):
         if not expected:
             test_inst.assertNotIn('bugs-detected', actual)
             return
-        elif 'bugs-detected' not in actual:
+        if 'bugs-detected' not in actual:
             raise Exception("test expects one or more bugs to have "
                             "been raised did not find any.")
 
@@ -113,7 +113,7 @@ class TemplatedTest(object):
         if not expected:
             test_inst.assertNotIn('potential-issues', actual)
             return
-        elif 'potential-issues' not in actual:
+        if 'potential-issues' not in actual:
             raise Exception("test expects one or more issues to have "
                             "been raised did not find any.")
         _expected = {}
@@ -254,13 +254,13 @@ def expand_log_template(template, hours=None, mins=None, secs=None,
     for hour in range(hours or 1):
         if hour < 10:
             hour = "0{}".format(hour)
-        for min in range(mins or 1):
-            if min < 10:
-                min = "0{}".format(min)
+        for minute in range(mins or 1):
+            if minute < 10:
+                minute = "0{}".format(minute)
             for sec in range(secs or 1):
                 if sec < 10:
                     sec = "0{}".format(sec)
-                out += _template.format(hour=hour, min=min, sec=sec)
+                out += _template.format(hour=hour, minute=minute, sec=sec)
 
     return out
 

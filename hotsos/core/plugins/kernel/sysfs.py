@@ -69,8 +69,8 @@ class CPU(SYSFSBase):
     @property
     def cpufreq_scaling_governor_all(self):
         governors = set()
-        for id in range(SystemBase().num_cpus):
-            cpu_governor = self.cpufreq_scaling_governor(id)
+        for cpu_id in range(SystemBase().num_cpus):
+            cpu_governor = self.cpufreq_scaling_governor(cpu_id)
             if cpu_governor:
                 governors.add(cpu_governor)
             else:

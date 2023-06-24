@@ -180,12 +180,12 @@ class TestCoreCephCluster(CephMonTestsBase):
     def test_cluster_mons(self):
         cluster_mons = ceph_core.CephCluster().mons
         self.assertEqual([ceph_core.CephMon],
-                         list(set([type(obj) for obj in cluster_mons])))
+                         list(set(type(obj) for obj in cluster_mons)))
 
     def test_cluster_osds(self):
         cluster_osds = ceph_core.CephCluster().osds
         self.assertEqual([ceph_core.CephOSD],
-                         list(set([type(obj) for obj in cluster_osds])))
+                         list(set(type(obj) for obj in cluster_osds)))
 
     def test_health_status(self):
         health = ceph_core.CephCluster().health_status

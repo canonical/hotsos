@@ -256,7 +256,7 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
         threshold = VRRP_TRANSITION_WARN_THRESHOLD
         for router in transitions:
             r = transitions[router]
-            _transitions = sum([t for d, t in r.items()])
+            _transitions = sum(t for d, t in r.items())
             if _transitions > threshold:
                 max_transitions = max(_transitions, max_transitions)
                 warn_count += 1

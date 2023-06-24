@@ -179,9 +179,9 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
                 today = datetime.utcfromtimestamp(int(CLIHelper().date()))
                 delta = (eol - today).days
                 return delta
-            else:
-                log.warning("unable to determine eol info for unknown release "
-                            "name '%s'", self.release_name)
+
+            log.warning("unable to determine eol info for unknown release "
+                        "name '%s'", self.release_name)
 
     @property
     def bind_interfaces(self):

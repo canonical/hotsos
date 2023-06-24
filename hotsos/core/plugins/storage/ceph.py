@@ -42,8 +42,8 @@ CEPH_PKGS_CORE = [r"ceph",
                   ]
 CEPH_PKGS_OTHER = []
 # Add in clients/deps
-for pkg in CEPH_PKGS_CORE:
-    CEPH_PKGS_OTHER.append(r"python3?-{}\S*".format(pkg))
+for ceph_pkg in CEPH_PKGS_CORE:
+    CEPH_PKGS_OTHER.append(r"python3?-{}\S*".format(ceph_pkg))
 
 CEPH_LOGS = "var/log/ceph/"
 
@@ -82,7 +82,7 @@ def csv_to_set(f):
     def csv_to_set_inner(*args, **kwargs):
         val = f(*args, **kwargs)
         if val is not None:
-            return set([v.strip(',') for v in val.split()])
+            return set(v.strip(',') for v in val.split())
 
         return set([])
 
@@ -568,13 +568,13 @@ class CephCluster(object):
 
         return laggy_pgs
 
-    def pool_id_to_name(self, id):
+    def pool_id_to_name(self, pool_id):
         if not self.osd_dump:
             return
 
         pools = self.osd_dump.get('pools', [])
         for pool in pools:
-            if pool['pool'] == int(id):
+            if pool['pool'] == int(pool_id):
                 return pool['pool_name']
 
     @cached_property
@@ -800,12 +800,12 @@ class CephDaemonBase(object):
         s = FileSearcher()
         # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
         if self.id is not None:
-            id = r"--id\s+{}".format(self.id)
+            ceph_id = r"--id\s+{}".format(self.id)
         else:
-            id = ''
+            ceph_id = ''
 
         expr = (r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+.+{}\s+.+"
-                r".+".format(self.daemon_type, id))
+                r".+".format(self.daemon_type, ceph_id))
         sd = SearchDef(expr)
         ps_out = mktemp_dump('\n'.join(self.cli.ps()))
         s.add(sd, path=ps_out)
@@ -852,7 +852,7 @@ class CephDaemonBase(object):
                 osd_start = ' '.join(cmd.split()[13:17])
                 if self.date_in_secs and osd_start:
                     osd_start_secs = self.get_date_secs(datestring=osd_start)
-                    osd_uptime_secs = (self.date_in_secs - osd_start_secs)
+                    osd_uptime_secs = self.date_in_secs - osd_start_secs
                     osd_uptime_str = seconds_to_date(osd_uptime_secs)
                     _etime = osd_uptime_str
 
@@ -880,9 +880,9 @@ class CephRGW(CephDaemonBase):
 
 class CephOSD(CephDaemonBase):
 
-    def __init__(self, id, fsid=None, device=None, dump=None):
+    def __init__(self, ceph_id, fsid=None, device=None, dump=None):
         super().__init__('osd')
-        self.id = id
+        self.id = ceph_id
         self.fsid = fsid
         self.device = device
         self.dump = dump
@@ -965,15 +965,15 @@ class CephChecksBase(StorageBase):
             delta = (eol - today).days
             return delta
 
-    def _get_bind_interfaces(self, type):
+    def _get_bind_interfaces(self, iface_type):
         """
         For the given config network type determine what interface ceph is
         binding to.
 
-        @param type: cluster or public
+        @param iface_type: cluster or public
         """
-        net = self.ceph_config.get('{} network'.format(type))
-        addr = self.ceph_config.get('{} addr'.format(type))
+        net = self.ceph_config.get('{} network'.format(iface_type))
+        addr = self.ceph_config.get('{} addr'.format(iface_type))
         if not any([net, addr]):
             return {}
 
@@ -985,7 +985,7 @@ class CephChecksBase(StorageBase):
             port = nethelp.get_interface_with_addr(addr)
 
         if port:
-            return {type: port}
+            return {iface_type: port}
 
     @cached_property
     def _ceph_bind_interfaces(self):
@@ -994,8 +994,8 @@ class CephChecksBase(StorageBase):
         The dict has the form {<type>: [<port>, ...]}
         """
         interfaces = {}
-        for type in ['cluster', 'public']:
-            ret = self._get_bind_interfaces(type)
+        for iface_type in ['cluster', 'public']:
+            ret = self._get_bind_interfaces(iface_type)
             if ret:
                 interfaces.update(ret)
 
@@ -1032,19 +1032,19 @@ class CephChecksBase(StorageBase):
                                tag="ceph-lvm")
         s.add(sd, path=out_path)
         for results in s.run().find_sequence_sections(sd).values():
-            id = None
+            osdid = None
             fsid = None
             dev = None
             for result in results:
                 if result.tag == sd.start_tag:
-                    id = int(result.get(1))
+                    osdid = int(result.get(1))
                 elif result.tag == sd.body_tag:
                     if result.get(1) == "fsid":
                         fsid = result.get(2)
                     elif result.get(1) == "devices":
                         dev = result.get(2)
 
-            osds.append(CephOSD(id, fsid, dev))
+            osds.append(CephOSD(osdid, fsid, dev))
 
         return osds
 

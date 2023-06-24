@@ -353,7 +353,7 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
     @property
     def is_sequence_search(self):
         seq_keys = YPropertySequencePart._override_keys()
-        return any([getattr(self, key) for key in seq_keys])
+        return any(getattr(self, key) for key in seq_keys)
 
     @property
     def simple_search(self):
@@ -411,11 +411,10 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
                                      end=sd_end, tag=tag)
             self.cache.set('sequence_search', sdef)
             return sdef
-        else:
-            log.warning("invalid sequence definition passthrough=%s "
-                        "start=%s, body=%s, end=%s",
-                        self.passthrough_results_opt, seq_start, seq_body,
-                        seq_end)
+
+        log.warning("invalid sequence definition passthrough=%s "
+                    "start=%s, body=%s, end=%s",
+                    self.passthrough_results_opt, seq_start, seq_body, seq_end)
 
     @property
     def sequence_passthrough_search(self):

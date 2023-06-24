@@ -68,7 +68,7 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
                 if r:
                     stages[stage] = True
 
-            if all([stages[stage] for stage in stages]):
+            if all(stages[stage] for stage in stages):
                 result = 'succeeded'
             else:
                 result = 'failed'

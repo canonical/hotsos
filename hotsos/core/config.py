@@ -9,11 +9,11 @@ class ConfigException(Exception):
 
 class ConfigOpt(object):
 
-    def __init__(self, name, description, default_value, type):
+    def __init__(self, name, description, default_value, value_type):
         self.name = name
         self.description = description
         self.default_value = default_value
-        self.type = type
+        self.value_type = value_type
 
 
 class ConfigOptGroupBase(UserDict):
@@ -46,69 +46,69 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
                            description=('This is the filesystem root used for '
                                         'all files and is typically / or a '
                                         'path to a sosreport'),
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='force_mode',
                            description=('Plugin execution is usually gated '
                                         'on a set of conditions. Setting this '
                                         'to True bypasses these conditions '
                                         'and forces all plugins to run'),
-                           default_value=False, type=bool))
+                           default_value=False, value_type=bool))
         self.add(ConfigOpt(name='global_tmp_dir',
                            description=('A temporary directory created at the '
                                         'start of execution and visible to '
                                         'all plugins.'),
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='plugin_tmp_dir',
                            description=('A temporary directory created for '
                                         'each plugin.'),
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='use_all_logs',
                            description=('Automatically convert log paths to '
                                         'glob e.g. <path> becomes <path>*'),
-                           default_value=False, type=bool))
+                           default_value=False, value_type=bool))
         self.add(ConfigOpt(name='machine_readable',
                            description=('If set to True, the summary output'
                                         'will contain extra information '
                                         'that might be useful if the output '
                                         'is being read by an application.'),
-                           default_value=False, type=bool))
+                           default_value=False, value_type=bool))
         self.add(ConfigOpt(name='part_name',
                            description=('Plugins have many parts each with '
                                         'its own name and this will be set to '
                                         'the current part being executed.'),
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='repo_info',
                            description=('Source repository sha1 from which '
                                         'the current build was created'),
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='hotsos_version',
                            description='Version of hotsos being run.',
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='debug_mode',
                            description='Set to True to enable debug logging',
-                           default_value=False, type=bool))
+                           default_value=False, value_type=bool))
         self.add(ConfigOpt(name='plugin_yaml_defs',
                            description='Path to yaml-defined checks.',
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='templates_path',
                            description='Path to jinja templates.',
-                           default_value='templates', type=str))
+                           default_value='templates', value_type=str))
         self.add(ConfigOpt(name='plugin_name',
                            description='Name of current plugin being executed',
-                           default_value=None, type=str))
+                           default_value=None, value_type=str))
         self.add(ConfigOpt(name='event_tally_granularity',
                            description=("By default event tallies are listed "
                                         "by date in the summary. This option "
                                         "can be set to one of 'date' or "
                                         "'time' to get the corresponding "
                                         "granularity of results."),
-                           default_value='date', type=str))
+                           default_value='date', value_type=str))
         self.add(ConfigOpt(name='command_timeout',
                            description=("Maximum time in seconds before "
                                         "command execution will timeout. Used "
                                         "by host_helpers.cli when executing "
                                         "binary commands"),
-                           default_value=300, type=int))
+                           default_value=300, value_type=int))
 
     @property
     def name(self):
@@ -122,13 +122,13 @@ class SearchtoolsConfigOpts(ConfigOptGroupBase):
         self.add(ConfigOpt(name='max_parallel_tasks',
                            description=('Maximum parallelism for searching '
                                         'files concurrently'),
-                           default_value=8, type=int))
+                           default_value=8, value_type=int))
         self.add(ConfigOpt(name='max_logrotate_depth',
                            description=('When log paths are expanded using '
                                         'use_all_logs and they are logrotated '
                                         'log files, this is used to limit the '
                                         'logrotate history in days.'),
-                           default_value=7, type=int))
+                           default_value=7, value_type=int))
         self.add(ConfigOpt(name='allow_constraints_for_unverifiable_logs',
                            description=('Search constraints use a binary '
                                         'search that sometimes needs to '
@@ -150,7 +150,7 @@ class SearchtoolsConfigOpts(ConfigOptGroupBase):
                                         'to enable search constraints for '
                                         'files that contain unverifiable '
                                         'lines.'),
-                           default_value=False, type=bool))
+                           default_value=False, value_type=bool))
 
     @property
     def name(self):
@@ -177,7 +177,7 @@ class RegisteredOpts(UserDict):
     def __setitem__(self, key, item):
         for group in self.optsgroups:
             if key in group.opts:
-                item = group.opts[key].type(item)
+                item = group.opts[key].value_type(item)
                 break
         else:
             raise Exception("config option '{}' not found in any optgrpup".
@@ -202,8 +202,8 @@ class ConfigMeta(abc.ABCMeta):
         if key in cls.CONFIG:
             cls.CONFIG[key] = val
             return
-        elif key not in ['__abstractmethods__', '_abc_impl', 'CONFIG',
-                         'REGISTERED']:
+        if key not in ['__abstractmethods__', '_abc_impl', 'CONFIG',
+                       'REGISTERED']:
             raise ConfigException("setting unknown config '{}'.".
                                   format(key))
 

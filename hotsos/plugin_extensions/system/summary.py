@@ -44,8 +44,7 @@ class SystemSummary(SystemChecksBase):
     def __summary_unattended_upgrades(self):
         if self.unattended_upgrades_enabled:
             return "ENABLED"
-        else:
-            return "disabled"
+        return "disabled"
 
     @idx(7)
     def __summary_date(self):

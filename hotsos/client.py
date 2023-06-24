@@ -246,13 +246,13 @@ class OutputManager(object):
 
         if mode == 'short':
             return self._get_short_format(summary)
-        elif mode == 'very-short':
+        if mode == 'very-short':
             return self._get_very_short_format(summary)
 
         log.warning("Unknown minimalmode '%s'", mode)
         return summary
 
-    def get(self, format='yaml', html_escape=False, minimal_mode=None,
+    def get(self, fmt='yaml', html_escape=False, minimal_mode=None,
             plugin=None, max_level=2):
         if plugin:
             filtered = {plugin: self._summary[plugin]}
@@ -262,18 +262,18 @@ class OutputManager(object):
         if minimal_mode:
             filtered = self.minimise(filtered, minimal_mode)
 
-        if format not in self.SUMMARY_FORMATS:
-            raise Exception("unsupported summary format '{}'".format(format))
+        if fmt not in self.SUMMARY_FORMATS:
+            raise Exception("unsupported summary format '{}'".format(fmt))
 
         hostname = CLIHelper().hostname() or ""
-        log.debug('Saving summary as %s', format)
-        if format == 'yaml':
+        log.debug('Saving summary as %s', fmt)
+        if fmt == 'yaml':
             filtered = plugintools.yaml_dump(filtered)
-        elif format == 'json':
+        elif fmt == 'json':
             filtered = json.dumps(filtered, indent=2, sort_keys=True)
-        elif format == 'markdown':
+        elif fmt == 'markdown':
             filtered = plugintools.MarkdownFormatter().dump(filtered)
-        elif format == 'html':
+        elif fmt == 'html':
             filtered = plugintools.HTMLFormatter(
                                             hostname=hostname,
                                             max_level=max_level).dump(filtered)
@@ -284,9 +284,9 @@ class OutputManager(object):
 
         return filtered
 
-    def _save(self, path, format, html_escape=None, minimal_mode=None,
+    def _save(self, path, fmt, html_escape=None, minimal_mode=None,
               plugin=None):
-        content = self.get(format=format, html_escape=html_escape,
+        content = self.get(fmt=fmt, html_escape=html_escape,
                            minimal_mode=minimal_mode, plugin=plugin)
         with open(path, 'w', encoding='utf-8') as fd:
             fd.write(content)
@@ -307,9 +307,9 @@ class OutputManager(object):
 
         for minimal_mode in ['full', 'short', 'very-short']:
             _minimal_mode = minimal_mode.replace('-', '_')
-            for format in self.SUMMARY_FORMATS:
+            for fmt in self.SUMMARY_FORMATS:
                 output_path = os.path.join(output_root, name, 'summary',
-                                           _minimal_mode, format)
+                                           _minimal_mode, fmt)
                 if minimal_mode == 'full':
                     minimal_mode = None
 
@@ -319,18 +319,18 @@ class OutputManager(object):
                 for plugin in self._summary:
                     path = os.path.join(output_path,
                                         "hotsos-summary.{}.{}".format(plugin,
-                                                                      format))
-                    self._save(path, format, html_escape=html_escape,
+                                                                      fmt))
+                    self._save(path, fmt, html_escape=html_escape,
                                minimal_mode=minimal_mode, plugin=plugin)
 
                 path = os.path.join(output_path,
-                                    "hotsos-summary.all.{}".format(format))
-                self._save(path, format, html_escape=html_escape,
+                                    "hotsos-summary.all.{}".format(fmt))
+                self._save(path, fmt, html_escape=html_escape,
                            minimal_mode=minimal_mode)
 
                 if not minimal_mode:
                     dst = os.path.join(output_root, '{}.summary.{}'.
-                                       format(name, format))
+                                       format(name, fmt))
                     if os.path.exists(dst):
                         os.remove(dst)
 

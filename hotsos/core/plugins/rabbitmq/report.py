@@ -59,7 +59,7 @@ class RabbitMQReport(object):
         vhosts = self.vhosts
         _skewed_nodes = {}
         skewed_queue_nodes = {}
-        global_total_queues = sum([vhost.total_queues for vhost in vhosts])
+        global_total_queues = sum(vhost.total_queues for vhost in vhosts)
         for vhost in self.vhosts:
             if not vhost.total_queues:
                 continue

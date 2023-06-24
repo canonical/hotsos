@@ -226,7 +226,7 @@ class TestPluginTools(utils.BaseTestCase):
 
     def test_apply_output_formatting_json(self):
         summary = {'opt': 'value'}
-        filtered = OutputManager(summary).get(format='json')
+        filtered = OutputManager(summary).get(fmt='json')
         self.assertEqual(filtered, json.dumps(summary, indent=2,
                                               sort_keys=True))
 
@@ -265,7 +265,7 @@ plain value
 - a
 - b
 - c'''
-        filtered = OutputManager(summary).get(format='markdown')
+        filtered = OutputManager(summary).get(fmt='markdown')
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_html_1(self):
@@ -285,7 +285,7 @@ plain value
                 ['a', 'b', 'c'],
         }
         expected = htmlout.header + HTML1 + htmlout.footer
-        filtered = OutputManager(summary).get(format='html')
+        filtered = OutputManager(summary).get(fmt='html')
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_html_2(self):
@@ -305,7 +305,7 @@ plain value
                 ['a', 'b', 'c'],
         }
         expected = htmlout.header + HTML2 + htmlout.footer
-        filtered = OutputManager(summary).get(format='html')
+        filtered = OutputManager(summary).get(fmt='html')
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_html_3(self):
@@ -325,5 +325,5 @@ plain value
                 ['a', 'b', 'c'],
         }
         expected = htmlout.header + HTML3 + htmlout.footer
-        filtered = OutputManager(summary).get(format='html')
+        filtered = OutputManager(summary).get(fmt='html')
         self.assertEqual(filtered, expected)

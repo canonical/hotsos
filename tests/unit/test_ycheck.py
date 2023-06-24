@@ -931,7 +931,7 @@ class TestYamlChecks(utils.BaseTestCase):
                          sorted(['SystemWarning', 'SystemWarning',
                                  'SystemWarning']))
         for issue in issues[0]:
-            msg = ("yay list search")
+            msg = "yay list search"
             self.assertEqual(issue['desc'], msg)
 
     @init_test_scenario(SCENARIO_CHECKS)

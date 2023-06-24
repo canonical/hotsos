@@ -45,10 +45,10 @@ class UptimeHelper(object):
                 hours = int(ret.group(2))
                 mins = int(ret.group(3))
                 day_mins = 24 * 60
-                sum = count * day_mins
-                sum += hours * 60
-                sum += mins
-                return sum
+                total = count * day_mins
+                total += hours * 60
+                total += mins
+                return total
         elif self.subgroups['min']['value']:
             expr = self.subgroups['min']['expr']
             ret = re.match(expr, self.subgroups['min']['value'])

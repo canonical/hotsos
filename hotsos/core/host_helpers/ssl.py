@@ -36,9 +36,9 @@ class SSLCertificate(object):
         """
         Return int(days) remaining until the certificate expires
         """
-        format = '%Y-%m-%d %H:%M:%S'
-        today = datetime.strptime(CLIHelper().date(format='+' + format),
-                                  format)
+        fmt = '%Y-%m-%d %H:%M:%S'
+        today = datetime.strptime(CLIHelper().date(format='+' + fmt),
+                                  fmt)
         days = self.expiry_date - today
         return int(days.days)
 

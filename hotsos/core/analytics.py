@@ -224,7 +224,7 @@ class LogEventStats(object):
 
         self.data.calculate_event_deltas()
 
-    def get_top_n_events_sorted(self, max, reverse=True):
+    def get_top_n_events_sorted(self, maximum, reverse=True):
         """
         Find events with the longest duration limited to max results.
 
@@ -240,7 +240,7 @@ class LogEventStats(object):
         for event_id, item in sorted(self.data.complete_events.items(),
                                      key=lambda e: e[1]["duration"],
                                      reverse=reverse):
-            if count >= max:
+            if count >= maximum:
                 break
 
             count += 1

@@ -15,9 +15,9 @@ class IssueTypeBase(object):
 class BugTypeBase(abc.ABC, IssueTypeBase):
     ISSUE_TYPE = 'bug'
 
-    def __init__(self, id, msg):
-        self.id = id
-        self.msg = msg
+    def __init__(self, bug_id, msg):
+        super().__init__(msg)
+        self.id = bug_id
 
     @property
     @abc.abstractmethod

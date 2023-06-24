@@ -148,7 +148,7 @@ class SNMPTcp(SNMPBase):
         if fld.endswith('PcentInSegs'):
             fld = fld.partition('PcentInSegs')[0]
             return self.PcentInSegs(fld)
-        elif fld.endswith('PcentOutSegs'):
+        if fld.endswith('PcentOutSegs'):
             fld = fld.partition('PcentOutSegs')[0]
             return self.PcentOutSegs(fld)
 
@@ -193,7 +193,7 @@ class SNMPUdp(SNMPBase):
         if fld.endswith('PcentInDatagrams'):
             fld = fld.partition('PcentInDatagrams')[0]
             return self.PcentInDatagrams(fld)
-        elif fld.endswith('PcentOutDatagrams'):
+        if fld.endswith('PcentOutDatagrams'):
             fld = fld.partition('PcentOutDatagrams')[0]
             return self.PcentOutDatagrams(fld)
 
@@ -280,7 +280,7 @@ class NetStatTCP(NetStatBase):
         if fld.endswith('PcentInSegs'):
             fld = fld.partition('PcentInSegs')[0]
             return self.PcentInSegs(fld)
-        elif fld.endswith('PcentOutSegs'):
+        if fld.endswith('PcentOutSegs'):
             fld = fld.partition('PcentOutSegs')[0]
             return self.PcentOutSegs(fld)
 
@@ -612,5 +612,5 @@ class NetLink(STOVParserBase):
             for nlsock in v:
                 correlate_result = lsof.all_with_inode(nlsock.sk_inode_num)
                 nlsock.procs = set(
-                    [f"{v.COMMAND}/{v.PID}" for v in correlate_result])
+                    f"{v.COMMAND}/{v.PID}" for v in correlate_result)
         return v

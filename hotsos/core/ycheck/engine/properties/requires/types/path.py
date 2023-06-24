@@ -1,7 +1,7 @@
 import os
 
 from hotsos.core.log import log
-from hotsos.core.ycheck.engine.properties.input import YPropertyInputBase
+from hotsos.core.ycheck.engine.properties.inputdef import YPropertyInputBase
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
     YRequirementTypeBase,

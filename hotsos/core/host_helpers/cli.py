@@ -380,14 +380,14 @@ class DateBinCmd(BinCmd):
     def format_date_cmd(self, **kwargs):
         """ Add formatting to date command. """
         no_format = kwargs.get('no_format', False)
-        format = kwargs.get('format')
-        if not no_format and format is None:
-            format = '+%s'
+        fmt = kwargs.get('format')
+        if not no_format and fmt is None:
+            fmt = '+%s'
 
         self.cmd = '{} --utc'.format(self.cmd)
-        if format:
+        if fmt:
             # this can't get split() so add to the end of the command list
-            self.original_cmd_extras = [format]
+            self.original_cmd_extras = [fmt]
 
 
 class DateFileCmd(FileCmd):
@@ -399,9 +399,9 @@ class DateFileCmd(FileCmd):
     def format_date(self, output, **kwargs):
         """ Apply some post-processing to the date output. """
         no_format = kwargs.get('no_format', False)
-        format = kwargs.get('format')
-        if not no_format and format is None:
-            format = '+%s'
+        fmt = kwargs.get('format')
+        if not no_format and fmt is None:
+            fmt = '+%s'
 
         ret = re.match(r"^(\S+ \S*\s*[0-9]+ [0-9:]+)\s*"
                        r"([A-Z]*|[+-]?[0-9]*)?"
@@ -421,8 +421,8 @@ class DateFileCmd(FileCmd):
         # Include tz if available and then convert to utc
         date = "{} {} {}".format(ret[1], tz, ret[3])
         cmd = ["date", "--utc", "--date={}".format(date)]
-        if format:
-            cmd.append(format)
+        if fmt:
+            cmd.append(fmt)
 
         output = subprocess.check_output(cmd,
                                          timeout=HotSOSConfig.command_timeout)

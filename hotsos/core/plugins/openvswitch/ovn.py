@@ -15,9 +15,9 @@ from hotsos.core.plugins.openvswitch.common import OVS_SERVICES_EXPRS
 
 class OVNSBDBPort(object):
 
-    def __init__(self, name, type):
+    def __init__(self, name, port_type):
         self.name = name
-        self.type = type
+        self.type = port_type
 
 
 class OVNSBDBChassis(object):
@@ -72,23 +72,23 @@ class OVNDBBase(object):
     def resources(self):
         _resources = {}
         resource = None
-        id = None
+        rid = None
         sections = self.results.find_sequence_sections(self.resources_sd)
         for section in sections.values():
             for result in section:
                 if result.tag == self.resources_sd.start_tag:
                     resource = result.get(1)
-                    id = result.get(2)
+                    rid = result.get(2)
                     if resource in _resources:
-                        _resources[resource][id] = {}
+                        _resources[resource][rid] = {}
                     else:
-                        _resources[resource] = {id: {}}
+                        _resources[resource] = {rid: {}}
                 elif result.tag == self.resources_sd.body_tag:
                     rtype = result.get(1)
-                    if rtype in _resources[resource][id]:
-                        _resources[resource][id][rtype].append(result.get(2))
+                    if rtype in _resources[resource][rid]:
+                        _resources[resource][rid][rtype].append(result.get(2))
                     else:
-                        _resources[resource][id][rtype] = [result.get(2)]
+                        _resources[resource][rid][rtype] = [result.get(2)]
 
         return _resources
 
@@ -105,8 +105,8 @@ class OVNNBDB(OVNDBBase):
         _routers = []
         for r, v in self.resources.items():
             if r == 'router':
-                for id in v:
-                    _routers.append(id)
+                for rid in v:
+                    _routers.append(rid)
 
         return _routers
 
@@ -115,8 +115,8 @@ class OVNNBDB(OVNDBBase):
         _switches = []
         for r, v in self.resources.items():
             if r == 'switch':
-                for id in v:
-                    _switches.append(id)
+                for sid in v:
+                    _switches.append(sid)
 
         return _switches
 
@@ -133,8 +133,8 @@ class OVNSBDB(OVNDBBase):
         _chassis = []
         for r, v in self.resources.items():
             if r == 'Chassis':
-                for id, contents in v.items():
-                    _chassis.append(OVNSBDBChassis(id, contents))
+                for cid, contents in v.items():
+                    _chassis.append(OVNSBDBChassis(cid, contents))
 
         return _chassis
 

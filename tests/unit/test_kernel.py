@@ -180,7 +180,7 @@ class TestKernelMemoryInfo(TestKernelBase):
 
     def test_get_node_zones(self):
         ret = BuddyInfo().get_node_zones("DMA32", 0)
-        expected = ("Node 0, zone DMA32 1127 453 112 65 27 7 13 6 5 30 48")
+        expected = "Node 0, zone DMA32 1127 453 112 65 27 7 13 6 5 30 48"
         self.assertEqual(ret, expected)
 
     def test_mallocinfo(self):

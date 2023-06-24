@@ -74,7 +74,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
 
             _result = item.allow_unset
             if item.ops and actual is not None:
-                _result = self.apply_ops(item.ops, input=actual,
+                _result = self.apply_ops(item.ops, opinput=actual,
                                          normalise_value_types=True)
             log.debug("assertion: %s (%s) %s result=%s",
                       item.key, actual, self.ops_to_str(item.ops or []),

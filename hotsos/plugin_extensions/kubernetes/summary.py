@@ -8,7 +8,7 @@ class KubernetesSummary(KubernetesChecksBase):
     def __summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
-        elif self.pebble.services:
+        if self.pebble.services:
             return self.pebble.summary
 
     @idx(1)

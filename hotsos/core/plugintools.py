@@ -106,7 +106,7 @@ class HTMLFormatter(OutputFormatterBase):
         """
         if isinstance(data, dict):
             return self._expand_dict(data, level)
-        elif isinstance(data, list):
+        if isinstance(data, list):
             return self._expand_list(data, level)
 
         return data
@@ -133,9 +133,7 @@ class MarkdownFormatter(OutputFormatterBase):
         return markdown_output
 
     def _expand_list(self, data):
-        markdown_output = '\n'
-        for item in data:
-            markdown_output += f'- {item}\n'
+        markdown_output = '\n%s' % ''.join(f'- {item}\n' for item in data)
 
         return markdown_output
 
@@ -149,7 +147,7 @@ class MarkdownFormatter(OutputFormatterBase):
         """
         if isinstance(data, dict):
             return self._expand_dict(data, level)
-        elif isinstance(data, list):
+        if isinstance(data, list):
             return self._expand_list(data)
 
         return f'\n{data}\n'
@@ -412,7 +410,7 @@ class PluginRunner(object):
 
                         part_max = PluginPartBase.PLUGIN_PART_OFFSET_MAX
                         part_offset = part_info['part_yaml_offset']
-                        offset = ((part_offset * part_max) + entry.offset)
+                        offset = (part_offset * part_max) + entry.offset
                         part_mgr.save(out, offset=offset)
 
         if failed_parts:
