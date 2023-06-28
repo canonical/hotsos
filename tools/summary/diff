@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Description: diff two hotsos summary outputs.
+#
+src=${1:-""}
+dst=${2:-""}
+format={3:-yaml}
+if [[ -z $src ]] || [[ -z $dst ]]; then
+    echo "USAGE: `basename $0` <src dir> <dst dir>"
+    exit
+fi
+
+for f in `find $src -maxdepth 1 -name *summary.${format}`; do
+    diff -y $dst/$f $f| less
+done

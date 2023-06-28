@@ -32,3 +32,5 @@ dependencies = {file = ["requirements.txt"]}
 
 [project.scripts]
 hotsos = "hotsos.cli:main"
+hotsos-less = "hotsos.tools.summary.hotsos-less:main"
+hotsos-diff = "hotsos.tools.summary.hotsos-diff:main"
