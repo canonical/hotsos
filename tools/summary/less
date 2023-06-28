@@ -1,0 +1,8 @@
+#!/bin/bash
+#
+# Description: less each hotsos summary in path
+#
+path=${1:-hotsos-output}
+for f in `find $path -maxdepth 1 -name *summary.yaml`; do
+    less $f
+done
