@@ -26,7 +26,7 @@ raised-issues:
     - >-
       Memory compaction failures are at 11% of successes. This can
       suggest that there are insufficient high-order memory blocks
-      available and the kernel is unable form larger blocks on
+      available and the kernel is unable to form larger blocks on
       request which can slow things down. See vmstat output for
       more detail.
 
