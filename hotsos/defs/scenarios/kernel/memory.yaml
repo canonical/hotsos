@@ -37,7 +37,7 @@ conclusions:
       message: >-
         Memory compaction failures are at {pcent}% of successes. This can suggest that
         there are insufficient high-order memory blocks available and the kernel is
-        unable form larger blocks on request which can slow things down. See vmstat
+        unable to form larger blocks on request which can slow things down. See vmstat
         output for more detail.
       format-dict:
         pcent: $compaction_failures_percent
