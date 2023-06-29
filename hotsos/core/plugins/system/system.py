@@ -99,6 +99,15 @@ class SystemBase(object):
                         return "ubuntu {}".format(ret[1])
 
     @cached_property
+    def os_version(self):
+        data_source = os.path.join(HotSOSConfig.data_root, "etc/lsb-release")
+        if os.path.exists(data_source):
+            for line in open(data_source).read().split():
+                ret = re.compile(r"^DISTRIB_RELEASE=(.+)").match(line)
+                if ret:
+                    return ret[1]
+
+    @cached_property
     def virtualisation_type(self):
         """
         @return: virt type e.g. kvm or lxc if host is virtualised otherwise
