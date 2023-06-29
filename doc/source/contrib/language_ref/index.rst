@@ -11,6 +11,6 @@
 .. toctree::
    :maxdepth: 2
 
-   property_ref
+   property_ref/index
 
 
