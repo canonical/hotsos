@@ -1,7 +1,8 @@
 from hotsos.core.config import (
     ConfigOpt,
     ConfigOptGroupBase,
-    HotSOSConfig
+    HotSOSConfig,
+    RegisteredOpts,
     )
 
 from . import utils
@@ -11,9 +12,9 @@ class TestOptGroup(ConfigOptGroupBase):
 
     def __init__(self):
         super().__init__()
-        self.add(ConfigOpt('opt1', 'its opt one', None))
-        self.add(ConfigOpt('opt2', 'its opt two', True))
-        self.add(ConfigOpt('opt3', 'its opt three', False))
+        self.add(ConfigOpt('opt1', 'its opt one', None, str))
+        self.add(ConfigOpt('opt2', 'its opt two', True, bool))
+        self.add(ConfigOpt('opt3', 'its opt three', False, bool))
 
     @property
     def name(self):
@@ -27,6 +28,36 @@ class TestHotSOSConfig(utils.BaseTestCase):
         self.assertEqual(len(tog), 3)
         self.assertEqual(tog.name, 'testopts')
         self.assertEqual(tog, {'opt1': None, 'opt2': True, 'opt3': False})
+
+    def test_optgroup_conflict_dup(self):
+
+        class AltOptGroup(ConfigOptGroupBase):
+
+            def __init__(self):
+                super().__init__()
+                self.add(ConfigOpt('opt1', 'its opt one', None, str))
+
+            @property
+            def name(self):
+                return 'altopts'
+
+        with self.assertRaises(Exception):
+            RegisteredOpts(TestOptGroup, AltOptGroup)
+
+    def test_optgroup_conflict_case(self):
+
+        class AltOptGroup(ConfigOptGroupBase):
+
+            def __init__(self):
+                super().__init__()
+                self.add(ConfigOpt('Opt1', 'its opt one', None, str))
+
+            @property
+            def name(self):
+                return 'altopts'
+
+        with self.assertRaises(Exception):
+            RegisteredOpts(TestOptGroup, AltOptGroup)
 
     def test_restore_defaults(self):
         path = 'tests/unit/fake_data_root/openstack'
