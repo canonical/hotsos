@@ -42,7 +42,8 @@ def yaml_dump(data):
 class OutputFormatterBase(object):
 
     def render(self, context, template):
-        templates_dir = HotSOSConfig.templates_path
+        # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
+        templates_dir = str(HotSOSConfig.templates_path)
         if not os.path.isdir(templates_dir):
             raise Exception("jinja templates directory not found: '{}'".
                             format(templates_dir))
