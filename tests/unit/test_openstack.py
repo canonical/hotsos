@@ -579,7 +579,7 @@ class TestOpenstackSummary(TestOpenstackBase):
             'python3-oslo.vmware 3.3.1-0ubuntu1',
             'qemu-kvm 1:4.2-3ubuntu6.19',
             'radvd 1:2.17-2'
-            ]
+        ]
         inst = summary.OpenstackSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["dpkg"], expected)
@@ -629,9 +629,7 @@ class TestOpenstackVmInfo(TestOpenstackBase):
                             "system-cores": 2,
                             "smt": False,
                             "used": 1,
-                            "overcommit-factor": 0.5,
-                            }
-                        }
+                            "overcommit-factor": 0.5}}
                     }
         inst = vm_info.OpenstackInstanceChecks()
         actual = self.part_output_to_actual(inst.output)
@@ -900,17 +898,14 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     def test_run_octavia_checks(self):
         expected = {'amp-missed-heartbeats': {
                      '2021-06-01': {
-                      '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1,
-                      }},
+                         '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1, }},
                     'lb-failovers': {
-                     'auto': {
-                      '2021-03-09': {
-                          '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
-                          '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
-                          '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
-                          'e9cb98af-9c21-4cf6-9661-709179ce5733': 1,
-                        }
-                      }
+                        'auto': {
+                            '2021-03-09': {
+                                '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
+                                '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
+                                '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
+                                'e9cb98af-9c21-4cf6-9661-709179ce5733': 1, }}
                      }
                     }
         for section_key in ["octavia-worker", "octavia-health-manager"]:
@@ -989,8 +984,8 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     def test_run_neutron_l3ha_checks(self):
         expected = {'keepalived': {
                      'transitions': {
-                      '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
-                          '2022-02-10': 1}}}}
+                         '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
+                             '2022-02-10': 1}}}}
         sobj = FileSearcher()
         inst = agent.events.NeutronL3HAEventChecks(searchobj=sobj)
         inst.run_checks()
@@ -1003,8 +998,8 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         HotSOSConfig.use_all_logs = False
         expected = {'keepalived': {
                      'transitions': {
-                      '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
-                       '2022-02-10': 1}}}}
+                         '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
+                             '2022-02-10': 1}}}}
         sobj = FileSearcher()
         inst = agent.events.NeutronL3HAEventChecks(searchobj=sobj)
         inst.run_checks()
@@ -1040,15 +1035,13 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                         'nova': {
                             'nova-compute': {
                                 'oslo_messaging.exceptions.MessagingTimeout': {
-                                    '2022-02-09': 2}
-                                }}},
+                                    '2022-02-09': 2}}}},
                     'warning': {
                         'nova': {
                             'nova-compute': {
                                 'oslo_messaging.exceptions.MessagingTimeout': {
                                     '2022-02-04': 1,
-                                    '2022-02-09': 1}
-                                }}}}
+                                    '2022-02-09': 1}}}}}
         inst = agent.exceptions.AgentExceptionChecks()
         files = {}
         logs = {}
@@ -1079,41 +1072,36 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
             'neutron-openvswitch-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 75,
-                    '2022-02-09': 3
-                    }},
+                    '2022-02-09': 3}},
             'neutron-dhcp-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 124,
-                    '2022-02-09': 17
-                    }},
+                    '2022-02-09': 17}},
             'neutron-l3-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 73,
-                    '2022-02-09': 3
-                    }},
+                    '2022-02-09': 3}},
             'neutron-metadata-agent': {
                 'OSError': {'2022-02-09': 1},
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 48,
                     '2022-02-09': 14}},
-            }
+        }
         nova_error_exceptions = {
             'nova-compute': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 64,
-                    '2022-02-09': 2,
-                    },
+                    '2022-02-09': 2},
                 'nova.exception.ResourceProviderRetrievalFailed': {
-                    '2022-02-04': 6
-                    },
+                    '2022-02-04': 6},
                 'nova.exception.ResourceProviderAllocationRetrievalFailed': {
-                    '2022-02-04': 2
-                    }},
+                    '2022-02-04': 2}},
             'nova-api-metadata': {
                 'OSError': {'2022-02-09': 4},
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 110,
-                    '2022-02-09': 56}}}
+                    '2022-02-09': 56}}
+        }
         neutron_warn_exceptions = {
             'neutron-dhcp-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
@@ -1127,14 +1115,13 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 13,
                     '2022-02-09': 6}}
-            }
+        }
         nova_warn_exceptions = {
             'nova-compute': {
                 'oslo_messaging.exceptions.MessagingTimeout': {
                     '2022-02-04': 59,
-                    '2022-02-09': 1,
-                    },
-            }}
+                    '2022-02-09': 1}}
+        }
         expected = {'error': {
                         'neutron': neutron_error_exceptions,
                         'nova': nova_error_exceptions},

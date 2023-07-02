@@ -327,8 +327,7 @@ class SockStat(ProcNetBase):
                 self._data[key]["statistics_mem_usage_pct"] = round(
                     (self._data[key]["mem"] /
                         self._data[key]["sysctl_mem_max"] if
-                        self._data[key]["sysctl_mem_max"] else 0)
-                    * 100.0, 2)
+                        self._data[key]["sysctl_mem_max"] else 0) * 100.0, 2)
 
     def _process_file(self, fname):
         if not os.path.exists(fname):
@@ -347,7 +346,8 @@ class SockStat(ProcNetBase):
                     self._data[label] = {}
                 try:
                     stats = stats.strip().split(' ')
-                    stats = dict(stats[i:i+2] for i in range(0, len(stats), 2))
+                    stats = dict(stats[i:i + 2]
+                                 for i in range(0, len(stats), 2))
                     # Convert string values to `int``
                     stats = {k: int(v) for k, v in stats.items()}
                     self._data[label] = stats

@@ -3,7 +3,7 @@ from hotsos.core.config import (
     ConfigOptGroupBase,
     HotSOSConfig,
     RegisteredOpts,
-    )
+)
 
 from . import utils
 

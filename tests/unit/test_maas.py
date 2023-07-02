@@ -84,8 +84,7 @@ class TestMAASSummary(MAASTestsBase):
                                             'maas-regiond',
                                             'maas-syslog'],
                                         'disabled': [
-                                            'postgresql',
-                                            ]}}}
+                                            'postgresql']}}}
             inst = summary.MAASSummary()
             self.assertEqual(self.part_output_to_actual(inst.output), expected)
 

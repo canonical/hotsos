@@ -102,7 +102,7 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
     def test_local_osd_ids(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(list(actual['local-osds'].keys()),  [0])
+        self.assertEqual(list(actual['local-osds'].keys()), [0])
 
     def test_local_osd_info(self):
         fsid = "48858aa1-71a3-4f0e-95f3-a07d1d9a6749"
@@ -117,14 +117,12 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
     def test_service_info(self):
         svc_info = {'systemd': {'enabled': [
                                     'ceph-crash',
-                                    'ceph-osd',
-                                    ],
+                                    'ceph-osd'],
                                 'disabled': [
                                     'ceph-mds',
                                     'ceph-mgr',
                                     'ceph-mon',
-                                    'ceph-radosgw',
-                                    ],
+                                    'ceph-radosgw'],
                                 'generated': ['radosgw']},
                     'ps': ['ceph-crash (1)', 'ceph-osd (1)']}
         release_info = {'name': 'octopus', 'days-to-eol': 3000}

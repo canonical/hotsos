@@ -47,8 +47,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
                             'snap.kube-apiserver.daemon',
                             'snap.kube-controller-manager.daemon',
                             'snap.kube-proxy.daemon',
-                            'snap.kube-scheduler.daemon']
-                        },
+                            'snap.kube-scheduler.daemon']},
                     'ps': [
                         'calico-node (3)',
                         'containerd (1)',

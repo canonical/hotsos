@@ -70,7 +70,7 @@ CEPH_REL_INFO = {
         'luminous': '12.0',
         'kraken': '11.0',
         'jewel': '10.0'},
-    }
+}
 
 CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
@@ -340,7 +340,7 @@ class CephCrushMap(object):
                 if isinstance(outer_d, dict):
                     if outer_d['metadata']['frontend_type#0'] == 'civetweb':
                         return True
-        except(ValueError, KeyError):
+        except (ValueError, KeyError):
             pass
         return False
 
@@ -588,10 +588,10 @@ class CephCluster(object):
                 pg_id = pg['pgid']
                 pg_pool_id = pg_id.partition('.')[0]
                 _large_omap_pgs[pg['pgid']] = {
-                        'pool': self.pool_id_to_name(pg_pool_id),
-                        'last_scrub_stamp': pg['last_scrub_stamp'],
-                        'last_deep_scrub_stamp': pg['last_deep_scrub_stamp']
-                        }
+                    'pool': self.pool_id_to_name(pg_pool_id),
+                    'last_scrub_stamp': pg['last_scrub_stamp'],
+                    'last_deep_scrub_stamp': pg['last_deep_scrub_stamp']
+                }
 
         return _large_omap_pgs
 

@@ -62,7 +62,7 @@ def get_repo_info():
                 return fd.read().strip()
 
     try:
-        out = subprocess.check_output(['git', '-C',  get_hotsos_root(),
+        out = subprocess.check_output(['git', '-C', get_hotsos_root(),
                                        'rev-parse', '--short', 'HEAD'],
                                       stderr=subprocess.DEVNULL)
         if not out:

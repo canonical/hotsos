@@ -55,8 +55,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
                 "openstack",
                 "telegraf-telegraf-12",
                 "telegraf-telegraf-13",
-                "telegraf-telegraf-14",
-                ],
+                "telegraf-telegraf-14"],
             'vhost-queue-distributions': {
                 'openstack': {
                     'rabbit@juju-52088b-0-lxd-11': '1137 (86.14%)',
@@ -106,8 +105,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
                 'openstack'],
             'vhost-queue-distributions': {
                 'openstack': {
-                    'rabbit@juju-04f1e3-1-lxd-5': '194 (100.00%)'
-                    }},
+                    'rabbit@juju-04f1e3-1-lxd-5': '194 (100.00%)'}},
             'connections-per-host': {
                 'rabbit@juju-04f1e3-1-lxd-5': 159},
             'client-connections': {

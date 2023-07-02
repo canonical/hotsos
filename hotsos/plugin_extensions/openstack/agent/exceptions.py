@@ -125,7 +125,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
             'neutron': [r'OVS is dead',
                         r'MessagingTimeout',
                         ]
-            }
+        }
 
         # The following are expected to be ERROR. This is typically used to
         # catch events that are not logged as an exception with the usual
@@ -133,7 +133,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
         self._agent_errors = {
             'neutron': [r'RuntimeError'],
             'keystone': [r'\([a-zA-Z\.]+\)']
-            }
+        }
 
     def _add_agent_searches(self, project, agent_name, logs_path,
                             expr_template):

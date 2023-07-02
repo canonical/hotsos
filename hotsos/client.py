@@ -100,8 +100,7 @@ PLUGIN_CATALOG = {'hotsos': {
                   'mysql': {
                      'summary': {
                          'objects': [MySQLSummary],
-                         'part_yaml_offset': 0},
-                      },
+                         'part_yaml_offset': 0}},
                   'openstack': {
                      'summary': {
                          'objects': [ost_summary.OpenstackSummary],
