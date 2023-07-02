@@ -1,7 +1,6 @@
 from hotsos.core.config import (
     ConfigOpt,
     ConfigOptGroupBase,
-    HotSOSConfig
     HotSOSConfig,
     RegisteredOpts,
 )
