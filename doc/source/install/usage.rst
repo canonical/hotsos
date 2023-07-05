@@ -3,14 +3,14 @@ Using Hotsos
 
 Hotsos supports a number of application/subsystem plugins. It will by default run all
 plugins and each will in turn execute its associated checks and extensions.
-Once complete, the output of each plugin is collected and output as a summary. This
-output will contain key information about the associated plugin/subsystem as well as
+The output of each plugin is collected and output as a summary containing key information about the associated plugin/subsystem as well as
 the results of any analysis that identified issues or known bugs. For more information
 on how analysis and extensions are implemented see the :doc:`Contributor Guide <../contrib/index>`.
 
-Hotsos uses the concept of a "data root" which is somewhat analogous to a chroot in which it looks
-for data e.g. filesystem or cli commands. The default root is '/' (i.e. local host) but you can
-also provide a path to an already unpacked sosreport.
+Hotsos uses the concept of a "data root" which is analogous to a chroot. Two
+types are currently supported; host or `sosreport <https://github.com/sosreport/sos>`_. If a sosreport
+data root is used, filesystem '/' is the root of the sosreport and cli commands are executed as a read on the
+data collected in the sosreport.
 
 Let's say for example that you are running an Openstack Cloud and one of your
 hypervisor nodes that is also running part of a Ceph storage cluster

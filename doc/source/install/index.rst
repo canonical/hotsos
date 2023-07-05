@@ -21,7 +21,7 @@ This is the recommended way to install and is updated daily.
 Snap Package
 ------------
 
-NOTE: this is now a strictly confined snap and so only supports sosreport data root since it will not have access outside of $HOME.
+NOTE: this is now a `strictly confined snap <https://snapcraft.io/docs/snap-confinement>`_ and therefore only supports `sosreport <https://github.com/sosreport/sos>`_ data root since it will not have access outside of $HOME.
 
 .. code-block:: bash
 

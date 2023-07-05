@@ -1,15 +1,14 @@
-Overview
-========
-
-Event checks are not run automatically and depend on the implementation of
-callbacks to process their results. See :ref:`events`.
+Events Overview
+===============
 
 These checks are not currently run automatically and do require custom
 callbacks to be implemented in plugin code to process results. Event
-definitions can be found :ref:`here <events>`.
+definitions can be found `here <https://github.com/canonical/hotsos/tree/main/hotsos/defs/events>`_.
+
+Events should be used sparingly and the recommendation is to use :ref:`Scenarios<scenarios overview>`.
 
 An event can be single or multi-line and the data source is defined with an
-:ref:`input` property. All event checks must have an eponymous callback
+:ref:`Input<input>` property. All event checks must have an eponymous callback
 method defined in the plugin that handles them.
 
 To define an event first create a file with the name of the check(s) you
@@ -17,8 +16,8 @@ want to perform under the directory of the plugin you are using to handle the
 event callback.
 
 Supported Properties
-  * :ref:`input` 
-  * :ref:`search`
+  * :ref:`Input<input>`
+  * :ref:`Search<search>`
 
 Event Callbacks
 ===============

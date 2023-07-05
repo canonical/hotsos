@@ -1,7 +1,7 @@
-These are the supported members of the :ref:`requires` (mapped) property. You can use any number or combination of these withing a requires definition, optionally using a
+These are the supported members of the :ref:`requires` (mapped) property. You can use any number or combination of these within a requires definition, optionally using a
 :ref:`LogicalCollection` for logical groupings.
 
-path
+Path
 ----
 
 This has the same format as the input property and is used to
@@ -19,7 +19,7 @@ format:
       paths
 
 
-property
+Property
 --------
 
 Calls a Python property and if provided, applies a set of
@@ -47,11 +47,11 @@ or
       ops
       value_actual
 
-apt
+Apt
 ---
 
 Takes an apt package name or APT_INFO. Returns True if the package
-exists and if APT_INFO provided, version is within ranges.
+exists and if APT_INFO is provided, version is within ranges.
 
 format:
 
@@ -73,11 +73,11 @@ format:
       package
       version
 
-snap
+Snap
 ----
 
 Takes a snap package name or SNAP_INFO. Returns True if the package
-exists and if SNAP_INFO provided, revision is within ranges.
+exists and if SNAP_INFO is provided, revision is within ranges.
 
 format:
 
@@ -99,10 +99,10 @@ format:
       package
       revision
 
-pebble
+Pebble
 ------
 
-Takes a pebble service and optionally some parameters to check.
+Takes a pebble service name and optionally some parameters to check.
 Returns True if the service exists and, if provided, parameters match.
 Short and long forms are supported as follows.
 
@@ -136,10 +136,10 @@ or
     CACHE_KEYS
       services
 
-systemd
+Systemd
 -------
 
-Takes a systemd service and optionally some parameters to check.
+Takes a systemd service name and optionally some parameters to check.
 Returns True if the service exists and, if provided, parameters match.
 Short and long forms are supported as follows.
 
@@ -180,7 +180,7 @@ or
     CACHE_KEYS
       services
 
-config
+Config
 ------
 
 A dictionary containing the information required to perform some config checks.
@@ -215,10 +215,10 @@ format:
       ops - the last ops to be run
       value_actual - the actual value checked against
 
-varops
+Varops
 ------
 
-This provides a way to build an OPS_LIST using :ref:`vars <Defining Variables>` whereby the
+This provides a way to build an OPS_LIST using :ref:`vars <variables>` whereby the
 first element must be a variable e.g.
 
 format:

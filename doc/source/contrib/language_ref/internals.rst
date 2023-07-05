@@ -135,7 +135,7 @@ of these new objects can be called (getattr) as follows:
     val = obj.attr
 
 This creates a new object using *input* as input and then *attr* is called on that object.
-This allows us to define a property for import in :ref:`vars <defining variables>` as follows:
+This allows us to define a property for import in :ref:`vars <variables>` as follows:
 
 .. code-block:: yaml
 

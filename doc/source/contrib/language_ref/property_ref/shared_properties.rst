@@ -1,6 +1,6 @@
 These settings can be used by any property that chooses to implement them.
 
-input
+Input
 -----
 
 Provides a common way to define input e.g. when doing a :ref:`search`. Supports a filesystem
@@ -63,7 +63,7 @@ usage:
 
     input.paths
 
-search
+Search
 ------
 
 Used to define search expression(s) and criteria. There are different types of

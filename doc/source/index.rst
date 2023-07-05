@@ -6,9 +6,9 @@
 Welcome to hotsos's documentation!
 ==================================
 
-Use hotsos to implement repeatable analysis and extract useful information from common cloud applications and subsystems. Write analyses :ref:`scenarios` using a high-level language, leveraging Python libaries to help extract information. A catalog of analysis implementations is included. The code is organised as “plugins” that implement functionality specific to an application or subsystem.
+Use hotsos to implement repeatable analysis and extract useful information from common cloud applications and subsystems. Write analysis :ref:`Scenarios <scenarios overview>` using a high-level language, leveraging Python helper libraries to extract information. A catalog of analysis implementations is included.
 
-Hotsos works against a "data root" which can be a host i.e. '/' or a `sosreport <https://github.com/sosreport/sos>`_. The output is a summary containing key information from each plugin along with any issuses or known bugs detected and suggestions on what actions can be taken to handle them.
+The code is organised as “plugins” that implement functionality specific to an application or subsystem. Hotsos is run against a "data root" which can be a host i.e. '/' or a `sosreport <https://github.com/sosreport/sos>`_. The output is a summary containing key information from each plugin along with any issuses or known bugs detected and suggestions on what actions can be taken to handle them.
 
 Installation Guide
 ------------------
