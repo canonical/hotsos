@@ -1,12 +1,12 @@
-checks
+Checks
 ------
 
 A dictionary of labelled checks each of which is a grouping of properties (see
 Supported Properties). Eack check is executed independently and produces a
 boolean *result* of True or False.
 
-Checks are normally implemented in conjunction with :ref:`conclusions`
-as part of :ref:`scenarios`.
+Checks are normally implemented in conjunction with :ref:`Conclusions<conclusions>`
+as part of :ref:`Scenarios<scenarios overview>`.
 
 format:
 
@@ -34,28 +34,28 @@ usage:
 Settings
 ^^^^^^^^
 
-  * :ref:`search`
-  * :ref:`requires`
-  * :ref:`input`
+  * :ref:`Search<search>`
+  * :ref:`Requires<requires>`
+  * :ref:`Input<input>`
 
 
-conclusions
+Conclusions
 -----------
 
 This indicates that everything beneath is a set of one or more conclusions to
-be used by `scenarios <../hotsos/core/ycheck/scenarios.py>`_. The contents of
+be used by `Scenarios<scenarios overview>`. The contents of
 this override are defined as a dictionary of conclusions labelled with
 meaningful names.
 
 A conclusion is defined as a function on the outcome of a set of checks along
 with the consequent behaviour should the conclusion match. This is defined as
 an issue type and message that will be raised. If multiple conclusions are
-defined, they are given a :ref:`priority` such that the highest one to
-match is the one that is executed. See :ref:`scenarios` section for more
-info and examples.
+defined, they are given a :ref:`Priority<priority>` such that the highest one to
+match is the one that is executed. See :ref:`Scenarios<scenarios overview>`
+section for more info and examples.
 
 The message can optionally use format fields which, if used, require
-format-dict to be provided with required key/value pairs. The values must be
+format-dict to be provided with key/value pairs. The values must be
 an importable attribute, property or method.
 
 format:
@@ -85,11 +85,11 @@ usage:
 Settings
 ^^^^^^^^
 
-decision
+Decision
 """"""""
 
-This property is typically used in :ref:`conclusions`.
-CHECKS refers to a set of one or more :ref:`checks` names organised as a
+This property is typically used in :ref:`Conclusions<conclusions>`.
+CHECKS refers to a set of one or more :ref:`Checks<checks>` names organised as a
 :ref:`LogicalCollection` to make a decision based on the outcome of more
 checks.
 
@@ -105,7 +105,7 @@ usage:
 
     <iter>
 
-priority
+Priority
 """"""""
 
 Defines an integer priority. This is a very simple property that is typically
@@ -125,11 +125,11 @@ usage:
 
     int(priority)
 
-raises
+Raises
 """"""
 
 Defines an issue to raise along with the message displayed. For example a
-:ref:`checks` may want to raise an `issue_types <../hotsos/core/issues/issue_types.py>`_
+:ref:`Checks<checks>` may want to raise an `issue_types <https://github.com/canonical/hotsos/blob/main/hotsos/core/issues/issue_types.py>`_
 with a formatted message where format fields are filled using Python properties
 or search results.
 
@@ -143,7 +143,7 @@ format:
       message: <str>
       format-dict: <dict>
 
-If *type* is a `bug type <../hotsos/core/issues/issue_types.py>`_ then a *bug-id*
+If *type* is a `bug type <https://github.com/canonical/hotsos/blob/main/hotsos/core/issues/issue_types.py>`_ then a *bug-id*
 must be provided.
 
 If the *message* string contains format fields these can be filled
@@ -165,7 +165,7 @@ import path or a ``PROPERTY_CACHE_REF``:
       See individual property CACHE_KEYS for supported cache keys.
 
 Both import paths and cache references can be suffixed with an optional
-``:<function>`` where function is the name of a  `python builtins <https://docs.python.org/3/library/functions.html>`_ function
+``:<function>`` where function is the name of a `python builtins <https://docs.python.org/3/library/functions.html>`_ function
 or one of the following:
 
   * **comma_join** - takes a list or dict as input and returns ``', '.join(input)``
@@ -180,12 +180,12 @@ usage:
     raises.message
     raises.format_dict
 
-requires
+Requires
 --------
 
 Defines a set of one or more :ref:`requirements <requirement types>` to be executed with a pass/fail result.
 
-If the result is based on the outcome of more than one requirement they must be grouped a :ref:`LogicalCollection` (see **REQ_GROUP** below).
+If the result is based on the outcome of more than one requirement they must be grouped as a :ref:`LogicalCollection` (see **REQ_GROUP** below).
 The final result is either True/False for *passes*.
 
 NOTE: this property is implemented as a :ref:`mapped property <mappedproperties>` so the root *requires* name is optional.

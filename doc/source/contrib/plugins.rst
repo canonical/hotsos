@@ -26,5 +26,5 @@ Plugin Extensions
 =================
 
 These is where the output summary is generated and also provides a space to extend core plugin functionality to generate additional output e.g.
-using :ref:`events`.
+using :ref:`Events<events overview>`.
 

@@ -1,21 +1,21 @@
-Overview
-=========
+Scenarios Overview
+==================
 
-Scenarios provide a way to define analysis in terms of :ref:`checks` and
-:ref:`conclusions` where the latter are derived from decisions based
+Scenarios provide a way to define analysis in terms of :ref:`Checks<checks>` and
+:ref:`Conclusions <conclusions>` where the latter are derived from decisions based
 on the outcome of one or more checks.
 
 Scenarios run automatically and are written in YAML. See existing
 definitions for examples. They are grouped by plugin at the top level
 and groupings beneath are purely logical/organisational.
 
-A scenario must define its own set of :ref:`checks` and :ref:`conclusions`
+A scenario must define its own set of :ref:`Checks<checks>` and :ref:`Conclusions<conclusions>`
 and while you can have more than one scenario per file, it is recommended
 to keep one per file for readability and testability purposes.
 
 Checks are evaluated independently of each other and the results are saved for
-subsequent :ref:`decision` when forming :ref:`conclusions`. They are also only
-evaluated when referenced from a :ref:`decision` (basically lazy loaded).
+subsequent :ref:`Decision<decision>` when forming :ref:`Conclusions<conclusions>`. They are also only
+evaluated when referenced from a :ref:`Decision<decision>` (basically lazy loaded).
 Also, checks that are :ref:`logically grouped <LogicalCollection>` are evaluated
 until the minimum number of items has
 been evaluated to determine the outcome of that group.
@@ -42,15 +42,15 @@ And in the following, only C1 would be evaluated (since it it True):
       - C3
 
 Conclusions are defined as a decision based on the outcome of one or more
-:ref:`checks` along with information such as the issue and message to
+:ref:`Checks<checks>` along with information such as the issue and message to
 raise if a conclusion is matched. Conclusions can be given
-:ref:`priority` so that one can be selected in the event of multiple
+:ref:`Priority<priority>` so that one can be selected in the event of multiple
 positives. This is helpful for defining fallback conclusions.
 
 The following propeties are mandatory when writing a scenario:
 
-  * :ref:`checks`
-  * :ref:`conclusions`
+  * :ref:`Checks<checks>`
+  * :ref:`Conclusions<conclusions>`
 
 See :ref:`language reference<Main Properties>` for details on how to configure these properties.
 

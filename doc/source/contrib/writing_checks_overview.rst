@@ -11,7 +11,7 @@ definitions have the same basic structure using a mixture of properties.
 This approach provides a way to write checks and analysis in a way that focuses
 on the structure and logic of the check rather than the underlying
 implementation. This is achieved by leveraging the properties provided along
-with library/shared code (e.g. `core plugins <https://github.com/canonical/hotsos/tree/main/hotsos/core/plugins>`_
+with libraries/shared code (e.g. `core plugins <https://github.com/canonical/hotsos/tree/main/hotsos/core/plugins>`_
 as much as possible).
 
 The yaml definitions are loaded into a tree structure, with leaf nodes
@@ -22,7 +22,7 @@ level.
 In summary:
 
 * Top directory shares its name with the plugin the checks belong to e.g.
-  `openstack <scenarios/openstack>`_.
+  `openstack <https://github.com/canonical/hotsos/tree/main/hotsos/defs/scenarios/openstack>`_.
 * Sub levels contain definitions which can be organised using any combination of
   files and directories, using them to logically group your definitions.
 * The backbone of this approach is
