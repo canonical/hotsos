@@ -252,8 +252,8 @@ class TestCLIHelper(utils.BaseTestCase):
         def fake_check_output(cmd, *_args, **_kwargs):
             if 'OpenFlow13' in cmd:
                 return 'testdata'.encode(encoding='utf_8', errors='strict')
-            else:
-                raise subprocess.CalledProcessError(1, 'ofctl')
+
+            raise subprocess.CalledProcessError(1, 'ofctl')
 
         HotSOSConfig.data_root = '/'
         with mock.patch.object(host_helpers.cli.subprocess,

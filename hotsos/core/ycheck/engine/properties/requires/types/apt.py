@@ -47,10 +47,7 @@ class APTCheckItems(PackageCheckItemsBase):
             if lt_broken:
                 continue
 
-            if lte_max:
-                result = True
-            else:
-                result = False
+            result = lte_max
 
             break
 

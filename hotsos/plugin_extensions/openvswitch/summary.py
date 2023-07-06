@@ -17,7 +17,7 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
         """Get string info for running daemons."""
         if self.systemd.services:
             return self.systemd.summary
-        elif self.pebble.services:
+        if self.pebble.services:
             return self.pebble.summary
 
     @idx(1)

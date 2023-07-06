@@ -21,7 +21,7 @@ class YPropertyVarOps(YRequirementTypeWithOpsBase):
 
     def _apply_ops(self):
         actual = self.resolve_var(self.name)
-        result = self.apply_ops(self.ops, input=actual)
+        result = self.apply_ops(self.ops, opinput=actual)
         log.debug('requirement check: varref %s %s (result=%s)',
                   actual, self.ops_to_str(self.ops), result)
         self.cache.set('ops', self.ops_to_str(self.ops))

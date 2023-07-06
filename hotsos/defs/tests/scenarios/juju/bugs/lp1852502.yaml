@@ -1,6 +1,6 @@
 mock:
   patch.object:
-    hotsos.core.ycheck.engine.properties.input.CLIHelper:
+    hotsos.core.ycheck.engine.properties.inputdef.CLIHelper:
       kwargs:
         create: true
         attribute: journalctl

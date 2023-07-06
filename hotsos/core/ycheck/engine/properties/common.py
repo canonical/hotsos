@@ -94,7 +94,7 @@ class PropertyCacheRefResolver(object):
     """
     This class is used to resolve string references to property cache entries.
     """
-    def __init__(self, refstr, vars=None, checks=None):
+    def __init__(self, refstr, pcrr_vars=None, checks=None):
         log.debug("%s: resolving '%s'", self.__class__.__name__, refstr)
         self.refstr = refstr
         if not self.is_valid_cache_ref(refstr):
@@ -102,7 +102,7 @@ class PropertyCacheRefResolver(object):
                    format(refstr))
             raise Exception(msg)
 
-        self.vars = vars
+        self.vars = pcrr_vars
         self.checks = checks
         if self.reftype == 'checks' and checks is None:
             msg = ("{} is a checks cache reference but checks dict not "
@@ -121,11 +121,11 @@ class PropertyCacheRefResolver(object):
         """
         if self.refstr.startswith('$'):
             return "variable"
-        elif self.refstr.startswith('@checks.'):
+        if self.refstr.startswith('@checks.'):
             # This is an implementation of YPropertyChecks
             return "checks"
-        else:
-            raise Exception("unknown ref type")
+
+        raise Exception("unknown ref type")
 
     @property
     def _ref_body(self):
@@ -215,7 +215,7 @@ class PropertyCacheRefResolver(object):
                     'action': lambda value: value[0]}}
 
         if func in extras:
-            if not any([req(value) for req in extras[func]['requirements']]):
+            if not any(req(value) for req in extras[func]['requirements']):
                 log.warning("attempted to apply '%s' to value of "
                             "type %s", func, type(value))
                 return value
@@ -603,8 +603,8 @@ class LogicalCollectionHandler(abc.ABC):
         result.
         """
 
-    def _is_op_group(self, property):
-        return property._override_name in self.VALID_GROUP_KEYS
+    def _is_op_group(self, prop):
+        return prop._override_name in self.VALID_GROUP_KEYS
 
     def eval_op_group_items(self, logical_op_group):
         """

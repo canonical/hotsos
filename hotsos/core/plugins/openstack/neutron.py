@@ -115,9 +115,9 @@ class NeutronHAInfo(object):
 
         return _routers
 
-    def find_router_with_vr_id(self, id):
+    def find_router_with_vr_id(self, vr_id):
         for r in self.ha_routers:
-            if r.vr_id == id:
+            if r.vr_id == vr_id:
                 return r
 
 

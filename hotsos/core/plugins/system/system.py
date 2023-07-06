@@ -128,8 +128,7 @@ class SystemBase(object):
             if ret:
                 if int(ret[1]) == 0:
                     return False
-                else:
-                    return True
+                return True
 
         return False
 
@@ -195,19 +194,19 @@ class SystemBase(object):
         result["status"] = "attached"
         result["services"] = {}
 
-        for id in ssects:
+        for sid in ssects:
             result["services"] = {**result["services"], **{
                 v.get(1): {
                     "entitled": v.get(2),
                     "status": v.get(3)
                 }
-                for v in ssects[id] if v.tag == service_status_seqdef.body_tag
+                for v in ssects[sid] if v.tag == service_status_seqdef.body_tag
             }}
 
-        for id in asects:
+        for sid in asects:
             result = {**result, **{
                 re.sub(r'\W+', '_', v.get(1).strip()).lower(): v.get(2).strip()
-                for v in asects[id]
+                for v in asects[sid]
             }}
 
         return result

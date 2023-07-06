@@ -9,9 +9,7 @@ from . import utils
 
 
 class ScenarioTestsBase(utils.BaseTestCase):
-
-    def setUp(self):
-        super().setUp()
+    pass
 
 
 class FakeTemplatedTestGenerator(object):

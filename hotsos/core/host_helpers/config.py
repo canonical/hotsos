@@ -94,7 +94,7 @@ class SectionalConfigBase(ConfigBase):
     def bool_str(val):
         if val.lower() == "true":
             return True
-        elif val.lower() == "false":
+        if val.lower() == "false":
             return False
 
         return val

@@ -2,9 +2,9 @@
 from hotsos.core.ycheck.engine.properties import (  # noqa: F403,F401
     checks,
     conclusions,
-    input,
+    inputdef,
     search,
-    vars,
+    vardef,
 )
 import hotsos.core.ycheck.engine.properties.requires.requires  # noqa:F403,F401
 from hotsos.core.ycheck.engine.properties.requires.types import (  \

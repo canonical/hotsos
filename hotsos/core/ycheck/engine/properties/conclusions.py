@@ -56,7 +56,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         for key, value in fdict.items():  # pylint: disable=E1101
             if PropertyCacheRefResolver.is_valid_cache_ref(value):
                 rvalue = PropertyCacheRefResolver(value,
-                                                  vars=self.context.vars,
+                                                  pcrr_vars=self.context.vars,
                                                   checks=checks).resolve()
                 log.debug("updating format-dict key=%s with cached %s (%s)",
                           key, value, rvalue)
@@ -209,13 +209,13 @@ class YPropertyConclusions(YPropertyOverrideBase):
     def _override_keys(cls):
         return ['conclusions']
 
-    def initialise(self, vars):
+    def initialise(self, ypvars):
         """
         Perform initialisation tasks for this set of conclusions.
 
         * create conclusions context containing vars
         """
-        self.conclusion_context = YDefsContext({'vars': vars})
+        self.conclusion_context = YDefsContext({'vars': ypvars})
 
     @cached_yproperty_attr
     def _conclusions(self):

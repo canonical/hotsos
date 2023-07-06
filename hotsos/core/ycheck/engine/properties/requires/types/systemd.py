@@ -68,7 +68,7 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
                           started_after.name, delta)
                 return False
 
-        return self.apply_ops(ops, input=svc.state)
+        return self.apply_ops(ops, opinput=svc.state)
 
     @property
     @intercept_exception

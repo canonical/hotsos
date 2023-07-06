@@ -30,7 +30,7 @@ class UnitLogInfo(object):
         path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
         ts_expr = r"^([\d-]+)\s+([\d:]+)"
         for msg in ['ERROR', 'WARNING']:
-            expr = (r'{} {} (\S+) (\S+):\d+ '.format(ts_expr, msg))
+            expr = r'{} {} (\S+) (\S+):\d+ '.format(ts_expr, msg)
             tag = msg
             hint = msg
             searchobj.add(SearchDef(expr, tag=tag, hint=hint), path)
@@ -106,7 +106,7 @@ class JujuSummary(JujuChecksBase):
     def __summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
-        elif self.pebble.services:
+        if self.pebble.services:
             return self.pebble.summary
 
     @idx(1)

@@ -63,20 +63,20 @@ class JujuMachine(object):
 
         for unit in _units.split(','):
             app = unit.partition('/')[0]
-            id = unit.partition('/')[2]
+            unit_id = unit.partition('/')[2]
             path = os.path.join(self.juju_lib_path,
-                                "agents/unit-{}-{}".format(app, id))
-            units.append(JujuUnit(id, app, self.juju_lib_path, path=path))
+                                "agents/unit-{}-{}".format(app, unit_id))
+            units.append(JujuUnit(unit_id, app, self.juju_lib_path, path=path))
 
         return units
 
 
 class JujuUnit(object):
 
-    def __init__(self, id, application, juju_lib_path, path=None):
-        self.id = id
+    def __init__(self, unit_id, application, juju_lib_path, path=None):
+        self.id = unit_id
         self.application = application
-        self.name = '{}-{}'.format(application, id)
+        self.name = '{}-{}'.format(application, unit_id)
         self.juju_lib_path = juju_lib_path
         self.path = path
 
@@ -161,8 +161,8 @@ class JujuBase(object):
                 ret = re.compile(r"unit-(\S+)-(\d+)").match(base)
                 if ret:
                     app = ret.group(1)
-                    id = ret.group(2)
-                    u = JujuUnit(id, app, self.juju_lib_path, path=unit)
+                    unit_id = ret.group(2)
+                    u = JujuUnit(unit_id, app, self.juju_lib_path, path=unit)
                     _units[u.name] = u
 
         return _units

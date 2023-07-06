@@ -76,7 +76,7 @@ def get_repo_info():
 def set_plugin_options(f):
     for plugin in PLUGIN_CATALOG:
         click.option('--{}'.format(plugin), default=False, is_flag=True,
-                     help=('Run the {} plugin.'.format(plugin)))(f)
+                     help='Run the {} plugin.'.format(plugin))(f)
 
     return f
 
@@ -120,11 +120,11 @@ def get_templates_path():
 
 
 def spinner(msg, done):
-    spinner = Spinner(msg)
+    cli_spinner = Spinner(msg)
     while not done.is_set():
-        spinner.next()
+        cli_spinner.next()
         done.wait(timeout=0.1)
-    spinner.finish()
+    cli_spinner.finish()
 
 
 @contextlib.contextmanager
@@ -181,9 +181,9 @@ def main():
                   help=('Optional path to use for saving output (with '
                         '--save).'))
     @click.option('--machine-readable', default=False, is_flag=True,
-                  help=("Don't format output for humans."))
+                  help="Don't format output for humans.")
     @click.option('--list-plugins', default=False, is_flag=True,
-                  help=('Show available plugins.'))
+                  help='Show available plugins.')
     @click.option('--max-parallel-tasks', default=8,
                   help=('The search module will execute searches across '
                         'files in parallel. By default the number of cores '
@@ -195,7 +195,7 @@ def main():
                         'to this value. Only applies when --all-logs is '
                         'provided.'))
     @click.option('--agent-error-key-by-time', default=False, is_flag=True,
-                  help=('DEPRECATED: use --event-tally-granularity'))
+                  help='DEPRECATED: use --event-tally-granularity')
     @click.option('--event-tally-granularity', default='date',
                   help=('By default event tallies will be grouped by date, '
                         'for example when tallying occurrences of an event '
@@ -230,13 +230,13 @@ def main():
     @click.option('--html-escape', default=False, is_flag=True,
                   help=('Apply html escaping to the output so that it is safe '
                         'to display in html.'))
-    @click.option('--format',
+    @click.option('--format', '--output-format', 'output_format',
                   type=click.Choice(OutputManager.SUMMARY_FORMATS),
                   default='yaml',
                   show_default=True,
-                  help=('Summary output format.'))
+                  help='Summary output format.')
     @click.option('--save', '-s', default=False, is_flag=True,
-                  help=('Save output to a file.'))
+                  help='Save output to a file.')
     @click.option('--quiet', default=False, is_flag=True,
                   help=('Suppress normal stderr output, only errors will be '
                         'printed.'))
@@ -251,15 +251,15 @@ def main():
                         'all available log history (see --max-logrotate-depth '
                         'for limits).'))
     @click.option('--defs-path', default=get_defs_path(),
-                  help=('Path to yaml definitions (ydefs).'))
+                  help='Path to yaml definitions (ydefs).')
     @click.option('--templates-path', default=get_templates_path(),
-                  help=('Path to Jinja templates.'))
+                  help='Path to Jinja templates.')
     @click.option('--version', '-v', default=False, is_flag=True,
-                  help=('Show the version.'))
+                  help='Show the version.')
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
     def cli(data_root, version, defs_path, templates_path, all_logs, quiet,
-            debug, save, format, html_escape, short, very_short,
+            debug, save, output_format, html_escape, short, very_short,
             force, full, agent_error_key_by_time, event_tally_granularity,
             max_logrotate_depth, max_parallel_tasks, list_plugins,
             machine_readable, output_path,
@@ -384,7 +384,7 @@ def main():
                                 output_path=output_path)
             sys.stdout.write("INFO: output saved to {}\n".format(path))
         else:
-            out = summary.get(format=format, html_escape=html_escape,
+            out = summary.get(fmt=output_format, html_escape=html_escape,
                               minimal_mode=minimal_mode)
             if out:
                 sys.stdout.write("{}\n".format(out))

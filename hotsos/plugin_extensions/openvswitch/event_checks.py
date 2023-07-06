@@ -118,8 +118,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
                         re.compile(r"^(q|s)g-\S{11}$").match(port)):
                     continue
 
-                for key in _stats:
-                    s = _stats[key]
+                for _, s in _stats.items():
                     if s.get('dropped') and not s['packets']:
                         all_dropped.append(port)
 

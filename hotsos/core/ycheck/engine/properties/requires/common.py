@@ -102,36 +102,36 @@ class OpsUtils(object):
 
         return ' -> '.join(_result)
 
-    def _apply_op(self, op, input=None, expected=None, force_expected=False):
+    def _apply_op(self, op, opinput=None, expected=None, force_expected=False):
         """
         @param expected: can be a value or variable name that needs to be
                          resolved. Variable names are identified by having a
                          "$" prefix.
         """
         log.debug("op=%s, input=%s, expected=%s, force_expected=%s", op,
-                  input, expected, force_expected)
+                  opinput, expected, force_expected)
         try:
             if expected is not None or force_expected:
-                return getattr(operator, op)(input, expected)
+                return getattr(operator, op)(opinput, expected)
 
-            return getattr(operator, op)(input)
+            return getattr(operator, op)(opinput)
         except Exception:
             log.exception("failed to apply operator '%s'", op)
             raise
 
-    def apply_ops(self, ops, input=None, normalise_value_types=False):
+    def apply_ops(self, ops, opinput=None, normalise_value_types=False):
         """
         Takes a list of operations and processes each one where each takes as
         input the output of the previous.
 
         @param ops: list of tuples of operations and optional args.
-        @param input: the value that is used as input to the first operation.
+        @param opinput: the value that is used as input to the first operation.
         @param normalise_value_types: if an operation has an expected value and
                                       and this is True, the type of the input
                                       will be cast to that of the expectced
                                       value.
         """
-        log.debug("ops=%s, input=%s", ops, input)
+        log.debug("ops=%s, input=%s", ops, opinput)
         if type(ops) != list:
             raise Exception("Expected list of ops but got {}".
                             format(ops))
@@ -153,14 +153,14 @@ class OpsUtils(object):
 
                     if normalise_value_types:
                         log.debug("normalising type(input)=%s to "
-                                  "type(expected)=%s", type(input),
+                                  "type(expected)=%s", type(opinput),
                                   type(expected))
-                        input = type(expected)(input)
+                        opinput = type(expected)(opinput)
 
-            input = self._apply_op(op[0], input=input, expected=expected,
-                                   force_expected=force_expected)
+            opinput = self._apply_op(op[0], opinput=opinput, expected=expected,
+                                     force_expected=force_expected)
 
-        return input
+        return opinput
 
 
 class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):

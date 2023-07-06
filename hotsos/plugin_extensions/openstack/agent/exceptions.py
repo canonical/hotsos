@@ -95,7 +95,7 @@ class AgentExceptionCheckResults(UserDict):
         """ Return a list of files containing exceptions. """
         files = []
         for results in self.results.values():
-            sources = set([r.source_id for r in results])
+            sources = set(r.source_id for r in results)
             files.extend([self.source_id_resolver_callback(s)
                           for s in sources])
 
