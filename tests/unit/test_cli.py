@@ -96,17 +96,3 @@ class TestCLI(utils.BaseTestCase):
                 repo_info = hotsos.cli.get_repo_info()
 
         self.assertEqual(repo_info, 'some version')
-
-    def test_fix_data_root(self):
-        self.assertEqual(hotsos.cli.fix_data_root(None), '/')
-        self.assertEqual(hotsos.cli.fix_data_root('/'), '/')
-        self.assertEqual(hotsos.cli.fix_data_root('some/path'), 'some/path/')
-
-    def test_get_analysis_target(self):
-        self.assertEqual(hotsos.cli.get_analysis_target('/'), 'localhost')
-        self.assertEqual(hotsos.cli.get_analysis_target('some/path/'),
-                         'sosreport some/path/')
-
-    def test_get_prefix(self):
-        self.assertEqual(hotsos.cli.get_prefix(data_root='/foo/bar'), 'bar')
-        self.assertEqual(hotsos.cli.get_prefix(data_root='/'), 'compute4')

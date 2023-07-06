@@ -9,14 +9,21 @@ from importlib import metadata, resources
 import click
 import distro
 from progress.spinner import Spinner
+from hotsos.core.root_manager import DataRootManager
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import setup_logging, log
-from hotsos.core.host_helpers import CLIHelper
 from hotsos.client import (
     HotSOSClient,
     OutputManager,
     PLUGIN_CATALOG,
 )
+
+SNAP_ERROR_MSG = """ERROR: hotsos is installed as a snap which only supports
+running against a sosreport due to access restrictions.
+
+If you want to analyse a host you need to use an alternative installation
+method e.g. debian package - see https://hotsos.readthedocs.io/en/latest/install/index.html for more information."
+""" # noqa
 
 
 def is_snap():
@@ -143,35 +150,12 @@ def progress_spinner(show_spinner, spinner_msg):
         thread.join()
 
 
-def fix_data_root(data_root):
-    if not data_root:
-        data_root = '/'
-    elif data_root[-1] != '/':
-        # Ensure trailing slash
-        data_root += '/'
-    return data_root
-
-
-def get_analysis_target(data_root):
-    if data_root == '/':
-        analysis_target = 'localhost'
-    else:
-        analysis_target = 'sosreport {}'.format(data_root)
-    return analysis_target
-
-
-def get_prefix(data_root):
-    if data_root != '/':
-        if data_root.endswith('/'):
-            data_root = data_root.rpartition('/')[0]
-
-        return os.path.basename(data_root)
-
-    return CLIHelper().hostname()
-
-
 def main():
     @click.command(name='hotsos')
+    @click.option('--sos-unpack-dir', default=None,
+                  help=('Location used to unpack sosreports. Useful if you '
+                        'want to cache the unpacked sosreport for subsequent '
+                        'use. The provided path must exist.'))
     @click.option('--command-timeout', default=HotSOSConfig.command_timeout,
                   help=('Amount of time command execution will wait before '
                         'timing out and moving on.'))
@@ -194,8 +178,6 @@ def main():
                         'given log file can be costly so we cap the history '
                         'to this value. Only applies when --all-logs is '
                         'provided.'))
-    @click.option('--agent-error-key-by-time', default=False, is_flag=True,
-                  help='DEPRECATED: use --event-tally-granularity')
     @click.option('--event-tally-granularity', default='date',
                   help=('By default event tallies will be grouped by date, '
                         'for example when tallying occurrences of an event '
@@ -211,11 +193,6 @@ def main():
                         "application is not installed but we have it's logs. "
                         'Using this option can obviously produce '
                         'unexpected results so should be used with caution.'))
-    @click.option('--full', default=False, is_flag=True,
-                  help=('[DEPRECATED] This is the default and tells hotsos to '
-                        'generate a full summary. If you want to save both a '
-                        'short and full summary you can specifiy this option '
-                        'when doing --short.'))
     @click.option('--very-short', default=False, is_flag=True,
                   help=('Minimal version of --short where only issue types or '
                         'bug ids are displayed with count of each (issues '
@@ -223,10 +200,6 @@ def main():
     @click.option('--short', default=False, is_flag=True,
                   help=('Filters the full summary so that it only includes '
                         'plugin known-bugs and potential-issues sections.'))
-    @click.option('--user-summary', default=None,
-                  help=('[DEPRECATED] Provide an existing summary so that it '
-                        'can be post-processed e.g. --format json. This '
-                        'option is deprecated and no longer does anything'))
     @click.option('--html-escape', default=False, is_flag=True,
                   help=('Apply html escaping to the output so that it is safe '
                         'to display in html.'))
@@ -250,23 +223,22 @@ def main():
                         'longer. This tells plugins that we wish to analyse '
                         'all available log history (see --max-logrotate-depth '
                         'for limits).'))
-    @click.option('--defs-path', default=get_defs_path(),
-                  help='Path to yaml definitions (ydefs).')
     @click.option('--templates-path', default=get_templates_path(),
                   help='Path to Jinja templates.')
+    @click.option('--defs-path', default=get_defs_path(),
+                  help='Path to yaml definitions (ydefs).')
     @click.option('--version', '-v', default=False, is_flag=True,
                   help='Show the version.')
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
-    def cli(data_root, version, defs_path, templates_path, all_logs, quiet,
-            debug, save, output_format, html_escape, short, very_short,
-            force, full, agent_error_key_by_time, event_tally_granularity,
-            max_logrotate_depth, max_parallel_tasks, list_plugins,
-            machine_readable, output_path,
+    def cli(data_root, version, defs_path, templates_path, all_logs, debug,
+            quiet, save, output_format, html_escape, short, very_short,
+            force, event_tally_granularity, max_logrotate_depth,
+            max_parallel_tasks, list_plugins, machine_readable, output_path,
             allow_constraints_for_unverifiable_logs, command_timeout,
-            **kwargs):
+            sos_unpack_dir, **kwargs):
         """
-        Run this tool on a host or against an unpacked sosreport to perform
+        Run this tool on a host or against a sosreport to perform
         analysis of specific applications and the host itself. A summary of
         information is generated along with any issues or known bugs detected.
         Applications are defined as plugins and support currently includes
@@ -284,13 +256,9 @@ def main():
 
         \b
         DATA_ROOT
-            Path to an unpacked sosreport. If none provided, will run against
-            local host.
+            Path to an sosreport. If none provided, will run against local
+            host.
         """  # noqa
-
-        if full:
-            # deprecated
-            pass
 
         minimal_mode = None
         if short:
@@ -311,83 +279,69 @@ def main():
             print(_version)
             return
 
-        data_root = fix_data_root(data_root)
+        with DataRootManager(data_root, sos_unpack_dir=sos_unpack_dir) as drm:
+            if is_snap() and drm.data_root == '/':
+                print(SNAP_ERROR_MSG)
+                sys.exit(1)
 
-        if is_snap() and data_root == '/':
-            print("ERROR: hotsos is installed as a snap which only "
-                  "supports running against a sosreport due to access "
-                  "restrictions.\n\n"
-                  "If you want to analyse a host you need to "
-                  "use an alternative installation method e.g. debian "
-                  "package - see "
-                  "https://hotsos.readthedocs.io/en/latest/install/index.html"
-                  " for more information.")
-            sys.exit(1)
+            HotSOSConfig.set(use_all_logs=all_logs, plugin_yaml_defs=defs_path,
+                             templates_path=templates_path,
+                             data_root=drm.data_root,
+                             event_tally_granularity=event_tally_granularity,
+                             max_logrotate_depth=max_logrotate_depth,
+                             max_parallel_tasks=max_parallel_tasks,
+                             machine_readable=machine_readable)
+            HotSOSConfig.allow_constraints_for_unverifiable_logs = \
+                allow_constraints_for_unverifiable_logs
 
-        if agent_error_key_by_time:
-            print("WARNING: option --agent-error-key-by-time is DEPRECATED "
-                  "and longer has any effect. Use --event-tally-granularity "
-                  "instead.")
+            if debug and quiet:
+                sys.stderr.write('ERROR: cannot use both --debug and '
+                                 '--quiet\n')
+                return
 
-        HotSOSConfig.set(use_all_logs=all_logs, plugin_yaml_defs=defs_path,
-                         templates_path=templates_path, data_root=data_root,
-                         event_tally_granularity=event_tally_granularity,
-                         max_logrotate_depth=max_logrotate_depth,
-                         max_parallel_tasks=max_parallel_tasks,
-                         machine_readable=machine_readable)
-        HotSOSConfig.allow_constraints_for_unverifiable_logs = \
-            allow_constraints_for_unverifiable_logs
+            HotSOSConfig.debug_mode = debug
 
-        if debug and quiet:
-            sys.stderr.write('ERROR: cannot use both --debug and --quiet\n')
-            return
+            setup_logging()
+            # Set a name so that logs have this until real plugins are run.
+            log.name = 'hotsos.cli'
 
-        HotSOSConfig.debug_mode = debug
+            if list_plugins:
+                sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))
+                sys.stdout.write('\n')
+                return
 
-        setup_logging()
-        # Set a name so that logs have this until real plugins are run.
-        log.name = 'hotsos.cli'
+            if quiet:
+                show_spinner = False
+                spinner_msg = ''
+            else:
+                show_spinner = not debug
+                spinner_msg = 'INFO: analysing {} '.format(drm.name)
 
-        if list_plugins:
-            sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))
-            sys.stdout.write('\n')
-            return
+            with progress_spinner(show_spinner, spinner_msg):
+                plugins = []
+                for k, v in kwargs.items():
+                    if v is True:
+                        plugins.append(k)
 
-        analysis_target = get_analysis_target(data_root)
+                if plugins:
+                    # always run these
+                    plugins.append('hotsos')
+                    if 'system' not in plugins:
+                        plugins.append('system')
 
-        if quiet:
-            show_spinner = False
-            spinner_msg = ''
-        else:
-            show_spinner = not debug
-            spinner_msg = 'INFO: analysing {} '.format(analysis_target)
+                client = HotSOSClient(plugins)
+                client.run()
+                summary = client.summary
 
-        with progress_spinner(show_spinner, spinner_msg):
-            plugins = []
-            for k, v in kwargs.items():
-                if v is True:
-                    plugins.append(k)
-
-            if plugins:
-                # always run these
-                plugins.append('hotsos')
-                if 'system' not in plugins:
-                    plugins.append('system')
-
-            client = HotSOSClient(plugins)
-            client.run()
-            summary = client.summary
-
-        if save:
-            prefix = get_prefix(data_root)
-            path = summary.save(prefix, html_escape=html_escape,
-                                output_path=output_path)
-            sys.stdout.write("INFO: output saved to {}\n".format(path))
-        else:
-            out = summary.get(fmt=output_format, html_escape=html_escape,
-                              minimal_mode=minimal_mode)
-            if out:
-                sys.stdout.write("{}\n".format(out))
+            if save:
+                path = summary.save(drm.basename, html_escape=html_escape,
+                                    output_path=output_path)
+                sys.stdout.write("INFO: output saved to {}\n".format(path))
+            else:
+                out = summary.get(fmt=output_format, html_escape=html_escape,
+                                  minimal_mode=minimal_mode)
+                if out:
+                    sys.stdout.write("{}\n".format(out))
 
     cli(prog_name='hotsos')
 
