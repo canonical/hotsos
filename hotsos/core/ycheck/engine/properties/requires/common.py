@@ -75,8 +75,7 @@ class PackageCheckItemsBase(CheckItemsBase):
 
     @cached_property
     def not_installed(self):
-        _all = self.packages_to_check
-        return set(self.installed).symmetric_difference(_all)
+        return set(self.packages_to_check).difference(self.installed)
 
 
 class OpsUtils(object):
@@ -231,8 +230,7 @@ class ServiceCheckItemsBase(CheckItemsBase):
 
     @cached_property
     def not_installed(self):
-        _installed = self.installed.keys()
-        return set(_installed).symmetric_difference(self._svcs_all)
+        return set(self._svcs_all).difference(self.installed)
 
     @cached_property
     def installed(self):
