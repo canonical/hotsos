@@ -3,12 +3,19 @@ import os
 import re
 from datetime import datetime
 
+# NOTE: we import direct from searchkit rather than hotsos.core.search to
+#       avoid circular dependency issues.
+from searchkit import (
+    FileSearcher,
+    SearchDef,
+    SequenceSearchDef,
+)
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.host_helpers.common import ServiceManagerBase
 from hotsos.core.log import log
-from hotsos.core.utils import cached_property, sorted_dict
+from hotsos.core.utils import cached_property, mktemp_dump, sorted_dict
 
 
 class SystemdService(object):
@@ -22,13 +29,18 @@ class SystemdService(object):
     def start_time(self):
         """ Get most recent start time of this service unit.
 
+        We first look in systemd journal since that should be the fastest and
+        if not found (perhaps because service not restarted for a long time)
+        we look in service status.
+
         @returns: datetime.datetime object or None if time not found.
         """
         log.debug("fetching start time for svc %s", self.name)
-        # must be in short-iso format
-        cexpr = re.compile(r"^(([0-9-]+)T[\d:]+\+[\d]+)\s+.+: "
-                           "(Started|Starting) .+")
-        journal = CLIHelper().journalctl(unit=self.name)
+        cli = CLIHelper()
+        # must be in short-iso format e.g. 2023-07-04T00:05:23+0100
+        cexpr = re.compile(r"^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+\d{4})"
+                           r"\s+.+: (Started|Starting)")
+        journal = cli.journalctl(unit=self.name)
         last = None
         for line in journal:
             ret = cexpr.search(line)
@@ -37,6 +49,27 @@ class SystemdService(object):
 
         if last:
             return datetime.strptime(last, "%Y-%m-%dT%H:%M:%S%z")
+
+        log.debug("start time not found in journal, trying service status")
+        # NOTE: should consider getting service status directly rather than
+        #       searching in all but currently do this to have parity with
+        #       sosreport.
+        fs = FileSearcher()
+        seqdef = SequenceSearchDef(
+                    start=SearchDef(r'\* ({}.service) -'.format(self.name)),
+                    body=SearchDef(r"\s+Active: active \(?\S*\)?\s*since "
+                                   r"\S{3} (\d{4}-\d{2}-\d{2} "
+                                   r"\d{2}:\d{2}:\d{2})"),
+                    end=SearchDef(r'(\*) \S'),
+                    tag='systemd')
+        fs.add(seqdef, path=mktemp_dump(''.join(cli.systemctl_status_all())))
+        sections = list(fs.run().find_sequence_sections(seqdef).values())
+        if len(sections) > 1:
+            log.warning("more than one status found for %s.service", self.name)
+
+        for result in sections[0]:
+            if result.tag == seqdef.body_tag:
+                return datetime.strptime(result.get(1), "%Y-%m-%d %H:%M:%S")
 
         log.debug("no start time identified for svc %s", self.name)
 

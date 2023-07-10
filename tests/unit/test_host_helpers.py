@@ -312,6 +312,18 @@ class TestSystemdHelper(utils.BaseTestCase):
 
         self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
 
+    @utils.create_data_root(
+        {},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice',
+                            'sos_commands/systemd/systemctl_status_--all'])
+    def test_service_factory_no_journal(self):
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        self.assertEqual(svc.start_time_secs, 1644446297.0)
+
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
+
     def test_systemd_helper(self):
         expected = {'ps': ['nova-api-metadata (5)', 'nova-compute (1)'],
                     'systemd': {'enabled':
