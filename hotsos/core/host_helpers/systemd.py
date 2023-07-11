@@ -86,25 +86,47 @@ class SystemdService(object):
         return t.timestamp()
 
     @property
-    def memory_current(self):
-        """ Returns service current memory usage in bytes. """
-        path = os.path.join(HotSOSConfig.data_root,
-                            'sys/fs/cgroup/memory/system.slice',
-                            "{}.service".format(self.name),
-                            'memory.usage_in_bytes')
-        if not os.path.exists(path):
-            # path changed between Ubuntu Focal and Jammy releases.
-            path = os.path.join(HotSOSConfig.data_root,
-                                'sys/fs/cgroup/system.slice',
-                                "{}.service".format(self.name),
-                                'memory.current')
+    def memory_current_kb(self):
+        """ Returns service current memory usage in kbytes.
 
-        if not os.path.exists(path):
-            log.warning("service memory info not found at %s", path)
+        See https://www.kernel.org/doc/Documentation/cgroup-v1/memory.txt
+        See https://www.kernel.org/doc/Documentation/cgroup-v2.txt
+        """
+        cgroupv1 = os.path.join(HotSOSConfig.data_root, 'sys/fs/cgroup',
+                                "memory/system.slice/{}.service".
+                                format(self.name), 'memory.stat')
+        cgroupv2 = os.path.join(HotSOSConfig.data_root, 'sys/fs/cgroup',
+                                'system.slice', "{}.service".
+                                format(self.name), 'memory.current')
+        if os.path.exists(cgroupv1):
+            total_usage = {}
+            fs = FileSearcher()
+            fs.add(SearchDef(r'(cache|rss|swap) (\d+)'), path=cgroupv1)
+            for result in fs.run().get(cgroupv1, {}):
+                total_usage[result.get(1)] = int(result.get(2))
+
+            if len(total_usage) == 0:
+                log.warning("failed to identify mem usage info for %s in %s",
+                            "{}.service".format(self.name), cgroupv1)
+
+            total = sum(total_usage.values())
+            if total == 0:
+                return total
+
+            return int(total / 1024)
+
+        # NOTE: memory.current (v2) is assumed not to be an approximation like
+        #       memory.usage_in_bytes in v1
+        if not os.path.exists(cgroupv2):
+            log.warning("service memory info not found at %s", cgroupv2)
             return 0
 
-        with open(path) as fd:
-            return int(fd.read())
+        with open(cgroupv2) as fd:
+            total = int(fd.read())
+            if total == 0:
+                return total
+
+            return int(total / 1024)
 
     def __repr__(self):
         return ("name={}, state={}, start_time={}, has_instances={}".

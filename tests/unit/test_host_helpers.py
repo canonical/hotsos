@@ -339,17 +339,17 @@ class TestSystemdHelper(utils.BaseTestCase):
     def test_systemd_service_focal(self):
         s = host_helpers.systemd.SystemdHelper([r'nova\S+'])
         svc = s.services['nova-compute']
-        self.assertEqual(svc.memory_current, 1517850624)
+        self.assertEqual(svc.memory_current_kb, int(1517744128 / 1024))
 
     @utils.create_data_root(
         {'sys/fs/cgroup/system.slice/nova-compute.service/memory.current':
-         '1234'},
+         '7168'},
         copy_from_original=['sos_commands/systemd/systemctl_list-units',
                             'sos_commands/systemd/systemctl_list-unit-files'])
     def test_systemd_service_jammy(self):
         s = host_helpers.systemd.SystemdHelper([r'nova\S+'])
         svc = s.services['nova-compute']
-        self.assertEqual(svc.memory_current, 1234)
+        self.assertEqual(svc.memory_current_kb, 7)
 
 
 class TestPebbleHelper(utils.BaseTestCase):
