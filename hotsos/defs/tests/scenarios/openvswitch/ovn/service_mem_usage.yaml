@@ -1,6 +1,6 @@
 data-root:
   files:
-    sys/fs/cgroup/system.slice/ovn-northd.service/memory.current: '536870913'
+    sys/fs/cgroup/system.slice/ovn-northd.service/memory.current: '5368710144'
     sos_commands/systemd/systemctl_list-unit-files: |
       ovn-central.service                        enabled         enabled
       ovn-nb-ovsdb.service                       enabled         enabled
@@ -18,5 +18,5 @@ data-root:
       ii  ovn-common                      20.03.2-0ubuntu0.20.04.4          amd64        OVN common components
 raised-issues:
   OpenvSwitchWarning: >-
-    The ovn-northd service is consuming more than 5G memory (current=536870913). This is
+    The ovn-northd service is consuming more than 5G memory (current_kb=5242881). This is
     not normal and could indicate a memory leak. Please check.

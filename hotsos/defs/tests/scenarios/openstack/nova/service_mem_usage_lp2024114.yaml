@@ -1,7 +1,7 @@
 target-name: service_mem_usage.yaml
 data-root:
   files:
-    sys/fs/cgroup/system.slice/libvirtd.service/memory.current: '536870913'
+    sys/fs/cgroup/system.slice/libvirtd.service/memory.current: '5368710144'
     sos_commands/systemd/systemctl_list-unit-files: |
       libvirtd.service                        enabled         enabled
     sos_commands/systemd/systemctl_list-units: |
@@ -10,6 +10,6 @@ data-root:
       ii  libvirt-daemon                  8.0.0-1ubuntu7.4~cloud0           amd64        Virtualization daemon
 raised-bugs:
   https://bugs.launchpad.net/bugs/2024114: >-
-    The libvirtd service on this host is consuming more than 5G memory (current=536870913). This is
+    The libvirtd service on this host is consuming more than 5G memory (current_kb=5242881). This is
     not normal and could indicate a memory leak. The installed version (8.0.0-1ubuntu7.4~cloud0)
     is also known to be impacted by a memory leak bug. Recommendation is to upgrade.

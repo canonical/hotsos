@@ -1,7 +1,7 @@
 target-name: service_mem_usage.yaml
 data-root:
   files:
-    sys/fs/cgroup/system.slice/libvirtd.service/memory.current: '536870912'
+    sys/fs/cgroup/system.slice/libvirtd.service/memory.current: '5368709120'
     sos_commands/systemd/systemctl_list-unit-files: |
       libvirtd.service                        enabled         enabled
     sos_commands/systemd/systemctl_list-units: |

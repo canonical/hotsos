@@ -1,6 +1,6 @@
 vars:
-  limit: 536870912  # 5G
-  northd_usage: '@hotsos.core.host_helpers.systemd.ServiceFactory.memory_current:ovn-northd'
+  limit: 5242880  # 5G in kb
+  northd_usage: '@hotsos.core.host_helpers.systemd.ServiceFactory.memory_current_kb:ovn-northd'
 checks:
   northd_mem_use_above_limit:
     systemd: ovn-northd
@@ -11,7 +11,7 @@ conclusions:
     raises:
       type: OpenvSwitchWarning
       message: >-
-        The ovn-northd service is consuming more than 5G memory (current={usage}). This is
+        The ovn-northd service is consuming more than 5G memory (current_kb={usage}). This is
         not normal and could indicate a memory leak. Please check.
       format-dict:
         usage: $northd_usage
