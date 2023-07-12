@@ -55,12 +55,14 @@ class SystemdService(object):
         #       searching in all but currently do this to have parity with
         #       sosreport.
         fs = FileSearcher()
+        # The following expressions need to take account of control characters
+        # that might exist in the output e.g. line can start with '*' or U+25CF
         seqdef = SequenceSearchDef(
-                    start=SearchDef(r'\* ({}.service) -'.format(self.name)),
+                    start=SearchDef(r'\S+ ({}.service) -'.format(self.name)),
                     body=SearchDef(r"\s+Active: active \(?\S*\)?\s*since "
                                    r"\S{3} (\d{4}-\d{2}-\d{2} "
                                    r"\d{2}:\d{2}:\d{2})"),
-                    end=SearchDef(r'(\*) \S'),
+                    end=SearchDef(r'(\S+) \S+.service'),
                     tag='systemd')
         fs.add(seqdef, path=mktemp_dump(''.join(cli.systemctl_status_all())))
         sections = list(fs.run().find_sequence_sections(seqdef).values())
