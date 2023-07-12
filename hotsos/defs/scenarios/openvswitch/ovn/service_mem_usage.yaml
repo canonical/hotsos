@@ -1,10 +1,16 @@
 vars:
   limit: 5242880  # 5G in kb
   northd_usage: '@hotsos.core.host_helpers.systemd.ServiceFactory.memory_current_kb:ovn-northd'
+  version_fixed: '22.03.2-0ubuntu0.22.04.1'
 checks:
   northd_mem_use_above_limit:
     systemd: ovn-northd
     varops: [[$northd_usage], [gt, $limit]]
+  version_has_mem_leak:
+    apt:
+      ovn-central:
+        - min: 22.03.0
+          max: 22.03.2-0ubuntu0.22.04.0
 conclusions:
   northd_overuse:
     decision: northd_mem_use_above_limit
@@ -15,3 +21,17 @@ conclusions:
         not normal and could indicate a memory leak. Please check.
       format-dict:
         usage: $northd_usage
+  northd_overuse_has_bug:
+    priority: 2
+    decision: [northd_mem_use_above_limit, version_has_mem_leak]
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        The ovn-northd service is consuming more than 5G memory (current_kb={usage}). This is
+        not normal and could indicate a memory leak. The version installed ({installed}) also
+        has a known memory leak bug that is fixed in version {fixed_ver} -
+        upgrading is advised.
+      format-dict:
+        usage: $northd_usage
+        installed: '@checks.version_has_mem_leak.requires.version'
+        fixed_ver: $version_fixed

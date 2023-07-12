@@ -1,7 +1,7 @@
 target-name: service_mem_usage.yaml
 data-root:
   files:
-    sys/fs/cgroup/system.slice/ovn-northd.service/memory.current: '5368709120'
+    sys/fs/cgroup/system.slice/ovn-northd.service/memory.current: '5368710144'
     sos_commands/systemd/systemctl_list-unit-files: |
       ovn-central.service                        enabled         enabled
       ovn-nb-ovsdb.service                       enabled         enabled
@@ -15,6 +15,12 @@ data-root:
       ovn-ovsdb-server-nb.service                                                 loaded active running   Open vSwitch database server for OVN Northbound database
       ovn-ovsdb-server-sb.service                                                 loaded active running   Open vSwitch database server for OVN Southbound database
     sos_commands/dpkg/dpkg_-l: |
-      ii  ovn-central                     22.03.2-0ubuntu0.22.04.1          amd64        OVN central components
-      ii  ovn-common                      22.03.2-0ubuntu0.22.04.1          amd64        OVN common components
+      ii  ovn-central                     22.03.2-0ubuntu0.22.04.0          amd64        OVN central components
+      ii  ovn-common                      22.03.2-0ubuntu0.22.04.0          amd64        OVN common components
 raised-issues:
+  OpenvSwitchWarning: >-
+    The ovn-northd service is consuming more than 5G memory
+    (current_kb=5242881). This is not normal and could indicate a memory
+    leak. The version installed (22.03.2-0ubuntu0.22.04.0) also has a
+    known memory leak bug that is fixed in version 22.03.2-0ubuntu0.22.04.1
+    - upgrading is advised.
