@@ -175,35 +175,47 @@ class BinCmd(CmdBase):
             cmd = cmd.format(**kwargs)
 
         _cmd = cmd.split() + self.original_cmd_extras
-        output = subprocess.check_output(_cmd,
-                                         timeout=HotSOSConfig.command_timeout,
-                                         stderr=subprocess.STDOUT)
+        out = subprocess.run(_cmd, timeout=HotSOSConfig.command_timeout,
+                             capture_output=True, check=False)
+        output = out.stdout
+        if out.stderr:
+            output += out.stderr
+
+        if out.returncode != 0:
+            log.info("command '%s' exited with non-zero code '%s'", cmd,
+                     out.returncode)
+
+        try:
+            output = output.decode('UTF-8')
+        except UnicodeDecodeError:
+            log.exception("failed to decode command output for '%s'", cmd)
+            output = ''
 
         if self.json_decode:
-            return json.loads(output.decode('UTF-8'))
+            return json.loads(output)
 
         if self.singleline:
-            return output.decode('UTF-8').strip()
+            return output.strip()
 
-        return output.decode('UTF-8').splitlines(keepends=True)
+        return output.splitlines(keepends=True)
 
 
 class FileCmd(CmdBase):
     TYPE = "FILE"
 
-    def __init__(self, path, safe_decode=False, json_decode=False,
-                 singleline=False):
+    def __init__(self, path, json_decode=False,
+                 singleline=False, decode_error_handling=None):
         self.original_path = os.path.join(HotSOSConfig.data_root, path)
-        self.original_safe_decode = safe_decode
         self.original_json_decode = json_decode
         self.original_singleline = singleline
+        self.original_decode_error_handling = decode_error_handling
         super().__init__()
 
     def reset(self):
         self.path = self.original_path
-        self.safe_decode = self.original_safe_decode
         self.json_decode = self.original_json_decode
         self.singleline = self.original_singleline
+        self.decode_error_handling = self.original_decode_error_handling
 
     @catch_exceptions(*CLI_COMMON_EXCEPTIONS)
     @reset_command
@@ -219,16 +231,36 @@ class FileCmd(CmdBase):
         if not os.path.exists(self.path):
             raise SourceNotFound()
 
-        # NOTE: any post-exec hooks much be aware that their input will be
+        # NOTE: any post-exec hooks must be aware that their input will be
         # defined by the following.
-        if self.safe_decode:
-            # Some content can result in UnicodeDecodeError so use
-            # surrogateescape but only seldom.
-            output = self.safe_readlines(self.path)
-        elif self.json_decode:
+        if self.json_decode:
             output = json.load(open(self.path))
         else:
-            output = open(self.path, 'r').readlines()
+            output = []
+            ln = 0
+            with open(self.path, 'rb') as fd:
+                for line in fd:
+                    ln += 1
+                    try:
+                        decode_kwargs = {}
+                        if self.decode_error_handling:
+                            decode_kwargs['errors'] = \
+                                                     self.decode_error_handling
+
+                        _out = line.decode(**decode_kwargs)
+                        output.append(_out)
+                    except UnicodeDecodeError:
+                        # maintain line count but store empty line.
+                        # we could in the future consider other decode options
+                        # as a fallback.
+                        output.append('')
+                        log.exception("failed to decode line %s "
+                                      "(decode_error_handling=%s)", ln,
+                                      self.decode_error_handling)
+
+                    if self.singleline:
+                        break
+
             if self.singleline:
                 return output[0].strip()
 
@@ -753,7 +785,8 @@ class CLIHelper(HostHelpersBase):
                  FileCmd('sos_commands/docker/docker_ps')],
             'dpkg_l':
                 [BinCmd('dpkg -l'),
-                 FileCmd('sos_commands/dpkg/dpkg_-l', safe_decode=True)],
+                 FileCmd('sos_commands/dpkg/dpkg_-l',
+                         decode_error_handling='surrogateecape')],
             'ethtool':
                 [BinCmd('ethtool {interface}'),
                  FileCmd('sos_commands/networking/ethtool_{interface}')],
@@ -879,7 +912,8 @@ class CLIHelper(HostHelpersBase):
                  FileCmd('sos_commands/kernel/sysctl_-a')],
             'systemctl_status_all':
                 [BinCmd('systemctl status --all'),
-                 FileCmd('sos_commands/systemd/systemctl_status_--all')],
+                 FileCmd('sos_commands/systemd/systemctl_status_--all',
+                         decode_error_handling='backslashreplace')],
             'systemctl_list_units':
                 [BinCmd('systemctl list-units'),
                  FileCmd('sos_commands/systemd/systemctl_list-units')],

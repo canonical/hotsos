@@ -249,24 +249,27 @@ class TestCLIHelper(utils.BaseTestCase):
 
     def test_ovs_ofctl_bin_w_errors(self):
 
-        def fake_check_output(cmd, *_args, **_kwargs):
+        def fake_run(cmd, *_args, **_kwargs):
             if 'OpenFlow13' in cmd:
-                return 'testdata'.encode(encoding='utf_8', errors='strict')
+                m = mock.MagicMock()
+                m.returncode = 0
+                m.stdout = 'testdata'.encode(encoding='utf_8', errors='strict')
+                m.stderr = ''
+                return m
 
             raise subprocess.CalledProcessError(1, 'ofctl')
 
         HotSOSConfig.data_root = '/'
-        with mock.patch.object(host_helpers.cli.subprocess,
-                               'check_output') as \
-                mock_check_output:
-            mock_check_output.side_effect = fake_check_output
+        with mock.patch.object(host_helpers.cli.subprocess, 'run') as \
+                mock_run:
+            mock_run.side_effect = fake_run
 
             # Test errors with eventual success
             helper = host_helpers.cli.CLIHelper()
             self.assertEqual(helper.ovs_ofctl_show(bridge='br-int'),
                              ['testdata'])
 
-            mock_check_output.side_effect = \
+            mock_run.side_effect = \
                 subprocess.CalledProcessError(1, 'ofctl')
 
             # Ensure that if all fails the result is always iterable
