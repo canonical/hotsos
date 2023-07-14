@@ -10,7 +10,7 @@ from searchkit import (
     SequenceSearchDef,
 )
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.host_helpers.cli import CLIHelper, CLIHelperFile
 from hotsos.core.host_helpers.common import HostHelpersBase
 from hotsos.core.log import log
 from hotsos.core.utils import mktemp_dump
@@ -37,7 +37,6 @@ class NetworkPort(HostHelpersBase):
         self.state = state
         self.encap_info = encap_info
         self.namespace = namespace
-        self.cli_helper = CLIHelper()
         super().__init__()
 
     @property
@@ -85,7 +84,7 @@ class NetworkPort(HostHelpersBase):
     def speed(self):
         # need to strip @* since sosreport does that too
         name = self.name.partition('@')[0]
-        out = self.cli_helper.ethtool(interface=name)
+        out = CLIHelper().ethtool(interface=name)
         if out:
             for line in out:
                 ret = re.match(r'\s*Speed:\s+(\S+)', line)
@@ -110,15 +109,14 @@ class NetworkPort(HostHelpersBase):
                     # match next interface or EOF
                     end=SearchDef([IP_IFACE_NAME, IP_EOF]),
                     tag="ifaces")
-        f_ip_link_show = mktemp_dump(''.join(self.cli_helper.ip_link()))
-        s.add(seqdef, path=f_ip_link_show)
-        results = s.run()
-        os.unlink(f_ip_link_show)
         stats_raw = []
-        for section in results.find_sequence_sections(seqdef).values():
-            for result in section:
-                if result.tag == seqdef.body_tag:
-                    stats_raw.append(result.get(0))
+        with CLIHelperFile() as cli:
+            s.add(seqdef, path=cli.ip_link())
+            results = s.run()
+            for section in results.find_sequence_sections(seqdef).values():
+                for result in section:
+                    if result.tag == seqdef.body_tag:
+                        stats_raw.append(result.get(0))
 
         if not stats_raw:
             return {}

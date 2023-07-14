@@ -12,6 +12,7 @@ from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     CLIHelper,
+    CLIHelperFile,
     DPKGVersionCompare,
     HostNetworkingHelper,
     PebbleHelper,
@@ -28,7 +29,6 @@ from hotsos.core.search import (
     SearchDef
 )
 from hotsos.core.utils import (
-    mktemp_dump,
     sorted_dict,
     seconds_to_date,
 )
@@ -145,9 +145,6 @@ class CephConfig(SectionalConfigBase):
 
 class CephCrushMap(object):
 
-    def __init__(self):
-        self.cli = CLIHelper()
-
     def _filter_pools_by_rule(self, pools, crush_rule):
         res_pool = []
         for pool in pools:
@@ -159,11 +156,11 @@ class CephCrushMap(object):
 
     @cached_property
     def osd_crush_dump(self):
-        return self.cli.ceph_osd_crush_dump_json_decoded() or {}
+        return CLIHelper().ceph_osd_crush_dump_json_decoded() or {}
 
     @cached_property
     def ceph_report(self):
-        return self.cli.ceph_report_json_decoded() or {}
+        return CLIHelper().ceph_report_json_decoded() or {}
 
     @cached_property
     def rules(self):
@@ -355,29 +352,28 @@ class CephCluster(object):
 
     def __init__(self):
         self.crush_map = CephCrushMap()
-        self.cli = CLIHelper()
 
     @cached_property
     def health_status(self):
-        status = self.cli.ceph_status_json_decoded()
+        status = CLIHelper().ceph_status_json_decoded()
         if status:
             return status['health']['status']
 
     @cached_property
     def mon_dump(self):
-        return self.cli.ceph_mon_dump_json_decoded() or {}
+        return CLIHelper().ceph_mon_dump_json_decoded() or {}
 
     @cached_property
     def osd_dump(self):
-        return self.cli.ceph_osd_dump_json_decoded() or {}
+        return CLIHelper().ceph_osd_dump_json_decoded() or {}
 
     @cached_property
     def pg_dump(self):
-        return self.cli.ceph_pg_dump_json_decoded() or {}
+        return CLIHelper().ceph_pg_dump_json_decoded() or {}
 
     @cached_property
     def ceph_mgr_module_ls(self):
-        return self.cli.ceph_mgr_module_ls() or {}
+        return CLIHelper().ceph_mgr_module_ls() or {}
 
     @cached_property
     def mons(self):
@@ -405,11 +401,11 @@ class CephCluster(object):
 
     @cached_property
     def osd_df_tree(self):
-        return self.cli.ceph_osd_df_tree_json_decoded() or {}
+        return CLIHelper().ceph_osd_df_tree_json_decoded() or {}
 
     @cached_property
     def ceph_df(self):
-        return self.cli.ceph_df_json_decoded() or {}
+        return CLIHelper().ceph_df_json_decoded() or {}
 
     @cached_property
     def osds(self):
@@ -439,11 +435,6 @@ class CephCluster(object):
         the resulting dict is keyed by daemon type otherwise it is keyed by
         version (and only versions for that daemon type.)
         """
-        out = CLIHelper().ceph_versions()
-        if not out:
-            return
-
-        out_path = mktemp_dump('\n'.join(out))
         versions = {}
         s = FileSearcher()
         body = SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
@@ -458,19 +449,20 @@ class CephCluster(object):
                                    end=SearchDef(r"^\s+\"\S+\":\s+{"),
                                    tag='versions')
 
-        s.add(sd, path=out_path)
-        for section in s.run().find_sequence_sections(sd).values():
-            _versions = {}
-            for result in section:
-                if result.tag == sd.start_tag:
-                    _daemon_type = result.get(1)
-                    versions[_daemon_type] = _versions
-                elif result.tag == sd.body_tag:
-                    version = result.get(1)
-                    rname = result.get(2)
-                    amount = result.get(3)
-                    _versions[version] = {'release_name': rname,
-                                          'count': int(amount)}
+        with CLIHelperFile() as cli:
+            s.add(sd, path=cli.ceph_versions())
+            for section in s.run().find_sequence_sections(sd).values():
+                _versions = {}
+                for result in section:
+                    if result.tag == sd.start_tag:
+                        _daemon_type = result.get(1)
+                        versions[_daemon_type] = _versions
+                    elif result.tag == sd.body_tag:
+                        version = result.get(1)
+                        rname = result.get(2)
+                        amount = result.get(3)
+                        _versions[version] = {'release_name': rname,
+                                              'count': int(amount)}
 
         # If specific daemon_type provided only return version for that type
         # otherwise all.
@@ -713,7 +705,7 @@ class CephCluster(object):
 
     @cached_property
     def osdmaps_count(self):
-        report = self.cli.ceph_report_json_decoded()
+        report = CLIHelper().ceph_report_json_decoded()
         if not report:
             return 0
 
@@ -757,7 +749,7 @@ class CephCluster(object):
 
     @cached_property
     def ssds_using_bcache(self):
-        report = self.cli.ceph_report_json_decoded()
+        report = CLIHelper().ceph_report_json_decoded()
         if not report:
             return []
 
@@ -776,7 +768,6 @@ class CephDaemonBase(object):
     def __init__(self, daemon_type):
         self.daemon_type = daemon_type
         self.id = None
-        self.cli = CLIHelper()
         self.date_in_secs = self.get_date_secs()
 
     @classmethod
@@ -807,13 +798,14 @@ class CephDaemonBase(object):
         expr = (r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+.+{}\s+.+"
                 r".+".format(self.daemon_type, ceph_id))
         sd = SearchDef(expr)
-        ps_out = mktemp_dump('\n'.join(self.cli.ps()))
-        s.add(sd, path=ps_out)
-        rss = 0
-        # we only expect one result
-        for result in s.run().find_by_path(ps_out):
-            rss = int(int(result.get(1)) / 1024)
-            break
+        with CLIHelperFile() as cli:
+            ps_out = cli.ps()
+            s.add(sd, path=ps_out)
+            rss = 0
+            # we only expect one result
+            for result in s.run().find_by_path(ps_out):
+                rss = int(int(result.get(1)) / 1024)
+                break
 
         return "{}M".format(rss)
 
@@ -832,7 +824,7 @@ class CephDaemonBase(object):
 
         ps_info = []
         daemon = "ceph-{}".format(self.daemon_type)
-        for line in self.cli.ps_axo_flags():
+        for line in CLIHelper().ps_axo_flags():
             ret = re.compile(daemon).search(line)
             if not ret:
                 continue
@@ -905,7 +897,7 @@ class CephOSD(CephDaemonBase):
 
     @cached_property
     def devtype(self):
-        osd_tree = self.cli.ceph_osd_df_tree_json_decoded()
+        osd_tree = CLIHelper().ceph_osd_df_tree_json_decoded()
         if not osd_tree:
             return
 
@@ -928,7 +920,6 @@ class CephChecksBase(StorageBase):
         self.pebble = PebbleHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
-        self.cli = CLIHelper()
         self.lsof = Lsof()
 
     @property
@@ -1020,31 +1011,29 @@ class CephChecksBase(StorageBase):
         Returns a list of CephOSD objects for osds found on the local host.
         """
         osds = []
-        out = self.cli.ceph_volume_lvm_list()
-        if not out:
-            return osds
 
-        out_path = mktemp_dump('\n'.join(out))
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
                                body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
                                                r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
-        s.add(sd, path=out_path)
-        for results in s.run().find_sequence_sections(sd).values():
-            osdid = None
-            fsid = None
-            dev = None
-            for result in results:
-                if result.tag == sd.start_tag:
-                    osdid = int(result.get(1))
-                elif result.tag == sd.body_tag:
-                    if result.get(1) == "fsid":
-                        fsid = result.get(2)
-                    elif result.get(1) == "devices":
-                        dev = result.get(2)
+        with CLIHelperFile() as cli:
+            fout = cli.ceph_volume_lvm_list()
+            s.add(sd, path=fout)
+            for results in s.run().find_sequence_sections(sd).values():
+                osdid = None
+                fsid = None
+                dev = None
+                for result in results:
+                    if result.tag == sd.start_tag:
+                        osdid = int(result.get(1))
+                    elif result.tag == sd.body_tag:
+                        if result.get(1) == "fsid":
+                            fsid = result.get(2)
+                        elif result.get(1) == "devices":
+                            dev = result.get(2)
 
-            osds.append(CephOSD(osdid, fsid, dev))
+                osds.append(CephOSD(osdid, fsid, dev))
 
         return osds
 

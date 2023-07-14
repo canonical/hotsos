@@ -1,4 +1,7 @@
-from .cli import CLIHelper  # noqa: F403,F401
+from .cli import (  # noqa: F403,F401
+    CLIHelper,
+    CLIHelperFile,
+)
 from .config import (  # noqa: F403,F401
     ConfigBase,
     SectionalConfigBase,

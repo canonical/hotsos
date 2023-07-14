@@ -4,7 +4,7 @@ import re
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper, CLIHelperFile
 from hotsos.core.host_helpers.config import ConfigBase
 from hotsos.core.plugins.storage import StorageBase
 from hotsos.core.search import (
@@ -12,7 +12,6 @@ from hotsos.core.search import (
     SequenceSearchDef,
     SearchDef
 )
-from hotsos.core.utils import mktemp_dump
 
 
 class BcacheConfig(ConfigBase):
@@ -89,7 +88,6 @@ class BcacheBase(StorageBase):
         super().__init__(*args, **kwargs)
         self.cachesets = []
         self._bcache_devs = []
-        self.cli = CLIHelper()
 
         for entry in glob.glob(os.path.join(HotSOSConfig.data_root,
                                'sys/fs/bcache/*')):
@@ -118,26 +116,23 @@ class BcacheBase(StorageBase):
         if self._bcache_devs:
             return self._bcache_devs
 
-        udevadm_info = self.cli.udevadm_info_exportdb()
-        if not udevadm_info:
-            return self._bcache_devs
+        with CLIHelperFile() as cli:
+            s = FileSearcher()
+            sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
+                                     body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
+                                     tag="bcacheinfo")
+            s.add(sdef, cli.udevadm_info_exportdb())
+            results = s.run()
+            devs = []
+            for section in results.find_sequence_sections(sdef).values():
+                dev = {}
+                for r in section:
+                    if r.tag == sdef.start_tag:
+                        dev["name"] = r.get(1)
+                    else:
+                        dev["by-uuid"] = r.get(1)
 
-        s = FileSearcher()
-        sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
-                                 body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
-                                 tag="bcacheinfo")
-        s.add(sdef, mktemp_dump('\n'.join(udevadm_info)))
-        results = s.run()
-        devs = []
-        for section in results.find_sequence_sections(sdef).values():
-            dev = {}
-            for r in section:
-                if r.tag == sdef.start_tag:
-                    dev["name"] = r.get(1)
-                else:
-                    dev["by-uuid"] = r.get(1)
-
-            devs.append(dev)
+                devs.append(dev)
 
         self._bcache_devs = devs
         return self._bcache_devs

@@ -13,10 +13,10 @@ from searchkit import (
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper, CLIHelperFile
 from hotsos.core.host_helpers.common import ServiceManagerBase
 from hotsos.core.log import log
-from hotsos.core.utils import mktemp_dump, sorted_dict
+from hotsos.core.utils import sorted_dict
 
 
 class SystemdService(object):
@@ -65,14 +65,17 @@ class SystemdService(object):
                                    r"\d{2}:\d{2}:\d{2})"),
                     end=SearchDef(r'(\S+) \S+.service'),
                     tag='systemd')
-        fs.add(seqdef, path=mktemp_dump(''.join(cli.systemctl_status_all())))
-        sections = list(fs.run().find_sequence_sections(seqdef).values())
-        if len(sections) > 1:
-            log.warning("more than one status found for %s.service", self.name)
+        with CLIHelperFile() as cli:
+            fs.add(seqdef, path=cli.systemctl_status_all())
+            sections = list(fs.run().find_sequence_sections(seqdef).values())
+            if len(sections) > 1:
+                log.warning("more than one status found for %s.service",
+                            self.name)
 
-        for result in sections[0]:
-            if result.tag == seqdef.body_tag:
-                return datetime.strptime(result.get(1), "%Y-%m-%d %H:%M:%S")
+            for result in sections[0]:
+                if result.tag == seqdef.body_tag:
+                    return datetime.strptime(result.get(1),
+                                             "%Y-%m-%d %H:%M:%S")
 
         log.debug("no start time identified for svc %s", self.name)
 

@@ -53,7 +53,7 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
     def test_release_eol(self, mock_date):
         # 2030-04-30
-        mock_date.return_value = '1903748400'
+        mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
 
         base = ceph_core.CephChecksBase()
 
@@ -63,7 +63,7 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
     def test_release_not_eol(self, mock_date):
         # 2030-01-01
-        mock_date.return_value = '1893466800'
+        mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
 
         base = ceph_core.CephChecksBase()
 

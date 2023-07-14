@@ -1,4 +1,5 @@
 import os
+import tempfile
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
@@ -36,19 +37,16 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(actual['config'],
                          {'cluster-partition-handling': 'ignore'})
 
-    @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelperFile')
     def test_summary_bionic(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
+        class FakeCLIHelperFile(utils.ContextManagerBase):
 
-        def fake_get_rabbitmqctl_report():
-            path = os.path.join(HotSOSConfig.data_root,
-                                "sos_commands/rabbitmq/rabbitmqctl_report."
-                                "bionic")
-            return open(path, 'r').readlines()
+            def rabbitmqctl_report(self):
+                return os.path.join(HotSOSConfig.data_root,
+                                    "sos_commands/rabbitmq/rabbitmqctl_report."
+                                    "bionic")
 
-        mock_helper.return_value.rabbitmqctl_report.side_effect = \
-            fake_get_rabbitmqctl_report
-
+        mock_helper.side_effect = FakeCLIHelperFile
         expected = {
             'vhosts': [
                 "/",
@@ -124,13 +122,18 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['resources'],
                          expected)
 
-    @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelper')
+    @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelperFile')
     def test_get_summary_no_report(self, mock_helper):
-        mock_helper.return_value = mock.MagicMock()
-        mock_helper.return_value.rabbitmqctl_report.return_value = []
-        inst = summary.RabbitMQSummary()
-        self.assertTrue('resources' not in
-                        self.part_output_to_actual(inst.output))
+        with tempfile.NamedTemporaryFile() as ftmp:
+            class FakeCLIHelperFile(utils.ContextManagerBase):
+
+                def rabbitmqctl_report(self):
+                    return ftmp.name
+
+            mock_helper.side_effect = FakeCLIHelperFile
+            inst = summary.RabbitMQSummary()
+            self.assertTrue('resources' not in
+                            self.part_output_to_actual(inst.output))
 
 
 @utils.load_templated_tests('scenarios/rabbitmq')
