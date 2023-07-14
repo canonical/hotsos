@@ -304,7 +304,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
     def test_get_release_eol(self, mock_date):
         # 2030-04-30
-        mock_date.return_value = '1903748400'
+        mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
 
         inst = openstack_core.OpenstackChecksBase()
         self.assertEqual(inst.release_name, 'ussuri')
@@ -314,7 +314,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
     def test_get_release_not_eol(self, mock_date):
         # 2030-01-01
-        mock_date.return_value = '1893466800'
+        mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
 
         inst = openstack_core.OpenstackChecksBase()
         self.assertEqual(inst.release_name, 'ussuri')

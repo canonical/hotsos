@@ -1,14 +1,13 @@
-import os
 from functools import cached_property
 
 from hotsos.core.log import log
-from hotsos.core.utils import mktemp_dump, sorted_dict
+from hotsos.core.utils import sorted_dict
 from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
     FileSearcher,
 )
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelperFile
 
 
 class RabbitMQReport(object):
@@ -26,18 +25,14 @@ class RabbitMQReport(object):
 
     def __init__(self):
         # save to file so we can search it later
-        cli = CLIHelper()
-        self._f_report = mktemp_dump(''.join(cli.rabbitmqctl_report()))
-        searcher = FileSearcher()
-        searcher.add(self.connections_searchdef, self._f_report)
-        searcher.add(self.memory_searchdef, self._f_report)
-        searcher.add(self.cluster_partition_handling_searchdef, self._f_report)
-        searcher.add(self.queues_searchdef, self._f_report)
-        self.results = searcher.run()
-
-    def __del__(self):
-        if os.path.exists(self._f_report):
-            os.unlink(self._f_report)
+        with CLIHelperFile() as cli:
+            searcher = FileSearcher()
+            fout = cli.rabbitmqctl_report()
+            searcher.add(self.connections_searchdef, fout)
+            searcher.add(self.memory_searchdef, fout)
+            searcher.add(self.cluster_partition_handling_searchdef, fout)
+            searcher.add(self.queues_searchdef, fout)
+            self.results = searcher.run()
 
     @cached_property
     def queues_searchdef(self):

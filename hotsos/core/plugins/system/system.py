@@ -3,13 +3,12 @@ import re
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import CLIHelper, SYSCtlFactory
+from hotsos.core.host_helpers import CLIHelper, CLIHelperFile, SYSCtlFactory
 from hotsos.core.log import log
 from hotsos.core.search import (
     FileSearcher, SearchDef,
     SequenceSearchDef
 )
-from hotsos.core.utils import mktemp_dump
 
 
 class NUMAInfo(object):
@@ -175,42 +174,44 @@ class SystemBase(object):
             r".*not attached to.*(Ubuntu (Pro|Advantage)|UA).*",
             tag="not-attached")
 
-        f = mktemp_dump("".join(CLIHelper().pro_status()))
-        s.add(not_attached_def, f)
-        s.add(service_status_seqdef, f)
-        s.add(account_status_seqdef, f)
-        results = s.run()
+        with CLIHelperFile() as cli:
+            f = cli.pro_status()
+            s.add(not_attached_def, f)
+            s.add(service_status_seqdef, f)
+            s.add(account_status_seqdef, f)
+            results = s.run()
+            if results.find_by_tag("not-attached"):
+                return {"status": "not-attached"}
 
-        if results.find_by_tag("not-attached"):
-            return {"status": "not-attached"}
+            ssects = results.find_sequence_sections(service_status_seqdef)
+            asects = results.find_sequence_sections(account_status_seqdef)
+            if not all([ssects, asects]):
+                log.debug("badness: `pro status` does not match "
+                          "the expected format")
+                return {"status": "error"}
 
-        ssects = results.find_sequence_sections(service_status_seqdef)
-        asects = results.find_sequence_sections(account_status_seqdef)
-        if not all([ssects, asects]):
-            log.debug("badness: `pro status` does not match "
-                      "the expected format")
-            return {"status": "error"}
+            result = {}
+            result["status"] = "attached"
+            result["services"] = {}
 
-        result = {}
-        result["status"] = "attached"
-        result["services"] = {}
+            for sid in ssects:
+                result["services"] = {**result["services"], **{
+                    v.get(1): {
+                        "entitled": v.get(2),
+                        "status": v.get(3)
+                    }
+                    for v in ssects[sid]
+                    if v.tag == service_status_seqdef.body_tag
+                }}
 
-        for sid in ssects:
-            result["services"] = {**result["services"], **{
-                v.get(1): {
-                    "entitled": v.get(2),
-                    "status": v.get(3)
-                }
-                for v in ssects[sid] if v.tag == service_status_seqdef.body_tag
-            }}
+            for sid in asects:
+                result = {**result, **{
+                    re.sub(r'\W+', '_',
+                           v.get(1).strip()).lower(): v.get(2).strip()
+                    for v in asects[sid]
+                }}
 
-        for sid in asects:
-            result = {**result, **{
-                re.sub(r'\W+', '_', v.get(1).strip()).lower(): v.get(2).strip()
-                for v in asects[sid]
-            }}
-
-        return result
+            return result
 
     @cached_property
     def sysctl_all(self):

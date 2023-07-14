@@ -210,139 +210,184 @@ class TestSYSCtlChecks(SystemTestsBase):
 
 class TestUbuntuPro(SystemTestsBase):
 
-    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_pro_attached(self, mh):
-        mh.return_value = mock.MagicMock()
-        mh.return_value.pro_status.return_value = UBUNTU_PRO_ATTACHED
-        result = SystemBase().ubuntu_pro_status
-        self.assertIsNotNone(result)
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
+    def test_ubuntu_pro_attached(self, mock_helper):
+        with tempfile.NamedTemporaryFile() as ftmp:
+            class FakeCLIHelperFile(utils.ContextManagerBase):
 
-        expected_result = {
-            "status": "attached",
-            "services": {
-                "esm-apps": {
-                    "entitled": "yes",
-                    "status": "enabled"
-                },
-                "esm-infra": {
-                    "entitled": "yes",
-                    "status": "enabled"
-                },
-                "livepatch": {
-                    "entitled": "yes",
-                    "status": "enabled"
-                },
-                "realtime-kernel": {
-                    "entitled": "yes",
-                    "status": "disabled"
-                }
-            },
-            "account": "Canonical - staff",
-            "subscription": "Ubuntu Pro (Apps-only) - Virtual",
-            "technical_support_level": "essential",
-            "valid_until": "Sat Jan  1 02:59:59 4000 +03"
-        }
+                def pro_status(self):
+                    with open(ftmp.name, 'w') as fd:
+                        fd.write(''.join(UBUNTU_PRO_ATTACHED))
 
-        self.assertEqual(result, expected_result)
+                    return ftmp.name
 
-    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_pro_not_attached(self, mh):
-        mh.return_value = mock.MagicMock()
-        mh.return_value.pro_status.return_value = UBUNTU_PRO_NOT_ATTACHED
-        result = SystemBase().ubuntu_pro_status
-        expected_result = {
-            "status": "not-attached"
-        }
-        self.assertEqual(result, expected_result)
-
-    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_advantage_attached(self, mh):
-        mh.return_value = mock.MagicMock()
-        mh.return_value.pro_status.return_value = UA_ATTACHED
-        result = SystemBase().ubuntu_pro_status
-        self.assertIsNotNone(result)
-
-        expected_result = {
-            "status": "attached",
-            "services": {
-                "esm-apps": {
-                    "entitled": "yes",
-                    "status": "enabled"
+            mock_helper.side_effect = FakeCLIHelperFile
+            result = SystemBase().ubuntu_pro_status
+            self.assertIsNotNone(result)
+            expected_result = {
+                "status": "attached",
+                "services": {
+                    "esm-apps": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    },
+                    "esm-infra": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    },
+                    "livepatch": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    },
+                    "realtime-kernel": {
+                        "entitled": "yes",
+                        "status": "disabled"
+                    }
                 },
-                "esm-infra": {
-                    "entitled": "yes",
-                    "status": "enabled"
-                },
-                "fips": {
-                    "entitled": "yes",
-                    "status": "n/a"
-                },
-                "fips-updates": {
-                    "entitled": "yes",
-                    "status": "n/a"
-                },
-                "livepatch": {
-                    "entitled": "yes",
-                    "status": "n/a"
-                }
-            },
-            "account": "Canonical - staff",
-            "subscription": "Ubuntu Pro (Apps-only) - Virtual",
-            "technical_support_level": "essential",
-            "valid_until": "3999-12-31 23:59:59"
-        }
+                "account": "Canonical - staff",
+                "subscription": "Ubuntu Pro (Apps-only) - Virtual",
+                "technical_support_level": "essential",
+                "valid_until": "Sat Jan  1 02:59:59 4000 +03"
+            }
 
-        self.assertEqual(result, expected_result)
+            self.assertEqual(result, expected_result)
 
-    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_advantage_attached_with_notice(self, mh):
-        mh.return_value = mock.MagicMock()
-        mh.return_value.pro_status.return_value = UA_ATTACHED_WITH_NOTICE
-        result = SystemBase().ubuntu_pro_status
-        expected_result = {
-            "status": "attached",
-            "services": {
-                "cis": {
-                    "entitled": "yes",
-                    "status": "enabled"
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
+    def test_ubuntu_pro_not_attached(self, mock_helper):
+        with tempfile.NamedTemporaryFile() as ftmp:
+            class FakeCLIHelperFile(utils.ContextManagerBase):
+
+                def pro_status(self):
+                    with open(ftmp.name, 'w') as fd:
+                        fd.write(''.join(UBUNTU_PRO_NOT_ATTACHED))
+
+                    return ftmp.name
+
+            mock_helper.side_effect = FakeCLIHelperFile
+            result = SystemBase().ubuntu_pro_status
+            expected_result = {
+                "status": "not-attached"
+            }
+            self.assertEqual(result, expected_result)
+
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
+    def test_ubuntu_advantage_attached(self, mock_helper):
+        with tempfile.NamedTemporaryFile() as ftmp:
+            class FakeCLIHelperFile(utils.ContextManagerBase):
+
+                def pro_status(self):
+                    with open(ftmp.name, 'w') as fd:
+                        fd.write(''.join(UA_ATTACHED))
+
+                    return ftmp.name
+
+            mock_helper.side_effect = FakeCLIHelperFile
+            result = SystemBase().ubuntu_pro_status
+            self.assertIsNotNone(result)
+
+            expected_result = {
+                "status": "attached",
+                "services": {
+                    "esm-apps": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    },
+                    "esm-infra": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    },
+                    "fips": {
+                        "entitled": "yes",
+                        "status": "n/a"
+                    },
+                    "fips-updates": {
+                        "entitled": "yes",
+                        "status": "n/a"
+                    },
+                    "livepatch": {
+                        "entitled": "yes",
+                        "status": "n/a"
+                    }
                 },
-                "esm-infra": {
-                    "entitled": "yes",
-                    "status": "enabled"
+                "account": "Canonical - staff",
+                "subscription": "Ubuntu Pro (Apps-only) - Virtual",
+                "technical_support_level": "essential",
+                "valid_until": "3999-12-31 23:59:59"
+            }
+
+            self.assertEqual(result, expected_result)
+
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
+    def test_ubuntu_advantage_attached_with_notice(self, mock_helper):
+        with tempfile.NamedTemporaryFile() as ftmp:
+            class FakeCLIHelperFile(utils.ContextManagerBase):
+
+                def pro_status(self):
+                    with open(ftmp.name, 'w') as fd:
+                        fd.write(''.join(UA_ATTACHED_WITH_NOTICE))
+
+                    return ftmp.name
+
+            mock_helper.side_effect = FakeCLIHelperFile
+            result = SystemBase().ubuntu_pro_status
+            expected_result = {
+                "status": "attached",
+                "services": {
+                    "cis": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    },
+                    "esm-infra": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    },
+                    "fips-updates": {
+                        "entitled": "yes",
+                        "status": "enabled"
+                    }
                 },
-                "fips-updates": {
-                    "entitled": "yes",
-                    "status": "enabled"
-                }
-            },
-            "account": "ACME Corporation",
-            "subscription": "UA Infra - Standard (Physical)",
-            "technical_support_level": "standard",
-            "valid_until": "Sat Nov 18 12:49:59 2153 EST"
-        }
-        self.assertEqual(result, expected_result)
+                "account": "ACME Corporation",
+                "subscription": "UA Infra - Standard (Physical)",
+                "technical_support_level": "standard",
+                "valid_until": "Sat Nov 18 12:49:59 2153 EST"
+            }
+            self.assertEqual(result, expected_result)
 
-    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_advantage_not_attached(self, mh):
-        mh.return_value = mock.MagicMock()
-        mh.return_value.pro_status.return_value = UA_NOT_ATTACHED
-        result = SystemBase().ubuntu_pro_status
-        expected_result = {
-            "status": "not-attached"
-        }
-        self.assertEqual(result, expected_result)
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
+    def test_ubuntu_advantage_not_attached(self, mock_helper):
+        with tempfile.NamedTemporaryFile() as ftmp:
+            class FakeCLIHelperFile(utils.ContextManagerBase):
 
-    @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
-    def test_ubuntu_pro_invalid(self, mh):
-        mh.return_value = mock.MagicMock()
-        invalid_UBUNTU_PRO = UBUNTU_PRO_ATTACHED
-        invalid_UBUNTU_PRO[0] = "MERVICE          ENTITLED  STATUS    DESCRIPTION" # noqa, pylint: disable=C0301
-        mh.return_value.pro_status.return_value = invalid_UBUNTU_PRO
-        result = SystemBase().ubuntu_pro_status
-        expected_result = {
-            "status": "error"
-        }
-        self.assertEqual(result, expected_result)
+                def pro_status(self):
+                    with open(ftmp.name, 'w') as fd:
+                        fd.write(''.join(UA_NOT_ATTACHED))
+
+                    return ftmp.name
+
+            mock_helper.side_effect = FakeCLIHelperFile
+            result = SystemBase().ubuntu_pro_status
+            expected_result = {
+                "status": "not-attached"
+            }
+            self.assertEqual(result, expected_result)
+
+    @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
+    def test_ubuntu_pro_invalid(self, mock_helper):
+        with tempfile.NamedTemporaryFile() as ftmp:
+            class FakeCLIHelperFile(utils.ContextManagerBase):
+
+                def pro_status(self):
+                    with open(ftmp.name, 'w') as fd:
+                        fd.write('M' + ''.join(UBUNTU_PRO_ATTACHED[1:]))
+
+                    return ftmp.name
+
+            mock_helper.side_effect = FakeCLIHelperFile
+            result = SystemBase().ubuntu_pro_status
+            expected_result = {
+                "status": "error"
+            }
+            self.assertEqual(result, expected_result)
 
 
 @utils.load_templated_tests('scenarios/system')

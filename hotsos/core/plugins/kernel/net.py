@@ -3,10 +3,9 @@ import os
 from collections import OrderedDict, UserList
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import SYSCtlFactory, CLIHelper
+from hotsos.core.host_helpers import SYSCtlFactory, CLIHelperFile
 from hotsos.core.log import log
 from hotsos.core.search import FileSearcher, SearchDef, ResultFieldInfo
-from hotsos.core.utils import mktemp_dump
 
 
 class ProcNetBase(abc.ABC):
@@ -468,13 +467,14 @@ class Lsof(STOVParserBase):
 
     def _load(self):
         search = FileSearcher()
-        ftmp = mktemp_dump(''.join(CLIHelper().lsof_Mnlc()))
-        search.add(SearchDef(self._header_matcher, tag='header'), ftmp)
-        search.add(SearchDef(self._field_matcher, tag='content',
-                             field_info=self._search_field_info), ftmp)
-        results = search.run()
-        for r in results.find_by_tag('content'):
-            self.data.append(r)
+        with CLIHelperFile() as cli:
+            fout = cli.lsof_Mnlc()
+            search.add(SearchDef(self._header_matcher, tag='header'), fout)
+            search.add(SearchDef(self._field_matcher, tag='content',
+                                 field_info=self._search_field_info), fout)
+            results = search.run()
+            for r in results.find_by_tag('content'):
+                self.data.append(r)
 
     def _int_if_numeric(self, value):
         if value.isnumeric():

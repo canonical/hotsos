@@ -1,9 +1,8 @@
 import os
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelperFile
 from hotsos.core.log import log
-from hotsos.core.utils import mktemp_dump
 from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
     YPropertyOverrideBase,
@@ -79,20 +78,10 @@ class YPropertyInputBase(object):
                 args = self.options['args']
                 kwargs = self.options['kwargs']
 
-            # get command output
-            out = getattr(CLIHelper(), self.command)(*args, **kwargs)
-            # store in temp file to make it searchable
-            # NOTE: we dont need to delete this at the the end since they are
-            # created in the plugin tmp dir which is wiped at the end of the
-            # plugin run.
-            if type(out) == list:
-                out = ''.join(out)
-            elif type(out) == dict:
-                out = str(out)
-
-            cmd_tmp_path = mktemp_dump(out)
-            self.cache.set('cmd_tmp_path', cmd_tmp_path)  # noqa, pylint: disable=E1101
-            return [cmd_tmp_path]
+            with CLIHelperFile(delete_temp=False) as cli:
+                outfile = getattr(cli, self.command)(*args, **kwargs)
+                self.cache.set('cmd_tmp_path', outfile)  # noqa, pylint: disable=E1101
+                return [outfile]
 
         log.debug("no input provided")
 

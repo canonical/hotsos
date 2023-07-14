@@ -306,6 +306,20 @@ class TestCLIHelper(utils.BaseTestCase):
             # restore
             HotSOSConfig.set(**orig_cfg)
 
+    def test_clitempfile(self):
+        with host_helpers.cli.CLIHelperFile() as cli:
+            self.assertEqual(os.path.basename(cli.date()), 'date')
+
+        with host_helpers.cli.CLIHelperFile() as cli:
+            orig_cfg = HotSOSConfig.CONFIG
+            try:
+                # ensure bin command executed
+                HotSOSConfig.data_root = '/'
+                self.assertEqual(cli.date(), cli.output_file)
+            finally:
+                # restore
+                HotSOSConfig.set(**orig_cfg)
+
 
 class TestSystemdHelper(utils.BaseTestCase):
 

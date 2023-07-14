@@ -1,6 +1,6 @@
 mock:
   patch.object:
-    hotsos.core.ycheck.engine.properties.inputdef.CLIHelper:
+    hotsos.core.plugins.openstack.neutron.CLIHelper:
       kwargs:
         create: true
         attribute: journalctl

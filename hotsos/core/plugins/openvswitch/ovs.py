@@ -2,9 +2,12 @@ import re
 from functools import cached_property
 
 from hotsos.core.log import log
-from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
+from hotsos.core.host_helpers import (
+    CLIHelper,
+    CLIHelperFile,
+    HostNetworkingHelper
+)
 from hotsos.core.search import FileSearcher, SearchDef
-from hotsos.core.utils import mktemp_dump
 
 
 class OVSDB(object):
@@ -105,24 +108,24 @@ class OpenvSwitchBase(object):
                 tunnel_info[proto] = {'local': local_addr}
 
         nethelp = HostNetworkingHelper()
-        out = CLIHelper().ovs_appctl_ofproto_list_tunnels()
-        path = mktemp_dump(''.join(out))
-        s = FileSearcher()
-        expr = r'.+ \(([a-z]+): ([a-f\d\.:]+)->([a-f\d\.:]+), .+'
-        s.add(SearchDef(expr, tag='all'), path)
-        results = s.run()
-        for r in results.find_by_tag('all'):
-            proto = r.get(1)
-            if proto not in tunnel_info:
-                tunnel_info[proto] = {}
+        with CLIHelperFile() as cli:
+            s = FileSearcher()
+            expr = r'.+ \(([a-z]+): ([a-f\d\.:]+)->([a-f\d\.:]+), .+'
+            s.add(SearchDef(expr, tag='all'),
+                  cli.ovs_appctl_ofproto_list_tunnels())
+            results = s.run()
+            for r in results.find_by_tag('all'):
+                proto = r.get(1)
+                if proto not in tunnel_info:
+                    tunnel_info[proto] = {}
 
-            if 'remotes' not in tunnel_info[proto]:
-                tunnel_info[proto]['remotes'] = []
+                if 'remotes' not in tunnel_info[proto]:
+                    tunnel_info[proto]['remotes'] = []
 
-            if 'local' not in tunnel_info[proto]:
-                tunnel_info[proto]['local'] = r.get(2)
+                if 'local' not in tunnel_info[proto]:
+                    tunnel_info[proto]['local'] = r.get(2)
 
-            tunnel_info[proto]['remotes'].append(r.get(3))
+                tunnel_info[proto]['remotes'].append(r.get(3))
 
         for proto in tunnel_info:
             tunnel_info[proto]['remotes'] = len(tunnel_info[proto]['remotes'])

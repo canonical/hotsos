@@ -375,6 +375,15 @@ def create_data_root(files_to_create, copy_from_original=None):
     return create_files_inner1
 
 
+class ContextManagerBase(object):
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        return False
+
+
 class BaseTestCase(unittest.TestCase):
 
     def __init__(self, *args, **kwargs):

@@ -2,12 +2,11 @@ from functools import cached_property
 
 from hotsos.core.host_helpers import (
     APTPackageHelper,
-    CLIHelper,
+    CLIHelperFile,
     SnapPackageHelper,
     SystemdHelper,
 )
 from hotsos.core.plugintools import PluginPartBase
-from hotsos.core.utils import mktemp_dump
 from hotsos.core.search import (
     FileSearcher, SearchDef,
     SequenceSearchDef
@@ -22,11 +21,6 @@ SERVICE_EXPRS = [r"{}\S*".format(s) for s in CORE_SNAPS]
 class LXD(object):
 
     @cached_property
-    def buginfo_tmpfile(self):
-        out = CLIHelper().lxd_buginfo()
-        return mktemp_dump(''.join(out))
-
-    @cached_property
     def instances(self):
         """ Return a list of instance names. """
         _instances = []
@@ -35,13 +29,14 @@ class LXD(object):
                                 body=SearchDef(r'^\|\s+(\S+)\s+\|'),
                                 end=SearchDef(r'##.*'),
                                 tag='instances')
-        s.add(seq, path=self.buginfo_tmpfile)
-        results = s.run()
-        for section in results.find_sequence_sections(seq).values():
-            for r in section:
-                if 'body' in r.tag:
-                    if r.get(1) != 'NAME' and r.get(1) != '|':
-                        _instances.append(r.get(1))
+        with CLIHelperFile() as cli:
+            s.add(seq, path=cli.lxd_buginfo())
+            results = s.run()
+            for section in results.find_sequence_sections(seq).values():
+                for r in section:
+                    if 'body' in r.tag:
+                        if r.get(1) != 'NAME' and r.get(1) != '|':
+                            _instances.append(r.get(1))
 
         return _instances
 

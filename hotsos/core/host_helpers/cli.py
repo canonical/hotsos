@@ -1,3 +1,4 @@
+import abc
 import datetime
 import glob
 import json
@@ -6,6 +7,7 @@ import pickle
 import re
 import subprocess
 import tempfile
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.common import HostHelpersBase
@@ -53,8 +55,8 @@ class SourceNotFound(Exception):
 
 
 class CommandNotFound(Exception):
-    def __init__(self, cmd):
-        self.msg = "command not found in catalog: '{}'".format(cmd)
+    def __init__(self, cmd, msg):
+        self.msg = "command '{}' not found in catalog: '{}'".format(cmd, msg)
 
     def __str__(self):
         return self.msg
@@ -62,7 +64,7 @@ class CommandNotFound(Exception):
 
 class NullSource(object):
     def __call__(self, *args, **kwargs):
-        return []
+        return CmdOutput([])
 
 
 def run_pre_exec_hooks(f):
@@ -108,6 +110,12 @@ def reset_command(f):
         return out
 
     return reset_command_inner
+
+
+class CmdOutput(object):
+    def __init__(self, value, source=None):
+        self.value = value
+        self.source = source
 
 
 class CmdBase(object):
@@ -192,12 +200,12 @@ class BinCmd(CmdBase):
             output = ''
 
         if self.json_decode:
-            return json.loads(output)
+            return CmdOutput(json.loads(output))
 
         if self.singleline:
-            return output.strip()
+            return CmdOutput(output.strip())
 
-        return output.splitlines(keepends=True)
+        return CmdOutput(output.splitlines(keepends=True))
 
 
 class FileCmd(CmdBase):
@@ -221,7 +229,7 @@ class FileCmd(CmdBase):
     @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, skip_load_contents=False, **kwargs):
         if args:
             self.path = self.path.format(*args)
 
@@ -230,6 +238,9 @@ class FileCmd(CmdBase):
 
         if not os.path.exists(self.path):
             raise SourceNotFound()
+
+        if skip_load_contents:
+            CmdOutput(None, self.path)
 
         # NOTE: any post-exec hooks must be aware that their input will be
         # defined by the following.
@@ -262,9 +273,9 @@ class FileCmd(CmdBase):
                         break
 
             if self.singleline:
-                return output[0].strip()
+                return CmdOutput(output[0].strip(), self.path)
 
-        return output
+        return CmdOutput(output, self.path)
 
 
 class BinFileCmd(FileCmd):
@@ -292,7 +303,7 @@ class BinFileCmd(FileCmd):
         env = {}
         try:
             env['TZ'] = DateFileCmd('sos_commands/date/date',
-                                    singleline=True)(format="+%Z")
+                                    singleline=True)(format="+%Z").value
         except SourceNotFound:
             pass
 
@@ -301,7 +312,8 @@ class BinFileCmd(FileCmd):
                                          timeout=HotSOSConfig.command_timeout,
                                          stderr=subprocess.STDOUT, env=env)
 
-        return output.decode('UTF-8').splitlines(keepends=True)
+        output = output.decode('UTF-8')
+        return CmdOutput(output.splitlines(keepends=True))
 
 
 class JournalctlBase(object):
@@ -400,7 +412,7 @@ class OVSOFCTLBinCmd(BinCmd):
             except CLIExecError:
                 log.debug("ofctl command with protocol version %s failed", ver)
 
-        return []
+        return CmdOutput([])
 
 
 class DateBinCmd(BinCmd):
@@ -429,7 +441,10 @@ class DateFileCmd(FileCmd):
         self.register_hook("post-exec", self.format_date)
 
     def format_date(self, output, **kwargs):
-        """ Apply some post-processing to the date output. """
+        """ Apply some post-processing to the date output.
+
+        @param output: CmdOutput object
+        """
         no_format = kwargs.get('no_format', False)
         fmt = kwargs.get('format')
         if not no_format and fmt is None:
@@ -438,11 +453,12 @@ class DateFileCmd(FileCmd):
         ret = re.match(r"^(\S+ \S*\s*[0-9]+ [0-9:]+)\s*"
                        r"([A-Z]*|[+-]?[0-9]*)?"
                        r"\s*([0-9]+)$",
-                       output)
+                       output.value)
 
         if ret is None:
-            log.error("%s has invalid date string '%s'", self.path, output)
-            return ""
+            log.error("%s has invalid date string '%s'", self.path,
+                      output.value)
+            return CmdOutput('', self.path)
 
         tz = ret[2]
         # NOTE: date command doesn't recognise HKT for some reason so we
@@ -463,7 +479,7 @@ class DateFileCmd(FileCmd):
         output = re.compile(r"\s+").sub(' ', output.decode('UTF-8'))
         ret = output.splitlines(keepends=True)[0]
         # always singleline so always strip trailing newline
-        return ret.strip()
+        return CmdOutput(ret.strip(), self.path)
 
 
 class CephJSONFileCmd(FileCmd):
@@ -503,6 +519,9 @@ class CephJSONFileCmd(FileCmd):
                 self.path = tmp.name
 
     def cleanup(self, output, **kwargs):  # pylint: disable=W0613
+        """
+        @param output: CmdOutput object
+        """
         if self.orig_path:
             os.unlink(self.path)
             self.path = self.orig_path
@@ -513,7 +532,7 @@ class CephJSONFileCmd(FileCmd):
 
 class SourceRunner(object):
 
-    def __init__(self, cmdkey, sources, cache):
+    def __init__(self, cmdkey, sources, cache, output_file=None):
         """
         @param cmdkey: unique key identifying this command.
         @param sources: list of command source implementations.
@@ -522,28 +541,9 @@ class SourceRunner(object):
         self.cmdkey = cmdkey
         self.sources = sources
         self.cache = cache
+        self.output_file = output_file
 
-    def __call__(self, *args, **kwargs):
-        """
-        Execute the command using the appropriate source runner. These can be
-        binary or file-based depending on whether data root points to / or a
-        sosreport. File-based are attempted first.
-
-        A command can have more than one source implementation so we must
-        ensure they all have a chance to run.
-        """
-        # always try file sources first
-        for fsource in [s for s in self.sources if s.TYPE == "FILE"]:
-            try:
-                return fsource(*args, **kwargs)
-            except CLIExecError as exc:
-                return exc.return_value
-            except SourceNotFound:
-                pass
-
-        if HotSOSConfig.data_root != '/':
-            return NullSource()()
-
+    def bsource(self, *args, **kwargs):
         # binary sources only apply if data_root is system root
         bin_out = None
         for bsource in [s for s in self.sources if s.TYPE == "BIN"]:
@@ -569,9 +569,58 @@ class SourceRunner(object):
                 # as success.
                 break
             except CLIExecError as exc:
-                bin_out = exc.return_value
+                bin_out = CmdOutput(exc.return_value)
 
         return bin_out
+
+    def fsource(self, *args, **kwargs):
+        for fsource in [s for s in self.sources if s.TYPE == "FILE"]:
+            try:
+                skip_load_contents = False
+                if self.output_file:
+                    skip_load_contents = True
+
+                return fsource(*args, **kwargs,
+                               skip_load_contents=skip_load_contents)
+            except CLIExecError as exc:
+                return CmdOutput(exc.return_value)
+            except SourceNotFound:
+                pass
+
+    def _execute(self, *args, **kwargs):
+        # always try file sources first
+        ret = self.fsource(*args, **kwargs)
+        if ret is not None:
+            return ret
+
+        if HotSOSConfig.data_root != '/':
+            return NullSource()()
+
+        return self.bsource(*args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+        """
+        Execute the command using the appropriate source runner. These can be
+        binary or file-based depending on whether data root points to / or a
+        sosreport. File-based are attempted first.
+
+        A command can have more than one source implementation so we must
+        ensure they all have a chance to run.
+        """
+        out = self._execute(*args, **kwargs)
+        if self.output_file:
+            if out.source is not None:
+                return out.source
+
+            with open(self.output_file, 'w') as fd:
+                if isinstance(out.value, list):
+                    fd.write(''.join(out.value))
+                else:
+                    fd.write(out.value)
+
+                return self.output_file
+
+        return out.value
 
 
 class CLICacheWrapper(object):
@@ -587,7 +636,7 @@ class CLICacheWrapper(object):
         return self.save_f(key, value)
 
 
-class CLIHelper(HostHelpersBase):
+class CLIHelperBase(HostHelpersBase):
 
     def __init__(self):
         self._command_catalog = None
@@ -935,12 +984,75 @@ class CLIHelper(HostHelpersBase):
         }
         return self._command_catalog
 
+    @abc.abstractmethod
     def __getattr__(self, cmdname):
-        cmd = self.command_catalog.get(cmdname)
-        if cmd:
-            return SourceRunner(cmdname, cmd, self.cli_cache)
+        """ This is how commands are run. The command is looked up in the
+        catalog and it's runner object is returned. The caller is expetced to
+        call() the returned object to execute the command.
 
-        raise CommandNotFound(cmdname)
+        @param cmdname: name of command we want to execute. This must match a
+        name used to register a handler in the catalog.
+        @return: SourceRunner object.
+        """
+
+
+class CLIHelper(CLIHelperBase):
+    """
+    This is used when we want to have command output as the return value when
+    a command is executed.
+    """
+
+    def __getattr__(self, cmdname):
+        try:
+            return SourceRunner(cmdname, self.command_catalog[cmdname],
+                                self.cli_cache)
+        except KeyError as exc:
+            raise CommandNotFound(cmdname, exc) from exc
+
+
+class CLIHelperFile(CLIHelperBase):
+    """
+    This is used when we want the return value of a command to be a path to a
+    file containing the return value of executing that command.
+
+    This will do one of two things; if the command output originates from a
+    file e.g. a sosreport command output file, it will return the path to that
+    file. If the command is executed as a binary, its output is written to a
+    temporary file and the path to that file is returned.
+    """
+
+    def __init__(self, *args, delete_temp=True, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.delete_temp = delete_temp
+        self._tmp_file_mtime = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        do_delete = (self.delete_temp or
+                     self._tmp_file_mtime ==
+                     os.path.getmtime(self.output_file))
+        if do_delete:
+            os.remove(self.output_file)
+
+        # We want exceptions to be raised
+        return False
+
+    @cached_property
+    def output_file(self):
+        path = tempfile.mktemp(dir=HotSOSConfig.plugin_tmp_dir)
+        open(path, 'w').close()
+        self._tmp_file_mtime = os.path.getmtime(path)
+        return path
+
+    def __getattr__(self, cmdname):
+        try:
+            ret = SourceRunner(cmdname, self.command_catalog[cmdname],
+                               self.cli_cache, output_file=self.output_file)
+            return ret
+        except KeyError as exc:
+            raise CommandNotFound(cmdname, exc) from exc
 
 
 def get_ps_axo_flags_available():
