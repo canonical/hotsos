@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from functools import cached_property
 
 from searchkit.constraints import TimestampMatcherBase
 from hotsos.core.config import HotSOSConfig
@@ -26,7 +27,6 @@ from hotsos.core.plugins.openstack.exceptions import (
     OVSDBAPP_EXCEPTIONS,
     MASAKARI_EXCEPTIONS,
 )
-from hotsos.core.utils import cached_property
 
 
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported

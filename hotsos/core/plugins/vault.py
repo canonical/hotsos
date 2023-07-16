@@ -1,10 +1,11 @@
+from functools import cached_property
+
 from hotsos.core.plugintools import PluginPartBase
 from hotsos.core.host_helpers import (
     PebbleHelper,
     SnapPackageHelper,
     SystemdHelper,
 )
-from hotsos.core.utils import cached_property
 
 CORE_SNAPS = ['vault']
 SERVICE_EXPRS = [s + '[A-Za-z0-9-]*' for s in CORE_SNAPS]

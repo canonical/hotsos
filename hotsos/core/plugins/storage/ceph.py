@@ -3,6 +3,7 @@ import re
 import subprocess
 import sys
 from datetime import datetime
+from functools import cached_property
 
 from searchkit.constraints import TimestampMatcherBase
 from hotsos.core.config import HotSOSConfig
@@ -27,7 +28,6 @@ from hotsos.core.search import (
     SearchDef
 )
 from hotsos.core.utils import (
-    cached_property,
     mktemp_dump,
     sorted_dict,
     seconds_to_date,

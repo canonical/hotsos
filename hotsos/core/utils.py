@@ -3,29 +3,6 @@ import tempfile
 from hotsos.core.config import HotSOSConfig
 
 
-def cached_property(f):
-    """
-    This is used to cache properties and can be replaced once we no longer need
-    to support versions of Python (< 3.8) that don't support
-    functools.cached_property.
-    """
-
-    @property
-    def _cached_property(self):
-        key = "__cached_property_{}".format(f.__name__)
-        try:
-            if hasattr(self, key):
-                return getattr(self, key)
-        except AttributeError:
-            pass
-
-        val = f(self)
-        setattr(self, key, val)
-        return val
-
-    return _cached_property
-
-
 def sorted_dict(d, key=None, reverse=False):
     """
     Return dictionary sorted using key. If no key provided sorted by dict keys.

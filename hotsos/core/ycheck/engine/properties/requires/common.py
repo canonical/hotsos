@@ -1,8 +1,8 @@
 import abc
 import operator
+from functools import cached_property
 
 from hotsos.core.log import log
-from hotsos.core.utils import cached_property
 from hotsos.core.ycheck.engine.properties.common import YPropertyOverrideBase
 
 

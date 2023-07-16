@@ -1,10 +1,11 @@
+from functools import cached_property
+
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     SnapPackageHelper,
     SystemdHelper,
 )
 from hotsos.core.plugintools import PluginPartBase
-from hotsos.core.utils import cached_property
 
 CORE_APT = ['maas', 'postgres']
 APT_DEPS = ['isc-dhcp', 'bind9']

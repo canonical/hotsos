@@ -1,5 +1,6 @@
+from functools import cached_property
+
 from hotsos.core.log import log
-from hotsos.core.utils import cached_property
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     DPKGVersionCompare,

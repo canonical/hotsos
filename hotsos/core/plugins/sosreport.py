@@ -1,4 +1,5 @@
 import os
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import APTPackageHelper
@@ -7,7 +8,6 @@ from hotsos.core.search import (
     SearchDef,
     FileSearcher,
 )
-from hotsos.core.utils import cached_property
 
 CORE_APT = ['sosreport']
 

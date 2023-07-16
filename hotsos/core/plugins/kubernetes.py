@@ -1,4 +1,5 @@
 import os
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
@@ -9,7 +10,6 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
 )
 from hotsos.core import plugintools
-from hotsos.core.utils import cached_property
 
 SERVICES = [r"etcd\S*",
             r"calico\S*",

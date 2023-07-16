@@ -1,6 +1,7 @@
+from functools import cached_property
+
 from hotsos.core.host_helpers import SnapPackageHelper
 from hotsos.core.log import log
-from hotsos.core.utils import cached_property
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
     YRequirementTypeBase,

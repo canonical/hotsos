@@ -1,8 +1,8 @@
 import re
+from functools import cached_property
 
 from hotsos.core.log import log
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
-from hotsos.core.utils import cached_property
 from hotsos.core.search import FileSearcher, SearchDef
 from hotsos.core.utils import mktemp_dump
 

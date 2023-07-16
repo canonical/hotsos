@@ -1,4 +1,5 @@
 import re
+from functools import cached_property
 
 from hotsos.core.host_helpers import (
     APTPackageHelper,
@@ -6,7 +7,6 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
 )
 from hotsos.core.plugintools import PluginPartBase
-from hotsos.core.utils import cached_property
 
 PACEMAKER_PKGS_CORE = ['pacemaker', r'pacemaker-\S+', 'crmsh', 'corosync']
 PACEMAKER_SVC_EXPR = ['pacemaker[a-zA-Z-]*',

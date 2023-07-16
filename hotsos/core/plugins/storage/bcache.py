@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
@@ -11,7 +12,7 @@ from hotsos.core.search import (
     SequenceSearchDef,
     SearchDef
 )
-from hotsos.core.utils import cached_property, mktemp_dump
+from hotsos.core.utils import mktemp_dump
 
 
 class BcacheConfig(ConfigBase):

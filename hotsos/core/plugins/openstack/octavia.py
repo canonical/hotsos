@@ -1,5 +1,6 @@
+from functools import cached_property
+
 from hotsos.core.plugins.openstack.openstack import OSTServiceBase
-from hotsos.core.utils import cached_property
 
 OCTAVIA_HM_PORT_NAME = 'o-hm0'
 

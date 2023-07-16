@@ -1,7 +1,8 @@
 import os
+from functools import cached_property
 
 from hotsos.core.log import log
-from hotsos.core.utils import mktemp_dump, sorted_dict, cached_property
+from hotsos.core.utils import mktemp_dump, sorted_dict
 from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,

@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+from functools import cached_property
 
 import yaml
 from hotsos.core.config import HotSOSConfig
@@ -20,7 +21,7 @@ class JujuMachine(object):
         if name:
             return name.partition("jujud-machine-")[2]
 
-    @utils.cached_property
+    @cached_property
     def config(self):
         if not self.cfg:
             path = glob.glob(os.path.join(self.juju_lib_path,
@@ -45,15 +46,15 @@ class JujuMachine(object):
 
         return self.cfg
 
-    @utils.cached_property
+    @cached_property
     def agent_service_name(self):
         return self.config.get("values", {}).get("AGENT_SERVICE_NAME")
 
-    @utils.cached_property
+    @cached_property
     def version(self):
         return self.config.get("upgradedToVersion", "unknown")
 
-    @utils.cached_property
+    @cached_property
     def deployed_units(self):
         units = []
         # requires >= 2.9.x
@@ -80,7 +81,7 @@ class JujuUnit(object):
         self.juju_lib_path = juju_lib_path
         self.path = path
 
-    @utils.cached_property
+    @cached_property
     def charm_name(self):
         """
         The deployer manifest file will give us the name of the charm used to
@@ -96,7 +97,7 @@ class JujuUnit(object):
             # e.g. ch_3a_amd64_2f_focal_2f_mysql-innodb-cluster-30
             return manifest_file.split('_')[-1].rpartition('-')[0]
 
-    @utils.cached_property
+    @cached_property
     def repo_info(self):
         """
         Some charms, e.g. the Openstack charms, provide a repo-info file that
@@ -131,7 +132,7 @@ class JujuBase(object):
     def juju_lib_path(self):
         return os.path.join(HotSOSConfig.data_root, "var/lib/juju")
 
-    @utils.cached_property
+    @cached_property
     def machine(self):
         machine = JujuMachine(self.juju_lib_path)
         if not machine.config:
@@ -140,7 +141,7 @@ class JujuBase(object):
 
         return machine
 
-    @utils.cached_property
+    @cached_property
     def units(self):
         """
         Returns units running on this host.
@@ -167,7 +168,7 @@ class JujuBase(object):
 
         return _units
 
-    @utils.cached_property
+    @cached_property
     def charms(self):
         """
         Returns charms used by units on this host.
@@ -194,7 +195,7 @@ class JujuBase(object):
 
         return _charms
 
-    @utils.cached_property
+    @cached_property
     def charm_names(self):
         if not self.charms:
             return []

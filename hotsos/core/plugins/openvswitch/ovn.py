@@ -1,4 +1,5 @@
 import abc
+from functools import cached_property
 
 from hotsos.core.log import log
 from hotsos.core.search import (
@@ -8,7 +9,7 @@ from hotsos.core.search import (
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
-from hotsos.core.utils import cached_property, mktemp_dump
+from hotsos.core.utils import mktemp_dump
 from hotsos.core.host_helpers import SystemdHelper
 from hotsos.core.plugins.openvswitch.common import OVS_SERVICES_EXPRS
 

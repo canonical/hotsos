@@ -1,5 +1,6 @@
 import os
 import re
+from functools import cached_property
 
 from hotsos.core.plugins.kernel.sysfs import CPU
 from hotsos.core.config import HotSOSConfig
@@ -21,7 +22,6 @@ from hotsos.core.plugins.system.system import (
     NUMAInfo,
     SystemBase,
 )
-from hotsos.core.utils import cached_property
 
 
 class NovaBase(OSTServiceBase):

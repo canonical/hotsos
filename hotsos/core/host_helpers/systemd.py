@@ -2,6 +2,7 @@ import glob
 import os
 import re
 from datetime import datetime
+from functools import cached_property
 
 # NOTE: we import direct from searchkit rather than hotsos.core.search to
 #       avoid circular dependency issues.
@@ -15,7 +16,7 @@ from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.host_helpers.common import ServiceManagerBase
 from hotsos.core.log import log
-from hotsos.core.utils import cached_property, mktemp_dump, sorted_dict
+from hotsos.core.utils import mktemp_dump, sorted_dict
 
 
 class SystemdService(object):

@@ -1,5 +1,6 @@
 import os
 import re
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
@@ -8,7 +9,6 @@ from hotsos.core.plugins.openstack.openstack import (
     OpenstackConfig,
     OSTServiceBase,
 )
-from hotsos.core.utils import cached_property
 
 
 class NeutronBase(OSTServiceBase):

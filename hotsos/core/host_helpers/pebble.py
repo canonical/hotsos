@@ -1,10 +1,11 @@
 import re
+from functools import cached_property
 
 from hotsos.core.log import log
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.host_helpers.common import ServiceManagerBase
-from hotsos.core.utils import cached_property, sorted_dict
+from hotsos.core.utils import sorted_dict
 
 
 class PebbleService(object):

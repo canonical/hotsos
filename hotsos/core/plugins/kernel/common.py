@@ -1,7 +1,7 @@
 import os
 import re
+from functools import cached_property
 
-from hotsos.core.utils import cached_property
 from hotsos.core import host_helpers, plugintools
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.kernel.config import KernelConfig

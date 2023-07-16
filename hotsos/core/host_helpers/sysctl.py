@@ -1,8 +1,8 @@
 import os
+from functools import cached_property
 
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
-from hotsos.core.utils import cached_property
 
 
 class SYSCtlFactory(FactoryBase):
@@ -32,10 +32,6 @@ class SYSCtlFactory(FactoryBase):
         """
         Return a value for given sysctl key.
         """
-        if name == '__cached_property_sysctl_all':
-            # require to allow the property caching to work
-            raise AttributeError()
-
         return self.get(name)
 
 

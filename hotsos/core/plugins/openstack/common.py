@@ -1,6 +1,7 @@
 from datetime import datetime
 import os
 import re
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.cli import CLIHelper, CmdBase
@@ -23,7 +24,6 @@ from hotsos.core.plugins.openstack.neutron import NeutronBase
 from hotsos.core.plugins.openstack.nova import NovaBase
 from hotsos.core.plugins.openstack.octavia import OctaviaBase
 from hotsos.core import plugintools
-from hotsos.core.utils import cached_property
 from hotsos.core.ycheck.events import YEventCheckerBase
 
 

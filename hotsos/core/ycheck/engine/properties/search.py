@@ -3,11 +3,11 @@ from datetime import (
     datetime,
     timedelta,
 )
+from functools import cached_property
 
 from searchkit.constraints import TimestampMatcherBase
 from hotsos.core.host_helpers import UptimeHelper, CLIHelper
 from hotsos.core.log import log
-from hotsos.core.utils import cached_property
 from hotsos.core.search import (
     SearchDef,
     SequenceSearchDef,
