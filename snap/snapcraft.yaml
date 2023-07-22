@@ -25,7 +25,7 @@ layout:
 apps:
   hotsos:
     command: bin/hotsos
-    completer: usr/share/hotsos/bash-completion/hotsos-complete.bash
+    completer: usr/share/hotsos/bash-completion/completions/hotsos-complete
     plugs:
       - home
       - network
@@ -49,6 +49,9 @@ parts:
       pip install setuptools-git-versioning
       craftctl set version="$(setuptools-git-versioning)"
       craftctl default
-      _HOTSOS_COMPLETE=bash_source scripts/hotsos > hotsos-complete.bash
-      install --mode 0755 -D hotsos-complete.bash \
-        ${CRAFT_PART_INSTALL}/usr/share/hotsos/bash-completion/hotsos-complete.bash
+    override-stage: |
+      set -e -u -x
+      install -D \
+        ${CRAFT_PART_BUILD}/scripts/hotsos-complete \
+        ${CRAFT_PART_INSTALL}/usr/share/hotsos/bash-completion/completions/hotsos-complete
+      craftctl default
