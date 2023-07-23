@@ -1,27 +1,10 @@
-Variables
-=========
-
-.. toctree::
-   :maxdepth: 2
-
-   variables
-
-Main Properties
-===============
-
+Properties
+==========
 
 .. toctree::
    :maxdepth: 2
 
    main_properties
-
-
-Shared Property Settings
-========================
-
-.. toctree::
-   :maxdepth: 2
-
    shared_properties
 
 

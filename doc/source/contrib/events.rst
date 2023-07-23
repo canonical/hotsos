@@ -15,9 +15,10 @@ To define an event first create a file with the name of the check(s) you
 want to perform under the directory of the plugin you are using to handle the
 event callback.
 
-Supported Properties
-  * :ref:`Input<input>`
-  * :ref:`Search<search>`
+The following properties are supported:
+
+* :ref:`Input<input>`
+* :ref:`Search<search>`
 
 Event Callbacks
 ===============

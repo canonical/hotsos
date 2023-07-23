@@ -1,10 +1,22 @@
 Internals
 =========
 
+Data Root
+---------
+
+The data root is a path referring to the root of the filesystem under analysis.
+When analysing a host this is usually '/' (the default). When analysing a
+sosreport it will be the root of the unpacked sosreport.
+
+Hotsos has runtime `configuration <https://github.com/canonical/hotsos/blob/main/hotsos/core/config.py>`_
+that is global to all plugins and the *data_root* config must be set to this
+path from the start. It is crucial that all paths used in hotsos are
+relative to this path.
+
 Property Overrides
 ------------------
 
-Property overrides are blocks of yaml that map to Python classes using
+Property overrides are blocks of yaml that map to Python objects using
 `propertree <https://github.com/dosaboy/propertree>`_.
 
 Property Scope
@@ -37,10 +49,11 @@ MappedProperties
 
 Some properties use the `propertree <https://github.com/dosaboy/propertree>`_
 mapped properties feature where they are implemented as a principal property with
-one or more "member" properties. This is needed to write complex properties and
-also has the benefit of supporting *shortform* definitions. For example if we
-have a property *mainprop* and it has two member properties *mp1* and *mp2* it
-can be defined using the long format:
+one or more "member" properties. This allows us to write complex properties and
+also has the benefit of supporting *shortform* definitions.
+
+In the following example we have a property *mainprop* with two members *mp1*
+and *mp2* that is written using the long format:
 
 .. code-block:: yaml
 
@@ -51,7 +64,7 @@ can be defined using the long format:
         mp2:
           ...
 
-or shortform i.e. where the principle name is omitted:
+And its shortform equivalent with principle name omitted looks like:
 
 .. code-block:: yaml
 
@@ -61,28 +74,67 @@ or shortform i.e. where the principle name is omitted:
       mp2:
         ...
 
-and both formats will be resolved and accessed in the same way i.e. in your code you would do:
+Both formats will be resolved and accessed in the same way i.e. in your code
+you would do:
 
 .. code-block:: python
 
-    value1 = myleaf.mainprop.mp1
-    value2 = myleaf.mainprop.mp2
+    value1 = mycheck.mainprop.mp1
+    value2 = mycheck.mainprop.mp2
 
 Context
 -------
 
-Every property object inherits a context object that is shared across all
-properties, providing a way to share information across them.
+Every property inherits context that is shared with all properties in the scope
+of a file. This provides a way to share information across them such as
+variable definitions.
 
-Caching
--------
 
-Every property class has a cache that it can use to store state. This is useful
-both within a property class e.g. to avoid re-execution of properties and
-between properties e.g. if one property wishes to reference a value within
-another property (see :ref:`raises`). Not all properties make use of their
-cache but those that do will expose cached fields under a **CACHE_KEYS**
-section.
+PropertyCache
+-------------
+
+Every property (object) has a cache that it can use to store state.
+This is useful to both avoid unnecessary re-execution and provide a means for
+property objects to share state by "referencing" each others' cache. An example
+of this is when formatting a message as part of a :ref:`raised issue <raises>`.
+See the "Cache keys" section of a property description for supported keys.
+
+As an example here is a :ref:`check<checks>` that compares the version of an apt
+package and a :ref:`conclusion<conclusions>` that :ref:`raises<raises>` an
+issue that references the check cache to format it's message:
+
+.. code-block:: yaml
+
+  checks:
+    ufw_not_active:
+      systemd:
+        service: ufw
+        state: active
+        op: not
+  conclusions:
+    is_not_active:
+      decision: ufw_not_active
+      raises:
+        type: SystemWarning
+        message: '{name} is not active - panic!'
+        format-dict:
+          name: '@checks.ufw_not_active.requires.services:comma_join'
+
+The format of a cache reference is as follows:
+
+.. code-block:: console
+
+    @checks.<checkname>.<propertyname>.<key>:<function>
+
+Where *checkname* refers to the name of a check defined in the :ref:`checks<checks>`
+section, *propertyname* refers to the name of a property defined within that
+check and *key* must be one of those described in the "Cache keys" section of
+the property. The *function* at the end is optional and applied to the value
+retrieved. Supported functions are:
+
+* comma_join - takes a list or dict as input and returns ', '.join(input)
+* unique_comma_join - takes a list or dict as input and returns ', '.join(set(input))
+* first - takes a list as input and returns input[0]
 
 LogicalCollection
 -----------------
@@ -117,9 +169,9 @@ Which is equivalent to::
 
     ((C1 and C2) and (C3 or C4)) and ((not C5) and C6)
 
-Any property type can be used and which ones are used will
-depend on the property implementing the collection. The final result is
-always AND applied to all subresults.
+Any property type that returns a boolean value can be used (e.g.
+:ref:`requires` types). The final result is always AND applied to all
+subresults.
 
 FactoryClasses
 --------------
@@ -135,7 +187,7 @@ of these new objects can be called (getattr) as follows:
     val = obj.attr
 
 This creates a new object using *input* as input and then *attr* is called on that object.
-This allows us to define a property for import in :ref:`vars <variables>` as follows:
+This allows us to define a property for import in :ref:`vars <vars>` as follows:
 
 .. code-block:: yaml
 

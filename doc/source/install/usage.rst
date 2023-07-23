@@ -1,16 +1,13 @@
 Using Hotsos
 ============
 
-Hotsos supports a number of application/subsystem plugins. It will by default run all
-plugins and each will in turn execute its associated checks and extensions.
-The output of each plugin is collected and output as a summary containing key information about the associated plugin/subsystem as well as
-the results of any analysis that identified issues or known bugs. For more information
-on how analysis and extensions are implemented see the :doc:`Contributor Guide <../contrib/index>`.
-
-Hotsos uses the concept of a "data root" which is analogous to a chroot. Two
-types are currently supported; host or `sosreport <https://github.com/sosreport/sos>`_. If a sosreport
-data root is used, filesystem '/' is the root of the sosreport and cli commands are executed as a read on the
-data collected in the sosreport.
+Hotsos supports a number of application/subsystem plugins. It will by default
+run all plugins and each will in turn execute its associated checks and
+extensions. The output of each plugin is collected and output as a summary
+containing key information about the associated plugin/subsystem as well as the
+results of any analysis that identified issues or known bugs. For more
+information on how analysis and extensions are implemented see the
+:doc:`Contributor Guide <../contrib/index>`.
 
 Let's say for example that you are running an Openstack Cloud and one of your
 hypervisor nodes that is also running part of a Ceph storage cluster
@@ -25,11 +22,14 @@ run hotsos on the node or against a sosreport generated from that node e.g.
 
 Now you will find a folder called `hotsos-output-1673868979` containing a
 summary of information in a number of different formats. This summary contains
-per-plugin information as described above. By default hotsos will look at the
-last 24 hours of logs. You can increase this with `\-\-all-logs` which will by
-default give you 7 days and that is adjustable with `\-\-max-logrotate-depth <days>`.
+per-plugin information as described above.
 
-Taking the yaml format and using `yq <https://snapcraft.io/yq>`_ (install with `snap install yq`) to query it we get:
+By default hotsos will look at the last 24 hours of logs. You can increase this
+with `\-\-all-logs` which defaults to 7 days. You can tweak this number of days
+with `\-\-max-logrotate-depth <days>`.
+
+Taking the yaml format and using `yq <https://snapcraft.io/yq>`_ (install with
+``snap install yq``) to query it we get:
 
 .. code-block:: bash
 
@@ -45,8 +45,9 @@ Taking the yaml format and using `yq <https://snapcraft.io/yq>`_ (install with `
       MemoryWarnings:
         - 1 reports of oom-killer invoked in kern.log - please check. (origin=kernel.auto_scenario_check)
 
-The output folder will also contain other formats of the same information and one of those
-is json which can easily be queried using a tool called `jq <https://stedolan.github.io/jq/>`_ (install with `snap install jq`).
+The output folder will also contain other formats of the same information and
+one of those is json which can easily be queried using a tool called
+`jq <https://stedolan.github.io/jq/>`_ (install with ``snap install jq``).
 Using this useful tool we can easily query for specific information e.g.
 
 .. code-block:: bash
@@ -60,7 +61,7 @@ Using this useful tool we can easily query for specific information e.g.
     }
 
 Examples
-========
+--------
 
 Some example outputs for each plugin can be found `here <https://github.com/canonical/hotsos/tree/main/examples>`_. The *\*.short.\** summary files were generated using the `\-\-short` option. Note that if using the `\-\-save` option, all formats are saved automatically so this option would have no effect.
 

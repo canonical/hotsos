@@ -1,64 +1,106 @@
+Main Properties
+===============
+
+Main properties are the principle type of property and the main building blocks for events and scenarios. They cannot be used as a sub-property by any other property.
+
+Vars
+----
+
+Use the ``vars`` property to define one or more variables that can be referenced
+from other properties. These are defined as a list of ``key: value`` pairs where
+values can either be standard types like str, int, bool e.g.
+
+.. code-block:: yaml
+
+  vars:
+    sfoo: foo
+    ifoo: 400
+    bfoo: true
+
+Or they can reference a Python property. This is done by prefixing the import string with '@' e.g.
+
+.. code-block:: yaml
+
+  vars:
+    foo: '@path.to.myproperty'
+
+A :ref:`factory <FactoryClasses>` reference can also be defined using the following form:
+
+.. code-block:: yaml
+
+  vars:
+    foo: '@<modpath>.<factoryclassname>.<property>:<input>'
+
+When *$foo* is used it will have the value of *myproperty*.
+
+Accessing
+^^^^^^^^^
+
+Variables are accessed from other properties by prefixing their name with a '$' e.g.
+
+.. code-block:: yaml
+
+  vars:
+    foo: true
+  checks:
+    foo_is_true:
+      requires:
+        varops: [[$foo], [eq, true]]
+
+Variables are accessible from any property within the file in which they are defined.
+
+NOTE: global properties are not yet supported.
+
 Checks
 ------
 
 A dictionary of labelled checks each of which is a grouping of properties (see
 Supported Properties). Eack check is executed independently and produces a
-boolean *result* of True or False.
+boolean result of True or False.
 
 Checks are normally implemented in conjunction with :ref:`Conclusions<conclusions>`
 as part of :ref:`Scenarios<scenarios overview>`.
 
-format:
+Usage:
 
 .. code-block:: yaml
 
     checks:
       check1:
         <property1>
-        <property2>
       check2:
+        <property2>
         <property3>
-        <property4>
-      ...
 
-    CACHE_KEYS
-      search
-      requires
 
-usage:
+The following properties are supported:
 
-.. code-block:: python
+* :ref:`Input<input>`
+* :ref:`Requires<requires>`
+* :ref:`Search<search>`
 
-    <checkname>.result
-
-Settings
-^^^^^^^^
-
-  * :ref:`Search<search>`
-  * :ref:`Requires<requires>`
-  * :ref:`Input<input>`
-
+Cache keys:
+* search - (if check contains a search property) this is set to the cache of that property.
+* num_results - (if check contains a search property) this reflects the number of search results for that search.
+* files - (if check contains a search property) this is a list of all files searched.
+* requires - (if check contains a requires property) this is set to the cache of that property.
 
 Conclusions
 -----------
 
-This indicates that everything beneath is a set of one or more conclusions to
-be used by `Scenarios<scenarios overview>`. The contents of
-this override are defined as a dictionary of conclusions labelled with
-meaningful names.
-
-A conclusion is defined as a function on the outcome of a set of checks along
-with the consequent behaviour should the conclusion match. This is defined as
-an issue type and message that will be raised. If multiple conclusions are
-defined, they are given a :ref:`Priority<priority>` such that the highest one to
-match is the one that is executed. See :ref:`Scenarios<scenarios overview>`
-section for more info and examples.
+A conclusion is used in :ref:`scenarios` to derive an outcome based on the
+result of one or more :ref:`checks <checks>`. When a conclusion is matched,
+it raised a bug or issue along with a message descibing the problem identified
+as well as providing suggestions on how to handle it. Typically more than one
+conclusion is defined and by default all are given priority 1 but this can be
+overriden with the *priority* field. The high priority conclusion(s) take
+precedence.
 
 The message can optionally use format fields which, if used, require
 format-dict to be provided with key/value pairs. The values must be
 an importable attribute, property or method.
 
-format:
+Usage:
 
 .. code-block:: yaml
 
@@ -73,69 +115,47 @@ format:
           format-dict:
             <key>: <value>
 
-usage:
 
-.. code-block:: python
-
-    <conclusionname>.reached
-    <conclusionname>.priority
-    <conclusionname>.issue_message
-    <conclusionname>.issue_type
-
-Settings
-^^^^^^^^
+The following provides an explanation of the fields required to define a conclusion:
 
 Decision
-""""""""
+^^^^^^^^
 
 This property is typically used in :ref:`Conclusions<conclusions>`.
 CHECKS refers to a set of one or more :ref:`Checks<checks>` names organised as a
 :ref:`LogicalCollection` to make a decision based on the outcome of more
 checks.
 
-format:
+Usage:
 
 .. code-block:: yaml
 
     decision: CHECKS
 
-usage:
-
-.. code-block:: python
-
-    <iter>
-
 Priority
-""""""""
+^^^^^^^^
 
 Defines an integer priority. This is a very simple property that is typically
 used by :ref:`conclusions` to associate a priority or precedence to
 conclusions.
 
-format:
+Usage:
 
-.. code-block:: console
+.. code-block:: yaml
 
-    priority:
-      <int>
-
-usage:
-
-.. code-block:: python
-
-    int(priority)
+    priority: <int>
 
 Raises
-""""""
+^^^^^^
 
 Defines an issue to raise along with the message displayed. For example a
 :ref:`Checks<checks>` may want to raise an `issue_types <https://github.com/canonical/hotsos/blob/main/hotsos/core/issues/issue_types.py>`_
 with a formatted message where format fields are filled using Python properties
 or search results.
 
-format:
+Usage:
 
-.. code-block:: console
+.. code-block:: yaml
 
     raises:
       type: <type>
@@ -149,89 +169,59 @@ must be provided.
 If the *message* string contains format fields these can be filled
 using ```format-dict``` - a dictionary of key/value pairs where *key* matches a
 format field in the message string and *value* is either a Python property
-import path or a ``PROPERTY_CACHE_REF``:
-
-.. code-block:: console
-
-    PROPERTY_CACHE_REF
-      A reference to a property cache item that takes one of two forms:
-
-      '@<propertyname>.CACHE_KEY[:function]'
-      '@checks.<checkname>.<propertyname>.CACHE_KEY[:function]'
-
-      The latter is used if the property is within a "check" property.
-
-    CACHE_KEY
-      See individual property CACHE_KEYS for supported cache keys.
-
-Both import paths and cache references can be suffixed with an optional
-``:<function>`` where function is the name of a `python builtins <https://docs.python.org/3/library/functions.html>`_ function
-or one of the following:
-
-  * **comma_join** - takes a list or dict as input and returns ``', '.join(input)``
-  * **unique_comma_join** - takes a list or dict as input and returns ``', '.join(set(input))``
-  * **first** - takes a list as input and returns ``input[0]``
-
-usage:
-
-.. code-block:: python
-
-    raises.type
-    raises.message
-    raises.format_dict
+import path or a :ref:`property cache reference<PropertyCache>`
 
 Requires
 --------
 
-Defines a set of one or more :ref:`requirements <requirement types>` to be executed with a pass/fail result.
+Defines a set of one or more :ref:`requirements <requirement types>` to be
+executed with a pass/fail result. This property is implemented as a
+:ref:`mapped property <mappedproperties>` so the root *requires* name is
+optional. For the purposes of examples below we will always use the expanded
+format i.e. with the *requires* key.
 
-If the result is based on the outcome of more than one requirement they must be grouped as a :ref:`LogicalCollection` (see **REQ_GROUP** below).
-The final result is either True/False for *passes*.
+Usage:
 
-NOTE: this property is implemented as a :ref:`mapped property <mappedproperties>` so the root *requires* name is optional.
+The simplest form contains a single type e.g.:
 
-format:
-
-.. code-block:: console
+.. code-block:: yaml
 
     requires:
-      REQ_DEFS
+      systemd:
+        ufw: active
+        
+This requirement stipulates that a systemd service called ufw must exist and have state active for the result to be True.
 
-    REQ_DEFS
-      This must be one (and only one) of the following:
-        * single REQ_DEF
-        * a REQ_GROUP
-        * list containing a mix of REQ_GROUP/REQ_DEF
+A requirement can also contain a collection of types grouped as a :ref:`LogicalCollection` e.g.
 
-      The final result of a list is formed of AND applied to the
-      individual results of each REQ_DEF or REQ_GROUP.
+.. code-block:: yaml
 
-    REQ_DEF
-      A single requirement (see Requirement Types).
-
-    REQ_GROUP
-      A LOGICAL_COLLECTION of one or more REQ_DEF e.g.
-
-      and:
-        - REQ_DEF1
-        - REQ_DEF2
-        - ...
+    requires:
       or:
-        - REQ_DEF3
-        - ...
+        apt: ufw
+        snap: ufw
+      systemd:
+        ufw: active
 
-    OPS_LIST
-        List of tuples with the form (<operator>[,<arg2>]) i.e. each tuple has
-        at least one item, the operator and an optional second item which is
-        the second argument to the operator execution. The first argument is
-        always the output of the REQ_DEF or previous operator.
+This requires the ufw package be installed as a snap or apt package and the corresponding systemd service be in active state.
 
-        Operators can be any supported [python operator](https://docs.python.org/3/library/operator.html).
+Note that if more than one item in a group has the same type, a list must used e.g.
 
-        If more than one tuple is defined, the output of the first is the input
-        to the second.
+.. code-block:: yaml
 
-Settings
-^^^^^^^^
+    requires:
+      and:
+        - systemd:
+            ufw: active
+        - systemd:
+            ssh: active
 
-See :ref:`requirement types`
+The final result of a list is obtained by applying the AND operator to all results.
+
+Lastly, each requirement type can have an accompanying list of operators to be
+applied to the outcome of that type. Each item in the list is a tuple with at
+least one item - the operator - along with an optional second item which is
+the second argument to the operator execution. The input is the outut of the
+previous operator. Operators can be any `python operator <https://docs.python.org/3/library/operator.html>`_.
+
+For supported "requirement type" properties see :ref:`requirement types`

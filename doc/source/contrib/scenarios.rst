@@ -47,10 +47,10 @@ raise if a conclusion is matched. Conclusions can be given
 :ref:`Priority<priority>` so that one can be selected in the event of multiple
 positives. This is helpful for defining fallback conclusions.
 
-The following propeties are mandatory when writing a scenario:
+The following properties are mandatory when writing a scenario:
 
-  * :ref:`Checks<checks>`
-  * :ref:`Conclusions<conclusions>`
+* :ref:`Checks<checks>`
+* :ref:`Conclusions<conclusions>`
 
 See :ref:`language reference<Main Properties>` for details on how to configure these properties.
 
