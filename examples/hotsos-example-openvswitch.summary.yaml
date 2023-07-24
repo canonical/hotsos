@@ -45,6 +45,7 @@ openvswitch:
     external-ids:
       hostname: compute4.mylab.home
       rundir: /var/run/openvswitch
+      system-id: 3c98ecc6-adbc-4647-853b-d4c2b38e49ac
   bridges:
     br-data:
       - ens7:

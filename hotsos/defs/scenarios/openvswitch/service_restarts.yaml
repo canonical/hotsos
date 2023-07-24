@@ -1,3 +1,5 @@
+vars:
+  ovs_version: '@hotsos.core.host_helpers.packaging.AptFactory.version:openvswitch-switch'
 checks:
   ovs_frequent_restarts:
     input:
@@ -7,10 +9,30 @@ checks:
     search:
       expr: '([\d-]+)T([\d:]+)\+\d+ .+ Starting Open vSwitch Forwarding Unit...'
       constraints:
-        min-results: 20
-        search-period-hours: 1
+        min-results: 10
         search-result-age-hours: 24
+  dpdk_installed:
+    apt: [openvswitch-switch-dpdk, dpdk]
+  ovs_dpdk_enabled:
+    # see https://docs.openvswitch.org/en/latest/intro/install/dpdk/#setup-ovs
+    property: hotsos.core.plugins.openvswitch.OpenvSwitchBase.dpdk_enabled
 conclusions:
+  ovs_frequent_restarts_dpdk:
+    priority: 2
+    decision:
+      - ovs_frequent_restarts
+      - ovs_dpdk_enabled
+      - dpdk_installed
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        The ovs-vswitchd (version={version}) service appears to be restarting very frequently
+        ({count} times in the last 24 hours). This host has dpdk enabled
+        and there is a known issue that causes ovs to crash when using
+        dpdk - see https://www.mail-archive.com/ovs-discuss@openvswitch.org/msg09330.html for more info.
+      format-dict:
+        count: '@checks.ovs_frequent_restarts.search.num_results'
+        version: $ovs_version
   ovs_frequent_restarts:
     decision: ovs_frequent_restarts
     raises:
