@@ -22,7 +22,7 @@ class YAssertionAttrs(YPropertyOverrideBase):
 
     @classmethod
     def _override_keys(cls):
-        return ['key', 'section', 'ops', 'allow-unset']
+        return ['key', 'value', 'section', 'ops', 'allow-unset']
 
     @property
     def ops(self):
@@ -73,11 +73,13 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
                 actual = cfg_obj.get(item.key)
 
             _result = item.allow_unset
-            if item.ops and actual is not None:
-                _result = self.apply_ops(item.ops, opinput=actual,
+
+            ops = item.ops or [['eq', item.value]]
+            if actual is not None:
+                _result = self.apply_ops(ops, opinput=actual,
                                          normalise_value_types=True)
             log.debug("assertion: %s (%s) %s result=%s",
-                      item.key, actual, self.ops_to_str(item.ops or []),
+                      item.key, actual, self.ops_to_str(ops or []),
                       _result)
             if not _result and n < len(handlers) - 1:
                 log.debug("assertion is false and there are more configs to "
@@ -86,7 +88,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
 
             cache = self.context.assertions_ctxt['cache']
             msg = "{} {}/actual=\"{}\"".format(item.key,
-                                               self.ops_to_str(item.ops or []),
+                                               self.ops_to_str(ops or []),
                                                actual)
             if cache.assertion_results is not None:
                 cache.set('assertion_results', "{}, {}".
@@ -98,7 +100,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
             # be used with caution since it will only ever store the last
             # config checked.
             cache.set('key', item.key)
-            cache.set('ops', self.ops_to_str(item.ops or []))
+            cache.set('ops', self.ops_to_str(ops or []))
             cache.set('value_actual', actual)
 
         return _result

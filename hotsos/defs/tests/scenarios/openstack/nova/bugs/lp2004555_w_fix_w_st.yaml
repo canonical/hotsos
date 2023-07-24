@@ -1,0 +1,24 @@
+target-name: lp2004555.yaml
+data-root:
+  files:
+    etc/nova/nova.conf: |
+      [DEFAULT]
+      debug = True
+      [service_user]
+      send_service_user_token = true
+      auth_type = password
+      auth_url = https://10.5.3.7:35357
+      project_domain_name = service_domain
+      user_domain_name = service_domain
+      project_name = services
+      username = nova
+      password = bcF4M6BXmnG3gThs6TKBgHJbz48br5jdVqCTx6bnMPGtNG4BnYgSfjJ64TkK8TB6
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-api-metadata                    3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute - metadata API frontend
+      ii  nova-common                          3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute - common files
+      ii  nova-compute                         3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute - compute node base
+      ii  nova-compute-kvm                     3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute - compute node (KVM)
+      ii  nova-compute-libvirt                 3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute - compute node libvirt support
+      ii  python3-nova                         3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute Python 3 libraries
+raised-bugs:  # none
+raised-issues:  # none
