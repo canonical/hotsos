@@ -28,6 +28,8 @@ jobs:
         pip install -r gh-test-requirements.txt
     - name: Test with tox
       run: tox -e py3
+    - name: Test with tox (non-utc timezone)
+      run: tox -e py3-non-utc-tz
     - name: Run pylint
       run: tox -e pylint
       if: matrix.python-version == '3.10'
