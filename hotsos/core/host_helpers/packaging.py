@@ -2,7 +2,9 @@ import abc
 import re
 import subprocess
 
+from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 
 
@@ -302,6 +304,28 @@ class APTPackageHelper(PackageHelperBase):
         # go fetch
         self.all
         return self._core_packages
+
+
+class AptPackage(object):
+
+    def __init__(self, name, version):
+        self.name = name
+        self.version = version
+
+
+class AptFactory(FactoryBase):
+    """
+    Factory to dynamically get package versions.
+
+    AptPackage object is returned when a getattr() is done on this object
+    using the name of package.
+    """
+
+    def __getattr__(self, name):
+        log.debug("creating AptPackage object for %s", name)
+        helper = APTPackageHelper([name])
+        if name in helper.all:
+            return AptPackage(name, helper.all[name])
 
 
 class SnapPackageHelper(PackageHelperBase):

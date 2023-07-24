@@ -1,3 +1,4 @@
+target-name: service_restarts.yaml
 mock:
   patch.object:
     hotsos.core.ycheck.engine.properties.inputdef.CLIHelperFile:
@@ -18,6 +19,19 @@ data-root:
       2022-02-10T17:59:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...
       2022-02-10T18:00:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...
       2022-02-10T18:01:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...
+    sos_commands/dpkg/dpkg_-l: |
+      ii  dpdk                                  21.11.3-0ubuntu0.22.04.1                             amd64        Data Plane Development Kit (runtime)
+      ii  openvswitch-common                    2.17.5-0ubuntu0.22.04.2                              amd64        Open vSwitch common components
+      ii  openvswitch-switch                    2.17.5-0ubuntu0.22.04.2                              amd64        Open vSwitch switch implementations
+      ii  openvswitch-switch-dpdk               2.17.5-0ubuntu0.22.04.2                              amd64        DPDK enabled Open vSwitch switch implementation
+      ii  python3-openvswitch                   2.17.5-0ubuntu0.22.04.2                              all          Python 3 bindings for Open vSwitch
+    sos_commands/openvswitch/ovs-vsctl_-t_5_get_Open_vSwitch_._other_config: |
+      {dpdk-init="true"}
+  copy-from-original:
+    - sos_commands/systemd
 raised-issues:
   OpenvSwitchWarning: >-
-    The ovs-vswitchd service appears to be restarting very frequently (10 times in an hour). Please check.
+    The ovs-vswitchd (version=2.17.5-0ubuntu0.22.04.2)
+    service appears to be restarting very frequently (10 times in the last 24 hours). This host has dpdk
+    enabled and there is a known issue that causes ovs to crash when using dpdk - see
+    https://www.mail-archive.com/ovs-discuss@openvswitch.org/msg09330.html for more info.

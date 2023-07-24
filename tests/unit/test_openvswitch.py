@@ -5,7 +5,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.plugins.openvswitch import OpenvSwitchBase
+from hotsos.core.plugins.openvswitch import OpenvSwitchBase, OVSDB
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.openvswitch import (
     event_checks,
@@ -172,6 +172,37 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
             inst = summary.OpenvSwitchSummary()
             actual = self.part_output_to_actual(inst.output)['tunnels']
             self.assertEqual(actual, expected)
+
+
+class TestOpenvswitchDB(TestOpenvswitchBase):
+
+    def test_ovsdb_other_config(self):
+        expected = {}
+        self.assertEqual(OVSDB().other_config, expected)
+
+    @utils.create_data_root({('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
+                              'Open_vSwitch_._other_config'):
+                             ('{dpdk-extra="-a 0000:56:00.0 -a 0000:58:00.1 '
+                              '-a 0000:56:00.1 -a 0000:58:00.0", '
+                              'dpdk-init="true", '
+                              'dpdk-lcore-mask="0x200002", '
+                              'dpdk-socket-mem="8192,8192", '
+                              'vlan-limit="0"}')})
+    def test_ovsdb_other_config_loaded(self):
+        expected = {'dpdk-extra':
+                    ('-a 0000:56:00.0 -a 0000:58:00.1 '
+                     '-a 0000:56:00.1 -a 0000:58:00.0'),
+                    'dpdk-init': "true",
+                    'dpdk-lcore-mask': "0x200002",
+                    'dpdk-socket-mem': "8192,8192",
+                    'vlan-limit': '0'}
+        self.assertEqual(OVSDB().other_config, expected)
+
+    def test_ovsdb_external_ids(self):
+        expected = {'hostname': 'compute4.mylab.home',
+                    'rundir': '/var/run/openvswitch',
+                    'system-id': '3c98ecc6-adbc-4647-853b-d4c2b38e49ac'}
+        self.assertEqual(OVSDB().external_ids, expected)
 
 
 class TestOpenvswitchEvents(TestOpenvswitchBase):

@@ -17,8 +17,9 @@ class OVSDB(object):
 
     def _record_to_dict(self, record):
         record_dict = {}
-        if record:
-            for field in re.compile(r'(\S+,)').findall(record):
+        if record and record != '{}':
+            expr = r'(\S+="[^"]+"|\S+=\S+),? ?'
+            for field in re.compile(expr).findall(record):
                 for char in [',', '}', '{']:
                     field = field.strip(char)
 
@@ -148,6 +149,17 @@ class OpenvSwitchBase(object):
             return False
 
         if config.get('hw-offload') == "true":
+            return True
+
+        return False
+
+    @cached_property
+    def dpdk_enabled(self):
+        config = self.ovsdb.other_config
+        if not config:
+            return False
+
+        if config.get('dpdk-init') == "true":
             return True
 
         return False
