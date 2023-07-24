@@ -30,7 +30,7 @@ class APTCheckItems(PackageCheckItemsBase):
 
     def package_version_within_ranges(self, pkg, versions):
         result = False
-        versions = sorted(versions, key=lambda i: i['min'], reverse=True)
+        versions = sorted(versions, key=lambda i: str(i['min']), reverse=True)
         pkg_version = self.packaging_helper.get_version(pkg)
         for item in versions:
             v_min = str(item['min'])

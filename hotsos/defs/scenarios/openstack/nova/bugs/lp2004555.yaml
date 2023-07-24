@@ -1,0 +1,81 @@
+vars:
+  nova_version: '@hotsos.core.host_helpers.packaging.AptFactory.version:nova-common'
+checks:
+  # only packages for >= yoga are fixed at the time of writing
+  pkg_installed_and_ge_yoga:
+    or:
+      - apt:
+          nova-api-os-compute:
+            - min: '3:25'
+      - apt:
+          nova-compute:
+            - min: '3:25'
+  pkg_has_fix:
+    or:
+      - apt:
+          nova-api-os-compute:
+            # yoga
+            - min: '3:25.1.1-0ubuntu1.1~cloud0'
+              max: '3:26'
+            # zed
+            - min: '3:26.2.0-0ubuntu1~cloud0'
+              max: '3:27'
+            # antelope
+            - min: '3:27.1.0-0ubuntu1~cloud0'
+              max: '3:28'
+      - apt:
+          nova-compute:
+            # yoga
+            - min: '3:25.1.1-0ubuntu1.1~cloud0'
+              max: '3:26'
+            # zed
+            - min: '3:26.2.0-0ubuntu1~cloud0'
+              max: '3:27'
+            # antelope
+            - min: '3:27.1.0-0ubuntu1~cloud0'
+              max: '3:28'
+  service_tokens_enabled:
+    config:
+      handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
+      path: 'etc/nova/nova.conf'
+      assertions:
+        - section: service_user
+          key: send_service_user_token
+          value: true
+conclusions:
+  pkg_is_vulnerable:
+    decision:
+      - pkg_installed_and_ge_yoga
+      - not: pkg_has_fix
+      - not: service_tokens_enabled
+    raises:
+      type: LaunchpadBug
+      bug-id: 2004555
+      message: >-
+        The version of Openstack Nova ({version}) running on this host is
+        impacted by security vulnerability CVE-2023-2088. There is a fix
+        available in the Ubuntu archives and upgrading is recommended BUT it is
+        essential to first upgrade your Openstack Charms so that you have
+        support for enabling service tokens as it is hard requirement of the
+        cve fix. Please read
+        https://discourse.ubuntu.com/t/cve-2023-2088-for-charmed-openstack/37051 for more information.
+      format-dict:
+        version: $nova_version
+  pkg_has_fix_but_service_tokens_not_enabled:
+    priority: 2
+    decision:
+      - pkg_installed_and_ge_yoga
+      - pkg_has_fix
+      - not: service_tokens_enabled
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The version of Openstack Nova ({version}) running on this host contains
+        a fix for CVE-2023-2088 but does not have service tokens enabled which
+        is a hard requirement for the fix to work and means that some
+        operations such volume attach/detach will not work. If this
+        environment uses Openstack Charms you need to upgrade your charm to
+        get this fixed. Please read
+        https://discourse.ubuntu.com/t/cve-2023-2088-for-charmed-openstack/37051 for more information.
+      format-dict:
+        version: $nova_version

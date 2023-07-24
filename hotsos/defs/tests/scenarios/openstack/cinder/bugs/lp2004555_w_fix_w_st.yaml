@@ -1,0 +1,23 @@
+target-name: lp2004555.yaml
+data-root:
+  files:
+    etc/cinder/cinder.conf: |
+      [DEFAULT]
+      debug = True
+      [service_user]
+      send_service_user_token = true
+      auth_type = password
+      auth_url = https://10.5.3.7:35357
+      project_domain_name = service_domain
+      user_domain_name = service_domain
+      project_name = services
+      username = cinder
+      password = bcF4M6BXmnG3gThs6TKBgHJbz48br5jdVqCTx6bnMPGtNG4BnYgSfjJ64TkK8TB6
+    sos_commands/dpkg/dpkg_-l: |
+      ii  cinder-api                      2:20.2.0-0ubuntu1.1~cloud0          all          Cinder storage service - API server
+      ii  cinder-common                   2:20.2.0-0ubuntu1.1~cloud0          all          Cinder storage service - common files
+      ii  cinder-scheduler                2:20.2.0-0ubuntu1.1~cloud0          all          Cinder storage service - Scheduler server
+      ii  cinder-volume                   2:20.2.0-0ubuntu1.1~cloud0          all          Cinder storage service - Volume server
+      ii  python3-cinder                  2:20.2.0-0ubuntu1.1~cloud0          all          Cinder Python 3 libraries
+raised-bugs:  # none
+raised-issues:  # none
