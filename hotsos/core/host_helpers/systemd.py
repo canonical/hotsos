@@ -1,7 +1,7 @@
 import glob
 import os
 import re
-from datetime import datetime
+from datetime import datetime, timezone
 from functools import cached_property
 
 # NOTE: we import direct from searchkit rather than hotsos.core.search to
@@ -58,11 +58,12 @@ class SystemdService(object):
         fs = FileSearcher()
         # The following expressions need to take account of control characters
         # that might exist in the output e.g. line can start with '*' or U+25CF
+        # Active: active (running) since Wed 2022-02-09 22:38:17 UTC; 17h ago
         seqdef = SequenceSearchDef(
                     start=SearchDef(r'\S+ ({}.service) -'.format(self.name)),
                     body=SearchDef(r"\s+Active: active \(?\S*\)?\s*since "
                                    r"\S{3} (\d{4}-\d{2}-\d{2} "
-                                   r"\d{2}:\d{2}:\d{2})"),
+                                   r"\d{2}:\d{2}:\d{2} [\w\+:]+);"),
                     end=SearchDef(r'(\S+) \S+.service'),
                     tag='systemd')
         with CLIHelperFile() as cli:
@@ -75,7 +76,7 @@ class SystemdService(object):
             for result in sections[0]:
                 if result.tag == seqdef.body_tag:
                     return datetime.strptime(result.get(1),
-                                             "%Y-%m-%d %H:%M:%S")
+                                             "%Y-%m-%d %H:%M:%S %Z")
 
         log.debug("no start time identified for svc %s", self.name)
 
@@ -89,7 +90,7 @@ class SystemdService(object):
         if t is None:
             return 0
 
-        return t.timestamp()
+        return t.replace(tzinfo=timezone.utc).timestamp()
 
     @property
     def memory_current_kb(self):
