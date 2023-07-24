@@ -17,7 +17,7 @@ class LXDSummary(LXDChecksBase):
     @idx(2)
     def __summary_dpkg(self):
         if self.apt:
-            return self.apt.all
+            return self.apt.all_formatted
 
     @idx(3)
     def __summary_instances(self):

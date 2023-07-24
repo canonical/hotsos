@@ -97,10 +97,6 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
                           other_pkgs=self.ost_projects.packages_dep_exprs)
 
     @cached_property
-    def apt_packages_all(self):
-        return self.apt.all
-
-    @cached_property
     def apt_source_path(self):
         return os.path.join(HotSOSConfig.data_root, 'etc/apt/sources.list.d')
 

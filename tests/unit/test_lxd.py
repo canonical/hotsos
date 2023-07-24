@@ -14,7 +14,7 @@ class LXDTestsBase(utils.BaseTestCase):
 class TestLXDSummary(LXDTestsBase):
 
     def test_summary_keys(self):
-        expected = {'dpkg': {'lxd-agent-loader': '0.4'},
+        expected = {'dpkg': ['lxd-agent-loader 0.4'],
                     'instances': ['juju-04f1e3-1-lxd-0',
                                   'juju-04f1e3-1-lxd-1',
                                   'juju-04f1e3-1-lxd-2',

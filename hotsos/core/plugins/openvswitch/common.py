@@ -1,5 +1,3 @@
-from functools import cached_property
-
 from searchkit.constraints import TimestampMatcherBase
 from hotsos.core import plugintools
 from hotsos.core.host_helpers import (
@@ -51,10 +49,6 @@ class OpenvSwitchChecksBase(plugintools.PluginPartBase):
         self.apt = APTPackageHelper(core_pkgs=p_core, other_pkgs=p_deps)
         self.pebble = PebbleHelper(service_exprs=OVS_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=OVS_SERVICES_EXPRS)
-
-    @cached_property
-    def apt_packages_all(self):
-        return self.apt.all
 
     @property
     def plugin_runnable(self):

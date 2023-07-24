@@ -48,10 +48,6 @@ class PacemakerChecksBase(PacemakerBase, PluginPartBase):
         self.systemd = SystemdHelper(service_exprs=PACEMAKER_SVC_EXPR)
         self.pacemaker = PacemakerBase()
 
-    @cached_property
-    def apt_packages_all(self):
-        return self.apt.all_formatted
-
     @property
     def plugin_runnable(self):
         return len(self.apt.core) > 0
