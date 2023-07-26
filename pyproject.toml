@@ -31,7 +31,9 @@ dependencies = [
     'propertree',
     'pyyaml',
     'searchkit >= 0.2.7',
-    'simplejson'
+    'simplejson',
+    'python-dateutil',
+    'pytz'
 ]
 
 [project.scripts]

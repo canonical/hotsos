@@ -4,6 +4,9 @@ import re
 from datetime import datetime, timezone
 from functools import cached_property
 
+from dateutil.parser import parse as du_parse
+from dateutil.tz import gettz as du_gettz
+import pytz
 # NOTE: we import direct from searchkit rather than hotsos.core.search to
 #       avoid circular dependency issues.
 from searchkit import (
@@ -25,6 +28,25 @@ class SystemdService(object):
         self.name = name
         self.state = state
         self.has_instances = has_instances
+
+    @cached_property
+    def __tzinfos(self):
+        def fetch():
+            # dateutil needs timezone abbrev. to timezone full name
+            # mappings in order to be able to parse timestamps
+            # with tz abbreviations.
+            for zone in pytz.common_timezones:
+                try:
+                    tzdate = pytz.timezone(zone).localize(datetime.utcnow(),
+                                                          is_dst=None)
+                except pytz.NonExistentTimeError:
+                    pass
+                else:
+                    tzinfo = du_gettz(zone)
+
+                    if tzinfo:
+                        yield tzdate.tzname(), tzinfo
+        return dict(fetch())
 
     @cached_property
     def start_time(self):
@@ -63,7 +85,7 @@ class SystemdService(object):
                     start=SearchDef(r'\S+ ({}.service) -'.format(self.name)),
                     body=SearchDef(r"\s+Active: active \(?\S*\)?\s*since "
                                    r"\S{3} (\d{4}-\d{2}-\d{2} "
-                                   r"\d{2}:\d{2}:\d{2} [\w\+:]+);"),
+                                   r"\d{2}:\d{2}:\d{2} [\w\+:-]+);"),
                     end=SearchDef(r'(\S+) \S+.service'),
                     tag='systemd')
         with CLIHelperFile() as cli:
@@ -75,9 +97,8 @@ class SystemdService(object):
 
             for result in sections[0]:
                 if result.tag == seqdef.body_tag:
-                    return datetime.strptime(result.get(1),
-                                             "%Y-%m-%d %H:%M:%S %Z")
-
+                    return du_parse(result.get(1),
+                                    tzinfos=self.__tzinfos)
         log.debug("no start time identified for svc %s", self.name)
 
     @cached_property
@@ -90,7 +111,12 @@ class SystemdService(object):
         if t is None:
             return 0
 
-        return t.replace(tzinfo=timezone.utc).timestamp()
+        if t.utcoffset() is None:
+            t = t.replace(tzinfo=timezone.utc)
+        else:
+            t = t.astimezone(tz=timezone.utc)
+
+        return t.timestamp()
 
     @property
     def memory_current_kb(self):
