@@ -321,8 +321,17 @@ class TestCLIHelper(utils.BaseTestCase):
                 HotSOSConfig.set(**orig_cfg)
 
 
-class TestSystemdHelper(utils.BaseTestCase):
+rsyslog_systemctl_status_template = r"""
+* rsyslog.service - System Logging Service
+     Loaded: loaded (/lib/systemd/system/rsyslog.service; enabled;)
+     Active: active (running) since Wed 2022-02-09 22:38:17 {}; 17h ago
 
+Feb 09 22:38:17 compute4 systemd[1]: Starting System Logging Service...
+
+* secureboot-db.service - Secure Boot updates for DB and DBX"""
+
+
+class TestSystemdHelper(utils.BaseTestCase):
     def test_service_factory(self):
         svc = host_helpers.systemd.ServiceFactory().rsyslog
         self.assertEqual(svc.start_time_secs, 1644446297.0)
@@ -339,6 +348,81 @@ class TestSystemdHelper(utils.BaseTestCase):
         svc = host_helpers.systemd.ServiceFactory().rsyslog
         self.assertEqual(svc.start_time_secs, 1644446297.0)
 
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("+08")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    def test_service_factory_no_journal_non_utc_plus8(self):
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        # 2022-02-09 22:38:17 UTC+08 is 2022-02-09 14:38:17 UTC
+        self.assertEqual(svc.start_time_secs, 1644417497.0)
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("+0530")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    def test_service_factory_no_journal_non_utc_plus0530(self):
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        # 2022-02-09 22:38:17 UTC+0530 is 2022-02-09 17:08:17 UTC
+        self.assertEqual(svc.start_time_secs, 1644426497.0)
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("-0730")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    def test_service_factory_no_journal_non_utc_minus0730(self):
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        # 2022-02-09 22:38:17 UTC-0730 is 2022-02-09 17:08:17 UTC
+        self.assertEqual(svc.start_time_secs, 1644473297.0)
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("HKT")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    def test_service_factory_no_journal_non_utc_hkt(self):
+        # Hong Kong Time (UTC+08)
+        # 2022-02-09 22:38:17 HKT is 2022-02-09 14:38:17 UTC
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        self.assertEqual(svc.start_time_secs, 1644417497.0)
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("HST")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    def test_service_factory_no_journal_non_utc_hst(self):
+        # Hawaii-Aleutian Standard Time (UTC-10)
+        # 2022-02-09 22:38:17 UTC-10 is 2022-02-10 08:38:17 UTC
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        self.assertEqual(svc.start_time_secs, 1644482297.0)
+        self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("ACST")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    def test_service_factory_no_journal_non_utc_acst(self):
+        # Australian Central Standard Time (UTC+09:30)
+        # 2022-02-09 22:38:17 ACST is 2022-02-09 13:08:17 UTC
+        svc = host_helpers.systemd.ServiceFactory().rsyslog
+        self.assertEqual(svc.start_time_secs, 1644412097.0)
         self.assertIsNone(host_helpers.systemd.ServiceFactory().noexist)
 
     def test_systemd_helper(self):
