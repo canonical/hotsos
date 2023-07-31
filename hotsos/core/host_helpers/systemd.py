@@ -4,9 +4,9 @@ import re
 from datetime import datetime, timezone
 from functools import cached_property
 
-from dateutil.parser import parse as du_parse
-from dateutil.tz import gettz as du_gettz
+import dateutil
 import pytz
+from dateutil import parser as dateutil_parser
 # NOTE: we import direct from searchkit rather than hotsos.core.search to
 #       avoid circular dependency issues.
 from searchkit import (
@@ -30,11 +30,17 @@ class SystemdService(object):
         self.has_instances = has_instances
 
     @cached_property
-    def __tzinfos(self):
+    def _tzinfos(self):
+        """ Generates timezone name to zone mappings for common timezones.
+
+        See https://dateutil.readthedocs.io/en/stable/parser.html#functions for
+        how it is consumed. dateutil needs timezone abbreviated to timezone
+        full name mappings in order to be able to parse timestamps with tz
+        abbreviations.
+
+        @return: dictionary of name: timezone mappings.
+        """
         def fetch():
-            # dateutil needs timezone abbrev. to timezone full name
-            # mappings in order to be able to parse timestamps
-            # with tz abbreviations.
             for zone in pytz.common_timezones:
                 try:
                     tzdate = pytz.timezone(zone).localize(datetime.utcnow(),
@@ -42,10 +48,10 @@ class SystemdService(object):
                 except pytz.NonExistentTimeError:
                     pass
                 else:
-                    tzinfo = du_gettz(zone)
-
+                    tzinfo = dateutil.tz.gettz(zone)
                     if tzinfo:
                         yield tzdate.tzname(), tzinfo
+
         return dict(fetch())
 
     @cached_property
@@ -97,8 +103,8 @@ class SystemdService(object):
 
             for result in sections[0]:
                 if result.tag == seqdef.body_tag:
-                    return du_parse(result.get(1),
-                                    tzinfos=self.__tzinfos)
+                    return dateutil_parser.parse(result.get(1),
+                                                 tzinfos=self._tzinfos)
         log.debug("no start time identified for svc %s", self.name)
 
     @cached_property
