@@ -191,40 +191,68 @@ Cache keys:
 Config
 ------
 
-A dictionary containing the information required to perform some config checks.
-Supports applying assertion rules to the contents of one or more config files.
+Perform config checks by applying assertion rules to the contents of config
+file. Assertions are defined as a list that is grouped as a
+:ref:`LogicalCollection` with AND as the default grouping. The final result
+evaluates to True/False. Makes use of config "handlers" i.e. implementations of
+*core.host_helpers.config.SectionalConfigBase* that support querying the
+contents of config files in a common way.
 
 Usage:
 
 .. code-block:: yaml
 
     config:
-      handler: <handler import path>
-      path: <relative path to config file>
+      handler: <import path>
+      path: <path to config file>
       assertions:
-        - allow-unset: <whether the setting may be unset (default is False)>
-          key: <name>
-          ops: <see varops property>
-          section: <name (optional)>
-          value: <value (default is None)>
+        - allow-unset: <bool>
+          key: <str>
+          ops: <list>
+          section: <str>
+          value: <str> or <bool>
 
-Handler must be an implementation of core.host_helpers.config.SectionalConfigBase
-that takes the config file path as input. Assertions are defined as a list that
-is grouped as a :ref:`LogicalCollection`. The final result evaluates to True/False.
+The value of *key* can be checked by either providing a *value* to which it is
+compared or by setting *ops* to a list of
+`operations <https://docs.python.org/3/library/operator.html>`_. Only one of
+*value* and *ops* should be used to check a value.
+
+Optional parameter *allow-unset* (default=True) determines if *key* may be
+unset or not found.
+
+NOTE: *path* must be relative to the :ref:`data root <data root>`.
+
+Example:
+
+.. code-block:: yaml
+
+    checks:
+      checkcfg:
+        config:
+          handler: hotsos.core.plugins.openstack.OpenstackConfig
+          path: etc/nova/nova.conf
+          assertions:
+            - key: debug
+              ops: [[eq, true]]
+              section: DEFAULT
 
 Cache keys:
 
 * assertion_results - string of concatenated assertion checks
 * key - the last key to be checked
 * ops - the last ops to be run
-* value_actual - the actual value checked against
+* value_actual - the value of the last key to be checked
 
 Varops
 ------
 
-This provides a way to define a list of operations to be executed in sequence. Each
-successive operation takes the output of the previous as input. The first
-operation acts as the input and is defined as a variable (see :ref:`vars <vars>`).
+This provides a way to define a list of operations to be executed in sequence.
+Each operation is defined as a tuple of size one or two. The first operation acts
+as the input and is defined as a singleton of one variable (see
+:ref:`vars <vars>`). Successive operations take as input the output of the
+previous operation and are defined as one or two tuple objects where the first
+element is a python `operator <https://docs.python.org/3/library/operator.html>`_ and
+the optional second element is an argument as required by the operator.
 
 Usage:
 
@@ -236,11 +264,10 @@ Usage:
     checks:
       checkmyvar:
         varops: [[$myvar], [gt, $limit], [lt, 100]]
-    conclusions:
 
 Cache keys:
 
-* name: name of the variable used as input
+* input_ref: name of the variable used as input
+* input_value: value of the variable used as input
 * ops: str representation of ops list
-* value: value of the variable used as input
 

@@ -587,24 +587,24 @@ conclusions:
       type: SystemWarning
       message: it's foo gt! ({varname}={varval})
       format-dict:
-        varname: '@checks.is_foo_gt.requires.name'
-        varval: '@checks.is_foo_gt.requires.value'
+        varname: '@checks.is_foo_gt.requires.input_ref'
+        varval: '@checks.is_foo_gt.requires.input_value'
   is_foo_lt:
     decision: is_foo_lt
     raises:
       type: SystemWarning
       message: it's foo lt! ({varname}={varval})
       format-dict:
-        varname: '@checks.is_foo_lt.requires.name'
-        varval: '@checks.is_foo_lt.requires.value'
+        varname: '@checks.is_foo_lt.requires.input_ref'
+        varval: '@checks.is_foo_lt.requires.input_value'
   isbar:
     decision: isbar
     raises:
       type: SystemWarning
       message: it's bar! ({varname}={varval})
       format-dict:
-        varname: '@checks.isbar.requires.name'
-        varval: '@checks.isbar.requires.value'
+        varname: '@checks.isbar.requires.input_ref'
+        varval: '@checks.isbar.requires.input_value'
   fromprop:
     decision:
       and: [fromprop, boolvar, fromfact, fromfact2, fromsysctl]
@@ -612,8 +612,8 @@ conclusions:
       type: SystemWarning
       message: fromprop! ({varname}={varval})
       format-dict:
-        varname: '@checks.fromprop.requires.name'
-        varval: '@checks.fromprop.requires.value'
+        varname: '@checks.fromprop.requires.input_ref'
+        varval: '@checks.fromprop.requires.input_value'
 """  # noqa
 
 

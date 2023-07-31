@@ -12,7 +12,7 @@ class YPropertyVarOps(YRequirementTypeWithOpsBase):
         return ['varops']
 
     @property
-    def name(self):
+    def input(self):
         return self.content[0][0]
 
     @property
@@ -20,13 +20,13 @@ class YPropertyVarOps(YRequirementTypeWithOpsBase):
         return self.content[1:]
 
     def _apply_ops(self):
-        actual = self.resolve_var(self.name)
+        actual = self.resolve_var(self.input)
         result = self.apply_ops(self.ops, opinput=actual)
         log.debug('requirement check: varref %s %s (result=%s)',
                   actual, self.ops_to_str(self.ops), result)
         self.cache.set('ops', self.ops_to_str(self.ops))
-        self.cache.set('value', actual)
-        self.cache.set('name', self.name)
+        self.cache.set('input_value', actual)
+        self.cache.set('input_ref', self.input)
         return result
 
     @property
