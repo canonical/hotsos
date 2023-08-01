@@ -41,7 +41,8 @@ class JujuMachine(object):
                             if not expr.search(line):
                                 fdtmp.write(line)
 
-                self.cfg = yaml.safe_load(open(ftmp))
+                with open(ftmp) as fd:
+                    self.cfg = yaml.safe_load(fd)
                 os.remove(ftmp)
 
         return self.cfg

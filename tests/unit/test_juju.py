@@ -1,4 +1,5 @@
 import os
+import pathlib
 import shutil
 from unittest import mock
 
@@ -35,10 +36,10 @@ class TestJujuResources(JujuTestsBase):
                              'deployer/manifests'))
         shutil.rmtree(path)
         os.makedirs(path)
-        open(os.path.join(path, 'cs_3a_nova-compute-3'), 'w').close()
-        open(os.path.join(path, 'cs_3a_nova-compute-4'), 'w').close()
-        open(os.path.join(path, 'cs_3a_nova-compute-100'), 'w').close()
-        open(os.path.join(path, 'cs_3a_nova-compute-2'), 'w').close()
+        pathlib.Path(os.path.join(path, 'cs_3a_nova-compute-3')).touch()
+        pathlib.Path(os.path.join(path, 'cs_3a_nova-compute-4')).touch()
+        pathlib.Path(os.path.join(path, 'cs_3a_nova-compute-100')).touch()
+        pathlib.Path(os.path.join(path, 'cs_3a_nova-compute-2')).touch()
         charms = JujuBase().charms
         self.assertEqual(list(charms.keys()), ['nova-compute'])
         versions = [c.version for c in charms.values()]

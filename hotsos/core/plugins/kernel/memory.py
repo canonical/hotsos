@@ -33,11 +33,12 @@ class VMStat(object):
         if not os.path.exists(self.path):
             return 0
 
-        for line in open(self.path):
-            if line.partition(" ")[0] == key:
-                value = int(line.partition(" ")[2])
-                self._vmstat_info[key] = value
-                return value
+        with open(self.path) as fd:
+            for line in fd:
+                if line.partition(" ")[0] == key:
+                    value = int(line.partition(" ")[2])
+                    self._vmstat_info[key] = value
+                    return value
 
         raise AttributeError('attribute {} not found in {}.'.
                              format(key, self.__class__.__name__))
@@ -72,24 +73,25 @@ class SlabInfo(object):
         if not os.path.exists(self.path):
             return self._slab_info
 
-        for line in open(self.path):
-            exclude = False
-            for name in self._filter_names:
-                if re.compile(r'^{}'.format(name)).search(line):
-                    exclude = True
-                    break
+        with open(self.path) as fd:
+            for line in fd:
+                exclude = False
+                for name in self._filter_names:
+                    if re.compile(r'^{}'.format(name)).search(line):
+                        exclude = True
+                        break
 
-            if exclude:
-                continue
+                if exclude:
+                    continue
 
-            sections = line.split()
-            if sections[0] == '#' or sections[0] == 'slabinfo':
-                continue
+                sections = line.split()
+                if sections[0] == '#' or sections[0] == 'slabinfo':
+                    continue
 
-            # name, num_objs, objsize
-            self._slab_info.append([sections[0],
-                                    int(sections[2]),
-                                    int(sections[3])])
+                # name, num_objs, objsize
+                self._slab_info.append([sections[0],
+                                        int(sections[2]),
+                                        int(sections[3])])
 
     @property
     def major_consumers(self):
@@ -143,18 +145,20 @@ class BuddyInfo(object):
             return self._numa_nodes
 
         nodes = set()
-        for line in open(self.path):
-            nodes.add(int(line.split()[1].strip(',')))
+        with open(self.path) as fd:
+            for line in fd:
+                nodes.add(int(line.split()[1].strip(',')))
 
         self._numa_nodes = list(nodes)
         return self._numa_nodes
 
     def get_node_zones(self, zones_type, node):
-        for line in open(self.path):
-            if line.split()[3] == zones_type and \
-                    line.startswith("Node {},".format(node)):
-                line = line.split()
-                return " ".join(line)
+        with open(self.path) as fd:
+            for line in fd:
+                if line.split()[3] == zones_type and \
+                        line.startswith("Node {},".format(node)):
+                    line = line.split()
+                    return " ".join(line)
 
         return None
 
