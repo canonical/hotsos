@@ -3,6 +3,7 @@ import datetime
 import glob
 import json
 import os
+import pathlib
 import pickle
 import re
 import subprocess
@@ -136,7 +137,8 @@ class CmdBase(object):
 
     @classmethod
     def safe_readlines(cls, path):
-        return open(path, 'r', errors="surrogateescape").readlines()
+        with open(path, 'r', errors="surrogateescape") as fd:
+            return fd.readlines()
 
     def register_hook(self, name, f):
         """
@@ -245,7 +247,8 @@ class FileCmd(CmdBase):
         # NOTE: any post-exec hooks must be aware that their input will be
         # defined by the following.
         if self.json_decode:
-            output = json.load(open(self.path))
+            with open(self.path) as fd:
+                output = json.load(fd)
         else:
             output = []
             ln = 0
@@ -1042,7 +1045,7 @@ class CLIHelperFile(CLIHelperBase):
     @cached_property
     def output_file(self):
         path = tempfile.mktemp(dir=HotSOSConfig.plugin_tmp_dir)
-        open(path, 'w').close()
+        pathlib.Path(path).touch()
         self._tmp_file_mtime = os.path.getmtime(path)
         return path
 

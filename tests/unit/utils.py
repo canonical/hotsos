@@ -194,7 +194,8 @@ class TemplatedTestGenerator(object):
         if not os.path.exists(test_def_path):
             raise Exception("{} does not exist".format(test_def_path))
 
-        self.testdef = yaml.safe_load(open(test_def_path)) or {}
+        with open(test_def_path) as fd:
+            self.testdef = yaml.safe_load(fd) or {}
         if not self.testdef or not os.path.exists(test_def_path):
             raise Exception("invalid test template at {}".
                             format(test_def_path))

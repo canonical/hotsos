@@ -85,10 +85,11 @@ class SystemBase(object):
     def os_release_name(self):
         data_source = os.path.join(HotSOSConfig.data_root, "etc/lsb-release")
         if os.path.exists(data_source):
-            for line in open(data_source).read().split():
-                ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
-                if ret:
-                    return "ubuntu {}".format(ret[1])
+            with open(data_source) as fd:
+                for line in fd.read().split():
+                    ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
+                    if ret:
+                        return "ubuntu {}".format(ret[1])
 
     @cached_property
     def virtualisation_type(self):

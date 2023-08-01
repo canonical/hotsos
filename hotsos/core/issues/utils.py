@@ -86,7 +86,8 @@ class KnownBugsStore(IssuesStoreBase):
         if not os.path.exists(self.store_path):
             return {}
 
-        bugs = yaml.safe_load(open(self.store_path))
+        with open(self.store_path) as fd:
+            bugs = yaml.safe_load(fd)
         if bugs and IssuesManager.SUMMARY_OUT_BUGS_ROOT in bugs:
             return bugs
 
@@ -118,7 +119,8 @@ class IssuesStore(IssuesStoreBase):
         if not os.path.exists(self.store_path):
             return {}
 
-        issues = yaml.safe_load(open(self.store_path))
+        with open(self.store_path) as fd:
+            issues = yaml.safe_load(fd)
         if issues and IssuesManager.SUMMARY_OUT_ISSUES_ROOT in issues:
             return issues
 

@@ -35,7 +35,8 @@ class KernelBase(object):
         parameters = []
         path = os.path.join(HotSOSConfig.data_root, "proc/cmdline")
         if os.path.exists(path):
-            cmdline = open(path).read().strip()
+            with open(path) as fd:
+                cmdline = fd.read().strip()
             for entry in cmdline.split():
                 if entry.startswith("BOOT_IMAGE"):
                     continue
