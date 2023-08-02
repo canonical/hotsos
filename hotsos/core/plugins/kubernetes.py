@@ -46,16 +46,11 @@ K8S_PACKAGE_DEPS_SNAP = [r'core[0-9]*']
 
 class KubernetesBase(object):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.nethelp = HostNetworkingHelper()
-        self._containers = []
-        self._pods = []
-
     @cached_property
     def flannel_ports(self):
         ports = []
-        for port in self.nethelp.host_interfaces:
+        nethelp = HostNetworkingHelper()
+        for port in nethelp.host_interfaces:
             if "flannel" in port.name:
                 ports.append(port)
 
@@ -70,34 +65,26 @@ class KubernetesBase(object):
 
     @cached_property
     def pods(self):
-        if self._pods:
-            return self._pods
-
-        _pods = []
+        pods = []
         pods_path = os.path.join(HotSOSConfig.data_root,
                                  "var/log/pods")
         if os.path.exists(pods_path):
             for pod in os.listdir(pods_path):
-                _pods.append(pod)
+                pods.append(pod)
 
-        self._pods = sorted(_pods)
-        return self._pods
+        return sorted(pods)
 
     @cached_property
     def containers(self):
-        if self._containers:
-            return self._containers
-
-        _containers = []
+        containers = []
         containers_path = os.path.join(HotSOSConfig.data_root,
                                        "var/log/containers")
         if os.path.exists(containers_path):
             for pod in os.listdir(containers_path):
                 pod = pod.partition('.log')[0]
-                _containers.append(pod)
+                containers.append(pod)
 
-        self._containers = sorted(_containers)
-        return self._containers
+        return sorted(containers)
 
 
 class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase):

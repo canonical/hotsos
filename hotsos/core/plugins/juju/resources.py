@@ -13,7 +13,6 @@ class JujuMachine(object):
 
     def __init__(self, juju_lib_path):
         self.juju_lib_path = juju_lib_path
-        self.cfg = {}
 
     @property
     def id(self):
@@ -23,29 +22,28 @@ class JujuMachine(object):
 
     @cached_property
     def config(self):
-        if not self.cfg:
-            path = glob.glob(os.path.join(self.juju_lib_path,
-                                          "agents/machine-*/agent.conf"))
-            if not path:
-                return self.cfg
+        path = glob.glob(os.path.join(self.juju_lib_path,
+                                      "agents/machine-*/agent.conf"))
+        if not path:
+            return {}
 
-            # NOTE: we only expect one of these to exist
-            path = path[0]
-            # filter out 'sanitised' lines since they will not be valid yaml
-            if os.path.exists(path):
-                ftmp = utils.mktemp_dump("")
-                with open(ftmp, 'w') as fdtmp:
-                    expr = re.compile(r"\*\*\*\*\*\*\*\*\*")
-                    with open(path) as fd:
-                        for line in fd.readlines():
-                            if not expr.search(line):
-                                fdtmp.write(line)
+        # NOTE: we only expect one of these to exist
+        path = path[0]
+        # filter out 'sanitised' lines since they will not be valid yaml
+        if os.path.exists(path):
+            ftmp = utils.mktemp_dump("")
+            with open(ftmp, 'w') as fdtmp:
+                expr = re.compile(r"\*{9}")
+                with open(path) as fd:
+                    for line in fd:
+                        if not expr.search(line):
+                            fdtmp.write(line)
 
-                with open(ftmp) as fd:
-                    self.cfg = yaml.safe_load(fd)
-                os.remove(ftmp)
+            with open(ftmp) as fd:
+                cfg = yaml.safe_load(fd)
 
-        return self.cfg
+            os.remove(ftmp)
+            return cfg
 
     @cached_property
     def agent_service_name(self):

@@ -87,7 +87,6 @@ class BcacheBase(StorageBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.cachesets = []
-        self._bcache_devs = []
 
         for entry in glob.glob(os.path.join(HotSOSConfig.data_root,
                                'sys/fs/bcache/*')):
@@ -113,9 +112,7 @@ class BcacheBase(StorageBase):
     @cached_property
     def udev_bcache_devs(self):
         """ If bcache devices exist fetch information and return as a list. """
-        if self._bcache_devs:
-            return self._bcache_devs
-
+        devs = []
         with CLIHelperFile() as cli:
             s = FileSearcher()
             sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
@@ -123,7 +120,6 @@ class BcacheBase(StorageBase):
                                      tag="bcacheinfo")
             s.add(sdef, cli.udevadm_info_exportdb())
             results = s.run()
-            devs = []
             for section in results.find_sequence_sections(sdef).values():
                 dev = {}
                 for r in section:
@@ -134,8 +130,7 @@ class BcacheBase(StorageBase):
 
                 devs.append(dev)
 
-        self._bcache_devs = devs
-        return self._bcache_devs
+        return devs
 
     def resolve_bdev_from_dev(self, devpath):
         """
