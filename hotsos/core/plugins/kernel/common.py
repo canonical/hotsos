@@ -9,11 +9,6 @@ from hotsos.core.plugins.kernel.config import KernelConfig
 
 class KernelBase(object):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._kernel_version = ""
-        self._boot_parameters = []
-
     @cached_property
     def version(self):
         """Returns string kernel version."""
@@ -21,9 +16,9 @@ class KernelBase(object):
         if uname:
             ret = re.compile(r"^Linux\s+\S+\s+(\S+)\s+.+").match(uname)
             if ret:
-                self._kernel_version = ret[1]
+                return ret[1]
 
-        return self._kernel_version
+        return ""
 
     @cached_property
     def isolcpus_enabled(self):
@@ -46,9 +41,7 @@ class KernelBase(object):
 
                 parameters.append(entry)
 
-            self._boot_parameters = parameters
-
-        return self._boot_parameters
+            return parameters
 
 
 class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
