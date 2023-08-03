@@ -21,8 +21,8 @@ conclusions:
       type: MemoryWarning
       message: >-
         The following numa nodes have limited high order memory available: {nodes}.
-        At present the top 5 highest consumers of memory are: {top5}. See summary
-        or /proc/buddyinfo for more info.
+        At present the top 5 highest consumers of memory are: {top5}. See `memory:nodes`
+        section in kernel summary or /proc/buddyinfo for more info.
       format-dict:
         nodes: $nodes_with_limited_high_order_memory:comma_join
         top5: $slab_major_consumers:comma_join
@@ -35,10 +35,13 @@ conclusions:
     raises:
       type: MemoryWarning
       message: >-
-        Memory compaction failures are at {pcent}% of successes. This can suggest that
-        there are insufficient high-order memory blocks available and the kernel is
-        unable to form larger blocks on request which can slow things down. See vmstat
-        output for more detail.
+        Memory compaction (defragmentation) success to failure ratio is at {pcent}%.
+        This suggests that the system's memory is getting fragmented but the defragmentation
+        attempts are failing at a significant rate, which can indicate that there are
+        insufficient high-order memory blocks available and the kernel cannot form larger
+        blocks on request. Running on a highly fragmented memory will have a negative impact on
+        the system's performance, especially for memory I/O intensive workloads. See /proc/vmstat
+        for more info.
       format-dict:
         pcent: $compaction_failures_percent
 
