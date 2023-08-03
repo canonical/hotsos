@@ -11,4 +11,5 @@ raised-issues:
     consumers of memory are: buffer_head (87540.6796875k),
     anon_vma_chain (9068.0k), radix_tree_node (50253.65625k),
     Acpi-State (5175.703125k), vmap_area (2700.0k). See
-    summary or /proc/buddyinfo for more info.
+    `memory:nodes` section in kernel summary or /proc/buddyinfo
+    for more info.

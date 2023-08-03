@@ -21,12 +21,15 @@ raised-issues:
       available: node0-normal. At present the top 5 highest
       consumers of memory are: buffer_head (87540.6796875k),
       anon_vma_chain (9068.0k), radix_tree_node (50253.65625k),
-      Acpi-State (5175.703125k), vmap_area (2700.0k). See
-      summary or /proc/buddyinfo for more info.
+      Acpi-State (5175.703125k), vmap_area (2700.0k). See `memory:nodes`
+      section in kernel summary or /proc/buddyinfo for more info.
     - >-
-      Memory compaction failures are at 11% of successes. This can
-      suggest that there are insufficient high-order memory blocks
-      available and the kernel is unable to form larger blocks on
-      request which can slow things down. See vmstat output for
-      more detail.
+      Memory compaction (defragmentation) success to failure ratio is at 11%.
+      This suggests that the system's memory is getting fragmented but the
+      defragmentation attempts are failing at a significant rate, which can
+      indicate that there are insufficient high-order memory blocks available
+      and the kernel cannot form larger blocks on request. Running on a highly
+      fragmented memory will have a negative impact on the system's performance,
+      especially for memory I/O intensive workloads. See /proc/vmstat for more
+      info.
 
