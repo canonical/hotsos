@@ -115,6 +115,7 @@ class TestSystemSummary(SystemTestsBase):
                     'rootfs': ('/dev/vda2      308585260 25514372 267326276 '
                                '  9% /'),
                     'ubuntu-pro': {'status': 'not-attached'},
+                    'uptime': '0d:17h:41m',
                     'virtualisation': 'kvm',
                     'unattended-upgrades': 'ENABLED'}
         inst = summary.SystemSummary()
