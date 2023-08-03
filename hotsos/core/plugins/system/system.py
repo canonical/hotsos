@@ -3,7 +3,10 @@ import re
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import CLIHelper, CLIHelperFile, SYSCtlFactory
+from hotsos.core.host_helpers import (
+    CLIHelper, CLIHelperFile,
+    SYSCtlFactory, UptimeHelper
+)
 from hotsos.core.log import log
 from hotsos.core.search import (
     FileSearcher, SearchDef,
@@ -80,6 +83,10 @@ class SystemBase(object):
     @cached_property
     def hostname(self):
         return CLIHelper().hostname()
+
+    @cached_property
+    def uptime(self):
+        return str(UptimeHelper())
 
     @cached_property
     def os_release_name(self):

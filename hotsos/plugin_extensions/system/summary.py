@@ -53,3 +53,7 @@ class SystemSummary(SystemChecksBase):
     @idx(8)
     def __summary_ubuntu_pro(self):
         return self.ubuntu_pro_status
+
+    @idx(9)
+    def __summary_uptime(self):
+        return self.uptime
