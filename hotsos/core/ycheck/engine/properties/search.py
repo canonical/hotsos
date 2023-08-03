@@ -150,7 +150,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         if not any([has_result_hours, has_boot_hours]):
             return
 
-        uptime_etime_hours = UptimeHelper().hours
+        uptime_etime_hours = UptimeHelper().in_hours
         hours = self.search_result_age_hours
         min_hours_since_last_boot = self.min_hours_since_last_boot
         if not hours:
