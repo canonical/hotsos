@@ -17,7 +17,7 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 mock:
   patch:
-    hotsos.core.ycheck.engine.properties.search.UptimeHelper.hours:
+    hotsos.core.ycheck.engine.properties.search.UptimeHelper.in_hours:
       kwargs:
         new: 49
     hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors:

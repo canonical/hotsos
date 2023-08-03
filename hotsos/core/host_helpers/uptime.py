@@ -7,8 +7,13 @@ from hotsos.core.log import log
 
 class UptimeHelper(object):
     def __init__(self):
-        # unfortunately sosreports dont have proc/uptime otherwise we would use
-        # that.
+        """
+        uptime is either expressed in different combinations of days, hours
+        and minutes so we determine which format is used to then extract
+        the time to present it in a common way.
+        """
+        # unfortunately sosreports don't have proc/uptime otherwise we would
+        # use that.
         self.uptime = CLIHelper().uptime() or ""
         # this needs to take into account the different formats supported by
         # https://gitlab.com/procps-ng/procps/-/blob/newlib/library/uptime.c
@@ -27,7 +32,8 @@ class UptimeHelper(object):
             self.subgroups['loadavg'] = {'value': ret.group(4)}
 
     @cached_property
-    def minutes(self):
+    def in_minutes(self):
+        """ Total uptime in minutes. """
         if not self.subgroups:
             log.info("uptime not available")
             return
@@ -56,16 +62,29 @@ class UptimeHelper(object):
                 return int(ret.group(1))
 
         log.warning("unknown uptime format in %s", self.uptime)
+        return 0
 
     @property
-    def seconds(self):
-        if self.minutes:
-            return self.minutes * 60
+    def in_seconds(self):
+        """ Total uptime in seconds. """
+        if self.in_minutes:
+            return self.in_minutes * 60
+
+        return 0
 
     @property
-    def hours(self):
-        if self.minutes:
-            return int(self.minutes / 60)
+    def in_hours(self):
+        """ Total uptime in hours. """
+        if self.in_minutes:
+            return int(self.in_minutes / 60)
+
+        return 0
+
+    def __repr__(self):
+        days = int(self.in_hours / 24)
+        hours = self.in_hours - days * 24
+        minutes = self.in_minutes - (self.in_hours * 60)
+        return "{}d:{}h:{}m".format(days, hours, minutes)
 
     @property
     def loadavg(self):
