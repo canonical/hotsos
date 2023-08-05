@@ -32,7 +32,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
                              event_names=['bridge-no-such-device',
                                           'netdev-linux-no-such-device'])
     def process_vswitchd_events(self, event):
-        ret = self.categorise_events(event)
+        ret = self.categorise_events(event, max_results_per_date=5)
         if ret:
             return {event.name: ret}, 'ovs-vswitchd'
 

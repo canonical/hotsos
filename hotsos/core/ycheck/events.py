@@ -75,7 +75,8 @@ class EventProcessingUtils(object):
 
     @classmethod
     def categorise_events(cls, event, results=None, key_by_date=True,
-                          include_time=False, squash_if_none_keys=False):
+                          include_time=False, squash_if_none_keys=False,
+                          max_results_per_date=None):
         """
         Provides a generic way to categorise events. The default is to group
         events by key which is typically some kind of resource id or event
@@ -104,6 +105,9 @@ class EventProcessingUtils(object):
                                     match properly) the results for each date
                                     will be squashed to a number/count of
                                     events.
+        @param max_results_per_date: an integer such that if key_by_date is
+                                     True this will pick the top N entries
+                                     with the highest count.
         """
         info = {}
         squash = False
@@ -187,7 +191,23 @@ class EventProcessingUtils(object):
                 for key in info:
                     info[key] = sorted_dict(info[key])
 
-            return sorted_dict(info, reverse=not key_by_date)
+            results = sorted_dict(info, reverse=not key_by_date)
+            if not (key_by_date and max_results_per_date):
+                return results
+
+            shortened = {}
+            for date, entries in results.items():
+                if len(entries) <= max_results_per_date:
+                    shortened[date] = entries
+                    continue
+
+                top_n = dict(sorted(entries.items(),
+                                    key=lambda e: e[1],
+                                    reverse=True)[:max_results_per_date])
+                shortened[date] = {'total': len(entries),
+                                   "top{}".format(max_results_per_date): top_n}
+
+            return shortened
 
 
 class YEventCheckerBase(YHandlerBase, EventProcessingUtils):

@@ -39,9 +39,9 @@ class OpenstackSummary(OpenstackChecksBase):
         for router in ha_info.ha_routers:
             state = router.ha_state
             if state in routers:
-                routers[state].append(router.uuid)
+                routers[state] += 1
             else:
-                routers[state] = [router.uuid]
+                routers[state] = 1
 
         if routers:
             return routers
