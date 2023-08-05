@@ -4,3 +4,12 @@ potential-issues:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
         unattended upgrades. (origin=system.auto_scenario_check)
+bugs-detected:
+  openstack:
+    - desc: This host is running neutron agents that use python3-oslo.privsep and
+        the installed version (2.1.1-0ubuntu1) is impacted by a known bug that can
+        cause the agents to become unresponsive in loaded environments. See bug for
+        full details. You are recommended to upgrade this package and restart neutron
+        agents.
+      id: https://bugs.launchpad.net/bugs/2029952
+      origin: openstack.auto_scenario_check
