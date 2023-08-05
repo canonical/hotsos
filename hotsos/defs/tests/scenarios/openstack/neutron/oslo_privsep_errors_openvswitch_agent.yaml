@@ -1,0 +1,40 @@
+target-name: oslo_privsep_errors.yaml
+mock:
+  patch.object:
+    hotsos.core.ycheck.engine.properties.inputdef.CLIHelperFile:
+      kwargs:
+        create: true
+        attribute: journalctl
+        return_value: /tmp/hotsos-unit-test-oslo-privsep-errors-ovs-agent.txt
+data-root:
+  files:
+    /tmp/hotsos-unit-test-oslo-privsep-errors-ovs-agent.txt: |
+      -- Logs begin at Tue 2023-08-01 10:42:07 UTC, end at Sat 2023-08-05 10:29:26 UTC. --
+      2023-08-04T19:12:11+0000 porygon neutron-openvswitch-agent[1825155]: ValueError: 1051918 exceeds max_str_len(1048576)
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-common                         2:16.4.2-0ubuntu6.2                                  all          Neutron is a virtual network service for Openstack - common
+      ii  neutron-dhcp-agent                     2:16.4.2-0ubuntu6.2                                  all          Neutron is a virtual network service for Openstack - DHCP agent
+      ii  neutron-l3-agent                       2:16.4.2-0ubuntu6.2                                  all          Neutron is a virtual network service for Openstack - l3 agent
+      ii  neutron-metadata-agent                 2:16.4.2-0ubuntu6.2                                  all          Neutron is a virtual network service for Openstack - metadata agent
+      ii  neutron-metering-agent                 2:16.4.2-0ubuntu6.2                                  all          Neutron is a virtual network service for Openstack - metering agent
+      ii  neutron-openvswitch-agent              2:16.4.2-0ubuntu6.2                                  all          Neutron is a virtual network service for Openstack - Open vSwitch plugin agent
+      ii  python3-neutron                        2:16.4.2-0ubuntu6.2                                  all          Neutron is a virtual network service for Openstack - Python library
+      ii  python3-neutron-lib                    2.3.0-0ubuntu1                                       all          Neutron shared routines and utilities - Python 3.x
+      ii  python3-neutronclient                  1:7.1.1-0ubuntu1                                     all          client API library for Neutron - Python 3.x
+      ii  python3-oslo.privsep                   2.1.1-0ubuntu1                                       all          OpenStack library for privilege separation - Python 3.x
+  copy-from-original:
+    - sos_commands/systemd
+raised-issues:
+  OpenstackError: >-
+    The privsep daemon used by the neutron-openvswitch-agent service on this host is
+    reporting ValueError errors for max_str_len that suggest it has crashed due
+    to the amount of data being transferred between the privileged and
+    unprivileged threads exceeding the allowed limit. This is known to cause
+    unresponsive agents.
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2029952: >-
+    This host is running neutron agents that use python3-oslo.privsep and the
+    installed version (2.1.1-0ubuntu1) is impacted by a known bug that can
+    cause the agents to become unresponsive in loaded environments. See bug for
+    full details. You are recommended to upgrade this package and restart
+    neutron agents.

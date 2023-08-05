@@ -1,0 +1,95 @@
+# Both issue conclusions use the same message template so using an anchor to
+# avoid having to write it twice.
+has_privsep_errors_msg: &has_privsep_errors_msg
+      message: >-
+        The privsep daemon used by the {svc_name} service on this host is
+        reporting {exc_types} errors for {buffer_type} that suggest it has
+        crashed due to the amount of data being transferred between the
+        privileged and unprivileged threads exceeding the allowed limit. This
+        is known to cause unresponsive agents.
+
+checks:
+  has_l3_agent:
+    systemd:
+      neutron-l3-agent: enabled
+  has_ovs_agent:
+    systemd:
+      neutron-ovs-agent: enabled
+  has_bug_lp2029952:
+    apt:
+      python3-oslo.privsep:
+        # ussuri
+        - min: 2.1.0
+          max: 2.1.1-0ubuntu1
+        # victoria
+        - min: 2.4.0
+          max: 2.4.0-0ubuntu1
+        # wallaby
+        - min: 2.5.0
+          max: 2.5.0-0ubuntu1
+        # xena
+        - min: 2.6.0
+          max: 2.6.2-0ubuntu1
+        # yoga
+        - min: 2.7.0
+          max: 2.7.0-0ubuntu1
+  # NOTE: journalctl is constrained to all_logs/max_logrotate_depth days
+  #       and if an agent is stuck because of the following issue it will
+  #       probably only print the message once since last restart which may
+  #       have been far beyond this many days ago. Therefore this is only going
+  #       to catch the problem if the service was restarted within this
+  #       timeframe.
+  l3_agent_privsep_errors:
+    input:
+      command: journalctl
+      kwargs:
+        unit: neutron-l3-agent
+    search:
+      expr: '([\d-]+)T([\d:]+)\+\d+ \S+ (\S+)\[\d+\]: (\S+): \d+ exceeds ([a-z_]+)\(\d+\)'
+  ovs_agent_privsep_errors:
+    input:
+      command: journalctl
+      kwargs:
+        unit: neutron-openvswitch-agent
+    search:
+      expr: '([\d-]+)T([\d:]+)\+\d+ \S+ (\S+)\[\d+\]: (\S+): \d+ exceeds ([a-z_]+)\(\d+\)'
+conclusions:
+  l3_agent_has_privsep_errors:
+    decision:
+      - has_l3_agent
+      - l3_agent_privsep_errors
+    raises:
+      type: OpenstackError
+      <<: *has_privsep_errors_msg
+      format-dict:
+        svc_name: '@checks.l3_agent_privsep_errors.search.results_group_3:first'
+        exc_types: '@checks.l3_agent_privsep_errors.search.results_group_4:unique_comma_join'
+        buffer_type: '@checks.l3_agent_privsep_errors.search.results_group_5:unique_comma_join'
+  ovs_agent_has_privsep_errors:
+    decision:
+      - has_ovs_agent
+      - ovs_agent_privsep_errors
+    raises:
+      type: OpenstackError
+      <<: *has_privsep_errors_msg
+      format-dict:
+        svc_name: '@checks.ovs_agent_privsep_errors.search.results_group_3:first'
+        exc_types: '@checks.ovs_agent_privsep_errors.search.results_group_4:unique_comma_join'
+        buffer_type: '@checks.ovs_agent_privsep_errors.search.results_group_5:unique_comma_join'
+  has_bug_lp2029952:
+    decision:
+      - or: [has_l3_agent, has_ovs_agent]
+      - has_bug_lp2029952
+    raises:
+      type: LaunchpadBug
+      bug-id: 2029952
+      message: >-
+        This host is running neutron agents that use {package} and the
+        installed version ({version}) is impacted by a known bug that can
+        cause the agents to become unresponsive in loaded environments. See bug
+        for full details. You are recommended to upgrade this package and
+        restart neutron agents.
+      format-dict:
+        package: '@checks.has_bug_lp2029952.requires.package'
+        version: '@checks.has_bug_lp2029952.requires.version'
+
