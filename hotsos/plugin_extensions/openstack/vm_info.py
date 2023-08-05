@@ -26,7 +26,8 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
 
         instances = self.nova.instances.values()
         if instances:
-            _info['running'] = [i.uuid for i in instances]
+            _info['running'] = {'count': len(instances),
+                                'uuids': [i.uuid for i in instances]}
 
         novalibvirt = NovaLibvirt()
         cpu_models = novalibvirt.cpu_models

@@ -612,7 +612,7 @@ class TestOpenstackSummary(TestOpenstackBase):
         self.assertTrue(inst.ovs_cleanup_run_manually)
 
     def test_get_neutronl3ha_info(self):
-        expected = {'backup': ['984c22fd-64b3-4fa1-8ddd-87090f401ce5']}
+        expected = {'backup': 1}
         inst = summary.OpenstackSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['neutron-l3ha'], expected)
@@ -622,7 +622,9 @@ class TestOpenstackVmInfo(TestOpenstackBase):
 
     def test_get_vm_checks(self):
         expected = {"vm-info": {
-                        "running": ['d1d75e2f-ada4-49bc-a963-528d89dfda25'],
+                        "running": {
+                            'count': 1,
+                            'uuids': ['d1d75e2f-ada4-49bc-a963-528d89dfda25']},
                         "cpu-models": {'Skylake-Client-IBRS': 1},
                         "vcpu-info": {
                             "available-cores": 2,
