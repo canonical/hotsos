@@ -52,7 +52,7 @@ The following properties are mandatory when writing a scenario:
 * :ref:`Checks<checks>`
 * :ref:`Conclusions<conclusions>`
 
-See :ref:`language reference<Main Properties>` for details on how to configure these properties.
+See :ref:`language reference<Principle Properties>` for details on how to configure these properties.
 
 Example Scenario
 ================

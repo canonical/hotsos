@@ -1,10 +1,7 @@
-Shared Properties
-=================
-
-These properties can be used by any property that chooses to implement them.
+NOTE: these properties can be used on their own or in conjunction with others e.g. :ref:`checks`.
 
 Input
------
+=====
 
 Provides a common way to define input. Supports a filesystem
 path or `command <https://github.com/canonical/hotsos/blob/main/hotsos/core/host_helpers/cli.py>`_.
@@ -48,7 +45,7 @@ Cache keys:
 * cmd_tmp_path
 
 Search
-------
+======
 
 Used to define a search using expression(s) and constraints. Different types of
 search expressions that can be used depending on the data being searched and how
@@ -114,7 +111,47 @@ the code to support common formats.
 
 Cache keys:
 
-* simple_search
-* sequence_search
-* sequence_passthrough_search
+* simple_search - a *searchkit.SearchDef* object
+* sequence_search - a *searchkit.SequenceSearchDef* object
+* sequence_passthrough_search - a list of *searchkit.SearchDef* objects
+
+The above keys are mostly used for internal purposes and the following extra
+entries are added to provide a way to access search results in :ref:`raises`
+(also see :ref:`PropertyCache`):
+
+* search.results_group_<int> - extract the value from result group <int>
+* search.num_results - the number of results found by this search
+
+In the following example we demonstrate how to use these keys. A file called
+*var/log/myapp.log* has contents:
+
+.. code-block:: console
+
+    2023-10-12 13:22:01 ERROR: queue 'small_queue' is full
+    2023-10-12 14:12:33 ERROR: queue 'small_queue' is full
+
+And we have a :ref:`scenario<scenarios overview>` like:
+
+.. code-block:: yaml
+
+    checks:
+      errorsfound:
+        input: var/log/myapp.log
+        expr: '\S+ \S+ ERROR: queue ''(\S+)'' is full'
+    conclusions:
+      haserrors:
+        decision: errorsfound
+        raises:
+          type: SomeWarning
+          message: >-
+            found {count} reports of queue full for queue(s): {queues}
+          format-dict:
+            count: '@checks.errorsfound.search.num_results'
+            queues: '@checks.errorsfound.search.results_group_1:unique_comma_join'
+
+The message string output would look like:
+
+.. code-block:: console
+
+    found 2 "queue full" error(s) for queue(s): small_queue
 

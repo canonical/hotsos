@@ -1,10 +1,18 @@
-Properties
-==========
+Principle Properties
+====================
 
 .. toctree::
    :maxdepth: 2
 
    main_properties
+
+
+Shared Properties
+=================
+
+.. toctree::
+   :maxdepth: 2
+
    shared_properties
 
 

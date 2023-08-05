@@ -1,10 +1,5 @@
-Main Properties
-===============
-
-Main properties are the principle type of property and the main building blocks for events and scenarios. They cannot be used as a sub-property by any other property.
-
 Vars
-----
+====
 
 Use the ``vars`` property to define one or more variables that can be referenced
 from other properties. These are defined as a list of ``key: value`` pairs where
@@ -34,7 +29,7 @@ A :ref:`factory <FactoryClasses>` reference can also be defined using the follow
 When *$foo* is used it will have the value of *myproperty*.
 
 Accessing
-^^^^^^^^^
+---------
 
 Variables are accessed from other properties by prefixing their name with a '$' e.g.
 
@@ -52,7 +47,7 @@ Variables are accessible from any property within the file in which they are def
 NOTE: global properties are not yet supported.
 
 Checks
-------
+======
 
 A dictionary of labelled checks each of which is a grouping of properties (see
 Supported Properties). Eack check is executed independently and produces a
@@ -86,7 +81,7 @@ Cache keys:
 * requires - (if check contains a requires property) this is set to the cache of that property.
 
 Conclusions
------------
+===========
 
 A conclusion is used in :ref:`scenarios` to derive an outcome based on the
 result of one or more :ref:`checks <checks>`. When a conclusion is matched,
@@ -119,7 +114,7 @@ Usage:
 The following provides an explanation of the fields required to define a conclusion:
 
 Decision
-^^^^^^^^
+--------
 
 This property is typically used in :ref:`Conclusions<conclusions>`.
 CHECKS refers to a set of one or more :ref:`Checks<checks>` names organised as a
@@ -133,7 +128,7 @@ Usage:
     decision: CHECKS
 
 Priority
-^^^^^^^^
+--------
 
 Defines an integer priority. This is a very simple property that is typically
 used by :ref:`conclusions` to associate a priority or precedence to
@@ -146,7 +141,7 @@ Usage:
     priority: <int>
 
 Raises
-^^^^^^
+------
 
 Defines an issue to raise along with the message displayed. For example a
 :ref:`Checks<checks>` may want to raise an `issue_types <https://github.com/canonical/hotsos/blob/main/hotsos/core/issues/issue_types.py>`_
@@ -172,7 +167,7 @@ format field in the message string and *value* is either a Python property
 import path or a :ref:`property cache reference<PropertyCache>`
 
 Requires
---------
+========
 
 Defines a set of one or more :ref:`requirements <requirement types>` to be
 executed with a pass/fail result. This property is implemented as a
