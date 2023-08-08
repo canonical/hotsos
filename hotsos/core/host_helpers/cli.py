@@ -176,7 +176,7 @@ class BinCmd(CmdBase):
     @reset_command
     @run_post_exec_hooks
     @run_pre_exec_hooks
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args, skip_json_decode=False, **kwargs):
         cmd = self.cmd
         if args:
             cmd = cmd.format(*args)
@@ -201,7 +201,7 @@ class BinCmd(CmdBase):
             log.exception("failed to decode command output for '%s'", cmd)
             output = ''
 
-        if self.json_decode:
+        if self.json_decode and not skip_json_decode:
             return CmdOutput(json.loads(output))
 
         if self.singleline:
@@ -545,6 +545,12 @@ class SourceRunner(object):
         self.sources = sources
         self.cache = cache
         self.output_file = output_file
+        # Command output can differ between CLIHelper and CLIHelperFile so we
+        # need to cache them separately.
+        if output_file:
+            self.cache_cmdkey = "{}.file".format(cmdkey)
+        else:
+            self.cache_cmdkey = cmdkey
 
     def bsource(self, *args, **kwargs):
         # binary sources only apply if data_root is system root
@@ -555,15 +561,19 @@ class SourceRunner(object):
             #       args.
             if not any([args, kwargs]):
                 cache = True
-                out = self.cache.load(self.cmdkey)
+                out = self.cache.load(self.cache_cmdkey)
                 if out is not None:
                     return out
 
             try:
+                if self.output_file:
+                    # don't decode if we are going to be saving to a file
+                    kwargs['skip_json_decode'] = True
+
                 bin_out = bsource(*args, **kwargs)
                 if cache and bin_out is not None:
                     try:
-                        self.cache.save(self.cmdkey, bin_out)
+                        self.cache.save(self.cache_cmdkey, bin_out)
                     except pickle.PicklingError as exc:
                         log.info("unable to cache command '%s' output: %s",
                                  self.cmdkey, exc)
@@ -659,11 +669,11 @@ class CLIHelperBase(HostHelpersBase):
     def cache_name(self):
         return "commands"
 
-    def cache_load(self, cmdname):
-        return self.cache.get(cmdname)
+    def cache_load(self, key):
+        return self.cache.get(key)
 
-    def cache_save(self, cmdname, output):
-        return self.cache.set(cmdname, output)
+    def cache_save(self, key, output):
+        return self.cache.set(key, output)
 
     @property
     def command_catalog(self):
@@ -810,7 +820,7 @@ class CLIHelperBase(HostHelpersBase):
                                  last_line_filter='report'),
                  ],
             'ceph_mgr_module_ls':
-                [BinCmd('ceph mgr_module_ls', json_decode=True),
+                [BinCmd('ceph mgr module ls', json_decode=True),
                  # sosreport < 4.2
                  CephJSONFileCmd('sos_commands/ceph/ceph_mgr_module_ls',
                                  json_decode=True),
