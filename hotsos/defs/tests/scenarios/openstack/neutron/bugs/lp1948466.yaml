@@ -1,0 +1,11 @@
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2023-08-16 00:22:14.209 87890 ERROR neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.maintenance [req-cef1fdf1-c249-4d8c-ad0d-23d3a81f60ec - - - - -] Maintenance task: Failed to fix deleted resource fe5482d2-351d-4b9d-9da1-3d6738f64755 (type: subnets): KeyError: 'uuid'
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1948466: >-
+    Known neutron-server bug identified that impacts deletion of neutron
+    subnets from the OVN database via the maintenance task.
