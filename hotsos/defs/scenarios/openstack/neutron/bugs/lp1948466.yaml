@@ -1,0 +1,15 @@
+checks:
+  has_1948466:
+    input:
+      path: 'var/log/neutron/neutron-server.log'
+    expr: '([\d-]+) [\d:]+\.\d{3} .+ ERROR neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.maintenance .+ Maintenance task: Failed to fix deleted resource .+ \(type: subnets\): KeyError: ''uuid'''
+    hint: 'ERROR neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.maintenance'
+conclusions:
+  lp1948466:
+    decision: has_1948466
+    raises:
+      type: LaunchpadBug
+      bug-id: 1948466
+      message: >-
+        Known neutron-server bug identified that impacts deletion of neutron
+        subnets from the OVN database via the maintenance task.
