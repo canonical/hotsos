@@ -162,6 +162,10 @@ class LXDWarning(IssueTypeBase):
     pass
 
 
+class MAASWarning(IssueTypeBase):
+    pass
+
+
 class LaunchpadBug(BugTypeBase):
 
     @property
