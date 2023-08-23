@@ -1,0 +1,13 @@
+data-root:
+  files:
+    var/snap/maas/common/log/proxy/access.log: |
+      1666854189.800 68 xx.xx.xx.xx. TAG_NONE/503 0 CONNECT api.snapcraft.io:443 - HIER_NONE/- -
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  MAASWarning: >-
+    maas-proxy is reporting failure to forward requests (e.g. to
+    api.snapcraft.io:443). You can try increasing forward_max_tries to 50 or
+    setting client_persistent_connections off, server_persistent_connections off
+    to alleviate the problem.

@@ -1,0 +1,18 @@
+checks:
+  has_proxy_issue:
+    input:
+      - 'var/snap/maas/common/log/proxy/access.log'
+      - 'var/log/maas/proxy/access.log'
+    expr: '.+ TAG_NONE/503 \d+ CONNECT (\S+)'
+conclusions:
+  possible_issues:
+    decision: has_proxy_issue
+    raises:
+      type: MAASWarning
+      message: >-
+        maas-proxy is reporting failure to forward requests (e.g. to
+        {destinations}). You can try increasing forward_max_tries to 50 or
+        setting client_persistent_connections off,
+        server_persistent_connections off to alleviate the problem.
+      format-dict:
+        destinations: '@checks.has_proxy_issue.search.results_group_1:unique_comma_join'
