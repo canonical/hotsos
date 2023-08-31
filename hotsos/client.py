@@ -384,7 +384,7 @@ class HotSOSClient(object):
         if plugin not in PLUGIN_CATALOG:
             raise Exception("unknown plugin {}".format(plugin))
 
-        log.name = 'plugin.{}'.format(plugin)
+        log.name = 'hotsos.plugin.{}'.format(plugin)
         log.debug("running plugin %s", plugin)
         HotSOSConfig.plugin_name = plugin
         parts = PLUGIN_CATALOG[plugin]

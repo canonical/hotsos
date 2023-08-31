@@ -4,13 +4,13 @@ import tempfile
 
 from hotsos.core.config import HotSOSConfig
 
-log = logging.getLogger()
+log = logging.getLogger('hotsos')
 
 
 def setup_logging():
     fmt = ("%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] "
            "%(message)s")
-    log.name = 'plugin.{}'.format(HotSOSConfig.plugin_name)
+    log.name = 'hotsos.plugin.{}'.format(HotSOSConfig.plugin_name)
     if not HotSOSConfig.debug_mode:
         logging.basicConfig(format=fmt, level=logging.DEBUG,
                             filename=tempfile.mktemp(suffix='hotsos.log'))
