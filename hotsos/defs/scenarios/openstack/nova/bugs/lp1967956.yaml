@@ -21,6 +21,6 @@ conclusions:
     raises:
       type: LaunchpadBug
       bug-id: 1967956
-      message: |
-        This host is affected by an Openstack Nova bug that breaks vm image resize
-        operations on CIS hardened nodes.
+      message: >-
+        This host is affected by an Openstack Nova bug that breaks vm image
+        resize operations on CIS hardened nodes.

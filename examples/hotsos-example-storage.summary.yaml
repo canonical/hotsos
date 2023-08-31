@@ -21,7 +21,7 @@ system:
     SystemWarnings:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
-        unattended upgrades. (origin=system.auto_scenario_check)
+        unattended upgrades.
 storage:
   ceph:
     release:
@@ -107,18 +107,15 @@ storage:
           - cinder-ceph (3)
           - nova (4)
   bugs-detected:
-    - desc: This Ceph cluster is vulnerable to bug https://tracker.ceph.com/issues/53729
-        in which OSD(s) can consume considerable amounts of memory and eventually
-        be OOM killed due to potentially millions of duplicate entries for PG(s).
-        If affected, it is very hard to recover the OSD(s) so the recommendation is
-        to get the cluster upgraded to a version containing a fix. The fixes are available
-        in 15.2.17-0ubuntu0.20.04.4 for Octopus, 16.2.11 for Pacific, 17.2.5 for Quincy.
-        For some earlier versions of Octopus, it's possible to do offline trimming
-        using ceph-objectstore-tool. Please disable PG autoscaler for all pools (set
-        them to 'warn' mode) as PG splitting/merging can exacerbate the possibility
-        of hitting this bug.
-      id: https://tracker.ceph.com/issues/53729
-      origin: storage.auto_scenario_check
+    https://tracker.ceph.com/issues/53729: This Ceph cluster is vulnerable to a bug
+      in which OSDs can consume considerable amounts of memory and eventually be OOM
+      killed due to potentially millions of duplicate PG entries. If affected, it
+      is very hard to recover the OSDs so the recommendation is to get the cluster
+      upgraded to a version containing a fix. The fixes are available as of 15.2.17-0ubuntu0.20.04.4
+      (Octopus), 16.2.11 (Pacific) and 17.2.5 (Quincy). For some earlier versions
+      of Octopus it is possible to do offline trimming using ceph-objectstore-tool.
+      Please disable PG autoscaler for all pools (set them to 'warn' mode) as PG splitting/merging
+      can exacerbate the possibility of hitting this bug.
   potential-issues:
     CephOSDWarnings:
       - Found the osd(s) [0, 1, 2] using bcache and their underlying block device
@@ -127,7 +124,6 @@ storage:
         in some cases. So this is likely to be a misconfiguration and it's probably
         better to remove the bcache and use the OSDs directly instead. Please compare
         the IOPs of the SSD (OSDs) vs. the bcache device (SSD/NVMe) to ascertain.
-        (origin=storage.auto_scenario_check)
     CephWarnings:
       - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph health detail'
-        for details. (origin=storage.auto_scenario_check)
+        for details.

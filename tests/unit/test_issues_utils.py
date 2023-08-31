@@ -33,8 +33,7 @@ class TestIssuesUtils(utils.BaseTestCase):
         ret = mgr.load_issues()
         self.assertEqual(ret,
                          {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
-                          {'MemoryWarnings':
-                           ['test (origin=testplugin.testpart)']}})
+                          {'MemoryWarnings': ['test']}})
 
     def test_issue_machine_readable(self):
         HotSOSConfig.machine_readable = True
@@ -44,7 +43,7 @@ class TestIssuesUtils(utils.BaseTestCase):
         self.assertEqual(ret,
                          {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                           [{'type': 'MemoryWarning',
-                            'desc': 'test',
+                            'message': 'test',
                             'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_w_empty_context(self):
@@ -56,7 +55,7 @@ class TestIssuesUtils(utils.BaseTestCase):
         self.assertEqual(ret,
                          {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                           [{'type': 'MemoryWarning',
-                            'desc': 'test',
+                            'message': 'test',
                             'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_empty_context(self):
@@ -69,7 +68,7 @@ class TestIssuesUtils(utils.BaseTestCase):
         self.assertEqual(ret,
                          {IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
                           [{'type': 'MemoryWarning',
-                            'desc': 'test',
+                            'message': 'test',
                             'context': {'path': '/foo/bar', 'linenumber': 123},
                             'origin': 'testplugin.testpart'}]})
 
@@ -79,7 +78,7 @@ class TestKnownBugsUtils(utils.BaseTestCase):
     def test_get_known_bugs(self):
         known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
-                        'desc': None,
+                        'message': None,
                         'origin': 'testplugin.testpart'}]}
         with open(os.path.join(self.plugin_tmp_dir,
                                'known_bugs.yaml'), 'w') as fd:
@@ -99,14 +98,14 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         self.assertEqual(ret,
                          {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                           [{'id': 'https://bugs.launchpad.net/bugs/1',
-                            'desc': None,
+                            'message': None,
                             'origin': 'testplugin.testpart'}
                            ]})
 
     def test_add_issue(self):
         known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
-                        'desc': None,
+                        'message': None,
                         'origin': 'testplugin.testpart'}]}
         with open(os.path.join(self.plugin_tmp_dir,
                                'known_bugs.yaml'), 'w') as fd:
@@ -117,9 +116,9 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         ret = mgr.load_bugs()
         expected = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                     [{'id': 'https://bugs.launchpad.net/bugs/1',
-                      'desc': None,
+                      'message': None,
                       'origin': 'testplugin.testpart'},
                      {'id': 'https://bugs.launchpad.net/bugs/2',
-                      'desc': None,
+                      'message': None,
                       'origin': 'testplugin.testpart'}]}
         self.assertEqual(ret, expected)

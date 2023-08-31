@@ -7,6 +7,6 @@ data-root:
   copy-from-original:
     - sos_commands/date/date
 raised-bugs:
-  https://bugs.launchpad.net/bugs/1967956: |
-    This host is affected by an Openstack Nova bug that breaks vm image resize
-    operations on CIS hardened nodes.
+  https://bugs.launchpad.net/bugs/1967956: >-
+    This host is affected by an Openstack Nova bug that breaks vm image
+    resize operations on CIS hardened nodes.

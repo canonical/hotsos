@@ -144,22 +144,18 @@ ISSUES_LEGACY_FORMAT = {
     'testplugin': {
         IssuesManager.SUMMARY_OUT_ISSUES_ROOT: [{
              'type': 'MemoryWarning',
-             'desc': 'a msg',
-             'origin': 'testplugin.01part'}],
+             'message': 'a msg'}],
         IssuesManager.SUMMARY_OUT_BUGS_ROOT: [{
              'id': '1234',
-             'desc': 'a msg',
-             'origin': 'testplugin.01part'}]}}
+             'message': 'a msg'}]}}
 
 ISSUES_NEW_FORMAT = {
     'testplugin': {
         IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
-             'MemoryWarnings': [
-                 'a msg (origin=testplugin.01part)']},
+             'MemoryWarnings': ['a msg']},
         IssuesManager.SUMMARY_OUT_BUGS_ROOT: [{
              'id': '1234',
-             'desc': 'a msg',
-             'origin': 'testplugin.01part'}]}}
+             'message': 'a msg'}]}}
 
 
 class TestPluginTools(utils.BaseTestCase):
@@ -172,14 +168,11 @@ class TestPluginTools(utils.BaseTestCase):
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': [{
                             'type': 'MemoryWarning',
-                            'desc': 'a msg',
-                            'origin':
-                            'testplugin.01part'}]},
+                            'message': 'a msg'}]},
                     IssuesManager.SUMMARY_OUT_BUGS_ROOT: {
                         'testplugin': [{
                             'id': '1234',
-                            'desc': 'a msg',
-                            'origin': 'testplugin.01part'}]}}
+                            'message': 'a msg'}]}}
 
         filtered = OutputManager().minimise(ISSUES_LEGACY_FORMAT,
                                             mode='short')
@@ -188,13 +181,11 @@ class TestPluginTools(utils.BaseTestCase):
     def test_summary_mode_short(self):
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': {
-                            'MemoryWarnings': [
-                                'a msg (origin=testplugin.01part)']}},
+                            'MemoryWarnings': ['a msg']}},
                     IssuesManager.SUMMARY_OUT_BUGS_ROOT: {
                         'testplugin': [{
                             'id': '1234',
-                            'desc': 'a msg',
-                            'origin': 'testplugin.01part'}]}}
+                            'message': 'a msg'}]}}
         filtered = OutputManager().minimise(ISSUES_NEW_FORMAT, mode='short')
         self.assertEqual(filtered, expected)
 

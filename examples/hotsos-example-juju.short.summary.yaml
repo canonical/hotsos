@@ -3,8 +3,8 @@ potential-issues:
     SystemWarnings:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
-        unattended upgrades. (origin=system.auto_scenario_check)
+        unattended upgrades.
   juju:
     JujuWarnings:
       - Juju logs for unit(s) 'nova-compute/0' contain 24 Traceback(s) from the last
-        48 hours - please check. (origin=juju.auto_scenario_check)
+        48 hours - please check.

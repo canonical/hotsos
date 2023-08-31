@@ -7,7 +7,7 @@ data-root:
       port 4: ovn-comput-1 (geneve: ::->10.10.2.33, key=flow, legacy_l2, dp port=4, ttl=64, csum=true)
       port 4: ovn-comput-2 (geneve: ::->10.10.2.29, key=flow, legacy_l2, dp port=4, ttl=64, csum=true)
 raised-bugs:
-  https://bugs.launchpad.net/bugs/1978806:
+  https://bugs.launchpad.net/bugs/1978806: >-
      This node is using OpenvSwitch and conntrack is tracking
      encapsulated packets (geneve, vxlan etc). This is
      considered unnecessary since it is duplicating tracking for

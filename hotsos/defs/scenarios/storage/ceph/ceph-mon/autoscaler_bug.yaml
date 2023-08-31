@@ -1,15 +1,14 @@
 vars:
   autoscaler_enabled_pools: '@hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_enabled_pools'
   msg_main: >-
-    This Ceph cluster is vulnerable to bug https://tracker.ceph.com/issues/53729 in
-    which OSD(s) can consume considerable amounts of memory and eventually be OOM
-    killed due to potentially millions of duplicate entries for PG(s). If affected,
-    it is very hard to recover the OSD(s) so the recommendation is to get
+    This Ceph cluster is vulnerable to a bug in which OSDs can consume
+    considerable amounts of memory and eventually be OOM killed due to
+    potentially millions of duplicate PG entries. If affected,
+    it is very hard to recover the OSDs so the recommendation is to get
     the cluster upgraded to a version containing a fix. The fixes are
-    available in 15.2.17-0ubuntu0.20.04.4 for Octopus, 16.2.11 for Pacific, 17.2.5
-    for Quincy.
-    For some earlier versions of Octopus, it's possible to do offline trimming using
-    ceph-objectstore-tool.
+    available as of 15.2.17-0ubuntu0.20.04.4 (Octopus), 16.2.11 (Pacific) and
+    17.2.5 (Quincy). For some earlier versions of Octopus it is possible to do
+    offline trimming using ceph-objectstore-tool.
 checks:
   ct53729_not_fixed:
     apt:
@@ -59,8 +58,9 @@ conclusions:
       type: CephTrackerBug
       bug-id: 53729
       message: >-
-        {msg_main} Please disable PG autoscaler for all pools (set them to 'warn' mode) as PG splitting/merging
-        can exacerbate the possibility of hitting this bug.
+        {msg_main} Please disable PG autoscaler for all pools (set them to
+        'warn' mode) as PG splitting/merging can exacerbate the possibility of
+        hitting this bug.
       format-dict:
         msg_main: $msg_main
 

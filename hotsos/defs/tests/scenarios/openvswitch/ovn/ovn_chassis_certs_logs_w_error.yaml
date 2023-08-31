@@ -7,7 +7,7 @@ data-root:
     - sos_commands/date/date
     - uptime
 raised-issues:
-  OVNWarning:
+  OVNWarning: >-
     ovn-controller is reporting that one or more ssl
     certificates have expired and it can't connect to other
     services. Please check.

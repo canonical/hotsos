@@ -22,7 +22,7 @@ system:
     SystemWarnings:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
-        unattended upgrades. (origin=system.auto_scenario_check)
+        unattended upgrades.
 kernel:
   version: 5.4.0-97-generic
   boot: ro
@@ -33,4 +33,4 @@ kernel:
     cpufreq-scaling-governor: unknown
   potential-issues:
     MemoryWarnings:
-      - 1 reports of oom-killer invoked in kern.log - please check. (origin=kernel.auto_scenario_check)
+      - 1 reports of oom-killer invoked in kern.log - please check.
