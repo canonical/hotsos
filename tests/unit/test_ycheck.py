@@ -932,7 +932,7 @@ class TestYamlChecks(utils.BaseTestCase):
                                  'SystemWarning']))
         for issue in issues[0]:
             msg = "yay list search"
-            self.assertEqual(issue['desc'], msg)
+            self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n',
@@ -1007,7 +1007,7 @@ class TestYamlChecks(utils.BaseTestCase):
         msg = ("log matched 4 times (00:00:00.000, 00:32:00.000, "
                "00:33:00.000, 00:36:00.000)")
         issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+        self.assertEqual([issue['message'] for issue in issues], [msg])
 
     def _create_search_results(self, path, contents=None):
         if contents:
@@ -1340,7 +1340,7 @@ class TestYamlChecks(utils.BaseTestCase):
     def test_yaml_def_nested_logic(self):
         scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())[0]
-        self.assertEqual(sorted([issue['desc'] for issue in issues]),
+        self.assertEqual(sorted([issue['message'] for issue in issues]),
                          sorted(['conc1', 'conc3']))
 
     @init_test_scenario(YAML_DEF_REQUIRES_MAPPED)
@@ -1385,14 +1385,14 @@ class TestYamlChecks(utils.BaseTestCase):
                 msg = ("One or more scenarios failed to run (scenarioB) - "
                        "run hotsos in debug mode (--debug) to get more "
                        "detail")
-                self.assertEqual(issue['desc'], msg)
+                self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
     def test_config_scenario_fail(self):
         scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues],
+        self.assertEqual([issue['message'] for issue in issues],
                          ['cfg is bad', 'cfg is bad2'])
 
     @init_test_scenario(CONFIG_SCENARIO)
@@ -1427,7 +1427,7 @@ class TestYamlChecks(utils.BaseTestCase):
                 msg = ("One or more scenarios failed to run (scenarioA, "
                        "scenarioB) - run hotsos in debug mode (--debug) to "
                        "get more detail")
-                self.assertEqual(issue['desc'], msg)
+                self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(VARS)
     def test_vars(self):
@@ -1436,7 +1436,7 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(len(issues[0]), 4)
         msgs = []
         for issue in issues[0]:
-            msgs.append(issue['desc'])
+            msgs.append(issue['message'])
 
         self.assertEqual(sorted(msgs),
                          sorted(["nova-compute=2:21.2.3-0ubuntu1",

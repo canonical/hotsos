@@ -9,7 +9,7 @@ data-root:
       ii  nova-compute-libvirt                 3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute - compute node libvirt support
       ii  python3-nova                         3:25.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute Python 3 libraries
 raised-issues:
-  OpenstackWarning:
+  OpenstackWarning: >-
     The version of Openstack Nova (3:25.1.1-0ubuntu1.1~cloud0) running on this
     host contains a fix for CVE-2023-2088 but does not have service tokens
     enabled which is a hard requirement for the fix to work and means that some

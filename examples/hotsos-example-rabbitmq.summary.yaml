@@ -17,7 +17,7 @@ system:
     SystemWarnings:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
-        unattended upgrades. (origin=system.auto_scenario_check)
+        unattended upgrades.
 rabbitmq:
   services:
     systemd:
@@ -56,6 +56,6 @@ rabbitmq:
   potential-issues:
     RabbitMQWarnings:
       - Cluster partition handling is currently set to "ignore". This is potentially
-        dangerous and a setting of "pause_minority" is recommended. (origin=rabbitmq.auto_scenario_check)
+        dangerous and a setting of "pause_minority" is recommended.
       - RabbitMQ node(s) "rabbit@juju-04f1e3-1-lxd-5" are holding more than 2/3 of
-        queues for one or more vhosts. (origin=rabbitmq.auto_scenario_check)
+        queues for one or more vhosts.

@@ -16,7 +16,7 @@ data-root:
       0000000000000000 0   2199       000405d1 0        0        0     2        1        334455  
       0000000000000000 0   3426       00000440 0        0        0     2        0        89397 
 raised-issues:
-  NetworkWarning: |
+  NetworkWarning: >-
     This host is reporting dropped packets for the following netlink sockets:
     	nlsock inode `112233`: procs[]
     	nlsock inode `334455`: procs[]

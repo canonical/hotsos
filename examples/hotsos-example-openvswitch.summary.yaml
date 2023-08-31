@@ -22,7 +22,7 @@ system:
     SystemWarnings:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
-        unattended upgrades. (origin=system.auto_scenario_check)
+        unattended upgrades.
 openvswitch:
   services:
     systemd:
@@ -124,9 +124,7 @@ openvswitch:
       unreasonably-long-poll-interval:
         '2022-02-17': 3
   bugs-detected:
-    - desc: This node is using OpenvSwitch and conntrack is tracking encapsulated
-        packets (geneve, vxlan etc). This is considered unnecessary since it is duplicating
-        tracking for the same packets done by ovs and at scale will have a performance
-        impact. See referenced bug for solution and workaround.
-      id: https://bugs.launchpad.net/bugs/1978806
-      origin: openvswitch.auto_scenario_check
+    https://bugs.launchpad.net/bugs/1978806: This node is using OpenvSwitch and conntrack
+      is tracking encapsulated packets (geneve, vxlan etc). This is considered unnecessary
+      since it is duplicating tracking for the same packets done by ovs and at scale
+      will have a performance impact. See referenced bug for solution and workaround.

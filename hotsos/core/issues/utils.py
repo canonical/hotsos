@@ -23,11 +23,11 @@ class IssueContext(object):
 
 
 class IssueEntryBase(abc.ABC):
-    def __init__(self, ref, description, key, context=None):
+    def __init__(self, ref, message, key, context=None):
         self.key = key
         self.context = context
         self.ref = ref
-        self.description = description
+        self.message = message
         self.origin = "{}.{}".format(HotSOSConfig.plugin_name,
                                      HotSOSConfig.part_name)
 
@@ -42,7 +42,7 @@ class IssueEntry(IssueEntryBase):
     @property
     def content(self):
         _content = {self.key: self.ref,
-                    'desc': self.description,
+                    'message': self.message,
                     'origin': self.origin}
         if HotSOSConfig.machine_readable:
             if len(self.context or {}):
@@ -128,8 +128,7 @@ class IssuesStore(IssuesStoreBase):
 
     def add(self, issue, context=None):
         """
-        Fetch the current plugin issues.yaml if it exists and add new issue
-        with description of the issue.
+        Fetch the current plugin issues.yaml if it exists and add new issue.
         """
         entry = IssueEntry(issue.name, issue.msg, 'type', context=context)
         current = self.load()
@@ -152,7 +151,15 @@ class IssuesManager(object):
         self.issuestore = IssuesStore()
 
     def load_bugs(self):
-        return self.bugstore.load()
+        bugs = self.bugstore.load()
+        if bugs and not HotSOSConfig.machine_readable:
+            urls = {}
+            for bug in bugs[self.SUMMARY_OUT_BUGS_ROOT]:
+                urls[bug['id']] = bug['message']
+
+            bugs = {self.SUMMARY_OUT_BUGS_ROOT: sorted_dict(urls)}
+
+        return bugs
 
     def load_issues(self):
         issues = self.issuestore.load()
@@ -164,12 +171,11 @@ class IssuesManager(object):
                 if issue_type not in types:
                     types[issue_type] = []
 
-                msg = "{} (origin={})".format(issue['desc'], issue['origin'])
-                types[issue_type].append(msg)
+                types[issue_type].append(issue['message'])
 
-            # Sort them to enure consistency in output
-            for itype in types:
-                types[itype] = sorted(types[itype])
+            # Sort them to ensure consistency in output
+            for issue_type, issues in types.items():
+                types[issue_type] = sorted(issues)
 
             issues = {self.SUMMARY_OUT_ISSUES_ROOT: sorted_dict(types)}
 

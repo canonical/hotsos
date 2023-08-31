@@ -8,11 +8,11 @@ data-root:
       ii  cinder-volume                   2:20.2.0-0ubuntu1~cloud0          all          Cinder storage service - Volume server
       ii  python3-cinder                  2:20.2.0-0ubuntu1~cloud0          all          Cinder Python 3 libraries
 raised-bugs:
-  https://bugs.launchpad.net/bugs/2004555:
-    The version of Openstack Cinder (cinder-api=2:20.2.0-0ubuntu1~cloud0) running on this
-    host is impacted by security vulnerability CVE-2023-2088. There is a fix
-    available in the Ubuntu archives and upgrading is recommended BUT it is
-    essential to first upgrade your Openstack Charms so that you have support
-    for enabling service tokens as it is hard requirement of the cve fix.
-    Please read https://discourse.ubuntu.com/t/cve-2023-2088-for-charmed-openstack/37051 for more information.
+  https://bugs.launchpad.net/bugs/2004555: >-
+    The version of Openstack Cinder (cinder-api=2:20.2.0-0ubuntu1~cloud0)
+    running on this host is impacted by security vulnerability CVE-2023-2088.
+    There is a fix available in the Ubuntu archives and upgrading is
+    recommended BUT it is essential to first upgrade your Openstack Charms so
+    that you have support for enabling service tokens as it is hard
+    requirement of the cve fix. Please read https://discourse.ubuntu.com/t/cve-2023-2088-for-charmed-openstack/37051 for more information.
 

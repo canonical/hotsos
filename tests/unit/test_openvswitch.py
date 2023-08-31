@@ -459,7 +459,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                'northbound database are not being ported to the southbound '
                'database.')
         issues = list(IssuesStore().load().values())[0]
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+        self.assertEqual([issue['message'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn/ovn_central_certs_logs.yaml',
@@ -521,7 +521,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                    "certs were updated and this may breaking their ability to "
                    "connect to other services.")
             issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+            self.assertEqual([issue['message'] for issue in issues], [msg])
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn/ovn_chassis_certs_logs.yaml',
@@ -571,4 +571,4 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
             msg = ("ovn-controller has not been restarted since ssl certs "
                    "were updated so may be using old certs. Please check.")
             issues = list(IssuesStore().load().values())[0]
-            self.assertEqual([issue['desc'] for issue in issues], [msg])
+            self.assertEqual([issue['message'] for issue in issues], [msg])

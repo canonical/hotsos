@@ -1002,7 +1002,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         issues = list(IssuesStore().load().values())[0]
         msg = ('1 router(s) have had more than 0 vrrp transitions (max=1) in '
                'the last 24 hours.')
-        self.assertEqual([issue['desc'] for issue in issues], [msg])
+        self.assertEqual([issue['message'] for issue in issues], [msg])
 
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              NEUTRON_HTTP})

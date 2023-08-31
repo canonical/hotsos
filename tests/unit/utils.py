@@ -96,12 +96,15 @@ class TemplatedTest(object):
             raise Exception("test expects one or more bugs to have "
                             "been raised did not find any.")
 
-        actual = {item['id']: item['desc'] for item in actual['bugs-detected']}
+        _actual = {}
+        for item in actual['bugs-detected']:
+            _actual[item['id']] = item['message']
+
         # first check issue types
-        test_inst.assertEqual(expected.keys(), actual.keys())
+        test_inst.assertEqual(expected.keys(), _actual.keys())
         # then messages
         for bugurl in expected:
-            test_inst.assertEqual(expected[bugurl], actual[bugurl])
+            test_inst.assertEqual(expected[bugurl], _actual[bugurl])
 
     def check_raised_issues(self, test_inst, expected, actual):
         """
@@ -118,22 +121,22 @@ class TemplatedTest(object):
             raise Exception("test expects one or more issues to have "
                             "been raised did not find any.")
         _expected = {}
-        for itype, msgs in expected.items():
+        for itype, items in expected.items():
             if itype not in _expected:
                 _expected[itype] = set()
 
-            if type(msgs) == list:
-                for msg in msgs:
-                    _expected[itype].add(msg)
+            if type(items) == list:
+                for item in items:
+                    _expected[itype].add(item)
             else:
-                _expected[itype].add(msgs)
+                _expected[itype].add(items)
 
         _actual = {}
         for item in actual['potential-issues']:
             if item['type'] not in _actual:
                 _actual[item['type']] = set()
 
-            _actual[item['type']].add(item['desc'])
+            _actual[item['type']].add(item['message'])
 
         # first check issue types
         test_inst.assertEqual(_expected.keys(), _actual.keys())
