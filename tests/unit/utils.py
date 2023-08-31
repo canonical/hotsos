@@ -432,9 +432,11 @@ class BaseTestCase(unittest.TestCase):
             self.plugin_tmp_dir = tempfile.mkdtemp(dir=self.global_tmp_dir)
             HotSOSConfig.global_tmp_dir = self.global_tmp_dir
             HotSOSConfig.plugin_tmp_dir = self.plugin_tmp_dir
-        setup_logging()
-        if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') != 'yes':
-            log.setLevel(logging.INFO)
+
+        if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') == 'yes':
+            setup_logging(level=logging.DEBUG)
+        else:
+            setup_logging(level=logging.INFO)
 
     def tearDown(self):
         HotSOSConfig.reset()
