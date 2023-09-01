@@ -22,3 +22,6 @@ def setup_logging(level=logging.DEBUG):
 
     # Set logging level for dependencies
     logging.getLogger('searchkit').setLevel(level=level)
+    logging.getLogger('searchkit').addHandler(handler)
+    # NOTE: dont set log level here as it is controlled using env var
+    logging.getLogger('propertree').addHandler(handler)
