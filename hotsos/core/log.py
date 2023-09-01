@@ -11,11 +11,14 @@ def setup_logging(level=logging.DEBUG):
     fmt = ("%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s [-] "
            "%(message)s")
     log.name = 'hotsos.plugin.{}'.format(HotSOSConfig.plugin_name)
-    if not HotSOSConfig.debug_mode:
-        logging.basicConfig(format=fmt, level=level,
-                            filename=tempfile.mktemp(suffix='hotsos.log'))
+    log.setLevel(level)
+    if HotSOSConfig.debug_mode:
+        handler = logging.StreamHandler()
     else:
-        logging.basicConfig(format=fmt, level=level)
+        handler = logging.FileHandler(tempfile.mktemp(suffix='hotsos.log'))
+
+    handler.setFormatter(logging.Formatter(fmt))
+    log.addHandler(handler)
 
     # Set logging level for dependencies
     logging.getLogger('searchkit').setLevel(level=level)
