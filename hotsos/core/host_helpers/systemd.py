@@ -83,7 +83,7 @@ class SystemdService(object):
         # NOTE: should consider getting service status directly rather than
         #       searching in all but currently do this to have parity with
         #       sosreport.
-        fs = FileSearcher()
+        fs = FileSearcher(decode_errors='backslashreplace')
         # The following expressions need to take account of control characters
         # that might exist in the output e.g. line can start with '*' or U+25CF
         # Active: active (running) since Wed 2022-02-09 22:38:17 UTC; 17h ago
