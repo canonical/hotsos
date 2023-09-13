@@ -1,0 +1,13 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2023-02-14 11:54:31.094 3490324 ERROR nova.compute.manager [req-d8c21949-4edb-4ae8-859e-bdc407402446 919173c1ba5b04004ac4c467c678e6e842b90f5206a224168ba0d3d83c398dfb fd686745c7724189bb02e5f62020a1b2 - 7078ee187a1c42c2a798707b9ca4cd68 7078ee187a1c42c2a798707b9ca4cd68] [instance: ae35c62d-3f91-4e76-8274-9a7893b9627d] Failure prepping block device: gi.repository.GLib.GError: g-io-error-quark: Error opening directory '/usr/share/osinfo': Permission denied (14)
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2012284: >-
+    known nova compute issue caused when package gir1.2-libosinfo-1.0 is installed
+    and apparmor is set to enforced. To fix the issue, the offending package needs to
+    be removed, or apparmor set to complain, or the rules would need to be added to the
+    apparmor profile (but this is not supported and can be overridden). Please refer
+    to the Launchpad #2012284 bug page more information.
