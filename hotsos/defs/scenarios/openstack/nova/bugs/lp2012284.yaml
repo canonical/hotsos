@@ -1,0 +1,18 @@
+checks:
+  has_2012284:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: ".+Failure prepping block device: gi.repository.GLib.GError: g-io-error-quark: Error opening directory '/usr/share/osinfo': Permission denied"
+    hint: 'osinfo'
+conclusions:
+  lp2012284:
+    decision: has_2012284
+    raises:
+      type: LaunchpadBug
+      bug-id: 2012284
+      message: >-
+        known nova compute issue caused when package gir1.2-libosinfo-1.0 is installed
+        and apparmor is set to enforced. To fix the issue, the offending package needs to
+        be removed, or apparmor set to complain, or the rules would need to be added to the
+        apparmor profile (but this is not supported and can be overridden). Please refer
+        to the Launchpad #2012284 bug page more information.
