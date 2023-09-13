@@ -73,6 +73,16 @@ SBDB_COMPACTION = """
 2022-07-14T23:57:57.528Z|631184|ovsdb|INFO|OVN_Southbound: Database compaction took 2151ms
 """  # noqa
 
+DA_MSGS = """
+Mar  3 22:57:11 compute4 kernel: [1381807.338196] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+Mar  3 22:57:11 compute4 kernel: [1381807.714508] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+Mar  3 22:57:11 compute4 kernel: [1381807.843795] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+Mar  3 22:57:22 compute4 kernel: [1381818.448855] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+Mar  3 22:57:23 compute4 kernel: [1381819.715713] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+Mar  3 22:57:24 compute4 kernel: [1381820.269384] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+Mar  3 22:57:24 compute4 kernel: [1381820.499397] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+"""  # noqa
+
 
 class TestOpenvswitchBase(utils.BaseTestCase):
 
@@ -400,6 +410,19 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                     'ovsdb-server-sb': {'compactions': {
                                             '2022-07-14': 3}}}
         inst = event_checks.OVNEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovs/datapath-checks.yaml',
+                                        'events/openvswitch'))
+    @utils.create_data_root({'var/log/kern.log': DA_MSGS})
+    def test_ovs_defferred_action_limit_reached(self):
+        expected = {
+            'datapath-checks': {
+                'deferred-action-limit-reached': {
+                    'ovs-system':
+                        {'Mar 3': 7}}}}
+        inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
 

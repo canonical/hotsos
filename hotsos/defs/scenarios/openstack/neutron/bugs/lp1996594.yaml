@@ -8,7 +8,7 @@ checks:
     input:
       path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
     search:
-      expr: '([0-9-]+)\s([0-9:]+)\.\d{3}.+OVSDB Error: no error details.+'
+      expr: '([\d-]+ [\d:]+.\d{3}) .+OVSDB Error: no error details.+'
       constraints:
         min-results: 1
         min-hours-since-last-boot: 0

@@ -2,7 +2,11 @@ checks:
   lxcfs_segfault:
     input:
       path: 'var/log/kern.log'
-    expr: '.+ segfault at 0 .+ error 4 in liblxcfs.so.+'
+    # NOTE: the kern.log timestamp pattern is of the form
+    #       "Jun  8 10:48:13 compute4 kernel:"
+    #       or
+    #       "Jun 08 10:48:13 compute4 kernel:"
+    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\S+ .+ (\S+): segfault at 0 .+ error 4 in liblxcfs.so.+'
   has_1807628:
     apt:
       lxcfs:

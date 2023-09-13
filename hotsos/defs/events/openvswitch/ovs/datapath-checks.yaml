@@ -9,5 +9,12 @@ port-stats:
 deferred-action-limit-reached:
   input:
     path: 'var/log/kern.log'
-  expr: '(\S+\s+\d+\s+)\S+ .+ (\S+): deferred action limit reached, drop recirc action'
+  # NOTE: the kern.log timestamp pattern is of the form
+  #       "Jun  8 10:48:13 compute4 kernel:"
+  #       or
+  #       "Jun 08 10:48:13 compute4 kernel:"
+  # The time regex is a little different here as we need the month (\w{3,5}),
+  # day (\d{1,2}), time ([\d:]+), and key ((\S+) separated for grouping. See
+  # deferred_action_limit_reached() method for more details.
+  expr: '(\w{3,5})\s+(\d{1,2})\s+([\d:]+)\s+.+openvswitch:\s+(\S+):.+deferred action limit reached, drop recirc action'
   hint: openvswitch

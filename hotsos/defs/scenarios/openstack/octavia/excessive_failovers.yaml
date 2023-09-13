@@ -18,7 +18,11 @@ checks:
   over_mtu_drops_ohm0_kernlog:
     input:
       path: 'var/log/kern.log'
-    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+) \S+ \S+ \S+ o-hm0: dropped over-mtu packet: \d+ > (\d+)'
+    # NOTE: the kern.log timestamp pattern is of the form
+    #       "Jun  8 10:48:13 compute4 kernel:"
+    #       or
+    #       "Jun 08 10:48:13 compute4 kernel:"
+    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+) \S+ .+ (\S+) o-hm0: dropped over-mtu packet: \d+ > (\d+)'
     constraints:
       search-result-age-hours: 48
   over_mtu_drops_ohm0_dmesg:

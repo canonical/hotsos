@@ -2,7 +2,10 @@ checks:
   has_1896506:
     input:
       path: 'var/log/syslog'
-    expr: '.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
+    # NOTE: the syslog timestamp pattern is of the form
+    #       "Apr  6 06:36:09 kermath Keepalived_vrrp[23396]:"
+    #       which is similar to kern.log
+    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\s+.+Unknown configuration entry ''no_track'' for ip address - ignoring.*'
     hint: 'no_track'
 conclusions:
   lp1896506:
