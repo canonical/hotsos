@@ -2,7 +2,11 @@ checks:
   disk_failure:
     input:
       path: 'var/log/kern.log'
-    expr: '.+ critical medium error, dev (\S+), .+'
+    # NOTE: the kern.log timestamp pattern is of the form
+    #       "Jun  8 10:48:13 compute4 kernel:"
+    #       or
+    #       "Jun 08 10:48:13 compute4 kernel:"
+    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\S+ .+ critical medium error, dev (\S+), .+'
 conclusions:
   failing_disk:
     decision: disk_failure
@@ -12,4 +16,4 @@ conclusions:
         critical medium error detected in kern.log for device {dev}.
         This implies that this disk has a hardware issue!
       format-dict:
-        dev: '@checks.disk_failure.search.results_group_1:comma_join'
+        dev: '@checks.disk_failure.search.results_group_2:comma_join'

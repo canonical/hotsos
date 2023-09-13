@@ -1,9 +1,17 @@
 input:
   path: 'var/log/kern.log'
 denials:
+  # NOTE: the kern.log timestamp pattern is of the form
+  #       "Jun  8 10:48:13 compute4 kernel:"
+  #       or
+  #       "Jun 08 10:48:13 compute4 kernel:"
+  #
+  # The time regex is a little different here as we need the month (\w{3,5}),
+  # day (\d{1,2}), time ([\d:]+) and key (\S+neutron\S+) separated for
+  # grouping. See AgentApparmorChecks class for more details.
   nova:
-    expr: '(\S+)\s+(\d+)\s+([\d+:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
+    expr: '(\w{3,5})\s+(\d{1,2})\s+([\d:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
     hint: apparmor
   neutron:
-    expr: '(\S+)\s+(\d+)\s+([\d+:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
+    expr: '(\w{3,5})\s+(\d{1,2})\s+([\d:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
     hint: apparmor

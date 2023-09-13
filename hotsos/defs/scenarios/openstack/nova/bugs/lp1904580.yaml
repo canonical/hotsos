@@ -2,6 +2,8 @@ checks:
   has_1904580:
     input:
       path: 'var/log/nova/nova-compute.log'
+    # NOTE: this does not need a timestamp pattern match as the error
+    #       is from an ssh command's stderr
     expr: '.+Permissions (\d{4}) for (\S+) are too open'
     hint: 'Permissions'
 conclusions:

@@ -2,7 +2,11 @@ checks:
   qla2xxx_skipping_scsi_scan_host:
     input:
       path: 'var/log/kern.log'
-    expr: '.+ qla2xxx (\S+): skipping scsi_scan_host\(\) for non-initiator port'
+    # NOTE: the kern.log timestamp pattern is of the form
+    #       "Jun  8 10:48:13 compute4 kernel:"
+    #       or
+    #       "Jun 08 10:48:13 compute4 kernel:"
+    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+) \S+ .+ qla2xxx (\S+): skipping scsi_scan_host\(\) for non-initiator port'
 conclusions:
   qla2xxx_skipped_scsi_scan_host:
     decision: qla2xxx_skipping_scsi_scan_host
@@ -13,4 +17,4 @@ conclusions:
         Some SCSI disks/paths might not be present. (Module option
         'qla2xxx.qlini_mode')
       format-dict:
-        port: '@checks.qla2xxx_skipping_scsi_scan_host.search.results_group_1:first'
+        port: '@checks.qla2xxx_skipping_scsi_scan_host.search.results_group_2:first'

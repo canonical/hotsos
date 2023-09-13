@@ -56,9 +56,12 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 
     @EVENTCALLBACKS.callback(event_group='ovs')
     def deferred_action_limit_reached(self, event):
-        ret = self.categorise_events(event, key_by_date=False)
-        output_key = "{}-{}".format(event.section, event.name)
-        return ret, output_key
+        results = [{'date': "{} {}".format(r.get(1), r.get(2)),
+                    'time': r.get(3),
+                    'key': r.get(4)} for r in event.results]
+        ret = self.categorise_events(event, results=results, key_by_date=False)
+        if ret:
+            return {event.name: ret}, event.section
 
     @EVENTCALLBACKS.callback(event_group='ovs')
     def port_stats(self, event):
