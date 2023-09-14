@@ -36,6 +36,18 @@ class YScenarioChecker(YHandlerBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._scenarios = []
+        hours = 24
+        if HotSOSConfig.use_all_logs:
+            hours *= HotSOSConfig.max_logrotate_depth
+
+        constraint = SearchConstraintSearchSince(
+                                        ts_matcher_cls=CommonTimestampMatcher,
+                                        hours=hours)
+        self._searcher = FileSearcher(constraint=constraint)
+
+    @property
+    def searcher(self):
+        return self._searcher
 
     def load(self):
         plugin_content = YDefsLoader('scenarios').plugin_defs
@@ -55,14 +67,6 @@ class YScenarioChecker(YHandlerBase):
 
         to_skip = set()
 
-        if HotSOSConfig.use_all_logs:
-            hours = 24 * HotSOSConfig.max_logrotate_depth
-        else:
-            hours = 24
-
-        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher,
-                                        hours=hours)
-        searcher = FileSearcher(constraint=c)
         checks = []
         for scenario in yscenarios.leaf_sections:
             # Only register scenarios if requirements are satisfied.
@@ -76,15 +80,15 @@ class YScenarioChecker(YHandlerBase):
                 continue
 
             checks.append(scenario.checks)
-            scenario.checks.initialise(scenario.vars, scenario.input, searcher,
-                                       scenario)
+            scenario.checks.initialise(scenario.vars, scenario.input,
+                                       self.searcher, scenario)
             scenario.conclusions.initialise(scenario.vars)
             self._scenarios.append(Scenario(scenario.name,
                                             scenario.checks,
                                             scenario.conclusions))
 
         log.debug("executing check searches")
-        results = searcher.run()
+        results = self.searcher.run()
         for check in checks:
             check.check_context.search_results = results
 
@@ -140,3 +144,7 @@ class YScenarioChecker(YHandlerBase):
                    "debug mode (--debug) to get more detail".
                    format(', '.join(failed_scenarios)))
             issue_mgr.add(HotSOSScenariosWarning(msg))
+
+    def load_and_run(self):
+        self.load()
+        return self.run()

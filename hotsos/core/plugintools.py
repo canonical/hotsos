@@ -350,9 +350,6 @@ class PluginPartBase(ApplicationBase):
         if out:
             return {key: entry.data for key, entry in out.items()}
 
-    def __call__(self):
-        pass
-
 
 class PluginRunner(object):
 
@@ -368,7 +365,7 @@ class PluginRunner(object):
             # update current env to reflect actual part being run
             HotSOSConfig.part_name = name
             try:
-                always_parts()()
+                always_parts().load_and_run()
             except Exception as exc:
                 failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
@@ -391,7 +388,6 @@ class PluginRunner(object):
                 log.debug("running %s.%s.%s",
                           HotSOSConfig.plugin_name, name, cls.__name__)
                 try:
-                    inst()
                     # NOTE: since all parts are expected to be implementations
                     # of PluginPartBase we expect them to always define an
                     # output property.

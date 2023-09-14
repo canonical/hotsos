@@ -2,14 +2,7 @@ import re
 
 from hotsos.core.issues import IssuesManager, CephOSDError
 from hotsos.core.ycheck.events import CallbackHelper
-from hotsos.core.plugins.storage.ceph import (
-    CephTimestampMatcher,
-    CephEventChecksBase,
-)
-from hotsos.core.search import (
-    FileSearcher,
-    SearchConstraintSearchSince,
-)
+from hotsos.core.plugins.storage.ceph import CephEventChecksBase
 EVENTCALLBACKS = CallbackHelper()
 CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 
@@ -17,9 +10,11 @@ CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 class CephDaemonLogChecks(CephEventChecksBase):
 
     def __init__(self):
-        c = SearchConstraintSearchSince(ts_matcher_cls=CephTimestampMatcher)
-        super().__init__(EVENTCALLBACKS, yaml_defs_group='ceph',
-                         searchobj=FileSearcher(constraint=c))
+        super().__init__(EVENTCALLBACKS)
+
+    @property
+    def root_group_name(self):
+        return 'ceph'
 
     @EVENTCALLBACKS.callback(event_group='ceph')
     def slow_requests(self, event):
@@ -49,7 +44,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
         c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
         results = []
         for r in event.results:
-            ret = c_expr.match(self.searchobj.resolve_source_id(r.source_id))
+            ret = c_expr.match(self.searcher.resolve_source_id(r.source_id))
             if ret:
                 key = "osd.{}".format(ret.group(1))
             else:
@@ -101,7 +96,7 @@ class CephDaemonLogChecks(CephEventChecksBase):
         c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
         results = []
         for r in event.results:
-            ret = c_expr.match(self.searchobj.resolve_source_id(r.source_id))
+            ret = c_expr.match(self.searcher.resolve_source_id(r.source_id))
             if ret:
                 key = "osd.{}".format(ret.group(1))
             else:

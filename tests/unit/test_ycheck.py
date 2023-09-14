@@ -875,9 +875,11 @@ class TestYamlChecks(utils.BaseTestCase):
 
         class MyEventHandler(events.YEventCheckerBase):
             def __init__(self):
-                super().__init__(EVENTCALLBACKS,
-                                 yaml_defs_group='mygroup',
-                                 searchobj=FileSearcher())
+                super().__init__(EVENTCALLBACKS)
+
+            @property
+            def root_group_name(self):
+                return 'mygroup'
 
             @EVENTCALLBACKS.callback(event_group='mygroup')
             def my_sequence_search(self, event):
@@ -910,10 +912,7 @@ class TestYamlChecks(utils.BaseTestCase):
                 callbacks_called[event.name] = True
                 test_self.assertEqual(event.results[0].get(0), 'hello')
 
-            def __call__(self):
-                self.run_checks()
-
-        MyEventHandler()()
+        MyEventHandler().load_and_run()
         self.assertEqual(match_count['count'], 3)
         self.assertEqual(list(callbacks_called.keys()),
                          ['my-sequence-search',
@@ -924,7 +923,7 @@ class TestYamlChecks(utils.BaseTestCase):
                         format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': 'hello x\n'})
     def test_yaml_def_expr_list(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 3)
         i_types = [i['type'] for i in issues[0]]
@@ -950,7 +949,7 @@ class TestYamlChecks(utils.BaseTestCase):
                 self.assertFalse(check.result)
 
         # now run the scenarios
-        checker()
+        checker.load_and_run()
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
@@ -978,7 +977,7 @@ class TestYamlChecks(utils.BaseTestCase):
         self.assertEqual(checked, 4)
 
         # now run the scenarios
-        checker()
+        checker.load_and_run()
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
@@ -1361,7 +1360,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @init_test_scenario(YDEF_NESTED_LOGIC)
     def test_yaml_def_nested_logic(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['desc'] for issue in issues]),
                          sorted(['conc1', 'conc3']))
@@ -1383,7 +1382,7 @@ class TestYamlChecks(utils.BaseTestCase):
     @init_test_scenario(SCENARIO_W_ERROR)
     def test_failed_scenario_caught(self, mock_log1, mock_log2, mock_log3,
                                     mock_log4):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
 
         # Check caught exception logs
         args = ('failed to import and call property %s',
@@ -1413,7 +1412,7 @@ class TestYamlChecks(utils.BaseTestCase):
     @init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
     def test_config_scenario_fail(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['desc'] for issue in issues],
                          ['cfg is bad', 'cfg is bad2'])
@@ -1421,7 +1420,7 @@ class TestYamlChecks(utils.BaseTestCase):
     @init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 102\n'})
     def test_config_scenario_pass(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
@@ -1431,7 +1430,7 @@ class TestYamlChecks(utils.BaseTestCase):
     @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
     def test_raises_w_invalid_types(self, mock_exc, mock_log):
         mock_exc.side_effect = Exception
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
 
         # Check caught exception logs
         args = ('caught exception when running scenario %s:', 'scenarioB')
@@ -1454,7 +1453,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @init_test_scenario(VARS)
     def test_vars(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 4)
         msgs = []
@@ -1469,19 +1468,19 @@ class TestYamlChecks(utils.BaseTestCase):
 
     @init_test_scenario(LOGIC_TEST)
     def test_logical_collection_and_with_fail(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
     @init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
     def test_logical_collection_nested_no_issue(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
     @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE)
     def test_logical_collection_nested_w_issue(self):
-        scenarios.YScenarioChecker()()
+        scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
 

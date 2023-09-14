@@ -167,7 +167,7 @@ class TemplatedTest(object):
 
             log.debug("running scenario under test")
             try:
-                YScenarioChecker()()
+                YScenarioChecker().load_and_run()
                 raised_issues = IssuesManager().load_issues()
                 raised_bugs = IssuesManager().load_bugs()
             finally:

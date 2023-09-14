@@ -1,10 +1,10 @@
 from hotsos.core.plugins.openstack.common import OpenstackEventChecksBase
-from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
     SearchConstraintSearchSince,
 )
+from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 from hotsos.core.ycheck.events import CallbackHelper
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
@@ -18,10 +18,11 @@ EVENTCALLBACKS = CallbackHelper()
 class NovaExternalEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='nova.external-events',
-                         searchobj=FileSearcher(),
-                         **kwargs,)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs,)
+
+    @property
+    def root_group_name(self):
+        return 'nova.external-events'
 
     def get_state_dict(self, event_name):
         state = {}
@@ -39,12 +40,12 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
         events_found = {}
 
         c = SearchConstraintSearchSince(
-                                      ts_matcher_cls=OpenstackTimestampMatcher)
+                                      ts_matcher_cls=CommonTimestampMatcher)
         s = FileSearcher(constraint=c)
         for result in event.results:
             instance_id = result.get(1)
             event_id = result.get(3)
-            result_path = self.searchobj.resolve_source_id(result.source_id)
+            result_path = self.searcher.resolve_source_id(result.source_id)
             events[event_id] = {'instance_id': instance_id,
                                 'data_source': result_path}
 
@@ -86,4 +87,4 @@ class NovaExternalEventChecks(OpenstackEventChecksBase):
         return events_found
 
     def __summary_os_server_external_events(self):
-        return self.run_checks()
+        return self.load_and_run()

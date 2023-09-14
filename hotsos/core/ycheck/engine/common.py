@@ -1,3 +1,4 @@
+import abc
 import os
 
 import yaml
@@ -77,41 +78,23 @@ class YDefsLoader(object):
 
 class YHandlerBase(object):
 
-    def __init__(self, *args, yaml_defs_group=None, searchobj=None, **kwargs):
+    @property
+    @abc.abstractmethod
+    def searcher(self):
         """
-        @param _yaml_defs_group: optional key used to identify our yaml
-                                 definitions if indeed we have any. This is
-                                 given meaning by the implementing class.
-        @param searchobj: optional FileSearcher object used for searches. If
-                          multiple implementations of this class are used in
-                          the same part it is recommended to provide a search
-                          object that is shared across them to provide
-                          concurrent execution.
-
+        @return: FileSearcher object to be used by this handler.
         """
-        super().__init__(*args, **kwargs)
-        self.searchobj = searchobj
-        self._yaml_defs_group = yaml_defs_group
-        self.__final_checks_results = None
 
+    @abc.abstractmethod
     def load(self):
-        raise NotImplementedError
+        """
+        Load definitions from yaml in preparation for them to be processed.
+        """
 
-    def run(self, results=None):
-        raise NotImplementedError
+    @abc.abstractmethod
+    def run(self):
+        """ Process operations. """
 
-    def run_checks(self):
-        if self.__final_checks_results:
-            return self.__final_checks_results
-
-        self.load()
-        if self.searchobj:
-            ret = self.run(self.searchobj.run())
-        else:
-            ret = self.run()
-
-        self.__final_checks_results = ret
-        return ret
-
-    def __call__(self):
-        return self.run_checks()
+    @abc.abstractmethod
+    def load_and_run(self):
+        """ Load and run. """
