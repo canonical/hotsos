@@ -11,7 +11,7 @@ import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 # disable for stestr otherwise output is much too verbose
-from hotsos.core.log import log, logging
+from hotsos.core.log import setup_logging, log, logging
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 # Must be set prior to other imports
@@ -434,9 +434,9 @@ class BaseTestCase(unittest.TestCase):
             HotSOSConfig.plugin_tmp_dir = self.plugin_tmp_dir
 
         if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') == 'yes':
-            log.setLevel(logging.DEBUG)
+            setup_logging(level=logging.DEBUG)
         else:
-            log.setLevel(logging.INFO)
+            setup_logging(level=logging.INFO)
 
     def tearDown(self):
         HotSOSConfig.reset()
