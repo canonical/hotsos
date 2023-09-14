@@ -5,7 +5,6 @@ import sys
 from datetime import datetime
 from functools import cached_property
 
-from searchkit.constraints import TimestampMatcherBase
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
@@ -87,19 +86,6 @@ def csv_to_set(f):
         return set([])
 
     return csv_to_set_inner
-
-
-class CephTimestampMatcher(TimestampMatcherBase):
-    """
-    NOTE: remember to update
-          hotsos.core.ycheck.engine.properties.search.CommonTimestampMatcher
-          if necessary.
-    """
-
-    @property
-    def patterns(self):
-        return [r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})[\sT]'
-                r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)']
 
 
 class CephConfig(SectionalConfigBase):
@@ -1199,4 +1185,4 @@ class CephEventChecksBase(CephChecksBase, YEventCheckerBase):
     @property
     def summary(self):
         # mainline all results into summary root
-        return self.run_checks()
+        return self.load_and_run()

@@ -22,6 +22,16 @@ from hotsos.core.ycheck.engine.properties.common import (
 
 
 class CommonTimestampMatcher(TimestampMatcherBase):
+    """
+    This class must support regex patterns to match any kind of timestamp that
+    we would expect to find. When a plugin results in the search of file
+    (typically log files) that contain timestamps it is necessary to ensure
+    the patterns in this class support matching those timestamps in order for
+    search constraints to work.
+
+    TODO: timestamps typically use an RFC format so we should brand them
+          as such here.
+    """
     MONTH_MAP = {'jan': 1, 'feb': 2, 'mar': 3, 'apr': 4, 'may': 5,
                  'jun': 6, 'jul': 7, 'aug': 8, 'sep': 9, 'oct': 10,
                  'nov': 11, 'dec': 12}
@@ -60,9 +70,6 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         """
         This needs to contain timestamp patterns for any/all types of file
         we want to analyse where SearchConstraintsSince is to be applied.
-
-        NOTE: this would typically be defined by the core plugins but we can't
-              import them due to circular dependency issues.
         """
         # should match plugins.openstack.openstack.OpenstackDateTimeMatcher
         openstack = (r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})+\s+'

@@ -7,7 +7,6 @@ from hotsos.core.issues.utils import IssuesStore
 import hotsos.core.plugins.openstack as openstack_core
 import hotsos.core.plugins.openstack.nova as nova_core
 import hotsos.core.plugins.openstack.neutron as neutron_core
-from hotsos.core.search import FileSearcher
 from hotsos.plugin_extensions.openstack import (
     vm_info,
     nova_external_events,
@@ -87,8 +86,8 @@ ii  python3-neutronclient                       2:17.2.0-0ubuntu2               
 """  # noqa
 
 EVENT_PCIDEVNOTFOUND_LOG = r"""
-2021-09-17 13:49:47.257 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:10.0: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:10.0 not found
-2021-09-17 13:49:47.609 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:0f.7: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:0f.7 not found
+2022-09-17 13:49:47.257 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:10.0: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:10.0 not found
+2022-09-17 13:49:47.609 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:0f.7: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:0f.7 not found
 """  # noqa
 
 EVENT_APACHE_CONN_REFUSED_LOG = r"""
@@ -98,12 +97,12 @@ EVENT_APACHE_CONN_REFUSED_LOG = r"""
 """  # noqa
 
 EVENT_OCTAVIA_CHECKS = r"""
-2021-03-09 14:53:04.467 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': 'ac9849a2-f81e-4578-aedf-3637420c97ff', 'load_balancer_id': '7a3b90ed-020e-48f0-ad6f-b28443fa2277', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:fe6c:2963', 'compute_id': 'af04050e-b845-4bca-9e61-ded03039d2c6', 'role': 'master_or_backup'}
-2021-03-09 17:44:37.379 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': '0cd68e26-abb7-4e6b-8272-5ccf017b6de7', 'load_balancer_id': '9cd90142-5501-4362-93ef-1ad219baf45a', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:feae:514c', 'compute_id': '314e4b2f-9c64-41c9-b337-7d0229127d48', 'role': 'master_or_backup'}
-2021-03-09 18:19:10.369 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': 'ddaf13ec-858f-42d1-bdc8-d8b529c7c524', 'load_balancer_id': 'e9cb98af-9c21-4cf6-9661-709179ce5733', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:fe2f:9d58', 'compute_id': 'c71c5eca-c862-49dd-921c-273e51dfb574', 'role': 'master_or_backup'}
-2021-03-09 20:01:46.376 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': 'bbf6107b-86b5-45f5-ace1-e077871860ac', 'load_balancer_id': '98aefcff-60e5-4087-8ca6-5087ae970440', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:fe5b:4afb', 'compute_id': '54061176-61c8-4915-b896-e026c3eeb60f', 'role': 'master_or_backup'}
+2022-03-09 14:53:04.467 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': 'ac9849a2-f81e-4578-aedf-3637420c97ff', 'load_balancer_id': '7a3b90ed-020e-48f0-ad6f-b28443fa2277', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:fe6c:2963', 'compute_id': 'af04050e-b845-4bca-9e61-ded03039d2c6', 'role': 'master_or_backup'}
+2022-03-09 17:44:37.379 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': '0cd68e26-abb7-4e6b-8272-5ccf017b6de7', 'load_balancer_id': '9cd90142-5501-4362-93ef-1ad219baf45a', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:feae:514c', 'compute_id': '314e4b2f-9c64-41c9-b337-7d0229127d48', 'role': 'master_or_backup'}
+2022-03-09 18:19:10.369 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': 'ddaf13ec-858f-42d1-bdc8-d8b529c7c524', 'load_balancer_id': 'e9cb98af-9c21-4cf6-9661-709179ce5733', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:fe2f:9d58', 'compute_id': 'c71c5eca-c862-49dd-921c-273e51dfb574', 'role': 'master_or_backup'}
+2022-03-09 20:01:46.376 9684 INFO octavia.controller.worker.v1.flows.amphora_flows [-] Performing failover for amphora: {'id': 'bbf6107b-86b5-45f5-ace1-e077871860ac', 'load_balancer_id': '98aefcff-60e5-4087-8ca6-5087ae970440', 'lb_network_ip': 'fc00:1f77:9de0:cd56:f816:3eff:fe5b:4afb', 'compute_id': '54061176-61c8-4915-b896-e026c3eeb60f', 'role': 'master_or_backup'}
 
-2021-06-01 23:25:39.223 43076 WARNING octavia.controller.healthmanager.health_drivers.update_db [-] Amphora 3604bf2a-ee51-4135-97e2-ec08ed9321db health message was processed too slowly: 10.550589084625244s! The system may be overloaded or otherwise malfunctioning. This heartbeat has been ignored and no update was made to the amphora health entry. THIS IS NOT GOOD.
+2022-06-01 23:25:39.223 43076 WARNING octavia.controller.healthmanager.health_drivers.update_db [-] Amphora 3604bf2a-ee51-4135-97e2-ec08ed9321db health message was processed too slowly: 10.550589084625244s! The system may be overloaded or otherwise malfunctioning. This heartbeat has been ignored and no update was made to the amphora health entry. THIS IS NOT GOOD.
 """  # noqa
 
 APACHE2_SSL_CONF = """
@@ -828,11 +827,10 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'start': '2022-02-10 00:53:27.434000'}}}}
 
         section_key = "neutron-ovs-agent"
-        inst = agent.events.NeutronAgentEventChecks(
-                                                      searchobj=FileSearcher())
-        inst.run_checks()
+        inst = agent.events.NeutronAgentEventChecks()
+        inst.load_and_run()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual.get(section_key), expected)
+        self.assertEqual(actual[section_key], expected)
 
     def test_get_router_event_stats(self):
         expected = {'router-spawn-events': {
@@ -889,35 +887,35 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'start': '2022-02-10 16:10:35.711000'}}}}
 
         section_key = "neutron-l3-agent"
-        inst = agent.events.NeutronAgentEventChecks(
-                                                      searchobj=FileSearcher())
-        inst.run_checks()
+        inst = agent.events.NeutronAgentEventChecks()
+        inst.load_and_run()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual.get(section_key), expected)
+        self.assertEqual(actual[section_key], expected)
 
     @utils.create_data_root({'var/log/octavia/octavia-health-manager.log':
                              EVENT_OCTAVIA_CHECKS})
     def test_run_octavia_checks(self):
         expected = {'amp-missed-heartbeats': {
-                     '2021-06-01': {
-                         '3604bf2a-ee51-4135-97e2-ec08ed9321db': 1, }},
+                        '3604bf2a-ee51-4135-97e2-ec08ed9321db': {
+                            '2022-06-01': 1}},
                     'lb-failovers': {
                         'auto': {
-                            '2021-03-09': {
-                                '7a3b90ed-020e-48f0-ad6f-b28443fa2277': 1,
-                                '98aefcff-60e5-4087-8ca6-5087ae970440': 1,
-                                '9cd90142-5501-4362-93ef-1ad219baf45a': 1,
-                                'e9cb98af-9c21-4cf6-9661-709179ce5733': 1, }}
+                            '7a3b90ed-020e-48f0-ad6f-b28443fa2277': {
+                                '2022-03-09': 1},
+                            '98aefcff-60e5-4087-8ca6-5087ae970440': {
+                                '2022-03-09': 1},
+                            '9cd90142-5501-4362-93ef-1ad219baf45a': {
+                                '2022-03-09': 1},
+                            'e9cb98af-9c21-4cf6-9661-709179ce5733': {
+                                '2022-03-09': 1}}
                      }
                     }
-        for section_key in ["octavia-worker", "octavia-health-manager"]:
-            sobj = FileSearcher()
-            inst = agent.events.OctaviaAgentEventChecks(
-                                                            searchobj=sobj)
-            inst.run_checks()
+        for section_key in ['amp-missed-heartbeats', 'lb-failovers']:
+            inst = agent.events.OctaviaAgentEventChecks()
+            inst.load_and_run()
             actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual["octavia"].get(section_key),
-                             expected.get(section_key))
+            self.assertEqual(actual["octavia"][section_key],
+                             expected[section_key])
 
     @utils.create_data_root({'var/log/apache2/error.log':
                              EVENT_APACHE_CONN_REFUSED_LOG})
@@ -925,12 +923,11 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         expected = {'connection-refused': {
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
         for section_key in ['connection-refused']:
-            sobj = FileSearcher()
-            inst = agent.events.ApacheEventChecks(searchobj=sobj)
-            inst.run_checks()
+            inst = agent.events.ApacheEventChecks()
+            inst.load_and_run()
             actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual['apache'].get(section_key),
-                             expected.get(section_key))
+            self.assertEqual(actual['apache'][section_key],
+                             expected[section_key])
 
     @utils.create_data_root({'var/log/kern.log': AA_MSGS})
     def test_run_apparmor_checks(self):
@@ -942,9 +939,8 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'Mar 3': 1},
                             '/usr/bin/neutron-openvswitch-agent': {
                                 'Mar 3': 4}}}}
-        sobj = FileSearcher()
-        inst = agent.events.AgentApparmorChecks(searchobj=sobj)
-        inst.run_checks()
+        inst = agent.events.AgentApparmorChecks()
+        inst.load_and_run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['apparmor'], expected)
 
@@ -965,9 +961,8 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                     '22:57:11': 1,
                                     '22:57:22': 1,
                                     '22:57:24': 2}}}}}
-        sobj = FileSearcher()
-        inst = agent.events.AgentApparmorChecks(searchobj=sobj)
-        inst.run_checks()
+        inst = agent.events.AgentApparmorChecks()
+        inst.load_and_run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['apparmor'], expected)
 
@@ -975,11 +970,10 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              EVENT_PCIDEVNOTFOUND_LOG})
     def test_run_nova_checks(self):
         expected = {'PciDeviceNotFoundById': {
-                        '2021-09-17': {'0000:3b:0f.7': 1,
+                        '2022-09-17': {'0000:3b:0f.7': 1,
                                        '0000:3b:10.0': 1}}}
-        sobj = FileSearcher()
-        inst = agent.events.NovaComputeEventChecks(searchobj=sobj)
-        inst.run_checks()
+        inst = agent.events.NovaComputeEventChecks()
+        inst.load_and_run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["nova"], expected)
 
@@ -988,9 +982,8 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                      'transitions': {
                          '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                              '2022-02-10': 1}}}}
-        sobj = FileSearcher()
-        inst = agent.events.NeutronL3HAEventChecks(searchobj=sobj)
-        inst.run_checks()
+        inst = agent.events.NeutronL3HAEventChecks()
+        inst.load_and_run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
 
@@ -1002,9 +995,8 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                      'transitions': {
                          '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                              '2022-02-10': 1}}}}
-        sobj = FileSearcher()
-        inst = agent.events.NeutronL3HAEventChecks(searchobj=sobj)
-        inst.run_checks()
+        inst = agent.events.NeutronL3HAEventChecks()
+        inst.load_and_run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
         issues = list(IssuesStore().load().values())[0]
@@ -1015,9 +1007,8 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              NEUTRON_HTTP})
     def test_api_events(self):
-        sobj = FileSearcher()
-        inst = agent.events.APIEvents(searchobj=sobj)
-        inst.run_checks()
+        inst = agent.events.APIEvents()
+        inst.load_and_run()
         expected = {'http-requests': {'neutron': {
                                         '2022-05-11': {'GET': 2,
                                                        'PUT': 3,

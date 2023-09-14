@@ -5,12 +5,12 @@ from collections import UserDict
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
-from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
     SearchConstraintSearchSince,
 )
+from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 
 
 class AgentExceptionCheckResults(UserDict):
@@ -114,7 +114,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
         super().__init__()
         self._agent_results = None
         c = SearchConstraintSearchSince(
-                                      ts_matcher_cls=OpenstackTimestampMatcher)
+                                      ts_matcher_cls=CommonTimestampMatcher)
         self.searchobj = FileSearcher(constraint=c)
         # The following are expected to be logged using WARNING log level.
         self._agent_warnings = {

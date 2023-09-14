@@ -5,10 +5,7 @@ from datetime import datetime, timedelta
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.log import log
-from hotsos.core.plugins.juju.common import (
-    JujuChecksBase,
-    JujuTimestampMatcher,
-)
+from hotsos.core.plugins.juju.common import JujuChecksBase
 from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.search import (
     FileSearcher,
@@ -16,6 +13,7 @@ from hotsos.core.search import (
     SearchConstraintSearchSince,
 )
 from hotsos.core.utils import sorted_dict
+from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 
 
 class UnitLogInfo(object):
@@ -25,7 +23,7 @@ class UnitLogInfo(object):
 
     def error_and_warnings(self):
         log.debug("searching unit logs for errors and warnings")
-        c = SearchConstraintSearchSince(ts_matcher_cls=JujuTimestampMatcher)
+        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
         searchobj = FileSearcher(constraint=c)
         path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
         ts_expr = r"^([\d-]+)\s+([\d:]+)"
@@ -38,7 +36,7 @@ class UnitLogInfo(object):
         results = searchobj.run()
         log.debug("fetching unit log results")
         events = {}
-        date_format = JujuTimestampMatcher.DEFAULT_DATETIME_FORMAT
+        date_format = CommonTimestampMatcher.DEFAULT_DATETIME_FORMAT
         now = CLIHelper().date(format="+{}".format(date_format))
         now = datetime.strptime(now, date_format)
 

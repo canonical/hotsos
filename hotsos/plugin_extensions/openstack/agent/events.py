@@ -16,7 +16,6 @@ from hotsos.core.plugins.openstack.common import (
     OpenstackEventChecksBase,
 )
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
-from hotsos.core.plugins.openstack.openstack import OpenstackTimestampMatcher
 from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.search import (
     FileSearcher,
@@ -25,6 +24,7 @@ from hotsos.core.search import (
 from hotsos.core import utils
 from hotsos.core.utils import sorted_dict
 from hotsos.core.ycheck.events import CallbackHelper
+from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 
 EVENTCALLBACKS = CallbackHelper()
 VRRP_TRANSITION_WARN_THRESHOLD = 8
@@ -33,8 +33,11 @@ VRRP_TRANSITION_WARN_THRESHOLD = 8
 class ApacheEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='apache', **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+
+    @property
+    def root_group_name(self):
+        return 'apache'
 
     @EVENTCALLBACKS.callback(event_group='apache')
     def connection_refused(self, event):
@@ -44,7 +47,7 @@ class ApacheEventChecks(OpenstackEventChecksBase):
         results = []
         for result in event.results:
             # save some context info
-            path = self.searchobj.resolve_source_id(result.source_id)
+            path = self.searcher.resolve_source_id(result.source_id)
             if path in context:
                 context[path].append(result.linenumber)
             else:
@@ -88,8 +91,11 @@ class ApacheEventChecks(OpenstackEventChecksBase):
 class APIEvents(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='http-requests', **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+
+    @property
+    def root_group_name(self):
+        return 'http-requests'
 
     @EVENTCALLBACKS.callback(event_group='http-requests',
                              event_names=['neutron'])
@@ -114,8 +120,11 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
     """
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='neutron.agents', **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+
+    @property
+    def root_group_name(self):
+        return 'neutron.agents'
 
     def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
         stats = LogEventStats(results, tag_prefix, custom_idxs=custom_idxs)
@@ -158,8 +167,11 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
 class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='octavia', **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+
+    @property
+    def root_group_name(self):
+        return 'octavia'
 
     @EVENTCALLBACKS.callback(event_group='octavia',
                              event_names=['lb-failover-auto',
@@ -201,8 +213,11 @@ class OctaviaAgentEventChecks(OpenstackEventChecksBase):
 class NovaComputeEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='nova.nova-compute', **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+
+    @property
+    def root_group_name(self):
+        return 'nova.nova-compute'
 
     @EVENTCALLBACKS.callback(event_group='nova.nova-compute')
     def pci_dev_not_found(self, event):
@@ -217,8 +232,11 @@ class NovaComputeEventChecks(OpenstackEventChecksBase):
 class AgentApparmorChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='apparmor', **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+
+    @property
+    def root_group_name(self):
+        return 'apparmor'
 
     @EVENTCALLBACKS.callback(event_group='apparmor',
                              event_names=['nova', 'neutron'])
@@ -240,10 +258,13 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
 class NeutronL3HAEventChecks(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='neutron.ml2-routers', **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
         self.cli = CLIHelper()
         self.ha_info = NeutronHAInfo()
+
+    @property
+    def root_group_name(self):
+        return 'neutron.ml2-routers'
 
     def check_vrrp_transitions(self, transitions):
         # there will likely be a large number of transitions if we look across
@@ -308,14 +329,13 @@ class AgentEventChecks(OpenstackChecksBase):
         if not self.openstack_installed:
             return
 
-        c = SearchConstraintSearchSince(
-                                      ts_matcher_cls=OpenstackTimestampMatcher)
-        s = FileSearcher(constraint=c)
-        check_objs = [c(searchobj=s) for c in checks]
+        searcher = FileSearcher(constraint=SearchConstraintSearchSince(
+                                        ts_matcher_cls=CommonTimestampMatcher))
+        check_objs = [c(searcher=searcher) for c in checks]
         for check in check_objs:
             check.load()
 
-        results = s.run()
+        results = searcher.run()
         _final_results = {}
         for check in check_objs:
             check.run(results)

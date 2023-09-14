@@ -6,13 +6,6 @@ from hotsos.core.plugins.openstack.common import (
     OpenstackEventChecksBase,
 )
 from hotsos.core.plugins.openstack.nova import NovaLibvirt
-from hotsos.core.plugins.openstack.openstack import (
-    OpenstackTimestampMatcher,
-)
-from hotsos.core.search import (
-    FileSearcher,
-    SearchConstraintSearchSince,
-)
 from hotsos.core import utils
 from hotsos.core.ycheck.events import CallbackHelper
 
@@ -45,12 +38,11 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
 class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
     def __init__(self, *args, **kwargs):
-        c = SearchConstraintSearchSince(
-                                      ts_matcher_cls=OpenstackTimestampMatcher)
-        super().__init__(EVENTCALLBACKS, *args,
-                         yaml_defs_group='nova.migrations',
-                         searchobj=FileSearcher(constraint=c),
-                         **kwargs)
+        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+
+    @property
+    def root_group_name(self):
+        return 'nova.migrations'
 
     def migration_seq_info(self, event, resource_idx, info_idxs,
                            incl_time_in_date=False):
@@ -190,4 +182,4 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
         return self.migration_stats_info(event), event.section
 
     def __summary_nova_migrations(self):
-        return self.run_checks()
+        return self.load_and_run()

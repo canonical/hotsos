@@ -1,11 +1,19 @@
+import abc
+from functools import cached_property
+
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
+from hotsos.core.search import (
+    FileSearcher,
+    SearchConstraintSearchSince,
+)
 from hotsos.core.utils import sorted_dict
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
     YHandlerBase,
     YDefsSection,
 )
+from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 
 
 class CallbackHelper(object):
@@ -18,7 +26,7 @@ class CallbackHelper(object):
         Register a method as a callback for a given event.
 
         @param event_group: defs group containing these events. Needs to be
-                             for the current plugin.
+                            for the current plugin.
         @param event_names: optional list of event names. If none provided, the
                             name of the decorated function is used.
         """
@@ -210,35 +218,53 @@ class EventProcessingUtils(object):
             return shortened
 
 
-class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
+class YEventCheckerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
 
-    def __init__(self, callback_helper, *args, **kwargs):
+    def __init__(self, callback_helper, *args, searcher=None, **kwargs):
         """
         @param callback_helper: CallbackHelper object used to register
-        callbacks against events defined in the yaml. When an event has results
-        its associated callback with the same name is called to process the
-        results.
+                                callbacks against events defined in the yaml.
+                                When an event has results its associated
+                                callback with the same name is called to
+                                process the results.
+        @param searcher: optional FileSearcher object. When running many event
+                         checkers it is more efficient to share a
+                         FileSearcher across them so that all searches are
+                         done at once.
         """
         super().__init__(*args, **kwargs)
-        self.callback_helper = callback_helper
-        self.__event_defs = {}
-        self.__final_event_results = None
+        if not searcher:
+            log.debug("creating searcher for event checker")
+            searcher = FileSearcher(constraint=SearchConstraintSearchSince(
+                                        ts_matcher_cls=CommonTimestampMatcher))
 
-    def _load_event_definitions(self):
-        """
-        Load event search definitions from yaml.
+        self._searcher = searcher
+        self._callback_helper = callback_helper
+        self._event_results = None
 
-        An event is identified using between one and two expressions. If it
-        requires a start and end to be considered complete then these can be
-        specified for match otherwise we can match on a single line.
-        Note that multi-line events can be overlapping hence why we don't use a
-        SequenceSearchDef (we use core.analytics.LogEventStats).
+    @property
+    def searcher(self):
+        return self._searcher
+
+    @property
+    @abc.abstractmethod
+    def root_group_name(self):
         """
+        Root name used to identify a group of event definitions. Once all the
+        yaml definitions are loaded this defines the level below which events
+        for this checker are expected to be found.
+        """
+
+    @cached_property
+    def event_definitions(self):
+        """ Load event definitions from yaml. """
+        _event_defs = {}
+
         plugin = YDefsLoader('events').plugin_defs
         if not plugin:
-            return
+            return _event_defs
 
-        group_name = self._yaml_defs_group
+        group_name = self.root_group_name
         log.debug("loading defs for subgroup=%s", group_name)
         ytree = plugin
         ypath = group_name.split('.')
@@ -258,15 +284,15 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
                     event.requires.passes):
                 log.error("event '%s' pre-requisites not met - "
                           "skipping", event.name)
-                return
+                return {}
 
             log.debug("event: %s", event.name)
             log.debug("input: %s (command=%s)", event.input.paths,
                       event.input.command is not None)
 
             section_name = event.parent.name
-            if section_name not in self.__event_defs:
-                self.__event_defs[section_name] = {}
+            if section_name not in _event_defs:
+                _event_defs[section_name] = {}
 
             for path in event.input.paths:
                 if event.input.command:
@@ -275,47 +301,36 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
                 else:
                     allow_constraints = True
 
-                event.search.load_searcher(self.searchobj, path,
+                event.search.load_searcher(self.searcher, path,
                                            allow_constraints=allow_constraints)
 
             emeta = {'passthrough': event.search.passthrough_results_opt,
                      'sequence': event.search.sequence_search,
                      'tag': event.search.unique_search_tag}
-            self.__event_defs[section_name][event.name] = emeta
+            _event_defs[section_name][event.name] = emeta
 
-    @property
-    def event_definitions(self):
-        """
-        @return: dict of SearchDef objects and datasource for all entries in
-        defs/events.yaml under _yaml_defs_group.
-        """
-        if self.__event_defs:
-            return self.__event_defs
-
-        self._load_event_definitions()
-        return self.__event_defs
+        return _event_defs
 
     def load(self):
-        """ preload """
+        """ Pre-load event definitions. """
         self.event_definitions
 
     @property
     def final_event_results(self):
-        """
-        This is a cache of the results obtained by running run().
-        """
-        return self.__final_event_results
+        """ Cache of results in case run() is called again. """
+        return self._event_results
 
-    def run(self, results=None):
+    def run(self, results):
         """
-        Provide a default way for results to be processed.
+        Process each event and call respective callback functions when results
+        where found.
 
-        See defs/events.yaml for definitions.
+        @param results: SearchResultsCollection object.
         """
-        if self.__final_event_results:
-            return self.__final_event_results
+        if self.final_event_results is not None:
+            return self.final_event_results
 
-        if not self.callback_helper.callbacks:
+        if not self._callback_helper.callbacks:
             raise Exception("need to register at least one callback for "
                             "event handler.")
 
@@ -344,9 +359,9 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
 
                 # We want this to throw an exception if the callback is not
                 # defined.
-                callback_name = '{}.{}'.format(self._yaml_defs_group,
+                callback_name = '{}.{}'.format(self.root_group_name,
                                                event.replace('-', '_'))
-                callback = self.callback_helper.callbacks[callback_name]
+                callback = self._callback_helper.callbacks[callback_name]
                 event_results_obj = EventCheckResult(section_name, event,
                                                      search_results,
                                                      search_tag,
@@ -377,5 +392,9 @@ class YEventCheckerBase(YHandlerBase, EventProcessingUtils):
                     info[out_key] = ret
 
         if info:
-            self.__final_event_results = info
+            self._event_results = info
             return info
+
+    def load_and_run(self):
+        self.load()
+        return self.run(self.searcher.run())
