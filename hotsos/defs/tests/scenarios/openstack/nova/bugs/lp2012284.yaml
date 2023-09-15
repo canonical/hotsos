@@ -6,8 +6,8 @@ data-root:
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/2012284: >-
-    known nova compute issue caused when package gir1.2-libosinfo-1.0 is installed
-    and apparmor is set to enforced. To fix the issue, the offending package needs to
+    Known nova compute issue caused when package gir1.2-libosinfo-1.0 is installed
+    and apparmor is set to enforce. To fix the issue, the offending package needs to
     be removed, or apparmor set to complain, or the rules would need to be added to the
     apparmor profile (but this is not supported and can be overridden). Please refer
     to the Launchpad #2012284 bug page more information.
