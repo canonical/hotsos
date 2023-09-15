@@ -1,0 +1,17 @@
+checks:
+  has_1761062:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: '([\d-]+) ([\d:]+).\d{3} .+DestinationDiskExists: The supplied disk path .+ already exists, it is expected not to exist'
+    hint: 'DestinationDiskExists'
+conclusions:
+  lp1761062:
+    decision: has_1761062
+    raises:
+      type: LaunchpadBug
+      bug-id: 1761062
+      message: >-
+        reverting VM resizes or invoking evacuations will leave the instance folder
+        left behind when using rbd, and then migrating the instance back fails. The
+        fix is to enable the config \'ensure_libvirt_rbd_instance_dir_cleanup\' in nova.
+        The charm-nova-compute fix is available at LP#2019141.
