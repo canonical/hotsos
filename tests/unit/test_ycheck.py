@@ -1055,28 +1055,6 @@ class TestYamlChecks(utils.BaseTestCase):
         ts = YPropertySearch.get_datetime_from_result(result)
         self.assertIsNone(ts)
 
-    @mock.patch('hotsos.core.ycheck.engine.properties.search.CLIHelper')
-    @utils.create_data_root({'foo.log': '2022-01-06 00:00:00.000 an event\n'})
-    def test_yaml_def_scenario_result_filters_by_age(self, mock_cli):
-        mock_cli.return_value = mock.MagicMock()
-        mock_cli.return_value.date.return_value = "2022-01-07 00:00:00"
-        HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
-        HotSOSConfig.plugin_name = 'myplugin'
-
-        s = FileSearcher()
-        path = os.path.join(HotSOSConfig.data_root, 'foo.log')
-        s.add(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
-        results = s.run().find_by_tag('all')
-
-        result = YPropertySearch.filter_by_age(results, 48)
-        self.assertEqual(len(result), 1)
-
-        result = YPropertySearch.filter_by_age(results, 24)
-        self.assertEqual(len(result), 1)
-
-        result = YPropertySearch.filter_by_age(results, 23)
-        self.assertEqual(len(result), 0)
-
     def test_yaml_def_scenario_result_filters_by_period(self):
         with tempfile.TemporaryDirectory() as dtmp:
             HotSOSConfig.set(plugin_yaml_defs=dtmp, data_root=dtmp,

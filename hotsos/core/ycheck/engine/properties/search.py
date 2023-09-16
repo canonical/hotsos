@@ -1,8 +1,5 @@
 import re
-from datetime import (
-    datetime,
-    timedelta,
-)
+from datetime import timedelta
 from functools import cached_property
 
 from searchkit.constraints import TimestampMatcherBase
@@ -226,32 +223,6 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
                     "returning None", ts, len(result))
 
     @classmethod
-    def filter_by_age(cls, results, result_age_hours):
-        """ Return results from the last result_age_hours. """
-        if not result_age_hours:
-            log.debug("result age filter not specified - skipping")
-            return results
-
-        current = CLIHelper().date(format='+%Y-%m-%d %H:%M:%S')
-        if not current:
-            log.warning("date() returned unexpected value '%s' - skipping "
-                        "filter by age", current)
-            return results
-
-        current = datetime.strptime(current, "%Y-%m-%d %H:%M:%S")
-        log.debug("applying search filter (result_age_hours=%s, "
-                  "current='%s')", result_age_hours, current)
-
-        _results = []
-        for r in results:
-            ts = cls.get_datetime_from_result(r)
-            if ts and ts >= current - timedelta(hours=result_age_hours):
-                _results.append(r)
-
-        log.debug("%s results remain after applying filter", len(_results))
-        return _results
-
-    @classmethod
     def filter_by_period(cls, results, period_hours):
         """ Return the most recent period_hours worth of results. """
         if not period_hours:
@@ -280,23 +251,19 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         log.debug("%s results remain after applying filter", len(results))
         return [r[1] for r in results]
 
-    def apply_constraints(self, results):
+    def apply_extra_constraints(self, results):
         """
-        NOTE: this is mostly unneeded now that we apply constraints in the
-              searches themselves but for occasions where timestamp cannot be
-              extracted form the start of a line, the searcher will assume the
-              line is valid and therefore we still need to post-process these
-              lines. The number of lines this applies to should always be very
-              small.
+        Apply further constraints filtering to search results.
+
+        These are constraints supported by the constraints property that
+        are not/cannot be applied by the search engine itself using
+        SearchConstraintSearchSince.
         """
         if not self.constraints:
-            log.debug("no search constraints to apply")
+            log.debug("no extra search constraints to apply")
             return results
 
-        log.debug("applying search constraints")
-        count = len(results)
-        result_age_hours = self.constraints.search_result_age_hours
-        results = self.filter_by_age(results, result_age_hours)
+        log.debug("applying extra search constraints")
         if results:
             period_hours = self.constraints.search_period_hours
             results = self.filter_by_period(results, period_hours)
@@ -307,8 +274,8 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
                       "satisfy min of %s", count, self.constraints.min_results)
             return []
 
-        log.debug("applying search constraints reduced results from %s to %s",
-                  count, len(results))
+        log.debug("applying extra search constraints reduced results from %s "
+                  "to %s", count, len(results))
         return results
 
     @property

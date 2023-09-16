@@ -32,7 +32,7 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
             _results = global_results.find_by_tag(tag)
             log.debug("check %s has %s search results with tag %s",
                       self.check_name, len(_results), tag)
-            return self.search.apply_constraints(_results)
+            return self.search.apply_extra_constraints(_results)
 
         raise Exception("no search results provided to check '{}'".
                         format(self.check_name))
