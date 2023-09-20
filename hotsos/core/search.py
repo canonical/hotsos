@@ -37,12 +37,7 @@ class SearchConstraintSearchSince(_SearchConstraintSearchSince):
                       "constraints is not valid.", current_date)
             return
 
-        super().__init__(*args,
-                         current_date=current_date,
-                         cache_path=HotSOSConfig.plugin_tmp_dir,
-                         allow_constraints_for_unverifiable_logs=HotSOSConfig.
-                         allow_constraints_for_unverifiable_logs,
-                         **kwargs)
+        super().__init__(*args, current_date=current_date, **kwargs)
 
     def apply_to_line(self, *args, **kwargs):
         if not os.path.isdir(os.path.join(HotSOSConfig.data_root,

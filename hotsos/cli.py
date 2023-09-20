@@ -159,8 +159,6 @@ def main():
     @click.option('--command-timeout', default=HotSOSConfig.command_timeout,
                   help=('Amount of time command execution will wait before '
                         'timing out and moving on.'))
-    @click.option('--allow-constraints-for-unverifiable-logs', default=False,
-                  is_flag=True)
     @click.option('--output-path', default=None,
                   help=('Optional path to use for saving output (with '
                         '--save).'))
@@ -235,8 +233,7 @@ def main():
             quiet, save, output_format, html_escape, short, very_short,
             force, event_tally_granularity, max_logrotate_depth,
             max_parallel_tasks, list_plugins, machine_readable, output_path,
-            allow_constraints_for_unverifiable_logs, command_timeout,
-            sos_unpack_dir, **kwargs):
+            command_timeout, sos_unpack_dir, **kwargs):
         """
         Run this tool on a host or against a sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -291,8 +288,6 @@ def main():
                              max_logrotate_depth=max_logrotate_depth,
                              max_parallel_tasks=max_parallel_tasks,
                              machine_readable=machine_readable)
-            HotSOSConfig.allow_constraints_for_unverifiable_logs = \
-                allow_constraints_for_unverifiable_logs
 
             if debug and quiet:
                 sys.stderr.write('ERROR: cannot use both --debug and '

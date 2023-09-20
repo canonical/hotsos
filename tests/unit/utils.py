@@ -411,7 +411,6 @@ class BaseTestCase(unittest.TestCase):
                               'plugin_tmp_dir': None,
                               'use_all_logs': True,
                               'machine_readable': True,
-                              'allow_constraints_for_unverifiable_logs': True,
                               'debug_mode': True}
 
     def part_output_to_actual(self, output):

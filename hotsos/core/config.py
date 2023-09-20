@@ -129,28 +129,6 @@ class SearchtoolsConfigOpts(ConfigOptGroupBase):
                                         'log files, this is used to limit the '
                                         'logrotate history in days.'),
                            default_value=7, value_type=int))
-        self.add(ConfigOpt(name='allow_constraints_for_unverifiable_logs',
-                           description=('Search constraints use a binary '
-                                        'search that sometimes needs to '
-                                        'seek backwards to find a last '
-                                        'known good line i.e. in log files '
-                                        "that contain lines that don't start "
-                                        'with a timestamp we treat those as '
-                                        'unverifiable and so have to find the '
-                                        'most recent verifiable line which '
-                                        'can be ahead or behind the current '
-                                        'position. Seeking backwards seems to '
-                                        'force a SEEK_SET in the kernel '
-                                        'regardless of what whence is set to '
-                                        'which for large files becomes very '
-                                        'slow as it will start from 0 each '
-                                        'time. Backwards seeking is now not '
-                                        'supported by default and requires '
-                                        'setting this option to True '
-                                        'to enable search constraints for '
-                                        'files that contain unverifiable '
-                                        'lines.'),
-                           default_value=False, value_type=bool))
 
     @property
     def name(self):

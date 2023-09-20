@@ -55,15 +55,14 @@ class UnitLogInfo(object):
                 # Since juju logs files don't typically get logrotated they
                 # may contain a large history of logs so we have to do this to
                 # ensure we don't get too much.
-                if not HotSOSConfig.allow_constraints_for_unverifiable_logs:
-                    then = datetime.strptime("{} {}".format(ts_date, ts_time),
-                                             date_format)
-                    days = 1
-                    if HotSOSConfig.use_all_logs:
-                        days = HotSOSConfig.max_logrotate_depth
+                then = datetime.strptime("{} {}".format(ts_date, ts_time),
+                                         date_format)
+                days = 1
+                if HotSOSConfig.use_all_logs:
+                    days = HotSOSConfig.max_logrotate_depth
 
-                    if then < now - timedelta(days=days):
-                        continue
+                if then < now - timedelta(days=days):
+                    continue
 
                 path = searchobj.resolve_source_id(result.source_id)
                 name = re.search(r".+/unit-(\S+).log.*", path).group(1)
