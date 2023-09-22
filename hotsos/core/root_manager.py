@@ -67,8 +67,8 @@ class DataRootManager(object):
 
         if tarfile.is_tarfile(path):
             with tarfile.open(path) as tar:
-                target = os.path.join(self.tmpdir,
-                                      os.path.basename(tar.firstmember.name))
+                rootdir = tar.firstmember.name.partition('/')[0]
+                target = os.path.join(self.tmpdir, rootdir)
                 if not os.path.exists(target):
                     sys.stdout.write("INFO: extracting sosreport {} to {}\n".
                                      format(path, target))

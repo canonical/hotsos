@@ -25,8 +25,9 @@ class TestRootManager(utils.BaseTestCase):
 
     def create_sosreport(self, sospath):
         os.makedirs(os.path.join(sospath, 'sos_commands'))
+        tarroot = os.path.basename(sospath)
         with tarfile.open(sospath + '.xz', 'w:xz') as tar:
-            tar.add(sospath)
+            tar.add(name=sospath, arcname=tarroot)
 
     def test_sos_data_root(self):
         path = self.sospath_packed
