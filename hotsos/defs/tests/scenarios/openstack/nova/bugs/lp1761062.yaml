@@ -1,12 +1,17 @@
 data-root:
   files:
+    etc/nova/nova.conf: |
+      [libvirt]
+      images_type = rbd
     var/log/nova/nova-compute.log: |
       2023-03-22 10:05:40.657 20779 ERROR oslo_messaging.rpc.server [req-e20743e3-a683-41ba-b47b-ba92e97eff37 4f7cd8bf676d43bc9faf09b2eb41482f 2c3d8251c39545cbb6f77f331b7164f8 - default default] Exception during message handling: DestinationDiskExists: The supplied disk path (/var/lib/nova/instances/d8db3f2a-cd8f-48e1-9951-012d762664b2) already exists, it is expected not to exist.
   copy-from-original:
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/1761062: >-
-    reverting VM resizes or invoking evacuations will leave the instance folder
-    left behind when using rbd, and then migrating the instance back fails. The
-    fix is to enable the config \'ensure_libvirt_rbd_instance_dir_cleanup\' in nova.
-    The charm-nova-compute fix is available at LP#2019141.
+    Reverting VM resizes or invoking evacuations will leave the instance
+    folder left behind when using rbd (which nova-compute is configured
+    to do by default), and then migrating the instance back fails. The
+    fix is to enable the config 'ensure_libvirt_rbd_instance_dir_cleanup'
+    in Nova. The nova-compute charm fix for this is available in the
+    referenced bug.
