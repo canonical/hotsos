@@ -91,6 +91,7 @@ class TemplatedTest(object):
         if not expected:
             test_inst.assertNotIn('bugs-detected', actual)
             return
+
         if 'bugs-detected' not in actual:
             raise Exception("test expects one or more bugs to have "
                             "been raised did not find any.")
@@ -282,7 +283,7 @@ def is_def_filter(def_path, sub_root):
     """
     def inner(_inst, abs_path):
         log.debug("filter def: %s (%s)", def_path, abs_path)
-        if not abs_path.endswith(def_path):
+        if not abs_path.endswith(def_path) or sub_root not in abs_path:
             return False
 
         # filename may optionally have a parent dir which allows us to permit
