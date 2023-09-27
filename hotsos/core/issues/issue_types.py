@@ -166,6 +166,10 @@ class MAASWarning(IssueTypeBase):
     pass
 
 
+class VaultWarning(IssueTypeBase):
+    pass
+
+
 class LaunchpadBug(BugTypeBase):
 
     @property

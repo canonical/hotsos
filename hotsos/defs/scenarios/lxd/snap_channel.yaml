@@ -1,0 +1,20 @@
+checks:
+  snap_using_latest_stable:
+    snap:
+      lxd:
+        - channel: latest/stable
+conclusions:
+  snap_using_latest_stable:
+    decision: snap_using_latest_stable
+    raises:
+      type: LXDWarning
+      message: >-
+        The {package} snap is installed from the {channel} channel which is
+        discouraged since the release of the snap in that channel can/will
+        change at random and will auto-upgrade which may be undesired. The
+        recommended way is to use a specific release track/channel so that
+        release (or major version) upgrades can be performed in a controlled
+        way. See 'snap info {package}' for available channels.
+      format-dict:
+        channel: '@checks.snap_using_latest_stable.requires.channel'
+        package: '@checks.snap_using_latest_stable.requires.package'
