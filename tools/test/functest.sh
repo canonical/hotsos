@@ -47,12 +47,12 @@ test_plugin ()
         args+=( --short )
         label=".short"
     fi
-    # NOTE: we remove repo-info and date from hotsos and system plugin
+    # NOTE: we remove repo-info, date and INFO from hotsos and system plugin
     #       output since they are liable to change.
     ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
-        egrep -v "^  repo-info:|date:" > $dtmp/$plugin$label
+        egrep -v "^  repo-info:|date:|INFO:" > $dtmp/$plugin$label
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
-    egrep -v "^  repo-info:|date:" $litmus > $dtmp/$plugin.litmus
+    egrep -v "^  repo-info:|date:|INFO:" $litmus > $dtmp/$plugin.litmus
     if diff $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail; then
         echo -e " [${F_GRN}PASS${RES}]"
     else
