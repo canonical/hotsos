@@ -350,7 +350,7 @@ class SnapPackageHelper(PackageHelperBase):
         return pkg in self.all
 
     def _get_snap_info_from_line(self, line, cexpr):
-        """ Returns snap name and version if found in line. """
+        """ Returns snap name and info if found in line. """
         ret = re.match(cexpr, line)
         if ret:
             return {'name': ret.group(1),
@@ -376,6 +376,15 @@ class SnapPackageHelper(PackageHelperBase):
         info = self._get_snap_info(pkg)
         if info:
             return info[0]['version']
+
+    def get_channel(self, pkg):
+        """ Return channel of snap package.
+
+        Assumes only one snap will be matched.
+        """
+        info = self._get_snap_info(pkg)
+        if info:
+            return info[0]['channel']
 
     def _get_snap_info(self, snap_name_expr):
         """

@@ -95,16 +95,19 @@ Or with revision ranges as follows:
 
     snap:
       mypackage:
-        - min: 0.0
-          max: 1.0
-        - min: 4.0
-          max: 5.0
+        - min: 1234
+          max: 2345
+          channel: 2.0/stable
+        - min: 3456
+          max: 4567
 
-In the above example *mypackage* must have a revision between 0.0 and 1.0 or
-4.0 and 5.0 inclusive.
+In the above example *mypackage* must have a revision between *1234* and *2345*
+or 3456 and 4567 inclusive. If *mypackage* revision is between *1234* and
+*2345* it must also be from channel *2.0/stable*
 
 Cache keys:
 
+  * channel - channel of each installed package
   * package - name of each installed package
   * revision - revision of each installed package
 

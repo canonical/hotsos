@@ -23,8 +23,9 @@ from hotsos.core.ycheck.engine.properties.common import (
     cached_yproperty_attr,
 )
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
-from hotsos.core.ycheck.engine.properties.requires.types.apt import (
-    APTCheckItems,
+from hotsos.core.ycheck.engine.properties.requires.types import (
+    apt,
+    snap,
 )
 from hotsos.core.ycheck.events import CallbackHelper
 
@@ -725,67 +726,67 @@ ii  openssh-server                       1:8.2p1-4ubuntu0.4                     
 """  # noqa
 
 
-class TestYamlCheckRequiresTypes(utils.BaseTestCase):
+class TestYamlCheckRequiresTypeAPT(utils.BaseTestCase):
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_true(self):
-        ci = APTCheckItems('ssh')
+        ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
                                                   [{'min': '1:8.2',
                                                     'max': '1:8.3'}])
-        self.assertEqual(result, True)
+        self.assertTrue(result)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_false(self):
-        ci = APTCheckItems('ssh')
+        ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
                                                   [{'min': '1:8.2',
                                                     'max': '1:8.2'}])
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_multi(self):
-        ci = APTCheckItems('ssh')
+        ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
                                                   [{'min': '1:8.0',
                                                     'max': '1:8.1'},
                                                    {'min': '1:8.2',
                                                     'max': '1:8.3'}])
-        self.assertEqual(result, True)
+        self.assertTrue(result)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_no_max_true(self):
-        ci = APTCheckItems('ssh')
+        ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
                                                   [{'min': '1:8.0'},
                                                    {'min': '1:8.1'},
                                                    {'min': '1:8.2'},
                                                    {'min': '1:8.3'}])
-        self.assertEqual(result, True)
+        self.assertTrue(result)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_no_max_false(self):
-        ci = APTCheckItems('ssh')
+        ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
                                                   [{'min': '1:8.3'},
                                                    {'min': '1:8.4'},
                                                    {'min': '1:8.5'}])
-        self.assertEqual(result, False)
+        self.assertFalse(result)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_mixed_true(self):
-        ci = APTCheckItems('ssh')
+        ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
                                                   [{'min': '1:8.0'},
                                                    {'min': '1:8.1',
                                                     'max': '1:8.1.1'},
                                                    {'min': '1:8.2'},
                                                    {'min': '1:8.3'}])
-        self.assertEqual(result, True)
+        self.assertTrue(result)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_mixed_false(self):
-        ci = APTCheckItems('ssh')
+        ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
                                                   [{'min': '1:8.0'},
                                                    {'min': '1:8.1',
@@ -793,7 +794,57 @@ class TestYamlCheckRequiresTypes(utils.BaseTestCase):
                                                    {'min': '1:8.2',
                                                     'max': '1:8.2'},
                                                    {'min': '1:8.3'}])
-        self.assertEqual(result, False)
+        self.assertFalse(result)
+
+
+class TestYamlCheckRequiresTypeSnap(utils.BaseTestCase):
+
+    def test_snap_revision_within_ranges_no_channel_true(self):
+        ci = snap.SnapCheckItems('core20')
+        result = ci.package_info_matches('core20', [{'min': '1327',
+                                                     'max': '1328'}])
+        self.assertTrue(result)
+
+    def test_snap_revision_within_ranges_no_channel_false(self):
+        ci = snap.SnapCheckItems('core20')
+        result = ci.package_info_matches('core20', [{'min': '1326',
+                                                     'max': '1327'}])
+        self.assertFalse(result)
+
+    def test_snap_revision_within_ranges_channel_true(self):
+        ci = snap.SnapCheckItems('core20')
+        result = ci.package_info_matches('core20',
+                                         [{'min': '1327',
+                                           'max': '1328',
+                                           'channel': 'latest/stable'}])
+        self.assertTrue(result)
+
+    def test_snap_revision_within_ranges_channel_false(self):
+        ci = snap.SnapCheckItems('core20')
+        result = ci.package_info_matches('core20', [{'min': '1327',
+                                                     'max': '1328',
+                                                     'channel': 'foo'}])
+        self.assertFalse(result)
+
+    def test_snap_revision_within_multi_ranges_channel_true(self):
+        ci = snap.SnapCheckItems('core20')
+        result = ci.package_info_matches('core20', [{'min': '1326',
+                                                     'max': '1327',
+                                                     'channel': 'foo'},
+                                                    {'min': '1327',
+                                                     'max': '1328',
+                                                     'channel':
+                                                     'latest/stable'},
+                                                    {'min': '1329',
+                                                     'max': '1330',
+                                                     'channel': 'bar'}])
+        self.assertTrue(result)
+
+    def test_snap_revision_with_incomplete_range(self):
+        with self.assertRaises(Exception):
+            snap.SnapCheckItems('core20').package_info_matches('core20',
+                                                               [{'min':
+                                                                 '1327'}])
 
 
 class TestYamlChecks(utils.BaseTestCase):
