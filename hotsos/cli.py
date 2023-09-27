@@ -309,7 +309,10 @@ def main():
                     spinner_msg = ''
                 else:
                     show_spinner = not debug
-                    spinner_msg = 'INFO: analysing {} '.format(drm.name)
+                    if show_spinner:
+                        sys.stdout.write(
+                            'INFO: analysing {}\n'.format(drm.name))
+                    spinner_msg = 'INFO: analysing '
 
                 with progress_spinner(show_spinner, spinner_msg):
                     plugins = []
