@@ -284,13 +284,6 @@ class OutputManager(object):
 
         return filtered
 
-    def temp_log_filename(self):
-        """
-        Return the temporary log filename if present
-        """
-        if log.handlers and isinstance(log.handlers[0], logging.FileHandler):
-            return log.handlers[0].baseFilename
-
     def _save(self, path, fmt, html_escape=None, minimal_mode=None,
               plugin=None):
         content = self.get(fmt=fmt, html_escape=html_escape,
@@ -379,9 +372,6 @@ class HotSOSClient(object):
         log.debug("tearing down global env")
         if os.path.exists(HotSOSConfig.global_tmp_dir):
             shutil.rmtree(HotSOSConfig.global_tmp_dir)
-        # If we don't clear this, callers of run() could accidentally
-        # recreate the temp directories we just removed
-        HotSOSConfig.plugin_tmp_dir = None
 
     def setup_plugin_env(self, plugin):
         """ State saved here is specific to a plugin. """
@@ -389,15 +379,6 @@ class HotSOSClient(object):
         global_tmp = HotSOSConfig.global_tmp_dir
         HotSOSConfig.plugin_tmp_dir = tempfile.mkdtemp(prefix=plugin,
                                                        dir=global_tmp)
-
-    def remove_temp_log_file(self):
-        temp_log = self.summary.temp_log_filename()
-        if not temp_log:
-            return
-        log.debug("removing temporary log file %s", temp_log)
-        logfile = os.path.abspath(temp_log)
-        if os.path.exists(logfile):
-            os.remove(logfile)
 
     def _run(self, plugin):
         if plugin not in PLUGIN_CATALOG:
@@ -419,7 +400,6 @@ class HotSOSClient(object):
         well as any extensions.
         """
         log.name = 'hotsos.client'
-        temp_log = self.summary.temp_log_filename()
         try:
             self.setup_global_env()
             for plugin in PLUGIN_RUN_ORDER:
@@ -428,12 +408,6 @@ class HotSOSClient(object):
                     content = self._run(plugin)
                     if content:
                         self.summary.update(plugin, content.get(plugin))
-            self.remove_temp_log_file()
-        except Exception as e:
-            print('\nException running plugins:', e)
-            if temp_log:
-                print('See temp log file for possible details:', temp_log)
-            raise
         finally:
             log.name = 'hotsos.client'
             self.teardown_global_env()
