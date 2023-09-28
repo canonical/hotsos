@@ -1,0 +1,15 @@
+checks:
+  prevent_lp1940549:
+    snap:
+      vault:
+        # Looking for version less than 1.7
+        - min: 1967
+          max: 2039
+conclusions:
+  prevent_lp1940549:
+    decision:
+      - prevent_lp1940549
+    raises:
+      type: SystemWarning
+      message: >-
+        The installed Vault charm version suffers from a bug, see lp1940549, that impedes renewal or reissuing of certificates for services dependent on Vault. This can lead to other services being degraded due to TLS issues. It is strongly recommended to upgrade to channel 1.7 or later. See the knowledge base article 'Vault HA cluster upgrade with Juju' for upgrade steps.
