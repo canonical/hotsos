@@ -58,7 +58,7 @@ class NetworkPort(HostHelpersBase):
         return "port-{}".format(self.name)
 
     def cache_load(self):
-        contents = self.cache.get('stats')
+        contents = self.cache.get('stats')  # pylint: disable=E1111
         if not contents:
             log.debug("network port %s not found in cache", self.name)
             return
@@ -165,9 +165,9 @@ class HostNetworkingHelper(HostHelpersBase):
         log.debug("loading network helper info from cache (namespaces=%s)",
                   namespaces)
         if namespaces:
-            contents = self.cache.get('ns-interfaces')
+            contents = self.cache.get('ns-interfaces')  # pylint: disable=E1111
         else:
-            contents = self.cache.get('interfaces')
+            contents = self.cache.get('interfaces')  # pylint: disable=E1111
 
         if contents:
             return contents

@@ -372,6 +372,8 @@ class HotSOSClient(object):
         log.debug("tearing down global env")
         if os.path.exists(HotSOSConfig.global_tmp_dir):
             shutil.rmtree(HotSOSConfig.global_tmp_dir)
+        # Ensure tmp dir doesn't get accidentally recreated
+        HotSOSConfig.plugin_tmp_dir = None
 
     def setup_plugin_env(self, plugin):
         """ State saved here is specific to a plugin. """

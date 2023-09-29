@@ -106,7 +106,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
     def test_get_interfaces_cached(self):
         helper = host_helpers.HostNetworkingHelper()
         helper.host_interfaces_all
-        ifaces = helper.cache.get('interfaces')
+        ifaces = helper.cache.get('interfaces')  # pylint: disable=E1111
         expected = ['lo',
                     'ens3',
                     'ens4',
@@ -132,7 +132,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
                     'vxlan_sys_4789',
                     'tap0e778df8-ca']
         self.assertEqual([i['name'] for i in ifaces], expected)
-        ns_ifaces = helper.cache.get('ns-interfaces')
+        ns_ifaces = helper.cache.get('ns-interfaces')  # pylint: disable=E1111
         expected = [('lo',
                      'fip-32981f34-497a-4fae-914a-8576055c8d0d'),
                     ('fpr-984c22fd-6@if2',

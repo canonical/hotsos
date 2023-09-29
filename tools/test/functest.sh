@@ -47,7 +47,6 @@ test_plugin ()
         args+=( --short )
         label=".short"
     fi
-    export PYTHONPATH=.
     # NOTE: we remove repo-info and date from hotsos and system plugin
     #       output since they are liable to change.
     ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
@@ -63,11 +62,17 @@ test_plugin ()
     fi
 }
 
+# this is needed for github workflows to work
+export PYTHONPATH=.
 
 default=${PLUGIN_ROOTS[openstack]}
 for plugin in ${PLUGINS[@]}; do
     test_plugin $plugin
     test_plugin $plugin short
 done
+
+# do a test run with --save to be sure we havent broken anything
+./scripts/hotsos --kernel --save --output-path $dtmp
+
 rm -rf $dtmp
 $result
