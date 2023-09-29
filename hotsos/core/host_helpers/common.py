@@ -1,4 +1,5 @@
 import abc
+import os
 import re
 
 from searchkit.utils import MPCache
@@ -6,12 +7,28 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 
 
+class NullCache(object):
+    """ A cache that does nothing but maintains the MPCache abi. """
+
+    def get(self, *args, **kwargs):
+        log.debug("null cache get() op args=%s kwargs=%s", args, kwargs)
+
+    def set(self, *args, **kwargs):
+        log.debug("null cache set() op args=%s kwargs=%s", args, kwargs)
+
+
 class HostHelpersBase(abc.ABC):
 
     def __init__(self, *args, **kwargs):
-        self.cache = MPCache(self.cache_name,
-                             'host_helpers_{}'.format(self.cache_type),
-                             self.cache_root)
+        if not self.cache_root or not os.path.exists(self.cache_root):
+            log.debug("cache root invalid or does not exist so disabling %s "
+                      "cache", self.__class__.__name__)
+            self.cache = NullCache()
+        else:
+            self.cache = MPCache(self.cache_name,
+                                 'host_helpers_{}'.format(self.cache_type),
+                                 self.cache_root)
+
         super().__init__(*args, **kwargs)
 
     @property

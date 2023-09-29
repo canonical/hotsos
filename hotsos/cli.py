@@ -11,7 +11,7 @@ import distro
 from progress.spinner import Spinner
 from hotsos.core.root_manager import DataRootManager
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.log import setup_logging, log
+from hotsos.core.log import log, LoggingManager
 from hotsos.client import (
     HotSOSClient,
     OutputManager,
@@ -295,48 +295,58 @@ def main():
                 return
 
             HotSOSConfig.debug_mode = debug
+            with LoggingManager() as logmanager:
+                # Set a name so that logs have this until real plugins are run.
+                log.name = 'hotsos.cli'
 
-            setup_logging()
-            # Set a name so that logs have this until real plugins are run.
-            log.name = 'hotsos.cli'
+                if list_plugins:
+                    sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))
+                    sys.stdout.write('\n')
+                    return
 
-            if list_plugins:
-                sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))
-                sys.stdout.write('\n')
-                return
+                if quiet:
+                    show_spinner = False
+                    spinner_msg = ''
+                else:
+                    show_spinner = not debug
+                    spinner_msg = 'INFO: analysing {} '.format(drm.name)
 
-            if quiet:
-                show_spinner = False
-                spinner_msg = ''
-            else:
-                show_spinner = not debug
-                spinner_msg = 'INFO: analysing {} '.format(drm.name)
+                with progress_spinner(show_spinner, spinner_msg):
+                    plugins = []
+                    for k, v in kwargs.items():
+                        if v is True:
+                            plugins.append(k)
 
-            with progress_spinner(show_spinner, spinner_msg):
-                plugins = []
-                for k, v in kwargs.items():
-                    if v is True:
-                        plugins.append(k)
+                    if plugins:
+                        # always run these
+                        plugins.append('hotsos')
+                        if 'system' not in plugins:
+                            plugins.append('system')
 
-                if plugins:
-                    # always run these
-                    plugins.append('hotsos')
-                    if 'system' not in plugins:
-                        plugins.append('system')
+                    client = HotSOSClient(plugins)
+                    try:
+                        client.run()
+                    except Exception as exc:
+                        log.exception("An exception occurred while running "
+                                      "plugins")
+                        print('\nException running plugins:', exc)
+                        print('See temp log file for possible details:',
+                              logmanager.temp_log_path)
+                        logmanager.delete_temp_file = False
+                        raise
 
-                client = HotSOSClient(plugins)
-                client.run()
-                summary = client.summary
+                    summary = client.summary
 
-            if save:
-                path = summary.save(drm.basename, html_escape=html_escape,
-                                    output_path=output_path)
-                sys.stdout.write("INFO: output saved to {}\n".format(path))
-            else:
-                out = summary.get(fmt=output_format, html_escape=html_escape,
-                                  minimal_mode=minimal_mode)
-                if out:
-                    sys.stdout.write("{}\n".format(out))
+                if save:
+                    path = summary.save(drm.basename, html_escape=html_escape,
+                                        output_path=output_path)
+                    sys.stdout.write("INFO: output saved to {}\n".format(path))
+                else:
+                    out = summary.get(fmt=output_format,
+                                      html_escape=html_escape,
+                                      minimal_mode=minimal_mode)
+                    if out:
+                        sys.stdout.write("{}\n".format(out))
 
     cli(prog_name='hotsos')
 
