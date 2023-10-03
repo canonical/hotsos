@@ -140,6 +140,10 @@ class JujuBase(object):
 
         return machine
 
+    @property
+    def version(self):
+        return self.machine.version
+
     @cached_property
     def units(self):
         """

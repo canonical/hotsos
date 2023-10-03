@@ -3,7 +3,6 @@ checks:
     input:
       path: 'var/log/juju/unit-*.log'
     expr: '[\d-]+ [\d:]+ ERROR juju.worker.dependency engine.go:\d+ "uniter" manifold worker .+ error: failed to initialize uniter for "(\S+)": cannot create relation state tracker: cannot remove persisted state, relation (\d+) has members'
-    hint: 'manifold worker returned unexpected error'
 conclusions:
   lp1910958:
     decision: has_lp1910958
@@ -11,8 +10,11 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1910958
       message: >-
-        Unit {unit} failed to start due to members in relation {rel} that cannot be
-        removed.
+        One of more Juju charm units ({units}) failed to start because
+        relation(s) {rels} contain orphaned unit members that cannot be
+        removed. This is a known bug and can be resolved by upgrading Juju to a
+        version >= 2.9 (current is {juju_version}).
       format-dict:
-        unit: '@checks.has_lp1910958.search.results_group_1:unique_comma_join'
-        rel: '@checks.has_lp1910958.search.results_group_2:unique_comma_join'
+        units: '@checks.has_lp1910958.search.results_group_1:unique_comma_join'
+        rels: '@checks.has_lp1910958.search.results_group_2:unique_comma_join'
+        juju_version: 'hotsos.core.plugins.juju.resources.JujuBase.version'

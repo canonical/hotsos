@@ -1,0 +1,14 @@
+data-root:
+  files:
+    var/log/juju/unit-ceph-osd-1.log: |
+      2022-08-13 11:42:23 INFO unit.ceph-osd/1.juju-log server.go:314 Cannot zap a device used by lvm
+  copy-from-original:
+    - sos_commands/dpkg
+    - sos_commands/systemd
+    - uptime
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1858519: >-
+    A known ceph-osd charm bug has been identified. The charm tried to zap a
+    disk but failed since the disk has an LVM header. If you are sure the disk
+    is not in active use by LVM you may run pvremove on it then 'juju resolve
+    ceph-osd/1' - see LP bug for details.

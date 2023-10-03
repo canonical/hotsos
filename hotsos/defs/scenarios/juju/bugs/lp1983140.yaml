@@ -9,5 +9,6 @@ conclusions:
     raises:
       type: LaunchpadBug
       bug-id: 1983140
-      message: model migration failed - see LP bug for workaround.
-
+      message: >-
+        Juju model migration failure has been detected on this host. See the LP
+        bug for workaround.

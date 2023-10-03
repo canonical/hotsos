@@ -9,8 +9,7 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1812361
       message: >-
-        A known glance-simplestream-sync bug has been identified - this happens because
-        the relation data received from keystone is missing some
-        expected settings (internal_host and internal_port). Upgrading
+        A known keystone charm bug has been identified and is affecting this
+        glance-simplestreams-sync unit whereby relation data received from
+        keystone is missing keys 'internal_host' and 'internal_port'. Upgrading
         charm-keystone to version >= stable/539 should fix the problem.
-

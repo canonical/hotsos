@@ -11,5 +11,6 @@ data-root:
     - sys/fs/cgroup/unified/system.slice/jujud-machine-1.service
 raised-bugs:
   https://bugs.launchpad.net/bugs/1983506: >-
-    model migration failed - see LP bug for workaround.
+    Juju model migration failure has been detected on this host. See the LP
+    bug for workaround.
 

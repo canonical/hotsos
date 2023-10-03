@@ -1,0 +1,15 @@
+data-root:
+  files:
+    var/log/juju/unit-designate-bind-1.log: |
+      2022-04-27 06:28:14 INFO juju.worker.uniter uniter.go:339 unit "designate-bind/1" started
+      2022-04-27 06:28:14 INFO juju.worker.uniter uniter.go:357 hooks are retried true
+      2022-04-27 06:28:14 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "post-series-upgrade" hook
+      2022-04-27 06:28:19 INFO juju.worker.uniter resolver.go:150 awaiting error resolution for "post-series-upgrade" hook
+      2022-04-27 06:28:19 ERROR juju.worker.uniter.operation runhook.go:200 error updating workload status before post-series-upgrade hook: upgrade series status "complete running"
+      2022-04-27 06:28:19 ERROR juju.worker.uniter agent.go:31 resolver loop error: executing operation "run post-series-upgrade hook" for designate-bind/1: upgrade series status "complete running"
+      2022-04-27 06:28:19 INFO juju.worker.uniter uniter.go:323 unit "designate-bind/1" shutting down: executing operation "run post-series-upgrade hook" for designate-bind/1: upgrade series status "complete running"
+      2022-04-27 06:28:19 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: executing operation "run post-series-upgrade hook" for designate-bind/1: upgrade series status "complete running"
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1948906: >-
+    One or more Juju charm units (designate-bind/1) have failed post-series-upgrade.
+    See LP bug for workaround.
