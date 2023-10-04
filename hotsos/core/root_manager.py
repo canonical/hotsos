@@ -72,7 +72,18 @@ class DataRootManager(object):
                 if not os.path.exists(target):
                     sys.stdout.write("INFO: extracting sosreport {} to {}\n".
                                      format(path, target))
-                    tar.extractall(self.tmpdir)
+                    try:
+                        tar.extractall(self.tmpdir)
+                    except Exception:
+                        # some members might fail to extract e.g. permission
+                        # denied but we dont want that to cause the whole run
+                        # to fail so we just log a message and ignore them.
+                        tar.errorlevel = 0
+                        sys.stdout.write("INFO: one or more members failed to "
+                                         "extract - disabling error mode and "
+                                         "continuing extraction (which will "
+                                         "be incomplete as a result)\n")
+                        tar.extractall(self.tmpdir)
                 else:
                     sys.stdout.write("INFO: target {} already exists - "
                                      "skipping unpack\n".format(target))
