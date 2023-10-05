@@ -257,45 +257,38 @@ def main():
             host.
         """  # noqa
 
-        minimal_mode = None
-        if short:
-            minimal_mode = 'short'
-        elif very_short:
-            minimal_mode = 'very-short'
-
-        HotSOSConfig.force_mode = force
-        repo_info = get_repo_info()
-        if repo_info:
-            HotSOSConfig.repo_info = repo_info
-
         _version = get_version()
-        HotSOSConfig.hotsos_version = _version
-        HotSOSConfig.command_timeout = command_timeout
-
         if version:
             print(_version)
             return
 
-        with DataRootManager(data_root, sos_unpack_dir=sos_unpack_dir) as drm:
-            if is_snap() and drm.data_root == '/':
-                print(SNAP_ERROR_MSG)
-                sys.exit(1)
+        config = {'repo_info': get_repo_info(),
+                  'force_mode': force,
+                  'hotsos_version': _version,
+                  'command_timeout': command_timeout,
+                  'use_all_logs': all_logs,
+                  'plugin_yaml_defs': defs_path,
+                  'templates_path': templates_path,
+                  'event_tally_granularity': event_tally_granularity,
+                  'max_logrotate_depth': max_logrotate_depth,
+                  'max_parallel_tasks': max_parallel_tasks,
+                  'machine_readable': machine_readable,
+                  'debug_mode': debug}
+        HotSOSConfig.set(**config)
 
-            HotSOSConfig.set(use_all_logs=all_logs, plugin_yaml_defs=defs_path,
-                             templates_path=templates_path,
-                             data_root=drm.data_root,
-                             event_tally_granularity=event_tally_granularity,
-                             max_logrotate_depth=max_logrotate_depth,
-                             max_parallel_tasks=max_parallel_tasks,
-                             machine_readable=machine_readable)
+        with LoggingManager() as logmanager:
+            with DataRootManager(data_root,
+                                 sos_unpack_dir=sos_unpack_dir) as drm:
+                HotSOSConfig.data_root = drm.data_root
+                if is_snap() and drm.data_root == '/':
+                    print(SNAP_ERROR_MSG)
+                    sys.exit(1)
 
-            if debug and quiet:
-                sys.stderr.write('ERROR: cannot use both --debug and '
-                                 '--quiet\n')
-                return
+                if debug and quiet:
+                    sys.stderr.write('ERROR: cannot use both --debug and '
+                                     '--quiet\n')
+                    return
 
-            HotSOSConfig.debug_mode = debug
-            with LoggingManager() as logmanager:
                 # Set a name so that logs have this until real plugins are run.
                 log.name = 'hotsos.cli'
 
@@ -345,6 +338,13 @@ def main():
                                         output_path=output_path)
                     sys.stdout.write("INFO: output saved to {}\n".format(path))
                 else:
+                    if short:
+                        minimal_mode = 'short'
+                    elif very_short:
+                        minimal_mode = 'very-short'
+                    else:
+                        minimal_mode = None
+
                     out = summary.get(fmt=output_format,
                                       html_escape=html_escape,
                                       minimal_mode=minimal_mode)
