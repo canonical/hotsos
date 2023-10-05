@@ -7,6 +7,7 @@ from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.log import log
 
 
 class DataRootManager(object):
@@ -75,6 +76,8 @@ class DataRootManager(object):
                     try:
                         tar.extractall(self.tmpdir)
                     except Exception:
+                        log.exception("error occured while unpacking "
+                                      "sosreport:")
                         # some members might fail to extract e.g. permission
                         # denied but we dont want that to cause the whole run
                         # to fail so we just log a message and ignore them.
