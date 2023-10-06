@@ -3,6 +3,7 @@ from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 
 FEATURES = {'neutron': {
                 'main': {
+                    'DEFAULT': ['global_physnet_mtu'],
                     'AGENT': ['availability_zone']},
                 'openvswitch-agent': {
                     'AGENT': ['l2_population'],
@@ -14,7 +15,9 @@ FEATURES = {'neutron': {
                                 'enable_isolated_metadata',
                                 'ovs_use_veth']},
                 'ovn': {
-                    'DEFAULT': ['enable_distributed_floating_ip']}},
+                    'DEFAULT': ['enable_distributed_floating_ip']},
+                'ml2': {
+                    'ML2': ['path_mtu']}},
             'nova': {
                 'main': {
                     'DEFAULT': ['vcpu_pin_set'],
