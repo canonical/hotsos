@@ -68,6 +68,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         expected = {'br-ens3': {
                         'addresses': ['10.0.0.128'],
                         'hwaddr': '22:c2:7b:1c:12:1b',
+                        'mtu': 1500,
                         'state': 'UP',
                         'speed': 'unknown'}}
         helper = host_helpers.HostNetworkingHelper()
@@ -85,6 +86,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         mock_cli.return_value.ip_link.return_value = orig_ip_link
         expected = {'br-ens3': {'addresses': ['10.0.0.128'],
                                 'hwaddr': '22:c2:7b:1c:12:1b',
+                                'mtu': 1500,
                                 'state': 'UP',
                                 'speed': '100000Mb/s'}}
         helper = host_helpers.HostNetworkingHelper()

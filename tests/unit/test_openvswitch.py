@@ -137,6 +137,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                         {'ens7': {
                             'addresses': [],
                             'hwaddr': '52:54:00:78:19:c3',
+                            'mtu': 1500,
                             'state': 'UP',
                             'speed': 'Unknown!'}}],
                     'br-ex': [],
@@ -154,6 +155,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                             'br-ens3': {
                                 'addresses': ['10.0.0.128'],
                                 'hwaddr': '22:c2:7b:1c:12:1b',
+                                'mtu': 1500,
                                 'speed': 'unknown',
                                 'state': 'UP'}},
                         'remotes': 2}}
@@ -170,12 +172,13 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
     def test_summary_tunnels_ovn(self):
         with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
                         'host_interfaces_all',
-                        [NetworkPort('bondX', ['10.3.4.24'],
+                        [NetworkPort('bondX', ['10.3.4.24'], None,
                                      None, None, None)]):
             expected = {'geneve': {
                             'iface': {
                                 'bondX': {'addresses': ['10.3.4.24'],
                                           'hwaddr': None,
+                                          'mtu': None,
                                           'speed': 'unknown',
                                           'state': None}},
                             'remotes': 2}}

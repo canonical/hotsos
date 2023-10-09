@@ -136,12 +136,14 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
                         'br-ens3': {
                             'addresses': ['10.0.0.128'],
                             'hwaddr': '22:c2:7b:1c:12:1b',
+                            'mtu': 1500,
                             'state': 'UP',
                             'speed': 'unknown'}},
                     'public': {
                         'br-ens3': {
                             'addresses': ['10.0.0.128'],
                             'hwaddr': '22:c2:7b:1c:12:1b',
+                            'mtu': 1500,
                             'state': 'UP',
                             'speed': 'unknown'}}
                     }
@@ -182,10 +184,12 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
     def test_ceph_base_interfaces(self):
         expected = {'cluster': {'br-ens3': {'addresses': ['10.0.0.128'],
                                             'hwaddr': '22:c2:7b:1c:12:1b',
+                                            'mtu': 1500,
                                             'state': 'UP',
                                             'speed': 'unknown'}},
                     'public': {'br-ens3': {'addresses': ['10.0.0.128'],
                                            'hwaddr': '22:c2:7b:1c:12:1b',
+                                           'mtu': 1500,
                                            'state': 'UP',
                                            'speed': 'unknown'}}}
         ports = ceph_core.CephChecksBase().bind_interfaces

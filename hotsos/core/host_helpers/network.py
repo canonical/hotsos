@@ -17,7 +17,7 @@ from hotsos.core.utils import mktemp_dump
 
 # compatible with ip addr and ip link
 # this one is name and state
-IP_IFACE_NAME = r"^\d+:\s+(\S+):\s+.+state\s+(\S+)"
+IP_IFACE_NAME = r"^\d+:\s+(\S+):\s+.+mtu\s+(\d+).+state\s+(\S+)"
 IP_IFACE_NAME_TEMPLATE = r"^\d+:\s+({}):\s+.+"
 IP_IFACE_V4_ADDR = r".+(inet) ([\d\.]+)/(\d+) (?:brd \S+ )?scope global (\S+)"
 IP_IFACE_V6_ADDR = r".+(inet6) (\S+)/(\d+) scope global (\S+)"
@@ -30,12 +30,13 @@ IP_EOF = r"^$"
 class NetworkPort(HostHelpersBase):
 
     def __init__(self, name, addresses, hwaddr, state, encap_info,
-                 namespace=None):
+                 mtu, namespace=None):
         self.name = name
         self.addresses = addresses
         self.hwaddr = hwaddr
         self.state = state
         self.encap_info = encap_info
+        self.mtu = mtu
         self.namespace = namespace
         super().__init__()
 
@@ -73,6 +74,7 @@ class NetworkPort(HostHelpersBase):
     def to_dict(self):
         info = {'addresses': copy.deepcopy(self.addresses),
                 'hwaddr': self.hwaddr,
+                'mtu': self.mtu,
                 'state': self.state,
                 'speed': self.speed}
         if self.namespace:
@@ -232,6 +234,7 @@ class HostNetworkingHelper(HostHelpersBase):
                 encap_info = None
                 hwaddr = None
                 name = None
+                mtu = None
                 state = None
                 for result in section:
                     # infer ns name from filename prefix
@@ -244,7 +247,8 @@ class HostNetworkingHelper(HostHelpersBase):
 
                     if result.tag == seq.start_tag:
                         name = result.get(1)
-                        state = result.get(2)
+                        mtu = int(result.get(2))
+                        state = result.get(3)
                     elif result.tag == seq.body_tag:
                         if result.get(1) in ['inet', 'inet6']:
                             addrs.append(result.get(2))
@@ -257,7 +261,8 @@ class HostNetworkingHelper(HostHelpersBase):
                             hwaddr = result.get(2)
 
                 interfaces_raw.append({'name': name, 'addresses': addrs,
-                                       'hwaddr': hwaddr, 'state': state,
+                                       'hwaddr': hwaddr, 'mtu': mtu,
+                                       'state': state,
                                        'encap_info': encap_info,
                                        'namespace': ns_name})
 

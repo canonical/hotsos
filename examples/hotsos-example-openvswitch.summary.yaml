@@ -52,6 +52,7 @@ openvswitch:
       - ens7:
           addresses: []
           hwaddr: 52:54:00:78:19:c3
+          mtu: 1500
           state: UP
           speed: Unknown!
     br-ex: []
@@ -68,6 +69,7 @@ openvswitch:
           addresses:
             - 10.0.0.128
           hwaddr: 22:c2:7b:1c:12:1b
+          mtu: 1500
           state: UP
           speed: unknown
   ovs-checks:
