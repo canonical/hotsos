@@ -31,6 +31,7 @@ from hotsos.core.plugins.openstack.exceptions import (
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
 # versions page: https://ubuntu.com/openstack/docs/supported-versions
 OST_EOL_INFO = {
+    'bobcat': datetime(2025, 4, 30),
     'antelope': datetime(2026, 4, 30),
     'zed': datetime(2024, 4, 30),
     'yoga': datetime(2027, 4, 30),
@@ -45,9 +46,11 @@ OST_EOL_INFO = {
     'mitaka': datetime(2024, 4, 30)
 }
 
-
+# NOTE(dosaboy): Find package versions at:
+# https://openstack-ci-reports.ubuntu.com/reports/cloud-archive/index.html
 OST_REL_INFO = {
     'aodh-common': {
+        'bobcat': '1:17.0.0',
         'antelope': '1:16.0.0',
         'zed': '1:15.0.0',
         'yoga': '1:14.0.0',
@@ -60,6 +63,7 @@ OST_REL_INFO = {
         'rocky': '7.0.0',
         'queens': '6.0.0'},
     'barbican-common': {
+        'bobcat': '2:17.0.0',
         'antelope': '2:16.0.0',
         'zed': '2:15.0.0',
         'yoga': '2:14.0.0',
@@ -72,6 +76,7 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'cinder-common': {
+        'bobcat': '2:23.0.0',
         'antelope': '2:22.0.0',
         'zed': '2:21.0.0',
         'yoga': '2:20.0.0',
@@ -84,6 +89,7 @@ OST_REL_INFO = {
         'rocky': '2:13.0.0',
         'queens': '2:12.0.0'},
     'designate-common': {
+        'bobcat': '1:17.0.0',
         'antelope': '1:16.0.0',
         'zed': '1:15.0.0',
         'yoga': '1:14.0.0',
@@ -96,6 +102,7 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'glance-common': {
+        'bobcat': '2:27.0.0',
         'antelope': '2:26.0.0',
         'zed': '2:25.0.0',
         'yoga': '2:24.0.0',
@@ -108,6 +115,7 @@ OST_REL_INFO = {
         'rocky': '2:17.0.0',
         'queens': '2:16.0.0'},
     'heat-common': {
+        'bobcat': '1:21.0.0',
         'antelope': '1:20.0.0',
         'zed': '1:19.0.0',
         'yoga': '1:18.0.0',
@@ -120,10 +128,12 @@ OST_REL_INFO = {
         'rocky': '1:11.0.0',
         'queens': '1:10.0.0'},
     'ironic-common': {
+        'bobcat': '1:23.0.0',
         'antelope': '1:21.2',
         'zed': '1:20.2.0',
         'yoga': '1:19.0.0'},
     'keystone': {
+        'bobcat': '2:24.0.0',
         'antelope': '2:23.0.0',
         'zed': '2:22.0.0',
         'yoga': '2:21.0.0',
@@ -138,6 +148,7 @@ OST_REL_INFO = {
         'pike': '2:12.0.0',
         'ocata': '2:11.0.0'},
     'masakari-common': {
+        'bobcat': '16.0.0',
         'antelope': '15.0.0',
         'zed': '14.0.0',
         'yoga': '13.0.0',
@@ -149,6 +160,7 @@ OST_REL_INFO = {
         'stein': '7.0.0',
         'rocky': '6.0.0'},
     'neutron-common': {
+        'bobcat': '2:23.0.0',
         'antelope': '2:22.0.0',
         'zed': '2:21.0.0',
         'yoga': '2:20.0.0',
@@ -169,6 +181,7 @@ OST_REL_INFO = {
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
     'nova-common': {
+        'bobcat': '3:28.0.0',
         'antelope': '3:27.0.0',
         'zed': '3:26.0.0',
         'yoga': '3:25.0.0',
@@ -189,6 +202,7 @@ OST_REL_INFO = {
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
     'octavia-common': {
+        'bobcat': '1:13.0.0',
         'antelope': '1:12.0.0',
         'zed': '1:11.0.0',
         'yoga': '1:10.0.0',
@@ -200,6 +214,7 @@ OST_REL_INFO = {
         'stein': '4.0.0',
         'rocky': '3.0.0'},
     'openstack-dashboard-common': {
+        'bobcat': '4:23.3.0',
         'antelope': '4:23.1.0',
         'zed': '4:22.2.0',
         'yoga': '4:22.0.0',
@@ -212,6 +227,7 @@ OST_REL_INFO = {
         'rocky': '3:14.0.0',
         'queens': '3:13.0.0'},
     'placement-common': {
+        'bobcat': '1:10.0.0',
         'antelope': '1:9.0.0',
         'zed': '1:8.0.0',
         'yoga': '1:7.0.0',
