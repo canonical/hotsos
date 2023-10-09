@@ -309,12 +309,14 @@ class TestCephMonSummary(CephMonTestsBase):
                         'eth0@if17': {
                             'addresses': ['10.0.0.123'],
                             'hwaddr': '00:16:3e:ae:9e:44',
+                            'mtu': 1500,
                             'state': 'UP',
                             'speed': '10000Mb/s'}},
                     'public': {
                         'eth0@if17': {
                             'addresses': ['10.0.0.123'],
                             'hwaddr': '00:16:3e:ae:9e:44',
+                            'mtu': 1500,
                             'state': 'UP',
                             'speed': '10000Mb/s'}}
                     }

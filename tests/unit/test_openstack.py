@@ -693,18 +693,21 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
                         'br-ens3': {
                             'addresses': ['10.0.0.128'],
                             'hwaddr': '22:c2:7b:1c:12:1b',
+                            'mtu': 1500,
                             'state': 'UP',
                             'speed': 'unknown'}},
                     'live_migration_inbound_addr': {
                         'br-ens3': {
                             'addresses': ['10.0.0.128'],
                             'hwaddr': '22:c2:7b:1c:12:1b',
+                            'mtu': 1500,
                             'state': 'UP',
                             'speed': 'unknown'}}},
                 'neutron': {'local_ip': {
                     'br-ens3': {
                         'addresses': ['10.0.0.128'],
                         'hwaddr': '22:c2:7b:1c:12:1b',
+                        'mtu': 1500,
                         'state': 'UP',
                         'speed': 'unknown'}}}
             },
