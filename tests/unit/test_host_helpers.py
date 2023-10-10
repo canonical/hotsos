@@ -182,6 +182,14 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
 
         self.assertTrue(iface_found)
 
+    def test_get_ns_interfaces(self):
+        expected = ['lo', 'rfp-984c22fd-6@if2', 'qr-3a70b31c-3f']
+        helper = host_helpers.HostNetworkingHelper()
+        ns = 'qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5'
+        ifaces = helper.get_ns_interfaces(ns)
+        names = [iface.name for iface in ifaces]
+        self.assertEqual(names, expected)
+
 
 class TestCLIHelper(utils.BaseTestCase):
     """
