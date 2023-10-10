@@ -10,6 +10,11 @@ from hotsos.core.plugins.openstack.openstack import (
     OSTServiceBase,
 )
 
+# See https://github.com/openstack/neutron-lib/blob/master/neutron_lib/constants.py#L346  # noqa, pylint: disable=C0301
+IP_HEADER_BYTES = 20
+GRE_HEADER_BYTES = 22
+VXLAN_HEADER_BYTES = 30
+
 
 class NeutronBase(OSTServiceBase):
 

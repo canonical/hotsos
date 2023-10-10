@@ -175,6 +175,11 @@ openstack:
       fip: 1
       qrouter: 1
       snat: 1
+    router-port-mtus:
+      qr:
+        - 1450
+      sg:
+        - 1450
   features:
     neutron:
       main:

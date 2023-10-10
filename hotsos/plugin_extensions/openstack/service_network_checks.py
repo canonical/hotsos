@@ -1,7 +1,17 @@
 import re
 
-from hotsos.core.host_helpers import CLIHelper
+from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
 from hotsos.core.plugins.openstack.common import OpenstackChecksBase
+from hotsos.core.plugins.openstack.neutron import (
+    IP_HEADER_BYTES,
+    GRE_HEADER_BYTES,
+    VXLAN_HEADER_BYTES,
+)
+from hotsos.core.plugins.openvswitch import OpenvSwitchBase
+from hotsos.core.issues import (
+    IssuesManager,
+    OpenstackWarning,
+)
 
 
 class OpenstackNetworkChecks(OpenstackChecksBase):
@@ -78,6 +88,61 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         port_health_info = self.get_phy_port_health_info()
         if port_health_info:
             return port_health_info
+
+    def __summary_router_port_mtus(self):
+        """ Provide a summary of ml2-ovs router port mtus. """
+        phy_mtus = set()
+        router_mtus = {}
+        project = getattr(self, 'neutron')
+        if project and project.bind_interfaces:
+            for port in project.bind_interfaces.values():
+                phy_mtus.add(port.mtu)
+
+            for ns in self.cli.ip_netns():
+                # strip index
+                ns = ns.partition(" ")[0]
+                for nsprefix in ['qrouter', 'snat']:
+                    if not ns.startswith(nsprefix):
+                        continue
+
+                    for port in HostNetworkingHelper().get_ns_interfaces(ns):
+                        for pprefix in ['qr', 'sg']:
+                            if not port.name.startswith(pprefix):
+                                continue
+
+                            if pprefix not in router_mtus:
+                                router_mtus[pprefix] = set()
+
+                            router_mtus[pprefix].add(port.mtu)
+
+            tunnels = OpenvSwitchBase().tunnels
+            # ip header
+            overhead = IP_HEADER_BYTES
+            if 'vxlan' in tunnels:
+                overhead += VXLAN_HEADER_BYTES
+            else:
+                # gre
+                overhead += GRE_HEADER_BYTES
+
+            all_router_mtus = set()
+            for prefix, mtus in router_mtus.items():
+                router_mtus[prefix] = list(mtus)
+                for mtu in mtus:
+                    all_router_mtus.add(mtu)
+
+            if phy_mtus and all_router_mtus:
+                smallest_allowed = min(phy_mtus) - overhead
+                if max(all_router_mtus) > smallest_allowed:
+                    msg = ("This Neutron L3 agent host has one or more router "
+                           "ports with mtu={} which is greater or equal to "
+                           "the smallest allowed ({}) on "
+                           "the physical network. This will result in dropped "
+                           "packets or unexpected fragmentation in overlay "
+                           "networks.".format(max(all_router_mtus),
+                                              smallest_allowed))
+                    IssuesManager().add(OpenstackWarning(msg))
+
+        return router_mtus
 
     def __summary_namespaces(self):
         """Populate namespace information dict."""

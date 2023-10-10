@@ -15,6 +15,8 @@ from hotsos.plugin_extensions.openstack import (
     service_features,
     agent,
 )
+from hotsos.core.issues import IssuesManager
+
 
 from . import utils
 
@@ -711,6 +713,7 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
                         'state': 'UP',
                         'speed': 'unknown'}}}
             },
+            'router-port-mtus': {'qr': [1450], 'sg': [1450]},
             'namespaces': {
                 'fip': 1,
                 'qrouter': 1,
@@ -720,6 +723,24 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
         inst = service_network_checks.OpenstackNetworkChecks()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, expected)
+        self.assertEqual(IssuesManager().load_issues(), {})
+
+    @mock.patch.object(service_network_checks, 'VXLAN_HEADER_BYTES', 31)
+    def test_get_network_checker_w_mtu_issue(self):
+        inst = service_network_checks.OpenstackNetworkChecks()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['router-port-mtus'], {'qr': [1450],
+                                                      'sg': [1450]})
+        issues = {'potential-issues': [{
+                    'message': ('This Neutron L3 agent host has one or more '
+                                'router ports with mtu=1450 which is greater '
+                                'or equal to the smallest allowed (1449) on '
+                                'the physical network. This will result in '
+                                'dropped packets or unexpected fragmentation '
+                                'in overlay networks.'),
+                    'origin': 'openstack.testpart',
+                    'type': 'OpenstackWarning'}]}
+        self.assertEqual(IssuesManager().load_issues(), issues)
 
 
 class TestOpenstackServiceFeatures(TestOpenstackBase):
