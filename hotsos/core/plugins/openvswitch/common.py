@@ -1,10 +1,11 @@
 from hotsos.core import plugintools
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     PebbleHelper,
     SystemdHelper,
 )
-from hotsos.core.ycheck.events import YEventCheckerBase
+from hotsos.core.ycheck.events import EventCallbackBase, EventHandlerBase
 from hotsos.core.utils import sorted_dict
 
 OVS_SERVICES_EXPRS = [r'ovsdb[a-zA-Z-]*',
@@ -42,7 +43,17 @@ class OpenvSwitchChecksBase(plugintools.PluginPartBase):
         return len(self.apt.core) > 0
 
 
-class OpenvSwitchEventChecksBase(OpenvSwitchChecksBase, YEventCheckerBase):
+class OpenvSwitchEventCallbackBase(OpenvSwitchChecksBase, EventCallbackBase):
+
+    def categorise_events(self, *args, **kwargs):
+        if 'include_time' not in kwargs:
+            include_time = HotSOSConfig.event_tally_granularity == 'time'
+            kwargs['include_time'] = include_time
+
+        return super().categorise_events(*args, **kwargs)
+
+
+class OpenvSwitchEventHandlerBase(OpenvSwitchChecksBase, EventHandlerBase):
 
     @property
     def summary(self):

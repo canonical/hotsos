@@ -1,33 +1,18 @@
-import datetime
 import os
 import tempfile
 from unittest import mock
 
-import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.config import SectionalConfigBase
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import FileSearcher, SearchDef
-from hotsos.core.ycheck import (
-    events,
-    scenarios,
-)
-from hotsos.core.ycheck.engine import (
-    YDefsSection,
-    YDefsLoader,
-)
+from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine.properties.common import (
     YPropertyBase,
-    PropertyCacheRefResolver,
     cached_yproperty_attr,
 )
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
-from hotsos.core.ycheck.engine.properties.requires.types import (
-    apt,
-    snap,
-)
-from hotsos.core.ycheck.events import CallbackHelper
 
 from . import utils
 
@@ -101,29 +86,29 @@ checks:
   isTrue:
     requires:
       and:
-        - property: tests.unit.test_ycheck.TestProperty.always_true
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
         - property:
-            path: tests.unit.test_ycheck.TestProperty.always_false
+            path: tests.unit.test_ycheck_scenarios.TestProperty.always_false
             ops: [[not_]]
   isalsoTrue:
     requires:
       or:
-        - property: tests.unit.test_ycheck.TestProperty.always_true
-        - property: tests.unit.test_ycheck.TestProperty.always_false
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
   isstillTrue:
     requires:
       and:
-        - property: tests.unit.test_ycheck.TestProperty.always_true
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
       or:
-        - property: tests.unit.test_ycheck.TestProperty.always_true
-        - property: tests.unit.test_ycheck.TestProperty.always_false
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
   isnotTrue:
     requires:
       and:
-        - property: tests.unit.test_ycheck.TestProperty.always_true
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
       or:
-        - property: tests.unit.test_ycheck.TestProperty.always_false
-        - property: tests.unit.test_ycheck.TestProperty.always_false
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
+        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
 conclusions:
   conc1:
     decision:
@@ -323,32 +308,6 @@ pluginX:
           apt: foo
 """
 
-YAML_DEF_EXPR_TYPES = r"""
-myplugin:
-  mygroup:
-    input:
-      path: {path}
-    section1:
-      my-sequence-search:
-        start: '^hello'
-        body: '^\S+'
-        end: '^world'
-      my-passthrough-search:
-        passthrough-results: True
-        start: '^hello'
-        end: '^world'
-      my-pass-search:
-        expr: '^hello'
-        hint: '.+'
-      my-fail-search1:
-        expr: '^hello'
-        hint: '^foo'
-      my-fail-search2:
-        expr: '^foo'
-        hint: '.+'
-"""  # noqa
-
-
 SCENARIO_W_EXPR_LIST = r"""
 input:
   path: {path}
@@ -383,7 +342,7 @@ SCENARIO_W_ERROR = r"""
 scenarioA:
   checks:
     property_no_error:
-      property: tests.unit.test_ycheck.TestProperty.always_true
+      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
   conclusions:
     c1:
       decision: property_no_error
@@ -393,7 +352,7 @@ scenarioA:
 scenarioB:
   checks:
     property_w_error:
-      property: tests.unit.test_ycheck.TestProperty.i_dont_exist
+      property: tests.unit.test_ycheck_scenarios.TestProperty.i_dont_exist
   conclusions:
     c1:
       decision: property_w_error
@@ -407,7 +366,7 @@ CONCLUSION_W_INVALID_BUG_RAISES = r"""
 scenarioA:
   checks:
     property_no_error:
-      property: tests.unit.test_ycheck.TestProperty.always_true
+      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
   conclusions:
     c1:
       decision: property_no_error
@@ -418,7 +377,7 @@ scenarioA:
 scenarioB:
   checks:
     property_w_error:
-      property: tests.unit.test_ycheck.TestProperty.always_true
+      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
   conclusions:
     c1:
       decision: property_no_error
@@ -509,7 +468,7 @@ CONFIG_SCENARIO = """
 checks:
   cfg_is_bad:
     config:
-      handler: tests.unit.test_ycheck.TestConfig
+      handler: tests.unit.test_ycheck_scenarios.TestConfig
       path: test.conf
       assertions:
         - key: key1
@@ -520,7 +479,7 @@ checks:
           ops: [[gt, 100]]
   cfg_is_bad2:
     config:
-      handler: tests.unit.test_ycheck.TestConfig
+      handler: tests.unit.test_ycheck_scenarios.TestConfig
       path: test.conf
       assertions:
         not:
@@ -550,7 +509,7 @@ vars:
   limit: 10
   bar: "two"
   frombadprop: '@tests.unit.idontexist'  # add to ensure lazy-loaded
-  fromprop: '@tests.unit.test_ycheck.TestProperty.myattr'
+  fromprop: '@tests.unit.test_ycheck_scenarios.TestProperty.myattr'
   fromfact: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:snapd'
   fromfact2: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:myfile.txt'
   fromsysctl: '@hotsos.core.host_helpers.sysctl.SYSCtlFactory:net.core.somaxconn'
@@ -626,9 +585,9 @@ conclusions:
 LOGIC_TEST = """
 vars:
   # this one will resolve as False
-  v1: '@tests.unit.test_ycheck.TestProperty.always_false'
+  v1: '@tests.unit.test_ycheck_scenarios.TestProperty.always_false'
   # this one will raise an ImportError
-  v2: '@tests.unit.test_ycheck.TestProperty.doesntexist'
+  v2: '@tests.unit.test_ycheck_scenarios.TestProperty.doesntexist'
 checks:
   # the second item in each group must be one that if evaluated will raise an
   # error.
@@ -726,249 +685,7 @@ ii  openssh-server                       1:8.2p1-4ubuntu0.4                     
 """  # noqa
 
 
-class TestYamlCheckRequiresTypeAPT(utils.BaseTestCase):
-
-    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
-    def test_apt_check_item_package_version_within_ranges_true(self):
-        ci = apt.APTCheckItems('ssh')
-        result = ci.package_version_within_ranges('openssh-server',
-                                                  [{'min': '1:8.2',
-                                                    'max': '1:8.3'}])
-        self.assertTrue(result)
-
-    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
-    def test_apt_check_item_package_version_within_ranges_false(self):
-        ci = apt.APTCheckItems('ssh')
-        result = ci.package_version_within_ranges('openssh-server',
-                                                  [{'min': '1:8.2',
-                                                    'max': '1:8.2'}])
-        self.assertFalse(result)
-
-    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
-    def test_apt_check_item_package_version_within_ranges_multi(self):
-        ci = apt.APTCheckItems('ssh')
-        result = ci.package_version_within_ranges('openssh-server',
-                                                  [{'min': '1:8.0',
-                                                    'max': '1:8.1'},
-                                                   {'min': '1:8.2',
-                                                    'max': '1:8.3'}])
-        self.assertTrue(result)
-
-    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
-    def test_apt_check_item_package_version_within_ranges_no_max_true(self):
-        ci = apt.APTCheckItems('ssh')
-        result = ci.package_version_within_ranges('openssh-server',
-                                                  [{'min': '1:8.0'},
-                                                   {'min': '1:8.1'},
-                                                   {'min': '1:8.2'},
-                                                   {'min': '1:8.3'}])
-        self.assertTrue(result)
-
-    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
-    def test_apt_check_item_package_version_within_ranges_no_max_false(self):
-        ci = apt.APTCheckItems('ssh')
-        result = ci.package_version_within_ranges('openssh-server',
-                                                  [{'min': '1:8.3'},
-                                                   {'min': '1:8.4'},
-                                                   {'min': '1:8.5'}])
-        self.assertFalse(result)
-
-    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
-    def test_apt_check_item_package_version_within_ranges_mixed_true(self):
-        ci = apt.APTCheckItems('ssh')
-        result = ci.package_version_within_ranges('openssh-server',
-                                                  [{'min': '1:8.0'},
-                                                   {'min': '1:8.1',
-                                                    'max': '1:8.1.1'},
-                                                   {'min': '1:8.2'},
-                                                   {'min': '1:8.3'}])
-        self.assertTrue(result)
-
-    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
-    def test_apt_check_item_package_version_within_ranges_mixed_false(self):
-        ci = apt.APTCheckItems('ssh')
-        result = ci.package_version_within_ranges('openssh-server',
-                                                  [{'min': '1:8.0'},
-                                                   {'min': '1:8.1',
-                                                    'max': '1:8.1.1'},
-                                                   {'min': '1:8.2',
-                                                    'max': '1:8.2'},
-                                                   {'min': '1:8.3'}])
-        self.assertFalse(result)
-
-
-class TestYamlCheckRequiresTypeSnap(utils.BaseTestCase):
-
-    def test_snap_revision_within_ranges_no_channel_true(self):
-        ci = snap.SnapCheckItems('core20')
-        result = ci.package_info_matches('core20', [{'min': '1327',
-                                                     'max': '1328'}])
-        self.assertTrue(result)
-
-    def test_snap_revision_within_ranges_no_channel_false(self):
-        ci = snap.SnapCheckItems('core20')
-        result = ci.package_info_matches('core20', [{'min': '1326',
-                                                     'max': '1327'}])
-        self.assertFalse(result)
-
-    def test_snap_revision_within_ranges_channel_true(self):
-        ci = snap.SnapCheckItems('core20')
-        result = ci.package_info_matches('core20',
-                                         [{'min': '1327',
-                                           'max': '1328',
-                                           'channel': 'latest/stable'}])
-        self.assertTrue(result)
-
-    def test_snap_revision_within_ranges_channel_false(self):
-        ci = snap.SnapCheckItems('core20')
-        result = ci.package_info_matches('core20', [{'min': '1327',
-                                                     'max': '1328',
-                                                     'channel': 'foo'}])
-        self.assertFalse(result)
-
-    def test_snap_revision_within_multi_ranges_channel_true(self):
-        ci = snap.SnapCheckItems('core20')
-        result = ci.package_info_matches('core20', [{'min': '1326',
-                                                     'max': '1327',
-                                                     'channel': 'foo'},
-                                                    {'min': '1327',
-                                                     'max': '1328',
-                                                     'channel':
-                                                     'latest/stable'},
-                                                    {'min': '1329',
-                                                     'max': '1330',
-                                                     'channel': 'bar'}])
-        self.assertTrue(result)
-
-    def test_snap_revision_with_incomplete_range(self):
-        with self.assertRaises(Exception):
-            snap.SnapCheckItems('core20').package_info_matches('core20',
-                                                               [{'min':
-                                                                 '1327'}])
-
-
-class TestYamlChecks(utils.BaseTestCase):
-
-    def test_yproperty_attr_cache(self):
-        p = TestProperty()
-        self.assertIsNone(getattr(p.cache, '__yproperty_attr__myattr'))
-        self.assertEqual(p.myattr, '123')
-        self.assertEqual(getattr(p.cache, '__yproperty_attr__myattr'), '123')
-        self.assertEqual(p.myattr, '123')
-        self.assertEqual(p.myotherattr, '456')
-
-    def test_yaml_def_group_input(self):
-        plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT).get('pluginX')
-        for name, group in plugin_checks.items():
-            group = YDefsSection(name, group)
-            for entry in group.leaf_sections:
-                self.assertEqual(entry.input.paths,
-                                 [os.path.join(HotSOSConfig.data_root,
-                                               'foo/bar1*')])
-
-    def test_yaml_def_requires_grouped(self):
-        mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_GROUPED))
-        tested = 0
-        for entry in mydef.leaf_sections:
-            if entry.name == 'passdef1':
-                tested += 1
-                self.assertTrue(entry.requires.passes)
-            elif entry.name == 'passdef2':
-                tested += 1
-                self.assertTrue(entry.requires.passes)
-            elif entry.name == 'faildef1':
-                tested += 1
-                self.assertFalse(entry.requires.passes)
-            elif entry.name == 'faildef2':
-                tested += 1
-                self.assertFalse(entry.requires.passes)
-
-        self.assertEqual(tested, 4)
-
-    def test_yaml_def_section_input_override(self):
-        plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED)
-        for name, group in plugin_checks.get('pluginX').items():
-            group = YDefsSection(name, group)
-            for entry in group.leaf_sections:
-                self.assertEqual(entry.input.paths,
-                                 [os.path.join(HotSOSConfig.data_root,
-                                               'foo/bar2*')])
-
-    def test_yaml_def_entry_input_override(self):
-        plugin_checks = yaml.safe_load(YAML_DEF_W_INPUT_SUPERSEDED2)
-        for name, group in plugin_checks.get('pluginX').items():
-            group = YDefsSection(name, group)
-            for entry in group.leaf_sections:
-                self.assertEqual(entry.input.paths,
-                                 [os.path.join(HotSOSConfig.data_root,
-                                               'foo/bar3*')])
-
-    @utils.create_data_root({'data.txt': 'hello\nbrave\nworld\n',
-                             'events/myplugin/mygroup.yaml':
-                             YAML_DEF_EXPR_TYPES.format(path='data.txt')})
-    def test_yaml_def_entry_seq(self):
-        _yaml = YAML_DEF_EXPR_TYPES.format(path=os.path.basename('data.txt'))
-        plugin_checks = yaml.safe_load(_yaml).get('myplugin')
-        for name, group in plugin_checks.items():
-            group = YDefsSection(name, group)
-            data_file = os.path.join(HotSOSConfig.data_root, 'data.txt')
-            for entry in group.leaf_sections:
-                self.assertEqual(entry.input.paths,
-                                 ['{}*'.format(data_file)])
-
-        test_self = self
-        match_count = {'count': 0}
-        callbacks_called = {}
-        HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
-        HotSOSConfig.plugin_name = 'myplugin'
-        EVENTCALLBACKS = CallbackHelper()
-
-        class MyEventHandler(events.YEventCheckerBase):
-            def __init__(self):
-                super().__init__(EVENTCALLBACKS)
-
-            @property
-            def root_group_name(self):
-                return 'mygroup'
-
-            @EVENTCALLBACKS.callback(event_group='mygroup')
-            def my_sequence_search(self, event):
-                callbacks_called[event.name] = True
-                for section in event.results:
-                    for result in section:
-                        if result.tag.endswith('-start'):
-                            match_count['count'] += 1
-                            test_self.assertEqual(result.get(0), 'hello')
-                        elif result.tag.endswith('-body'):
-                            match_count['count'] += 1
-                            test_self.assertEqual(result.get(0), 'brave')
-                        elif result.tag.endswith('-end'):
-                            match_count['count'] += 1
-                            test_self.assertEqual(result.get(0), 'world')
-
-            @EVENTCALLBACKS.callback(event_group='mygroup')
-            def my_passthrough_search(self, event):
-                # expected to be passthough results (i.e. raw)
-                callbacks_called[event.name] = True
-                tag = '{}-start'.format(event.search_tag)
-                start_results = event.results.find_by_tag(tag)
-                test_self.assertEqual(start_results[0].get(0), 'hello')
-
-            @EVENTCALLBACKS.callback(event_group='mygroup',
-                                     event_names=['my-pass-search',
-                                                  'my-fail-search1',
-                                                  'my-fail-search2'])
-            def my_standard_search_common(self, event):
-                callbacks_called[event.name] = True
-                test_self.assertEqual(event.results[0].get(0), 'hello')
-
-        MyEventHandler().load_and_run()
-        self.assertEqual(match_count['count'], 3)
-        self.assertEqual(list(callbacks_called.keys()),
-                         ['my-sequence-search',
-                          'my-passthrough-search',
-                          'my-pass-search'])
+class TestYamlScenarios(utils.BaseTestCase):
 
     @init_test_scenario(SCENARIO_W_EXPR_LIST.
                         format(path=os.path.basename('data.txt')))
@@ -1070,42 +787,6 @@ class TestYamlChecks(utils.BaseTestCase):
         s.add(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
         return s.run().find_by_tag('all')
 
-    def test_get_datetime_from_result(self):
-        result = mock.MagicMock()
-        result.get.side_effect = lambda idx: _result.get(idx)
-
-        _result = {1: '2022-01-06', 2: '12:34:56.123'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
-
-        _result = {1: '2022-01-06', 2: '12:34:56'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
-
-        _result = {1: '2022-01-06'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
-
-        _result = {1: '2022-01-06 12:34:56.123'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
-
-        _result = {1: '2022-01-06 12:34:56'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
-
-        _result = {1: '2022-01-06'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
-
-        _result = {1: '2022-01-06', 2: 'foo'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertIsNone(ts)
-
-        _result = {1: 'foo'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertIsNone(ts)
-
     def test_yaml_def_scenario_result_filters_by_period(self):
         with tempfile.TemporaryDirectory() as dtmp:
             HotSOSConfig.set(plugin_yaml_defs=dtmp, data_root=dtmp,
@@ -1156,237 +837,6 @@ class TestYamlChecks(utils.BaseTestCase):
             result = YPropertySearch.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
-    @utils.create_data_root({'mytype/myplugin/defs.yaml':
-                             'foo: bar\n',
-                             'mytype/myplugin/mytype.yaml':
-                             'requires:\n  property: foo\n'})
-    def test_fs_override_inheritance(self):
-        """
-        When a directory is used to group definitions and overrides are
-        provided in a <dirname>.yaml file, we need to make sure those overrides
-        do not supersceded overrides of the same type used by definitions in
-        the same directory.
-        """
-        HotSOSConfig.set(plugin_yaml_defs=HotSOSConfig.data_root,
-                         plugin_name='myplugin')
-        expected = {'mytype': {
-                        'requires': {
-                            'property': 'foo'}},
-                    'defs': {'foo': 'bar'}}
-        self.assertEqual(YDefsLoader('mytype').plugin_defs,
-                         expected)
-
-    @utils.create_data_root({'mytype/myplugin/defs.yaml':
-                             'requires:\n  apt: apackage\n',
-                             'mytype/myplugin/mytype.yaml':
-                             'requires:\n  property: foo\n'})
-    def test_fs_override_inheritance2(self):
-        """
-        When a directory is used to group definitions and overrides are
-        provided in a <dirname>.yaml file, we need to make sure those overrides
-        do not supersceded overrides of the same type used by definitions in
-        the same directory.
-        """
-        HotSOSConfig.set(plugin_yaml_defs=HotSOSConfig.data_root,
-                         plugin_name='myplugin')
-        expected = {'mytype': {
-                        'requires': {
-                            'property': 'foo'}},
-                    'defs': {
-                        'requires': {
-                            'apt': 'apackage'}}}
-        self.assertEqual(YDefsLoader('mytype').plugin_defs,
-                         expected)
-
-    @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase')
-    def test_requires_grouped(self, mock_plugin):
-        mock_plugin.return_value = mock.MagicMock()
-        r1 = {'property':
-              'hotsos.core.plugins.openstack.OpenstackChecksBase.r1'}
-        r2 = {'property':
-              'hotsos.core.plugins.openstack.OpenstackChecksBase.r2'}
-        r3 = {'property':
-              'hotsos.core.plugins.openstack.OpenstackChecksBase.r3'}
-        requires = {'requires': [{'or': [r1, r2]}]}
-
-        mock_plugin.return_value.r1 = False
-        mock_plugin.return_value.r2 = False
-        group = YDefsSection('test', requires)
-
-        results = []
-        for leaf in group.leaf_sections:
-            self.assertEqual(len(leaf.requires), 1)
-            for _requires in leaf.requires:
-                for op in _requires:
-                    for item in op:
-                        for rtype in item:
-                            for entry in rtype:
-                                results.append(entry())
-
-            self.assertFalse(leaf.requires.passes)
-
-        self.assertFalse(group.leaf_sections[0].requires.passes)
-        self.assertEqual(len(results), 2)
-        self.assertEqual(results, [False, False])
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = False
-        group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = True
-        group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
-
-        requires = {'requires': [{'and': [r1, r2]}]}
-
-        mock_plugin.return_value.r1 = False
-        mock_plugin.return_value.r2 = False
-        group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = False
-        group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = True
-        group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
-
-        requires = {'requires': [{'and': [r1, r2],
-                                  'or': [r1, r2]}]}
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = False
-        group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = True
-        group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
-
-        requires = {'requires': [{'and': [r1, r2],
-                                  'or': [r1, r2]}]}
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = False
-        group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
-
-        requires = {'requires': [r1, {'and': [r3],
-                                      'or': [r1, r2]}]}
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = False
-        mock_plugin.return_value.r3 = True
-        group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
-
-        requires = {'requires': [{'and': [r3],
-                                  'or': [r1, r2]}]}
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = False
-        mock_plugin.return_value.r3 = True
-        group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
-
-        # same as prev test but with dict instead list
-        requires = {'requires': {'and': [r3],
-                                 'or': [r1, r2]}}
-
-        mock_plugin.return_value.r1 = True
-        mock_plugin.return_value.r2 = False
-        mock_plugin.return_value.r3 = True
-        group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
-
-    @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
-                'APTPackageHelper')
-    def test_yaml_def_requires_apt(self, mock_apt):
-        tested = 0
-        expected = {'2.0': False,
-                    '3.0': True,
-                    '3.1': True,
-                    '4.0': True,
-                    '5.0': True,
-                    '5.2': True,
-                    '5.3': False,
-                    '6.0': False}
-        mock_apt.return_value = mock.MagicMock()
-        mock_apt.return_value.is_installed.return_value = True
-        for ver, result in expected.items():
-            mock_apt.return_value.get_version.return_value = ver
-            mydef = YDefsSection('mydef',
-                                 yaml.safe_load(YAML_DEF_REQUIRES_APT))
-            for entry in mydef.leaf_sections:
-                tested += 1
-                self.assertEqual(entry.requires.passes, result)
-
-        self.assertEqual(tested, len(expected))
-
-    def test_yaml_def_requires_pebble_fail(self):
-        mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_PEBBLE_FAIL))
-        for entry in mydef.leaf_sections:
-            self.assertFalse(entry.requires.passes)
-
-    def test_yaml_def_requires_systemd_pass(self):
-        mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS_1))
-        for entry in mydef.leaf_sections:
-            self.assertTrue(entry.requires.passes)
-
-    def test_yaml_def_requires_systemd_fail(self):
-        mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_1))
-        for entry in mydef.leaf_sections:
-            self.assertFalse(entry.requires.passes)
-
-        mydef = YDefsSection('mydef',
-                             yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_2))
-        for entry in mydef.leaf_sections:
-            self.assertFalse(entry.requires.passes)
-
-    def test_yaml_def_requires_systemd_started_after_pass(self):
-        current = datetime.datetime.now()
-        with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
-                        FakeServiceObjectManager({
-                            'neutron-openvswitch-agent':
-                                current,
-                            'openvswitch-switch':
-                                current + datetime.timedelta(seconds=120)})):
-            content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
-            mydef = YDefsSection('mydef', content)
-            for entry in mydef.leaf_sections:
-                self.assertTrue(entry.requires.passes)
-
-    def test_yaml_def_requires_systemd_started_after_fail(self):
-        current = datetime.datetime.now()
-        with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
-                        FakeServiceObjectManager({'neutron-openvswitch-agent':
-                                                  current,
-                                                  'openvswitch-switch':
-                                                  current})):
-            content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
-            mydef = YDefsSection('mydef', content)
-            for entry in mydef.leaf_sections:
-                self.assertFalse(entry.requires.passes)
-
-        with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
-                        FakeServiceObjectManager({
-                            'neutron-openvswitch-agent': current,
-                            'openvswitch-switch':
-                                current + datetime.timedelta(seconds=119)})):
-            content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
-            mydef = YDefsSection('mydef', content)
-            for entry in mydef.leaf_sections:
-                self.assertFalse(entry.requires.passes)
-
     @init_test_scenario(YDEF_NESTED_LOGIC)
     def test_yaml_def_nested_logic(self):
         scenarios.YScenarioChecker().load_and_run()
@@ -1415,7 +865,7 @@ class TestYamlChecks(utils.BaseTestCase):
 
         # Check caught exception logs
         args = ('failed to import and call property %s',
-                'tests.unit.test_ycheck.TestProperty.i_dont_exist')
+                'tests.unit.test_ycheck_scenarios.TestProperty.i_dont_exist')
         mock_log1.exception.assert_called_with(*args)
         args = ('requires.%s.result raised the following',
                 'YRequirementTypeProperty')
@@ -1512,16 +962,3 @@ class TestYamlChecks(utils.BaseTestCase):
         scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
-
-    def test_cache_resolver(self):
-        self.assertFalse(PropertyCacheRefResolver.is_valid_cache_ref('foo'))
-        for test in [('foo', 'first', 'foo'),
-                     (['foo', 'second'], 'first', 'foo'),
-                     (['1', '2'], 'comma_join', '1, 2'),
-                     (['1', '2', '1'], 'unique_comma_join', '1, 2'),
-                     ({'1': 'foo', '2': 'bar', '3': 'blah'},
-                      'comma_join', '1, 2, 3'),
-                     ({'1': 'foo', '2': 'bar', '3': 'blah'},
-                      'len', 3)]:
-            out = PropertyCacheRefResolver.apply_renderer(test[0], test[1])
-            self.assertEqual(out, test[2])

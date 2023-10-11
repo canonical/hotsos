@@ -16,57 +16,44 @@ from hotsos.core.ycheck.engine import (
 from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 
 
-class CallbackHelper(object):
+CALLBACKS = {}
 
-    def __init__(self):
-        self.callbacks = {}
 
-    def callback(self, event_group, event_names=None):
-        """
-        Register a method as a callback for a given event.
+class EventCallbackNameConflict(Exception):
+    pass
 
-        @param event_group: defs group containing these events. Needs to be
-                            for the current plugin.
-        @param event_names: optional list of event names. If none provided, the
-                            name of the decorated function is used.
-        """
-        def callback_inner(f):
-            def callback_inner2(*args, **kwargs):
-                return f(*args, **kwargs)
 
-            names = []
-            if event_names:
-                for name in event_names:
-                    # convert event name to valid method name
-                    names.append('{}.{}'.format(event_group,
-                                                name.replace('-', '_')))
-            else:
-                names.append('{}.{}'.format(event_group, f.__name__))
+class EventCallbackNotFound(Exception):
+    pass
 
-            for name in names:
-                if name in self.callbacks:
-                    raise Exception("A callback has already been registered "
-                                    "with name {}".format(name))
 
-                self.callbacks[name] = callback_inner2
+class EventCallbackMeta(type):
 
-            return callback_inner2
+    def __init__(cls, _name, _mro, members):
+        event_group = members.get('event_group')
+        if event_group is None:
+            return
 
-        # we don't need to return but we leave it so that we can unit test
-        # these methods.
-        return callback_inner
+        for event in members['event_names']:
+            event = '{}.{}'.format(event_group, event)
+            if event in CALLBACKS:
+                msg = "event callback already registered: {}".format(event)
+                raise EventCallbackNameConflict(msg)
+
+            CALLBACKS[event] = cls
 
 
 class EventCheckResult(object):
     """ This is passed to an event check callback when matches are found """
 
     def __init__(self, defs_section, defs_event, search_results, search_tag,
-                 sequence_def=None):
+                 searcher, sequence_def=None):
         """
         @param defs_section: section name from yaml
         @param defs_event: event label/name from yaml
         @param search_results: searchkit.SearchResultsCollection
         @param search_tag: unique tag used to identify the results
+        @param searcher: global FileSearcher object
         @param sequence_def: if set the search results are from a
                             searchkit.SequenceSearchDef and are therefore
                             grouped as sections of results rather than a single
@@ -76,6 +63,7 @@ class EventCheckResult(object):
         self.name = defs_event
         self.search_tag = search_tag
         self.results = search_results
+        self.searcher = searcher
         self.sequence_def = sequence_def
 
 
@@ -218,15 +206,27 @@ class EventProcessingUtils(object):
             return shortened
 
 
-class YEventCheckerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
+class EventCallbackBase(EventProcessingUtils, metaclass=EventCallbackMeta):
+    # All implementations must set these and event_group must match that used
+    # in the handler.
+    event_group = None
+    event_names = []
 
-    def __init__(self, callback_helper, *args, searcher=None, **kwargs):
+    @abc.abstractmethod
+    def __call__(self):
+        """ Callback method. """
+
+
+class EventHandlerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
+    """
+    Root name used to identify a group of event definitions. Once all the
+    yaml definitions are loaded this defines the level below which events
+    for this checker are expected to be found.
+    """
+    event_group = None
+
+    def __init__(self, *args, searcher=None, **kwargs):
         """
-        @param callback_helper: CallbackHelper object used to register
-                                callbacks against events defined in the yaml.
-                                When an event has results its associated
-                                callback with the same name is called to
-                                process the results.
         @param searcher: optional FileSearcher object. When running many event
                          checkers it is more efficient to share a
                          FileSearcher across them so that all searches are
@@ -239,21 +239,11 @@ class YEventCheckerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
                                         ts_matcher_cls=CommonTimestampMatcher))
 
         self._searcher = searcher
-        self._callback_helper = callback_helper
         self._event_results = None
 
     @property
     def searcher(self):
         return self._searcher
-
-    @property
-    @abc.abstractmethod
-    def root_group_name(self):
-        """
-        Root name used to identify a group of event definitions. Once all the
-        yaml definitions are loaded this defines the level below which events
-        for this checker are expected to be found.
-        """
 
     @cached_property
     def event_definitions(self):
@@ -264,17 +254,16 @@ class YEventCheckerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
         if not plugin:
             return _event_defs
 
-        group_name = self.root_group_name
-        log.debug("loading defs for subgroup=%s", group_name)
+        log.debug("loading defs for subgroup=%s", self.event_group)
         ytree = plugin
-        ypath = group_name.split('.')
+        ypath = self.event_group.split('.')
         for i, g in enumerate(ypath):
             if i >= len(ypath) - 1:
                 group_defs = ytree.get(g)
             else:
                 ytree = ytree.get(g)
 
-        group = YDefsSection(group_name, group_defs)
+        group = YDefsSection(self.event_group, group_defs)
         log.debug("sections=%s, events=%s",
                   len(group.branch_sections),
                   len(group.leaf_sections))
@@ -330,10 +319,11 @@ class YEventCheckerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
         if self.final_event_results is not None:
             return self.final_event_results
 
-        if not self._callback_helper.callbacks:
+        if not CALLBACKS:
             raise Exception("need to register at least one callback for "
                             "event handler.")
 
+        log.debug("registered callbacks:\n%s", '\n'.join(CALLBACKS.keys()))
         info = {}
         for section_name, section in self.event_definitions.items():
             for event, event_meta in section.items():
@@ -359,17 +349,22 @@ class YEventCheckerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
 
                 # We want this to throw an exception if the callback is not
                 # defined.
-                callback_name = '{}.{}'.format(self.root_group_name,
-                                               event.replace('-', '_'))
-                callback = self._callback_helper.callbacks[callback_name]
+                callback_name = '{}.{}'.format(self.event_group, event)
+                if callback_name not in CALLBACKS:
+                    msg = ("no callback found for event {}".
+                           format(callback_name))
+                    raise EventCallbackNotFound(msg)
+
+                callback = CALLBACKS[callback_name]
                 event_results_obj = EventCheckResult(section_name, event,
                                                      search_results,
                                                      search_tag,
+                                                     self.searcher,
                                                      sequence_def=seq_def)
                 log.debug("executing event %s.%s callback '%s'",
                           event_results_obj.section, event,
                           callback_name)
-                ret = callback(self, event_results_obj)
+                ret = callback()(event_results_obj)
                 if not ret:
                     continue
 

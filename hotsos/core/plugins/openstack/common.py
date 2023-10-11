@@ -24,7 +24,7 @@ from hotsos.core.plugins.openstack.neutron import NeutronBase
 from hotsos.core.plugins.openstack.nova import NovaBase
 from hotsos.core.plugins.openstack.octavia import OctaviaBase
 from hotsos.core import plugintools
-from hotsos.core.ycheck.events import YEventCheckerBase
+from hotsos.core.ycheck.events import EventHandlerBase, EventCallbackBase
 
 
 class OpenstackBase(object):
@@ -225,11 +225,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
         return self.openstack_installed
 
 
-class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
-    """
-    Normally we would call run_checks() here but the Openstack implementations
-    do run() themselves so we defer.
-    """
+class OpenstackEventCallbackBase(OpenstackChecksBase, EventCallbackBase):
 
     def categorise_events(self, *args, **kwargs):
         if 'include_time' not in kwargs:
@@ -237,3 +233,7 @@ class OpenstackEventChecksBase(OpenstackChecksBase, YEventCheckerBase):
             kwargs['include_time'] = include_time
 
         return super().categorise_events(*args, **kwargs)
+
+
+class OpenstackEventHandlerBase(OpenstackChecksBase, EventHandlerBase):
+    pass

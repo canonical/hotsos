@@ -31,7 +31,7 @@ from hotsos.core.utils import (
     sorted_dict,
     seconds_to_date,
 )
-from hotsos.core.ycheck.events import YEventCheckerBase
+from hotsos.core.ycheck.events import EventCallbackBase
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+"]
@@ -1180,9 +1180,5 @@ class CephDaemonAllOSDsFactory(FactoryBase):
         return CephDaemonAllOSDsCommand(command)
 
 
-class CephEventChecksBase(CephChecksBase, YEventCheckerBase):
-
-    @property
-    def summary(self):
-        # mainline all results into summary root
-        return self.load_and_run()
+class CephEventCallbackBase(CephChecksBase, EventCallbackBase):
+    pass

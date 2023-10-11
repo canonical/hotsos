@@ -1,47 +1,34 @@
 import re
 
-from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
+from hotsos.core.plugins.openvswitch import OpenvSwitchBase
 from hotsos.core.plugins.openvswitch.common import (
-    OpenvSwitchEventChecksBase
+    OpenvSwitchEventHandlerBase,
+    OpenvSwitchEventCallbackBase,
 )
-from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
 from hotsos.core.utils import sorted_dict
 
-EVENTCALLBACKS = CallbackHelper()
 
+class OVSEventCallbackVSwitchd(OpenvSwitchEventCallbackBase):
+    event_group = 'ovs'
+    event_names = ['bridge-no-such-device', 'netdev-linux-no-such-device']
 
-class OVSEventChecks(OpenvSwitchEventChecksBase):
-
-    def __init__(self):
-        super().__init__(EVENTCALLBACKS)
-        self.ovs = OpenvSwitchBase()
-
-    @property
-    def root_group_name(self):
-        return 'ovs'
-
-    @property
-    def summary_subkey(self):
-        return 'ovs-checks'
-
-    @EVENTCALLBACKS.callback(event_group='ovs',
-                             event_names=['bridge-no-such-device',
-                                          'netdev-linux-no-such-device'])
-    def process_vswitchd_events(self, event):
+    def __call__(self, event):
         ret = self.categorise_events(event, max_results_per_date=5)
         if ret:
             return {event.name: ret}, 'ovs-vswitchd'
 
-    @EVENTCALLBACKS.callback(event_group='ovs',
-                             event_names=[
-                                    'ovsdb-server', 'ovs-vswitchd',
-                                    'receive-tunnel-port-not-found',
-                                    'rx-packet-on-unassociated-datapath-port',
-                                    'dpif-netlink-lost-packet-on-handler',
-                                    'assertion-failures',
-                                    'unreasonably-long-poll-interval'])
-    def process_log_events(self, event):
+
+class OVSEventCallbackLogs(OpenvSwitchEventCallbackBase):
+    event_group = 'ovs'
+    event_names = ['ovsdb-server', 'ovs-vswitchd',
+                   'receive-tunnel-port-not-found',
+                   'rx-packet-on-unassociated-datapath-port',
+                   'dpif-netlink-lost-packet-on-handler',
+                   'assertion-failures',
+                   'unreasonably-long-poll-interval']
+
+    def __call__(self, event):
         key_by_date = True
         if event.name in ['ovs-vswitchd', 'ovsdb-server']:
             key_by_date = False
@@ -51,8 +38,12 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
         if ret:
             return {event.name: ret}, event.section
 
-    @EVENTCALLBACKS.callback(event_group='ovs')
-    def deferred_action_limit_reached(self, event):
+
+class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
+    event_group = 'ovs'
+    event_names = ['deferred-action-limit-reached']
+
+    def __call__(self, event):
         results = [{'date': "{} {}".format(r.get(1), r.get(2)),
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]
@@ -60,8 +51,12 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
         if ret:
             return {event.name: ret}, event.section
 
-    @EVENTCALLBACKS.callback(event_group='ovs')
-    def port_stats(self, event):
+
+class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
+    event_group = 'ovs'
+    event_names = ['port-stats']
+
+    def __call__(self, event):
         """
         Report on interfaces that are showing packet drops or errors.
 
@@ -84,6 +79,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
         stats = {}
         all_dropped = []  # interfaces where all packets are dropped
         all_errors = []  # interfaces where all packets are errors
+        ovs = OpenvSwitchBase()
         for section in event.results:
             port = None
             _stats = {}
@@ -114,7 +110,7 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
 
             if port and _stats:
                 # Ports to ignore - see docstring for info
-                if (port in [b.name for b in self.ovs.bridges] or
+                if (port in [b.name for b in ovs.bridges] or
                         re.compile(r"^(q|s)g-\S{11}$").match(port)):
                     continue
 
@@ -145,9 +141,12 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
             output_key = "{}-port-stats".format(event.section)
             return stats_sorted, output_key
 
-    @EVENTCALLBACKS.callback(event_group='ovs',
-                             event_names=['bfd-state-changes'])
-    def bfd_state_changes(self, event):
+
+class OVSEventCallbackBFD(OpenvSwitchEventCallbackBase):
+    event_group = 'ovs'
+    event_names = ['bfd-state-changes']
+
+    def __call__(self, event):
         state_changes = {}
         for r in event.results:
             date = r.get(1)
@@ -188,8 +187,12 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
         if stats:
             return {'bfd': {'state-change-stats': stats}}, 'ovs-vswitchd'
 
-    @EVENTCALLBACKS.callback(event_group='ovs')
-    def involuntary_context_switches(self, event):
+
+class OVSEventCallback4(OpenvSwitchEventCallbackBase):
+    event_group = 'ovs'
+    event_names = ['involuntary-context-switches']
+
+    def __call__(self, event):
         aggregated = {}
         for r in event.results:
             key = r.get(1)
@@ -209,28 +212,22 @@ class OVSEventChecks(OpenvSwitchEventChecksBase):
         return {event.name: aggregated}, event.section
 
 
-class OVNEventChecks(OpenvSwitchEventChecksBase):
-
-    def __init__(self):
-        super().__init__(EVENTCALLBACKS)
-
-    @property
-    def root_group_name(self):
-        return 'ovn'
+class OVSEventChecks(OpenvSwitchEventHandlerBase):
+    event_group = 'ovs'
 
     @property
     def summary_subkey(self):
-        return 'ovn-checks'
+        return 'ovs-checks'
 
-    @EVENTCALLBACKS.callback(event_group='ovn',
-                             event_names=['ovsdb-server-nb', 'ovsdb-server-sb',
-                                          'ovn-northd', 'ovn-controller',
-                                          'unreasonably-long-poll-interval',
-                                          'inactivity-probe',
-                                          'bridge-not-found-for-port',
-                                          'leadership-transfers',
-                                          'compactions'])
-    def process_log_events(self, event):
+
+class OVNEventCallbackLogs(OpenvSwitchEventCallbackBase):
+    event_group = 'ovn'
+    event_names = ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
+                   'ovn-controller', 'unreasonably-long-poll-interval',
+                   'inactivity-probe', 'bridge-not-found-for-port',
+                   'leadership-transfers', 'compactions']
+
+    def __call__(self, event):
         key_by_date = True
         if event.name in ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
                           'ovn-controller']:
@@ -241,8 +238,12 @@ class OVNEventChecks(OpenvSwitchEventChecksBase):
         if ret:
             return {event.name: ret}, event.section
 
-    @EVENTCALLBACKS.callback(event_group='ovn')
-    def involuntary_context_switches(self, event):
+
+class OVNEventCallbackContextSwitches(OpenvSwitchEventCallbackBase):
+    event_group = 'ovn'
+    event_names = ['involuntary-context-switches']
+
+    def __call__(self, event):
         aggregated = {}
         for r in event.results:
             key = r.get(1)
@@ -260,3 +261,11 @@ class OVNEventChecks(OpenvSwitchEventChecksBase):
             aggregated[key] = sorted_dict(value)
 
         return {event.name: sorted_dict(aggregated)}, event.section
+
+
+class OVNEventChecks(OpenvSwitchEventHandlerBase):
+    event_group = 'ovn'
+
+    @property
+    def summary_subkey(self):
+        return 'ovn-checks'

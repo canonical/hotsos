@@ -1,23 +1,38 @@
 import re
 
 from hotsos.core.issues import IssuesManager, CephOSDError
-from hotsos.core.ycheck.events import CallbackHelper
-from hotsos.core.plugins.storage.ceph import CephEventChecksBase
-EVENTCALLBACKS = CallbackHelper()
+from hotsos.core.plugins.storage.ceph import (
+    CephChecksBase,
+    CephEventCallbackBase,
+)
+from hotsos.core.ycheck.events import EventHandlerBase
+
 CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 
 
-class CephDaemonLogChecks(CephEventChecksBase):
+class EventCallbackMisc(CephEventCallbackBase):
+    event_group = 'ceph'
+    event_names = ['heartbeat-no-reply', 'osd-reported-failed',
+                   'mon-elections-called', 'superblock-read-error']
 
-    def __init__(self):
-        super().__init__(EVENTCALLBACKS)
+    def __call__(self, event):
+        if event.name == 'superblock-read-error':
+            msg = ('Detected superblock read errors which indicates an OSD '
+                   'disk failure or its likely failure in the near future. '
+                   'This drive needs to be inspected further using '
+                   'sar/smartctl.')
+            IssuesManager().add(CephOSDError(msg))
+            return
 
-    @property
-    def root_group_name(self):
-        return 'ceph'
+        key_by_date = event.name == 'heartbeat-no-reply'
+        return self.categorise_events(event, key_by_date=key_by_date)
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def slow_requests(self, event):
+
+class EventCallbackSlowRequests(CephEventCallbackBase):
+    event_group = 'ceph'
+    event_names = ['slow-requests']
+
+    def __call__(self, event):
         slow_requests = {}
         for result in sorted(event.results, key=lambda r: r.get(1)):
             date = result.get(1)
@@ -29,22 +44,17 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
         return slow_requests
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def osd_reported_failed(self, event):
-        return self.categorise_events(event, key_by_date=False)
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def mon_elections_called(self, event):
-        return self.categorise_events(event, key_by_date=False)
+class EventCallbackCRCErrors(CephEventCallbackBase):
+    event_group = 'ceph'
+    event_names = ['crc-err-bluestore', 'crc-err-rocksdb']
 
-    def _get_crc_errors(self, event, osd_type):
-        if not event.results:
-            return
-
+    def __call__(self, event):
+        osd_type = event.name.rpartition('_')[2]
         c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
         results = []
         for r in event.results:
-            ret = c_expr.match(self.searcher.resolve_source_id(r.source_id))
+            ret = c_expr.match(event.searcher.resolve_source_id(r.source_id))
             if ret:
                 key = "osd.{}".format(ret.group(1))
             else:
@@ -83,20 +93,16 @@ class CephDaemonLogChecks(CephEventChecksBase):
 
         return ret
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def crc_err_bluestore(self, event):
-        return self._get_crc_errors(event, 'bluestore')
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def crc_err_rocksdb(self, event):
-        return self._get_crc_errors(event, 'rocksdb')
+class EventCallbackHeartbeatPings(CephEventCallbackBase):
+    event_group = 'ceph'
+    event_names = ['long-heartbeat-pings']
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def long_heartbeat_pings(self, event):
+    def __call__(self, event):
         c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
         results = []
         for r in event.results:
-            ret = c_expr.match(self.searcher.resolve_source_id(r.source_id))
+            ret = c_expr.match(event.searcher.resolve_source_id(r.source_id))
             if ret:
                 key = "osd.{}".format(ret.group(1))
             else:
@@ -107,13 +113,11 @@ class CephDaemonLogChecks(CephEventChecksBase):
         return self.categorise_events(event, results=results,
                                       squash_if_none_keys=True)
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def heartbeat_no_reply(self, event):
-        return self.categorise_events(event)
 
-    @EVENTCALLBACKS.callback(event_group='ceph')
-    def superblock_read_error(self, event):  # pylint: disable=W0613
-        msg = ('Detected superblock read errors which indicates an OSD disk '
-               'failure or its likely failure in the near future. This '
-               'drive needs to be inspected further using sar/smartctl.')
-        IssuesManager().add(CephOSDError(msg))
+class CephEventHandler(CephChecksBase, EventHandlerBase):
+    event_group = 'ceph'
+
+    @property
+    def summary(self):
+        # mainline all results into summary root
+        return self.load_and_run()

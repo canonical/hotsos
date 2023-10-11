@@ -212,7 +212,7 @@ class TestCephOSDEvents(StorageCephOSDTestsBase):
         mock_cli.return_value.date.return_value = "2021-01-01 00:00:00"
         result = {'crc-err-bluestore': {'2021-02-12': 5, '2021-02-13': 1},
                   'crc-err-rocksdb': {'2021-02-12': 7}}
-        inst = ceph_event_checks.CephDaemonLogChecks()
+        inst = ceph_event_checks.CephEventHandler()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, result)
 

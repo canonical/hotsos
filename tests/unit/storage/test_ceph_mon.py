@@ -406,7 +406,7 @@ class TestCephMonEvents(CephMonTestsBase):
                   'long-heartbeat-pings': {'2022-02-09': 4},
                   'heartbeat-no-reply': {'2022-02-09': {'osd.0': 1,
                                                         'osd.1': 2}}}
-        inst = ceph_event_checks.CephDaemonLogChecks()
+        inst = ceph_event_checks.CephEventHandler()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, result)
 

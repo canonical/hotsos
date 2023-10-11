@@ -166,7 +166,7 @@ PLUGIN_CATALOG = {'hotsos': {
                          'objects': [ceph_summary.CephSummary],
                          'part_yaml_offset': 0},
                      'ceph_event_checks': {
-                         'objects': [ceph_event_checks.CephDaemonLogChecks],
+                         'objects': [ceph_event_checks.CephEventHandler],
                          'part_yaml_offset': 1},
                      'bcache_summary': {
                          'objects': [bcache_summary.BcacheSummary],

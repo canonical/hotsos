@@ -13,7 +13,8 @@ from hotsos.core.issues import (
 from hotsos.core.log import log
 from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
-    OpenstackEventChecksBase,
+    OpenstackEventHandlerBase,
+    OpenstackEventCallbackBase,
 )
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core.plugintools import summary_entry_offset as idx
@@ -23,31 +24,23 @@ from hotsos.core.search import (
 )
 from hotsos.core import utils
 from hotsos.core.utils import sorted_dict
-from hotsos.core.ycheck.events import CallbackHelper
 from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 
-EVENTCALLBACKS = CallbackHelper()
 VRRP_TRANSITION_WARN_THRESHOLD = 8
 
 
-class ApacheEventChecks(OpenstackEventChecksBase):
+class ApacheEventCallback(OpenstackEventCallbackBase):
+    event_group = 'apache'
+    event_names = ['connection-refused']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
-
-    @property
-    def root_group_name(self):
-        return 'apache'
-
-    @EVENTCALLBACKS.callback(event_group='apache')
-    def connection_refused(self, event):
+    def __call__(self, event):
         ports_max = {}
         context = {}
 
         results = []
         for result in event.results:
             # save some context info
-            path = self.searcher.resolve_source_id(result.source_id)
+            path = event.searcher.resolve_source_id(result.source_id)
             if path in context:
                 context[path].append(result.linenumber)
             else:
@@ -84,27 +77,28 @@ class ApacheEventChecks(OpenstackEventChecksBase):
 
         return sorted_dict(conns_refused)
 
+
+class ApacheEventChecks(OpenstackEventHandlerBase):
+    event_group = 'apache'
+
     def __summary_apache(self):
         return self.final_event_results
 
 
-class APIEvents(OpenstackEventChecksBase):
+class APIEventsCallback(OpenstackEventCallbackBase):
+    event_group = 'http-requests'
+    event_names = ['neutron']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
-
-    @property
-    def root_group_name(self):
-        return 'http-requests'
-
-    @EVENTCALLBACKS.callback(event_group='http-requests',
-                             event_names=['neutron'])
-    def http_requests(self, event):
+    def __call__(self, event):
         results = [{'date': r.get(1),
                     'key': r.get(2)} for r in event.results]
         ret = self.categorise_events(event, results=results)
         if ret:
             return ret
+
+
+class APIEvents(OpenstackEventHandlerBase):
+    event_group = 'http-requests'
 
     def __summary_http_requests(self):
         out = self.final_event_results
@@ -112,19 +106,9 @@ class APIEvents(OpenstackEventChecksBase):
             return out
 
 
-class NeutronAgentEventChecks(OpenstackEventChecksBase):
-    """
-    Loads events we want to check from definitions yaml and executes them. The
-    results are sorted by date and the "top 5" are presented along with stats
-    on the full set of samples.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
-
-    @property
-    def root_group_name(self):
-        return 'neutron.agents'
+class AgentEventsCallback(OpenstackEventCallbackBase):
+    event_group = 'neutron.agents'
+    event_names = ['rpc-loop', 'router-spawn-events', 'router-updates']
 
     def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
         stats = LogEventStats(results, tag_prefix, custom_idxs=custom_idxs)
@@ -136,24 +120,29 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         return {"top": top5,
                 "stats": stats.get_event_stats()}
 
-    @EVENTCALLBACKS.callback(event_group='neutron.agents')
-    def router_updates(self, event):
+    def __call__(self, event):
         agent = event.section
-        sri = SearchResultIndices(event_id_idx=4,
-                                  metadata_idx=3,
-                                  metadata_key='router')
-        ret = self._get_event_stats(event.results, event.search_tag,
-                                    custom_idxs=sri)
-        if ret:
-            return {event.name: ret}, agent
+        if event.name in ['rpc-loop', 'router-spawn-events']:
+            ret = self._get_event_stats(event.results, event.search_tag)
+            if ret:
+                return {event.name: ret}, agent
+        else:
+            sri = SearchResultIndices(event_id_idx=4,
+                                      metadata_idx=3,
+                                      metadata_key='router')
+            ret = self._get_event_stats(event.results, event.search_tag,
+                                        custom_idxs=sri)
+            if ret:
+                return {event.name: ret}, agent
 
-    @EVENTCALLBACKS.callback(event_group='neutron.agents',
-                             event_names=['rpc-loop', 'router-spawn-events'])
-    def process_events(self, event):
-        agent = event.section
-        ret = self._get_event_stats(event.results, event.search_tag)
-        if ret:
-            return {event.name: ret}, agent
+
+class NeutronAgentEventChecks(OpenstackEventHandlerBase):
+    """
+    Loads events we want to check from definitions yaml and executes them. The
+    results are sorted by date and the "top 5" are presented along with stats
+    on the full set of samples.
+    """
+    event_group = 'neutron.agents'
 
     def __summary_neutron_l3_agent(self):
         out = self.final_event_results or {}
@@ -164,83 +153,73 @@ class NeutronAgentEventChecks(OpenstackEventChecksBase):
         return out.get('neutron-ovs-agent')
 
 
-class OctaviaAgentEventChecks(OpenstackEventChecksBase):
+class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
+    event_group = 'octavia'
+    event_names = ['lb-failover-auto', 'lb-failover-manual',
+                   'amp-missed-heartbeats']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
+    def __call__(self, event):
+        if event.name in ['lb-failover-auto', 'lb-failover-manual']:
+            results = []
+            for e in event.results:
+                payload = yaml.safe_load(e.get(3))
+                lb_id = payload.get('load_balancer_id')
+                if lb_id is None:
+                    continue
 
-    @property
-    def root_group_name(self):
-        return 'octavia'
+                results.append({'date': e.get(1), 'time': e.get(2),
+                                'key': lb_id})
 
-    @EVENTCALLBACKS.callback(event_group='octavia',
-                             event_names=['lb-failover-auto',
-                                          'lb-failover-manual'])
-    def lb_failovers(self, event):
-        results = []
-        for e in event.results:
-            payload = yaml.safe_load(e.get(3))
-            lb_id = payload.get('load_balancer_id')
-            if lb_id is None:
-                continue
+            ret = self.categorise_events(event, results=results,
+                                         key_by_date=False)
+            if ret:
+                failover_type = event.name.rpartition('-')[2]
+                return {failover_type: ret}, 'lb-failovers'
+        else:
+            missed_heartbeats = self.categorise_events(event,
+                                                       key_by_date=False)
+            if not missed_heartbeats:
+                return
 
-            results.append({'date': e.get(1), 'time': e.get(2), 'key': lb_id})
+            # sort each amp by occurences
+            for ts_date, amps in missed_heartbeats.items():
+                amps_sorted = utils.sorted_dict(amps, key=lambda e: e[1],
+                                                reverse=True)
+                missed_heartbeats[ts_date] = amps_sorted
 
-        ret = self.categorise_events(event, results=results, key_by_date=False)
-        if ret:
-            failover_type = event.name.rpartition('-')[2]
-            return {failover_type: ret}, 'lb-failovers'
+            # then sort by date
+            return utils.sorted_dict(missed_heartbeats)
 
-    @EVENTCALLBACKS.callback(event_group='octavia')
-    def amp_missed_heartbeats(self, event):
-        missed_heartbeats = self.categorise_events(event, key_by_date=False)
-        if not missed_heartbeats:
-            return
 
-        # sort each amp by occurences
-        for ts_date, amps in missed_heartbeats.items():
-            missed_heartbeats[ts_date] = utils.sorted_dict(amps,
-                                                           key=lambda e: e[1],
-                                                           reverse=True)
-
-        # then sort by date
-        return utils.sorted_dict(missed_heartbeats)
+class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
+    event_group = 'octavia'
 
     def __summary_octavia(self):
         return self.final_event_results
 
 
-class NovaComputeEventChecks(OpenstackEventChecksBase):
+class PCINotFoundCallback(OpenstackEventCallbackBase):
+    event_group = 'nova.nova-compute'
+    event_names = ['pci-dev-not-found']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
-
-    @property
-    def root_group_name(self):
-        return 'nova.nova-compute'
-
-    @EVENTCALLBACKS.callback(event_group='nova.nova-compute')
-    def pci_dev_not_found(self, event):
+    def __call__(self, event):
         ret = self.categorise_events(event)
         if ret:
             return ret, 'PciDeviceNotFoundById'
+
+
+class NovaComputeEventChecks(OpenstackEventHandlerBase):
+    event_group = 'nova.nova-compute'
 
     def __summary_nova(self):
         return self.final_event_results
 
 
-class AgentApparmorChecks(OpenstackEventChecksBase):
+class ApparmorCallback(OpenstackEventCallbackBase):
+    event_group = 'apparmor'
+    event_names = ['nova', 'neutron']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
-
-    @property
-    def root_group_name(self):
-        return 'apparmor'
-
-    @EVENTCALLBACKS.callback(event_group='apparmor',
-                             event_names=['nova', 'neutron'])
-    def openstack_apparmor(self, event):
+    def __call__(self, event):
         results = [{'date': "{} {}".format(r.get(1), r.get(2)),
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]
@@ -251,20 +230,17 @@ class AgentApparmorChecks(OpenstackEventChecksBase):
             # action.
             return {event.name: ret}, event.section
 
+
+class AgentApparmorChecks(OpenstackEventHandlerBase):
+    event_group = 'apparmor'
+
     def __summary_apparmor(self):
         return self.final_event_results
 
 
-class NeutronL3HAEventChecks(OpenstackEventChecksBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
-        self.cli = CLIHelper()
-        self.ha_info = NeutronHAInfo()
-
-    @property
-    def root_group_name(self):
-        return 'neutron.ml2-routers'
+class L3HACallback(OpenstackEventCallbackBase):
+    event_group = 'neutron.ml2-routers'
+    event_names = ['vrrp-transitions']
 
     def check_vrrp_transitions(self, transitions):
         # there will likely be a large number of transitions if we look across
@@ -289,20 +265,10 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
                                                            max_transitions))
             IssuesManager().add(NeutronL3HAWarning(msg))
 
-    def journalctl_args(self):
-        """ Args callback for event cli command """
-        args = []
-        kwargs = {'unit': 'neutron-l3-agent'}
-        if not HotSOSConfig.use_all_logs:
-            kwargs['date'] = self.cli.date(format="--iso-8601")
-
-        return args, kwargs
-
-    @EVENTCALLBACKS.callback(event_group='neutron.ml2-routers')
-    def vrrp_transitions(self, event):
+    def __call__(self, event):
         results = []
         for r in event.results:
-            router = self.ha_info.find_router_with_vr_id(r.get(3))
+            router = NeutronHAInfo().find_router_with_vr_id(r.get(3))
             if not router:
                 log.debug("could not find router with vr_id %s", r.get(3))
                 continue
@@ -317,6 +283,19 @@ class NeutronL3HAEventChecks(OpenstackEventChecksBase):
             self.check_vrrp_transitions(transitions)
             # add info to summary
             return {'transitions': transitions}, 'keepalived'
+
+
+class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
+    event_group = 'neutron.ml2-routers'
+
+    def journalctl_args(self):
+        """ Args callback for event cli command """
+        args = []
+        kwargs = {'unit': 'neutron-l3-agent'}
+        if not HotSOSConfig.use_all_logs:
+            kwargs['date'] = CLIHelper().date(format="--iso-8601")
+
+        return args, kwargs
 
     def __summary_neutron_l3ha(self):
         return self.final_event_results

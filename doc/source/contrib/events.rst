@@ -1,11 +1,13 @@
 Events Overview
 ===============
 
-These checks are not currently run automatically and do require custom
-callbacks to be implemented in plugin code to process results. Event
-definitions can be found `here <https://github.com/canonical/hotsos/tree/main/hotsos/defs/events>`_.
+Event checks are comprised of the following parts; a yaml definition of a search, an
+accompanying Python callback to process the results and a handler to present
+the results. Event definitions can be found `here <https://github.com/canonical/hotsos/tree/main/hotsos/defs/events>`_.
 
-Events should be used sparingly and the recommendation is to use :ref:`Scenarios<scenarios overview>`.
+Support for events was added before :ref:`Scenarios<scenarios overview>` and was mainly aimed at a
+way of seperating the definition of the search criteria from the code that
+processed the results. Where possible, it is recommended to use scenarios instead.
 
 An event can be single or multi-line and the data source is defined with an
 :ref:`Input<input>` property. All event checks must have an eponymous callback

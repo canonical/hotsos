@@ -3,13 +3,11 @@ from datetime import datetime
 from hotsos.core.analytics import LogEventStats
 from hotsos.core.plugins.openstack.common import (
     OpenstackChecksBase,
-    OpenstackEventChecksBase,
+    OpenstackEventHandlerBase,
+    OpenstackEventCallbackBase,
 )
 from hotsos.core.plugins.openstack.nova import NovaLibvirt
 from hotsos.core import utils
-from hotsos.core.ycheck.events import CallbackHelper
-
-EVENTCALLBACKS = CallbackHelper()
 
 
 class OpenstackInstanceChecks(OpenstackChecksBase):
@@ -35,16 +33,11 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
             return _info
 
 
-class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
+class SrcMigrationCallback(OpenstackEventCallbackBase):
+    event_group = 'nova.migrations'
+    event_names = ['src-migration']
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(EVENTCALLBACKS, *args, **kwargs)
-
-    @property
-    def root_group_name(self):
-        return 'nova.migrations'
-
-    def migration_seq_info(self, event, resource_idx, info_idxs,
+    def _migration_seq_info(self, event, resource_idx, info_idxs,
                            incl_time_in_date=False):
         """
         Process the results of an event that was defined as a sequence.
@@ -97,8 +90,7 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
         return info
 
-    @EVENTCALLBACKS.callback(event_group='nova.migrations')
-    def src_migration(self, event):
+    def __call__(self, event):
         """
         Source migration is defined as a sequence so that we can capture some
         of in the interim events such as memory and disk progress.
@@ -106,8 +98,8 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
         migration_info = {}
 
         info_idxs = {'memory': 4, 'disk': 5}
-        results = self.migration_seq_info(event, 3, info_idxs,
-                                          incl_time_in_date=True)
+        results = self._migration_seq_info(event, 3, info_idxs,
+                                           incl_time_in_date=True)
         for vm_uuid, sections in results.items():
             for section in sections.values():
                 samples = {}
@@ -152,7 +144,12 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
         # section name expected to be live-migration
         return migration_info, event.section
 
-    def migration_stats_info(self, event):
+
+class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
+    event_group = 'nova.migrations'
+    event_names = ['src-post-live-migration', 'dst-pre-live-migration']
+
+    def _migration_stats_info(self, event):
         """
         Process events that have passthrough-results=True such that they can be
         passed directory to analytics.LogEventStats for parsing.
@@ -171,15 +168,13 @@ class NovaServerMigrationAnalysis(OpenstackEventChecksBase):
 
         return results
 
-    @EVENTCALLBACKS.callback(event_group='nova.migrations')
-    def src_post_live_migration(self, event):
+    def __call__(self, event):
         # section name expected to be live-migration
-        return self.migration_stats_info(event), event.section
+        return self._migration_stats_info(event), event.section
 
-    @EVENTCALLBACKS.callback(event_group='nova.migrations')
-    def dst_pre_live_migration(self, event):
-        # section name expected to be live-migration
-        return self.migration_stats_info(event), event.section
+
+class NovaServerMigrationAnalysis(OpenstackEventHandlerBase):
+    event_group = 'nova.migrations'
 
     def __summary_nova_migrations(self):
         return self.load_and_run()
