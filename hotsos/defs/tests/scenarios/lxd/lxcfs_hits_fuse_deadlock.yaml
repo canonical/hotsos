@@ -1,0 +1,40 @@
+target-name: lxcfs_deadlock.yaml
+mock:
+  patch.object:
+    hotsos.core.ycheck.engine.properties.inputdef.CLIHelperFile:
+      kwargs:
+        create: true
+        attribute: journalctl
+        return_value: /tmp/hotsos-unit-test-lxcfs-libfuse-deadlock.txt
+data-root:
+  files:
+    sos_commands/snap/snap_list_--all: |
+      lxd                  5.9-76c110d  24164  latest/stable  canonical**  -
+    sos_commands/lxd/lxd.buginfo: |
+      ## Instances
+      ```
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      |        NAME         |  STATE  |       IPV4        | IPV6 |   TYPE    | SNAPSHOTS |
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      | juju-04f1e3-1-lxd-0 | RUNNING | 10.0.0.123 (eth0) |      | CONTAINER | 0         |
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      | juju-04f1e3-1-lxd-1 | RUNNING | 10.0.0.110 (eth0) |      | CONTAINER | 0         |
+      +---------------------+---------+-------------------+------+-----------+-----------+
+      ```
+      ## Images
+      ```
+    /tmp/hotsos-unit-test-lxcfs-libfuse-deadlock.txt: |
+      2023-09-06T17:56:23+0100 ic-hrvart4-s4anq599 lxd.daemon[5447]: fuse: error creating thread: Resource temporarily unavailable
+raised-issues:
+  LXDWarning:
+    - >-
+      libfuse is out of pids. This can happen due to a known lxcfs
+      deadlock detailed in https://github.com/lxc/lxcfs/issues/471.
+      This is fixed in lxd snap version 5.10 (5.10-b392610)
+    - >-
+      This host has lxc containers and is using LXD version 5.9 which
+      is known to be affected by a lxcfs deadlock bug that causes reads
+      and writes to permanently block leading to a large backlog of lxcfs
+      threads and eventually a kernel crash because of hung tasks. The bug
+      is fixed in LXD 5.10. For more information see
+      https://github.com/lxc/lxcfs/issues/471.
