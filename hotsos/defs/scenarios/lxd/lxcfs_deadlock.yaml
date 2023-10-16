@@ -12,12 +12,19 @@ checks:
       lxd:
         - min: 24096
           max: 24180
+  fuse_out_of_threads_error:
+    input:
+      command: journalctl
+      kwargs:
+        unit: lxd
+    search:
+      expr: '\S+ \S+ \S+: fuse: error creating thread: Resource temporarily unavailable'
 conclusions:
   lxcfs_deadlock:
     decision:
-      - is_not_a_lxc_container
-      - has_lxc_containers
       - has_lxd_version_5_9
+      - has_lxc_containers
+      - is_not_a_lxc_container
     raises:
       type: LXDWarning
       message: >-
@@ -27,3 +34,13 @@ conclusions:
         threads and eventually a kernel crash because of hung tasks. The bug
         is fixed in LXD 5.10. For more information see
         https://github.com/lxc/lxcfs/issues/471.
+  fuse_deadlock:
+    decision:
+      - has_lxd_version_5_9
+      - fuse_out_of_threads_error
+    raises:
+      type: LXDWarning
+      message: >-
+        libfuse is out of pids. This can happen due to a known lxcfs
+        deadlock detailed in https://github.com/lxc/lxcfs/issues/471.
+        This is fixed in lxd snap version 5.10 (5.10-b392610)
