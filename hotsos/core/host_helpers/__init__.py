@@ -33,3 +33,7 @@ from .sysctl import (  # noqa: F403,F401
     SYSCtlFactory,
     SYSCtlConfHelper,
 )
+from .apparmor import (  # noqa: F403,F401
+    AAProfileFactory,
+    ApparmorHelper,
+)
