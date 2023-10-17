@@ -620,3 +620,25 @@ class TestConfigHelper(utils.BaseTestCase):
         expanded = cfg.get('c-key', expand_to_list=True)
         self.assertEqual(expanded, list(range(2, 9)) + list(range(10, 32)))
         self.assertEqual(cfg.squash_int_range(expanded), '2-8,10-31')
+
+
+class TestApparmorHelper(utils.BaseTestCase):
+
+    def test_aa_status_profiles(self):
+        helper = host_helpers.ApparmorHelper()
+        profiles = helper.profiles
+        self.assertEqual(len(profiles), 2)
+        self.assertEqual(profiles['enforce']['count'], 253)
+        self.assertEqual(len(profiles['enforce']['profiles']), 253)
+        self.assertEqual(profiles['enforce']['profiles'][-1], 'virt-aa-helper')
+        self.assertEqual(helper.profiles_enforce,
+                         profiles['enforce']['profiles'])
+        self.assertEqual(profiles['complain']['count'], 0)
+        self.assertEqual(len(profiles['complain']['profiles']), 0)
+        self.assertEqual(helper.profiles_complain, [])
+
+    def test_aa_profile_factory(self):
+        profile = getattr(host_helpers.apparmor.AAProfileFactory(),
+                          'virt-aa-helper')
+        self.assertEqual(profile.name, 'virt-aa-helper')
+        self.assertEqual(profile.mode, 'enforce')

@@ -684,6 +684,9 @@ class CLIHelperBase(HostHelpersBase):
             'apt_config_dump':
                 [BinCmd('apt-config dump'),
                  FileCmd('sos_commands/apt/apt-config_dump')],
+            'apparmor_status':
+                [BinCmd('apparmor_status'),
+                 FileCmd('sos_commands/apparmor/apparmor_status')],
             'ceph_daemon_osd_config_show':
                 [BinCmd('ceph daemon osd.{osd_id} config show',
                         json_decode=True),
