@@ -590,17 +590,23 @@ class LogicalCollectionHandler(abc.ABC):
         """
         final_results = []
         for entry in item:
+            # For the purposes of caching we treat a list with > 1 item as
+            # "grouped".
             result = self.get_item_result_callback(entry,
-                                                   is_default_group=True)
+                                                   grouped=len(item) > 1)
             final_results.append(result)
 
         return final_results
 
     @abc.abstractmethod
-    def get_item_result_callback(self, item, is_default_group=False):
+    def get_item_result_callback(self, item, grouped=False):
         """
         Must be implemented to evaluate a single item and return its
         result.
+
+        @param item: property we want to evaluate
+        @param grouped: whether or not the item is part of a logical group or
+                        list.
         """
 
     def _is_op_group(self, prop):
@@ -635,7 +641,9 @@ class LogicalCollectionHandler(abc.ABC):
 
                 log.debug("op group member has %s item(s)", len(member))
                 if len(member) == 1:
-                    group_results.append(self.get_item_result_callback(member))
+                    result = self.get_item_result_callback(member,
+                                                           grouped=True)
+                    group_results.append(result)
                     num_single += 1
                     continue
 
@@ -649,7 +657,7 @@ class LogicalCollectionHandler(abc.ABC):
                                   result, logical_op)
                         break
 
-                    result = self.get_item_result_callback(entry)
+                    result = self.get_item_result_callback(entry, grouped=True)
                     group_results.append(result)
                     prev = result
                     num_list += 1

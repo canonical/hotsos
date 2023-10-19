@@ -1,9 +1,14 @@
 import datetime
+import os
+import shutil
+import tempfile
 from unittest import mock
 
 import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.config import SectionalConfigBase
+from hotsos.core.issues.utils import IssuesStore
+from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine import (
     YDefsSection,
     YDefsLoader,
@@ -194,6 +199,209 @@ faildef2:
 DPKG_L = """
 ii  openssh-server                       1:8.2p1-4ubuntu0.4                                   amd64        secure shell (SSH) server, for secure access from remote machines
 """  # noqa
+
+
+class TempScenarioDefs(object):
+
+    def __init__(self):
+        self.root = None
+        self.path = None
+
+    def __enter__(self):
+        self.root = tempfile.mkdtemp()
+        HotSOSConfig.plugin_yaml_defs = self.root
+        self.path = os.path.join(self.root, 'scenarios',
+                                 HotSOSConfig.plugin_name, 'test.yaml')
+        os.makedirs(os.path.dirname(self.path))
+        return self
+
+    def __exit__(self, *args):
+        shutil.rmtree(self.root)
+        return False
+
+
+class TestYamlRequiresTypeCache(utils.BaseTestCase):
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': 'ii foo 123 amd64'})
+    def test_single_item(self):
+        mydef = YDefsSection('mydef', yaml.safe_load("chk1:\n  apt: foo"))
+        for entry in mydef.leaf_sections:
+            self.assertTrue(entry.requires.passes)
+            expected = {'__PREVIOUSLY_CACHED_PROPERTY_TYPE':
+                        'YRequirementTypeAPT',
+                        'package': 'foo',
+                        'passes': True,
+                        'version': '123'}
+            self.assertEqual(entry.requires.cache.data, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             'ii foo 123 amd64'})
+    def test_grouped_items_first_true(self):
+        """ If the first item evaluates to True we get that one. """
+        scenario = """
+        checks:
+          c1:
+            or:
+              - apt: foo
+              - apt: bar
+        conclusions:
+          c1:
+            decision: c1
+            raises:
+              type: SystemWarning
+              message: '{pkg}'
+              format-dict:
+                pkg: '@checks.c1.requires.package'
+        """  # noqa
+        with TempScenarioDefs() as tmpscenarios:
+            with open(tmpscenarios.path, 'w') as fd:
+                fd.write(scenario)
+
+            scenarios.YScenarioChecker().load_and_run()
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual(issues[0]['message'], 'foo')
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             'ii bar 123 amd64'})
+    def test_grouped_items_last_true(self):
+        """ If the last item evaluates to True we get that one. """
+        scenario = """
+        checks:
+          c1:
+            or:
+              - apt: foo
+              - apt: bar
+        conclusions:
+          c1:
+            decision: c1
+            raises:
+              type: SystemWarning
+              message: '{pkg}'
+              format-dict:
+                pkg: '@checks.c1.requires.package'
+        """  # noqa
+        with TempScenarioDefs() as tmpscenarios:
+            with open(tmpscenarios.path, 'w') as fd:
+                fd.write(scenario)
+
+            scenarios.YScenarioChecker().load_and_run()
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual(issues[0]['message'], 'bar')
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             'ii foo 123 amd64\nii bar 123 amd64'})
+    def test_grouped_items_all_true(self):
+        """ If all items evaluate to True we get the cache of the last one. """
+        scenario = """
+        checks:
+          c1:
+            or:
+              - apt: foo
+              - apt: bar
+        conclusions:
+          c1:
+            decision: c1
+            raises:
+              type: SystemWarning
+              message: '{pkg}'
+              format-dict:
+                pkg: '@checks.c1.requires.package'
+        """  # noqa
+        with TempScenarioDefs() as tmpscenarios:
+            with open(tmpscenarios.path, 'w') as fd:
+                fd.write(scenario)
+
+            scenarios.YScenarioChecker().load_and_run()
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual(issues[0]['message'], 'bar')
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': ''})
+    def test_grouped_items_all_false(self):
+        """ If the all items evaluates to False nothing is copied. """
+        scenario = """
+        checks:
+          c1:
+            or:
+              - apt: foo
+              - apt: bar
+        conclusions:
+          c1:
+            decision: c1
+            raises:
+              type: SystemWarning
+              message: '{pkg}'
+              format-dict:
+                pkg: '@checks.c1.requires.package'
+        """
+        with TempScenarioDefs() as tmpscenarios:
+            with open(tmpscenarios.path, 'w') as fd:
+                fd.write(scenario)
+
+            scenarios.YScenarioChecker().load_and_run()
+            self.assertEqual(len(IssuesStore().load()), 0)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             'ii foo 123 amd64\nii bar 123 amd64',
+                             'sos_commands/snap/snap_list_--all':
+                             'snapd 2.54.2 14549 latest/stable xxx'})
+    def test_grouped_items_all_true_mixed_types_apt_first(self):
+        """ If the all items evaluates to False nothing is copied. """
+        scenario = """
+        checks:
+          c1:
+            or:
+              - apt: foo
+              - apt: bar
+              - snap: snapd
+        conclusions:
+          c1:
+            decision: c1
+            raises:
+              type: SystemWarning
+              message: '{pkg}'
+              format-dict:
+                pkg: '@checks.c1.requires.package'
+        """
+        with TempScenarioDefs() as tmpscenarios:
+            with open(tmpscenarios.path, 'w') as fd:
+                fd.write(scenario)
+
+            scenarios.YScenarioChecker().load_and_run()
+            issues = list(IssuesStore().load().values())[0]
+            self.assertEqual(issues[0]['message'], 'bar')
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
+                             'ii foo 123 amd64\nii bar 123 amd64',
+                             'sos_commands/snap/snap_list_--all':
+                             'snapd 2.54.2 14549 latest/stable xxx'})
+    def test_grouped_items_all_true_mixed_types_snap_first(self):
+        """ If the all items evaluates to False nothing is copied. """
+        scenario = """
+        checks:
+          c1:
+            or:
+              - snap: snapd
+              - apt: foo
+              - apt: bar
+        conclusions:
+          c1:
+            decision: c1
+            raises:
+              type: SystemWarning
+              message: '{pkg}'
+              format-dict:
+                pkg: '@checks.c1.requires.package'
+        """
+        with TempScenarioDefs() as tmpscenarios:
+            with open(tmpscenarios.path, 'w') as fd:
+                fd.write(scenario)
+
+            scenarios.YScenarioChecker().load_and_run()
+            issues = list(IssuesStore().load().values())[0]
+            # NOTE: dicts and lists are currently being evaluated in
+            #       alphabetical order. Not clear why but that explains why
+            #       grouped items give this (unexpected) result.
+            self.assertEqual(issues[0]['message'], 'bar')
 
 
 class TestYamlRequiresTypeAPT(utils.BaseTestCase):

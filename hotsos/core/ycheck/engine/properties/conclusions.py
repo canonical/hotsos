@@ -121,7 +121,7 @@ class YPropertyDecisionBase(YPropertyMappedOverrideBase,
     def add_checks_instances(self, checks):
         self.checks_instances = checks
 
-    def get_item_result_callback(self, item, is_default_group=False):
+    def get_item_result_callback(self, item, grouped=False):
         name = str(item)
         if name not in self.checks_instances:
             raise Exception("no check found with name {}".format(name))

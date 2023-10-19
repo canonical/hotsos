@@ -61,7 +61,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
         """
         return False
 
-    def get_item_result_callback(self, item, is_default_group=False):
+    def get_item_result_callback(self, item, grouped=False):
         handlers = self.context.assertions_ctxt['cfg_handlers']
         if not handlers:
             return
