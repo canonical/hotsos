@@ -1,0 +1,16 @@
+checks:
+  has_2039444:
+    input:
+      path: 'var/log/juju/*mysql*.log'
+    start: '([\d-]+) ([\d:]+) .+ Failed adding instance .+ to cluster'
+    end: 'mysqlsh\.DBError: MySQL Error \(\d+\): Cluster\.add_instance: Could not open connection to .+: Host .+ is not allowed to connect to this MySQL server'
+conclusions:
+  lp2039444:
+    decision: has_2039444
+    raises:
+      type: LaunchpadBug
+      bug-id: 2039444
+      message: >-
+        The action run on the mysql leader failed to add a mysql instance.
+        This may be caused if the leader is the highest numbered juju
+        unit. See LP#2039444 for more information.
