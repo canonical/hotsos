@@ -1,0 +1,16 @@
+data-root:
+  files:
+    var/log/juju/unit-mysql-innodb-cluster-2.log: |
+      2023-10-13 14:28:13 INFO unit.mysql/2.juju-log server.go:316 cluster:1: Adding instance, 10.5.1.254, to the cluster.
+      2023-10-13 14:28:13 ERROR unit.mysql/2.juju-log server.go:316 cluster:1: Failed adding instance 10.5.1.254 to cluster: Cannot set LC_ALL to locale en_US.UTF-8: No such file or directory
+      ^[[31mERROR: ^[[0mUnable to connect to the target instance '10.5.1.254:3306'. Please verify the connection settings, make sure the instance is available and try again.
+      Traceback (most recent call last):
+        File "<string>", line 3, in <module>
+      mysqlsh.DBError: MySQL Error (1130): Cluster.add_instance: Could not open connection to '10.5.1.254:3306': Host '10.5.0.55' is not allowed to connect to this MySQL server
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2039444: >-
+    The action run on the mysql leader failed to add a mysql instance.
+    This may be caused if the leader is the highest numbered juju
+    unit. See LP#2039444 for more information.
