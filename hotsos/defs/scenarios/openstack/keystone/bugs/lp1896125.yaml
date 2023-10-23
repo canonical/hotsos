@@ -3,38 +3,44 @@ checks:
     apt:
       keystone:
         # Train
-        - min: 2:16.0.0
-          max: 2:16.0.1
+        - ge: 2:16.0.0
         # Ussuri
-        - min: 2:17.0.0
-          max: 2:17.0.0-99
+        - ge: 2:17.0.0
+          lt: 2:17.0.1
         # Victoria
-        - min: 2:18.0.0
-          max: 2:18.0.0-99
-    config:
-      handler: hotsos.core.plugins.openstack.OpenstackConfig
-      # keystone ldap config be defined globally or per-domain
-      path: [etc/keystone/keystone.conf, etc/keystone/domains/*]
-      assertions:
-        - key: url
-          section: ldap
-          ops: [[truth]]  # i.e. does the setting have a value
-          allow-unset: false
+        - ge: 2:18.0.0
+          lt: 2:18.0.1
+        # Wallaby
+        - ge: 2:19.0.0
+          lt: 2:19.0.1
+        # Xena
+        - ge: 2:20.0.0
+          lt: 2:20.0.1
+        # Yoga
+        - ge: 2:21.0.0
+          lt: 2:21.0.1
+        # Zed
+        - ge: 2:22.0.0
+          lt: 2:22.0.1
+  has_maxconn_reached_error:
+    input:
+      path: 'var/log/keystone/keystone.log'
+    expr: 'ldappool.MaxConnectionReachedError:.*'
 conclusions:
   lp1896125:
-    decision: has_1896125
+    decision:
+      - has_1896125
+      - has_maxconn_reached_error
     raises:
       type: LaunchpadBug
       bug-id: 1896125
       message: >-
-        Installed package '{package}' with version {version} has a known bug
-        that causes memory leak over time and causes LDAP logins to fail. It
-        is recommended to upgrade to the next point release available for the
-        package. To workaround LDAP login failure problem, disable LDAP pooling
-        by setting `ldap-use-pool` to `false` for all deployed `keystone-ldap`
-        applications in charmed deployments. For non-charmed deployments, set
-        `use_pool` to `false` in the LDAP domain /etc/keystone/domains/*.conf
-        file.
-      format-dict:
-        package: '@checks.has_1896125.requires.package'
-        version: '@checks.has_1896125.requires.version'
+        Known Keystone bug identified that causes Denial-of-Service when
+        LDAP connection pooling is enabled via use_pool=True. This bug may
+        manifest itself in LDAP operations such as OpenStack dashboard login
+        failures. It is recommended to upgrade to the next point release
+        available for the package. To workaround LDAP login failure problem,
+        disable LDAP pooling by setting `ldap-use-pool` to `false` for *all*
+        deployed `keystone-ldap` applications in charmed deployments. For
+        non-charmed deployments, set `use_pool` to `false` in the LDAP domain
+        /etc/keystone/domains/*.conf file.
