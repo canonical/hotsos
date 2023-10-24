@@ -1,0 +1,11 @@
+data-root:
+  files:
+    var/log/juju/unit-nova-cloud-controller-*.log: |
+      2023-10-19 13:27:37 ERROR unit.nova-cloud-controller/0.juju-log server.go:316 Could not obtain SSH host key from 10.11.12.2: reason: Command '['ssh-keyscan', '-H', '-t', 'rsa', '10.11.12.2']' returned non-zero exit status 1.
+raised-issues:
+  OpenstackWarning: >-
+    The nova-cloud-controller charm on this host has failed to populate the ssh
+    known_hosts for one or more nova-compute unit. A common cause is when this
+    unit cannot reach the remote compute host on the network for which it is
+    trying to add the host/address. Please check that this host is able to
+    reach host 10.11.12.2.

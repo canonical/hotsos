@@ -1,0 +1,19 @@
+checks:
+  has_error_log:
+    input: var/log/juju/unit-nova-cloud-controller-*.log
+    expr: '[\d-]+ [\d:]+ ERROR .+ Could not obtain SSH host key from \S+: reason: Command ''\[''ssh-keyscan'', ''-H'', ''-t'', ''rsa'', ''([\d.:\[\]]+)''\]'' returned non-zero exit status 1.'
+    constraints:
+      search-result-age-hours: 168  # 7 days
+conclusions:
+  known_hosts_failed:
+    decision: has_error_log
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The nova-cloud-controller charm on this host has failed to populate the
+        ssh known_hosts for one or more nova-compute unit. A common cause is
+        when this unit cannot reach the remote compute host on the network for
+        which it is trying to add the host/address. Please check
+        that this host is able to reach host {remote}.
+      format-dict:
+        remote: '@checks.has_error_log.requires.results_group_1:comma_join'
