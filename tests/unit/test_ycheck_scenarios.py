@@ -338,6 +338,28 @@ conclusions:
 """  # noqa
 
 
+SCENARIO_W_SEQ_SEARCH = r"""
+input:
+  path: {path}
+checks:
+  seqsearch1:
+    start: "it's the start"
+    body: ".+"
+    end: "it's the end"
+  seqsearch2:
+    start: "it's the start"
+    end: "it's the end"
+conclusions:
+  seqsearchworked:
+    decision:
+      - seqsearch1
+      - seqsearch2
+    raises:
+      type: SystemWarning
+      message: yay seq searches worked!
+"""  # noqa
+
+
 SCENARIO_W_ERROR = r"""
 scenarioA:
   checks:
@@ -700,6 +722,20 @@ class TestYamlScenarios(utils.BaseTestCase):
                                  'SystemWarning']))
         for issue in issues[0]:
             msg = "yay list search"
+            self.assertEqual(issue['message'], msg)
+
+    @init_test_scenario(SCENARIO_W_SEQ_SEARCH.
+                        format(path=os.path.basename('data.txt')))
+    @utils.create_data_root({'data.txt': ("blah blah\nit's the start\nblah "
+                                          "blah\nit's the end")})
+    def test_yaml_def_seq_search(self):
+        scenarios.YScenarioChecker().load_and_run()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues[0]), 1)
+        i_types = [i['type'] for i in issues[0]]
+        self.assertEqual(i_types, ['SystemWarning',])
+        for issue in issues[0]:
+            msg = "yay seq searches worked!"
             self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(SCENARIO_CHECKS)

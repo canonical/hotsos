@@ -27,15 +27,40 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
         search constraints requested.
         """
         global_results = self.context.search_results
-        if global_results is not None:
-            tag = self.search.unique_search_tag
-            _results = global_results.find_by_tag(tag)
-            log.debug("check %s has %s search results with tag %s",
-                      self.check_name, len(_results), tag)
-            return self.search.apply_extra_constraints(_results)
+        if global_results is None:
+            raise Exception("no search results provided to check '{}'".
+                            format(self.check_name))
 
-        raise Exception("no search results provided to check '{}'".
-                        format(self.check_name))
+        tag = self.search.unique_search_tag
+
+        # first get simple search results
+        simple_results = global_results.find_by_tag(tag)
+        log.debug("check %s has %s simple search results with tag %s",
+                  self.check_name, len(simple_results), tag)
+        results = self.search.apply_extra_constraints(simple_results)
+
+        seq_def = self.search.cache.sequence_search
+        if not seq_def:
+            return results
+
+        # Not try for sequence search results
+        sections = global_results.find_sequence_by_tag(tag).values()
+        log.debug("check %s has %s sequence search results with tag %s",
+                  self.check_name, len(sections), tag)
+        if not sections:
+            return results
+
+        # Use the result of the first section start as the final
+        # result. This is enough for now because the section is guaranteed
+        # to be complete i.e. a full match and the result is ultimately
+        # True/False based on whether or not a result was found.
+        for result in list(sections)[0]:
+            if result.tag == seq_def.start_tag:
+                # NOTE: we don't yet support applying extra constraints here
+                results.append(result)
+                break
+
+        return results
 
     @classmethod
     def _override_keys(cls):
@@ -84,6 +109,7 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
                 return False
 
             return True
+
         if self.requires:
             if self.cache.requires:
                 result = self.cache.requires.passes
