@@ -36,7 +36,7 @@ that shares the name of the directory e.g.
         ├── checkthat.yaml
         ├── checkthis.yaml
         ├── mychecks.yaml
-        └── someotherchecks
+        └── somemorechecks
 
 Here *mychecks* and *somemorechecks* are directories and *mychecks.yaml* defines
 overrides that apply to everything under *mychecks* such that any properties
