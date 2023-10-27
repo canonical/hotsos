@@ -4,13 +4,24 @@ data-root:
     sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/congested_write_threshold_us: '0'
     sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/cache_available_percent: '34'
     sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/sequential_cutoff: '0.0k'
-    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/cache_mode: 'writethrough [writeback] writearound none'
-    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/writeback_percent: '1'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/cache_mode: '[writethrough] writeback writearound none'
+    sys/fs/bcache/92234c28-6b9c-4501-89bb-fc1e0949c438/bdev1/writeback_percent: '11'
+    sys/fs/bcache/e7301a91-2a81-4653-960a-e5a2508f539f/congested_read_threshold_us: '0'
+    sys/fs/bcache/e7301a91-2a81-4653-960a-e5a2508f539f/congested_write_threshold_us: '0'
+    sys/fs/bcache/e7301a91-2a81-4653-960a-e5a2508f539f/cache_available_percent: '34'
+    sys/fs/bcache/e7301a91-2a81-4653-960a-e5a2508f539f/bdev0/sequential_cutoff: '1.0k'
+    sys/fs/bcache/e7301a91-2a81-4653-960a-e5a2508f539f/bdev0/cache_mode: 'writethrough [writeback] writearound none'
+    sys/fs/bcache/e7301a91-2a81-4653-960a-e5a2508f539f/bdev0/writeback_percent: '1'
+
 raised-issues:
-  BcacheWarning: >-
-    One or more of the following bcache bdev config
-    assertions failed: sequential_cutoff eq
-    "0.0k"/actual="0.0k", cache_mode eq "writethrough
-    [writeback] writearound none"/actual="writethrough
-    [writeback] writearound none", writeback_percent ge
-    10/actual="1"
+  BcacheWarning:
+    - >-
+      One or more of the bcache bdevs have a cache_mode config that is not
+      writeback: ['[writethrough] writeback writearound none', 'writethrough
+      [writeback] writearound none']
+    - >-
+      One or more of the bcache bdevs have a sequential_cutoff greater than 0:
+      ['1.0k', '0.0k']
+    - >-
+      One or more of the bcache bdevs have a writeback_percent less than 10:
+      [1, 11]

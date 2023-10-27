@@ -1,26 +1,47 @@
+vars:
+  sequential_cutoff: '@hotsos.core.plugins.storage.bcache.BDevsInfo.sequential_cutoff'
+  cache_mode: '@hotsos.core.plugins.storage.bcache.BDevsInfo.cache_mode'
+  writeback_percent: '@hotsos.core.plugins.storage.bcache.BDevsInfo.writeback_percent'
 checks:
   bcache_enabled:
     property: hotsos.core.plugins.storage.bcache.BcacheBase.bcache_enabled
-  has_invalid_bdev_config:
-    config:
-      handler: hotsos.core.plugins.storage.bcache.BDevsConfig
-      assertions:
-        not:
-          - key: sequential_cutoff
-            ops: [[eq, '0.0k']]
-          - key: cache_mode
-            ops: [[eq, 'writethrough [writeback] writearound none']]
-          - key: writeback_percent
-            ops: [[ge, 10]]
+  has_invalid_bdev_cutoff:
+    varops: [[$sequential_cutoff], [getitem, 0], [ne, '0.0k']]
+  has_invalid_bdev_cache_mode:
+    varops: [[$cache_mode], [getitem, 0], [ne, 'writethrough [writeback] writearound none']]
+  has_invalid_bdev_writeback_percent:
+    varops: [[$writeback_percent], [getitem, 0], [lt, 10]]
 conclusions:
-  invalid-bdev-config:
+  invalid-bdev-cutoff-config:
     decision:
       - bcache_enabled
-      - has_invalid_bdev_config
+      - has_invalid_bdev_cutoff
     raises:
       type: BcacheWarning
       message: >-
-        One or more of the following bcache bdev config assertions failed:
-        {assertions}
+        One or more of the bcache bdevs have a sequential_cutoff greater than 0:
+        {cutoff}
       format-dict:
-        assertions: '@checks.has_invalid_bdev_config.requires.assertion_results'
+        cutoff: $sequential_cutoff
+  invalid-bdev-cache-mode-config:
+    decision:
+      - bcache_enabled
+      - has_invalid_bdev_cache_mode
+    raises:
+      type: BcacheWarning
+      message: >-
+        One or more of the bcache bdevs have a cache_mode config that is not
+        writeback: {mode}
+      format-dict:
+        mode: $cache_mode
+  invalid-bdev-writeback-percent-config:
+    decision:
+      - bcache_enabled
+      - has_invalid_bdev_writeback_percent
+    raises:
+      type: BcacheWarning
+      message: >-
+        One or more of the bcache bdevs have a writeback_percent less than 10:
+        {writeback}
+      format-dict:
+        writeback: $writeback_percent
