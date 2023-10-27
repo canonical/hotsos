@@ -175,24 +175,76 @@ class BcacheBase(StorageBase):
         return False
 
 
-class BDevsConfig(BcacheBase):
+class BDevsInfo(BcacheBase):
 
-    def get(self, key):
-        """
-        This currently assumes there is only one cacheset on the host.
-        """
-        if self.cachesets and self.cachesets[0].bdevs:
-            return self.cachesets[0].bdevs[0].cfg.get(key)
+    @property
+    def sequential_cutoff(self):
+        ret = self._get_parameter("sequential_cutoff")
+        ret.sort(reverse=True)
+
+        return ret
+
+    @property
+    def cache_mode(self):
+        ret = self._get_parameter("cache_mode")
+        # send [writeback] to the end of the list
+        ret.sort(key='writethrough [writeback] writearound none'.__eq__)
+
+        return ret
+
+    @property
+    def writeback_percent(self):
+        ret = self._get_parameter("writeback_percent")
+        # convert str to int
+        ret = list(map(int, ret))
+        ret.sort()
+
+        return ret
+
+    def _get_parameter(self, key):
+        all_values = []
+        for cset in self.cachesets:
+            for bdev in cset.bdevs:
+                all_values.append(bdev.cfg.get(key))
+
+        return all_values
 
 
-class CachesetsConfig(BcacheBase):
+class CachesetsInfo(BcacheBase):
 
-    def get(self, key):
-        """
-        This currently assumes there is only one cacheset on the host.
-        """
-        if self.cachesets:
-            return self.cachesets[0].cfg.get(key)
+    @property
+    def congested_read_threshold_us(self):
+        ret = self._get_parameter("congested_read_threshold_us")
+        # convert str to int
+        ret = list(map(int, ret))
+        ret.sort(reverse=True)
+
+        return ret
+
+    @property
+    def congested_write_threshold_us(self):
+        ret = self._get_parameter("congested_write_threshold_us")
+        # convert str to int
+        ret = list(map(int, ret))
+        ret.sort(reverse=True)
+
+        return ret
+
+    @property
+    def cache_available_percent(self):
+        ret = self._get_parameter("cache_available_percent")
+        # convert str to int
+        ret = list(map(int, ret))
+        ret.sort()
+
+        return ret
+
+    def _get_parameter(self, key):
+        all_values = []
+        for cset in self.cachesets:
+            all_values.append(cset.cfg.get(key))
+
+        return all_values
 
 
 class BcacheChecksBase(BcacheBase):
