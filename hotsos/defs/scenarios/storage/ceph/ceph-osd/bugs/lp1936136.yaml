@@ -1,3 +1,5 @@
+vars:
+  cache_available_percent: '@hotsos.core.plugins.storage.bcache.CachesetsInfo.cache_available_percent'
 checks:
   node_is_ceph_osd_and_has_version:
     # Get version of osd based on package installed. This is prone to
@@ -27,11 +29,7 @@ checks:
         key: bluefs_buffered_io
         ops: [[eq, true]]
   bcache_cache_available_percent_check:
-    config:
-      handler: hotsos.core.plugins.storage.bcache.CachesetsConfig
-      assertions:
-        key: cache_available_percent
-        ops: [[lt, 70]]
+    varops: [[$cache_available_percent], [getitem, 0], [lt, 70]]
 conclusions:
   node_affected_by_bug_1936136:
     decision:
@@ -46,10 +44,9 @@ conclusions:
       message: >-
         This host has Ceph OSDs using bcache block devices and may be
         vulnerable to bcache bug LP 1936136 since bcache
-        cache_available_percent is {op} (actual={actual}). The current
-        workaround is to set bluefs_buffered_io=false in Ceph or upgrade to a
-        kernel >= 5.4.
+        cache_available_percent is < 70 for some cacheset (actual={actual}).
+        The current workaround is to set bluefs_buffered_io=false in Ceph or
+        upgrade to a kernel >= 5.4.
       format-dict:
-        op: '@checks.bcache_cache_available_percent_check.requires.ops'
-        actual: '@checks.bcache_cache_available_percent_check.requires.value_actual'
+        actual: $cache_available_percent
 

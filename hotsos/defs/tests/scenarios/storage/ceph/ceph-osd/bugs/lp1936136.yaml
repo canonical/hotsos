@@ -21,5 +21,5 @@ raised-bugs:
   https://bugs.launchpad.net/bugs/1936136: >-
     This host has Ceph OSDs using bcache block devices and may be
     vulnerable to bcache bug LP 1936136 since bcache cache_available_percent
-    is lt 70 (actual=69). The current workaround is to set
+    is < 70 for some cacheset (actual=[69]). The current workaround is to set
     bluefs_buffered_io=false in Ceph or upgrade to a kernel >= 5.4.
