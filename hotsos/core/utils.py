@@ -62,3 +62,52 @@ def sample_set_regressions(samples, ascending=True):
             prev = prev_reset
 
     return repetitions
+
+
+def sort_suffixed_integers(values, reverse=False):
+    """
+    Given a list of values that contain numbers suffixed with a
+    k/K/m/M/g/G/t/T/p/P, sort them taking into account their suffix.
+
+    @param values: list of integer or string values
+    @param reverse: sort order
+    @return: sorted list of values (original type is maintained)
+    """
+    bysuffix = {}
+    if reverse:
+        valid_suffixes = ('p', 't', 'g', 'm', 'k', '_')
+    else:
+        valid_suffixes = ('_', 'k', 'm', 'g', 't', 'p')
+
+    for item in values:
+        if isinstance(item, str):
+            if len(item) > 1:
+                suffix = item[-1].lower()
+                if suffix in valid_suffixes:
+                    if suffix not in bysuffix:
+                        bysuffix[suffix] = []
+
+                    bysuffix[suffix].append(item)
+                    continue
+
+        if '_' not in bysuffix:
+            bysuffix['_'] = []
+
+        bysuffix['_'].append(item)
+
+    if len(bysuffix.keys()) == 1 and '_' in bysuffix:
+        return sorted(bysuffix['_'], key=lambda e: int(e), reverse=reverse)
+
+    _sorted = []
+    for suffix in valid_suffixes:
+        if suffix not in bysuffix:
+            continue
+
+        if suffix == '_':
+            _sorted += sorted(bysuffix[suffix], reverse=reverse,
+                              key=lambda e: int(e))
+        else:
+            _sorted += sorted(bysuffix[suffix], reverse=reverse,
+                              key=lambda e: int(e[:-1]))
+
+    return _sorted
