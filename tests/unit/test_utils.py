@@ -33,3 +33,23 @@ class TestUtils(utils.BaseTestCase):
         samples = [100, 99, 98, 100, 60, 60]
         self.assertEqual(core_utils.sample_set_regressions(samples,
                                                            ascending=False), 1)
+
+    def test_sort_suffixed_integers(self):
+        self.assertEqual(core_utils.sort_suffixed_integers(
+                         [1, '300', 2]),
+                         [1, 2, '300'])
+        self.assertEqual(core_utils.sort_suffixed_integers(
+                         [1, '300', 2], reverse=True),
+                         ['300', 2, 1])
+        self.assertEqual(core_utils.sort_suffixed_integers(
+                         ['1', '3', '2']),
+                         ['1', '2', '3'])
+        self.assertEqual(core_utils.sort_suffixed_integers(
+                         [1, 3, '22k', '111k']),
+                         [1, 3, '22k', '111k'])
+        self.assertEqual(core_utils.sort_suffixed_integers(
+                         [1, 3, '22k', '111k'], reverse=True),
+                         ['111k', '22k', 3, 1])
+        self.assertEqual(core_utils.sort_suffixed_integers(
+                         ['111k', '22k', '12P', 3, '1', '3g'], reverse=True),
+                         ['12P', '3g', '111k', '22k', 3, '1'])
