@@ -50,6 +50,13 @@ class TestUtils(utils.BaseTestCase):
         self.assertEqual(core_utils.sort_suffixed_integers(
                          [1, 3, '22k', '111k'], reverse=True),
                          ['111k', '22k', 3, 1])
+
+        melange = ['111k', '22k', '12P', 3, '1', '0.0k', '0.002k', '3g']
         self.assertEqual(core_utils.sort_suffixed_integers(
-                         ['111k', '22k', '12P', 3, '1', '3g'], reverse=True),
-                         ['12P', '3g', '111k', '22k', 3, '1'])
+                         melange, reverse=True),
+                         ['12P', '3g', '111k', '22k', 3, '0.002k', '1',
+                          '0.0k'])
+        self.assertEqual(core_utils.sort_suffixed_integers(
+                         melange, reverse=False),
+                         ['0.0k', '1', '0.002k', 3, '22k', '111k', '3g',
+                          '12P'])

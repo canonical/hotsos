@@ -1,4 +1,6 @@
 import tempfile
+from collections import namedtuple
+from operator import attrgetter
 
 from hotsos.core.config import HotSOSConfig
 
@@ -64,6 +66,13 @@ def sample_set_regressions(samples, ascending=True):
     return repetitions
 
 
+def string_to_int_or_float(value):
+    try:
+        return int(value)
+    except ValueError:
+        return float(value)
+
+
 def sort_suffixed_integers(values, reverse=False):
     """
     Given a list of values that contain numbers suffixed with a
@@ -73,41 +82,27 @@ def sort_suffixed_integers(values, reverse=False):
     @param reverse: sort order
     @return: sorted list of values (original type is maintained)
     """
-    bysuffix = {}
+    reals = []
+    suffix_exps = {'p': 5, 't': 4, 'g': 3, 'm': 2, 'k': 1}
     if reverse:
-        valid_suffixes = ('p', 't', 'g', 'm', 'k', '_')
+        valid_suffixes = ('p', 't', 'g', 'm', 'k')
     else:
-        valid_suffixes = ('_', 'k', 'm', 'g', 't', 'p')
+        valid_suffixes = ('k', 'm', 'g', 't', 'p')
 
+    Entry = namedtuple('entry', ('raw', 'actual'))
     for item in values:
         if isinstance(item, str):
             if len(item) > 1:
+                value = item[:-1]
                 suffix = item[-1].lower()
                 if suffix in valid_suffixes:
-                    if suffix not in bysuffix:
-                        bysuffix[suffix] = []
-
-                    bysuffix[suffix].append(item)
+                    value = string_to_int_or_float(value)
+                    value = value * 1024 ** suffix_exps[suffix]
+                    reals.append(Entry(item, value))
                     continue
 
-        if '_' not in bysuffix:
-            bysuffix['_'] = []
+        value = string_to_int_or_float(item)
+        reals.append(Entry(item, value))
 
-        bysuffix['_'].append(item)
-
-    if len(bysuffix.keys()) == 1 and '_' in bysuffix:
-        return sorted(bysuffix['_'], key=lambda e: int(e), reverse=reverse)
-
-    _sorted = []
-    for suffix in valid_suffixes:
-        if suffix not in bysuffix:
-            continue
-
-        if suffix == '_':
-            _sorted += sorted(bysuffix[suffix], reverse=reverse,
-                              key=lambda e: int(e))
-        else:
-            _sorted += sorted(bysuffix[suffix], reverse=reverse,
-                              key=lambda e: int(e[:-1]))
-
-    return _sorted
+    reals.sort(key=attrgetter('actual'), reverse=reverse)
+    return [t.raw for t in reals]
