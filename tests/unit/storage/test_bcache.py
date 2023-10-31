@@ -49,6 +49,38 @@ class TestBcacheBase(BCacheTestsBase):
                                            '427e-9d82-c411c73d900a'))
 
 
+class TestBDevsInfo(BCacheTestsBase):
+
+    def test_sequential_cutoff(self):
+        b = bcache_core.BDevsInfo()
+        self.assertEqual(b.sequential_cutoff, ['4.0M', '4.0M'])
+
+    def test_cache_mode(self):
+        b = bcache_core.BDevsInfo()
+        self.assertEqual(b.cache_mode,
+                         ['writethrough [writeback] writearound none',
+                          'writethrough [writeback] writearound none'])
+
+    def test_writeback_percent(self):
+        b = bcache_core.BDevsInfo()
+        self.assertEqual(b.writeback_percent, [10, 10])
+
+
+class TestCachesetsInfo(BCacheTestsBase):
+
+    def test_congested_read_threshold_us(self):
+        c = bcache_core.CachesetsInfo()
+        self.assertEqual(c.congested_read_threshold_us, [2000])
+
+    def test_congested_write_threshold_us(self):
+        c = bcache_core.CachesetsInfo()
+        self.assertEqual(c.congested_write_threshold_us, [20000])
+
+    def test_cache_available_percent(self):
+        c = bcache_core.CachesetsInfo()
+        self.assertEqual(c.cache_available_percent, [99])
+
+
 class TestBCacheSummary(BCacheTestsBase):
 
     def test_get_cacheset_info(self):
