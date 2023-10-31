@@ -165,6 +165,37 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                          expected)
 
     @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_ofproto.'
+                             'list-tunnels': ''},
+                            copy_from_original=[
+                                'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
+                                'Open_vSwitch',
+                                'sos_commands/networking'])
+    def test_summary_ovs_tunnels_no_remotes(self):
+        inst = summary.OpenvSwitchSummary()
+        self.assertFalse('tunnels' in self.part_output_to_actual(inst.output))
+
+    @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_ofproto.'
+                             'list-tunnels': '',
+                             'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
+                             'Open_vSwitch': OVS_DB_GENEVE_ENCAP})
+    def test_summary_ovn_tunnels_no_remotes(self):
+        with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
+                        'host_interfaces_all',
+                        [NetworkPort('bondX', ['10.3.4.24'], None,
+                                     None, None, None)]):
+            expected = {'geneve': {
+                            'iface': {
+                                'bondX': {'addresses': ['10.3.4.24'],
+                                          'hwaddr': None,
+                                          'mtu': None,
+                                          'speed': 'unknown',
+                                          'state': None}},
+                            'remotes': 0}}
+            inst = summary.OpenvSwitchSummary()
+            actual = self.part_output_to_actual(inst.output)['tunnels']
+            self.assertEqual(actual, expected)
+
+    @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_ofproto.'
                              'list-tunnels':
                              OFPROTO_LIST_TUNNELS,
                              'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
