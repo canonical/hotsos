@@ -1,0 +1,97 @@
+vars:
+  dbkey: 'ovn-match-northd-version'
+  external_ids: '@hotsos.core.plugins.openvswitch.OVSDB.external_ids'
+checks:
+  is_ovn_controller:
+    systemd: ovn-controller
+  dbflag_is_true:
+    - varops: [[$external_ids], [truth]]  # check not None
+    - varops: [[$external_ids], [contains, $dbkey]]
+    - varops: [[$external_ids], [getitem, $dbkey], [eq, 'true']]
+  ovn_controller_pkg_has_upgrade_bug:
+    apt:
+      ovn-host:
+        - min: 0
+          max: 20.03.2-0ubuntu0.20.04.3
+        - min: 21.09.0
+          max: 21.09.0~git20210806.d08f89e21-0ubuntu1
+  has_northd_version_mismatch:
+    input: var/log/ovn/ovn-controller.log
+    expr: '([\d-]+)T([\d:]+)\.\d+Z\|\S+\|main\|WARN\|controller version - (\S+) mismatch with northd version - (\S+)'
+    constraints:
+      search-result-age-hours: 336  # 14 days
+conclusions:
+  no_version_mismatch_but_flag_set:
+    priority: 4
+    decision:
+      - is_ovn_controller
+      - not: has_northd_version_mismatch
+      - dbflag_is_true
+    raises:
+      type: LaunchpadBug
+      bug-id: 2030944
+      message: >-
+        This node has '{dbkey}=true' set in the local ovsdb. This will cause
+        unnecessary errors if a minor release upgrade of OVN packages is
+        performed. There is fix available in the OVN charms to unset this or
+        alternatively it can be done manually with 'ovs-vsctl set
+        Open_vSwitch . external-ids:{dbkey}="false"'
+      format-dict:
+        dbkey: $dbkey
+  has_northd_version_mismatch_package_fixed_flag_set:
+    priority: 3
+    decision:
+      - is_ovn_controller
+      - has_northd_version_mismatch
+      - not: ovn_controller_pkg_has_upgrade_bug
+      - dbflag_is_true
+    raises:
+      type: OVNError
+      message: >-
+        OVN controller is reporting a version mismatch between itself ({vlocal}) and northd ({vremote}).
+        This usually means ovn-central (ovn-northd etc) services have been upgraded before
+        ovn-controller using a version of OVN that does not support this. To fix this issue
+        you may need to upgrade ovn-controller on this host (current={controller-ver}). Note that
+        since you have '{dbkey}=true' in the local ovsdb this error will also trigger
+        unnecessarily for minor release upgrades and unsetting it will resolve the problem.
+      format-dict:
+        controller-ver: '@checks.ovn_controller_pkg_has_upgrade_bug.requires.version'
+        dbkey: $dbkey
+        vlocal: '@checks.has_northd_version_mismatch.search.results_group_3:first'
+        vremote: '@checks.has_northd_version_mismatch.search.results_group_4:first'
+  has_northd_version_mismatch_package_broken:
+    priority: 2
+    decision:
+      - is_ovn_controller
+      - has_northd_version_mismatch
+      - ovn_controller_pkg_has_upgrade_bug
+    raises:
+      type: OVNError
+      message: >-
+        OVN controller is reporting a version mismatch between itself ({vlocal}) and northd ({vremote}).
+        This usually means ovn-central (ovn-northd etc) services have been upgraded before
+        ovn-controller using a version of OVN that does not support this. To fix this issue
+        you may need to upgrade ovn-controller on this host (current={controller-ver}). See
+        https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for more details.
+      format-dict:
+        controller-ver: '@checks.ovn_controller_pkg_has_upgrade_bug.requires.version'
+        vlocal: '@checks.has_northd_version_mismatch.search.results_group_3:first'
+        vremote: '@checks.has_northd_version_mismatch.search.results_group_4:first'
+  has_northd_version_mismatch_package_fixed:
+    decision:
+      - is_ovn_controller
+      - has_northd_version_mismatch
+      - not: ovn_controller_pkg_has_upgrade_bug
+    raises:
+      type: OVNError
+      message: >-
+        OVN controller is reporting a version mismatch between itself ({vlocal}) and northd ({vremote}).
+        This usually means ovn-central (ovn-northd etc) services have been upgraded before
+        ovn-controller using a version of OVN that does not support this. See
+        related bug https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for context
+        although the installed version ({controller-ver}) of ovn-controller
+        should already have that fix.
+      format-dict:
+        controller-ver: '@checks.ovn_controller_pkg_has_upgrade_bug.requires.version'
+        vlocal: '@checks.has_northd_version_mismatch.search.results_group_3:first'
+        vremote: '@checks.has_northd_version_mismatch.search.results_group_4:first'

@@ -1,0 +1,27 @@
+target-name: ovn_upgrades.yaml
+data-root:
+  files:
+    sos_commands/openvswitch/ovs-vsctl_-t_5_get_Open_vSwitch_._external_ids: |
+      {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1, ovn-match-northd-version="true"}
+    sos_commands/systemd/systemctl_list-unit-files: |
+      neutron-ovn-metadata-agent.service         enabled         enabled      
+      ovn-controller.service                     static          enabled      
+      ovn-host.service                           enabled         enabled      
+    sos_commands/systemd/systemctl_list-units: |
+      neutron-ovn-metadata-agent.service                                          loaded active     running         Neutron OVN Metadata Agent                                                   
+      ovn-controller.service                                                      loaded active     running         Open Virtual Network host control daemon                                     
+      ovn-host.service                                                            loaded active     exited          Open Virtual Network host components  
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-ovn-metadata-agent           2:16.4.2-0ubuntu4                                    all          Neutron is a virtual network service for Openstack - OVN metadata agent
+      ii  ovn-common                           22.03.2-0ubuntu0.22.04.1~cloud1                              amd64        OVN common components
+      ii  ovn-host                             22.03.2-0ubuntu0.22.04.1~cloud1                              amd64        OVN host components
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2030944: >-
+    This node has 'ovn-match-northd-version=true' set in the local ovsdb. This
+    will cause unnecessary errors if a minor release upgrade of OVN packages is
+    performed. There is fix available in the OVN charms to unset this or
+    alternatively it can be done manually with 'ovs-vsctl set
+    Open_vSwitch . external-ids:ovn-match-northd-version="false"'

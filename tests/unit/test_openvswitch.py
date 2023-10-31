@@ -52,7 +52,7 @@ port 4: ovn-comput-2 (geneve: ::->10.10.2.29, key=flow, legacy_l2, dp port=4, tt
 OVS_DB_GENEVE_ENCAP = """
 Open_vSwitch table
 _uuid               : 35eda39e-ada8-4c2f-b6cb-00e28f336182
-external_ids        : {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1}
+external_ids        : {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1, ovn-match-northd-version="true"}
 
 """  # noqa
 
@@ -81,6 +81,12 @@ Mar  3 22:57:22 compute4 kernel: [1381818.448855] openvswitch: ovs-system: defer
 Mar  3 22:57:23 compute4 kernel: [1381819.715713] openvswitch: ovs-system: deferred action limit reached, drop recirc action
 Mar  3 22:57:24 compute4 kernel: [1381820.269384] openvswitch: ovs-system: deferred action limit reached, drop recirc action
 Mar  3 22:57:24 compute4 kernel: [1381820.499397] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+"""  # noqa
+
+OVN_NORTHD_MISMATCH = """
+2023-10-23T06:32:12.484Z|13093|main|WARN|controller version - 22.03.3-20.21.0-62.4 mismatch with northd version - 22.03.0-20.21.0-58.3
+2023-10-23T06:33:12.489Z|13095|main|WARN|controller version - 22.03.3-20.21.0-62.4 mismatch with northd version - 22.03.0-20.21.0-58.3
+2023-10-23T06:34:12.495Z|13097|main|WARN|controller version - 22.03.3-20.21.0-62.4 mismatch with northd version - 22.03.0-20.21.0-58.3
 """  # noqa
 
 
@@ -458,6 +464,30 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         {'Mar 3': 7}}}}
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn-controller.yaml',
+                                        'events/openvswitch'))
+    @utils.create_data_root({'var/log/ovn/ovn-controller.log':
+                             OVN_NORTHD_MISMATCH,
+                             'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
+                             'Open_vSwitch': OVS_DB_GENEVE_ENCAP},
+                            copy_from_original=['sos_commands/date/date',
+                                                'uptime'])
+    def test_ovn_northd_version_mismatch(self):
+        inst = event_checks.OVNEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), {})
+        issues = list(IssuesStore().load().values())[0]
+        msg = ("ovn-controller is reporting northd version mismatch errors "
+               "and the versions it is reporting (22.03.3-20.21.0-62.4 and "
+               "22.03.0-20.21.0-58.3) are from the same major release. This "
+               "is failing because you have 'ovn-match-northd-version' set to "
+               "'true' in the local ovsdb which is only required if "
+               "performing a major release upgrade. You can safely do the "
+               "following to workaround the problem: 'ovs-vsctl set "
+               "Open_vSwitch . "
+               "external-ids:ovn-match-northd-version=\"false\"'")
+        self.assertEqual([issue['message'] for issue in issues], [msg])
 
 
 @utils.load_templated_tests('scenarios/openvswitch')

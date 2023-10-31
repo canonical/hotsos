@@ -1,8 +1,10 @@
-target-name: ovn_db_upgrade.yaml
+target-name: ovn_upgrades.yaml
 data-root:
   files:
+    sos_commands/openvswitch/ovs-vsctl_-t_5_get_Open_vSwitch_._external_ids: |
+      {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1, ovn-match-northd-version="true"}
     var/log/ovn/ovn-controller.log: |
-      2023-09-06T08:31:20.060Z|00263|main|WARN|controller version - 22.03.2-20.21.0-61.4 mismatch with northd version - 22.03.0-20.21.0-58.3
+      2022-02-06T11:04:26.305Z|00017|main|WARN|controller version - 22.03.2-1.2.3 mismatch with northd version - 22.03.1-1.2.3
     sos_commands/systemd/systemctl_list-unit-files: |
       neutron-ovn-metadata-agent.service         enabled         enabled      
       ovn-controller.service                     static          enabled      
@@ -20,9 +22,11 @@ data-root:
     - sos_commands/date/date
 raised-issues:
   OVNError: >-
-    OVN controller is currently reporting a version mismatch between itself and
-    northd. This usually means ovn-central (ovn-northd etc) services have been
-    upgraded before ovn-controller using a version of ovn that does not support
-    this. See related bug https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043
-    for context although the installed version (22.03.2-0ubuntu0.22.04.1~cloud1)
-    of ovn-controller should already have that fix.
+    OVN controller is reporting a version mismatch between itself
+    (22.03.2-1.2.3) and northd (22.03.1-1.2.3). This usually means ovn-central
+    (ovn-northd etc) services have been upgraded before ovn-controller using a
+    version of OVN that does not support this. To fix this issue you may need
+    to upgrade ovn-controller on this host (current=22.03.2-0ubuntu0.22.04.1~cloud1).
+    Note that since you have 'ovn-match-northd-version=true' in the local ovsdb
+    this error will also trigger unnecessarily for minor release upgrades and
+    unsetting it will resolve the problem.
