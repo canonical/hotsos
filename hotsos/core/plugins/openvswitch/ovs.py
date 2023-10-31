@@ -129,7 +129,6 @@ class OpenvSwitchBase(object):
                 tunnel_info[proto]['remotes'].append(r.get(3))
 
         for proto in tunnel_info:
-            tunnel_info[proto]['remotes'] = len(tunnel_info[proto]['remotes'])
             local_addr = tunnel_info[proto]['local']
             if local_addr:
                 iface = nethelp.get_interface_with_addr(local_addr)
@@ -137,8 +136,17 @@ class OpenvSwitchBase(object):
                     tunnel_info[proto]['iface'] = iface.to_dict()
                     del tunnel_info[proto]['local']
                 else:
-                    log.debug("could not find interface for address '%s'",
-                              local_addr)
+                    log.info("could not find interface for address '%s'",
+                             local_addr)
+
+            if 'remotes' not in tunnel_info[proto]:
+                log.info('no remote tunnel endpoints found for proto=%s',
+                         proto)
+                num_remotes = 0
+            else:
+                num_remotes = len(tunnel_info[proto]['remotes'])
+
+            tunnel_info[proto]['remotes'] = num_remotes
 
         return tunnel_info
 
