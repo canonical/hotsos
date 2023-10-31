@@ -12,6 +12,7 @@ from hotsos.core.search import (
     SequenceSearchDef,
     SearchDef
 )
+from hotsos.core.utils import sort_suffixed_integers
 
 
 class BcacheConfig(ConfigBase):
@@ -179,13 +180,21 @@ class BDevsInfo(BcacheBase):
 
     @property
     def sequential_cutoff(self):
+        """
+        @return: list of <str> sequential_cutoff from each bdev sorted in
+        descending order.
+        """
         ret = self._get_parameter("sequential_cutoff")
-        ret.sort(reverse=True)
+        ret = sort_suffixed_integers(ret, reverse=True)
 
         return ret
 
     @property
     def cache_mode(self):
+        """
+        @return: list of <str> cache_mode from each bdev sorted so that the
+        settings with writeback mode selected are at the end of the list
+        """
         ret = self._get_parameter("cache_mode")
         # send [writeback] to the end of the list
         ret.sort(key='writethrough [writeback] writearound none'.__eq__)
@@ -194,6 +203,10 @@ class BDevsInfo(BcacheBase):
 
     @property
     def writeback_percent(self):
+        """
+        @return: list of <int> writeback_percent from each bdev sorted in
+        ascending order
+        """
         ret = self._get_parameter("writeback_percent")
         # convert str to int
         ret = list(map(int, ret))
@@ -214,6 +227,10 @@ class CachesetsInfo(BcacheBase):
 
     @property
     def congested_read_threshold_us(self):
+        """
+        @return: list of <int> congested_read_threshold_us from each cacheset
+        sorted in descending order
+        """
         ret = self._get_parameter("congested_read_threshold_us")
         # convert str to int
         ret = list(map(int, ret))
@@ -223,6 +240,10 @@ class CachesetsInfo(BcacheBase):
 
     @property
     def congested_write_threshold_us(self):
+        """
+        @return: list of <int> congested_write_threshold_us from each cacheset
+        sorted in descending order
+        """
         ret = self._get_parameter("congested_write_threshold_us")
         # convert str to int
         ret = list(map(int, ret))
@@ -232,6 +253,10 @@ class CachesetsInfo(BcacheBase):
 
     @property
     def cache_available_percent(self):
+        """
+        @return: list of <int> cache_available_percent from each cacheset
+        sorted in ascending order
+        """
         ret = self._get_parameter("cache_available_percent")
         # convert str to int
         ret = list(map(int, ret))
