@@ -1,7 +1,8 @@
 import re
 
+from hotsos.core.log import log
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
-from hotsos.core.plugins.openvswitch import OpenvSwitchBase
+from hotsos.core.plugins.openvswitch import OpenvSwitchBase, OVSDB
 from hotsos.core.plugins.openvswitch.common import (
     OpenvSwitchEventHandlerBase,
     OpenvSwitchEventCallbackBase,
@@ -261,6 +262,41 @@ class OVNEventCallbackContextSwitches(OpenvSwitchEventCallbackBase):
             aggregated[key] = sorted_dict(value)
 
         return {event.name: sorted_dict(aggregated)}, event.section
+
+
+class OVNEventCallbackNorthdVersionMismatch(OpenvSwitchEventCallbackBase):
+    event_group = 'ovn'
+    event_names = ['northd-version-mismatch']
+
+    def __call__(self, event):
+        """
+        If the versions in the mismatch are both from the same major release
+        and ovn-match-northd-version is set to 'true' we can avoid the error
+        by setting ovn-match-northd-version='false' since the mismatch is not
+        a problem for minor release upgrades.
+        """
+        vfrom = event.results[-1].get(2)
+        vto = event.results[-1].get(3)
+
+        major_match = r'(\d+\.\d+)'
+        from_major = re.match(major_match, vfrom)
+        to_major = re.match(major_match, vto)
+        if not all([from_major, to_major]):
+            log.info("could not match versions in northd mismatch log")
+        elif from_major.group(1) == to_major.group(1):
+            dbkey = 'ovn-match-northd-version'
+            dbval = OVSDB().external_ids.get('ovn-match-northd-version')
+            if dbval and dbval.lower() == 'true':
+                msg = ("ovn-controller is reporting northd version mismatch "
+                       "errors and the versions it is reporting ({vfrom} and "
+                       "{vto}) are from the same major release. This is "
+                       "failing because you have '{dbkey}' set to "
+                       "'true' in the local ovsdb which is only required if "
+                       "performing a major release upgrade. You can safely do "
+                       "the following to workaround the problem: 'ovs-vsctl "
+                       "set Open_vSwitch . external-ids:{dbkey}=\"false\"'".
+                       format(vfrom=vfrom, vto=vto, dbkey=dbkey))
+                IssuesManager().add(OpenvSwitchWarning(msg))
 
 
 class OVNEventChecks(OpenvSwitchEventHandlerBase):
