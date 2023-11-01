@@ -8,15 +8,21 @@ from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 
 
-class DPKGVersionCompare(object):
+class DPKGBadVersionSyntax(Exception):
+    pass
+
+
+class DPKGVersion(object):
 
     def __init__(self, a):
-        self.a = a
+        self.a = str(a)
 
-    def _exec(self, op, b):
+    def _compare_impl(self, op, b):
         try:
-            subprocess.check_call(['dpkg', '--compare-versions',
-                                   self.a, op, b])
+            output = subprocess.check_output(['dpkg', '--compare-versions',
+                                   self.a, op, b], stderr=subprocess.STDOUT)
+            if re.search(b"dpkg: warning: version.*has bad syntax:.*", output):
+                raise DPKGBadVersionSyntax(output)
         except subprocess.CalledProcessError as se:
             if se.returncode == 1:
                 return False
@@ -25,20 +31,23 @@ class DPKGVersionCompare(object):
 
         return True
 
+    def __str__(self):
+        return self.a
+
     def __eq__(self, b):
-        return self._exec('eq', b)
+        return self._compare_impl('eq', str(b))
 
     def __lt__(self, b):
-        return not self._exec('ge', b)
+        return not self._compare_impl('ge', str(b))
 
     def __gt__(self, b):
-        return not self._exec('le', b)
+        return not self._compare_impl('le', str(b))
 
     def __le__(self, b):
-        return self._exec('le', b)
+        return self._compare_impl('le', str(b))
 
     def __ge__(self, b):
-        return self._exec('ge', b)
+        return self._compare_impl('ge', str(b))
 
 
 class PackageHelperBase(abc.ABC):

@@ -7,6 +7,7 @@ from unittest import mock
 import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.config import SectionalConfigBase
+from hotsos.core.host_helpers.packaging import DPKGBadVersionSyntax
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine import (
@@ -407,6 +408,250 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
 class TestYamlRequiresTypeAPT(utils.BaseTestCase):
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_comparison(self):
+        ci = apt.APTCheckItems('ssh')
+        data = [
+             {"gt": '1.2~1'}, {"gt": '1.2~2'}, {"gt": '1.2'}
+        ]
+
+        result = ci.normalize_version_criteria(data)
+        expected = [
+            {'gt': '1.2'},
+            {'gt': '1.2~2', 'le': '1.2'},
+            {'gt': '1.2~1', 'le': '1.2~2'}
+        ]
+        self.assertEqual(result, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_00(self):
+        ci = apt.APTCheckItems('ssh')
+        for elem in ['eq', 'ge', 'gt', 'le', 'lt', 'min', 'max']:
+            data = [
+                {
+                    elem: '1'
+                }
+            ]
+            result = ci.normalize_version_criteria(data)
+            self.assertEqual(result, data)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_01(self):
+        ci = apt.APTCheckItems('ssh')
+        for elem_a in ['eq', 'ge', 'gt', 'le', 'lt']:
+            for elem_b in ['eq', 'ge', 'gt', 'le', 'lt']:
+                if elem_a.startswith(elem_b[0]):
+                    continue
+                data = [
+                    {
+                        elem_a: '3', elem_b: '4'
+                    },
+                    {
+                        elem_a: '1', elem_b: '2'
+                    },
+                ]
+                result = ci.normalize_version_criteria(data)
+                self.assertEqual(result, data)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_02(self):
+        ci = apt.APTCheckItems('ssh')
+        data = [
+            {'gt': '1'}, {'gt': '2'}, {'lt': '4'}
+        ]
+        result = ci.normalize_version_criteria(data)
+        expected = [
+            {'lt': '4', 'gt': '4'},
+            {'gt': '2', 'le': '4'},
+            {'gt': '1', 'le': '2'}
+        ]
+        self.assertEqual(result, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_03(self):
+        ci = apt.APTCheckItems('ssh')
+        data = [
+            {'gt': '1', 'lt': '2'}, {'gt': '3'}, {'gt': '4'}
+        ]
+        result = ci.normalize_version_criteria(data)
+        expected = [
+            {'gt': '4'},
+            {'gt': '3', 'le': '4'},
+            {'gt': '1', 'lt': '2'}
+        ]
+        self.assertEqual(result, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_04(self):
+        ci = apt.APTCheckItems('ssh')
+        data = [
+            {'gt': '1', 'lt': '2'}, {'gt': '3', 'lt': '4'}, {'gt': '4'}
+        ]
+        result = ci.normalize_version_criteria(data)
+        expected = [
+            {'gt': '4'},
+            {'gt': '3', 'lt': '4'},
+            {'gt': '1', 'lt': '2'}
+        ]
+        self.assertEqual(result, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_05(self):
+        ci = apt.APTCheckItems('ssh')
+        data = [
+            {'gt': '1'}, {'gt': '3', 'lt': '4'}, {'gt': '4'}
+        ]
+        result = ci.normalize_version_criteria(data)
+        expected = [
+            {'gt': '4'},
+            {'gt': '3', 'lt': '4'},
+            {'gt': '1', 'le': '3'}
+        ]
+        self.assertEqual(result, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_06(self):
+        ci = apt.APTCheckItems('ssh')
+        data = [
+            {'lt': '2'}, {'lt': '3'}, {'lt': '4'}
+        ]
+        result = ci.normalize_version_criteria(data)
+        expected = [
+            {'ge': '3', 'lt': '4'},
+            {'lt': '2'},
+            {'ge': '2', 'lt': '3'},
+        ]
+        self.assertEqual(result, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_normalize_07(self):
+        ci = apt.APTCheckItems('ssh')
+        data = [
+            {'min': '2', 'max': '3'}
+        ]
+        result = ci.normalize_version_criteria(data)
+        expected = [
+            {'ge': '2', 'le': '3'}
+        ]
+        self.assertEqual(result, expected)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_bad_version(self):
+        ci = apt.APTCheckItems('ssh')
+        with self.assertRaises(DPKGBadVersionSyntax):
+            ci.package_version_within_ranges(
+                'openssh-server',
+                [{'lt': 'immabadversion'}]
+            )
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_lt_false(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'lt': '1:8.2p1-4ubuntu0.4'}]
+        )
+        self.assertFalse(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_lt_true(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'lt': '1:8.2p1-4ubuntu0.5'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_le_false(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'le': '1:8.2p1-4ubuntu0.3'}]
+        )
+        self.assertFalse(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_le_true_eq(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'le': '1:8.2p1-4ubuntu0.4'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_le_true_less(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'le': '1:8.2p1-4ubuntu0.4'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_gt_false(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'gt': '1:8.2p1-4ubuntu0.5'}]
+        )
+        self.assertFalse(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_gt_true(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'gt': '1:8.2p1-4ubuntu0.3'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_ge_false(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'ge': '1:8.2p1-4ubuntu0.5'}]
+        )
+        self.assertFalse(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_ge_true_eq(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'ge': '1:8.2p1-4ubuntu0.4'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_ge_true_greater(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'ge': '1:8.2p1-4ubuntu0.3'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_is_equal_true(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'eq': '1:8.2p1-4ubuntu0.4'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_is_equal_false(self):
+        ci = apt.APTCheckItems('ssh')
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'eq': '1:8.2p1-4ubuntu0.3'}]
+        )
+        self.assertFalse(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_apt_check_item_package_version_within_ranges_true(self):
         ci = apt.APTCheckItems('ssh')
         result = ci.package_version_within_ranges('openssh-server',
@@ -473,6 +718,81 @@ class TestYamlRequiresTypeAPT(utils.BaseTestCase):
                                                     'max': '1:8.2'},
                                                    {'min': '1:8.3'}])
         self.assertFalse(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_mixed_lg_false(self):
+        ci = apt.APTCheckItems('ssh')
+        # 1:8.2p1-4ubuntu0.4
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'gt': '1:8.2p1-4ubuntu0.4'},
+            {'gt': '1:8.1',
+            'lt': '1:8.1.1'},
+            {'gt': '1:8.2',
+            'lt': '1:8.2'},
+            {'gt': '1:8.3'}]
+        )
+        self.assertFalse(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_mixed_lg_true(self):
+        ci = apt.APTCheckItems('ssh')
+        # 1:8.2p1-4ubuntu0.4
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'gt': '1:8.2p1-4ubuntu0.4'},
+            {'gt': '1:8.1',
+            'lt': '1:8.1.1'},
+            {'gt': '1:8.2p1-4ubuntu0.3',
+            'lt': '1:8.2p1-4ubuntu0.5'},
+            {'gt': '1:8.3'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_first_true(self):
+        ci = apt.APTCheckItems('ssh')
+        # 1:8.2p1-4ubuntu0.4
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'ge': '1:8.2p1-4ubuntu0.4'},
+            {'gt': '1:8.1',
+            'lt': '1:8.1.1'},
+            {'gt': '1:8.2p1-4ubuntu0.3',
+            'lt': '1:8.2p1-4ubuntu0.5'},
+            {'gt': '1:8.3'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_mid_true(self):
+        ci = apt.APTCheckItems('ssh')
+        # 1:8.2p1-4ubuntu0.4
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'gt': '1:8.2p1-4ubuntu0.4'},
+            {'gt': '1:8.1',
+            'le': '1:8.2p1-4ubuntu0.4'},
+            {'gt': '1:8.2p1-4ubuntu0.6',
+            'lt': '1:8.2p1-4ubuntu0.9'},
+            {'gt': '1:8.3'}]
+        )
+        self.assertTrue(result)
+
+    @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': DPKG_L})
+    def test_apt_check_item_package_version_within_ranges_last_true(self):
+        ci = apt.APTCheckItems('ssh')
+        # 1:8.2p1-4ubuntu0.4
+        result = ci.package_version_within_ranges(
+            'openssh-server',
+            [{'gt': '1:8.2p1-4ubuntu0.4'},
+            {'gt': '1:8.1',
+            'le': '1:8.2p1-4ubuntu0.4'},
+            {'gt': '1:8.2p1-4ubuntu0.6',
+            'lt': '1:8.2p1-4ubuntu0.9'},
+            {'eq': '1:8.2p1-4ubuntu0.4'}]
+        )
+        self.assertTrue(result)
 
 
 class TestYamlRequiresTypeSnap(utils.BaseTestCase):

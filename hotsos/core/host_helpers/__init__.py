@@ -11,7 +11,7 @@ from .network import (  # noqa: F403,F401
     HostNetworkingHelper,
 )
 from .packaging import (  # noqa: F403,F401
-    DPKGVersionCompare,
+    DPKGVersion,
     APTPackageHelper,
     DockerImageHelper,
     SnapPackageHelper,

@@ -72,6 +72,27 @@ Or with version ranges as follows:
 In the above example *mypackage* must have a version between 0.0 and 1.0 or
 4.0 and 5.0 inclusive.
 
+Another example:
+
+.. code-block:: yaml
+
+    apt:
+      mypackage:
+        - gt: 1.0
+          lt: 3.0
+        - eq: 5.0.3
+
+In the above example *mypackage* must have a version between 1.0 and 3.0
+(non-inclusive), or specifically 5.0.3.
+
+Supported operators:
+
+  * eq - equality comparison
+  * lt - less than (<)
+  * gt - greater than (>)
+  * le/max - less than or equal (<=)
+  * ge/min - greater than or equal (>=)
+
 Cache keys:
 
   * package - name of each installed package
