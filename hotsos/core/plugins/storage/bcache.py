@@ -178,42 +178,6 @@ class BcacheBase(StorageBase):
 
 class BDevsInfo(BcacheBase):
 
-    @property
-    def sequential_cutoff(self):
-        """
-        @return: list of <str> sequential_cutoff from each bdev sorted in
-        descending order.
-        """
-        ret = self._get_parameter("sequential_cutoff")
-        ret = sort_suffixed_integers(ret, reverse=True)
-
-        return ret
-
-    @property
-    def cache_mode(self):
-        """
-        @return: list of <str> cache_mode from each bdev sorted so that the
-        settings with writeback mode selected are at the end of the list
-        """
-        ret = self._get_parameter("cache_mode")
-        # send [writeback] to the end of the list
-        ret.sort(key='writethrough [writeback] writearound none'.__eq__)
-
-        return ret
-
-    @property
-    def writeback_percent(self):
-        """
-        @return: list of <int> writeback_percent from each bdev sorted in
-        ascending order
-        """
-        ret = self._get_parameter("writeback_percent")
-        # convert str to int
-        ret = list(map(int, ret))
-        ret.sort()
-
-        return ret
-
     def _get_parameter(self, key):
         all_values = []
         for cset in self.cachesets:
@@ -222,54 +186,73 @@ class BDevsInfo(BcacheBase):
 
         return all_values
 
+    @property
+    def sequential_cutoff(self):
+        """
+        @return: list of <str> sequential_cutoff from each bdev sorted in
+                 descending order. values can be int or float with our without
+                 a suffix e.g. '2' or '0.0k'.
+        """
+        ret = self._get_parameter("sequential_cutoff")
+        return sort_suffixed_integers(ret, reverse=True)
+
+    @property
+    def cache_mode(self):
+        """
+        @return: list of <str> cache_mode from each bdev sorted so that the
+                 settings with writeback mode selected are at the end of the
+                 list.
+        """
+        ret = self._get_parameter("cache_mode")
+        # send [writeback] to the end of the list
+        return sorted(ret,
+                      key='writethrough [writeback] writearound none'.__eq__)
+
+    @property
+    def writeback_percent(self):
+        """
+        @return: list of <int> writeback_percent from each bdev sorted in
+                 ascending order.
+        """
+        ret = self._get_parameter("writeback_percent")
+        # convert str to int
+        return sorted(list(map(int, ret)))
+
 
 class CachesetsInfo(BcacheBase):
+
+    def _get_parameter(self, key):
+        return [cset.cfg.get(key) for cset in self.cachesets]
 
     @property
     def congested_read_threshold_us(self):
         """
         @return: list of <int> congested_read_threshold_us from each cacheset
-        sorted in descending order
+                 sorted in descending order.
         """
         ret = self._get_parameter("congested_read_threshold_us")
         # convert str to int
-        ret = list(map(int, ret))
-        ret.sort(reverse=True)
-
-        return ret
+        return sorted(list(map(int, ret)), reverse=True)
 
     @property
     def congested_write_threshold_us(self):
         """
         @return: list of <int> congested_write_threshold_us from each cacheset
-        sorted in descending order
+                 sorted in descending order.
         """
         ret = self._get_parameter("congested_write_threshold_us")
         # convert str to int
-        ret = list(map(int, ret))
-        ret.sort(reverse=True)
-
-        return ret
+        return sorted(list(map(int, ret)), reverse=True)
 
     @property
     def cache_available_percent(self):
         """
         @return: list of <int> cache_available_percent from each cacheset
-        sorted in ascending order
+                 sorted in ascending order.
         """
         ret = self._get_parameter("cache_available_percent")
         # convert str to int
-        ret = list(map(int, ret))
-        ret.sort()
-
-        return ret
-
-    def _get_parameter(self, key):
-        all_values = []
-        for cset in self.cachesets:
-            all_values.append(cset.cfg.get(key))
-
-        return all_values
+        return sorted(list(map(int, ret)))
 
 
 class BcacheChecksBase(BcacheBase):
