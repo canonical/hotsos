@@ -8,7 +8,7 @@ from hotsos.core.host_helpers.cli import CLIHelper, CmdBase
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     DockerImageHelper,
-    DPKGVersionCompare,
+    DPKGVersion,
     PebbleHelper,
     SystemdHelper,
     SSLCertificate,
@@ -63,13 +63,13 @@ class OpenstackBase(object):
                 # version - 1 we use last known lt as current version.
                 v_lt = None
                 r_lt = None
-                pkg_ver = DPKGVersionCompare(self.apt.core[pkg])
+                pkg_ver = DPKGVersion(self.apt.core[pkg])
                 for rel, ver in OST_REL_INFO[pkg].items():
                     if pkg_ver > ver:
                         if v_lt is None:
                             v_lt = ver
                             r_lt = rel
-                        elif ver > DPKGVersionCompare(v_lt):
+                        elif ver > DPKGVersion(v_lt):
                             v_lt = ver
                             r_lt = rel
 

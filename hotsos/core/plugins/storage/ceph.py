@@ -12,7 +12,7 @@ from hotsos.core.host_helpers import (
     APTPackageHelper,
     CLIHelper,
     CLIHelperFile,
-    DPKGVersionCompare,
+    DPKGVersion,
     HostNetworkingHelper,
     PebbleHelper,
     SystemdHelper,
@@ -949,7 +949,7 @@ class CephChecksBase(StorageBase):
         if pkg in self.apt.core:
             for rel, ver in sorted(CEPH_REL_INFO[pkg].items(),
                                    key=lambda i: i[1], reverse=True):
-                if self.apt.core[pkg] > DPKGVersionCompare(ver):
+                if self.apt.core[pkg] > DPKGVersion(ver):
                     relname = rel
                     break
 
