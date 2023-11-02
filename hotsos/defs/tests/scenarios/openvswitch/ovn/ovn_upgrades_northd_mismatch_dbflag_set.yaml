@@ -22,11 +22,16 @@ data-root:
     - sos_commands/date/date
 raised-issues:
   OVNError: >-
-    OVN controller is reporting a version mismatch between itself
-    (22.03.2-1.2.3) and northd (22.03.1-1.2.3). This usually means ovn-central
-    (ovn-northd etc) services have been upgraded before ovn-controller using a
-    version of OVN that does not support this. To fix this issue you may need
-    to upgrade ovn-controller on this host (current=22.03.2-0ubuntu0.22.04.1~cloud1).
-    Note that since you have 'ovn-match-northd-version=true' in the local ovsdb
-    this error will also trigger unnecessarily for minor release upgrades and
-    unsetting it will resolve the problem.
+    The ovn-controller service on this node is reporting northd version
+    mismatch errors. This happens when the version of OVN differs between
+    ovn-central and ovn-controller and you have ovn-match-northd-version=true
+    set locally. This flag is intended to protect against downtime during major
+    release upgrades by preventing the ovn-controller from getting updates from
+    the southbound database until the versions match. It is not necessary for
+    this flag to be set to 'true' during minor release upgrades. The version
+    difference is reported as 22.03.2-1.2.3 vs. 22.03.1-1.2.3. If you are
+    performing a major version upgrade this problem should disappear once the
+    upgrade has completed on both ovn-central and locally. If you are
+    performing a minor release upgrade you can safely do 'ovs-vsctl set
+    Open_vSwitch . external-ids:ovn-match-northd-version="false"' and that
+    should allow ovn-controller to resume service.

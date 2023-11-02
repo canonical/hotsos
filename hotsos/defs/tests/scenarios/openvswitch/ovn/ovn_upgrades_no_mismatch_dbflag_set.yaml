@@ -21,7 +21,7 @@ data-root:
 raised-bugs:
   https://bugs.launchpad.net/bugs/2030944: >-
     This node has 'ovn-match-northd-version=true' set in the local ovsdb. This
-    will cause unnecessary errors if a minor release upgrade of OVN packages is
-    performed. There is fix available in the OVN charms to unset this or
-    alternatively it can be done manually with 'ovs-vsctl set
-    Open_vSwitch . external-ids:ovn-match-northd-version="false"'
+    will cause unnecessary ovn-controller service interruption if a minor
+    release upgrade of OVN packages is performed. There is a fix available in
+    the OVN charms to unset this or alternatively it can be done manually with
+    'ovs-vsctl set Open_vSwitch . external-ids:ovn-match-northd-version="false"'

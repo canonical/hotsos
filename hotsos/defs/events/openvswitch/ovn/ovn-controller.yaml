@@ -11,5 +11,3 @@ involuntary-context-switches:
   # we capture date and hour as subgroups
   expr: '([\d-]+)T(\d+):[\d:]+\.\d+Z.+\|timeval\|WARN\|context switches: \d+ voluntary, (\d+) involuntary'
   hint: timeval
-northd-version-mismatch:
-  expr: '([\d-]+)T[\d:]+\.\d+Z\|\S+\|controller version - (\S+) mismatch with northd version - (\S+)'

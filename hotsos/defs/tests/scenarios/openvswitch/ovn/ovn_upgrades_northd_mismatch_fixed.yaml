@@ -20,10 +20,14 @@ data-root:
     - sos_commands/date/date
 raised-issues:
   OVNError: >-
-    OVN controller is reporting a version mismatch between itself
-    (22.03.2-20.21.0-61.4) and northd (22.03.0-20.21.0-58.3). This usually
-    means ovn-central (ovn-northd etc) services have been upgraded before
-    ovn-controller using a version of OVN that does not support this. See
-    related bug https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043
-    for context although the installed version (22.03.2-0ubuntu0.22.04.1~cloud1)
-    of ovn-controller should already have that fix.
+    The ovn-controller service on this node is reporting northd version
+    mismatch errors. This happens when the version of OVN differs between
+    ovn-central and ovn-controller and you have ovn-match-northd-version=false
+    set locally. This flag is intended to protect against downtime during major
+    release upgrades by preventing the ovn-controller from getting updates from
+    the southbound database until the versions match. The version difference is
+    reported as 22.03.2-20.21.0-61.4 vs. 22.03.0-20.21.0-58.3 and the local
+    version of ovn-controller (22.03.2-0ubuntu0.22.04.1~cloud1). If this is a
+    major release upgrade you will need to set the following locally prior to
+    upgrade to prevent ovn-controller downtime during the upgrade: 'ovs-vsctl
+    set Open_vSwitch . external-ids:ovn-match-northd-version="true"'
