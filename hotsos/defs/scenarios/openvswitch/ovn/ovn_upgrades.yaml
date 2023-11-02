@@ -1,6 +1,10 @@
 vars:
   dbkey: 'ovn-match-northd-version'
   external_ids: '@hotsos.core.plugins.openvswitch.OVSDB.external_ids'
+  message_boilerplate: >-
+    The ovn-controller service on this node is reporting northd version
+    mismatch errors. This happens when the version of OVN differs between
+    ovn-central and ovn-controller
 checks:
   is_ovn_controller:
     systemd: ovn-controller
@@ -32,10 +36,10 @@ conclusions:
       bug-id: 2030944
       message: >-
         This node has '{dbkey}=true' set in the local ovsdb. This will cause
-        unnecessary errors if a minor release upgrade of OVN packages is
-        performed. There is fix available in the OVN charms to unset this or
-        alternatively it can be done manually with 'ovs-vsctl set
-        Open_vSwitch . external-ids:{dbkey}="false"'
+        unnecessary ovn-controller service interruption if a minor release
+        upgrade of OVN packages is performed. There is a fix available in the
+        OVN charms to unset this or alternatively it can be done manually with
+        'ovs-vsctl set Open_vSwitch . external-ids:{dbkey}="false"'
       format-dict:
         dbkey: $dbkey
   has_northd_version_mismatch_package_fixed_flag_set:
@@ -48,14 +52,19 @@ conclusions:
     raises:
       type: OVNError
       message: >-
-        OVN controller is reporting a version mismatch between itself ({vlocal}) and northd ({vremote}).
-        This usually means ovn-central (ovn-northd etc) services have been upgraded before
-        ovn-controller using a version of OVN that does not support this. To fix this issue
-        you may need to upgrade ovn-controller on this host (current={controller-ver}). Note that
-        since you have '{dbkey}=true' in the local ovsdb this error will also trigger
-        unnecessarily for minor release upgrades and unsetting it will resolve the problem.
+        {boilerplate} and you have ovn-match-northd-version=true
+        set locally. This flag is intended to protect against downtime during
+        major release upgrades by preventing the ovn-controller from getting
+        updates from the southbound database until the versions match. It is
+        not necessary for this flag to be set to 'true' during minor release
+        upgrades. The version difference is reported as {vlocal} vs. {vremote}.
+        If you are performing a major version upgrade this problem should
+        disappear once the upgrade has completed on both ovn-central and
+        locally. If you are performing a minor release upgrade you can safely
+        do 'ovs-vsctl set Open_vSwitch . external-ids:{dbkey}="false"' and that
+        should allow ovn-controller to resume service.
       format-dict:
-        controller-ver: '@checks.ovn_controller_pkg_has_upgrade_bug.requires.version'
+        boilerplate: $message_boilerplate
         dbkey: $dbkey
         vlocal: '@checks.has_northd_version_mismatch.search.results_group_3:first'
         vremote: '@checks.has_northd_version_mismatch.search.results_group_4:first'
@@ -68,12 +77,13 @@ conclusions:
     raises:
       type: OVNError
       message: >-
-        OVN controller is reporting a version mismatch between itself ({vlocal}) and northd ({vremote}).
-        This usually means ovn-central (ovn-northd etc) services have been upgraded before
-        ovn-controller using a version of OVN that does not support this. To fix this issue
-        you may need to upgrade ovn-controller on this host (current={controller-ver}). See
-        https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for more details.
+        {boilerplate}. The version difference is reported as {vlocal} vs.
+        {vremote} and the local version of ovn-controller ({controller-ver}) is
+        impacted by a bug that results in service downtime during an upgrade.
+        See https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for more
+        details.
       format-dict:
+        boilerplate: $message_boilerplate
         controller-ver: '@checks.ovn_controller_pkg_has_upgrade_bug.requires.version'
         vlocal: '@checks.has_northd_version_mismatch.search.results_group_3:first'
         vremote: '@checks.has_northd_version_mismatch.search.results_group_4:first'
@@ -85,13 +95,18 @@ conclusions:
     raises:
       type: OVNError
       message: >-
-        OVN controller is reporting a version mismatch between itself ({vlocal}) and northd ({vremote}).
-        This usually means ovn-central (ovn-northd etc) services have been upgraded before
-        ovn-controller using a version of OVN that does not support this. See
-        related bug https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for context
-        although the installed version ({controller-ver}) of ovn-controller
-        should already have that fix.
+        {boilerplate} and you have ovn-match-northd-version=false set locally.
+        This flag is intended to protect against downtime during major release
+        upgrades by preventing the ovn-controller from getting updates from
+        the southbound database until the versions match. The version
+        difference is reported as {vlocal} vs. {vremote} and the local version
+        of ovn-controller ({controller-ver}). If this is a major release
+        upgrade you will need to set the following locally prior to upgrade to
+        prevent ovn-controller downtime during the upgrade:
+        'ovs-vsctl set Open_vSwitch . external-ids:{dbkey}="true"'
       format-dict:
+        boilerplate: $message_boilerplate
+        dbkey: $dbkey
         controller-ver: '@checks.ovn_controller_pkg_has_upgrade_bug.requires.version'
         vlocal: '@checks.has_northd_version_mismatch.search.results_group_3:first'
         vremote: '@checks.has_northd_version_mismatch.search.results_group_4:first'

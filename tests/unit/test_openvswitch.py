@@ -83,12 +83,6 @@ Mar  3 22:57:24 compute4 kernel: [1381820.269384] openvswitch: ovs-system: defer
 Mar  3 22:57:24 compute4 kernel: [1381820.499397] openvswitch: ovs-system: deferred action limit reached, drop recirc action
 """  # noqa
 
-OVN_NORTHD_MISMATCH = """
-2023-10-23T06:32:12.484Z|13093|main|WARN|controller version - 22.03.3-20.21.0-62.4 mismatch with northd version - 22.03.0-20.21.0-58.3
-2023-10-23T06:33:12.489Z|13095|main|WARN|controller version - 22.03.3-20.21.0-62.4 mismatch with northd version - 22.03.0-20.21.0-58.3
-2023-10-23T06:34:12.495Z|13097|main|WARN|controller version - 22.03.3-20.21.0-62.4 mismatch with northd version - 22.03.0-20.21.0-58.3
-"""  # noqa
-
 
 class TestOpenvswitchBase(utils.BaseTestCase):
 
@@ -464,30 +458,6 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         {'Mar 3': 7}}}}
         inst = event_checks.OVSEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
-
-    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('ovn-controller.yaml',
-                                        'events/openvswitch'))
-    @utils.create_data_root({'var/log/ovn/ovn-controller.log':
-                             OVN_NORTHD_MISMATCH,
-                             'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
-                             'Open_vSwitch': OVS_DB_GENEVE_ENCAP},
-                            copy_from_original=['sos_commands/date/date',
-                                                'uptime'])
-    def test_ovn_northd_version_mismatch(self):
-        inst = event_checks.OVNEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), {})
-        issues = list(IssuesStore().load().values())[0]
-        msg = ("ovn-controller is reporting northd version mismatch errors "
-               "and the versions it is reporting (22.03.3-20.21.0-62.4 and "
-               "22.03.0-20.21.0-58.3) are from the same major release. This "
-               "is failing because you have 'ovn-match-northd-version' set to "
-               "'true' in the local ovsdb which is only required if "
-               "performing a major release upgrade. You can safely do the "
-               "following to workaround the problem: 'ovs-vsctl set "
-               "Open_vSwitch . "
-               "external-ids:ovn-match-northd-version=\"false\"'")
-        self.assertEqual([issue['message'] for issue in issues], [msg])
 
 
 @utils.load_templated_tests('scenarios/openvswitch')

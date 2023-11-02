@@ -20,10 +20,10 @@ data-root:
     - sos_commands/date/date
 raised-issues:
   OVNError: >-
-    OVN controller is reporting a version mismatch between itself
-    (20.03.2-2.7.0-42.0) and northd (20.03.2-2.7.0-42.1). This usually means
-    ovn-central (ovn-northd etc) services have been upgraded before
-    ovn-controller using a version of OVN that does not support this. To fix
-    this issue you may need to upgrade ovn-controller on this host
-    (current=20.03.2-0ubuntu0.20.04.3). See
+    The ovn-controller service on this node is reporting northd version
+    mismatch errors. This happens when the version of OVN differs between
+    ovn-central and ovn-controller. The version difference is reported as
+    20.03.2-2.7.0-42.0 vs. 20.03.2-2.7.0-42.1 and the local version of
+    ovn-controller (20.03.2-0ubuntu0.20.04.3) is impacted by a bug that results
+    in service downtime during an upgrade. See
     https://bugs.launchpad.net/charm-ovn-chassis/+bug/1940043 for more details.
