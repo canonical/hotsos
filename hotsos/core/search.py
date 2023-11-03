@@ -16,9 +16,14 @@ from hotsos.core.log import log
 
 class FileSearcher(_FileSearcher):
     def __init__(self, *args, **kwargs):
+        if HotSOSConfig.use_all_logs:
+            max_logrotate_depth = HotSOSConfig.max_logrotate_depth
+        else:
+            max_logrotate_depth = 1
+
         super().__init__(*args,
                          max_parallel_tasks=HotSOSConfig.max_parallel_tasks,
-                         max_logrotate_depth=HotSOSConfig.max_logrotate_depth,
+                         max_logrotate_depth=max_logrotate_depth,
                          **kwargs)
 
 
