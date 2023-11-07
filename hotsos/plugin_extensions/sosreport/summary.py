@@ -1,20 +1,17 @@
 from hotsos.core.plugins.sosreport import SOSReportChecksBase
-from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class SOSReportSummary(SOSReportChecksBase):
+    summary_part_index = 0
 
-    @idx(0)
-    def __summary_version(self):
+    def __0_summary_version(self):
         if self.version is not None:
             return self.version
 
-    @idx(1)
-    def __summary_dpkg(self):
+    def __1_summary_dpkg(self):
         if self.apt.core:
             return self.apt.all_formatted
 
-    @idx(2)
-    def __summary_plugin_timeouts(self):
+    def __2_summary_plugin_timeouts(self):
         if self.timed_out_plugins:
             return self.timed_out_plugins

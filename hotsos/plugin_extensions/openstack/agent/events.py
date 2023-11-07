@@ -17,7 +17,6 @@ from hotsos.core.plugins.openstack.common import (
     OpenstackEventCallbackBase,
 )
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
-from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.search import (
     FileSearcher,
     SearchConstraintSearchSince,
@@ -81,7 +80,7 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
 class ApacheEventChecks(OpenstackEventHandlerBase):
     event_group = 'apache'
 
-    def __summary_apache(self):
+    def __104_summary_apache(self):
         return self.final_event_results
 
 
@@ -100,7 +99,7 @@ class APIEventsCallback(OpenstackEventCallbackBase):
 class APIEvents(OpenstackEventHandlerBase):
     event_group = 'http-requests'
 
-    def __summary_http_requests(self):
+    def __105_summary_http_requests(self):
         out = self.final_event_results
         if out:
             return out
@@ -144,11 +143,11 @@ class NeutronAgentEventChecks(OpenstackEventHandlerBase):
     """
     event_group = 'neutron.agents'
 
-    def __summary_neutron_l3_agent(self):
+    def __102_summary_neutron_l3_agent(self):
         out = self.final_event_results or {}
         return out.get('neutron-l3-agent')
 
-    def __summary_neutron_ovs_agent(self):
+    def __103_summary_neutron_ovs_agent(self):
         out = self.final_event_results or {}
         return out.get('neutron-ovs-agent')
 
@@ -194,7 +193,7 @@ class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
 class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
     event_group = 'octavia'
 
-    def __summary_octavia(self):
+    def __106_summary_octavia(self):
         return self.final_event_results
 
 
@@ -211,7 +210,7 @@ class PCINotFoundCallback(OpenstackEventCallbackBase):
 class NovaComputeEventChecks(OpenstackEventHandlerBase):
     event_group = 'nova.nova-compute'
 
-    def __summary_nova(self):
+    def __107_summary_nova(self):
         return self.final_event_results
 
 
@@ -234,7 +233,7 @@ class ApparmorCallback(OpenstackEventCallbackBase):
 class AgentApparmorChecks(OpenstackEventHandlerBase):
     event_group = 'apparmor'
 
-    def __summary_apparmor(self):
+    def __108_summary_apparmor(self):
         return self.final_event_results
 
 
@@ -297,11 +296,12 @@ class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
 
         return args, kwargs
 
-    def __summary_neutron_l3ha(self):
+    def __109_summary_neutron_l3ha(self):
         return self.final_event_results
 
 
 class AgentEventChecks(OpenstackChecksBase):
+    summary_part_index = 7
 
     def _run_checks(self, checks):
         # Only run if we think Openstack is installed.
@@ -324,15 +324,13 @@ class AgentEventChecks(OpenstackChecksBase):
 
         return _final_results
 
-    @idx(1)
-    def __summary_api_info(self):
+    def __100_summary_api_info(self):
         checks = [APIEvents]
         results = self._run_checks(checks)
         if results:
             return results
 
-    @idx(2)
-    def __summary_agent_checks(self):
+    def __101_summary_agent_checks(self):
         checks = [AgentApparmorChecks,
                   ApacheEventChecks,
                   NeutronL3HAEventChecks,

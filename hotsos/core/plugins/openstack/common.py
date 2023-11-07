@@ -35,56 +35,6 @@ class OpenstackBase(object):
         self.neutron = NeutronBase()
         self.octavia = OctaviaBase()
         self.certificate_expire_days = 60
-
-    @cached_property
-    def apache2_ssl_config_file(self):
-        return os.path.join(HotSOSConfig.data_root,
-                            'etc/apache2/sites-enabled',
-                            'openstack_https_frontend.conf')
-
-    @cached_property
-    def ssl_enabled(self):
-        return os.path.exists(self.apache2_ssl_config_file)
-
-    @cached_property
-    def _apache2_certificates(self):
-        """ Returns list of ssl cert paths relative to data_root. """
-        certificate_paths = []
-        if not self.ssl_enabled:
-            return certificate_paths
-
-        with open(self.apache2_ssl_config_file) as fd:
-            for line in fd:
-                ret = re.search(r'SSLCertificateFile /(\S+)', line)
-                if ret:
-                    path = ret.group(1)
-                    if path not in certificate_paths:
-                        certificate_paths.append(path)
-
-            return certificate_paths
-
-    @cached_property
-    def apache2_certificates_expiring(self):
-        apache2_certificates_expiring = []
-        max_days = self.certificate_expire_days
-        for path in self._apache2_certificates:
-            try:
-                ssl_checks = SSLCertificatesHelper(SSLCertificate(path),
-                                                   max_days)
-            except OSError:
-                log.info("cert path not found: %s", path)
-                continue
-
-            if ssl_checks.certificate_expires_soon:
-                apache2_certificates_expiring.append(path)
-
-        return apache2_certificates_expiring
-
-
-class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
         self.ost_projects = OSTProjectCatalog()
         service_exprs = self.ost_projects.service_exprs
         self.pebble = PebbleHelper(service_exprs=service_exprs)
@@ -220,12 +170,61 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
         return False
 
+    @cached_property
+    def apache2_ssl_config_file(self):
+        return os.path.join(HotSOSConfig.data_root,
+                            'etc/apache2/sites-enabled',
+                            'openstack_https_frontend.conf')
+
+    @cached_property
+    def ssl_enabled(self):
+        return os.path.exists(self.apache2_ssl_config_file)
+
+    @cached_property
+    def _apache2_certificates(self):
+        """ Returns list of ssl cert paths relative to data_root. """
+        certificate_paths = []
+        if not self.ssl_enabled:
+            return certificate_paths
+
+        with open(self.apache2_ssl_config_file) as fd:
+            for line in fd:
+                ret = re.search(r'SSLCertificateFile /(\S+)', line)
+                if ret:
+                    path = ret.group(1)
+                    if path not in certificate_paths:
+                        certificate_paths.append(path)
+
+            return certificate_paths
+
+    @cached_property
+    def apache2_certificates_expiring(self):
+        apache2_certificates_expiring = []
+        max_days = self.certificate_expire_days
+        for path in self._apache2_certificates:
+            try:
+                ssl_checks = SSLCertificatesHelper(SSLCertificate(path),
+                                                   max_days)
+            except OSError:
+                log.info("cert path not found: %s", path)
+                continue
+
+            if ssl_checks.certificate_expires_soon:
+                apache2_certificates_expiring.append(path)
+
+        return apache2_certificates_expiring
+
+
+class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
+    plugin_name = "openstack"
+    plugin_root_index = 4
+
     @property
     def plugin_runnable(self):
         return self.openstack_installed
 
 
-class OpenstackEventCallbackBase(OpenstackChecksBase, EventCallbackBase):
+class OpenstackEventCallbackBase(OpenstackBase, EventCallbackBase):
 
     def categorise_events(self, *args, **kwargs):
         if 'include_time' not in kwargs:

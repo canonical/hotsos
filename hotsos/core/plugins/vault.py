@@ -12,6 +12,8 @@ SERVICE_EXPRS = [s + '[A-Za-z0-9-]*' for s in CORE_SNAPS]
 
 
 class VaultChecksBase(PluginPartBase):
+    plugin_name = 'vault'
+    plugin_root_index = 10
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

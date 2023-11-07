@@ -81,6 +81,7 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
 
 class NovaExternalEventChecks(OpenstackEventHandlerBase):
     event_group = 'nova.external-events'
+    summary_part_index = 1
 
-    def __summary_os_server_external_events(self):
+    def __8_summary_os_server_external_events(self):
         return self.load_and_run()

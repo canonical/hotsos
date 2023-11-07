@@ -109,6 +109,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
     importance. This class provides a way to identify exceptions in
     logs and provide a per-agent tally by date or time.
     """
+    summary_part_index = 6
 
     def __init__(self):
         super().__init__()
@@ -274,24 +275,24 @@ class AgentExceptionChecks(OpenstackChecksBase):
         self._agent_results = self._run(self.searchobj.run())
         return self._agent_results
 
-    def __summary_agent_warnings(self):
-        """
-        Only WARNING level exceptions
-        """
-        if self.agent_results and 'warning' in self.agent_results:
-            _exc_info = {}
-            for svc, results in self.agent_results['warning'].items():
-                _exc_info[svc] = dict(results)
-
-            return {agent: dict(info) for agent, info in _exc_info.items()}
-
-    def __summary_agent_exceptions(self):
+    def __200_summary_agent_exceptions(self):
         """
         Only ERROR level exceptions
         """
         if self.agent_results and 'error' in self.agent_results:
             _exc_info = {}
             for svc, results in self.agent_results['error'].items():
+                _exc_info[svc] = dict(results)
+
+            return {agent: dict(info) for agent, info in _exc_info.items()}
+
+    def __201_summary_agent_warnings(self):
+        """
+        Only WARNING level exceptions
+        """
+        if self.agent_results and 'warning' in self.agent_results:
+            _exc_info = {}
+            for svc, results in self.agent_results['warning'].items():
                 _exc_info[svc] = dict(results)
 
             return {agent: dict(info) for agent, info in _exc_info.items()}

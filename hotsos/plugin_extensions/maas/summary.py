@@ -1,20 +1,17 @@
 from hotsos.core.plugins.maas import MAASChecksBase
-from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class MAASSummary(MAASChecksBase):
+    summary_part_index = 0
 
-    @idx(0)
-    def __summary_services(self):
+    def __0_summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
 
-    @idx(1)
-    def __summary_dpkg(self):
+    def __1_summary_dpkg(self):
         if self.apt.core:
             return self.apt.all_formatted
 
-    @idx(2)
-    def __summary_snaps(self):
+    def __2_summary_snaps(self):
         if self.snaps.core:
             return self.snaps.all_formatted

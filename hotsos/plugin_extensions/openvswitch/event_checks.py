@@ -214,6 +214,7 @@ class OVSEventCallback4(OpenvSwitchEventCallbackBase):
 
 class OVSEventChecks(OpenvSwitchEventHandlerBase):
     event_group = 'ovs'
+    summary_part_index = 1
 
     @property
     def summary_subkey(self):
@@ -265,6 +266,7 @@ class OVNEventCallbackContextSwitches(OpenvSwitchEventCallbackBase):
 
 class OVNEventChecks(OpenvSwitchEventHandlerBase):
     event_group = 'ovn'
+    summary_part_index = 2
 
     @property
     def summary_subkey(self):

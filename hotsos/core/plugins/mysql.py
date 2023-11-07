@@ -18,6 +18,8 @@ CORE_APT = ['mysql']
 
 
 class MySQLChecksBase(plugintools.PluginPartBase):
+    plugin_name = 'mysql'
+    plugin_root_index = 3
 
     def __init__(self, *args, **kwargs):
         super().__init__()

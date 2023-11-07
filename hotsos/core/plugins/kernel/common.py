@@ -45,6 +45,8 @@ class KernelBase(object):
 
 
 class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
+    plugin_name = 'kernel'
+    plugin_root_index = 14
 
     @property
     def plugin_runnable(self):

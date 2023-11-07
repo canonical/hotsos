@@ -4,10 +4,10 @@ from hotsos.core.plugins.kernel.common import KernelChecksBase
 from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel.memory import MemoryChecks
 from hotsos.core.plugins.kernel.sysfs import CPU
-from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class KernelSummary(KernelChecksBase):
+    summary_part_index = 0
 
     @property
     def cpu_info(self):
@@ -42,31 +42,26 @@ class KernelSummary(KernelChecksBase):
         info['cpufreq-scaling-governor'] = cpu_gov_all
         return info
 
-    @idx(0)
-    def __summary_version(self):
+    def __0_summary_version(self):
         if self.version:
             return self.version
 
-    @idx(1)
-    def __summary_boot(self):
+    def __1_summary_boot(self):
         if self.boot_parameters:
             return ' '.join(self.boot_parameters)
 
-    @idx(2)
-    def __summary_systemd(self):
+    def __2_summary_systemd(self):
         cfg = SystemdConfig()
         if cfg.exists:
             if cfg.get('CPUAffinity'):
                 return {'CPUAffinity': cfg.get('CPUAffinity')}
 
-    @idx(3)
-    def __summary_cpu(self):
+    def __3_summary_cpu(self):
         cpu_info = self.cpu_info
         if cpu_info:
             return cpu_info
 
-    @idx(4)
-    def __summary_memory(self):
+    def __4_summary_memory(self):
         nodes = MemoryChecks().nodes_with_limited_high_order_memory_full
         if nodes:
             return nodes

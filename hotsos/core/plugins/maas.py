@@ -15,6 +15,8 @@ SERVICE_EXPRS = [s + '[A-Za-z0-9-]*' for s in CORE_APT + APT_DEPS]
 
 
 class MAASChecksBase(PluginPartBase):
+    plugin_name = 'maas'
+    plugin_root_index = 13
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -217,7 +217,7 @@ class EventCallbackBase(EventProcessingUtils, metaclass=EventCallbackMeta):
         """ Callback method. """
 
 
-class EventHandlerBase(abc.ABC, YHandlerBase, EventProcessingUtils):
+class EventHandlerBase(YHandlerBase, EventProcessingUtils):
     """
     Root name used to identify a group of event definitions. Once all the
     yaml definitions are loaded this defines the level below which events

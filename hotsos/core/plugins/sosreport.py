@@ -13,6 +13,8 @@ CORE_APT = ['sosreport']
 
 
 class SOSReportChecksBase(PluginPartBase):
+    plugin_name = 'sosreport'
+    plugin_root_index = 2
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

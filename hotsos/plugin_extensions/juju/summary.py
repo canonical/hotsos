@@ -6,7 +6,6 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.log import log
 from hotsos.core.plugins.juju.common import JujuChecksBase
-from hotsos.core.plugintools import summary_entry_offset as idx
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
@@ -98,30 +97,27 @@ class UnitLogInfo(object):
 
 
 class JujuSummary(JujuChecksBase):
+    summary_part_index = 0
 
-    @idx(0)
-    def __summary_services(self):
+    def __0_summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
         if self.pebble.services:
             return self.pebble.summary
 
-    @idx(1)
-    def __summary_version(self):
+    def __1_summary_version(self):
         if self.machine:
             return self.machine.version
 
         return "unknown"
 
-    @idx(2)
-    def __summary_machine(self):
+    def __2_summary_machine(self):
         if self.machine:
             return self.machine.id
 
         return "unknown"
 
-    @idx(3)
-    def __summary_units(self):
+    def __3_summary_units(self):
         if not self.units:
             return
 

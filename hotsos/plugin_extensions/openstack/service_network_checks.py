@@ -15,6 +15,7 @@ from hotsos.core.issues import (
 
 
 class OpenstackNetworkChecks(OpenstackChecksBase):
+    summary_part_index = 4
 
     def __init__(self):
         super().__init__()
@@ -79,17 +80,31 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
         return port_health_info
 
-    def __summary_config(self):
+    def __9_summary_config(self):
         config_info = self.get_config_info()
         if config_info:
             return config_info
 
-    def __summary_phy_port_health(self):
+    def __10_summary_phy_port_health(self):
         port_health_info = self.get_phy_port_health_info()
         if port_health_info:
             return port_health_info
 
-    def __summary_router_port_mtus(self):
+    def __11_summary_namespaces(self):
+        """Populate namespace information dict."""
+        ns_info = {}
+        for line in self.cli.ip_netns():
+            ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
+            if ret:
+                if ret[1] in ns_info:
+                    ns_info[ret[1]] += 1
+                else:
+                    ns_info[ret[1]] = 1
+
+        if ns_info:
+            return ns_info
+
+    def __12_summary_router_port_mtus(self):
         """ Provide a summary of ml2-ovs router port mtus. """
         phy_mtus = set()
         router_mtus = {}
@@ -144,21 +159,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
         return router_mtus
 
-    def __summary_namespaces(self):
-        """Populate namespace information dict."""
-        ns_info = {}
-        for line in self.cli.ip_netns():
-            ret = re.compile(r"^([a-z0-9]+)-([0-9a-z\-]+)\s+.+").match(line)
-            if ret:
-                if ret[1] in ns_info:
-                    ns_info[ret[1]] += 1
-                else:
-                    ns_info[ret[1]] = 1
-
-        if ns_info:
-            return ns_info
-
-    def __summary_vm_port_health(self):
+    def __13_summary_vm_port_health(self):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """
         if not self.nova.instances:

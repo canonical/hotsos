@@ -6,6 +6,7 @@ from hotsos.core.plugins.system import SystemChecksBase
 
 
 class SYSCtlChecks(SystemChecksBase):
+    summary_part_index = 1
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -125,7 +126,7 @@ class SYSCtlChecks(SystemChecksBase):
         self._cached_fs_sysctl = sysctl
         return self._cached_fs_sysctl
 
-    def __summary_sysctl_mismatch(self):
+    def __10_summary_sysctl_mismatch(self):
         """ Compare the values for any key set under sysctl.d and report
         an issue if any mismatches detected.
         """
@@ -150,7 +151,7 @@ class SYSCtlChecks(SystemChecksBase):
         if mismatch:
             return mismatch
 
-    def __summary_juju_charm_sysctl_mismatch(self):
+    def __11_summary_juju_charm_sysctl_mismatch(self):
         """ Compare the values for any key set under sysctl.d and report
         an issue if any mismatches detected.
         """

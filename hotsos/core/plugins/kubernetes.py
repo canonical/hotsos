@@ -88,6 +88,8 @@ class KubernetesBase(object):
 
 
 class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase):
+    plugin_name = 'kubernetes'
+    plugin_root_index = 8
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

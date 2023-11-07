@@ -1,40 +1,34 @@
 from hotsos.core.plugins.kubernetes import KubernetesChecksBase
-from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class KubernetesSummary(KubernetesChecksBase):
+    summary_part_index = 0
 
-    @idx(0)
-    def __summary_services(self):
+    def __1_summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
         if self.pebble.services:
             return self.pebble.summary
 
-    @idx(1)
-    def __summary_snaps(self):
+    def __2_summary_snaps(self):
         snaps = self.snaps.all_formatted
         if snaps:
             return snaps
 
-    @idx(2)
-    def __summary_dpkg(self):
+    def __3_summary_dpkg(self):
         dpkg = self.apt.all_formatted
         if dpkg:
             return dpkg
 
-    @idx(3)
-    def __summary_pods(self):
+    def __4_summary_pods(self):
         if self.pods:
             return self.pods
 
-    @idx(4)
-    def __summary_containers(self):
+    def __5_summary_containers(self):
         if self.containers:
             return self.containers
 
-    @idx(5)
-    def __summary_flannel(self):
+    def __6_summary_flannel(self):
         info = {}
         for port in self.flannel_ports:
             info[port.name] = port.encap_info

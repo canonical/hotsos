@@ -1,18 +1,16 @@
 from hotsos.core.plugins.rabbitmq import RabbitMQChecksBase
-from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class RabbitMQSummary(RabbitMQChecksBase):
+    summary_part_index = 0
 
-    @idx(0)
-    def __summary_services(self):
+    def __0_summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
         if self.pebble.services:
             return self.pebble.summary
 
-    @idx(1)
-    def __summary_dpkg(self):
+    def __1_summary_dpkg(self):
         apt = self.apt.all_formatted
         if apt:
             return apt
@@ -45,13 +43,11 @@ class RabbitMQSummary(RabbitMQChecksBase):
                 {k: v for k, v in vhost_queue_dists.items() if v}
             return _queue_info
 
-    @idx(2)
-    def __summary_config(self):
+    def __2_summary_config(self):
         setting = self.report.partition_handling or 'unknown'
         return {'cluster-partition-handling': setting}
 
-    @idx(3)
-    def __summary_resources(self):
+    def __3_summary_resources(self):
         resources = {}
         _queue_info = self.queue_info
         if _queue_info:

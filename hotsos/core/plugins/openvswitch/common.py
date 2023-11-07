@@ -26,6 +26,8 @@ PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
 
 class OpenvSwitchChecksBase(plugintools.PluginPartBase):
+    plugin_name = "openvswitch"
+    plugin_root_index = 6
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -43,7 +45,7 @@ class OpenvSwitchChecksBase(plugintools.PluginPartBase):
         return len(self.apt.core) > 0
 
 
-class OpenvSwitchEventCallbackBase(OpenvSwitchChecksBase, EventCallbackBase):
+class OpenvSwitchEventCallbackBase(EventCallbackBase):
 
     def categorise_events(self, *args, **kwargs):
         if 'include_time' not in kwargs:

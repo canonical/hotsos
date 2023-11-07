@@ -42,6 +42,8 @@ class LXD(object):
 
 
 class LXDChecksBase(PluginPartBase):
+    plugin_name = 'lxd'
+    plugin_root_index = 11
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

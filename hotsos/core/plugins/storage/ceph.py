@@ -1180,5 +1180,5 @@ class CephDaemonAllOSDsFactory(FactoryBase):
         return CephDaemonAllOSDsCommand(command)
 
 
-class CephEventCallbackBase(CephChecksBase, EventCallbackBase):
+class CephEventCallbackBase(EventCallbackBase):
     pass

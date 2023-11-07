@@ -2,4 +2,5 @@ from hotsos.core import plugintools
 
 
 class StorageBase(plugintools.PluginPartBase):
-    pass
+    plugin_name = 'storage'
+    plugin_root_index = 9

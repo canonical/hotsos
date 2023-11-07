@@ -13,6 +13,8 @@ JUJU_SVC_EXPRS = [r'mongod{}'.format(SVC_VALID_SUFFIX),
 
 
 class JujuChecksBase(plugintools.PluginPartBase, JujuBase):
+    plugin_name = 'juju'
+    plugin_root_index = 12
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

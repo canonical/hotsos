@@ -24,6 +24,8 @@ class RabbitMQBase(object):
 
 
 class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
+    plugin_name = 'rabbitmq'
+    plugin_root_index = 7
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

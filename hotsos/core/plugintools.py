@@ -1,4 +1,5 @@
 import os
+import re
 
 import yaml
 from jinja2 import FileSystemLoader, Environment
@@ -7,16 +8,47 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
+PLUGINS = {}
+PLUGIN_RUN_ORDER = []
 
-def summary_entry_offset(offset):
-    def _inner(f):
-        def _inner2(*args, **kwargs):
-            out = f(*args, **kwargs)
-            if out is not None:
-                return {'data': out, 'offset': offset}
 
-        return _inner2
-    return _inner
+class SummaryOffsetConflict(Exception):
+    pass
+
+
+class PluginRegistryMeta(type):
+    """
+    Each plugin that wants to add output to the finally summary must register
+    itself by implementing one or more classes that have this class as the
+    metaclass at some point in their resolution chain and:
+
+        * class attribute 'plugin_root_index' which should be set once per
+          plugin (usually in a high level base class) and defines the order in
+          which plugins will be run.
+
+        * class attribute 'summary_part_index' set to the integer index it
+          should appear in the summary entry for that plugin. These indexes
+          start at 0 and are unique to a plugin.
+    """
+
+    def __init__(cls, _name, _mro, members):
+        name = members.get('plugin_name')
+        if name:
+            PLUGINS[name] = []
+            PLUGIN_RUN_ORDER.append((name, members['plugin_root_index']))
+
+        for subcls in cls.__mro__:
+            index_key = 'summary_part_index'
+            if hasattr(subcls, index_key):
+                index = subcls.summary_part_index
+                existing = [e[index_key] for e in PLUGINS[cls.plugin_name]]
+                if index in existing:
+                    raise SummaryOffsetConflict("plugin {} has index "
+                                                "conflict {}".format(name,
+                                                                     index))
+
+                PLUGINS[cls.plugin_name].append({index_key: index,
+                                                 'runner': subcls})
 
 
 class HOTSOSDumper(yaml.Dumper):
@@ -25,6 +57,11 @@ class HOTSOSDumper(yaml.Dumper):
 
     def represent_dict_preserve_order(self, data):
         return self.represent_dict(data.items())
+
+
+def get_plugins_sorted():
+    """ Return list of plugin names in the order they are to be run. """
+    return [e[0] for e in sorted(PLUGIN_RUN_ORDER, key=lambda e: e[1])]
 
 
 def yaml_dump(data):
@@ -162,7 +199,7 @@ class MarkdownFormatter(OutputFormatterBase):
         return markdown.rstrip('\n')
 
 
-class ApplicationBase(object):
+class ApplicationBase(object, metaclass=PluginRegistryMeta):
 
     @property
     def bind_interfaces(self):
@@ -174,24 +211,14 @@ class ApplicationBase(object):
 
 class SummaryEntry(object):
 
-    def __init__(self, data, offset):
+    def __init__(self, data, index):
         self.data = data
-        self.offset = offset
-
-    @staticmethod
-    def is_raw_entry(entry):
-        if type(entry) != dict:
-            return False
-
-        if set(entry.keys()).symmetric_difference(['data', 'offset']):
-            return False
-
-        return True
+        self.index = index
 
 
 class PartManager(object):
 
-    def save(self, data, offset):
+    def save(self, data, index):
         """
         Save part output yaml in temporary location. These are collected and
         aggregated at the end of the plugin run.
@@ -220,28 +247,27 @@ class PartManager(object):
         with open(part_path, 'w') as fd:
             fd.write(out)
 
-        self.add_to_index(offset, part_path)
+        self.add_to_index(index, part_path)
 
     @property
-    def index(self):
+    def indexes(self):
         path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
-        index = {}
         if os.path.exists(path):
             with open(path) as fd:
-                index = yaml.safe_load(fd.read()) or {}
+                return yaml.safe_load(fd.read()) or {}
 
-        return index
+        return {}
 
-    def add_to_index(self, offset, part):
-        index = self.index
-        if offset in index:
-            index[offset].append(part)
-        else:
-            index[offset] = [part]
-
+    def add_to_index(self, index, part):
+        indexes = self.indexes
         path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
         with open(path, 'w') as fd:
-            fd.write(yaml.dump(index))
+            if index in indexes:
+                indexes[index].append(part)
+            else:
+                indexes[index] = [part]
+
+            fd.write(yaml.dump(indexes))
 
     def meld_part_output(self, data, existing):
         """
@@ -262,12 +288,12 @@ class PartManager(object):
         existing.update(data)
 
     def all(self):
-        if not self.index:
+        if not self.indexes:
             return
 
         parts = {}
-        for offset in sorted(self.index):
-            for part in self.index[offset]:
+        for index in sorted(self.indexes):
+            for part in self.indexes[index]:
                 with open(part) as fd:
                     part_yaml = yaml.safe_load(fd)
 
@@ -281,7 +307,7 @@ class PartManager(object):
 
 class PluginPartBase(ApplicationBase):
     # max per part before overlap
-    PLUGIN_PART_OFFSET_MAX = 500
+    PLUGIN_PART_INDEX_MAX = 500
 
     def __init__(self, *args, **kwargs):
         plugin_tmp = HotSOSConfig.plugin_tmp_dir
@@ -327,20 +353,26 @@ class PluginPartBase(ApplicationBase):
 
         for m in dir(self.__class__):
             cls = self.__class__.__name__
-            if m.startswith('_{}__summary_'.format(cls)):
-                key = m.partition('_{}__summary_'.format(cls))[2]
-                key = key.replace('_', '-')
-                out = getattr(self, m)()
-                if not out:
-                    continue
+            ret = re.match(r'_{}__(\d+)_summary_(\S+)'.format(cls), m)
+            if ret:
+                index = int(ret.group(1))
+                key = ret.group(2)
+            else:
+                ret = re.match(r'_{}__summary_(\S+)'.format(cls), m)
+                if ret:
+                    log.info("summary sub entry with no index: %s", m)
+                    key = ret.group(1)
+                    index = 0
 
-                if SummaryEntry.is_raw_entry(out):
-                    out = SummaryEntry(out['data'], out['offset'])
-                else:
-                    # put at the end
-                    out = SummaryEntry(out, self.PLUGIN_PART_OFFSET_MAX - 1)
+            if not ret:
+                continue
 
-                _output[key] = out
+            out = getattr(self, m)()
+            if not out:
+                continue
+
+            key = key.replace('_', '-')
+            _output[key] = SummaryEntry(out, index)
 
         return _output
 
@@ -353,8 +385,8 @@ class PluginPartBase(ApplicationBase):
 
 class PluginRunner(object):
 
-    def __init__(self, parts):
-        self.parts = parts
+    def __init__(self, plugin):
+        self.parts = PLUGINS[plugin]
 
     def run(self):
         part_mgr = PartManager()
@@ -374,56 +406,57 @@ class PluginRunner(object):
             # for the summary so we wont check for it (they only raise
             # issues and bugs which are handled independently).
 
-        for name, part_info in self.parts.items():
+        for part_info in self.parts:
             # update current env to reflect actual part being run
+            runner = part_info['runner']
+            name = runner.__class__.__name__
             HotSOSConfig.part_name = name
-            for cls in part_info['objects']:
-                inst = cls()
-                # Only run plugin if it declares itself runnable.
-                if not HotSOSConfig.force_mode and not inst.plugin_runnable:
-                    log.debug("%s.%s.%s not runnable - skipping",
-                              HotSOSConfig.plugin_name, name, cls.__name__)
-                    continue
+            inst = runner()
+            # Only run plugin if it declares itself runnable.
+            if not HotSOSConfig.force_mode and not inst.plugin_runnable:
+                log.debug("%s.%s.%s not runnable - skipping",
+                          HotSOSConfig.plugin_name, name, runner.__name__)
+                continue
 
-                log.debug("running %s.%s.%s",
-                          HotSOSConfig.plugin_name, name, cls.__name__)
-                try:
-                    # NOTE: since all parts are expected to be implementations
-                    # of PluginPartBase we expect them to always define an
-                    # output property.
-                    output = inst.output
-                    subkey = inst.summary_subkey
-                except Exception as exc:
-                    failed_parts.append(name)
-                    log.exception("part '%s' raised exception: %s", name, exc)
-                    output = None
+            log.debug("running %s.%s.%s",
+                      HotSOSConfig.plugin_name, name, runner.__name__)
+            try:
+                # NOTE: since all parts are expected to be implementations
+                # of PluginPartBase we expect them to always define an
+                # output property.
+                output = inst.output
+                subkey = inst.summary_subkey
+            except Exception as exc:
+                failed_parts.append(name)
+                log.exception("part '%s' raised exception: %s", name, exc)
+                output = None
 
-                if output:
-                    for key, entry in output.items():
-                        out = {key: entry.data}
-                        if subkey:
-                            out = {subkey: out}
+            if output:
+                for key, entry in output.items():
+                    out = {key: entry.data}
+                    if subkey:
+                        out = {subkey: out}
 
-                        part_max = PluginPartBase.PLUGIN_PART_OFFSET_MAX
-                        part_offset = part_info['part_yaml_offset']
-                        offset = (part_offset * part_max) + entry.offset
-                        part_mgr.save(out, offset=offset)
+                    part_max = PluginPartBase.PLUGIN_PART_INDEX_MAX
+                    part_index = part_info['summary_part_index']
+                    index = (part_index * part_max) + entry.index
+                    part_mgr.save(out, index=index)
 
         if failed_parts:
             # always put these at the top
-            part_mgr.save({'failed-parts': failed_parts}, offset=0)
+            part_mgr.save({'failed-parts': failed_parts}, index=0)
 
         imgr = IssuesManager()
         bugs = imgr.load_bugs()
         raised_issues = imgr.load_issues()
-        summary_end_offset = PluginPartBase.PLUGIN_PART_OFFSET_MAX ** 2
+        summary_end_index = PluginPartBase.PLUGIN_PART_INDEX_MAX ** 2
 
         # Add detected known_bugs and raised issues to end summary.
         if bugs:
-            part_mgr.save(bugs, offset=summary_end_offset)
+            part_mgr.save(bugs, index=summary_end_index)
 
         # Add raised issues to summary.
         if raised_issues:
-            part_mgr.save(raised_issues, offset=summary_end_offset)
+            part_mgr.save(raised_issues, index=summary_end_index)
 
         return part_mgr.all()

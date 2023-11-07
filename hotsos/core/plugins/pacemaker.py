@@ -41,6 +41,8 @@ class PacemakerBase(object):
 
 
 class PacemakerChecksBase(PacemakerBase, PluginPartBase):
+    plugin_name = 'pacemaker'
+    plugin_root_index = 5
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

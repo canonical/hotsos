@@ -2,30 +2,27 @@ from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.plugins.openvswitch import OpenvSwitchChecksBase
 from hotsos.core.plugins.openvswitch.ovn import OVNBase
 from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
-from hotsos.core.plugintools import summary_entry_offset as idx
 
 
 class OpenvSwitchSummary(OpenvSwitchChecksBase):
+    summary_part_index = 0
 
     def __init__(self):
         super().__init__()
         self.ovs = OpenvSwitchBase()
         self.ovn = OVNBase()
 
-    @idx(0)
-    def __summary_services(self):
+    def __0_summary_services(self):
         """Get string info for running daemons."""
         if self.systemd.services:
             return self.systemd.summary
         if self.pebble.services:
             return self.pebble.summary
 
-    @idx(1)
-    def __summary_dpkg(self):
+    def __1_summary_dpkg(self):
         return self.apt.all_formatted
 
-    @idx(2)
-    def __summary_config(self):
+    def __2_summary_config(self):
         _config = {}
         if self.ovs.offload_enabled:
             _config['offload'] = 'enabled'
@@ -39,8 +36,7 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
         if _config:
             return _config
 
-    @idx(3)
-    def __summary_bridges(self):
+    def __3_summary_bridges(self):
         bridges = {}
         for bridge in self.ovs.bridges:
             # filter patch/phy ports since they are not generally interesting
@@ -71,13 +67,11 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
         if bridges:
             return bridges
 
-    @idx(4)
-    def __summary_tunnels(self):
+    def __4_summary_tunnels(self):
         if self.ovs.tunnels:
             return self.ovs.tunnels
 
-    @idx(5)
-    def __summary_ovn(self):
+    def __5_summary_ovn(self):
         info = {}
         if self.ovn.nbdb:
             routers = self.ovn.nbdb.routers

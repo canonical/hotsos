@@ -23,10 +23,10 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         inst = summary.RabbitMQSummary()
         self.assertTrue(inst.plugin_runnable)
         self.assertEqual(list(inst.output.keys()),
-                         ['config',
+                         ['services',
                           'dpkg',
-                          'resources',
-                          'services'])
+                          'config',
+                          'resources'])
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['dpkg'], ['rabbitmq-server 3.8.2-0ubuntu1.3'])
         self.assertEqual(actual['services'],

@@ -39,8 +39,9 @@ DEFAULTS = {'neutron': {'dhcp-agent': {
 
 
 class ServiceFeatureChecks(OpenstackChecksBase):
+    summary_part_index = 5
 
-    def __summary_features(self):
+    def __7_summary_features(self):
         """
         This is used to display whether or not specific features are enabled.
         """

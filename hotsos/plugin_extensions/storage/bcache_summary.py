@@ -2,8 +2,9 @@ from hotsos.core.plugins.storage.bcache import BcacheChecksBase
 
 
 class BcacheSummary(BcacheChecksBase):
+    summary_part_index = 2
 
-    def __summary_cachesets(self):
+    def __0_summary_cachesets(self):
         _state = {}
         for cset in self.cachesets:
             _cset = {'cache_available_percent':

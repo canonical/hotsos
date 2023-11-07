@@ -11,8 +11,9 @@ from hotsos.core import utils
 
 
 class OpenstackInstanceChecks(OpenstackChecksBase):
+    summary_part_index = 2
 
-    def __summary_vm_info(self):
+    def __5_summary_vm_info(self):
         _info = {}
 
         instances = self.nova.instances.values()
@@ -175,6 +176,7 @@ class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
 
 class NovaServerMigrationAnalysis(OpenstackEventHandlerBase):
     event_group = 'nova.migrations'
+    summary_part_index = 3
 
-    def __summary_nova_migrations(self):
+    def __6_summary_nova_migrations(self):
         return self.load_and_run()

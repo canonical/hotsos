@@ -51,10 +51,10 @@ class TestJujuSummary(JujuTestsBase):
     def test_summary_keys(self):
         inst = summary.JujuSummary()
         self.assertEqual(list(inst.output.keys()),
-                         ['machine',
-                          'services',
-                          'units',
-                          'version'])
+                         ['services',
+                          'version',
+                          'machine',
+                          'units'])
 
     def test_service_info(self):
         expected = {'ps': ['jujud (1)'],

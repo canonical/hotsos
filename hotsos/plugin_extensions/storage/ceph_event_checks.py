@@ -116,6 +116,7 @@ class EventCallbackHeartbeatPings(CephEventCallbackBase):
 
 class CephEventHandler(CephChecksBase, EventHandlerBase):
     event_group = 'ceph'
+    summary_part_index = 1
 
     @property
     def summary(self):

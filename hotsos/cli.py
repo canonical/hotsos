@@ -9,13 +9,13 @@ from importlib import metadata, resources
 import click
 import distro
 from progress.spinner import Spinner
+from hotsos.core import plugintools
 from hotsos.core.root_manager import DataRootManager
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log, LoggingManager
 from hotsos.client import (
     HotSOSClient,
     OutputManager,
-    PLUGIN_CATALOG,
 )
 
 SNAP_ERROR_MSG = """ERROR: hotsos is installed as a snap which only supports
@@ -81,7 +81,7 @@ def get_repo_info():
 
 
 def set_plugin_options(f):
-    for plugin in PLUGIN_CATALOG:
+    for plugin in plugintools.PLUGINS:
         click.option('--{}'.format(plugin), default=False, is_flag=True,
                      help='Run the {} plugin.'.format(plugin))(f)
 
@@ -293,7 +293,7 @@ def main():
                 log.name = 'hotsos.cli'
 
                 if list_plugins:
-                    sys.stdout.write('\n'.join(PLUGIN_CATALOG.keys()))
+                    sys.stdout.write('\n'.join(plugintools.PLUGINS.keys()))
                     sys.stdout.write('\n')
                     return
 
