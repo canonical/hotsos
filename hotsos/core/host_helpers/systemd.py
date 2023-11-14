@@ -97,6 +97,11 @@ class SystemdService(object):
         with CLIHelperFile() as cli:
             fs.add(seqdef, path=cli.systemctl_status_all())
             sections = list(fs.run().find_sequence_sections(seqdef).values())
+            if len(sections) == 0:
+                log.warning("no active status found for %s.service (state=%s)",
+                            self.name, self.state)
+                return
+
             if len(sections) > 1:
                 log.warning("more than one status found for %s.service",
                             self.name)
@@ -105,7 +110,8 @@ class SystemdService(object):
                 if result.tag == seqdef.body_tag:
                     return dateutil_parser.parse(result.get(1),
                                                  tzinfos=self._tzinfos)
-        log.debug("no start time identified for svc %s", self.name)
+        log.debug("no start time identified for svc %s (state=%s)", self.name,
+                  self.state)
 
     @cached_property
     def start_time_secs(self):
