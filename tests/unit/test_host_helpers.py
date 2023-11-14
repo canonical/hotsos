@@ -462,6 +462,20 @@ class TestSystemdHelper(utils.BaseTestCase):
         svc = s.services['nova-compute']
         self.assertEqual(svc.memory_current_kb, 7)
 
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         """
+         ● neutron-ovs-cleanup.service
+          Loaded: masked (Reason: Unit neutron-ovs-cleanup.service is masked.)
+          Active: inactive (dead)
+         """},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files'])
+    def test_start_time_svc_not_active(self):
+        svc = getattr(host_helpers.systemd.ServiceFactory(),
+                      'neutron-ovs-cleanup')
+        self.assertEqual(svc.start_time_secs, 0)
+
 
 class TestPebbleHelper(utils.BaseTestCase):
 
