@@ -29,9 +29,9 @@ class ApparmorHelper(object):
         """
         s = FileSearcher()
         seqdef = SequenceSearchDef(
-                            start=SearchDef(r"(\d+) (\S+) are in (\S+) mode."),
-                            body=SearchDef(r"\s+(\S+)"),
-                            tag="aastatus")
+                     start=SearchDef(r"(\d+) profiles are in (\S+) mode."),
+                     body=SearchDef(r"\s+(\S+)"),
+                     tag="aastatus")
         info = {}
         with CLIHelperFile() as cli:
             s.add(seqdef, path=cli.apparmor_status())
@@ -39,16 +39,14 @@ class ApparmorHelper(object):
             for section in results.find_sequence_sections(seqdef).values():
                 count = 0
                 mode = None
-                is_profiles = False
                 for result in section:
                     if result.tag == seqdef.start_tag:
                         count = int(result.get(1))
-                        is_profiles = result.get(2) == 'profiles'
-                        mode = result.get(3)
+                        mode = result.get(2)
                         if mode not in info:
                             info[mode] = {'profiles': [], 'count': count}
                     elif result.tag == seqdef.body_tag:
-                        if not is_profiles or count == 0:
+                        if count == 0:
                             continue
 
                         info[mode]['profiles'].append(result.get(1))
@@ -67,6 +65,14 @@ class ApparmorHelper(object):
     @property
     def profiles_complain(self):
         return self.profiles.get('complain', {}).get('profiles', [])
+
+    @property
+    def profiles_kill(self):
+        return self.profiles.get('kill', {}).get('profiles', [])
+
+    @property
+    def profiles_unconfined(self):
+        return self.profiles.get('unconfined', {}).get('profiles', [])
 
 
 class AAProfileFactory(FactoryBase):
