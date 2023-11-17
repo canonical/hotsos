@@ -409,7 +409,7 @@ class PluginRunner(object):
         for part_info in self.parts:
             # update current env to reflect actual part being run
             runner = part_info['runner']
-            name = runner.__class__.__name__
+            name = runner.__name__
             HotSOSConfig.part_name = name
             inst = runner()
             # Only run plugin if it declares itself runnable.
