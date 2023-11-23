@@ -272,6 +272,14 @@ NC_LOGS = """
 2022-02-09 23:00:12.155 53085 ERROR oslo_service.periodic_task oslo_messaging.exceptions.MessagingTimeout: Timed out waiting for a reply to message ID 900f3db832cb4c5b95f21a421d5dcffa
 """ # noqa
 
+OVSDBAPP_LEADER_CHANGING = """
+2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+2023-11-23 02:53:18.437 5547 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+2023-11-23 04:54:52.122 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+2023-11-23 04:55:40.020 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:16642: clustered database server is not cluster leader; trying another server
+2023-11-23 04:55:40.076 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+""" # noqa
+
 
 class TestOpenstackBase(utils.BaseTestCase):
 
@@ -1038,6 +1046,19 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                                        'PUT': 3,
                                                        'POST': 4,
                                                        'DELETE': 5}}}}
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
+
+    @utils.create_data_root({'var/log/neutron/neutron-server.log':
+                             OVSDBAPP_LEADER_CHANGING})
+    def test_server_ovsdbapp_events(self):
+        inst = agent.events.NeutronAgentEventChecks()
+        inst.load_and_run()
+        expected = {'neutron-server': {
+                    'ovsdbapp-nb-leader-reconnect': {
+                        '2023-11-23': {'6641': 2}},
+                    'ovsdbapp-sb-leader-reconnect': {
+                        '2023-11-23': {'16642': 3}}}}
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, expected)
 

@@ -1,0 +1,95 @@
+target-name: ovndb_leader_bouncing.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l:
+      ii  neutron-server 2:16.4.2-0ubuntu6.3 all
+    var/log/neutron/neutron-server.log: |
+        2023-11-23 02:53:12.211 2185 INFO ovsdbapp.backend.ovs_idl.vlog [req-f02a8e4a-51f8-42ab-9c92-7d554cb21fbf - - - - -] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.213 2275 INFO ovsdbapp.backend.ovs_idl.vlog [req-80be415f-dde4-443b-a1ec-4b5e62d6cf31 - - - - -] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.213 2220 INFO ovsdbapp.backend.ovs_idl.vlog [req-1fd0fa20-95d5-4d7b-b4d0-b009c08c0f06 - - - - -] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.215 5578 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.219 2174 INFO ovsdbapp.backend.ovs_idl.vlog [req-f784f096-b5eb-4965-a98e-1abbf797c90b - - - - -] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.222 2184 INFO ovsdbapp.backend.ovs_idl.vlog [req-b1530566-8019-4b35-af7d-53bd82c421c1 - - - - -] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.223 2158 INFO ovsdbapp.backend.ovs_idl.vlog [req-8a89753a-f9bc-450c-a4d2-2ba5e79f5957 - - - - -] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.223 5545 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:12.236 2224 INFO ovsdbapp.backend.ovs_idl.vlog [req-2d0c21a8-fdc8-4a43-a49c-7a66204d747c - - - - -] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:13.244 5561 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:13.245 5569 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:17.494 5569 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:17.572 2184 INFO ovsdbapp.backend.ovs_idl.vlog [req-b1530566-8019-4b35-af7d-53bd82c421c1 - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:17.591 5545 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:17.664 2185 INFO ovsdbapp.backend.ovs_idl.vlog [req-f02a8e4a-51f8-42ab-9c92-7d554cb21fbf - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:17.768 5572 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:17.995 2158 INFO ovsdbapp.backend.ovs_idl.vlog [req-8a89753a-f9bc-450c-a4d2-2ba5e79f5957 - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.019 2225 INFO ovsdbapp.backend.ovs_idl.vlog [req-4ada843f-707f-4c6a-8e7d-5c515116837f - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.036 2275 INFO ovsdbapp.backend.ovs_idl.vlog [req-80be415f-dde4-443b-a1ec-4b5e62d6cf31 - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.063 5578 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.214 5561 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.298 5550 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.320 2220 INFO ovsdbapp.backend.ovs_idl.vlog [req-1fd0fa20-95d5-4d7b-b4d0-b009c08c0f06 - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.340 5583 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.360 2250 INFO ovsdbapp.backend.ovs_idl.vlog [req-43efd036-3209-490c-bd81-546366665d52 - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.363 2174 INFO ovsdbapp.backend.ovs_idl.vlog [req-f784f096-b5eb-4965-a98e-1abbf797c90b - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.396 2224 INFO ovsdbapp.backend.ovs_idl.vlog [req-2d0c21a8-fdc8-4a43-a49c-7a66204d747c - - - - -] ssl:10.22.0.244:6641: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.415 5567 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 02:53:18.437 5547 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 04:54:52.122 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 04:55:40.020 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 04:55:40.076 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 07:25:22.145 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 07:27:12.190 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 07:27:12.415 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:53:14.298 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.244:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.344 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.243:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+        2023-11-23 09:54:39.458 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-issues:
+  OpenstackWarning:
+    The neutron-server service on this host is having to frequently reconnect
+    to a different OVN Southbound database server (port=16642) because the
+    leader is frequently changing (see summary output for exact numbers). This
+    is a sign of instability in the OVN Southbound database that will have a
+    knock-on effect on Neutron API performance and should be investigated.
+

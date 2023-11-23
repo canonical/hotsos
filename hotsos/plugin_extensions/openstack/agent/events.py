@@ -107,7 +107,10 @@ class APIEvents(OpenstackEventHandlerBase):
 
 class AgentEventsCallback(OpenstackEventCallbackBase):
     event_group = 'neutron.agents'
+    ovsdbapp_event_names = ['ovsdbapp-nb-leader-reconnect',
+                            'ovsdbapp-sb-leader-reconnect']
     event_names = ['rpc-loop', 'router-spawn-events', 'router-updates']
+    event_names += ovsdbapp_event_names
 
     def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
         stats = LogEventStats(results, tag_prefix, custom_idxs=custom_idxs)
@@ -121,7 +124,11 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
 
     def __call__(self, event):
         agent = event.section
-        if event.name in ['rpc-loop', 'router-spawn-events']:
+        if event.name in self.ovsdbapp_event_names:
+            ret = self.categorise_events(event)
+            if ret:
+                return {event.name: ret}, agent
+        elif event.name in ['rpc-loop', 'router-spawn-events']:
             ret = self._get_event_stats(event.results, event.search_tag)
             if ret:
                 return {event.name: ret}, agent
@@ -142,6 +149,12 @@ class NeutronAgentEventChecks(OpenstackEventHandlerBase):
     on the full set of samples.
     """
     event_group = 'neutron.agents'
+
+    # NOTE: can share summary index with l3 agent since they will never be
+    #       colocated.
+    def __102_summary_neutron_server(self):
+        out = self.final_event_results or {}
+        return out.get('neutron-server')
 
     def __102_summary_neutron_l3_agent(self):
         out = self.final_event_results or {}
