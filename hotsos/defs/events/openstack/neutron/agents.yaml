@@ -1,4 +1,11 @@
 # NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
+neutron-server:
+  input:
+    path: 'var/log/neutron/neutron-server.log'
+  ovsdbapp-nb-leader-reconnect:
+    expr: '([\d-]+) [\d:]+\.\d{3} .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:(6641): clustered database server is not cluster leader; trying another server'
+  ovsdbapp-sb-leader-reconnect:
+    expr: '([\d-]+) [\d:]+\.\d{3} .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:(1?6642): clustered database server is not cluster leader; trying another server'
 neutron-ovs-agent:
   input:
     path: 'var/log/neutron/neutron-openvswitch-agent.log'

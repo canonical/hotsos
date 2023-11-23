@@ -1,0 +1,49 @@
+checks:
+  is_neutron_server:
+    apt: neutron-server
+  has_nbdb_log:
+    input: var/log/neutron/neutron-server.log
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:(6641): clustered database server is not cluster leader; trying another server'
+    constraints:
+      min-results: 50
+      search-result-age-hours: 24
+  has_sbdb_log:
+    input: var/log/neutron/neutron-server.log
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:(1?6642): clustered database server is not cluster leader; trying another server'
+    constraints:
+      min-results: 50
+      search-result-age-hours: 24
+conclusions:
+  has_frequent_nbdb_reconnections:
+    decision:
+      - is_neutron_server
+      - has_nbdb_log
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The neutron-server service on this host is having to frequently
+        reconnect to a different OVN Northbound database server (port={port})
+        because the leader is frequently changing (see summary output for exact
+        numbers). This is a sign of instability in the OVN Northbound database
+        that will have a knock-on effect on Neutron API performance and should
+        be investigated.
+      format-dict:
+        port: '@checks.has_nbdb_log.search.results_group_3:unique_comma_join'
+        num: '@checks.has_nbdb_log.search.num_results'
+  has_frequent_sbdb_reconnections:
+    decision:
+      - is_neutron_server
+      - has_sbdb_log
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The neutron-server service on this host is having to frequently
+        reconnect to a different OVN Southbound database server (port={port})
+        because the leader is frequently changing (see summary output for exact
+        numbers). This is a sign of instability in the OVN Southbound database
+        that will have a knock-on effect on Neutron API performance and should
+        be investigated.
+      format-dict:
+        port: '@checks.has_sbdb_log.search.results_group_3:unique_comma_join'
+        num: '@checks.has_sbdb_log.search.num_results'
+
