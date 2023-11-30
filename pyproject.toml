@@ -30,7 +30,7 @@ dependencies = [
     'progress',
     'propertree >= 1.0.3',
     'pyyaml',
-    'searchkit >= 0.4.0',
+    'searchkit@git+https://github.com/mustafakemalgilor/searchkit.git#egg=enhancement/hyperscan-search-def',
     'simplejson',
     'python-dateutil',
     'pytz',

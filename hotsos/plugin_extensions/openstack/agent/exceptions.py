@@ -8,6 +8,7 @@ from hotsos.core.plugins.openstack.common import OpenstackChecksBase
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
+    HyperscanSearchDef,
     SearchConstraintSearchSince,
 )
 from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
@@ -47,6 +48,7 @@ class AgentExceptionCheckResults(UserDict):
             3: log entry
         """
         exceptions = {}
+        # log.info(results)
         for result in results:
             # strip leading/trailing quotes
             exc_name = result.get(3).strip("'")
@@ -155,29 +157,68 @@ class AgentExceptionChecks(OpenstackChecksBase):
             constraints = False
 
         tag = "{}.{}".format(project.name, agent_name)
-        if project.exceptions:
-            exc_names = "(?:{})".format('|'.join(project.exceptions))
-            expr = expr_template.format(exc_names)
-            self.searchobj.add(SearchDef(expr, tag=tag + '.error',
-                                         hint='( ERROR | Traceback)'),
-                               logs_path,
-                               allow_global_constraints=constraints)
 
-        warn_exprs = self._agent_warnings.get(project.name, [])
-        if warn_exprs:
-            values = "(?:{})".format('|'.join(warn_exprs))
-            expr = expr_template.format(values)
-            self.searchobj.add(SearchDef(expr, tag=tag + '.warning',
-                                         hint='WARNING'), logs_path,
-                               allow_global_constraints=constraints)
+        use_hyperscan = True
+        test_combine_all_expressions = False
 
-        err_exprs = self._agent_errors.get(project.name, [])
-        if err_exprs:
-            values = "(?:{})".format('|'.join(err_exprs))
-            expr = expr_template.format(values)
-            sd = SearchDef(expr, tag=tag + '.error', hint='ERROR')
-            self.searchobj.add(sd, logs_path,
-                               allow_global_constraints=constraints)
+        SearchDefType = SearchDef
+        if use_hyperscan:
+            SearchDefType = HyperscanSearchDef
+
+        # TODO(mkg): Combine these three to a single hyperscan DB.
+        # future-mkg: combining these to a single db is not trivial,
+        # I'll address this later.
+
+        if test_combine_all_expressions:
+            # This is for testing how combining all expressions
+            # into a single hyperscan DB would perform. It's not
+            # functionally correct.
+            all_exprs = []
+
+            for el in (project.exceptions, self._agent_warnings.get(
+                       project.name, []),
+                       self._agent_errors.get(project.name, [])):
+                if not el:
+                    continue
+                exc_names = "(?:{})".format('|'.join(el))
+                expr = expr_template.format(
+                    "CRITICAL|FATAL|ERROR|WARNING|WARN",
+                    exc_names)
+                all_exprs.append(expr)
+
+            self.searchobj.add(
+                SearchDefType(all_exprs,
+                              tag=tag + '.error',
+                              hint='( ERROR | Traceback)'),
+                logs_path,
+                allow_global_constraints=constraints)
+        else:
+            errors = []
+
+            if project.exceptions:
+                errors.extend(project.exceptions)
+
+            err_exprs = self._agent_errors.get(project.name, [])
+            if err_exprs:
+                errors.extend(err_exprs)
+
+            if len(errors) > 0:
+                exc_names = "(?:{})".format('|'.join(errors))
+                expr = expr_template.format("ERROR", exc_names)
+                self.searchobj.add(
+                    SearchDefType(expr, tag=tag + '.error',
+                                  hint='( ERROR | Traceback)'),
+                    logs_path,
+                    allow_global_constraints=constraints)
+
+            warn_exprs = self._agent_warnings.get(project.name, [])
+            if warn_exprs:
+                values = "(?:{})".format('|'.join(warn_exprs))
+                expr = expr_template.format("WARNING|WARN", values)
+                self.searchobj.add(
+                    SearchDefType(expr, tag=tag + '.warning',
+                                  hint='WARNING'), logs_path,
+                    allow_global_constraints=constraints)
 
     def _load(self):
         """Register searches for exceptions as well as any other type of issue
@@ -215,13 +256,10 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 prefix_match = (r'(?:{})?'.
                                 format(wsgi_prefix or keystone_prefix))
 
-            # Sometimes the exception is printed with just the class name
-            # and sometimes it is printed with a full import path e.g.
-            # MyExc or somemod.MyExc so we need to account for both.
-            exc_obj_full_path_match = r'(?:\S+\.)?'
-            expr_template = (r"^{}([0-9\-]+) (\S+) .+\S+\s({}{{}})[\s:\.]".
-                             format(prefix_match, exc_obj_full_path_match))
-
+            expr_template = "^" + prefix_match + \
+                r"(\d{{4}}-\d{{2}}-\d{{2}}) "\
+                r"(\d{{2}}:\d{{2}}:\d{{2}}\.\d{{3}}) "\
+                r"(?:\d+ )?(?:{}) (?:\S+)(?: \[.+\])?.* ((?:\S+\.)?{}):.*"
             # NOTE: don't check exceptions for deprecated services
             for agent, log_paths in project.log_paths(
                     include_deprecated_services=False):
