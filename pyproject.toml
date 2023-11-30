@@ -19,22 +19,10 @@ name = "hotsos"
 description = "Software analysis toolkit. Define checks in high-level language and leverage library to perform analysis of common Cloud applications."
 readme = "README.md"
 requires-python = ">=3.8"
-dynamic = ["version"]
-# NOTE: updates to this section must also be relected in requirements.txt
-dependencies = [
-    'importlib-metadata; python_version >= "3.8"',
-    'click',
-    'cryptography',
-    'distro',
-    'jinja2',
-    'progress',
-    'propertree >= 1.0.3',
-    'pyyaml',
-    'searchkit >= 0.4.0',
-    'simplejson',
-    'python-dateutil',
-    'pytz',
-]
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
 
 [project.scripts]
 hotsos = "hotsos.cli:main"
