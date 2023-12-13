@@ -61,6 +61,14 @@ LEADERSHIP_TRANSFERS = """
 2022-07-27T05:17:45.365Z|118228|raft|INFO|received leadership transfer from fd77 in term 41911
 """  # noqa
 
+NORTHD_LEADER_CHANGE = """
+2023-12-13T03:26:27.299Z|16875|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2023-12-13T04:57:13.234Z|16898|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2023-12-13T04:57:13.235Z|16901|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2023-12-13T04:58:46.709Z|16908|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2023-12-13T05:52:37.116Z|18133|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+"""  # noqa
+
 NBDB_COMPACTION = """
 2022-07-13T23:32:57.624Z|631027|ovsdb|INFO|OVN_Northbound: Database compaction took 2145ms
 2022-07-13T23:43:51.864Z|631056|ovsdb|INFO|OVN_Northbound: Database compaction took 2279ms
@@ -335,7 +343,10 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovn-central.yaml',
                                         'events/openvswitch'))
     def test_ovn_central_checks(self):
-        expected = {'ovsdb-server-sb': {
+        expected = {'ovn-northd': {
+                        'leadership-acquired': {
+                            '2022-02-16': 1, '2022-02-17': 2}},
+                    'ovsdb-server-sb': {
                         'inactivity-probe': {
                             '2022-02-16': {'10.130.11.109': 1,
                                            '10.130.11.110': 1},
@@ -427,6 +438,18 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                                             '2022-07-27': 2}},
                     'ovsdb-server-sb': {'leadership-transfers': {
                                             '2022-07-27': 2}}}
+        inst = event_checks.OVNEventChecks()
+        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('ovn/ovn-central.yaml',
+                                        'events/openvswitch'))
+    @utils.create_data_root({'var/log/ovn/ovn-northd.log':
+                             NORTHD_LEADER_CHANGE},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_ovn_northd_leadership_changes(self):
+        expected = {'ovn-northd': {'leadership-acquired': {
+                                            '2023-12-13': 2}}}
         inst = event_checks.OVNEventChecks()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 

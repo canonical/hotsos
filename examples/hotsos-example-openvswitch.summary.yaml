@@ -112,6 +112,9 @@ openvswitch:
       involuntary-context-switches:
         '2022-02-17':
           '04': 136
+    ovn-northd:
+      leadership-acquired:
+        '2022-02-17': 2
     ovsdb-server-nb:
       inactivity-probe:
         '2022-02-17':

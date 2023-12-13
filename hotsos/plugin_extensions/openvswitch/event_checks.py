@@ -226,7 +226,8 @@ class OVNEventCallbackLogs(OpenvSwitchEventCallbackBase):
     event_names = ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
                    'ovn-controller', 'unreasonably-long-poll-interval',
                    'inactivity-probe', 'bridge-not-found-for-port',
-                   'leadership-transfers', 'compactions']
+                   'leadership-transfers', 'compactions',
+                   'leadership-acquired']
 
     def __call__(self, event):
         key_by_date = True

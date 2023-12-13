@@ -25,8 +25,10 @@ ovsdb-server-nb:
       - '([\d-]+)T[\d:]+\.\d+Z.+\|raft\|INFO\|Transferring leadership to write a snapshot.'
   compactions:
     expr: '([\d-]+)T[\d:]+\.\d+Z.+\|ovsdb\|INFO\|OVN_Northbound: Database compaction'
-northd:
+ovn-northd:
   input:
     path: 'var/log/ovn/ovn-northd.log'
   inactivity-probe:
     expr: '([\d-]+)T[\d:]+\.\d+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
+  leadership-acquired:
+    expr: '([\d-]+)T[\d:]+\.\d+Z.+\|ovn_northd\|INFO\|ovn-northd lock acquired. This ovn-northd instance is now active.'
