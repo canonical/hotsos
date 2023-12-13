@@ -895,10 +895,16 @@ class CLIHelperBase(HostHelpersBase):
                  FileCmd('sos_commands/networking/namespaces/{namespace}/'
                          'ip_netns_exec_{namespace}_ip_-d_address_show')],
             'ovn_nbctl_show':
-                [BinCmd('ovn-nbctl show'),
+                [BinCmd('ovn-nbctl --no-leader-only show'),
+                 FileCmd('sos_commands/ovn_central/'
+                         'ovn-nbctl_--no-leader-only_show'),
+                 # sosreport < 4.5
                  FileCmd('sos_commands/ovn_central/ovn-nbctl_show')],
             'ovn_sbctl_show':
-                [BinCmd('ovn-sbctl show'),
+                [BinCmd('ovn-sbctl --no-leader-only show'),
+                 FileCmd('sos_commands/ovn_central/'
+                         'ovn-sbctl_--no-leader-only_show'),
+                 # sosreport < 4.5
                  FileCmd('sos_commands/ovn_central/ovn-sbctl_show')],
             'ovs_vsctl_get_Open_vSwitch':
                 [BinCmd('ovs-vsctl get Open_vSwitch . {record}',
