@@ -280,6 +280,15 @@ OVSDBAPP_LEADER_CHANGING = """
 2023-11-23 04:55:40.076 5620 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:10.22.0.242:16642: clustered database server is not cluster leader; trying another server
 """ # noqa
 
+OVN_RESOURCE_VERSION_BUMP_EVENTS = """
+2023-12-09 07:47:51.292 1380560 INFO neutron.db.ovn_revision_numbers_db [req-d714b598-190d-4c47-ad2d-b4e97352e2ce - - - - -] Successfully bumped revision number for resource d82ce545-ccdf-4784-9cc7-ba10f8051d1a (type: router_ports) to 19344
+2023-12-09 07:47:51.567 1380560 INFO neutron.db.ovn_revision_numbers_db [req-d714b598-190d-4c47-ad2d-b4e97352e2ce - - - - -] Successfully bumped revision number for resource d82ce545-ccdf-4784-9cc7-ba10f8051d1a (type: ports) to 19343
+2023-12-09 07:47:51.682 1380557 INFO neutron.db.ovn_revision_numbers_db [req-9d803205-fec7-459f-bb6b-9c5f2b446427 - - - - -] Successfully bumped revision number for resource 4dedf9dd-ff5e-4b71-bebb-9d168b83c0b8 (type: ports) to 31477
+2023-12-09 07:47:51.859 1380559 INFO neutron.db.ovn_revision_numbers_db [req-19a5f512-8e5b-4530-912f-e812f82cb6db - - - - -] Successfully bumped revision number for resource ed43f1b0-c11c-46dc-9c1a-9654d450a010 (type: router_ports) to 53482
+2023-12-09 07:47:52.150 1380559 INFO neutron.db.ovn_revision_numbers_db [req-19a5f512-8e5b-4530-912f-e812f82cb6db - - - - -] Successfully bumped revision number for resource ed43f1b0-c11c-46dc-9c1a-9654d450a010 (type: ports) to 53482
+2023-12-09 07:47:52.371 1380557 INFO neutron.db.ovn_revision_numbers_db [req-9d803205-fec7-459f-bb6b-9c5f2b446427 - - - - -] Successfully bumped revision number for resource 4dedf9dd-ff5e-4b71-bebb-9d168b83c0b8 (type: router_ports) to 31477
+""" # noqa
+
 
 class TestOpenstackBase(utils.BaseTestCase):
 
@@ -1059,6 +1068,19 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                         '2023-11-23': {'6641': 2}},
                     'ovsdbapp-sb-leader-reconnect': {
                         '2023-11-23': {'16642': 3}}}}
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
+
+    @utils.create_data_root({'var/log/neutron/neutron-server.log':
+                             OVN_RESOURCE_VERSION_BUMP_EVENTS})
+    def test_server_ovn_resource_version_bump_events(self):
+        inst = agent.events.NeutronAgentEventChecks()
+        inst.load_and_run()
+        expected = {'neutron-server': {
+                        'ovn-resource-revision-bump': {'2023-12-09': {
+                            '4dedf9dd-ff5e-4b71-bebb-9d168b83c0b8': 2,
+                            'd82ce545-ccdf-4784-9cc7-ba10f8051d1a': 2,
+                            'ed43f1b0-c11c-46dc-9c1a-9654d450a010': 2}}}}
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, expected)
 

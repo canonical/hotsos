@@ -109,8 +109,9 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
     event_group = 'neutron.agents'
     ovsdbapp_event_names = ['ovsdbapp-nb-leader-reconnect',
                             'ovsdbapp-sb-leader-reconnect']
+    ovn_mech_driver_events = ['ovn-resource-revision-bump']
     event_names = ['rpc-loop', 'router-spawn-events', 'router-updates']
-    event_names += ovsdbapp_event_names
+    event_names += ovsdbapp_event_names + ovn_mech_driver_events
 
     def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
         stats = LogEventStats(results, tag_prefix, custom_idxs=custom_idxs)
@@ -124,7 +125,8 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
 
     def __call__(self, event):
         agent = event.section
-        if event.name in self.ovsdbapp_event_names:
+        if event.name in self.ovsdbapp_event_names + \
+                self.ovn_mech_driver_events:
             ret = self.categorise_events(event)
             if ret:
                 return {event.name: ret}, agent

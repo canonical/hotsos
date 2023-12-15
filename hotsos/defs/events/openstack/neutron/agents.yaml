@@ -6,6 +6,8 @@ neutron-server:
     expr: '([\d-]+) [\d:]+\.\d{3} .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:(6641): clustered database server is not cluster leader; trying another server'
   ovsdbapp-sb-leader-reconnect:
     expr: '([\d-]+) [\d:]+\.\d{3} .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:(1?6642): clustered database server is not cluster leader; trying another server'
+  ovn-resource-revision-bump:
+    expr: '([\d-]+) [\d:]+\.\d{3} .+ neutron.db.ovn_revision_numbers_db \[[\S\s-]+\] Successfully bumped revision number for resource (\S+) \(type: \S+\) to \d+'
 neutron-ovs-agent:
   input:
     path: 'var/log/neutron/neutron-openvswitch-agent.log'

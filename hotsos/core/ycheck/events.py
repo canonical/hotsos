@@ -186,6 +186,14 @@ class EventProcessingUtils(object):
             if not key_by_date:
                 for key in info:
                     info[key] = sorted_dict(info[key])
+            elif not include_time:
+                # sort by value i.e. tally/count
+                for key in info:
+                    if not isinstance(info[key], dict):
+                        break
+
+                    info[key] = sorted_dict(info[key], key=lambda e: e[1],
+                                            reverse=True)
 
             results = sorted_dict(info, reverse=not key_by_date)
             if not (key_by_date and max_results_per_date):
