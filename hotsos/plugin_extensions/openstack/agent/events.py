@@ -109,7 +109,8 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
     event_group = 'neutron.agents'
     ovsdbapp_event_names = ['ovsdbapp-nb-leader-reconnect',
                             'ovsdbapp-sb-leader-reconnect']
-    ovn_mech_driver_events = ['ovn-resource-revision-bump']
+    ovn_mech_driver_events = ['ovn-resource-revision-bump',
+                              'ovsdb-monitor-router-binding-transitions']
     event_names = ['rpc-loop', 'router-spawn-events', 'router-updates']
     event_names += ovsdbapp_event_names + ovn_mech_driver_events
 
@@ -125,7 +126,39 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
 
     def __call__(self, event):
         agent = event.section
-        if event.name in self.ovsdbapp_event_names + \
+        if event.name == 'ovsdb-monitor-router-binding-transitions':
+            # The ovsdbmonitor will print bindings which will eventually
+            # reflect transitions so we need to filter out contiguous bindings
+            # to the same chassis so that we are just left with transitions
+            # that we can then count.
+            results = []
+            for r in event.results:
+                results.append({'date': r.get(1), 'time': r.get(2),
+                                'router': r.get(3), 'key': r.get(4)})
+
+            results = sorted(results,
+                             key=lambda e:
+                             datetime.datetime.strptime(
+                                 "{} {}".format(e['date'],
+                                                e['time']),
+                                 '%Y-%m-%d %H:%M:%S'))
+
+            new_results = []
+            last_known = {}
+            host_key = 'key'
+            for item in results:
+                router = item['router']
+                if router not in last_known:
+                    last_known[router] = item
+                elif last_known[router][host_key] != item[host_key]:
+                    # remember hosts port transitioned from
+                    new_results.append(last_known[router])
+                    last_known[router] = item
+
+            ret = self.categorise_events(event, results=new_results)
+            if ret:
+                return {event.name: ret}, agent
+        elif event.name in self.ovsdbapp_event_names + \
                 self.ovn_mech_driver_events:
             ret = self.categorise_events(event)
             if ret:

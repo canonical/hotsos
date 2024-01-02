@@ -8,6 +8,8 @@ neutron-server:
     expr: '([\d-]+) [\d:]+\.\d{3} .+ ovsdbapp.backend.ovs_idl.vlog \[-\] ssl:\S+:(1?6642): clustered database server is not cluster leader; trying another server'
   ovn-resource-revision-bump:
     expr: '([\d-]+) [\d:]+\.\d{3} .+ neutron.db.ovn_revision_numbers_db \[[\S\s-]+\] Successfully bumped revision number for resource (\S+) \(type: \S+\) to \d+'
+  ovsdb-monitor-router-binding-transitions:
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.ovsdb_monitor \[[\S\s-]+\] Router (\S+) is bound to host (\S+)'
 neutron-ovs-agent:
   input:
     path: 'var/log/neutron/neutron-openvswitch-agent.log'
