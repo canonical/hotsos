@@ -152,6 +152,14 @@ def progress_spinner(show_spinner, spinner_msg):
 
 def main():
     @click.command(name='hotsos')
+    @click.option('--event', default='',
+                  help=('Filter a particular event name. Useful for '
+                        'testing/debugging. Format is '
+                        '<plugin name>.<group>.<event>'))
+    @click.option('--scenario', default='',
+                  help=('Filter a particular scenario name. Useful for '
+                        'testing/debugging. Format is '
+                        '<plugin name>.<group>.<scenario>'))
     @click.option('--sos-unpack-dir', default=None,
                   help=('Location used to unpack sosreports. Useful if you '
                         'want to cache the unpacked sosreport for subsequent '
@@ -233,7 +241,7 @@ def main():
             quiet, save, output_format, html_escape, short, very_short,
             force, event_tally_granularity, max_logrotate_depth,
             max_parallel_tasks, list_plugins, machine_readable, output_path,
-            command_timeout, sos_unpack_dir, **kwargs):
+            command_timeout, sos_unpack_dir, scenario, event, **kwargs):
         """
         Run this tool on a host or against a sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -273,7 +281,9 @@ def main():
                   'max_logrotate_depth': max_logrotate_depth,
                   'max_parallel_tasks': max_parallel_tasks,
                   'machine_readable': machine_readable,
-                  'debug_mode': debug}
+                  'debug_mode': debug,
+                  'scenario_filter': scenario,
+                  'event_filter': event}
         HotSOSConfig.set(**config)
 
         with LoggingManager() as logmanager:

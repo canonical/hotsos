@@ -277,6 +277,14 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                   len(group.leaf_sections))
 
         for event in group.leaf_sections:
+            fullname = "{}.{}.{}".format(HotSOSConfig.plugin_name,
+                                         event.parent.name, event.name)
+            if (HotSOSConfig.event_filter and
+                    fullname != HotSOSConfig.event_filter):
+                log.info("skipping event %s (filter=%s)", fullname,
+                         HotSOSConfig.event_filter)
+                continue
+
             if (not HotSOSConfig.force_mode and event.requires and not
                     event.requires.passes):
                 log.error("event '%s' pre-requisites not met - "

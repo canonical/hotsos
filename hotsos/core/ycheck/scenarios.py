@@ -69,6 +69,14 @@ class YScenarioChecker(YHandlerBase):
 
         checks = []
         for scenario in yscenarios.leaf_sections:
+            fullname = "{}.{}.{}".format(HotSOSConfig.plugin_name,
+                                         scenario.parent.name, scenario.name)
+            if (HotSOSConfig.scenario_filter and
+                    fullname != HotSOSConfig.scenario_filter):
+                log.info("skipping scenario %s (filter=%s)", fullname,
+                         HotSOSConfig.scenario_filter)
+                continue
+
             # Only register scenarios if requirements are satisfied.
             group_name = scenario.parent.name
             if (not HotSOSConfig.force_mode and

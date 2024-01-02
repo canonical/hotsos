@@ -109,6 +109,16 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
                                         "by host_helpers.cli when executing "
                                         "binary commands"),
                            default_value=300, value_type=int))
+        self.add(ConfigOpt(name='event_filter',
+                           description=("Name of event to run. Set this if "
+                                        "you want to run a single event. "
+                                        "Useful for testing/debugging"),
+                           default_value='', value_type=str))
+        self.add(ConfigOpt(name='scenario_filter',
+                           description=("Name of scenario to run. Set this if "
+                                        "you want to run a single scenario. "
+                                        "Useful for testing/debugging"),
+                           default_value='', value_type=str))
 
     @property
     def name(self):

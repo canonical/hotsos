@@ -59,7 +59,7 @@ class FakeServiceObject(object):
         self.has_instances = has_instances
 
 
-def init_test_scenario(yaml_contents):
+def init_test_scenario(yaml_contents, scenario_name=None):
     """
     Create a temporary defs path with a scenario yaml under it.
 
@@ -70,8 +70,10 @@ def init_test_scenario(yaml_contents):
             with tempfile.TemporaryDirectory() as dtmp:
                 HotSOSConfig.plugin_yaml_defs = dtmp
                 HotSOSConfig.plugin_name = 'myplugin'
-                yroot = os.path.join(dtmp, 'scenarios', 'myplugin')
-                yfile = os.path.join(yroot, 'test.yaml')
+                yroot = os.path.join(dtmp, 'scenarios', 'myplugin',
+                                     'scenariogroup')
+                sname = scenario_name or 'test'
+                yfile = os.path.join(yroot, '{}.yaml'.format(sname))
                 os.makedirs(os.path.dirname(yfile))
                 with open(yfile, 'w') as fd:
                     fd.write(yaml_contents)
@@ -998,3 +1000,23 @@ class TestYamlScenarios(utils.BaseTestCase):
         scenarios.YScenarioChecker().load_and_run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
+
+    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
+    def test_scenarios_filter_none(self):
+        sc = scenarios.YScenarioChecker()
+        sc.load()
+        self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
+
+    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
+    def test_scenarios_filter_myscenario(self):
+        HotSOSConfig.scenario_filter = 'myplugin.scenariogroup.myscenario'
+        sc = scenarios.YScenarioChecker()
+        sc.load()
+        self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
+
+    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
+    def test_scenarios_filter_nonexistent(self):
+        HotSOSConfig.scenario_filter = 'blahblah'
+        sc = scenarios.YScenarioChecker()
+        sc.load()
+        self.assertEqual([s.name for s in sc.scenarios], [])
