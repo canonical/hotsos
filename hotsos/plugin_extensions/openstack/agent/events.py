@@ -160,7 +160,11 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
                 return {event.name: ret}, agent
         elif event.name in self.ovsdbapp_event_names + \
                 self.ovn_mech_driver_events:
-            ret = self.categorise_events(event)
+            if event.name == 'ovn-resource-revision-bump':
+                ret = self.categorise_events(event, max_results_per_date=5)
+            else:
+                ret = self.categorise_events(event)
+
             if ret:
                 return {event.name: ret}, agent
         elif event.name in ['rpc-loop', 'router-spawn-events']:
