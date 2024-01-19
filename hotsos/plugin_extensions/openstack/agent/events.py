@@ -110,7 +110,8 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
     ovsdbapp_event_names = ['ovsdbapp-nb-leader-reconnect',
                             'ovsdbapp-sb-leader-reconnect']
     ovn_mech_driver_events = ['ovn-resource-revision-bump',
-                              'ovsdb-monitor-router-binding-transitions']
+                              'ovsdb-monitor-router-binding-transitions',
+                              'ovsdb-transaction-aborted']
     event_names = ['rpc-loop', 'router-spawn-events', 'router-updates']
     event_names += ovsdbapp_event_names + ovn_mech_driver_events
 
@@ -162,6 +163,16 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
                 self.ovn_mech_driver_events:
             if event.name == 'ovn-resource-revision-bump':
                 ret = self.categorise_events(event, max_results_per_date=5)
+            elif event.name == 'ovsdb-transaction-aborted':
+                ret = {}
+                for result in event.results:
+                    _date = result.get(1)
+                    if _date in ret:
+                        ret[_date] += 1
+                    else:
+                        ret[_date] = 1
+
+                ret = sorted_dict(ret)
             else:
                 ret = self.categorise_events(event)
 
