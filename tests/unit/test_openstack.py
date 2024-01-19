@@ -289,6 +289,14 @@ OVN_RESOURCE_VERSION_BUMP_EVENTS = """
 2023-12-09 07:47:52.371 1380557 INFO neutron.db.ovn_revision_numbers_db [req-9d803205-fec7-459f-bb6b-9c5f2b446427 - - - - -] Successfully bumped revision number for resource 4dedf9dd-ff5e-4b71-bebb-9d168b83c0b8 (type: router_ports) to 31477
 """ # noqa
 
+OVN_OVSDB_ABORTED_TRANSACTIONS = """
+2023-12-12 22:55:09.584 3607986 INFO neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn [req-c0daac60-b52f-4fd8-8bb3-32ff982f4078 - - - - -] Transaction aborted. Reason: OVN revision number for 8c3bd483-f06e-479b-84d1-cee91b1969e4 (type: ports) is equal or higher than the given resource. Skipping update
+2023-12-12 23:00:06.226 3607985 INFO neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn [req-5a3bbb53-2e72-483f-b921-ddf9fcc9032e - - - - -] Transaction aborted. Reason: OVN revision number for c3b33b44-2339-4193-ae15-678a8ca1008e (type: ports) is equal or higher than the given resource. Skipping update
+2023-12-12 23:39:28.376 3607984 INFO neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn [req-ec21f612-a85f-4f7b-aef8-4cd81cc372b8 - - - - -] Transaction aborted. Reason: OVN revision number for 28db1807-5fdf-4e9e-9c19-8d3be7be299e (type: ports) is equal or higher than the given resource. Skipping update
+2023-12-12 23:40:11.605 3607984 INFO neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn [req-ec21f612-a85f-4f7b-aef8-4cd81cc372b8 - - - - -] Transaction aborted. Reason: OVN revision number for lrp-28db1807-5fdf-4e9e-9c19-8d3be7be299e (type: router_ports) is equal or higher than the given resource. Skipping update
+2023-12-12 23:45:05.716 3607984 INFO neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn [req-ec21f612-a85f-4f7b-aef8-4cd81cc372b8 - - - - -] Transaction aborted. Reason: OVN revision number for 28db1807-5fdf-4e9e-9c19-8d3be7be299e (type: ports) is equal or higher than the given resource. Skipping update
+""" # noqa
+
 
 class TestOpenstackBase(utils.BaseTestCase):
 
@@ -1081,6 +1089,16 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                             '4dedf9dd-ff5e-4b71-bebb-9d168b83c0b8': 2,
                             'd82ce545-ccdf-4784-9cc7-ba10f8051d1a': 2,
                             'ed43f1b0-c11c-46dc-9c1a-9654d450a010': 2}}}}
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual, expected)
+
+    @utils.create_data_root({'var/log/neutron/neutron-server.log':
+                             OVN_OVSDB_ABORTED_TRANSACTIONS})
+    def test_server_ovsdb_aborted_transactions(self):
+        inst = agent.events.NeutronAgentEventChecks()
+        inst.load_and_run()
+        expected = {'neutron-server': {
+                        'ovsdb-transaction-aborted': {'2023-12-12': 5}}}
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, expected)
 
