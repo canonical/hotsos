@@ -18,6 +18,7 @@ class KernelSummary(KernelChecksBase):
 
         if cpu.model:
             model = cpu.model.lower()
+            ret = None
             # strip intel or amd trailing info
             if 'intel' in cpu.vendor:
                 ret = re.search(r'(.+) cpu @ .+', model)
