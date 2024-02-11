@@ -50,6 +50,7 @@ CEPH_LOGS = "var/log/ceph/"
 # versions for Ubuntu page:
 # https://ubuntu.com/ceph/docs/supported-ceph-versions
 CEPH_EOL_INFO = {
+    'reef': datetime(2034, 4, 30),
     'quincy': datetime(2032, 4, 30),
     'pacific': datetime(2024, 4, 30),
     'octopus': datetime(2030, 4, 30),
@@ -61,6 +62,7 @@ CEPH_EOL_INFO = {
 
 CEPH_REL_INFO = {
     'ceph-common': {
+        'reef': '18.0',
         'quincy': '17.0',
         'pacific': '16.0',
         'octopus': '15.0',
