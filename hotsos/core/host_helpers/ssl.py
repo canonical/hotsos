@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 from cryptography.hazmat.backends import default_backend
 from cryptography import x509
@@ -29,7 +29,7 @@ class SSLCertificate(object):
 
         cert = x509.load_pem_x509_certificate(self.certificate,
                                               default_backend())
-        return cert.not_valid_after
+        return cert.not_valid_after_utc
 
     @property
     def days_to_expire(self):
@@ -37,8 +37,9 @@ class SSLCertificate(object):
         Return int(days) remaining until the certificate expires
         """
         fmt = '%Y-%m-%d %H:%M:%S'
-        today = datetime.strptime(CLIHelper().date(format='+' + fmt),
-                                  fmt)
+        today = datetime.strptime(
+            CLIHelper().date(format='+' + fmt), fmt
+                ).replace(tzinfo=timezone.utc)
         days = self.expiry_date - today
         return int(days.days)
 
