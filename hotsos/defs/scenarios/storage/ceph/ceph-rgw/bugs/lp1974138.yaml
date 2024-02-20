@@ -1,0 +1,22 @@
+checks:
+  node_is_ceph_rgw_and_beast_supported_version:
+    apt:
+      librgw2:
+        - min: 14.2.0
+  ssl_enabled:
+    property: hotsos.core.plugins.openstack.OpenstackBase.ssl_enabled
+  apache2_allow_encoded_slashes_on:
+    property: hotsos.core.plugins.openstack.OpenstackBase.apache2_allow_encoded_slashes_on
+conclusions:
+  lp1974138:
+    decision:
+      - node_is_ceph_rgw_and_beast_supported_version
+      - ssl_enabled
+      - not: apache2_allow_encoded_slashes_on
+    raises:
+      type: LaunchpadBug
+      bug-id: 1974138
+      message: >-
+        In multisite S3 RGW environments, objects containing prefixes (/),
+        do not sync from primary to secondary sites if AllowEncodedSlashes
+        Apache directive is missing or set to OFF.
