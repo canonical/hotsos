@@ -8,7 +8,7 @@ jobs:
   snap:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - uses: snapcore/action-build@v1
@@ -25,18 +25,18 @@ jobs:
       - name: Run snap (Markdown output)
         run: hotsos --format markdown tests/unit/fake_data_root/openstack > output.md
       - name: Upload snap
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: snap
           path: ${{ steps.snapcraft.outputs.snap }}
       - name: Upload logs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: snap-logs
           path: /home/runner/.cache/snapcraft/log/*.log
       - name: Upload outputs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: functional-test-outputs
