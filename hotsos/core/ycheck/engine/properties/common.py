@@ -1,16 +1,14 @@
-import abc
 import builtins
 import importlib
 import inspect
+from collections import UserDict
 
-from propertree import (
+from propertree.propertree2 import (
     PTreeOverrideBase,
     PTreeMappedOverrideBase,
     PTreeSection,
 )
 from hotsos.core.log import log
-
-YPropertiesCatalog = []
 
 
 class ImportPathIsNotAClass(Exception):
@@ -21,7 +19,7 @@ class ImportPathIsNotAClass(Exception):
 
 class YDefsSection(PTreeSection):
 
-    def __init__(self, name, content, context=None):
+    def __init__(self, name, content, *args, context=None, **kwargs):
         """
         @param name: name of defs group
         @param content: defs tree of type dict
@@ -30,40 +28,11 @@ class YDefsSection(PTreeSection):
                         information amongst them. If not provided a new empty
                         one is created.
         """
-        super().__init__(name, content, override_handlers=YPropertiesCatalog,
-                         context=context or YDefsContext())
+        super().__init__(name, content, *args,
+                         context=context or YDefsContext(), **kwargs)
 
 
-def add_to_property_catalog(c):
-    """
-    Add property implementation to the global catalog.
-    """
-    YPropertiesCatalog.append(c)
-    return c
-
-
-def cached_yproperty_attr(f):
-    """
-    This can be used to cache a yproperty attribute property e.g. to avoid
-    expensive re-execution of that property with successive calls.
-    """
-    @property
-    def _inner(inst):
-        # we prefix the keyname so as to avoid collisions with non attribute
-        # items added to the cache.
-        key = "__yproperty_attr__{}".format(f.__name__)
-        ret = getattr(inst.cache, key)
-        if ret is not None:
-            return ret
-
-        ret = f(inst)
-        inst.cache.set(key, ret)
-        return ret
-
-    return _inner
-
-
-class YDefsContext(object):
+class YDefsContext(UserDict):
     """
     Provides a way to get/set arbitrary information used as context to a yaml
     defs run. This object is typically passed to a YDefsSection and accessible
@@ -73,21 +42,17 @@ class YDefsContext(object):
         """
         @param initial_state: optional dict to use as initial state.
         """
-        self._ydefs_context = initial_state or {}
+        self.data = initial_state or {}
 
-    def __setattr__(self, key, value):
-        if key != '_ydefs_context':
-            # don't print values as they can be very large and e.g. search
-            # results will be expanded re-duplicated.
-            log.debug("%s setting %s with value of type '%s'",
-                      self.__class__.__name__, key, type(value))
-            self._ydefs_context[key] = value
-            return
-
-        super().__setattr__(key, value)
+    def __setitem__(self, key, item):
+        # don't print values as they can be very large and e.g. search
+        # results will be expanded re-duplicated.
+        log.debug("%s setting %s with value of type '%s'",
+                  self.__class__.__name__, key, type(item))
+        super().__setitem__(key, item)
 
     def __getattr__(self, key):
-        return self._ydefs_context.get(key)
+        return self.data.get(key)
 
 
 class PropertyCacheRefResolver(object):
@@ -268,10 +233,7 @@ class PropertyCacheRefResolver(object):
         return self.apply_renderer(val, func)
 
 
-class PropertyCache(object):
-
-    def __init__(self):
-        self._property_cache_data = {}
+class PropertyCache(UserDict):
 
     def merge(self, cache):
         if type(cache) != self.__class__:
@@ -279,7 +241,7 @@ class PropertyCache(object):
                       "a %s", type(self.__class__.__name__))
             return
 
-        self._property_cache_data.update(cache.data)
+        self.data.update(cache.data)
 
     @property
     def id(self):
@@ -287,15 +249,11 @@ class PropertyCache(object):
 
     def set(self, key, data):
         log.debug("%s: caching key=%s with value=%s", id(self), key, data)
-        _current = self._property_cache_data.get(key)
+        _current = self.data.get(key)
         if _current and type(_current) == dict and type(data) == dict:
-            self._property_cache_data[key].update(data)
+            self.data[key].update(data)
         else:
-            self._property_cache_data[key] = data
-
-    @property
-    def data(self):
-        return self._property_cache_data
+            self.data[key] = data
 
     def __getattr__(self, key):
         log.debug("%s: fetching key=%s (exists=%s)", self.id, key,
@@ -304,11 +262,9 @@ class PropertyCache(object):
             return self.data[key]
 
 
-class YPropertyBase(object):
+class YPropertyBase(PTreeOverrideBase):
 
     def __init__(self, *args, **kwargs):
-        whoami = self.__class__.__name__
-        log.debug("YPropertyBase %s %s (%s)", args, kwargs, whoami)
         self._cache = PropertyCache()
         super().__init__(*args, **kwargs)
 
@@ -340,8 +296,8 @@ class YPropertyBase(object):
 
         @param key: key to retrieve
         """
-        if not self.context:  # pylint: disable=E1101
-            log.info("context not available - cannot load '%s'")
+        if self.context is None:
+            log.info("context not available - cannot load '%s'", key)
             return
 
         # we save all imports in a dict called "import_cache" within the
@@ -385,8 +341,8 @@ class YPropertyBase(object):
         @param key: key to save
         @param value: value to save
         """
-        if not self.context:  # pylint: disable=E1101
-            log.info("context not available - cannot save '%s'")
+        if self.context is None:
+            log.info("context not available - cannot save '%s'", key)
             return
 
         c = getattr(self.context, 'import_cache')  # pylint: disable=E1101
@@ -548,192 +504,3 @@ class YPropertyOverrideBase(YPropertyBase, PTreeOverrideBase):
 
 class YPropertyMappedOverrideBase(YPropertyBase, PTreeMappedOverrideBase):
     pass
-
-
-class LogicalCollectionHandler(abc.ABC):
-    VALID_GROUP_KEYS = ['and', 'or', 'nand', 'nor', 'xor', 'not']
-    FINAL_RESULT_OP = 'and'
-
-    @property
-    def and_group_stop_on_first_false(self):
-        """
-        By default we do not process items in an AND group beyond the first
-        False result since they will not change the final result. Some
-        implementations may want to override this behaviour.
-        """
-        return True
-
-    def group_exit_condition_met(self, logical_op, result):
-        if type(result) != bool:
-            log.error("unexpected result type '%s' - unable to determine exit "
-                      "condition for logical op='%s'", type(result),
-                      logical_op)
-            return False
-
-        if logical_op in ['and']:
-            if self.and_group_stop_on_first_false and not result:
-                log.debug("exit condition met for op='%s'", logical_op)
-                return True
-
-        if logical_op in ['nand', 'not']:
-            if self.and_group_stop_on_first_false and result:
-                log.debug("exit condition met for op='%s'", logical_op)
-                return True
-
-        return False
-
-    def eval_ungrouped_item(self, item):
-        """
-        This is either a single item or a list of items but a not logical
-        grouping and therefore the default logical op applies to the result(s)
-        i.e. AND.
-        """
-        final_results = []
-        for entry in item:
-            # For the purposes of caching we treat a list with > 1 item as
-            # "grouped".
-            result = self.get_item_result_callback(entry,
-                                                   grouped=len(item) > 1)
-            final_results.append(result)
-
-        return final_results
-
-    @abc.abstractmethod
-    def get_item_result_callback(self, item, grouped=False):
-        """
-        Must be implemented to evaluate a single item and return its
-        result.
-
-        @param item: property we want to evaluate
-        @param grouped: whether or not the item is part of a logical group or
-                        list.
-        """
-
-    def _is_op_group(self, prop):
-        return prop._override_name in self.VALID_GROUP_KEYS
-
-    def eval_op_group_items(self, logical_op_group):
-        """
-        Evaluate single group of items and return their results as a list.
-
-        @return: list of boolean values
-        """
-        logical_op = logical_op_group._override_name
-        log.debug("evaluating op group '%s'", logical_op)
-        results = []
-        num_nested = 0
-        num_list = 0
-        num_single = 0
-        for i, group in enumerate(logical_op_group):
-            group_results = []
-            log.debug("op group %s", i)
-            for member in group:
-                if self._is_op_group(member):
-                    nested_logical_op = member._override_name
-                    log.debug("start processing nested group (%s)",
-                              nested_logical_op)
-                    result = self.eval_op_group_items(member)
-                    log.debug("finish processing nested group (result=%s)",
-                              result)
-                    group_results.extend(result)
-                    num_nested += 1
-                    continue
-
-                log.debug("op group member has %s item(s)", len(member))
-                if len(member) == 1:
-                    result = self.get_item_result_callback(member,
-                                                           grouped=True)
-                    group_results.append(result)
-                    num_single += 1
-                    continue
-
-                prev = None
-                for entry in member:
-                    if (prev is not None and
-                            self.group_exit_condition_met(logical_op, prev)):
-                        log.debug("result is %s and logical group '%s' exit "
-                                  "condition met so stopping further "
-                                  "evaluation if this group",
-                                  result, logical_op)
-                        break
-
-                    result = self.get_item_result_callback(entry, grouped=True)
-                    group_results.append(result)
-                    prev = result
-                    num_list += 1
-
-            results.append(self.apply_op_to_item(logical_op, group_results))
-
-        log.debug("group results (list=%s, nest=%s, single=%s): %s",
-                  num_list, num_nested, num_single, results)
-        return results
-
-    def apply_op_to_item(self, logical_op, item):
-        op_catalog = {'and': lambda r: all(r),
-                      'or': lambda r: any(r),
-                      'nand': lambda r: not all(r),
-                      'not': lambda r: not all(r),
-                      'nor': lambda r: not any(r)}
-
-        if logical_op not in op_catalog:
-            raise Exception("unknown logical operator '{}' found".
-                            format(logical_op))
-
-        result = op_catalog[logical_op](item)
-        log.debug("applying %s(%s) -> %s", logical_op, item, result)
-        return result
-
-    def eval_op_groups(self, item):
-        """
-        Evaluate all groups of items and return their results as a list.
-
-        @return: list of boolean values
-        """
-        final_results = []
-        for op in self.VALID_GROUP_KEYS:
-            op_group = getattr(item, op)
-            if op_group:
-                result = self.eval_op_group_items(op_group)
-                if result is not None:
-                    final_results.extend(result)
-
-        log.debug("op groups results: %s", final_results)
-        return final_results
-
-    def run_level(self, level):
-        """
-        @return: boolean value
-        """
-        stop_processing = False
-        final_results = []
-        for item in level:
-            final_results.extend(self.eval_op_groups(item))
-            for subitem in item:
-                # ignore op grouped
-                if self._is_op_group(subitem):
-                    continue
-
-                results = self.eval_ungrouped_item(subitem)
-                final_results.extend(results)
-                if self.group_exit_condition_met(self.FINAL_RESULT_OP,
-                                                 all(results)):
-                    log.debug("result is %s and logical group '%s' exit "
-                              "condition met so stopping further evaluation "
-                              "if this group",
-                              all(results), self.FINAL_RESULT_OP)
-                    stop_processing = True
-                    break
-
-            if stop_processing:
-                break
-
-        return final_results
-
-    def run_collection(self):
-        log.debug("run_collection:start (%s)", self._override_name)  # noqa, pylint: disable=E1101
-        all_results = self.run_level(self)
-        log.debug("all_results: %s", all_results)
-        result = all(all_results)
-        log.debug("final result=%s", result)
-        log.debug("run_collection:end (%s)", self._override_name)  # noqa, pylint: disable=E1101
-        return result

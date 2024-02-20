@@ -30,7 +30,8 @@ class YDefsLoader(object):
             abs_path = os.path.join(path, entry)
             if os.path.isdir(abs_path):
                 subdefs = self._get_defs_recursive(abs_path)
-                defs[os.path.basename(abs_path)] = subdefs
+                if subdefs:
+                    defs[os.path.basename(abs_path)] = subdefs
             else:
                 if not self._is_def(abs_path):
                     continue

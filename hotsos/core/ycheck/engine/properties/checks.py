@@ -1,10 +1,11 @@
+from functools import cached_property
+
+from propertree.propertree2 import PTreeLogicalGrouping
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
-    cached_yproperty_attr,
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
     YDefsSection,
-    add_to_property_catalog,
     YDefsContext,
 )
 from hotsos.core.ycheck.engine.properties.requires.requires import (
@@ -16,8 +17,49 @@ from hotsos.core.ycheck.engine.properties.search import (
 from hotsos.core.ycheck.engine.properties.inputdef import YPropertyInput
 
 
-@add_to_property_catalog
-class YPropertyCheck(YPropertyMappedOverrideBase):
+class CheckBase(object):
+
+    def fetch_item_result(self, item):
+        log.debug("%s: fetch_item_result() %s", self.__class__.__name__,
+                  item.__class__.__name__)
+        check = self.context['check']
+        if isinstance(item, YPropertySearch):
+            _results = check._search_results
+            check._set_search_cache_info(_results)
+            if not _results:
+                log.debug("check %s search has no matches so result=False",
+                          check.name)
+                return False
+
+            return True
+
+        if isinstance(item, YPropertyRequires):
+            result = item.result
+            if result or check.cache.requires is None:
+                check.cache.set('requires', item.cache)
+
+            return result
+
+        return item.result
+
+
+class CheckLogicalGrouping(CheckBase, PTreeLogicalGrouping):
+    _override_autoregister = False
+
+    @property
+    def result(self):
+        try:
+            return super().result
+        except Exception as exc:
+            log.exception("%s failed with exception: %s",
+                          self.__class__.__name__, exc)
+            raise
+
+
+class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
+    _override_keys = ['check']
+    _override_members = [YPropertyRequires, YPropertySearch, YPropertyInput]
+    _override_logical_grouping_type = CheckLogicalGrouping
 
     @property
     def _search_results(self):
@@ -62,14 +104,6 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
 
         return results
 
-    @classmethod
-    def _override_keys(cls):
-        return ['check']
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return [YPropertyRequires, YPropertySearch, YPropertyInput]
-
     @property
     def name(self):
         if hasattr(self, 'check_name'):
@@ -99,45 +133,43 @@ class YPropertyCheck(YPropertyMappedOverrideBase):
         files = [self.context.search_obj.resolve_source_id(s) for s in sources]
         self.search.cache.set('files', files)
 
-    def _result(self):
-        if self.search:
-            _results = self._search_results
-            self._set_search_cache_info(_results)
-            if not _results:
-                log.debug("check %s search has no matches so result=False",
-                          self.name)
-                return False
-
-            return True
-
-        if self.requires:
-            if self.cache.requires:
-                result = self.cache.requires.passes
-                log.debug("check %s - using cached result=%s", self.name,
-                          result)
-            else:
-                result = self.requires.passes
-                self.cache.set('requires', self.requires.cache)
-
-            return result
-
-        raise Exception("no supported properties found in check {}".format(
-                        self.name))
-
-    @cached_yproperty_attr
+    @cached_property
     def result(self):
-        log.debug("executing check %s", self.name)
-        result = self._result()
-        log.debug("check %s result=%s", self.name, result)
-        return result
+        try:
+            # Pass this object down to descendants so that they have access to
+            # its cache etc. Note this is modifying global context but since
+            # checks are processed sequentially this is fine.
+            self.context['check'] = self
+            log.debug("executing check %s", self.name)
+            results = []
+            stop_executon = False
+            for member in self.members:
+                for item in member:
+                    # Ignore these here as they are used by search properties.
+                    if isinstance(item, YPropertyInput):
+                        continue
+
+                    result = self.fetch_item_result(item)
+                    results.append(result)
+                    if CheckLogicalGrouping.is_exit_condition_met('and',
+                                                                  result):
+                        stop_executon = True
+                        break
+
+                if stop_executon:
+                    break
+
+            result = all(results)
+            log.debug("check %s (%s) result=%s", self.name, results, result)
+            return result
+        except Exception:
+            log.exception("something went wrong while executing check %s",
+                          self.name)
+            raise
 
 
-@add_to_property_catalog
 class YPropertyChecks(YPropertyOverrideBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['checks']
+    _override_keys = ['checks']
 
     def initialise(self, local_vardefs, global_input, searcher, scenario):
         """
@@ -158,7 +190,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         log.debug("pre-loading scenario '%s' checks searches into "
                   "filesearcher", scenario.name)
         # first load all the search definitions into the searcher
-        for c in self._checks:
+        for c in self._checks:  # pylint: disable=E1133
             if c.search:
                 # local takes precedence over global
                 _input = c.input or global_input
@@ -176,7 +208,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         # provide results to each check object using global context
         self.check_context.search_obj = searcher
 
-    @cached_yproperty_attr
+    @cached_property
     def _checks(self):
         log.debug("parsing checks section")
         if not hasattr(self, 'check_context'):
@@ -185,6 +217,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         resolved = []
         for name, content in self.content.items():
             s = YDefsSection(self._override_name, {name: {'check': content}},
+                             resolve_path=self._override_path,
                              context=self.check_context)
             for c in s.leaf_sections:
                 c.check.check_name = c.name
@@ -194,6 +227,6 @@ class YPropertyChecks(YPropertyOverrideBase):
 
     def __iter__(self):
         log.debug("iterating over checks")
-        for c in self._checks:
+        for c in self._checks:  # pylint: disable=E1133
             log.debug("returning check %s", c.name)
             yield c

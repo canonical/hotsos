@@ -1,8 +1,7 @@
+from propertree.propertree2 import PTreeLogicalGrouping
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
     YPropertyMappedOverrideBase,
-    LogicalCollectionHandler,
-    add_to_property_catalog,
 )
 from hotsos.core.ycheck.engine.properties.requires.types import (
     apt,
@@ -15,64 +14,77 @@ from hotsos.core.ycheck.engine.properties.requires.types import (
     varops,
 )
 
+CACHE_CHECK_KEY = '__PREVIOUSLY_CACHED_PROPERTY_TYPE'
 
-class YPropertyRequiresBase(YPropertyMappedOverrideBase,
-                            LogicalCollectionHandler):
-    CACHE_CHECK_KEY = '__PREVIOUSLY_CACHED_PROPERTY_TYPE'
 
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return [apt.YRequirementTypeAPT,
-                snap.YRequirementTypeSnap,
-                config.YRequirementTypeConfig,
-                pebble.YRequirementTypePebble,
-                systemd.YRequirementTypeSystemd,
-                rproperty.YRequirementTypeProperty,
-                path.YRequirementTypePath,
-                varops.YPropertyVarOps]
+def cache_result(cache, item, result, grouped=False):
+    """
+    Also copy the cache of the item into the local cache. If part of a
+    logical group whereby more than one item is being evaluated to get
+    a final results, we only copy the cache data if the result is True
+    and  either (a) it is the first to be saved or (b) it has the same type
+    as the previous one to be saved.
 
-    def get_item_result_callback(self, item, grouped=False):
-        """
-        Evaluate item and return its result.
+    For example with the following group:
 
-        Also copy the cache of the item into the local cache. If part of a
-        logical group whereby more than one item is being evaluated to get
-        a final results, we only copy the cache data if the result is True
-        and  either (a) it is the first to be saved or (b) it has the same type
-        as the previous one to be saved.
+    or:
+      - apt: foo
+      - apt: bar
 
-        For example with the following group:
+    If package foo exists and bar does not, the final contents of the group
+    will be that from 'apt: foo'. If both exist then it will be the result of
+    'apt: bar'.
 
-        or:
-          - apt: foo
-          - apt: bar
+    @param item: YRequirementType object
+    @param grouped: If True, item is part of a (logical) group of one or
+                    more items or a list with more than one item to which
+                    to default logical operator (AND) will be applied.
+    @return: boolean result i.e. True or False
+    """
+    previously_cached = getattr(cache, CACHE_CHECK_KEY)
+    req_prop_type = item.__class__.__name__
+    if not grouped or (result and
+                       previously_cached in (None, req_prop_type)):
+        if previously_cached is None:
+            cache.set(CACHE_CHECK_KEY, req_prop_type)
 
-        If package foo exists and bar does not, the final contents of the group
-        will that from 'apt: foo'. If both exists then it will be the result of
-        'apt: bar'.
+        log.debug("merging item (type=%s) cache id=%s into cache id=%s",
+                  req_prop_type, item.cache.id, cache.id)
+        cache.merge(item.cache)
 
-        @param item: YRequirementType object
-        @param grouped: If True, item is part of a (logical) group of one or
-                        more items or a list with more than one item to which
-                        to default logical operator (AND) will be applied.
-        @return: boolean result i.e. True or False
-        """
-        result = item()
-        previously_cached = getattr(self.cache, self.CACHE_CHECK_KEY)
-        req_prop_type = item.__class__.__name__
-        if not grouped or (result and
-                           previously_cached in (None, req_prop_type)):
-            if previously_cached is None:
-                self.cache.set(self.CACHE_CHECK_KEY, req_prop_type)
 
-            log.debug("merging item (type=%s) cache id=%s into cache id=%s",
-                      req_prop_type, item.cache.id, self.cache.id)
-            self.cache.merge(item.cache)
+class RequiresLogicalGrouping(PTreeLogicalGrouping):
+    _override_autoregister = False
+
+    def fetch_item_result(self, item):
+        if isinstance(item, RequiresLogicalGrouping):
+            item.cache = self._override_parent.cache
+
+        result = super().fetch_item_result(item)
+        if isinstance(item, RequiresLogicalGrouping):
+            cache_result(self._override_parent.cache, item, result, True)
 
         return result
 
+
+class YPropertyRequires(YPropertyMappedOverrideBase):
+    _override_keys = ['requires']
+    _override_members = [apt.YRequirementTypeAPT,
+                         snap.YRequirementTypeSnap,
+                         config.YRequirementTypeConfig,
+                         pebble.YRequirementTypePebble,
+                         systemd.YRequirementTypeSystemd,
+                         rproperty.YRequirementTypeProperty,
+                         path.YRequirementTypePath,
+                         varops.YPropertyVarOps]
+    # We want to be able to use this property both on its own and as a member
+    # of other mapping properties e.g. Checks. The following setting enables
+    # this.
+    _override_auto_implicit_member = False
+    _override_logical_grouping_type = RequiresLogicalGrouping
+
     @property
-    def passes(self):
+    def result(self):
         """
         Content can either be a single requirement, dict of requirement groups
         or list of requirements. List may contain individual requirements or
@@ -80,30 +92,27 @@ class YPropertyRequiresBase(YPropertyMappedOverrideBase,
         """
         log.debug("running requirement")
         try:
-            result = self.run_collection()
-        except Exception:
-            log.exception("exception caught during run_collection:")
+            results = []
+            stop_executon = False
+            for member in self.members:
+                for item in member:
+                    result = item.result
+                    if not isinstance(item, RequiresLogicalGrouping):
+                        cache_result(self.cache, item, result, grouped=False)
+
+                    results.append(result)
+                    if RequiresLogicalGrouping.is_exit_condition_met('and',
+                                                                     result):
+                        stop_executon = True
+                        break
+
+                if stop_executon:
+                    break
+
+            log.debug("%s results=%s", self.__class__.__name__, results)
+            result = all(results)
+            self.cache.set('passes', result)
+            return result
+        except Exception as exc:
+            log.error("caught exception when running requirement: %s", exc)
             raise
-
-        self.cache.set('passes', result)
-        return result
-
-
-class YPropertyRequiresLogicalGroupsExtension(YPropertyRequiresBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return LogicalCollectionHandler.VALID_GROUP_KEYS
-
-
-@add_to_property_catalog
-class YPropertyRequires(YPropertyRequiresBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['requires']
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return super()._override_mapped_member_types() + \
-                    [YPropertyRequiresLogicalGroupsExtension]

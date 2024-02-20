@@ -42,10 +42,13 @@ class LoggingManager(object):
 
     def setup_deps_loggers(self, level):
         # Set logging level for dependencies
-        logging.getLogger('searchkit').setLevel(level=level)
-        logging.getLogger('searchkit').addHandler(self._handler)
-        # NOTE: dont set log level here as it is controlled using env var
-        logging.getLogger('propertree').addHandler(self._handler)
+        for dep in ['searchkit', 'propertree']:
+            logger = logging.getLogger(dep)
+            while logger.hasHandlers():
+                logger.removeHandler(logger.handlers[0])
+
+            logger.addHandler(self._handler)
+            logger.setLevel(level=level)
 
     def start(self, level=logging.DEBUG):
         log.setLevel(level)

@@ -1,12 +1,11 @@
 import os
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelperFile
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
-    cached_yproperty_attr,
     YPropertyOverrideBase,
-    add_to_property_catalog,
 )
 
 
@@ -48,7 +47,7 @@ class YPropertyInputBase(object):
     def path(self):
         raise Exception("do not call this directly")
 
-    @cached_yproperty_attr
+    @cached_property
     def paths(self):
         _paths = []
         fs_path = None
@@ -86,9 +85,9 @@ class YPropertyInputBase(object):
         log.debug("no input provided")
 
 
-@add_to_property_catalog
 class YPropertyInput(YPropertyOverrideBase, YPropertyInputBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['input']
+    _override_keys = ['input']
+    # We want to be able to use this property both on its own and as a member
+    # of other mapping properties e.g. Checks. The following setting enables
+    # this.
+    _override_auto_implicit_member = False

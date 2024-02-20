@@ -1,15 +1,14 @@
 import glob
 import os
 
+from propertree.propertree2 import PTreeLogicalGrouping
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
-    add_to_property_catalog,
     YDefsSection,
     YDefsContext,
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
-    LogicalCollectionHandler,
 )
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
@@ -18,11 +17,11 @@ from hotsos.core.ycheck.engine.properties.requires import (
 )
 
 
-class YAssertionAttrs(YPropertyOverrideBase):
+class YConfigAssertionAttrs(YPropertyOverrideBase):
+    _override_keys = ['key', 'value', 'section', 'ops', 'allow-unset']
 
-    @classmethod
-    def _override_keys(cls):
-        return ['key', 'value', 'section', 'ops', 'allow-unset']
+    def __str__(self):
+        return str(self.content)
 
     @property
     def ops(self):
@@ -32,54 +31,54 @@ class YAssertionAttrs(YPropertyOverrideBase):
         return self.content
 
 
-class YAssertion(YPropertyMappedOverrideBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['assertion']
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return [YAssertionAttrs]
-
-
-class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
-                              LogicalCollectionHandler,
-                              OpsUtils):
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return [YAssertion]
+class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
+    _override_keys = ['assertion']
+    _override_members = [YConfigAssertionAttrs]
 
     @property
-    def and_group_stop_on_first_false(self):
-        """
-        Override the default behaviour of LogicalCollectionHandler AND groups.
-
-        We want to always execute all member of all logical op groups so that
-        we can have their results in the cached assertion_results.
-        """
-        return False
-
-    def get_item_result_callback(self, item, grouped=False):
+    def result(self):
         handlers = self.context.assertions_ctxt['cfg_handlers']
         if not handlers:
-            return
+            log.debug("no handlers found, assuming paths do not exist - "
+                      "returning False")
+            return False
 
-        for n, cfg_obj in enumerate(handlers):
-            if item.section:
-                actual = cfg_obj.get(item.key, section=item.section)
+        key = str(self.key)
+        value = None
+        if self.value is not None:
+            if type(self.value) is bool:
+                value = self.value
             else:
-                actual = cfg_obj.get(item.key)
+                try:
+                    value = int(self.value)
+                except TypeError:
+                    value = str(self.value)
 
-            _result = item.allow_unset
+        allow_unset = self.allow_unset or False
 
-            ops = item.ops or [['eq', item.value]]
+        section = None
+        if self.section is not None:
+            section = str(self.section)
+
+        if self.ops:
+            ops = self.ops.ops
+        else:
+            ops = [['eq', value]]
+
+        log.debug("%s: key=%s, value=%s, section=%s, ops=%s",
+                  self.__class__.__name__, key, value, section, ops)
+        for n, cfg_obj in enumerate(handlers):
+            if section:
+                actual = cfg_obj.get(key, section=section)
+            else:
+                actual = cfg_obj.get(key)
+
+            _result = allow_unset
             if actual is not None:
                 _result = self.apply_ops(ops, opinput=actual,
                                          normalise_value_types=True)
             log.debug("assertion: %s (%s) %s result=%s",
-                      item.key, actual, self.ops_to_str(ops or []),
+                      key, actual, self.ops_to_str(ops or []),
                       _result)
             if not _result and n < len(handlers) - 1:
                 log.debug("assertion is false and there are more configs to "
@@ -87,8 +86,7 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
                 continue
 
             cache = self.context.assertions_ctxt['cache']
-            msg = "{} {}/actual=\"{}\"".format(item.key,
-                                               self.ops_to_str(ops or []),
+            msg = "{} {}/actual=\"{}\"".format(key, self.ops_to_str(ops or []),
                                                actual)
             if cache.assertion_results is not None:
                 cache.set('assertion_results', "{}, {}".
@@ -99,63 +97,97 @@ class YPropertyAssertionsBase(YPropertyMappedOverrideBase,
             # NOTE: This can be useful for single assertion checks but should
             # be used with caution since it will only ever store the last
             # config checked.
-            cache.set('key', item.key)
+            cache.set('key', key)
             cache.set('ops', self.ops_to_str(ops or []))
             cache.set('value_actual', actual)
 
         return _result
 
+
+class AssertionsLogicalGrouping(PTreeLogicalGrouping):
+    _override_autoregister = False
+
+    @classmethod
+    def and_stop_on_first_false(cls):
+        """
+        Override the default behaviour of PTreeLogicalGrouping AND groups.
+
+        We want to always execute all member of all logical op groups so that
+        we can have their results in the cached assertion_results.
+        """
+        return False
+
+    def get_items(self):
+        log.debug("%s: fetching assertion items", self.__class__.__name__)
+        return super().get_items()
+
+    def fetch_item_result(self, item):
+        result = item.result
+        log.debug("%s: %s result=%s", self.__class__.__name__,
+                  item.__class__.__name__, result)
+        return result
+
+
+class YConfigAssertions(YPropertyMappedOverrideBase):
+    _override_keys = ['assertions']
+    _override_members = [YConfigAssertion]
+    _override_logical_grouping_type = AssertionsLogicalGrouping
+
     @property
     def passes(self):
         log.debug("running assertion set")
         try:
-            result = self.run_collection()
+            results = []
+            stop_executon = False
+            for member in self.members:
+                for item in member:
+                    result = item.result
+                    results.append(result)
+                    if AssertionsLogicalGrouping.is_exit_condition_met('and',
+                                                                       result):
+                        stop_executon = True
+                        break
+
+                if stop_executon:
+                    break
+
+            result = all(results)
         except Exception:
-            log.exception("exception caught during run_collection:")
+            log.error("exception caught while running assert set:")
             raise
 
         return result
 
 
-class YPropertyAssertionsLogicalGroupsExtension(YPropertyAssertionsBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return LogicalCollectionHandler.VALID_GROUP_KEYS
-
-
-@add_to_property_catalog
-class YPropertyAssertions(YPropertyAssertionsBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['assertions']
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return super()._override_mapped_member_types() + \
-                    [YPropertyAssertionsLogicalGroupsExtension]
-
-
 class YRequirementTypeConfig(YRequirementTypeBase):
     """ Provides logic to perform checks on configuration. """
+    _override_keys = ['config']
+    _overrride_autoregister = True
 
-    @classmethod
-    def _override_keys(cls):
-        return ['config']
+    @property
+    def handler(self):
+        return self.get_cls(self.content['handler'])
+
+    @property
+    def path(self):
+        return self.content.get('path')
 
     @property
     def cfg_handlers(self):
         """
+        A config assertion must have a handler and optionally one or more path
+        defined.
+
+        If the path(s) are provided and do not exist the assertion returns
+        False.
+
         @return: list of config handlers
         """
-        handler = self.content['handler']
-        obj = self.get_cls(handler)
-        paths = self.content.get('path')
+        paths = self.path
         if not paths:
             log.debug("no config path provided, creating handler %s "
-                      "without args", handler)
-            return [obj()]
+                      "without args", self.handler)
+            return [self.handler()]  # pylint: disable=E1102
 
         if type(paths) == str:
             paths = [paths]
@@ -164,14 +196,15 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         for path in paths:
             path = os.path.join(HotSOSConfig.data_root, path)
             if os.path.isfile(path):
-                handlers.append(obj(path))
+                handlers.append(self.handler(path))  # pylint: disable=E1102
+                continue
 
             if os.path.isdir(path):
                 path = path + '/*'
 
             for _path in glob.glob(path):
                 if os.path.isfile(_path):
-                    handlers.append(obj(_path))
+                    handlers.append(self.handler(_path))  # noqa, pylint: disable=E1102
 
         return handlers
 

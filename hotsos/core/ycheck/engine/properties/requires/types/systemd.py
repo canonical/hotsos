@@ -18,10 +18,8 @@ class SystemdServiceCheckItems(ServiceCheckItemsBase):
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
     """ Provides logic to perform checks on systemd resources. """
-
-    @classmethod
-    def _override_keys(cls):
-        return ['systemd']
+    _override_keys = ['systemd']
+    _overrride_autoregister = True
 
     def _check_service(self, svc, ops, started_after=None):
         """

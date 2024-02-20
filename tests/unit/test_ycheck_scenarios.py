@@ -8,18 +8,14 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import FileSearcher, SearchDef
 from hotsos.core.ycheck import scenarios
-from hotsos.core.ycheck.engine.properties.common import (
-    YPropertyBase,
-    cached_yproperty_attr,
-)
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 
 from . import utils
 
 
-class TestProperty(YPropertyBase):
+class TestProperty(object):
 
-    @cached_yproperty_attr
+    @property
     def myattr(self):
         return '123'
 
@@ -628,8 +624,8 @@ checks:
       - varops: [[$v1], [not_]]
       - varops: [[$v2], [not_]]
   chk_default_and:
-    - varops: [[$v1], [truth]]
     - varops: [[$v2], [not_]]
+    - varops: [[$v1], [truth]]
 conclusions:
   conc1:
     decision:
@@ -893,25 +889,34 @@ class TestYamlScenarios(utils.BaseTestCase):
                 self.assertTrue(check.result)
 
     @mock.patch('hotsos.core.ycheck.scenarios.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.checks.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.requires.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
     @init_test_scenario(SCENARIO_W_ERROR)
-    def test_failed_scenario_caught(self, mock_log1, mock_log2, mock_log3,
-                                    mock_log4):
+    def test_failed_scenario_caught(self, mock_log1, mock_log2, _mock_log3,
+                                    mock_log4, mock_log5, mock_log6):
         scenarios.YScenarioChecker().load_and_run()
 
         # Check caught exception logs
         args = ('failed to import and call property %s',
                 'tests.unit.test_ycheck_scenarios.TestProperty.i_dont_exist')
         mock_log1.exception.assert_called_with(*args)
+
         args = ('requires.%s.result raised the following',
                 'YRequirementTypeProperty')
-        mock_log2.exception.assert_called_with(*args)
-        args = ('exception caught during run_collection:',)
-        mock_log3.exception.assert_called_with(*args)
-        args = ('caught exception when running scenario %s:', 'scenarioB')
+        mock_log2.error.assert_called_with(*args)
+
+        # mock_log3 gets an AttributeError as arg so dont test.
+
+        args = ('something went wrong when executing decision',)
         mock_log4.exception.assert_called_with(*args)
+        args = ('something went wrong while executing check %s',
+                'property_w_error')
+        mock_log5.exception.assert_called_with(*args)
+        args = ('caught exception when running scenario %s:', 'scenarioB')
+        mock_log6.exception.assert_called_with(*args)
 
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 2)
@@ -941,17 +946,21 @@ class TestYamlScenarios(utils.BaseTestCase):
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
+    @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.log')
     @mock.patch('hotsos.core.ycheck.scenarios.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.'
                 'ScenarioException')
     @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
-    def test_raises_w_invalid_types(self, mock_exc, mock_log):
+    def test_raises_w_invalid_types(self, mock_exc, mock_log, mock_log2):
         mock_exc.side_effect = Exception
         scenarios.YScenarioChecker().load_and_run()
 
         # Check caught exception logs
         args = ('caught exception when running scenario %s:', 'scenarioB')
         mock_log.exception.assert_called_with(*args)
+
+        args = ('something went wrong when executing decision',)
+        mock_log2.exception.assert_called_with(*args)
 
         mock_exc.assert_called_with("both bug-id (current=1234) and bug type "
                                     "(current=issue) required in order to "
@@ -983,11 +992,51 @@ class TestYamlScenarios(utils.BaseTestCase):
                                  "it's bar! ($bar=two)",
                                  "fromprop! ($fromprop=123)"]))
 
+    @mock.patch('propertree.propertree2.log')
+    @mock.patch('hotsos.core.ycheck.scenarios.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.checks.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.requires.requires.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
+    @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
     @init_test_scenario(LOGIC_TEST)
-    def test_logical_collection_and_with_fail(self):
+    def test_logical_collection_and_with_fail(self, mock_log1, mock_log2,
+                                              _mock_log3, mock_log4,
+                                              mock_log5, mock_log6,
+                                              _mock_log7):
         scenarios.YScenarioChecker().load_and_run()
+        expected = [
+            (mock_log1,
+             ('failed to import and call property %s',
+              'tests.unit.test_ycheck_scenarios.TestProperty.doesntexist'),
+            'exception'),
+            (mock_log2,
+             ('requires.%s.result raised the following', 'YPropertyVarOps'),
+            'error'),
+            # we can't test mock_log3 because it passes in an AttributeError
+            (mock_log4, ('something went wrong while executing check %s',
+                         'chk_nand'),
+            'exception'),
+            (mock_log5, ('something went wrong when executing decision',),
+            'exception'),
+            (mock_log6,
+             ('caught exception when running scenario %s:', 'test'),
+            'exception')]
+
+        for logger, args, level in expected:
+            getattr(logger, level).assert_called_with(*args)
+
         issues = list(IssuesStore().load().values())
-        self.assertEqual(len(issues), 0)
+        self.assertEqual(len(issues), 1)
+        i_types = [i['type'] for i in issues[0]]
+        self.assertEqual(sorted(i_types),
+                         sorted(['HotSOSScenariosWarning']))
+        for issue in issues[0]:
+            if issue['type'] == 'HotSOSScenariosWarning':
+                msg = ("One or more scenarios failed to run (test) - "
+                       "run hotsos in debug mode (--debug) to get more "
+                       "detail")
+                self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
     def test_logical_collection_nested_no_issue(self):

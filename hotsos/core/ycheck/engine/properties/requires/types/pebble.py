@@ -16,10 +16,8 @@ class PebbleServiceCheckItems(ServiceCheckItemsBase):
 
 class YRequirementTypePebble(YRequirementTypeBase):
     """ Provides logic to perform checks on pebble resources. """
-
-    @classmethod
-    def _override_keys(cls):
-        return ['pebble']
+    _override_keys = ['pebble']
+    _overrride_autoregister = True
 
     @property
     @intercept_exception

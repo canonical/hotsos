@@ -2,6 +2,7 @@ import datetime
 import os
 import shutil
 import tempfile
+from functools import cached_property
 from unittest import mock
 
 import yaml
@@ -16,7 +17,6 @@ from hotsos.core.ycheck.engine import (
 from hotsos.core.ycheck.engine.properties.common import (
     YPropertyBase,
     PropertyCacheRefResolver,
-    cached_yproperty_attr,
 )
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 from hotsos.core.ycheck.engine.properties.requires.types import (
@@ -29,7 +29,7 @@ from . import utils
 
 class TestProperty(YPropertyBase):
 
-    @cached_yproperty_attr
+    @cached_property
     def myattr(self):
         return '123'
 
@@ -226,7 +226,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
     def test_single_item(self):
         mydef = YDefsSection('mydef', yaml.safe_load("chk1:\n  apt: foo"))
         for entry in mydef.leaf_sections:
-            self.assertTrue(entry.requires.passes)
+            self.assertTrue(entry.requires.result)
             expected = {'__PREVIOUSLY_CACHED_PROPERTY_TYPE':
                         'YRequirementTypeAPT',
                         'package': 'foo',
@@ -313,7 +313,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
 
             scenarios.YScenarioChecker().load_and_run()
             issues = list(IssuesStore().load().values())[0]
-            self.assertEqual(issues[0]['message'], 'bar')
+            self.assertEqual(issues[0]['message'], 'foo')
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': ''})
     def test_grouped_items_all_false(self):
@@ -368,7 +368,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
 
             scenarios.YScenarioChecker().load_and_run()
             issues = list(IssuesStore().load().values())[0]
-            self.assertEqual(issues[0]['message'], 'bar')
+            self.assertEqual(issues[0]['message'], 'foo')
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
                              'ii foo 123 amd64\nii bar 123 amd64',
@@ -398,10 +398,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
 
             scenarios.YScenarioChecker().load_and_run()
             issues = list(IssuesStore().load().values())[0]
-            # NOTE: dicts and lists are currently being evaluated in
-            #       alphabetical order. Not clear why but that explains why
-            #       grouped items give this (unexpected) result.
-            self.assertEqual(issues[0]['message'], 'bar')
+            self.assertEqual(issues[0]['message'], 'snapd')
 
 
 class TestYamlRequiresTypeAPT(utils.BaseTestCase):
@@ -527,14 +524,6 @@ class TestYamlRequiresTypeSnap(utils.BaseTestCase):
 
 class TestYamlProperties(utils.BaseTestCase):
 
-    def test_yproperty_attr_cache(self):
-        p = TestProperty()
-        self.assertIsNone(getattr(p.cache, '__yproperty_attr__myattr'))
-        self.assertEqual(p.myattr, '123')
-        self.assertEqual(getattr(p.cache, '__yproperty_attr__myattr'), '123')
-        self.assertEqual(p.myattr, '123')
-        self.assertEqual(p.myotherattr, '456')
-
     def test_yaml_def_requires_grouped(self):
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_GROUPED))
@@ -542,16 +531,16 @@ class TestYamlProperties(utils.BaseTestCase):
         for entry in mydef.leaf_sections:
             if entry.name == 'passdef1':
                 tested += 1
-                self.assertTrue(entry.requires.passes)
+                self.assertTrue(entry.requires.result)
             elif entry.name == 'passdef2':
                 tested += 1
-                self.assertTrue(entry.requires.passes)
+                self.assertTrue(entry.requires.result)
             elif entry.name == 'faildef1':
                 tested += 1
-                self.assertFalse(entry.requires.passes)
+                self.assertFalse(entry.requires.result)
             elif entry.name == 'faildef2':
                 tested += 1
-                self.assertFalse(entry.requires.passes)
+                self.assertFalse(entry.requires.result)
 
         self.assertEqual(tested, 4)
 
@@ -647,49 +636,38 @@ class TestYamlProperties(utils.BaseTestCase):
         mock_plugin.return_value.r1 = False
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
-
-        results = []
         for leaf in group.leaf_sections:
             self.assertEqual(len(leaf.requires), 1)
-            for _requires in leaf.requires:
-                for op in _requires:
-                    for item in op:
-                        for rtype in item:
-                            for entry in rtype:
-                                results.append(entry())
+            self.assertFalse(leaf.requires.result)
 
-            self.assertFalse(leaf.requires.passes)
-
-        self.assertFalse(group.leaf_sections[0].requires.passes)
-        self.assertEqual(len(results), 2)
-        self.assertEqual(results, [False, False])
+        self.assertFalse(group.requires.result)
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
+        self.assertTrue(group.requires.result)
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = True
         group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
+        self.assertTrue(group.requires.result)
 
         requires = {'requires': [{'and': [r1, r2]}]}
 
         mock_plugin.return_value.r1 = False
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
+        self.assertFalse(group.requires.result)
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
+        self.assertFalse(group.requires.result)
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = True
         group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
+        self.assertTrue(group.requires.result)
 
         requires = {'requires': [{'and': [r1, r2],
                                   'or': [r1, r2]}]}
@@ -697,12 +675,12 @@ class TestYamlProperties(utils.BaseTestCase):
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
+        self.assertFalse(group.requires.result)
 
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = True
         group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
+        self.assertTrue(group.requires.result)
 
         requires = {'requires': [{'and': [r1, r2],
                                   'or': [r1, r2]}]}
@@ -710,7 +688,7 @@ class TestYamlProperties(utils.BaseTestCase):
         mock_plugin.return_value.r1 = True
         mock_plugin.return_value.r2 = False
         group = YDefsSection('test', requires)
-        self.assertFalse(group.leaf_sections[0].requires.passes)
+        self.assertFalse(group.requires.result)
 
         requires = {'requires': [r1, {'and': [r3],
                                       'or': [r1, r2]}]}
@@ -719,7 +697,7 @@ class TestYamlProperties(utils.BaseTestCase):
         mock_plugin.return_value.r2 = False
         mock_plugin.return_value.r3 = True
         group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
+        self.assertTrue(group.requires.result)
 
         requires = {'requires': [{'and': [r3],
                                   'or': [r1, r2]}]}
@@ -728,7 +706,7 @@ class TestYamlProperties(utils.BaseTestCase):
         mock_plugin.return_value.r2 = False
         mock_plugin.return_value.r3 = True
         group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
+        self.assertTrue(group.requires.result)
 
         # same as prev test but with dict instead list
         requires = {'requires': {'and': [r3],
@@ -738,7 +716,7 @@ class TestYamlProperties(utils.BaseTestCase):
         mock_plugin.return_value.r2 = False
         mock_plugin.return_value.r3 = True
         group = YDefsSection('test', requires)
-        self.assertTrue(group.leaf_sections[0].requires.passes)
+        self.assertTrue(group.requires.result)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
                 'APTPackageHelper')
@@ -760,7 +738,7 @@ class TestYamlProperties(utils.BaseTestCase):
                                  yaml.safe_load(YAML_DEF_REQUIRES_APT))
             for entry in mydef.leaf_sections:
                 tested += 1
-                self.assertEqual(entry.requires.passes, result)
+                self.assertEqual(entry.requires.result, result)
 
         self.assertEqual(tested, len(expected))
 
@@ -768,24 +746,24 @@ class TestYamlProperties(utils.BaseTestCase):
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_PEBBLE_FAIL))
         for entry in mydef.leaf_sections:
-            self.assertFalse(entry.requires.passes)
+            self.assertFalse(entry.requires.result)
 
     def test_yaml_def_requires_systemd_pass(self):
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS_1))
         for entry in mydef.leaf_sections:
-            self.assertTrue(entry.requires.passes)
+            self.assertTrue(entry.requires.result)
 
     def test_yaml_def_requires_systemd_fail(self):
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_1))
         for entry in mydef.leaf_sections:
-            self.assertFalse(entry.requires.passes)
+            self.assertFalse(entry.requires.result)
 
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_2))
         for entry in mydef.leaf_sections:
-            self.assertFalse(entry.requires.passes)
+            self.assertFalse(entry.requires.result)
 
     def test_yaml_def_requires_systemd_started_after_pass(self):
         current = datetime.datetime.now()
@@ -798,7 +776,7 @@ class TestYamlProperties(utils.BaseTestCase):
             content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
             mydef = YDefsSection('mydef', content)
             for entry in mydef.leaf_sections:
-                self.assertTrue(entry.requires.passes)
+                self.assertTrue(entry.requires.result)
 
     def test_yaml_def_requires_systemd_started_after_fail(self):
         current = datetime.datetime.now()
@@ -810,7 +788,7 @@ class TestYamlProperties(utils.BaseTestCase):
             content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
             mydef = YDefsSection('mydef', content)
             for entry in mydef.leaf_sections:
-                self.assertFalse(entry.requires.passes)
+                self.assertFalse(entry.requires.result)
 
         with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
                         FakeServiceObjectManager({
@@ -820,7 +798,7 @@ class TestYamlProperties(utils.BaseTestCase):
             content = yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_STARTED_AFTER)
             mydef = YDefsSection('mydef', content)
             for entry in mydef.leaf_sections:
-                self.assertFalse(entry.requires.passes)
+                self.assertFalse(entry.requires.result)
 
     def test_cache_resolver(self):
         self.assertFalse(PropertyCacheRefResolver.is_valid_cache_ref('foo'))

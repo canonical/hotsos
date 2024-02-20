@@ -56,14 +56,14 @@ class YScenarioChecker(YHandlerBase):
 
         yscenarios = YDefsSection(HotSOSConfig.plugin_name, plugin_content)
         if (not HotSOSConfig.force_mode and yscenarios.requires and not
-                yscenarios.requires.passes):
+                yscenarios.requires.result):
             log.debug("plugin '%s' scenarios pre-requisites not met - "
                       "skipping", HotSOSConfig.plugin_name)
             return
 
         log.debug("sections=%s, scenarios=%s",
-                  len(yscenarios.branch_sections),
-                  len(yscenarios.leaf_sections))
+                  len(list(yscenarios.branch_sections)),
+                  len(list(yscenarios.leaf_sections)))
 
         to_skip = set()
 
@@ -81,7 +81,7 @@ class YScenarioChecker(YHandlerBase):
             group_name = scenario.parent.name
             if (not HotSOSConfig.force_mode and
                     (group_name in to_skip or
-                        (scenario.requires and not scenario.requires.passes))):
+                        (scenario.requires and not scenario.requires.result))):
                 log.debug("%s requirements not met - skipping scenario %s",
                           group_name, scenario.name)
                 to_skip.add(group_name)
@@ -90,10 +90,10 @@ class YScenarioChecker(YHandlerBase):
             checks.append(scenario.checks)
             scenario.checks.initialise(scenario.vars, scenario.input,
                                        self.searcher, scenario)
-            scenario.conclusions.initialise(scenario.vars)
-            self._scenarios.append(Scenario(scenario.name,
-                                            scenario.checks,
-                                            scenario.conclusions))
+            _scenario = Scenario(scenario.name, scenario.checks,
+                                 scenario.conclusions)
+            scenario.conclusions.initialise(scenario.vars, _scenario.checks)
+            self._scenarios.append(_scenario)
 
         log.debug("executing check searches")
         results = self.searcher.run()

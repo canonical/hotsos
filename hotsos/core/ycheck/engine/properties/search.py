@@ -11,10 +11,8 @@ from hotsos.core.search import (
     SearchConstraintSearchSince,
 )
 from hotsos.core.ycheck.engine.properties.common import (
-    cached_yproperty_attr,
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
-    add_to_property_catalog,
 )
 
 
@@ -86,17 +84,14 @@ class CommonTimestampMatcher(TimestampMatcherBase):
 
 
 class YPropertySearchConstraints(YPropertyOverrideBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['constraints']
+    _override_keys = ['constraints']
 
     @property
     def valid_attributes(self):
         return ['search-period-hours', 'search-result-age-hours',
                 'min-hours-since-last-boot', 'min-results']
 
-    @cached_yproperty_attr
+    @cached_property
     def search_period_hours(self):
         """
         If min is provided this is used to determine the period within which
@@ -109,7 +104,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         """
         return int(self.content.get('search-period-hours', 0))
 
-    @cached_yproperty_attr
+    @cached_property
     def search_result_age_hours(self):
         """
         Result must have occurred within this number of hours from the current
@@ -117,7 +112,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         """
         return int(self.content.get('search-result-age-hours', 0))
 
-    @cached_yproperty_attr
+    @cached_property
     def min_hours_since_last_boot(self):
         """
         Search result must be at least this number of hours after the last
@@ -125,14 +120,14 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         """
         return int(self.content.get('min-hours-since-last-boot', 0))
 
-    @cached_yproperty_attr
+    @cached_property
     def min_results(self):
         """
         Minimum search matches required for result to be True (default is 1)
         """
         return int(self.content.get('min-results', 1))
 
-    @cached_yproperty_attr
+    @cached_property
     def filesearch_constraints_obj(self):
         """
         Create a search constraints object representing the paramaters in
@@ -168,37 +163,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
                                          hours=hours)
 
 
-class YPropertySearchOpt(YPropertyOverrideBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['expr', 'hint', 'passthrough-results']
-
-    def __bool__(self):
-        return bool(self.content)
-
-    @property
-    def expr(self):
-        """ Can be string or list. """
-        return self.content
-
-    def __str__(self):
-        # should use bool() for passthrough-results
-        invalid = ['passthrough-results', 'expr']
-        valid = [k for k in self._override_keys() if k not in invalid]
-        if self._override_name not in valid:
-            raise Exception("__str__ only valid for {} (not {})".
-                            format(','.join(valid),
-                                   self._override_name))
-
-        return self.content
-
-
-class YPropertySearchBase(YPropertyMappedOverrideBase):
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return [YPropertySearchOpt, YPropertySearchConstraints]
+class YPropertySearchBase(object):
 
     @classmethod
     def get_datetime_from_result(cls, result):
@@ -282,13 +247,6 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
     def unique_search_tag(self):
         return self._override_path
 
-    @property
-    def passthrough_results_opt(self):
-        if self.passthrough_results is not None:
-            return bool(self.passthrough_results)
-
-        return False
-
     def _resolve_exprs(self, patterns):
         """
         Resolve any expressions provided as variable to their value. Non-vars
@@ -299,40 +257,49 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
             for p in patterns:
                 _patterns.append(self.resolve_var(p))
         else:
-            _patterns = self.resolve_var(patterns)
+            _patterns.append(self.resolve_var(patterns))
 
         return _patterns
 
     @property
     def search_pattern(self):
-        if self.expr:
-            return self._resolve_exprs(self.expr.expr)
+        try:
+            if self.expr:
+                if isinstance(self, YPropertySearch):
+                    expr = self.expr.expr
+                else:
+                    expr = self.expr
+            else:
+                expr = self.content
 
-        # can be supplied as a single string or list of strings
-        patterns = self._resolve_exprs(list(self.content.keys()))
-        if len(patterns) == 0:
-            raise Exception("no search pattern (expr) defined")
+            # can be supplied as a single string or list of strings
+            patterns = self._resolve_exprs(expr)
+            if len(patterns) == 0:
+                raise Exception("no search pattern (expr) defined")
 
-        for pattern in patterns:
-            if not re.search(r"[^\\]\(", pattern):
-                log.info("pattern '%s' does not contain a subgroup. this "
-                         "is inefficient and can result in unnecessary "
-                         "memory consumption", pattern)
+            for pattern in patterns:
+                if not re.search(r"[^\\]?\(.+\)", pattern):
+                    log.info("pattern '%s' does not contain a subgroup. this "
+                             "is inefficient and can result in unnecessary "
+                             "memory consumption", pattern)
 
-        if len(patterns) == 1:
-            return patterns[0]
+            if len(patterns) == 1:
+                return patterns[0]
 
-        return patterns
+            return patterns
+        except Exception:
+            log.exception("")
+            raise
 
     @property
     def is_sequence_search(self):
-        seq_keys = YPropertySequencePart._override_keys()
+        seq_keys = YPropertySequencePart._get_override_keys_back_compat()
         return any(getattr(self, key) for key in seq_keys)
 
     @property
     def simple_search(self):
         if (self.is_sequence_search or not self.search_pattern or
-                self.passthrough_results_opt):
+                bool(self.passthrough_results)):
             return
 
         sdef = self.cache.simple_search
@@ -356,7 +323,7 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
     @property
     def sequence_search(self):
-        if not self.is_sequence_search or self.passthrough_results_opt:
+        if not self.is_sequence_search or bool(self.passthrough_results):
             return
 
         sdef = self.cache.sequence_search
@@ -367,7 +334,7 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         seq_body = self.body
         seq_end = self.end
 
-        if (seq_body or (seq_end and not self.passthrough_results_opt)):
+        if (seq_body or (seq_end and not bool(self.passthrough_results))):
             sd_start = SearchDef(seq_start.search_pattern)
 
             sd_end = None
@@ -388,11 +355,12 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
 
         log.warning("invalid sequence definition passthrough=%s "
                     "start=%s, body=%s, end=%s",
-                    self.passthrough_results_opt, seq_start, seq_body, seq_end)
+                    bool(self.passthrough_results), seq_start, seq_body,
+                    seq_end)
 
     @property
     def sequence_passthrough_search(self):
-        if not self.is_sequence_search or not self.passthrough_results_opt:
+        if not self.is_sequence_search or not bool(self.passthrough_results):
             return
 
         sdef = self.cache.sequence_passthrough_search
@@ -402,7 +370,7 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
         seq_start = self.start
         seq_end = self.end
 
-        if self.passthrough_results_opt and all([seq_start, seq_end]):
+        if bool(self.passthrough_results) and all([seq_start, seq_end]):
             # start and end required for core.analytics.LogEventStats
             start_tag = "{}-start".format(self.unique_search_tag)
             end_tag = "{}-end".format(self.unique_search_tag)
@@ -435,25 +403,60 @@ class YPropertySearchBase(YPropertyMappedOverrideBase):
                               allow_global_constraints=allow_constraints)
 
 
-class YPropertySequencePart(YPropertySearchBase):
+class YPropertySearchOpt(YPropertyOverrideBase):
+    _override_keys = ['expr', 'hint', 'passthrough-results']
 
-    @classmethod
-    def _override_keys(cls):
-        return ['start', 'body', 'end']
+    def __bool__(self):
+        return bool(self.content)
+
+    @property
+    def expr(self):
+        """ Can be string or list. """
+        return self.content
 
     def __str__(self):
-        for stack in self._stack.current.content.values():
-            return stack.current.content
+        # should use bool() for passthrough-results
+        invalid = ['passthrough-results', 'expr']
+        valid = [k for k in
+                 self._get_override_keys_back_compat() if k not in invalid]
+        if self._override_name not in valid:
+            raise Exception("__str__ only valid for {} (not {})".
+                            format(','.join(valid),
+                                   self._override_name))
+
+        return self.content
 
 
-@add_to_property_catalog
-class YPropertySearch(YPropertySearchBase):
+class SeqPartSearchOptsBase(object):
 
-    @classmethod
-    def _override_keys(cls):
-        return ['search']
+    @property
+    def expr(self):
+        if type(self.content) is not dict:
+            return self.content
 
-    @classmethod
-    def _override_mapped_member_types(cls):
-        members = super()._override_mapped_member_types()
-        return members + [YPropertySequencePart]
+        return self.content.get('expr', '')
+
+    @property
+    def hint(self):
+        if type(self.content) is not dict:
+            return None
+
+        return self.content.get('hint', '')
+
+    @property
+    def passthrough_results(self):
+        if type(self.content) is not dict:
+            return False
+
+        return self.content.get('passthrough-results', False)
+
+
+class YPropertySequencePart(YPropertySearchBase, SeqPartSearchOptsBase,
+                            YPropertyOverrideBase):
+    _override_keys = ['start', 'body', 'end']
+
+
+class YPropertySearch(YPropertySearchBase, YPropertyMappedOverrideBase):
+    _override_keys = ['search']
+    _override_members = [YPropertySearchOpt, YPropertySearchConstraints,
+                         YPropertySequencePart]

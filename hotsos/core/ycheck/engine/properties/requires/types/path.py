@@ -10,11 +10,8 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
     """ Provides logic to perform checks on filesystem paths. """
-
-    @classmethod
-    def _override_keys(cls):
-        # We can't use 'input' since that property is already used.
-        return ['path']
+    _override_keys = ['path']
+    _overrride_autoregister = True
 
     @property
     def options(self):
@@ -31,7 +28,7 @@ class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
     def _result(self):
         _result = True
         not_found = None
-        for path in self.paths:
+        for path in self.paths:   # pylint: disable=E1133
             if not os.path.exists(path):
                 not_found = path
                 _result = False

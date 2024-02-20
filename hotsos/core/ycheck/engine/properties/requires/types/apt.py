@@ -59,10 +59,8 @@ class APTCheckItems(PackageCheckItemsBase):
 
 class YRequirementTypeAPT(YRequirementTypeBase):
     """ Provides logic to perform checks on APT packages. """
-
-    @classmethod
-    def _override_keys(cls):
-        return ['apt']
+    _override_keys = ['apt']
+    _overrride_autoregister = True
 
     @property
     @intercept_exception

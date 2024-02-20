@@ -439,7 +439,7 @@ class BaseTestCase(unittest.TestCase):
         if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') == 'yes':
             LoggingManager().start(level=logging.DEBUG)
         else:
-            LoggingManager().start(level=logging.INFO)
+            LoggingManager().start(level=logging.WARNING)
 
     def tearDown(self):
         LoggingManager().stop()

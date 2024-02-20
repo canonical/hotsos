@@ -1,36 +1,31 @@
+from functools import cached_property
+
+from propertree.propertree2 import (
+    PTreeLogicalGrouping,
+    PTreeOverrideLiteralType,
+)
 from hotsos.core.exceptions import ScenarioException
 from hotsos.core.issues import IssueContext
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
-    cached_yproperty_attr,
     YPropertyOverrideBase,
     PropertyCacheRefResolver,
     YPropertyMappedOverrideBase,
-    LogicalCollectionHandler,
     YDefsSection,
-    add_to_property_catalog,
     YDefsContext,
 )
 
 
-@add_to_property_catalog
 class YPropertyPriority(YPropertyOverrideBase):
+    _override_keys = ['priority']
 
-    @classmethod
-    def _override_keys(cls):
-        return ['priority']
-
-    @cached_yproperty_attr
+    @cached_property
     def value(self):
         return int(self.content or 1)
 
 
-@add_to_property_catalog
 class YPropertyRaises(YPropertyOverrideBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['raises']
+    _override_keys = ['raises']
 
     @property
     def bug_id(self):
@@ -53,6 +48,8 @@ class YPropertyRaises(YPropertyOverrideBase):
         if not fdict:
             return self.message
 
+        fdict = dict(fdict)
+
         for key, value in fdict.items():  # pylint: disable=E1101
             if PropertyCacheRefResolver.is_valid_cache_ref(value):
                 rvalue = PropertyCacheRefResolver(value,
@@ -68,7 +65,7 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         return message
 
-    @cached_yproperty_attr
+    @cached_property
     def format_dict(self):
         """
         Optional dict of key/val pairs used to format the message string.
@@ -99,7 +96,7 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         return fdict
 
-    @cached_yproperty_attr
+    @cached_property
     def type(self):
         """ Name of core.issues.IssueTypeBase object and will be used to raise
         an issue or bug using message as argument. """
@@ -107,50 +104,70 @@ class YPropertyRaises(YPropertyOverrideBase):
         return self.get_cls(_type)
 
 
-class YPropertyDecisionBase(YPropertyMappedOverrideBase,
-                            LogicalCollectionHandler):
+class DecisionBase(object):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.checks_instances = None
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return []
-
-    def add_checks_instances(self, checks):
-        self.checks_instances = checks
-
-    def get_item_result_callback(self, item, grouped=False):
-        name = str(item)
-        if name not in self.checks_instances:
-            raise Exception("no check found with name {}".format(name))
-
-        return self.checks_instances[name].result
+    def get_check_item(self, name):
+        checks = self.context.checks
+        try:
+            log.debug("%s: get_check_item() %s", self.__class__.__name__,
+                      name)
+            return checks[name]
+        except KeyError:
+            log.exception("check '%s' not found in %s", name, checks)
 
 
-class YPropertyDecisionLogicalGroupsExtension(YPropertyDecisionBase):
+class DecisionLogicalGrouping(DecisionBase, PTreeLogicalGrouping):
+    _override_autoregister = False
 
-    @classmethod
-    def _override_keys(cls):
-        return LogicalCollectionHandler.VALID_GROUP_KEYS
+    def get_items(self):
+        items = []
+        for item in super().get_items():
+            if isinstance(item, PTreeOverrideLiteralType):
+                item = self.get_check_item(str(item))
 
+            items.append(item)
 
-@add_to_property_catalog
-class YPropertyDecision(YPropertyDecisionBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['decision']
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return super()._override_mapped_member_types() + \
-                    [YPropertyDecisionLogicalGroupsExtension]
+        log.debug("%s: items: %s", self.__class__.__name__, items)
+        return items
 
 
-@add_to_property_catalog
+class YPropertyDecision(DecisionBase, YPropertyMappedOverrideBase):
+    _override_keys = ['decision']
+    # no members, we are using a mapping to get a custom PTreeLogicalGrouping
+    _override_members = []
+    _override_logical_grouping_type = DecisionLogicalGrouping
+
+    @property
+    def result(self):
+        results = []
+        try:
+            stop_executon = False
+            for member in self.members:
+                for item in member:
+                    if isinstance(item, PTreeOverrideLiteralType):
+                        item = self.get_check_item(str(item))
+
+                    result = item.result
+                    results.append(result)
+                    if DecisionLogicalGrouping.is_exit_condition_met('and',
+                                                                     result):
+                        stop_executon = True
+                        break
+
+                if stop_executon:
+                    break
+
+            result = all(results)
+            log.debug("decision: %s result=%s", results, result)
+            return result
+        except Exception:
+            log.exception("something went wrong when executing decision")
+            raise
+
+
 class YPropertyConclusion(YPropertyMappedOverrideBase):
+    _override_keys = ['conclusion']
+    _override_members = [YPropertyPriority, YPropertyDecision, YPropertyRaises]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -158,14 +175,6 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
         # Use this to add any context to the issue. This context
         # will be retrievable as machine readable output.
         self.issue_context = IssueContext()
-
-    @classmethod
-    def _override_keys(cls):
-        return ['conclusion']
-
-    @classmethod
-    def _override_mapped_member_types(cls):
-        return [YPropertyPriority, YPropertyDecision, YPropertyRaises]
 
     @property
     def name(self):
@@ -177,9 +186,8 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
         Return True/False result of this conclusion and prepare issue info.
         """
         log.debug("running conclusion %s", self.name)
-        self.decision.add_checks_instances(checks)
         log.debug("decision:start")
-        result = self.decision.run_collection()
+        result = self.decision.result
         log.debug("decision:end")
         if not result:
             return False
@@ -202,22 +210,17 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
         return result
 
 
-@add_to_property_catalog
 class YPropertyConclusions(YPropertyOverrideBase):
+    _override_keys = ['conclusions']
 
-    @classmethod
-    def _override_keys(cls):
-        return ['conclusions']
-
-    def initialise(self, ypvars):
+    def initialise(self, ypvars, checks):
         """
         Perform initialisation tasks for this set of conclusions.
-
-        * create conclusions context containing vars
         """
-        self.conclusion_context = YDefsContext({'vars': ypvars})
+        self.conclusion_context = YDefsContext({'vars': ypvars,
+                                                'checks': checks})
 
-    @cached_yproperty_attr
+    @cached_property
     def _conclusions(self):
         log.debug("parsing conclusions section")
         if not hasattr(self, 'conclusion_context'):
@@ -236,6 +239,6 @@ class YPropertyConclusions(YPropertyOverrideBase):
 
     def __iter__(self):
         log.debug("iterating over conclusions")
-        for c in self._conclusions:
+        for c in self._conclusions:   # pylint: disable=E1133
             log.debug("returning conclusion %s", c.name)
             yield c

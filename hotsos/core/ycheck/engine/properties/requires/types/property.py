@@ -7,10 +7,8 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 class YRequirementTypeProperty(YRequirementTypeWithOpsBase):
     """ Provides logic to perform checks on Python Properties. """
-
-    @classmethod
-    def _override_keys(cls):
-        return ['property']
+    _override_keys = ['property']
+    _overrride_autoregister = True
 
     @property
     @intercept_exception

@@ -6,10 +6,8 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class YPropertyVarOps(YRequirementTypeWithOpsBase):
-
-    @classmethod
-    def _override_keys(cls):
-        return ['varops']
+    _override_keys = ['varops']
+    _overrride_autoregister = True
 
     @property
     def input(self):

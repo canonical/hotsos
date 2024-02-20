@@ -17,8 +17,8 @@ def intercept_exception(f):
     def intercept_exception_inner(*args, **kwargs):
         try:
             return f(*args, **kwargs)
-        except Exception:
-            log.exception("function %s raised exception:", f.__name__)
+        except Exception as exc:
+            log.error("function '%s' raised exception: %s", f.__name__, exc)
             raise
 
     return intercept_exception_inner
@@ -115,7 +115,7 @@ class OpsUtils(object):
 
             return getattr(operator, op)(opinput)
         except Exception:
-            log.exception("failed to apply operator '%s'", op)
+            log.error("failed to apply operator '%s'", op)
             raise
 
     def apply_ops(self, ops, opinput=None, normalise_value_types=False):
@@ -159,10 +159,11 @@ class OpsUtils(object):
             opinput = self._apply_op(op[0], opinput=opinput, expected=expected,
                                      force_expected=force_expected)
 
-        return opinput
+        return bool(opinput)
 
 
 class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
+    _overrride_autoregister = False
 
     @property
     @abc.abstractmethod
@@ -172,13 +173,14 @@ class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
         Returns True if met otherwise False.
         """
 
-    def __call__(self):
+    @property
+    def result(self):
         try:
             return self._result
         except Exception:
             # display traceback here before it gets swallowed up.
-            log.exception("requires.%s.result raised the following",
-                          self.__class__.__name__)
+            log.error("requires.%s.result raised the following",
+                      self.__class__.__name__)
             raise
 
 

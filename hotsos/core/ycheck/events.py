@@ -273,8 +273,8 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
         group = YDefsSection(self.event_group, group_defs)
         log.debug("sections=%s, events=%s",
-                  len(group.branch_sections),
-                  len(group.leaf_sections))
+                  len(list(group.branch_sections)),
+                  len(list(group.leaf_sections)))
 
         for event in group.leaf_sections:
             fullname = "{}.{}.{}".format(HotSOSConfig.plugin_name,
@@ -286,7 +286,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                 continue
 
             if (not HotSOSConfig.force_mode and event.requires and not
-                    event.requires.passes):
+                    event.requires.result):
                 log.error("event '%s' pre-requisites not met - "
                           "skipping", event.name)
                 return {}
@@ -309,7 +309,8 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                 event.search.load_searcher(self.searcher, path,
                                            allow_constraints=allow_constraints)
 
-            emeta = {'passthrough': event.search.passthrough_results_opt,
+            passthrough = bool(event.search.passthrough_results)
+            emeta = {'passthrough': passthrough,
                      'sequence': event.search.sequence_search,
                      'tag': event.search.unique_search_tag}
             _event_defs[section_name][event.name] = emeta

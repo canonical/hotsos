@@ -84,10 +84,8 @@ class SnapCheckItems(PackageCheckItemsBase):
 
 class YRequirementTypeSnap(YRequirementTypeBase):
     """ Provides logic to perform checks on snap packages. """
-
-    @classmethod
-    def _override_keys(cls):
-        return ['snap']
+    _override_keys = ['snap']
+    _overrride_autoregister = True
 
     @property
     def channel(self):
