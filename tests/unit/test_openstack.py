@@ -126,6 +126,18 @@ Listen 35347
 </VirtualHost>
 """
 
+APACHE2_SSL_CONF_RGW = """
+Listen 433
+<VirtualHost 10.5.2.135:433>
+    ServerName 10.5.100.2
+    SSLEngine on
+    SSLCertificateFile /etc/apache2/ssl/keystone/cert_10.5.100.2
+    SSLCertificateChainFile /etc/apache2/ssl/keystone/cert_10.5.100.2
+    SSLCertificateKeyFile /etc/apache2/ssl/keystone/key_10.5.100.2
+    AllowEncodedSlashes On
+</VirtualHost>
+"""
+
 CERTIFICATE_FILE = """
 Certificate:
     Data:
@@ -1301,3 +1313,17 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
     def test_ssl_expiration_true(self):
         base = openstack_core.OpenstackBase()
         self.assertTrue(len(base.apache2_certificates_expiring), 1)
+
+    @utils.create_data_root(
+        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
+         APACHE2_SSL_CONF_RGW})
+    def test_1974138_apache2_allow_encoded_slashes_true(self):
+        base = openstack_core.OpenstackBase()
+        self.assertTrue(base.apache2_allow_encoded_slashes_on)
+
+    @utils.create_data_root(
+        {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
+         APACHE2_SSL_CONF})
+    def test_lp1974138_apache2_allow_encoded_slashes_false(self):
+        base = openstack_core.OpenstackBase()
+        self.assertFalse(base.apache2_allow_encoded_slashes_on)

@@ -1,0 +1,29 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  librgw2  15.2.14-0ubuntu0.20.04.1   amd64
+    etc/apache2/sites-enabled/openstack_https_frontend.conf: |
+      Listen 433
+      <VirtualHost 10.1.15.202:433>
+          ServerName 10.5.1.200
+          SSLEngine on
+          SSLProtocol all -SSLv3 -TLSv1 -TLSv1.1
+          SSLCipherSuite ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384
+          SSLHonorCipherOrder off
+          SSLCertificateFile /etc/apache2/ssl/ceph-radosgw/cert_10.5.1.200
+          SSLCertificateChainFile /etc/apache2/ssl/ceph-radosgw/cert_10.5.1.200
+          SSLCertificateKeyFile /etc/apache2/ssl/ceph-radosgw/key_10.5.1.200
+          ProxyPass / http://localhost:423/ nocanon
+          ProxyPassReverse / http://localhost:423/
+          ProxyPreserveHost on
+          RequestHeader set X-Forwarded-Proto "https"
+          KeepAliveTimeout 75
+          MaxKeepAliveRequests 1000
+      </VirtualHost>
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1974138: >-
+    In multisite S3 RGW environments, objects containing prefixes (/),
+    do not sync from primary to secondary sites if AllowEncodedSlashes
+    Apache directive is missing or set to OFF.

@@ -214,6 +214,22 @@ class OpenstackBase(object):
 
         return apache2_certificates_expiring
 
+    @cached_property
+    def apache2_allow_encoded_slashes_on(self):
+        """ Returns True if AllowEncodedSlashes On is found. """
+        if not self.ssl_enabled:
+            return False
+
+        with open(self.apache2_ssl_config_file) as fd:
+            for line in fd:
+                if line.strip().startswith('#'):
+                    continue
+
+                ret = re.search(r'[Aa]llow[Ee]ncoded[Ss]lashes\s+[Oo]n', line)
+                if ret:
+                    return True
+        return False
+
 
 class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
     plugin_name = "openstack"
