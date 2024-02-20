@@ -6,9 +6,8 @@ jobs:
   sync-issues:
     runs-on: ubuntu-latest
     steps:
-      - uses: alex-page/github-project-automation-plus@v0.8.1
+      - uses: alex-page/github-project-automation-plus@v0.9.0
         with:
           project: 'Automation and Tooling'
           column: 'To Do'
           repo-token: ${{ secrets.PROJ_MNG }}
-
