@@ -29,7 +29,9 @@ class SSLCertificate(object):
 
         cert = x509.load_pem_x509_certificate(self.certificate,
                                               default_backend())
-        return cert.not_valid_after_utc
+        if hasattr(cert, 'not_valid_after_utc'):
+            return cert.not_valid_after_utc
+        return cert.not_valid_after.replace(tzinfo=timezone.utc)
 
     @property
     def days_to_expire(self):
