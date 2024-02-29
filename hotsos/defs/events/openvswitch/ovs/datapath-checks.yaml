@@ -4,7 +4,7 @@ input:
     kwargs:
       datapath: 'system@ovs-system'
 port-stats:
-  start: '\s+port \d+: (\S+) .+'
+  start: '\s+port \d+: (\S+)'
   body: '\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+)'
 deferred-action-limit-reached:
   input:
