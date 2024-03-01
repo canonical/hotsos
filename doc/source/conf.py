@@ -7,7 +7,7 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'hotsos'
-copyright = '2023, edward.hope-morley@canonical.com'
+project_copyright = '2023, edward.hope-morley@canonical.com'
 author = 'edward.hope-morley@canonical.com'
 
 # -- General configuration ---------------------------------------------------
