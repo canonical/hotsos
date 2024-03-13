@@ -1,0 +1,28 @@
+checks:
+  has_2029857:
+    input:
+      path: 'var/log/apache2/octavia_error.log'
+    start: '(\[.+\]+) ([\d-]+) ([\d:]+\.[\d]+) .+ Unable to load provider
+driver ovn due to'
+    end: '(\[.+\]+) (octavia.common.exceptions.ProviderNotFound: Provider 
+''ovn'' was not found\.)'
+  ovn_provider_enabled:
+    config:
+      handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
+      path: 'etc/octavia/octavia.conf'
+      assertions:
+        - section: api_settings
+          key: enabled_provider_drivers
+          ops: [[contains, ovn]] 
+conclusions:
+  lp2029857:
+    decision:
+      - has_2029857
+      - ovn_provider_enabled
+    raises:
+      type: LaunchpadBug
+      bug-id: 2029857
+      message: >-
+        Octavia is configured to support OVN provider driver but it is
+        impacted by a known bug that is causing Octavia API errors.
+        See LP#2029857 for more information.
