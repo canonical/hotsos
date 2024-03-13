@@ -167,4 +167,4 @@ You can then re-run a failing test directly without running all tests and get th
 
 .. code-block:: console
 
-  tox -epy3 tests.unit.test_system.TestUbuntuPro.test_ubuntu_pro_attached
+  tox -epy3 -- tests.unit.test_system.TestUbuntuPro.test_ubuntu_pro_attached
