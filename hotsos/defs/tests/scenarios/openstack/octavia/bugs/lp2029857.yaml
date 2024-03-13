@@ -1,0 +1,16 @@
+data-root:
+  files:
+    var/log/apache2/octavia_error.log: |
+      [Thu Mar 07 00:02:53.076952 2024] [wsgi:error] [pid 19692:tid 140252996032064] 2024-03-07 00:02:53.076 19692 ERROR octavia.api.drivers.driver_factory [-] Unable to load provider driver ovn due to: Unable to open the driver agent socket: /var/run/octavia/status.sock: octavia_lib.api.drivers.exceptions.DriverAgentNotFound: Unable to open the driver agent socket: /var/run/octavia/status.sock\x1b[00m
+      [Thu Mar 07 00:02:53.077283 2024] [wsgi:error] [pid 19692:tid 140252996032064] [remote 127.0.0.1:35370] mod_wsgi (pid=19692): Failed to exec Python script file '/usr/bin/octavia-wsgi'.
+      [Thu Mar 07 00:02:53.082683 2024] [wsgi:error] [pid 19692:tid 140252996032064] [remote 127.0.0.1:35370] octavia.common.exceptions.ProviderNotFound: Provider 'ovn' was not found.
+    etc/octavia/octavia.conf: |
+      [api_settings]
+      enabled_provider_drivers = amphora:The Octavia Amphora driver,ovn:Octavia OVN driver
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2029857: >-
+    Octavia is configured to support OVN provider driver but it is
+    impacted by a known bug that is causing Octavia API errors.
+    See LP#2029857 for more information.
