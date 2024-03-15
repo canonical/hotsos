@@ -335,6 +335,7 @@ class CephCluster(object):
     OSD_PG_MAX_LIMIT = 500
     OSD_PG_OPTIMAL_NUM_MAX = 200
     OSD_PG_OPTIMAL_NUM_MIN = 50
+    OSD_DISCREPANCY_ALLOWED = 5
     # If a pool's utilisation is below this value, we consider is "empty"
     POOL_EMPTY_THRESHOLD = 2
 
@@ -749,6 +750,27 @@ class CephCluster(object):
                 ssd_osds_using_bcache.append(osd['id'])
 
         return sorted(ssd_osds_using_bcache)
+
+    @cached_property
+    def osd_raw_usage_higher_than_data(self):
+        _bad_osds = []
+
+        if not self.osd_df_tree:
+            return _bad_osds
+
+        for osd in self.osd_df_tree['nodes']:
+            if osd['id'] >= 0:
+                raw_usage = osd['kb_used']
+                total_usage = osd['kb_used_data'] + osd['kb_used_omap'] + \
+                    osd['kb_used_meta']
+                # There's always some additional space used by OSDs that's not
+                # by data/omap/meta for journaling, internal structures, etc.
+                # Thus we allow 5% discrepancy.
+                allowance = total_usage * self.OSD_DISCREPANCY_ALLOWED / 100.0
+                if raw_usage > (total_usage + allowance):
+                    _bad_osds.append(osd['name'])
+
+        return sorted(_bad_osds)
 
 
 class CephDaemonBase(object):

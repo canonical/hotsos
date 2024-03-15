@@ -1,0 +1,123 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_osd_df_tree_--format_json-pretty: |
+      {
+          "nodes": [
+              {
+                  "id": -1,
+                  "name": "default",
+                  "type": "root",
+                  "type_id": 11,
+                  "children": [
+                      -3,
+                      -7,
+                      -5
+                  ]
+              },
+              {
+                  "id": -5,
+                  "name": "compute1",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      1
+                  ]
+              },
+              {
+                  "id": 1,
+                  "device_class": "nvme",
+                  "name": "osd.1",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 5.8228912353515625,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 6324604920,
+                  "kb_used": 4965936716,
+                  "kb_used_data": 4891487812,
+                  "kb_used_omap": 23530,
+                  "kb_used_meta": 24476681,
+                  "kb_avail": 1358668204,
+                  "utilization": 78.51773792694074,
+                  "var": 1.5705547613514028,
+                  "pgs": 101,
+                  "status": "up"
+              },
+              {
+                  "id": -7,
+                  "name": "compute2",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      2
+                  ]
+              },
+              {
+                  "id": 2,
+                  "device_class": "nvme",
+                  "name": "osd.2",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 5.8228912353515625,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 0.800048828125,
+                  "kb": 6324604920,
+                  "kb_used": 6304994948,
+                  "kb_used_data": 4860545996,
+                  "kb_used_omap": 21690,
+                  "kb_used_meta": 22398777,
+                  "kb_avail": 1389609972,
+                  "utilization": 78.028509455101272,
+                  "var": 1.5607689457367058,
+                  "pgs": 85,
+                  "status": "up"
+              },
+              {
+                  "id": -3,
+                  "name": "compute4",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      0
+                  ]
+              },
+              {
+                  "id": 0,
+                  "device_class": "nvme",
+                  "name": "osd.0",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 5.8228912353515625,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 6324604920,
+                  "kb_used": 4492963404,
+                  "kb_used_data": 4418514508,
+                  "kb_used_omap": 17613,
+                  "kb_used_meta": 25856806,
+                  "kb_avail": 1831641516,
+                  "utilization": 71.039431882806042,
+                  "var": 1.4209695914960601,
+                  "pgs": 97,
+                  "status": "up"
+              }
+          ]
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    Found OSD(s) osd.2 with larger raw usage size than the combined
+    data+meta+omap usage. While a certain discrepancy is to be expected due to
+    Ceph's using space not accounted by data+meta+omap columns, these are more
+    than 5% and potentially indicate a bug in Ceph. If these OSDs appear
+    full or misbehave, please restart them and possibly file a bug in Ceph tracker.
+

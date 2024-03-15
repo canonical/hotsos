@@ -1,0 +1,19 @@
+checks:
+  osds_have_unusual_raw_usage:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.osd_raw_usage_higher_than_data
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  osds-have-unusual-raw-usage:
+    decision: osds_have_unusual_raw_usage
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Found OSD(s) {bad_osds} with larger raw usage size than the combined
+        data+meta+omap usage. While a certain discrepancy is to be expected due to
+        Ceph's using space not accounted by data+meta+omap columns, these are more
+        than {limit}% and potentially indicate a bug in Ceph. If these OSDs appear
+        full or misbehave, please restart them and possibly file a bug in Ceph tracker.
+      format-dict:
+        bad_osds: '@checks.osds_have_unusual_raw_usage.requires.value_actual:comma_join'
+        limit: hotsos.core.plugins.storage.ceph.CephCluster.OSD_DISCREPANCY_ALLOWED
