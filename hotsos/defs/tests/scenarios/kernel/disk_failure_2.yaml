@@ -1,0 +1,11 @@
+target-name: disk_failure.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+     Jun 11 06:51:39 bronzor kernel: [  725.797102] sd 0:0:9:0: [sdk] tag#915 CDB: Write(16) 8a 00 00 00 00 00 07 c8 fa cb 00 00 00 65 00 00
+     Jun 11 06:51:39 bronzor kernel: [  725.995102] blk_update_request: I/O error, dev sdk, sector 130611915 op 0x1:(WRITE) flags 0x0 phys_seg 13 prio class 0
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  KernelWarning: >-
+    Block I/O error 'I/O' detected for device sdk.
