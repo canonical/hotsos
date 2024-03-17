@@ -1,19 +1,11 @@
 target-name: lp1996010.yaml
 data-root:
   files:
-    sos_commands/ceph_osd/ceph_daemon_osd.0_dump_mempools: |
-      {
-          "mempool": {
-              "by_pool": {
-                  "bluestore_cache_onode": {
-                      "items": 0,
-                      "bytes": 0
-                  }
-              }
-          }
-      }
+    var/snap/microceph/common/logs/ceph-osd.0.log: |
+      2022-02-11T00:47:26.562+0000 7f424f78e700 30 bluestore.MempoolThread(0x564a9dae2a68) _resize_shards max_shard_onodes: 0 max_shard_buffer: 8388608
   copy-from-original:
-    - sos_commands/ceph_osd/ceph-volume_lvm_list
+    - uptime
+    - sos_commands/date/date
     - sos_commands/systemd/systemctl_list-units
     - sos_commands/systemd/systemctl_list-unit-files
 raised-bugs:

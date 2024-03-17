@@ -11,8 +11,8 @@ data-root:
 raised-bugs:
   https://bugs.launchpad.net/bugs/1996010: >-
     One or more OSDs are reporting that their Bluestore onode cache might be completely disabled.
-    This is caused by an entry leak in bluestore_cache_other mempool and can cause high io latency
+    This is caused by an entry leak in bluestore_cache_other mempool and can cause high I/O latency
     as size 0 cache will significantly increase the need to fetch metadata from rocksdb or
     disk. Another potential impact is that it may hit hitting the race condition in Onode::put
-    (see https://tracker.ceph.com/issues/56382) which will crash osds, especially in large clusters.
+    (see https://tracker.ceph.com/issues/56382) which will crash OSDs, especially in large clusters.
     You can check for the leaked bluestore_cache_other mempool in the output of "ceph daemon osd.id dump_mempools".

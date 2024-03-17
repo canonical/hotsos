@@ -5,7 +5,9 @@ checks:
       ops: [[ne, HEALTH_OK]]
   ceph_osd_withhold_creation:
     input:
-      path: [var/log/ceph/ceph-osd*.log, var/log/ceph/ceph.log]
+      path: ['var/log/ceph/ceph-osd*.log', 'var/log/ceph/ceph.log',
+             'var/snap/microceph/common/logs/ceph-osd*.log',
+             'var/snap/microceph/common/logs/ceph.log']
     search:
       expr: '[\d-]+[T ][\d:]+\S+ .+ (osd.+) .+ maybe_wait_for_max_pg withhold creation of pg .+: (.+) >= (.+)'
 conclusions:

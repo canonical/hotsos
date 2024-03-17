@@ -1,6 +1,6 @@
 # NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
-  path: 'var/log/ceph/ceph-osd*.log'
+  path: ['var/log/ceph/ceph-osd*.log', 'var/snap/microceph/common/logs/ceph-osd*.log']
 slow-requests:
   expr: '([\d-]+)[T ]([\d:]+)\S+ .+ ([0-9]+) slow requests are blocked .+ \(REQUEST_SLOW\)'
 crc-err-bluestore:

@@ -3,7 +3,7 @@ checks:
   # logs should be available on both.
   osd_flapping:
     input:
-      path: var/log/ceph/ceph*.log
+      path: ['var/log/ceph/ceph*.log', 'var/snap/microceph/common/logs/ceph*.log']
     expr: '([\d-])+[T ][\d:]+\S+ .+ wrongly marked me down at .+'
   ceph_interfaces_have_errors:
     property: hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors

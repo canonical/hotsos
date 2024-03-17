@@ -1,0 +1,19 @@
+target-name: pg_overdose.yaml
+data-root:
+  files:
+    var/snap/microceph/common/logs/ceph-osd.40.log: |
+      2022-02-10T16:20:32.695+0000 7fc34e229700  0 bluestore(/var/lib/ceph/osd/ceph-40) log_latency_fn slow operation observed for _txc_committed_kv, latency = 8.286613899s, txc = 0x55d8c3280f00
+      2022-02-10T16:20:34.819+0000 7fc354235700 -1 osd.38 104288 maybe_wait_for_max_pg withhold creation of pg 104.8e6s8: 813 >= 750
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    ceph is trying to create 813 PGs on osd.38 but the hard limit is 750.
+    The mon_max_pg_per_osd or osd_max_pg_per_osd_hard_ratio may be
+    increased as a workaround. Please see
+    www.ceph.com/community/new-luminous-pg-overdose-protection
+    Note if the pending PGs are more than double the hard limit,
+    it needs further investigation before applying the workaround.
+

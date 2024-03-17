@@ -1,14 +1,14 @@
 vars:
   clog_size: '@hotsos.core.host_helpers.filestat.FileFactory.size:var/log/ceph/ceph.log'
-
+  mc_clog_size: '@hotsos.core.host_helpers.filestat.FileFactory.size:var/snap/microceph/common/logs/ceph.log'
 checks:
   empty_clog_size:
-    varops: [[$clog_size], [eq, 0]]
-
+    or:
+      - varops: [[$clog_size], [eq, 0]]
+      - varops: [[$mc_clog_size], [eq, 0]]
 conclusions:
   empty_clog:
-    decision:
-      - empty_clog_size
+    decision: empty_clog_size
     raises:
       type: CephTrackerBug
       bug-id: 55383

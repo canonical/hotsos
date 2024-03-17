@@ -1,7 +1,7 @@
 checks:
   overlapping_roots:
     input:
-      path: var/log/ceph/ceph-mgr*.log
+      path: ['var/log/ceph/ceph-mgr*.log', 'var/snap/microceph/common/logs/ceph-mgr*.log']
     expr:
       - '.* pool \w+ scale due to overlapping roots:.*'
       - '.* pool \w+ has overlapping roots: .*'
