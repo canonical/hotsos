@@ -1,7 +1,7 @@
 checks:
   ceph_log_has_election_calls:
     input:
-      path: var/log/ceph/ceph*.log
+      path: ['var/log/ceph/ceph*.log', 'var/snap/microceph/common/logs/ceph*.log']
     search:
       expr: '^([\d-]+)[T ]([\d:]+)\S+ (\S+) .+ mon.\S+ calling monitor election'
       constraints:

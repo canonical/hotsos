@@ -1,6 +1,7 @@
+target-name: empty_clog.yaml
 data-root:
   files:
-    var/log/ceph/ceph.log: ''
+    var/snap/microceph/common/logs/ceph.log: ''
   copy-from-original:
     - uptime
     - sos_commands/date/date

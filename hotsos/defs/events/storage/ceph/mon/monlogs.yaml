@@ -1,6 +1,8 @@
 # NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 input:
-  path: ['var/log/ceph/ceph.log', 'var/log/ceph/ceph-mon*.log']
+  path: ['var/log/ceph/ceph.log', 'var/log/ceph/ceph-mon*.log',
+         'var/snap/microceph/common/logs/ceph.log',
+         'var/snap/microceph/common/logs/ceph-mon*.log']
 osd-reported-failed:
   expr: '([\d-]+)[T ]([\d:]+)\S+ .+ (osd.[0-9]+) reported failed by osd.[0-9]+'
   hint: 'reported failed'

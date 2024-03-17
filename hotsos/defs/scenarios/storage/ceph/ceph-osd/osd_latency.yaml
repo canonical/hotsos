@@ -1,7 +1,7 @@
 checks:
   osd_disk_latency:
     input:
-      path: var/log/ceph/ceph*.log
+      path: ['var/log/ceph/ceph*.log', 'var/snap/microceph/common/logs/ceph*.log']
     search:
       expr: '^([\d-]+)[T ]([\d:]+)\S+ .+ slow operation observed .+'
       constraints:

@@ -44,8 +44,6 @@ CEPH_PKGS_OTHER = []
 for ceph_pkg in CEPH_PKGS_CORE:
     CEPH_PKGS_OTHER.append(r"python3?-{}\S*".format(ceph_pkg))
 
-CEPH_LOGS = "var/log/ceph/"
-
 # NOTE(tpsilva): when updating this list, refer to the supported Ceph
 # versions for Ubuntu page:
 # https://ubuntu.com/ceph/docs/supported-ceph-versions
