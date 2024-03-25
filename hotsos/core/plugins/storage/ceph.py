@@ -928,7 +928,6 @@ class CephChecksBase(StorageBase):
         self.pebble = PebbleHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
-        self.lsof = Lsof()
 
     @property
     def summary_subkey(self):
@@ -1112,7 +1111,7 @@ class CephChecksBase(StorageBase):
         """
         osds = {}
         tcmalloc_osds = 0
-        for row in self.lsof:
+        for row in Lsof():
             if row.COMMAND == 'ceph-osd':
                 osds[row.PID] = 1
                 if re.search("libtcmalloc", row.NAME):
