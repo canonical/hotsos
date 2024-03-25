@@ -118,7 +118,7 @@ Decision
 
 This property is typically used in :ref:`Conclusions<conclusions>`.
 CHECKS refers to a set of one or more :ref:`Checks<checks>` names organised as a
-:ref:`LogicalCollection` to make a decision based on the outcome of more
+:ref:`LogicalGroupings` to make a decision based on the outcome of more
 checks.
 
 Usage:
@@ -187,7 +187,7 @@ The simplest form contains a single type e.g.:
         
 This requirement stipulates that a systemd service called ufw must exist and have state active for the result to be True.
 
-A requirement can also contain a collection of types grouped as a :ref:`LogicalCollection` e.g.
+A requirement can also contain a collection of types grouped as a :ref:`LogicalGroupings` e.g.
 
 .. code-block:: yaml
 

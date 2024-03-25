@@ -16,7 +16,7 @@ to keep one per file for readability and testability purposes.
 Checks are evaluated independently of each other and the results are saved for
 subsequent :ref:`Decision<decision>` when forming :ref:`Conclusions<conclusions>`. They are also only
 evaluated when referenced from a :ref:`Decision<decision>` (basically lazy loaded).
-Also, checks that are :ref:`logically grouped <LogicalCollection>` are evaluated
+Also, checks that are :ref:`logically grouped <LogicalGroupings>` are evaluated
 until the minimum number of items has
 been evaluated to determine the outcome of that group.
 

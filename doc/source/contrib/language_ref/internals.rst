@@ -136,13 +136,13 @@ retrieved. Supported functions are:
 * unique_comma_join - takes a list or dict as input and returns ', '.join(set(input))
 * first - takes a list as input and returns input[0]
 
-LogicalCollection
------------------
+LogicalGroupings
+----------------
 
-This provides a way for properties to make a decision based on a tree of items
-where the items may be a single item, list of items, one or more groups or a
-list of groups of items organised by logical operator that will be used to
-determine their collective result. For example:
+The propertree library provides a way for properties to make a decision based
+on a group of items where the group may be a single item, list of items, one or
+more groups or a list of groups of items organised by logical operator that
+will be used to determine their collective result. For example:
 
 .. code-block:: yaml
 
