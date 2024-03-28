@@ -1,15 +1,19 @@
 Internals
 =========
 
+Scenarios and Events are written in YAML using a language described here and
+implemented using the `propertree <https://github.com/dosaboy/propertree>`_
+library.
+
 Data Root
 ---------
 
-The data root is a path referring to the root of the filesystem under analysis.
-When analysing a host this is usually '/' (the default). When analysing a
-sosreport it will be the root of the unpacked sosreport.
+The *data root* is a path referring to the root of the filesystem under analysis.
+When analysing a host this defaults to '/' and when analysing a sosreport the
+data root will point to the root of the unpacked sosreport.
 
 Hotsos has runtime `configuration <https://github.com/canonical/hotsos/blob/main/hotsos/core/config.py>`_
-that is global to all plugins and the *data_root* config must be set to this
+that is global to all plugins and the `data_root` config must be set to this
 path from the start. It is crucial that all paths used in hotsos are
 relative to this path.
 
@@ -139,10 +143,13 @@ retrieved. Supported functions are:
 LogicalGroupings
 ----------------
 
-The propertree library provides a way for properties to make a decision based
-on a group of items where the group may be a single item, list of items, one or
-more groups or a list of groups of items organised by logical operator that
-will be used to determine their collective result. For example:
+The `propertree <https://github.com/dosaboy/propertree>`_ library has native
+support for using logical operators both to group properties as well as
+grouping property contents. This provides a way for properties to make a
+decision based on a group of items where the group may be a single item,
+list of items, one or more groups or a list of groups of items organised by
+logical operator that will be used to determine their collective result. For
+example:
 
 .. code-block:: yaml
 
