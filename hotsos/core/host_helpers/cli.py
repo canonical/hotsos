@@ -906,15 +906,15 @@ class CLIHelperBase(HostHelpersBase):
                          'ovn-sbctl_--no-leader-only_show'),
                  # sosreport < 4.5
                  FileCmd('sos_commands/ovn_central/ovn-sbctl_show')],
-            'ovs_vsctl_get_Open_vSwitch':
-                [BinCmd('ovs-vsctl get Open_vSwitch . {record}',
+            'ovs_vsctl_get':
+                [BinCmd('ovs-vsctl get {table} {record} {column}',
                         singleline=True),
                  FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
-                         'Open_vSwitch_._{record}', singleline=True)],
-            'ovs_vsctl_list_Open_vSwitch':
-                [BinCmd('ovs-vsctl list Open_vSwitch'),
+                         '{table}_{record}_{column}', singleline=True)],
+            'ovs_vsctl_list':
+                [BinCmd('ovs-vsctl list {table}'),
                  FileCmd('sos_commands/openvswitch/'
-                         'ovs-vsctl_-t_5_list_Open_vSwitch')],
+                         'ovs-vsctl_-t_5_list_{table}')],
             'ovs_appctl_dpctl_show':
                 [BinCmd('ovs-appctl dpctl/show -s {datapath}'),
                  OVSDPCTLFileCmd('sos_commands/openvswitch/'

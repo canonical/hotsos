@@ -230,7 +230,7 @@ class TestOpenvswitchDB(TestOpenvswitchBase):
 
     def test_ovsdb_other_config(self):
         expected = {}
-        self.assertEqual(OVSDB().other_config, expected)
+        self.assertEqual(OVSDB().Open_vSwitch.other_config, expected)
 
     @utils.create_data_root({('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
                               'Open_vSwitch_._other_config'):
@@ -248,13 +248,13 @@ class TestOpenvswitchDB(TestOpenvswitchBase):
                     'dpdk-lcore-mask': "0x200002",
                     'dpdk-socket-mem': "8192,8192",
                     'vlan-limit': '0'}
-        self.assertEqual(OVSDB().other_config, expected)
+        self.assertEqual(OVSDB().Open_vSwitch.other_config, expected)
 
     def test_ovsdb_external_ids(self):
         expected = {'hostname': 'compute4.mylab.home',
                     'rundir': '/var/run/openvswitch',
                     'system-id': '3c98ecc6-adbc-4647-853b-d4c2b38e49ac'}
-        self.assertEqual(OVSDB().external_ids, expected)
+        self.assertEqual(OVSDB().Open_vSwitch.external_ids, expected)
 
 
 class TestOpenvswitchEvents(TestOpenvswitchBase):

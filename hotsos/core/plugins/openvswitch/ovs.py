@@ -1,6 +1,7 @@
 import re
 from functools import cached_property
 
+from hotsos.core.factory import FactoryBase
 from hotsos.core.log import log
 from hotsos.core.host_helpers import (
     CLIHelper,
@@ -10,35 +11,71 @@ from hotsos.core.host_helpers import (
 from hotsos.core.search import FileSearcher, SearchDef
 
 
-class OVSDB(object):
+class OVSDBTable(object):
+    """
+    Provides an interface to an OVSDB table. Records can be extracted from
+    either 'get' or 'list' command outputs. We try 'get' first and of not found
+    we search in output of 'list'.
+    """
 
-    def __init__(self):
-        self.cli = CLIHelper()
+    def __init__(self, name):
+        self.name = name
 
-    def _record_to_dict(self, record):
-        record_dict = {}
-        if record and record != '{}':
-            expr = r'(\S+="[^"]+"|\S+=\S+),? ?'
-            for field in re.compile(expr).findall(record):
-                for char in [',', '}', '{']:
-                    field = field.strip(char)
+    def _convert_record_to_dict(self, record):
+        """ Convert the ovsdb record dict format to a python dictionary. """
+        out = {}
+        if not record or record == '{}':
+            return out
 
-                key, _, val = field.partition('=')
-                record_dict[key] = val.strip('"')
+        expr = r'(\S+="[^"]+"|\S+=\S+),? ?'
+        for field in re.compile(expr).findall(record):
+            for char in [',', '}', '{']:
+                field = field.strip(char)
 
-        return record_dict
+            key, _, val = field.partition('=')
+            out[key] = val.strip('"')
 
-    def __getattr__(self, db_record):
-        """ Dynamically request db records. """
-        value = self.cli.ovs_vsctl_get_Open_vSwitch(record=db_record)
-        if db_record == 'external_ids' and not value:
-            for line in self.cli.ovs_vsctl_list_Open_vSwitch():
-                if line.startswith('external_ids '):
-                    value = line.partition(':')[2].strip()
-                    break
+        return out
 
-        if value:
-            return self._record_to_dict(value)
+    def _get_cmd(self, table):
+        return lambda **kwargs: CLIHelper().ovs_vsctl_get(table=table,
+                                                          **kwargs)
+
+    def _list_cmd(self, table):
+        return lambda **kwargs: CLIHelper().ovs_vsctl_list(table=table,
+                                                           **kwargs)
+
+    def _fallback_query(self, column):
+        """ Find first occurrence of column and return it. """
+        for cmd in [self._list_cmd(self.name),
+                    self._list_cmd(self.name.lower())]:
+            for line in cmd():
+                if line.startswith('{} '.format(column)):
+                    return line.partition(':')[2].strip()
+
+    def get(self, record, column):
+        """
+        Try to get column using get command and failing that, try getting it
+        from list.
+        """
+        value = self._get_cmd(self.name)(record=record, column=column)
+        if not value:
+            value = self._fallback_query(column=column)
+
+        return self._convert_record_to_dict(value)
+
+    def __getattr__(self, column):
+        """ Get column for special records i.e. with key '.' """
+        return self.get(record='.', column=column)
+
+
+class OVSDB(FactoryBase):
+    """
+    This class is used like a factory in that attributes are table names that
+    return OVSDBTable objects on which attributes are row values.
+    """
+    def __getattr__(self, table):
+        return OVSDBTable(table)
 
 
 class OVSDPLookups(object):
@@ -99,7 +136,7 @@ class OpenvSwitchBase(object):
     @cached_property
     def tunnels(self):
         tunnel_info = {}
-        ovn_external_ids = self.ovsdb.external_ids
+        ovn_external_ids = self.ovsdb.Open_vSwitch.external_ids
         if ovn_external_ids:
             # ovn only shows the local ip used in the db so we have to get from
             # there.
@@ -152,7 +189,7 @@ class OpenvSwitchBase(object):
 
     @cached_property
     def offload_enabled(self):
-        config = self.ovsdb.other_config
+        config = self.ovsdb.Open_vSwitch.other_config
         if not config:
             return False
 
@@ -163,7 +200,7 @@ class OpenvSwitchBase(object):
 
     @cached_property
     def dpdk_enabled(self):
-        config = self.ovsdb.other_config
+        config = self.ovsdb.Open_vSwitch.other_config
         if not config:
             return False
 
