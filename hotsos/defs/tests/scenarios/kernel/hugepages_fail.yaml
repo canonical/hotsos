@@ -1,0 +1,18 @@
+target-name: memory.yaml
+data-root:
+  files:
+    proc/meminfo: |
+      MemTotal:       395397124 kB
+      MemAvailable:    1907936 kB
+      HugePages_Total:     320
+      HugePages_Free:      306
+      Hugetlb:        335544320 kB
+raised-issues:
+  MemoryWarning: >-
+    This host is using hugepages which are consuming 320GB out of 377GB total system
+    memory i.e. 85%. This leaves 2GB available memory for processes not using
+    hugepages. Also, only 4% of the hugepages are being actively used. Memory
+    reserved for hugepages can't be used for any other purpose which may starve the system of
+    available memory. Please review /proc/meminfo and your current hugepages configuration to see
+    if you can reduce the hugepages allocation. For details, see the kernel documentation at
+    https://docs.kernel.org/admin-guide/mm/hugetlbpage.html.

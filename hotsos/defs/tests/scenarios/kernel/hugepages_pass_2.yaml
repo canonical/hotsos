@@ -1,0 +1,11 @@
+target-name: memory.yaml
+data-root:
+  files:
+    proc/meminfo: |
+      MemTotal:       395397124 kB
+      MemAvailable:    1907936 kB
+      HugePages_Total:     320
+      HugePages_Free:      306
+      # Hugetlb consuming less then 80% of total memory
+      Hugetlb:        157286400 kB
+raised-issues: # none expected

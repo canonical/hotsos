@@ -1,0 +1,11 @@
+target-name: memory.yaml
+data-root:
+  files:
+    proc/meminfo: |
+      MemTotal:       395397124 kB
+      # available memory is more than 3% of total memory
+      MemAvailable:    19079360 kB
+      HugePages_Total:     320
+      HugePages_Free:      306
+      Hugetlb:        335544320 kB
+raised-issues: # none expected

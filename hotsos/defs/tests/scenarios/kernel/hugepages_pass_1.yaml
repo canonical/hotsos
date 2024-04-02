@@ -1,0 +1,11 @@
+target-name: memory.yaml
+data-root:
+  files:
+    proc/meminfo: |
+      MemTotal:       395397124 kB
+      MemAvailable:    1907936 kB
+      # 0 huge pages configured -> HP disabled
+      HugePages_Total:     0
+      HugePages_Free:      306
+      Hugetlb:        335544320 kB
+raised-issues: # none expected
