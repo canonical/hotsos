@@ -5,10 +5,43 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.utils import sorted_dict
 
 
-class VMStat(object):
+class _BaseProcKeyValue(object):
 
     def __init__(self):
-        self._vmstat_info = {}
+        self._proc_file_keys_values = {}
+
+    @property
+    def path(self):
+        raise NotImplementedError('Method "path" must be implemened in {}.'.
+                                  format(self.__class__.__name__))
+
+    def key_val_sep(self):
+        """
+        Returns regexp pattern for separating key and value in the
+        /proc/<file>. Child class can override the default if the <file>
+        structure is more complex.
+        """
+        return ' '
+
+    def __getattr__(self, key):
+        if key in self._proc_file_keys_values:
+            return self._proc_file_keys_values[key]
+
+        if not os.path.exists(self.path):
+            return 0
+
+        with open(self.path) as fd:
+            for line in fd:
+                if re.split(self.key_val_sep(), line, 1)[0] == key:
+                    value = int(re.split(self.key_val_sep(), line)[1])
+                    self._proc_file_keys_values[key] = value
+                    return value
+
+        raise AttributeError('attribute {} not found in {}.'.
+                             format(key, self.__class__.__name__))
+
+
+class VMStat(_BaseProcKeyValue):
 
     @property
     def path(self):
@@ -26,22 +59,43 @@ class VMStat(object):
 
         return int(fail_count / (success_count / 100))
 
-    def __getattr__(self, key):
-        if key in self._vmstat_info:
-            return self._vmstat_info[key]
 
-        if not os.path.exists(self.path):
-            return 0
+class MemInfo(_BaseProcKeyValue):
 
-        with open(self.path) as fd:
-            for line in fd:
-                if line.partition(" ")[0] == key:
-                    value = int(line.partition(" ")[2])
-                    self._vmstat_info[key] = value
-                    return value
+    @property
+    def path(self):
+        return os.path.join(HotSOSConfig.data_root, 'proc/meminfo')
 
-        raise AttributeError('attribute {} not found in {}.'.
-                             format(key, self.__class__.__name__))
+    def key_val_sep(self):
+        return r':?\s+'
+
+    @property
+    def mem_total_gb(self):
+        return round(self.MemTotal / (1024 * 1024))
+
+    @property
+    def mem_available_gb(self):
+        return round(self.MemAvailable / (1024 * 1024))
+
+    @property
+    def hugetlb_gb(self):
+        return round(self.Hugetlb / (1024 * 1024))
+
+    @property
+    def huge_pages_enabled(self):
+        return self.HugePages_Total > 0
+
+    @property
+    def hugetlb_to_mem_total_percentage(self):
+        return round((self.Hugetlb * 100) / self.MemTotal)
+
+    @property
+    def mem_avail_to_mem_total_percentage(self):
+        return round((self.MemAvailable * 100) / self.MemTotal)
+
+    @property
+    def hugep_used_to_hugep_total_percentage(self):
+        return round(100 - (self.HugePages_Free * 100) / self.HugePages_Total)
 
 
 class SlabInfo(object):
