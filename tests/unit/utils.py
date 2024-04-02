@@ -31,7 +31,7 @@ def find_all_templated_tests(path):
     @return: path to test.
     """
     for testdef in os.listdir(path):
-        if testdef.endswith('.disabled'):
+        if testdef.endswith(('.disabled', '.swp')):
             continue
 
         defpath = os.path.join(path, testdef)
