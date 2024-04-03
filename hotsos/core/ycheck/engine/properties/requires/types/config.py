@@ -1,5 +1,6 @@
 import glob
 import os
+from functools import cached_property
 
 from propertree.propertree2 import PTreeLogicalGrouping
 from hotsos.core.config import HotSOSConfig
@@ -35,16 +36,10 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
     _override_keys = ['assertion']
     _override_members = [YConfigAssertionAttrs]
 
-    @property
-    def result(self):
-        handlers = self.context.assertions_ctxt['cfg_handlers']
-        if not handlers:
-            log.debug("no handlers found, assuming paths do not exist - "
-                      "returning False")
-            return False
-
-        key = str(self.key)
-        value = None
+    @cached_property
+    def attrs(self):
+        _attrs = {'key': str(self.key), 'allow_unset': False, 'value': None,
+                  'section': None}
         if self.value is not None:
             if type(self.value) is bool:
                 value = self.value
@@ -54,16 +49,34 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
                 except TypeError:
                     value = str(self.value)
 
-        allow_unset = self.allow_unset or False
+            _attrs['value'] = value
 
-        section = None
+        if self.allow_unset is not None:
+            _attrs['allow_unset'] = bool(self.allow_unset)
+
         if self.section is not None:
-            section = str(self.section)
+            _attrs['section'] = str(self.section)
 
         if self.ops:
-            ops = self.ops.ops
+            _attrs['ops'] = self.ops.ops
         else:
-            ops = [['eq', value]]
+            _attrs['ops'] = [['eq', _attrs['value']]]
+
+        return _attrs
+
+    @property
+    def result(self):
+        handlers = self.context.assertions_ctxt['cfg_handlers']
+        if not handlers:
+            log.debug("no handlers found, assuming paths do not exist - "
+                      "returning False")
+            return False
+
+        key = self.attrs['key']
+        value = self.attrs['value']
+        section = self.attrs['section']
+        ops = self.attrs['ops']
+        allow_unset = self.attrs['allow_unset']
 
         log.debug("%s: key=%s, value=%s, section=%s, ops=%s",
                   self.__class__.__name__, key, value, section, ops)
