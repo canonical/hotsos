@@ -230,6 +230,8 @@ class YPropertyConclusions(YPropertyOverrideBase):
         for name, content in self.content.items():
             s = YDefsSection(self._override_name,
                              {name: {'conclusion': content}},
+                             override_handlers=self.root.override_handlers,
+                             resolve_path=self._override_path,
                              context=self.conclusion_context)
             for c in s.leaf_sections:
                 c.conclusion.conclusion_name = c.name

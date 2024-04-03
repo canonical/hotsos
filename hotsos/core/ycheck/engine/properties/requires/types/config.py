@@ -217,6 +217,8 @@ class YRequirementTypeConfig(YRequirementTypeBase):
                                 'cache': self.cache}
         section = YDefsSection('config_assertions',
                                {'assertions': self.content.get('assertions')},
+                               override_handlers=self.root.override_handlers,
+                               resolve_path=self._override_path,
                                context=ctxt)
         for leaf in section.leaf_sections:
             _assertions.append(leaf.assertions.passes)

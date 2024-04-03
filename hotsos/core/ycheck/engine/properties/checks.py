@@ -217,6 +217,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         resolved = []
         for name, content in self.content.items():
             s = YDefsSection(self._override_name, {name: {'check': content}},
+                             override_handlers=self.root.override_handlers,
                              resolve_path=self._override_path,
                              context=self.check_context)
             for c in s.leaf_sections:
