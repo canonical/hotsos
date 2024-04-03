@@ -21,6 +21,9 @@ from hotsos.core.ycheck.engine.properties.requires import (
 class YConfigAssertionAttrs(YPropertyOverrideBase):
     _override_keys = ['key', 'value', 'section', 'ops', 'allow-unset']
 
+    def __bool__(self):
+        return bool(self.content)
+
     def __str__(self):
         return str(self.content)
 
