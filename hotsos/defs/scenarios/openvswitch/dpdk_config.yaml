@@ -1,0 +1,56 @@
+vars:
+  pmd_cpu_mask_key: 'pmd-cpu-mask'
+  pmd_cpu_mask: '@hotsos.core.plugins.openvswitch.OVSDPDK.pmd_cpu_mask'
+  lcore_mask_key: 'dpdk-lcore-mask'
+  lcore_mask: '@hotsos.core.plugins.openvswitch.OVSDPDK.dpdk_lcore_mask'
+  other_config: '@hotsos.core.plugins.openvswitch.OVSDB.other_config:Open_vSwitch'
+checks:
+  ovs_dpdk_enabled:
+    # see https://docs.openvswitch.org/en/latest/intro/install/dpdk/#setup-ovs
+    property: hotsos.core.plugins.openvswitch.OVSDPDK.enabled
+  dpdk_installed:
+    apt: [openvswitch-switch-dpdk, dpdk]
+  pmd_mask_is_set:
+    - varops: [[$other_config], [truth]]  # check not None
+    - varops: [[$other_config], [contains, $pmd_cpu_mask_key]]
+  lcore_mask_is_set:
+    - varops: [[$other_config], [truth]]  # check not None
+    - varops: [[$other_config], [contains, $lcore_mask_key]]
+  lcore_mask_overlap_pmd_cpu_mask:
+    - varops: [[$lcore_mask], [and_, $pmd_cpu_mask], [ne, 0]]
+conclusions:
+  ovs_dpdk_missing_config:
+    decision:
+      - ovs_dpdk_enabled
+      - dpdk_installed
+      - or:
+        - not: pmd_mask_is_set
+        - not: lcore_mask_is_set
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        OpenvSwitch DPDK is enabled on this host but one or more of
+        '{pmd_cpu_mask}, {lcore_mask}' is not set in OVSDB Open_vSwitch table.
+        Current config is: {other_config}.
+      format-dict:
+        pmd_cpu_mask: '$pmd_cpu_mask_key'
+        lcore_mask: '$lcore_mask_key'
+        other_config: '$other_config'
+  ovs_dpdk_overlapping_masks:
+    decision:
+      - ovs_dpdk_enabled
+      - dpdk_installed
+      - pmd_mask_is_set
+      - lcore_mask_is_set
+      - lcore_mask_overlap_pmd_cpu_mask
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        OpenvSwitch DPDK is enabled on this host but one or more core exists
+        in both {pmd_cpu_mask} and {lcore_mask} (see OVSDB Open_vSwitch table).
+        This will lead to performance degradation due to contention between
+        Poll Mode Driver threads and the rest of the system.
+      format-dict:
+        pmd_cpu_mask: '$pmd_cpu_mask_key'
+        lcore_mask: '$lcore_mask_key'
+

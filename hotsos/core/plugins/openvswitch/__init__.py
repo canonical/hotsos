@@ -4,4 +4,5 @@ from .ovs import (  # noqa: F403,F401
     OVSDB,
     OVSDPLookups,
     OVSBridge,
+    OVSDPDK,
 )
