@@ -15,7 +15,7 @@ checks:
     apt: [openvswitch-switch-dpdk, dpdk]
   ovs_dpdk_enabled:
     # see https://docs.openvswitch.org/en/latest/intro/install/dpdk/#setup-ovs
-    property: hotsos.core.plugins.openvswitch.OpenvSwitchBase.dpdk_enabled
+    property: hotsos.core.plugins.openvswitch.OVSDPDK.enabled
 conclusions:
   ovs_frequent_restarts_dpdk:
     priority: 2

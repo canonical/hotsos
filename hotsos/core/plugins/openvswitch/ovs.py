@@ -199,13 +199,28 @@ class OpenvSwitchBase(object):
 
         return False
 
-    @cached_property
-    def dpdk_enabled(self):
-        config = self.ovsdb.Open_vSwitch.other_config
-        if not config:
-            return False
 
-        if config.get('dpdk-init') == "true":
+class OVSDPDK(OpenvSwitchBase):
+
+    @cached_property
+    def config(self):
+        return self.ovsdb.Open_vSwitch.other_config or {}
+
+    @property
+    def enabled(self):
+        if self.config.get('dpdk-init') == "true":
             return True
 
         return False
+
+    @property
+    def pmd_cpu_mask(self):
+        mask = self.config.get('pmd-cpu-mask')
+        if mask is not None:
+            return int(mask, 16)
+
+    @property
+    def dpdk_lcore_mask(self):
+        mask = self.config.get('dpdk-lcore-mask')
+        if mask is not None:
+            return int(mask, 16)
