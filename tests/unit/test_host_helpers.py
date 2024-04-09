@@ -276,7 +276,7 @@ class TestCLIHelper(utils.BaseTestCase):
 
             # Test errors with eventual success
             helper = host_helpers.cli.CLIHelper()
-            self.assertEqual(helper.ovs_ofctl_show(bridge='br-int'),
+            self.assertEqual(helper.ovs_ofctl(command='show', args='br-int'),
                              ['testdata'])
 
             mock_run.side_effect = \
@@ -284,7 +284,8 @@ class TestCLIHelper(utils.BaseTestCase):
 
             # Ensure that if all fails the result is always iterable
             helper = host_helpers.cli.CLIHelper()
-            self.assertEqual(helper.ovs_ofctl_show(bridge='br-int'), [])
+            self.assertEqual(helper.ovs_ofctl(command='show', args='br-int'),
+                             [])
 
     @mock.patch.object(host_helpers.cli.CLIHelper, 'command_catalog',
                        {'sleep': [host_helpers.cli.BinCmd('time sleep 2')]})

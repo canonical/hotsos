@@ -82,7 +82,8 @@ class OVSDPLookups(object):
 
     def __init__(self):
         cli = CLIHelper()
-        out = cli.ovs_appctl_dpctl_show(datapath='system@ovs-system')
+        out = cli.ovs_appctl(command='dpctl/show', flags='-s',
+                             args='system@ovs-system')
         cexpr = re.compile(r'\s*lookups: hit:(\S+) missed:(\S+) lost:(\S+)')
         self.fields = {'hit': 0, 'missed': 0, 'lost': 0}
         for line in out:
@@ -107,7 +108,7 @@ class OVSBridge(object):
     @cached_property
     def ports(self):
         ports = []
-        for line in self.cli.ovs_ofctl_show(bridge=self.name):
+        for line in self.cli.ovs_ofctl(command='show', args=self.name):
             ret = re.compile(r'^\s+\d+\((\S+)\):\s+').match(line)
             if ret:
                 name = ret.group(1)
@@ -150,7 +151,7 @@ class OpenvSwitchBase(object):
             s = FileSearcher()
             expr = r'.+ \(([a-z]+): ([a-f\d\.:]+)->([a-f\d\.:]+), .+'
             s.add(SearchDef(expr, tag='all'),
-                  cli.ovs_appctl_ofproto_list_tunnels())
+                  cli.ovs_appctl(command='ofproto/list-tunnels'))
             results = s.run()
             for r in results.find_by_tag('all'):
                 proto = r.get(1)

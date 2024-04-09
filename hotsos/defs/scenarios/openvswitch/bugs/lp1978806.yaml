@@ -1,17 +1,25 @@
 input:
-  command: ovs_appctl_dpctl_dump_conntrack
+  command: ovs_appctl
   options:
     kwargs:
-      datapath: 'system@ovs-system'
+      command: dpctl/dump-conntrack
+      flags: '-m'
+      args: 'system@ovs-system'
 checks:
   # NOTE: we don't extract any info from the following searches so they define the smallest group possible so as to minimise saved data.
   ovs_using_geneve:
     input:
-      command: ovs_appctl_ofproto_list_tunnels
+      command: ovs_appctl
+      options:
+        kwargs:
+          command: ofproto/list-tunnels
     search: '.+ \((g)eneve:'
   ovs_using_vxlan:
     input:
-      command: ovs_appctl_ofproto_list_tunnels
+      command: ovs_appctl
+      options:
+        kwargs:
+          command: ofproto/list-tunnels
     search: '.+ \((v)xlan:'
   geneve_is_tracked:
     search: '^(u)dp,.+,sport=6081,'

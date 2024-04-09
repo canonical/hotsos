@@ -52,7 +52,11 @@ def catch_exceptions(*exc_types):
 
 
 class SourceNotFound(Exception):
-    pass
+    def __init__(self, path):
+        self.path = path
+
+    def __repr__(self):
+        return "source path '{}' not found".format(self.path)
 
 
 class CommandNotFound(Exception):
@@ -239,7 +243,7 @@ class FileCmd(CmdBase):
             self.path = self.path.format(**kwargs)
 
         if not os.path.exists(self.path):
-            raise SourceNotFound()
+            raise SourceNotFound(self.path)
 
         if skip_load_contents:
             CmdOutput(None, self.path)
@@ -293,7 +297,7 @@ class BinFileCmd(FileCmd):
         # TODO: find a better way to handle this because path may still need
         # formatting.
         if not os.path.exists(self.original_path):
-            raise SourceNotFound()
+            raise SourceNotFound(self.original_path)
 
         if args:
             self.path = self.path.format(*args)
@@ -375,47 +379,91 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
             self.path = "{} --since {}".format(self.path, self.since_date)
 
 
-class OVSDPCTLFileCmd(FileCmd):
+class OVSAppCtlFileCmd(FileCmd):
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.register_hook("pre-exec", self.performat_sos_datapath)
+    def __call__(self, *args, **kwargs):
+        for key in ['flags', 'args']:
+            if key in kwargs:
+                kwargs[key] = '_{}'.format(kwargs[key])
+            else:
+                kwargs[key] = ''
 
-    def performat_sos_datapath(self, **kwargs):
-        if 'datapath' in kwargs:
-            datapath = kwargs['datapath'].replace('@', '_')
-            self.path = self.path.format(datapath=datapath)
+        if 'args' in kwargs and kwargs['command'].startswith('dpctl/'):
+            # e.g. this would be for dpctl datapath
+            kwargs['args'] = kwargs['args'].replace('@', '_')
+
+        kwargs['command'] = kwargs['command'].replace('/', '.')
+        try:
+            out = super().__call__(*args, **kwargs)
+        except SourceNotFound:
+            log.debug("%s: source not found: %s", self.__class__.__name__,
+                      self.path)
+            raise
+
+        return out
 
 
-class OVSOFCTLBinCmd(BinCmd):
+class OVSOFCtlCmdBase(object):
     OFPROTOCOL_VERSIONS = ['OpenFlow15', 'OpenFlow14', 'OpenFlow13',
                            'OpenFlow12', 'OpenFlow11', 'OpenFlow10']
 
+
+class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
+
     def __call__(self, *args, **kwargs):
         """
-        First try without specifying protocol version then is error is raised
-        try with version.
+        First try without specifying protocol version. If error is raised
+        try with different versions until we get a result.
         """
         self.cmd = "ovs-ofctl {}".format(self.cmd)
         try:
             return super().__call__(*args, **kwargs)
         except CLIExecError:
-            log.debug("ofctl command with no protocol version failed")
+            log.debug("%s: command with no protocol version failed",
+                      self.__class__.__name__)
 
         # If the command raised an exception it will have been caught by the
         # catch_exceptions decorator and [] returned. We have no way of knowing
         # if that was the actual return or an exception was raised so we just
         # go ahead and retry with specific OF versions until we get a result.
         for ver in self.OFPROTOCOL_VERSIONS:
-            log.debug("trying ofctl command with protocol version %s", ver)
+            log.debug("%s: trying again with protocol version %s",
+                      self.__class__.__name__, ver)
             self.reset()
             self.cmd = "ovs-ofctl -O {} {}".format(ver, self.cmd)
             try:
                 return super().__call__(*args, **kwargs)
             except CLIExecError:
-                log.debug("ofctl command with protocol version %s failed", ver)
+                log.debug("%s: command with protocol version %s failed",
+                          self.__class__.__name__, ver)
 
         return CmdOutput([])
+
+
+class OVSOFCtlFileCmd(OVSOFCtlCmdBase, FileCmd):
+
+    def __call__(self, *args, **kwargs):
+        """
+        First try without specifying protocol version. If error is raised
+        try with different versions until we get a result.
+        """
+        try:
+            kwargs['ofversion'] = ''
+            return super().__call__(*args, **kwargs)
+        except SourceNotFound:
+            log.debug("%s: command with no protocol version failed",
+                      self.__class__.__name__)
+
+        for ver in self.OFPROTOCOL_VERSIONS:
+            log.debug("%s: trying again with protocol version %s",
+                      self.__class__.__name__, ver)
+            self.reset()
+            try:
+                kwargs['ofversion'] = '_-O_{}'.format(ver)
+                return super().__call__(*args, **kwargs)
+            except SourceNotFound:
+                if ver == self.OFPROTOCOL_VERSIONS[-1]:
+                    raise
 
 
 class DateBinCmd(BinCmd):
@@ -503,7 +551,7 @@ class CephJSONFileCmd(FileCmd):
 
     def format_json_contents(self, *args, **kwargs):  # pylint: disable=W0613
         if not os.path.exists(self.path):
-            raise SourceNotFound
+            raise SourceNotFound(self.path)
 
         with open(self.path) as f:
             lines = f.readlines()
@@ -915,38 +963,17 @@ class CLIHelperBase(HostHelpersBase):
                 [BinCmd('ovs-vsctl list {table}'),
                  FileCmd('sos_commands/openvswitch/'
                          'ovs-vsctl_-t_5_list_{table}')],
-            'ovs_appctl_dpctl_show':
-                [BinCmd('ovs-appctl dpctl/show -s {datapath}'),
-                 OVSDPCTLFileCmd('sos_commands/openvswitch/'
-                                 'ovs-appctl_dpctl.show_-s_{datapath}')],
-            'ovs_appctl_dpctl_dump_conntrack':
-                [BinCmd('ovs-appctl dpctl/dump-conntrack -m {datapath}'),
-                 OVSDPCTLFileCmd(
-                            'sos_commands/openvswitch/'
-                            'ovs-appctl_dpctl.dump-conntrack_-m_{datapath}')],
-            'ovs_appctl_ofproto_list_tunnels':
-                [BinCmd('ovs-appctl ofproto/list-tunnels'),
-                 OVSDPCTLFileCmd('sos_commands/openvswitch/'
-                                 'ovs-appctl_ofproto.list-tunnels')],
             'ovs_vsctl_list_br':
                 [BinCmd('ovs-vsctl list-br'),
                  FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_list-br')],
-            'ovs_ofctl_show':
-                [OVSOFCTLBinCmd('show {bridge}'),
-                 FileCmd('sos_commands/openvswitch/'
-                         'ovs-ofctl_-O_OpenFlow15_show_{bridge}'),
-                 FileCmd('sos_commands/openvswitch/'
-                         'ovs-ofctl_-O_OpenFlow14_show_{bridge}'),
-                 FileCmd('sos_commands/openvswitch/'
-                         'ovs-ofctl_-O_OpenFlow13_show_{bridge}'),
-                 FileCmd('sos_commands/openvswitch/'
-                         'ovs-ofctl_-O_OpenFlow12_show_{bridge}'),
-                 FileCmd('sos_commands/openvswitch/'
-                         'ovs-ofctl_-O_OpenFlow11_show_{bridge}'),
-                 FileCmd('sos_commands/openvswitch/'
-                         'ovs-ofctl_-O_OpenFlow10_show_{bridge}'),
-                 FileCmd('sos_commands/openvswitch/'
-                         'ovs-ofctl_show_{bridge}')],
+            'ovs_appctl':
+                [BinCmd('ovs-appctl {command} {flags} {args}'),
+                 OVSAppCtlFileCmd('sos_commands/openvswitch/ovs-appctl_'
+                                  '{command}{flags}{args}')],
+            'ovs_ofctl':
+                [OVSOFCtlBinCmd('{command} {args}'),
+                 OVSOFCtlFileCmd('sos_commands/openvswitch/'
+                                 'ovs-ofctl{ofversion}_{command}_{args}')],
             'pacemaker_crm_status':
                 [BinCmd('crm status'),
                  FileCmd('sos_commands/pacemaker/crm_status')],

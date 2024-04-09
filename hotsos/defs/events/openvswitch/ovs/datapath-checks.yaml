@@ -1,8 +1,10 @@
 input:
-  command: ovs_appctl_dpctl_show
+  command: ovs_appctl
   options:
     kwargs:
-      datapath: 'system@ovs-system'
+      command: dpctl/show
+      flags: '-s'
+      args: 'system@ovs-system'
 port-stats:
   start: '\s+port \d+: (\S+)'
   body: '\s+([RT]X) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+) \S+:(\d+)'
