@@ -22,6 +22,9 @@ class CephSummary(CephChecksBase):
         if self.apt.core:
             return self.apt.all_formatted
 
+        if self.snaps.core:
+            return self.snaps.all_formatted
+
     def __3_summary_status(self):
         if self.cluster.health_status:
             return self.cluster.health_status

@@ -15,6 +15,7 @@ from hotsos.core.host_helpers import (
     DPKGVersion,
     HostNetworkingHelper,
     PebbleHelper,
+    SnapPackageHelper,
     SystemdHelper,
     SectionalConfigBase,
 )
@@ -43,6 +44,8 @@ CEPH_PKGS_OTHER = []
 # Add in clients/deps
 for ceph_pkg in CEPH_PKGS_CORE:
     CEPH_PKGS_OTHER.append(r"python3?-{}\S*".format(ceph_pkg))
+
+CEPH_SNAPS_CORE = [r'microceph']
 
 # NOTE(tpsilva): when updating this list, refer to the supported Ceph
 # versions for Ubuntu page:
@@ -925,6 +928,7 @@ class CephChecksBase(StorageBase):
         self.bcache = BcacheBase()
         self.apt = APTPackageHelper(core_pkgs=CEPH_PKGS_CORE,
                                     other_pkgs=CEPH_PKGS_OTHER)
+        self.snaps = SnapPackageHelper(core_snaps=CEPH_SNAPS_CORE)
         self.pebble = PebbleHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
@@ -935,7 +939,7 @@ class CephChecksBase(StorageBase):
 
     @property
     def plugin_runnable(self):
-        if self.apt.core:
+        if self.apt.core or self.snaps.core:
             return True
 
         return False
@@ -944,12 +948,18 @@ class CephChecksBase(StorageBase):
     def release_name(self):
         relname = 'unknown'
 
-        # First try from package version (TODO: add more)
         pkg = 'ceph-common'
-        if pkg in self.apt.core:
+        pkg_version = None
+        if self.apt.core and pkg in self.apt.core:
+            pkg_version = self.apt.core[pkg]
+        elif self.snaps.core and 'microceph' in self.snaps.core:
+            pkg_version = self.snaps.core['microceph']['version']
+            pkg_version = pkg_version.partition("+snap")[0]
+
+        if pkg_version is not None:
             for rel, ver in sorted(CEPH_REL_INFO[pkg].items(),
                                    key=lambda i: i[1], reverse=True):
-                if self.apt.core[pkg] > DPKGVersion(ver):
+                if pkg_version > DPKGVersion(ver):
                     relname = rel
                     break
 
