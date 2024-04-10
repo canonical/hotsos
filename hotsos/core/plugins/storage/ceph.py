@@ -35,7 +35,8 @@ from hotsos.core.utils import (
 from hotsos.core.ycheck.events import EventCallbackBase
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
-                       r"rados[a-z0-9-:]+"]
+                       r"rados[a-z0-9-:]+",
+                       r"microceph.(mon|mgr|mds|osd|rgw)"]
 CEPH_PKGS_CORE = [r"ceph",
                   r"rados",
                   r"rbd",
