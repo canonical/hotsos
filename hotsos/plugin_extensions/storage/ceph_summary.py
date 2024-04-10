@@ -22,6 +22,7 @@ class CephSummary(CephChecksBase):
         if self.apt.core:
             return self.apt.all_formatted
 
+    def __2_summary_snaps(self):
         if self.snaps.core:
             return self.snaps.all_formatted
 
