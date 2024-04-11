@@ -9,6 +9,7 @@ from propertree.propertree2 import (
     PTreeSection,
 )
 from hotsos.core.log import log
+from hotsos.core.host_helpers.config import ConfigBase
 
 
 class ImportPathIsNotAClass(Exception):
@@ -177,7 +178,10 @@ class PropertyCacheRefResolver(object):
                     'action': lambda value: ', '.join(sorted(set(value)))},
                   'first': {
                     'requirements': [lambda value: isinstance(value, list)],
-                    'action': lambda value: value[0]}}
+                    'action': lambda value: value[0]},
+                  'int_ranges': {
+                    'requirements': [lambda value: isinstance(value, list)],
+                    'action': ConfigBase.squash_int_range}}
 
         if func in extras:
             if not any(req(value) for req in extras[func]['requirements']):

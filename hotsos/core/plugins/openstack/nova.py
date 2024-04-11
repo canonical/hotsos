@@ -248,6 +248,30 @@ class CPUPinning(NovaBase):
         return self.nova_cfg.get(key, expand_to_list=True) or []
 
     @cached_property
+    def cpu_dedicated_set_hex(self):
+        cores = self.cpu_dedicated_set
+        if not cores:
+            return 0
+
+        _hex = 0
+        for core in cores:
+            _hex = _hex | 1 << core
+
+        return _hex
+
+    @cached_property
+    def cpu_shared_set_hex(self):
+        cores = self.cpu_shared_set
+        if not cores:
+            return 0
+
+        _hex = 0
+        for core in cores:
+            _hex = _hex | 1 << core
+
+        return _hex
+
+    @cached_property
     def vcpu_pin_set(self):
         key = 'vcpu_pin_set'
         return self.nova_cfg.get(key, expand_to_list=True) or []
