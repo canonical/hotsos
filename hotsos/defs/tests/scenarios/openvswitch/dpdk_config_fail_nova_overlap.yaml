@@ -1,0 +1,25 @@
+target-name: dpdk_config.yaml
+data-root:
+  files:
+    etc/nova/nova.conf: |
+      [compute]
+      cpu_dedicated_set = 5-10,16-25,44-63
+      cpu_shared_set = 11-15
+    sos_commands/openvswitch/ovs-vsctl_-t_5_get_Open_vSwitch_._other_config: |
+      {dpdk-extra="-a 0000:4b:00.0 -a 0000:17:00.0", dpdk-init="true", dpdk-lcore-mask="0x03", dpdk-socket-mem="4096,4096", pmd-cpu-mask="0x57000000000000570", vlan-limit="0"}
+    sos_commands/dpkg/dpkg_-l: |
+      ii  dpdk                                  21.11.3-0ubuntu0.22.04.1                             amd64        Data Plane Development Kit (runtime)
+      ii  openvswitch-common                    2.17.5-0ubuntu0.22.04.2                              amd64        Open vSwitch common components
+      ii  openvswitch-switch                    2.17.5-0ubuntu0.22.04.2                              amd64        Open vSwitch switch implementations
+      ii  openvswitch-switch-dpdk               2.17.5-0ubuntu0.22.04.2                              amd64        DPDK enabled Open vSwitch switch implementation
+      ii  python3-openvswitch                   2.17.5-0ubuntu0.22.04.2                              all          Python 3 bindings for Open vSwitch
+  copy-from-original:
+    - sos_commands/systemd
+raised-issues:
+  OpenvSwitchWarning: >-
+    OpenvSwitch DPDK is enabled on this host but one or more core reserved in
+    pmd-cpu-mask (see OVSDB Open_vSwitch table) is also reserved in Openstack
+    Nova cpu_dedicated_set ([5-10,16-25,44-63]) or cpu_shared_set ([11-15]).
+    This will lead to performance degradation due to contention
+    between Poll Mode Driver threads and the Nova instances.
+

@@ -4,6 +4,8 @@ vars:
   lcore_mask_key: 'dpdk-lcore-mask'
   lcore_mask: '@hotsos.core.plugins.openvswitch.OVSDPDK.dpdk_lcore_mask'
   other_config: '@hotsos.core.plugins.openvswitch.OVSDB.other_config:Open_vSwitch'
+  cpu_dedicated_set_hex: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_hex'
+  cpu_shared_set_hex: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_hex'
 checks:
   ovs_dpdk_enabled:
     # see https://docs.openvswitch.org/en/latest/intro/install/dpdk/#setup-ovs
@@ -18,6 +20,10 @@ checks:
     - varops: [[$other_config], [contains, $lcore_mask_key]]
   lcore_mask_overlap_pmd_cpu_mask:
     - varops: [[$lcore_mask], [and_, $pmd_cpu_mask], [ne, 0]]
+  pmd_cpu_mask_overlap_cpu_dedicated_set:
+    - varops: [[$cpu_dedicated_set_hex], [and_, $pmd_cpu_mask], [ne, 0]]
+  pmd_cpu_mask_overlap_cpu_shared_set:
+    - varops: [[$cpu_shared_set_hex], [and_, $pmd_cpu_mask], [ne, 0]]
 conclusions:
   ovs_dpdk_missing_config:
     decision:
@@ -53,4 +59,25 @@ conclusions:
       format-dict:
         pmd_cpu_mask: '$pmd_cpu_mask_key'
         lcore_mask: '$lcore_mask_key'
-
+  ovs_dpdk_overlaps_w_nova_cpu_sets:
+    decision:
+      - ovs_dpdk_enabled
+      - dpdk_installed
+      - pmd_mask_is_set
+      - lcore_mask_is_set
+      - or:
+        - pmd_cpu_mask_overlap_cpu_dedicated_set
+        - pmd_cpu_mask_overlap_cpu_shared_set
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        OpenvSwitch DPDK is enabled on this host but one or more core reserved
+        in {pmd_cpu_mask} (see OVSDB Open_vSwitch table) is also reserved in
+        Openstack Nova cpu_dedicated_set ([{cpu_dedicated_set}]) or
+        cpu_shared_set ([{cpu_shared_set}]).
+        This will lead to performance degradation due to contention between
+        Poll Mode Driver threads and the Nova instances.
+      format-dict:
+        pmd_cpu_mask: '$pmd_cpu_mask_key'
+        cpu_dedicated_set: 'hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set:int_ranges'
+        cpu_shared_set: 'hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set:int_ranges'

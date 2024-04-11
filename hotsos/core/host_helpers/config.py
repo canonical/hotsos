@@ -13,7 +13,7 @@ class ConfigBase(abc.ABC):
     @classmethod
     def squash_int_range(cls, ilist):
         """Takes a list of integers and squashes consecutive values into a
-        string range. Returned list contains mix of strings and ints.
+        string range.
         """
         irange = []
         rstart = None
@@ -23,7 +23,7 @@ class ConfigBase(abc.ABC):
         for i, value in enumerate(ilist):
             if rstart is None:
                 if i == (len(ilist) - 1):
-                    irange.append(value)
+                    irange.append(str(value))
                     break
 
                 rstart = value
@@ -31,11 +31,11 @@ class ConfigBase(abc.ABC):
             if rprev is not None:
                 if rprev != (value - 1):
                     if rstart == rprev:
-                        irange.append(rstart)
+                        irange.append(str(rstart))
                     else:
                         irange.append("{}-{}".format(rstart, rprev))
                         if i == (len(ilist) - 1):
-                            irange.append(value)
+                            irange.append(str(value))
 
                     rstart = value
                 elif i == (len(ilist) - 1):

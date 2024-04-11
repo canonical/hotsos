@@ -4,6 +4,7 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
+from hotsos.core.host_helpers.config import ConfigBase
 from hotsos.core.host_helpers.filestat import FileFactory
 
 from . import utils
@@ -635,6 +636,16 @@ class TestConfigHelper(utils.BaseTestCase):
         expanded = cfg.get('c-key', expand_to_list=True)
         self.assertEqual(expanded, list(range(2, 9)) + list(range(10, 32)))
         self.assertEqual(cfg.squash_int_range(expanded), '2-8,10-31')
+
+    @utils.create_data_root({'test.conf': DUMMY_CONFIG})
+    def test_squash_int_range(self):
+        self.assertEqual(ConfigBase.squash_int_range([]), '')
+        expanded = list(range(2, 9))
+        self.assertEqual(ConfigBase.squash_int_range(expanded), '2-8')
+        expanded = list(range(2, 9)) + list(range(10, 32))
+        self.assertEqual(ConfigBase.squash_int_range(expanded), '2-8,10-31')
+        expanded = list(range(2, 9)) + [10] + list(range(12, 32))
+        self.assertEqual(ConfigBase.squash_int_range(expanded), '2-8,10,12-31')
 
 
 class TestApparmorHelper(utils.BaseTestCase):
