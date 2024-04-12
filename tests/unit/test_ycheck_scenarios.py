@@ -2,6 +2,7 @@ import os
 import tempfile
 from unittest import mock
 
+from propertree.propertree2 import OverrideRegistry
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.config import SectionalConfigBase
 from hotsos.core.issues import IssuesManager
@@ -9,6 +10,9 @@ from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import FileSearcher, SearchDef
 from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
+from hotsos.core.ycheck.engine.properties.conclusions import (
+    YPropertyConclusion,
+)
 
 from . import utils
 
@@ -134,6 +138,61 @@ conclusions:
         - isnotTrue
       or:
         - isalsoTrue
+    raises:
+      type: IssueTypeBase
+      message: conc3
+"""
+
+
+CONCLUSION_PRIORITY_1 = """
+checks:
+  testcheck:
+    property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
+conclusions:
+  conc1:
+    priority: 1
+    decision:
+      - testcheck
+    raises:
+      type: IssueTypeBase
+      message: conc1
+  conc2:
+    priority: 2
+    decision:
+      - testcheck
+    raises:
+      type: IssueTypeBase
+      message: conc2
+  conc3:
+    priority: 3
+    decision:
+      - testcheck
+    raises:
+      type: IssueTypeBase
+      message: conc3
+"""
+
+CONCLUSION_PRIORITY_2 = """
+checks:
+  testcheck:
+    property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
+conclusions:
+  conc1:
+    priority: 1
+    decision:
+      - testcheck
+    raises:
+      type: IssueTypeBase
+      message: conc1
+  conc2:
+    decision:
+      - testcheck
+    raises:
+      type: IssueTypeBase
+      message: conc2
+  conc3:
+    decision:
+      - testcheck
     raises:
       type: IssueTypeBase
       message: conc3
@@ -1069,3 +1128,45 @@ class TestYamlScenarios(utils.BaseTestCase):
         sc = scenarios.YScenarioChecker()
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], [])
+
+    @init_test_scenario(CONCLUSION_PRIORITY_1, 'myscenario')
+    def test_conclusion_priority_exec_highest(self):
+        called = []
+
+        class YPropertyConclusionTest(YPropertyConclusion):
+            _override_autoregister = False
+
+            def reached(self, *args, **kwargs):
+                called.append(self.name)
+                return super().reached(*args, **kwargs)
+
+        OverrideRegistry.unregister([YPropertyConclusion])
+        try:
+            OverrideRegistry.register([YPropertyConclusionTest])
+            scenarios.YScenarioChecker().load_and_run()
+        finally:
+            OverrideRegistry.unregister([YPropertyConclusionTest])
+            OverrideRegistry.register([YPropertyConclusion])
+
+        self.assertEqual(called, ['conc3'])
+
+    @init_test_scenario(CONCLUSION_PRIORITY_2, 'myscenario')
+    def test_conclusion_priority_exec_all_same(self):
+        called = []
+
+        class YPropertyConclusionTest(YPropertyConclusion):
+            _override_autoregister = False
+
+            def reached(self, *args, **kwargs):
+                called.append(self.name)
+                return super().reached(*args, **kwargs)
+
+        OverrideRegistry.unregister([YPropertyConclusion])
+        try:
+            OverrideRegistry.register([YPropertyConclusionTest])
+            scenarios.YScenarioChecker().load_and_run()
+        finally:
+            OverrideRegistry.unregister([YPropertyConclusionTest])
+            OverrideRegistry.register([YPropertyConclusion])
+
+        self.assertEqual(called, ['conc1', 'conc2', 'conc3'])

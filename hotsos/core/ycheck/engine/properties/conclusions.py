@@ -19,8 +19,7 @@ from hotsos.core.ycheck.engine.properties.common import (
 class YPropertyPriority(YPropertyOverrideBase):
     _override_keys = ['priority']
 
-    @cached_property
-    def value(self):
+    def __int__(self):
         return int(self.content or 1)
 
 

@@ -107,22 +107,25 @@ class YScenarioChecker(YHandlerBase):
     def _run_scenario_conclusion(self, scenario, issue_mgr):
         """ Determine the conclusion of this scenario. """
         results = {}
-        # run all conclusions and use highest priority result(s). One or
-        # more conclusions may share the same priority. All conclusions
-        # that match and share the same priority will be used.
-        for name, conc in scenario.conclusions.items():
-            if conc.reached(scenario.checks):
-                if conc.priority:
-                    priority = conc.priority.value
-                else:
-                    priority = 1
+        # Run conclusions in order of priority. One or more conclusion may
+        # share the same priority. If one or more conclusion of the same
+        # priority is reached the rest (of lower priority) are ignored.
+        last_priority = None
+        for conc in sorted(scenario.conclusions.values(), key=lambda _conc:
+                           int(_conc.priority or 1), reverse=True):
+            priority = int(conc.priority or 1)
+            if last_priority is not None:
+                if priority < last_priority and last_priority in results:
+                    break
 
+            last_priority = priority
+            if conc.reached(scenario.checks):
                 if priority in results:
                     results[priority].append(conc)
                 else:
                     results[priority] = [conc]
 
-                log.debug("conclusion reached: %s (priority=%s)", name,
+                log.debug("conclusion reached: %s (priority=%s)", conc.name,
                           priority)
 
         if results:
