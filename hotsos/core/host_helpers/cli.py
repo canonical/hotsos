@@ -444,26 +444,29 @@ class OVSOFCtlFileCmd(OVSOFCtlCmdBase, FileCmd):
 
     def __call__(self, *args, **kwargs):
         """
-        First try without specifying protocol version. If error is raised
-        try with different versions until we get a result.
+        We do this in reverse order to bin command since it won't actually
+        raise an error.
         """
-        try:
-            kwargs['ofversion'] = ''
-            return super().__call__(*args, **kwargs)
-        except SourceNotFound:
-            log.debug("%s: command with no protocol version failed",
-                      self.__class__.__name__)
-
         for ver in self.OFPROTOCOL_VERSIONS:
             log.debug("%s: trying again with protocol version %s",
                       self.__class__.__name__, ver)
             self.reset()
             try:
                 kwargs['ofversion'] = '_-O_{}'.format(ver)
-                return super().__call__(*args, **kwargs)
+                out = super().__call__(*args, **kwargs)
+                if out.value and 'version negotiation failed' in out.value[0]:
+                    continue
+
+                return out
             except SourceNotFound:
-                if ver == self.OFPROTOCOL_VERSIONS[-1]:
-                    raise
+                pass
+
+        try:
+            kwargs['ofversion'] = ''
+            return super().__call__(*args, **kwargs)
+        except SourceNotFound:
+            log.debug("%s: command with no protocol version failed",
+                      self.__class__.__name__)
 
 
 class DateBinCmd(BinCmd):
