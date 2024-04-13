@@ -119,6 +119,12 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
                                         "you want to run a single scenario. "
                                         "Useful for testing/debugging"),
                            default_value='', value_type=str))
+        self.add(ConfigOpt(name='log_levels',
+                           description=("Log levels for "
+                                        "submodules/dependencies"),
+                           default_value={'propertree': 'WARNING',
+                                          'searchkit': 'INFO'},
+                           value_type=dict))
 
     @property
     def name(self):

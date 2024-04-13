@@ -40,7 +40,7 @@ class LoggingManager(object):
     def temp_log_path(self):
         return tempfile.mktemp(suffix='hotsos.log')
 
-    def setup_deps_loggers(self, level):
+    def setup_deps_loggers(self):
         # Set logging level for dependencies
         for dep in ['searchkit', 'propertree']:
             logger = logging.getLogger(dep)
@@ -48,6 +48,7 @@ class LoggingManager(object):
                 logger.removeHandler(logger.handlers[0])
 
             logger.addHandler(self._handler)
+            level = HotSOSConfig.log_levels.get(dep, 'WARNING')
             logger.setLevel(level=level)
 
     def start(self, level=logging.DEBUG):
@@ -57,7 +58,7 @@ class LoggingManager(object):
 
         self._handler.setFormatter(logging.Formatter(self._format))
         log.addHandler(self._handler)
-        self.setup_deps_loggers(level)
+        self.setup_deps_loggers()
 
     def stop(self):
         if os.path.exists(self.temp_log_path) and self.delete_temp_file:
