@@ -27,6 +27,11 @@ class YPropertyRaises(YPropertyOverrideBase):
     _override_keys = ['raises']
 
     @property
+    def cve_id(self):
+        """ optional setting. """
+        return self.content.get('cve-id')
+
+    @property
     def bug_id(self):
         """ optional setting. do this to allow querying. """
         return self.content.get('bug-id')
@@ -191,18 +196,21 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
         if not result:
             return False
 
+        cve_id = self.raises.cve_id
         bug_id = self.raises.bug_id
         bug_type = self.raises.type.ISSUE_TYPE
-        is_bug_type = bug_type == 'bug'
-        if ((is_bug_type and bug_id is None) or
-                (bug_id is not None and not is_bug_type)):
-            msg = ("both bug-id (current={}) and bug type (current={}) "
-                   "required in order to raise a bug".format(bug_id, bug_type))
-            raise ScenarioException(msg)
+        is_bug_type = bug_type in ('bug', 'cve')
+        if cve_id or bug_id or is_bug_type:
+            if not (all([bug_id, bug_type == 'bug']) or
+                    all([cve_id, bug_type == 'cve'])):
+                msg = ("both cve-id/bug-id (current={}) and bug type "
+                       "(current={}) required in order to raise a bug".
+                       format(bug_id or cve_id, bug_type))
+                raise ScenarioException(msg)
 
         message = self.raises.message_formatted(checks=checks)
-        if self.raises.type.ISSUE_TYPE == 'bug':
-            self.issue = self.raises.type(self.raises.bug_id, message)
+        if is_bug_type:
+            self.issue = self.raises.type(bug_id or cve_id, message)
         else:
             self.issue = self.raises.type(message)
 

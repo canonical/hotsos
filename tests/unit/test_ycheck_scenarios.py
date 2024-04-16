@@ -463,6 +463,25 @@ scenarioB:
       raises:
         type: LaunchpadBug
         message: foo
+scenarioC:
+  checks:
+    property_w_error:
+      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
+  conclusions:
+    c1:
+      decision: property_no_error
+      raises:
+        type: UbuntuCVE
+        message: foo
+scenarioD:
+  checks:
+    property_w_error:
+      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
+  conclusions:
+    c1:
+      decision: property_no_error
+      raises:
+        cve-id: 123
 """  # noqa
 
 
@@ -1015,15 +1034,15 @@ class TestYamlScenarios(utils.BaseTestCase):
         scenarios.YScenarioChecker().load_and_run()
 
         # Check caught exception logs
-        args = ('caught exception when running scenario %s:', 'scenarioB')
+        args = ('caught exception when running scenario %s:', 'scenarioD')
         mock_log.exception.assert_called_with(*args)
 
         args = ('something went wrong when executing decision',)
         mock_log2.exception.assert_called_with(*args)
 
-        mock_exc.assert_called_with("both bug-id (current=1234) and bug type "
-                                    "(current=issue) required in order to "
-                                    "raise a bug")
+        mock_exc.assert_called_with("both cve-id/bug-id (current=1234) and "
+                                    "bug type (current=issue) required in "
+                                    "order to raise a bug")
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 1)
         i_types = [i['type'] for i in issues[0]]
@@ -1032,8 +1051,8 @@ class TestYamlScenarios(utils.BaseTestCase):
         for issue in issues[0]:
             if issue['type'] == 'HotSOSScenariosWarning':
                 msg = ("One or more scenarios failed to run (scenarioA, "
-                       "scenarioB) - run hotsos in debug mode (--debug) to "
-                       "get more detail")
+                       "scenarioB, scenarioC, scenarioD) - run hotsos in "
+                       "debug mode (--debug) to get more detail")
                 self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(VARS)

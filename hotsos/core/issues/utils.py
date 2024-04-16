@@ -182,8 +182,8 @@ class IssuesManager(object):
         return issues
 
     def add(self, issue, context=None):
-        if issue.ISSUE_TYPE == 'bug':
-            log.debug("issue is a bug")
+        if issue.ISSUE_TYPE in ('bug', 'cve'):
+            log.debug("issue is a %s", issue.ISSUE_TYPE)
             self.bugstore.add(issue, context=context)
         else:
             self.issuestore.add(issue, context=context)
