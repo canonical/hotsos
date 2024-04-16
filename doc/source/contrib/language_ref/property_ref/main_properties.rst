@@ -155,11 +155,12 @@ Usage:
     raises:
       type: <type>
       bug-id: <str>
+      cve-id: <str>
       message: <str>
       format-dict: <dict>
 
-If *type* is a `bug type <https://github.com/canonical/hotsos/blob/main/hotsos/core/issues/issue_types.py>`_ then a *bug-id*
-must be provided.
+If *type* is a `bug or cve type <https://github.com/canonical/hotsos/blob/main/hotsos/core/issues/issue_types.py>`_ then a
+*bug-id* or *cve-id* must be provided respectively.
 
 If the *message* string contains format fields these can be filled
 using ```format-dict``` - a dictionary of key/value pairs where *key* matches a

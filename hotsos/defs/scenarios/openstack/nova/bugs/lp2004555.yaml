@@ -49,8 +49,8 @@ conclusions:
       - not: pkg_has_fix
       - not: service_tokens_enabled
     raises:
-      type: LaunchpadBug
-      bug-id: 2004555
+      type: UbuntuCVE
+      cve-id: CVE-2023-2088
       message: >-
         The version of Openstack Nova ({version}) running on this host is
         impacted by security vulnerability CVE-2023-2088. There is a fix

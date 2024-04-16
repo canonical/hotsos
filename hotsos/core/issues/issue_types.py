@@ -30,6 +30,10 @@ class BugTypeBase(abc.ABC, IssueTypeBase):
         pass
 
 
+class CVETypeBase(BugTypeBase):
+    ISSUE_TYPE = 'cve'
+
+
 class HotSOSScenariosWarning(IssueTypeBase):
     pass
 
@@ -168,6 +172,17 @@ class MAASWarning(IssueTypeBase):
 
 class VaultWarning(IssueTypeBase):
     pass
+
+
+class UbuntuCVE(CVETypeBase):
+
+    @property
+    def base_url(self):
+        return 'https://ubuntu.com/security/'
+
+    @property
+    def url(self):
+        return "{}{}".format(self.base_url, self.id)
 
 
 class LaunchpadBug(BugTypeBase):
