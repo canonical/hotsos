@@ -379,6 +379,17 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
             self.path = "{} --since {}".format(self.path, self.since_date)
 
 
+class OVSAppCtlBinCmd(BinCmd):
+
+    def __call__(self, *args, **kwargs):
+        # Set defaults for optional args
+        for key in ['flags', 'args']:
+            if key not in kwargs:
+                kwargs[key] = ''
+
+        return super().__call__(*args, **kwargs)
+
+
 class OVSAppCtlFileCmd(FileCmd):
 
     def __call__(self, *args, **kwargs):
@@ -970,7 +981,7 @@ class CLIHelperBase(HostHelpersBase):
                 [BinCmd('ovs-vsctl list-br'),
                  FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_list-br')],
             'ovs_appctl':
-                [BinCmd('ovs-appctl {command} {flags} {args}'),
+                [OVSAppCtlBinCmd('ovs-appctl {command} {flags} {args}'),
                  OVSAppCtlFileCmd('sos_commands/openvswitch/ovs-appctl_'
                                   '{command}{flags}{args}')],
             'ovs_ofctl':
