@@ -1,6 +1,7 @@
 import glob
 import os
 import re
+import subprocess
 from functools import cached_property
 
 import yaml
@@ -49,8 +50,38 @@ class JujuMachine(object):
     def agent_service_name(self):
         return self.config.get("values", {}).get("AGENT_SERVICE_NAME")
 
+    @property
+    def agent_bin_path(self):
+        """
+        Return path to jujud machine binary.
+
+        We could get this from systemd but for now this should work.
+        """
+        path = os.path.join(HotSOSConfig.data_root,
+                            'var/lib/juju/tools/machine-*/jujud')
+        for path in glob.glob(path):
+            return path
+
     @cached_property
     def version(self):
+        """
+        Get the installed juju version.
+
+        Juju may not have been installed by a package so we first try
+        getting it from the binary then from config.
+        """
+        if self.agent_bin_path and os.path.exists(self.agent_bin_path):
+            try:
+                out = subprocess.check_output([self.agent_bin_path,
+                                               '--version'])
+                if not isinstance(out, str):
+                    out = out.decode()
+
+                return out.strip()
+            except subprocess.CalledProcessError as exc:
+                log.debug("failed to get juju version from %s (%s) - trying "
+                          "config", self.agent_bin_path, exc)
+
         return self.config.get("upgradedToVersion", "unknown")
 
     @cached_property
@@ -204,3 +235,16 @@ class JujuBase(object):
             return []
 
         return list(self.charms.keys())
+
+
+class JujuBinaryInterface(JujuBase):
+
+    @property
+    def bin_names(self):
+        return ['juju']
+
+    def is_installed(self, name):
+        return self.machine is not None and name in self.bin_names
+
+    def get_version(self, _):
+        return self.version

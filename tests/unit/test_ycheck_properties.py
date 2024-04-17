@@ -22,8 +22,10 @@ from hotsos.core.ycheck.engine.properties.common import (
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 from hotsos.core.ycheck.engine.properties.requires.types import (
     apt,
+    binary,
     snap,
 )
+from hotsos.core.plugins import juju
 
 from . import utils
 
@@ -68,6 +70,28 @@ class FakeServiceObject(object):
         self.state = state
         self.start_time = start_time
         self.has_instances = has_instances
+
+
+YAML_DEF_REQUIRES_BIN_SHORT = """
+pluginX:
+  groupA:
+    requires:
+      binary:
+        handler: hotsos.core.plugins.juju.JujuBinaryInterface
+        name: juju
+"""
+
+
+YAML_DEF_REQUIRES_BIN = """
+pluginX:
+  groupA:
+    requires:
+      binary:
+        handler: hotsos.core.plugins.juju.JujuBinaryInterface
+        juju:
+          - min: '2.9'
+            max: '3.0'
+"""
 
 
 YAML_DEF_REQUIRES_APT = """
@@ -400,6 +424,35 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             scenarios.YScenarioChecker().load_and_run()
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'snapd')
+
+
+class TestYamlRequiresTypeBinary(utils.BaseTestCase):
+
+    def test_binary_check_comparison(self):
+        items = binary.BinCheckItems({'juju': [{'min': '3.0', 'max': '3.2'}]},
+                                     bin_handler=juju.JujuBinaryInterface)
+        self.assertEqual(items.installed, ['juju'])
+        self.assertEqual(items.not_installed, set())
+        _bin, versions = list(items)[0]
+        self.assertEqual(items.package_version_within_ranges(_bin, versions),
+                         False)
+
+        items = binary.BinCheckItems({'juju': [{'min': '2.9', 'max': '3.2'}]},
+                                     bin_handler=juju.JujuBinaryInterface)
+        self.assertEqual(items.installed, ['juju'])
+        self.assertEqual(items.not_installed, set())
+        _bin, versions = list(items)[0]
+        self.assertEqual(items.package_version_within_ranges(_bin, versions),
+                         True)
+
+        items = binary.BinCheckItems({'juju': [{'min': '2.9.2',
+                                                'max': '2.9.22'}]},
+                                     bin_handler=juju.JujuBinaryInterface)
+        self.assertEqual(items.installed, ['juju'])
+        self.assertEqual(items.not_installed, set())
+        _bin, versions = list(items)[0]
+        self.assertEqual(items.package_version_within_ranges(_bin, versions),
+                         True)
 
 
 class TestYamlRequiresTypeAPT(utils.BaseTestCase):
@@ -1037,6 +1090,38 @@ class TestYamlProperties(utils.BaseTestCase):
         mock_plugin.return_value.r3 = True
         group = YDefsSection('test', requires)
         self.assertTrue(group.requires.result)
+
+    def test_yaml_def_requires_bin_installed_only(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_BIN_SHORT))
+        for entry in mydef.leaf_sections:
+            self.assertTrue(entry.requires.result)
+
+    def test_yaml_def_requires_bin_true(self):
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_BIN))
+        for entry in mydef.leaf_sections:
+            self.assertTrue(entry.requires.result)
+
+    @mock.patch('hotsos.core.plugins.juju.JujuBinaryInterface')
+    def test_yaml_def_requires_bin_false_lt(self, mock_bininterface):
+        mock_bininterface.return_value = mock.MagicMock()
+        mock_bininterface.return_value.is_installed.return_value = True
+        mock_bininterface.return_value.get_version.return_value = 2.8
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_BIN))
+        for entry in mydef.leaf_sections:
+            self.assertFalse(entry.requires.result)
+
+    @mock.patch('hotsos.core.plugins.juju.JujuBinaryInterface')
+    def test_yaml_def_requires_bin_false_gt(self, mock_bininterface):
+        mock_bininterface.return_value = mock.MagicMock()
+        mock_bininterface.return_value.is_installed.return_value = True
+        mock_bininterface.return_value.get_version.return_value = 3.1
+        mydef = YDefsSection('mydef',
+                             yaml.safe_load(YAML_DEF_REQUIRES_BIN))
+        for entry in mydef.leaf_sections:
+            self.assertFalse(entry.requires.result)
 
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
                 'APTPackageHelper')

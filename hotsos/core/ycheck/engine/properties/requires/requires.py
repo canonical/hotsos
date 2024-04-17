@@ -5,6 +5,7 @@ from hotsos.core.ycheck.engine.properties.common import (
 )
 from hotsos.core.ycheck.engine.properties.requires.types import (
     apt,
+    binary,
     snap,
     config,
     pebble,
@@ -70,6 +71,7 @@ class RequiresLogicalGrouping(PTreeLogicalGrouping):
 class YPropertyRequires(YPropertyMappedOverrideBase):
     _override_keys = ['requires']
     _override_members = [apt.YRequirementTypeAPT,
+                         binary.YRequirementTypeBinary,
                          snap.YRequirementTypeSnap,
                          config.YRequirementTypeConfig,
                          pebble.YRequirementTypePebble,

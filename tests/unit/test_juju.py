@@ -1,6 +1,7 @@
 import os
 import pathlib
 import shutil
+import subprocess
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
@@ -44,6 +45,31 @@ class TestJujuResources(JujuTestsBase):
         self.assertEqual(list(charms.keys()), ['nova-compute'])
         versions = [c.version for c in charms.values()]
         self.assertEqual(sorted(versions), [100])
+
+    @utils.create_data_root({'var/lib/juju/agents/machine-0/agent.conf':
+                             'upgradedToVersion: 2.9.49'})
+    def test_machine_version_bin_noexist(self):
+        self.assertEqual(JujuBase().machine.version, '2.9.49')
+
+    @mock.patch('hotsos.core.plugins.juju.resources.subprocess.check_output')
+    @utils.create_data_root({'var/lib/juju/agents/machine-0/agent.conf':
+                             'upgradedToVersion: xxx',
+                             'var/lib/juju/tools/machine-0/jujud': ''})
+    def test_machine_version_bin_exists(self, mock_check_output):
+        mock_check_output.return_value = b'2.9.49\n'
+        self.assertEqual(JujuBase().machine.version, '2.9.49')
+
+    @mock.patch('hotsos.core.plugins.juju.resources.subprocess.check_output')
+    @utils.create_data_root({'var/lib/juju/agents/machine-0/agent.conf':
+                             'upgradedToVersion: xxx',
+                             'var/lib/juju/tools/machine-0/jujud': ''})
+    def test_machine_version_bin_error(self, mock_check_output):
+
+        def fake_check_output(*args):
+            raise subprocess.CalledProcessError(1, '')
+
+        mock_check_output.side_effect = fake_check_output
+        self.assertEqual(JujuBase().machine.version, 'xxx')
 
 
 class TestJujuSummary(JujuTestsBase):
