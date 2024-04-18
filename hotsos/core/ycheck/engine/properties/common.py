@@ -281,9 +281,9 @@ class YPropertyBase(PTreeOverrideBase):
             return name
 
         if hasattr(self, 'context'):
-            if self.context.vars:  # pylint: disable=E1101
+            if self.context.vars:
                 _name = name.partition('$')[2]
-                return self.context.vars.resolve(_name)  # noqa, pylint: disable=E1101
+                return self.context.vars.resolve(_name)
 
         return name
 
@@ -306,7 +306,7 @@ class YPropertyBase(PTreeOverrideBase):
 
         # we save all imports in a dict called "import_cache" within the
         # global context so that all properties have access.
-        c = getattr(self.context, 'import_cache')  # pylint: disable=E1101
+        c = getattr(self.context, 'import_cache')
         if c:
             return c.get(key)
 
@@ -349,12 +349,12 @@ class YPropertyBase(PTreeOverrideBase):
             log.info("context not available - cannot save '%s'", key)
             return
 
-        c = getattr(self.context, 'import_cache')  # pylint: disable=E1101
+        c = getattr(self.context, 'import_cache')
         if c:
             c[key] = value
         else:
             c = {key: value}
-            setattr(self.context, 'import_cache', c)  # pylint: disable=E1101
+            setattr(self.context, 'import_cache', c)
 
     def get_cls(self, import_str):
         """ Import and instantiate Python class.

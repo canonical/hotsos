@@ -36,6 +36,6 @@ class YPropertyVars(YPropertyOverrideBase):
 
     def __iter__(self):
         log.debug("iterating over vars")
-        for name, var in self._vardefs.items():  # pylint: disable=E1101
+        for name, var in self._vardefs.items():
             log.debug("returning var %s", name)
             yield name, var.vardef

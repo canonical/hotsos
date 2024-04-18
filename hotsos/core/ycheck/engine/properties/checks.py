@@ -190,7 +190,7 @@ class YPropertyChecks(YPropertyOverrideBase):
         log.debug("pre-loading scenario '%s' checks searches into "
                   "filesearcher", scenario.name)
         # first load all the search definitions into the searcher
-        for c in self._checks:  # pylint: disable=E1133
+        for c in self._checks:
             if c.search:
                 # local takes precedence over global
                 _input = c.input or global_input
@@ -228,6 +228,6 @@ class YPropertyChecks(YPropertyOverrideBase):
 
     def __iter__(self):
         log.debug("iterating over checks")
-        for c in self._checks:  # pylint: disable=E1133
+        for c in self._checks:
             log.debug("returning check %s", c.name)
             yield c

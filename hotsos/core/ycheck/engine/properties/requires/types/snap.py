@@ -11,10 +11,8 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 class SnapCheckItems(PackageCheckItemsBase):
 
-    # NOTE: the following pylint disable can be removed when we move to newer
-    #       pylint.
     @cached_property
-    def packaging_helper(self):  # pylint: disable=W0236
+    def packaging_helper(self):
         return SnapPackageHelper(core_snaps=self.packages_to_check)
 
     @cached_property

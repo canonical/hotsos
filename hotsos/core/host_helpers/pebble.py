@@ -22,7 +22,7 @@ class PebbleHelper(ServiceManagerBase):
     """ Helper class used to query pebble services. """
 
     @cached_property
-    def services(self):  # pylint: disable=W0236
+    def services(self):
         """ Return a dict of identified pebble services and their state. """
         _services = {}
         for line in CLIHelper().pebble_services():
@@ -38,7 +38,7 @@ class PebbleHelper(ServiceManagerBase):
         return _services
 
     @cached_property
-    def processes(self):  # pylint: disable=W0236
+    def processes(self):
         """
         Identify running processes from ps that are associated with resolved
         pebble services.  The search pattern used to identify a service is also

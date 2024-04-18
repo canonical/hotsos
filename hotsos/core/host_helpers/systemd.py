@@ -232,7 +232,7 @@ class SystemdHelper(ServiceManagerBase):
         return self._cached_unit_files_exprs[svc_name_expr]
 
     @cached_property
-    def services(self):  # pylint: disable=W0236
+    def services(self):
         """
         Return a dict of identified systemd services and their state.
 
@@ -351,7 +351,7 @@ class SystemdHelper(ServiceManagerBase):
         return ps_filtered
 
     @cached_property
-    def processes(self):  # pylint: disable=W0236
+    def processes(self):
         """
         Identify running processes from ps that are associated with resolved
         systemd services. The search pattern used to identify a service is also

@@ -14,10 +14,8 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 class APTCheckItems(PackageCheckItemsBase):
 
-    # NOTE: the following pylint disable can be removed when we move to newer
-    #       pylint.
     @cached_property
-    def packaging_helper(self):  # pylint: disable=W0236
+    def packaging_helper(self):
         return APTPackageHelper(self.packages_to_check)
 
     @cached_property
