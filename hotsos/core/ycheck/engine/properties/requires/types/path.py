@@ -28,7 +28,7 @@ class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
     def _result(self):
         _result = True
         not_found = None
-        for path in self.paths:   # pylint: disable=E1133
+        for path in self.paths:
             if not os.path.exists(path):
                 not_found = path
                 _result = False

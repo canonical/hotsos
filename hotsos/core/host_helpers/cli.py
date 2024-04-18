@@ -554,7 +554,7 @@ class CephJSONFileCmd(FileCmd):
     so we have to strip that final line before decoding the contents.
     """
     def __init__(self, *args, first_line_filter=None, last_line_filter=None,
-                 **kwargs):  # pylint: disable=W0613
+                 **kwargs):
         super().__init__(*args, **kwargs)
         if first_line_filter or last_line_filter:
             self.register_hook('pre-exec', self.format_json_contents)
@@ -563,7 +563,7 @@ class CephJSONFileCmd(FileCmd):
             self.first_line_filter = first_line_filter
             self.last_line_filter = last_line_filter
 
-    def format_json_contents(self, *args, **kwargs):  # pylint: disable=W0613
+    def format_json_contents(self, *_args, **_kwargs):
         if not os.path.exists(self.path):
             raise SourceNotFound(self.path)
 
@@ -583,7 +583,7 @@ class CephJSONFileCmd(FileCmd):
                 self.orig_path = self.path
                 self.path = tmp.name
 
-    def cleanup(self, output, **kwargs):  # pylint: disable=W0613
+    def cleanup(self, output, **_kwargs):
         """
         @param output: CmdOutput object
         """

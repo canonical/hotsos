@@ -18,18 +18,18 @@ class YPropertyInputBase(object):
                     'kwargs': {},
                     'args-callback': None}
 
-        if type(self.content) == dict:  # pylint: disable=E1101
-            _options = self.content.get('options', defaults)  # noqa, pylint: disable=E1101
+        if type(self.content) == dict:
+            _options = self.content.get('options', defaults)
             defaults.update(_options)
 
         return defaults
 
     @property
     def command(self):
-        if type(self.content) != dict:  # pylint: disable=E1101
+        if type(self.content) != dict:
             return
 
-        return self.content.get('command')  # pylint: disable=E1101
+        return self.content.get('command')
 
     def expand_paths(self, paths):
         _paths = []
@@ -51,10 +51,10 @@ class YPropertyInputBase(object):
     def paths(self):
         _paths = []
         fs_path = None
-        if type(self.content) in [str, list]:  # pylint: disable=E1101
-            fs_path = self.content  # pylint: disable=E1101
+        if type(self.content) in [str, list]:
+            fs_path = self.content
         else:
-            fs_path = self.content.get('path')  # pylint: disable=E1101
+            fs_path = self.content.get('path')
 
         if fs_path:
             if type(fs_path) == list:
@@ -66,20 +66,20 @@ class YPropertyInputBase(object):
             return self.expand_paths(_paths)
 
         if self.command:
-            cmd_tmp_path = self.cache.cmd_tmp_path  # pylint: disable=E1101
+            cmd_tmp_path = self.cache.cmd_tmp_path
             if cmd_tmp_path:
                 return [cmd_tmp_path]
 
             args_callback = self.options['args-callback']
             if args_callback:
-                args, kwargs = self.get_method(args_callback)  # noqa, pylint: disable=E1101
+                args, kwargs = self.get_method(args_callback)
             else:
                 args = self.options['args']
                 kwargs = self.options['kwargs']
 
             with CLIHelperFile(delete_temp=False) as cli:
                 outfile = getattr(cli, self.command)(*args, **kwargs)
-                self.cache.set('cmd_tmp_path', outfile)  # noqa, pylint: disable=E1101
+                self.cache.set('cmd_tmp_path', outfile)
                 return [outfile]
 
         log.debug("no input provided")

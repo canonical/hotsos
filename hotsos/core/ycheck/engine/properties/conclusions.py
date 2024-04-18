@@ -54,7 +54,7 @@ class YPropertyRaises(YPropertyOverrideBase):
 
         fdict = dict(fdict)
 
-        for key, value in fdict.items():  # pylint: disable=E1101
+        for key, value in fdict.items():
             if PropertyCacheRefResolver.is_valid_cache_ref(value):
                 rvalue = PropertyCacheRefResolver(value,
                                                   pcrr_vars=self.context.vars,
@@ -248,6 +248,6 @@ class YPropertyConclusions(YPropertyOverrideBase):
 
     def __iter__(self):
         log.debug("iterating over conclusions")
-        for c in self._conclusions:   # pylint: disable=E1133
+        for c in self._conclusions:
             log.debug("returning conclusion %s", c.name)
             yield c

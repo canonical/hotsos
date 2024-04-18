@@ -154,7 +154,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
         min_hours_since_last_boot = self.min_hours_since_last_boot
         if not hours:
             hours = max(uptime_etime_hours - min_hours_since_last_boot, 0)
-        elif min_hours_since_last_boot > 0:  # pylint: disable=W0143
+        elif min_hours_since_last_boot > 0:
             hours = min(hours,
                         max(uptime_etime_hours - min_hours_since_last_boot, 0))
 
