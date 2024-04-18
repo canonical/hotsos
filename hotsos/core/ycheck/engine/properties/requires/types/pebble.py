@@ -35,7 +35,7 @@ class YRequirementTypePebble(YRequirementTypeBase):
                     continue
 
                 processes = None
-                if type(settings) == str:
+                if isinstance(settings, str):
                     state = settings
                     ops = [[default_op, state]]
                 else:

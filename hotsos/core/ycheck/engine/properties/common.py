@@ -113,7 +113,7 @@ class PropertyCacheRefResolver(object):
         The criteria for a valid reference is that it must be a string whose
         first character is @.
         """
-        if type(refstr) != str:
+        if not isinstance(refstr, str):
             return False
 
         if not (refstr.startswith('@') or refstr.startswith('$')):
@@ -240,7 +240,7 @@ class PropertyCacheRefResolver(object):
 class PropertyCache(UserDict):
 
     def merge(self, cache):
-        if type(cache) != self.__class__:
+        if not isinstance(cache, self.__class__):
             log.error("attempt to merge cache failed - provided cache is not "
                       "a %s", type(self.__class__.__name__))
             return
@@ -254,7 +254,7 @@ class PropertyCache(UserDict):
     def set(self, key, data):
         log.debug("%s: caching key=%s with value=%s", id(self), key, data)
         _current = self.data.get(key)
-        if _current and type(_current) == dict and type(data) == dict:
+        if _current and isinstance(_current, dict) and isinstance(data, dict):
             self.data[key].update(data)
         else:
             self.data[key] = data
@@ -480,7 +480,7 @@ class YPropertyBase(PTreeOverrideBase):
 
             # propertree.PTreeOverrideBase swallows AttributeError so need to
             # convert to something else.
-            if type(exc) == AttributeError:
+            if isinstance(exc, AttributeError):
                 raise ImportError from exc
 
             raise

@@ -85,7 +85,7 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
 
                 processes = None
                 started_after_obj = None
-                if type(settings) == str:
+                if isinstance(settings, str):
                     state = settings
                     ops = [[default_op, state]]
                 else:

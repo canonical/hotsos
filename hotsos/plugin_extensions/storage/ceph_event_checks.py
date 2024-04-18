@@ -74,7 +74,7 @@ class EventCallbackCRCErrors(CephEventCallbackBase):
         for osds in ret.values():
             # If we were unable to glean the osd id from the search results
             # this will not be a dict so skip.
-            if type(osds) != dict:
+            if not isinstance(osds, dict):
                 continue
 
             for osd, num_errs in osds.items():

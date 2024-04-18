@@ -7,7 +7,7 @@ class YPropertyVars(YPropertyOverrideBase):
     _allow_subtree = False
 
     def _is_import_path(self, value):
-        return type(value) == str and value.startswith('@')
+        return isinstance(value, str) and value.startswith('@')
 
     def resolve(self, name):
         """
