@@ -125,7 +125,7 @@ class TemplatedTest(object):
             if itype not in _expected:
                 _expected[itype] = set()
 
-            if type(items) == list:
+            if isinstance(items, list):
                 for item in items:
                     _expected[itype].add(item)
             else:

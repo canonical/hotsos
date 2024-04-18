@@ -38,9 +38,9 @@ class CheckItemsBase(abc.ABC):
 
     def __init__(self, raw):
         self._items = {}
-        if type(raw) == dict:
+        if isinstance(raw, dict):
             self._items = raw
-        elif type(raw) == list:
+        elif isinstance(raw, list):
             self._items = {i: None for i in raw}
         else:
             self._items = {raw: None}
@@ -92,7 +92,7 @@ class OpsUtils(object):
         for op in ops:
             item = str(op[0])
             if len(op) > 1:
-                if type(op[1]) == str:
+                if isinstance(op[1], str):
                     item = "{} \"{}\"".format(item, op[1])
                 else:
                     item = "{} {}".format(item, op[1])
@@ -131,7 +131,7 @@ class OpsUtils(object):
                                       value.
         """
         log.debug("ops=%s, input=%s", ops, opinput)
-        if type(ops) != list:
+        if not isinstance(ops, list):
             raise Exception("Expected list of ops but got {}".
                             format(ops))
 
@@ -145,7 +145,7 @@ class OpsUtils(object):
                 expected = op[1]
 
                 if expected is not None:
-                    if type(expected) == str and expected.startswith("$"):
+                    if isinstance(expected, str) and expected.startswith("$"):
                         varname = expected.partition("$")[2]
                         varval = self.context.vars.resolve(varname)
                         expected = varval
@@ -192,7 +192,7 @@ class YRequirementTypeWithOpsBase(YRequirementTypeBase):
 
     @property
     def ops(self):
-        if type(self.content) != dict:
+        if not isinstance(self.content, dict):
             return self.default_ops
 
         return self.content.get('ops', self.default_ops)
@@ -204,7 +204,7 @@ class ServiceCheckItemsBase(CheckItemsBase):
     def _started_after_services(self):
         svcs = []
         for _, settings in self:
-            if type(settings) != dict:
+            if not isinstance(settings, dict):
                 continue
 
             svc = settings.get('started-after')

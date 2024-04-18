@@ -467,7 +467,7 @@ class CallTraceManager(KernLogBase):
 
         self.results = self.searcher.run()
         for tracetype in self.tracetypes:
-            if type(tracetype.searchdef) == SequenceSearchDef:
+            if isinstance(tracetype.searchdef, SequenceSearchDef):
                 results = self.results.find_sequence_sections(
                                                            tracetype.searchdef)
             else:

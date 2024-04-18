@@ -37,7 +37,7 @@ class SearchConstraintSearchSince(_SearchConstraintSearchSince):
             kwargs['days'] = days
 
         current_date = CLIHelper().date(format='+%Y-%m-%d %H:%M:%S')
-        if not current_date or type(current_date) != str:
+        if not current_date or not isinstance(current_date, str):
             log.error("current date '%s' being provided to search "
                       "constraints is not valid.", current_date)
             return

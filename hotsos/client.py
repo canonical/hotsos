@@ -68,7 +68,7 @@ class OutputManager(object):
                         filtered[key] = {}
 
                     items = summary[plugin][key]
-                    if type(items) == dict:
+                    if isinstance(items, dict):
                         filtered[key][plugin] = {key: len(val)
                                                  for key, val in items.items()}
                     else:

@@ -389,7 +389,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                 # (<output value>, <output key>) where <output key> is used to
                 # override the output key for the result which defaults to the
                 # event name.
-                if type(ret) == tuple:
+                if isinstance(ret, tuple):
                     out_key = ret[1]
                     ret = ret[0]
                     if not ret:

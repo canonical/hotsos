@@ -13,7 +13,7 @@ class YRequirementTypeProperty(YRequirementTypeWithOpsBase):
     @property
     @intercept_exception
     def _result(self):
-        if type(self.content) != dict:
+        if not isinstance(self.content, dict):
             path = self.content
         else:
             path = self.content['path']

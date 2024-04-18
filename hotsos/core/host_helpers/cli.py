@@ -41,7 +41,7 @@ def catch_exceptions(*exc_types):
                 else:
                     log.debug(msg)
 
-                if type(exc) == json.JSONDecodeError:
+                if isinstance(exc, json.JSONDecodeError):
                     raise CLIExecError(return_value={}) from exc
 
                 raise CLIExecError(return_value=[]) from exc
