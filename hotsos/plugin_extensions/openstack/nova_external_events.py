@@ -51,9 +51,9 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
                 s.add(sd, result_path)
 
         results = s.run()
-        for event_id in events:
-            instance_id = events[event_id]['instance_id']
-            data_source = events[event_id]['data_source']
+        for event_id, event_dict in events.items():
+            instance_id = event_dict['instance_id']
+            data_source = event_dict['data_source']
             stages = self._get_state_dict(event.name)
             for stage in stages:
                 tag = "{}_{}_{}".format(instance_id, event_id, stage)
@@ -61,7 +61,7 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
                 if r:
                     stages[stage] = True
 
-            if all(stages[stage] for stage in stages):
+            if all(values for stage, values in stages.items()):
                 result = 'succeeded'
             else:
                 result = 'failed'
@@ -73,8 +73,8 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
             ext_output[result].append(info)
 
         if ext_output:
-            for result in ext_output:
-                events_found[result] = list(ext_output[result])
+            for result, values in ext_output.items():
+                events_found[result] = list(values)
 
         return events_found
 

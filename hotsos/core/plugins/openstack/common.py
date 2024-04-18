@@ -57,14 +57,14 @@ class OpenstackBase(object):
         return as a list of names. The list should normally have length 1.
         """
         relnames = set()
-        for pkg in OST_REL_INFO:
+        for pkg, values in OST_REL_INFO.items():
             if pkg in self.apt.core:
                 # Since the versions we match against will always match our
                 # version - 1 we use last known lt as current version.
                 v_lt = None
                 r_lt = None
                 pkg_ver = DPKGVersion(self.apt.core[pkg])
-                for rel, ver in OST_REL_INFO[pkg].items():
+                for rel, ver in values.items():
                     if pkg_ver > ver:
                         if v_lt is None:
                             v_lt = ver

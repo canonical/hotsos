@@ -202,21 +202,21 @@ class SystemBase(object):
             result["status"] = "attached"
             result["services"] = {}
 
-            for sid in ssects:
+            for values in ssects.values():
                 result["services"] = {**result["services"], **{
                     v.get(1): {
                         "entitled": v.get(2),
                         "status": v.get(3)
                     }
-                    for v in ssects[sid]
+                    for v in values
                     if v.tag == service_status_seqdef.body_tag
                 }}
 
-            for sid in asects:
+            for values in asects.values():
                 result = {**result, **{
                     re.sub(r'\W+', '_',
                            v.get(1).strip()).lower(): v.get(2).strip()
-                    for v in asects[sid]
+                    for v in values
                 }}
 
             return result

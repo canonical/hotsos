@@ -206,9 +206,9 @@ class CephCrushMap(object):
 
         bad_buckets = []
         buckets = self._build_buckets_from_crushdump(self.osd_crush_dump)
-        # check all bucket
-        for bid in buckets:
-            items = buckets[bid]["items"]
+        # check all buckets
+        for bdict in buckets.values():
+            items = bdict["items"]
             type_ids = []
             for item in items:
                 if item >= 0:
@@ -221,7 +221,7 @@ class CephCrushMap(object):
 
             # verify if the type_id list contain mixed type id
             if type_ids.count(type_ids[0]) != len(type_ids):
-                bad_buckets.append(buckets[bid]["name"])
+                bad_buckets.append(bdict["name"])
 
         return bad_buckets
 
@@ -643,7 +643,7 @@ class CephCluster(object):
             return {}
 
         unique_versions = {}
-        for daemon_type in versions:
+        for daemon_type, count in versions.items():
             # skip the catchall
             if daemon_type == 'overall':
                 continue
@@ -653,7 +653,7 @@ class CephCluster(object):
                     continue
 
             unique_versions[daemon_type] = sorted(
-                list(set(versions[daemon_type])))
+                list(set(count)))
 
         return unique_versions
 

@@ -188,11 +188,11 @@ class EventProcessingUtils(object):
                     info[key] = sorted_dict(info[key])
             elif not include_time:
                 # sort by value i.e. tally/count
-                for key in info:
-                    if not isinstance(info[key], dict):
+                for key, value in info.items():
+                    if not isinstance(value, dict):
                         break
 
-                    info[key] = sorted_dict(info[key], key=lambda e: e[1],
+                    info[key] = sorted_dict(value, key=lambda e: e[1],
                                             reverse=True)
 
             results = sorted_dict(info, reverse=not key_by_date)
