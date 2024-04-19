@@ -152,7 +152,7 @@ class SectionalConfigBase(ConfigBase):
                 if ret:
                     key = ret.group(1)
                     val = self.bool_str(ret.group(2))
-                    if type(val) == str:
+                    if isinstance(val, str):
                         val = val.strip()
                         for char in ["'", '"']:
                             val = val.strip(char)

@@ -44,7 +44,7 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
             # filter patch/phy ports since they are not generally interesting
             ports = []
             for port in bridge.ports:
-                if type(port) != NetworkPort:
+                if not isinstance(port, NetworkPort):
                     name = port
                 else:
                     name = port.name
@@ -53,7 +53,7 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
                         name.startswith('int-')):
                     continue
 
-                if type(port) != NetworkPort:
+                if not isinstance(port, NetworkPort):
                     # ovs port so will be just a name
                     ports.append(port)
                     continue

@@ -6,7 +6,7 @@
 Installing Hotsos
 =================
 
-There are a number of supported ways to install Hotsos as follows.
+There are a number of supported ways to install hotsos.
 
 Debian Package (daily build)
 ----------------------------
@@ -21,9 +21,15 @@ This is the recommended way to install and is updated daily.
 Snap Package
 ------------
 
-A new build is published to the `snap <https://snapcraft.io/hotsos>`_ edge channel after each commit landed in the main development branch. Builds are promoted to stable once tested.
+A new build is published to the `snap <https://snapcraft.io/hotsos>`_ edge
+channel after each commit landed in the main development branch. Builds are
+promoted to stable once tested.
 
-Please note that the snap is now a `strictly confined snap <https://snapcraft.io/docs/snap-confinement>`_ and therefore only supports `sosreport <https://github.com/sosreport/sos>`_ :ref:`data root` since it will not have access outside of $HOME.
+Please note that the snap is now a
+`strictly confined snap <https://snapcraft.io/docs/snap-confinement>`_
+and therefore only supports
+`sosreport <https://github.com/sosreport/sos>`_ :ref:`data root`
+since it will not have access outside of $HOME.
 
 .. code-block:: bash
 
@@ -32,9 +38,11 @@ Please note that the snap is now a `strictly confined snap <https://snapcraft.io
 PyPI
 ----
 
-A new build is published to `PyPI <https://pypi.org/project/hotsos/>`_ after each commit landed in the main development branch.
+A new build is published to `PyPI <https://pypi.org/project/hotsos/>`_
+after each commit lands in the main development branch.
 
-NOTE: pipx is recommended instead of pip as it is considered more secure and installs in a venv. Requires Python >= 3.8
+Note: pipx is recommended instead of pip as it is considered more secure
+and installs in a virtual environment (venv). Requires Python >= 3.8
 
 .. code-block:: bash
 

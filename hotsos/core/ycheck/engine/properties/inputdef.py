@@ -18,7 +18,7 @@ class YPropertyInputBase(object):
                     'kwargs': {},
                     'args-callback': None}
 
-        if type(self.content) == dict:
+        if isinstance(self.content, dict):
             _options = self.content.get('options', defaults)
             defaults.update(_options)
 
@@ -26,7 +26,7 @@ class YPropertyInputBase(object):
 
     @property
     def command(self):
-        if type(self.content) != dict:
+        if not isinstance(self.content, dict):
             return
 
         return self.content.get('command')
@@ -51,13 +51,13 @@ class YPropertyInputBase(object):
     def paths(self):
         _paths = []
         fs_path = None
-        if type(self.content) in [str, list]:
+        if isinstance(self.content, (str, list)):
             fs_path = self.content
         else:
             fs_path = self.content.get('path')
 
         if fs_path:
-            if type(fs_path) == list:
+            if isinstance(fs_path, list):
                 for path in fs_path:
                     _paths.append(path)
             else:

@@ -44,7 +44,7 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
         _attrs = {'key': str(self.key), 'allow_unset': False, 'value': None,
                   'section': None}
         if self.value is not None:
-            if type(self.value) is bool:
+            if isinstance(self.value, bool):
                 value = self.value
             else:
                 try:
@@ -205,7 +205,7 @@ class YRequirementTypeConfig(YRequirementTypeBase):
                       "without args", self.handler)
             return [self.handler()]  # pylint: disable=E1102
 
-        if type(paths) == str:
+        if isinstance(paths, str):
             paths = [paths]
 
         handlers = []

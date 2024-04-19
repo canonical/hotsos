@@ -253,7 +253,7 @@ class YPropertySearchBase(object):
         are returned as-is.
         """
         _patterns = []
-        if type(patterns) == list:
+        if isinstance(patterns, list):
             for p in patterns:
                 _patterns.append(self.resolve_var(p))
         else:
@@ -431,21 +431,21 @@ class SeqPartSearchOptsBase(object):
 
     @property
     def expr(self):
-        if type(self.content) is not dict:
+        if not isinstance(self.content, dict):
             return self.content
 
         return self.content.get('expr', '')
 
     @property
     def hint(self):
-        if type(self.content) is not dict:
+        if not isinstance(self.content, dict):
             return None
 
         return self.content.get('hint', '')
 
     @property
     def passthrough_results(self):
-        if type(self.content) is not dict:
+        if not isinstance(self.content, dict):
             return False
 
         return self.content.get('passthrough-results', False)

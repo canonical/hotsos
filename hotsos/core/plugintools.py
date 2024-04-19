@@ -277,7 +277,7 @@ class PartManager(object):
         remove_keys = []
         for key in data:
             if key in existing:
-                if type(existing[key]) == dict:
+                if isinstance(existing[key], dict):
                     existing[key].update(data[key])
                     remove_keys.append(key)
 
