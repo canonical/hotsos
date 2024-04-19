@@ -160,11 +160,19 @@ class TestScenarioTestLoader(ScenarioTestsBase):
         with tempfile.TemporaryDirectory() as dtmp:
             self.create_scenarios(dtmp, levels=3)
             self.create_tests(dtmp, levels=3)
+
+            with open(os.path.join(dtmp, 'test1.yaml'),
+                      'w') as fd:
+                fd.write(FAKE_SCENARIO)
             with mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp):
-                utils.TemplatedTest('test1.yaml', {}, [], [], [], '/')()(self)
+                utils.TemplatedTest(
+                    os.path.join(dtmp, 'test1.yaml'),
+                    {}, [], [], [], '/')()(self)
 
     def test_scenarios(self):
-        with tempfile.TemporaryDirectory() as dtmp:
+        with tempfile.TemporaryDirectory() as dtmp,\
+             mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+             mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
             self.create_scenarios(dtmp, levels=5)
             self.create_tests(dtmp, levels=5)
             orig_config = HotSOSConfig.CONFIG
@@ -172,35 +180,36 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 HotSOSConfig.plugin_yaml_defs = dtmp
                 HotSOSConfig.global_tmp_dir = dtmp
                 HotSOSConfig.plugin_tmp_dir = dtmp
-                with mock.patch.object(utils, 'DEFS_TESTS_DIR',
-                                       os.path.join(dtmp, 'tests')):
-                    @utils.load_templated_tests('scenarios/testplugin')
-                    class MyTests(ScenarioTestsBase):
-                        pass
 
-                    MyTests().test_1_myscenario1()  # pylint: disable=E1101
-                    MyTests().test_1_myscenario1alt()  # pylint: disable=E1101
-                    MyTests().test_1_2_myscenario2()  # pylint: disable=E1101
-                    MyTests().test_1_2_myscenario2alt()  # noqa pylint: disable=E1101
-                    MyTests().test_1_2_3_myscenario3()  # noqa pylint: disable=E1101
-                    MyTests().test_1_2_3_myscenario3alt()  # noqa pylint: disable=E1101
-                    MyTests().test_1_2_3_4_myscenario4()  # noqa pylint: disable=E1101
-                    MyTests().test_1_2_3_4_myscenario4alt()  # noqa pylint: disable=E1101
-                    MyTests().test_1_2_3_4_5_myscenario5()  # noqa pylint: disable=E1101
-                    MyTests().test_1_2_3_4_5_myscenario5alt()  # noqa pylint: disable=E1101
+                @utils.load_templated_tests('scenarios/testplugin')
+                class MyTests(ScenarioTestsBase):
+                    pass
 
-                    raised = False
-                    try:
-                        MyTests().test_1_2_3_4_5_myscenario100()
-                    except AttributeError:
-                        raised = True
+                MyTests().test_1_myscenario1()  # pylint: disable=E1101
+                MyTests().test_1_myscenario1alt()  # pylint: disable=E1101
+                MyTests().test_1_2_myscenario2()  # pylint: disable=E1101
+                MyTests().test_1_2_myscenario2alt()  # noqa pylint: disable=E1101
+                MyTests().test_1_2_3_myscenario3()  # noqa pylint: disable=E1101
+                MyTests().test_1_2_3_myscenario3alt()  # noqa pylint: disable=E1101
+                MyTests().test_1_2_3_4_myscenario4()  # noqa pylint: disable=E1101
+                MyTests().test_1_2_3_4_myscenario4alt()  # noqa pylint: disable=E1101
+                MyTests().test_1_2_3_4_5_myscenario5()  # noqa pylint: disable=E1101
+                MyTests().test_1_2_3_4_5_myscenario5alt()  # noqa pylint: disable=E1101
 
-                    self.assertTrue(raised)
+                raised = False
+                try:
+                    MyTests().test_1_2_3_4_5_myscenario100()
+                except AttributeError:
+                    raised = True
+
+                self.assertTrue(raised)
             finally:
                 HotSOSConfig.set(**orig_config)
 
     def test_scenarios_deep(self):
-        with tempfile.TemporaryDirectory() as dtmp:
+        with tempfile.TemporaryDirectory() as dtmp,\
+             mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+             mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
             self.create_scenarios(dtmp, levels=5)
             self.create_tests(dtmp, levels=5)
             orig_config = HotSOSConfig.CONFIG
@@ -208,22 +217,34 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 HotSOSConfig.plugin_yaml_defs = dtmp
                 HotSOSConfig.global_tmp_dir = dtmp
                 HotSOSConfig.plugin_tmp_dir = dtmp
-                with mock.patch.object(utils, 'DEFS_TESTS_DIR',
-                                       os.path.join(dtmp, 'tests')):
-                    @utils.load_templated_tests('scenarios/testplugin/'
-                                                '1/2/3/4/5')
-                    class MyTests(ScenarioTestsBase):
-                        pass
 
-                    MyTests().test_myscenario5()  # pylint: disable=E1101
-                    MyTests().test_myscenario5alt()  # pylint: disable=E1101
+                @utils.load_templated_tests('scenarios/testplugin/'
+                                            '1/2/3/4/5')
+                class MyTests(ScenarioTestsBase):
+                    pass
 
-                    raised = False
-                    try:
-                        MyTests().test_1_myscenario1()
-                    except AttributeError:
-                        raised = True
+                MyTests().test_myscenario5()  # pylint: disable=E1101
+                MyTests().test_myscenario5alt()  # pylint: disable=E1101
 
-                    self.assertTrue(raised)
+                raised = False
+                try:
+                    MyTests().test_1_myscenario1()
+                except AttributeError:
+                    raised = True
+
+                self.assertTrue(raised)
             finally:
                 HotSOSConfig.set(**orig_config)
+
+    def test_scenarios_no_such_target(self):
+        with tempfile.TemporaryDirectory() as dtmp,\
+             mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+             mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
+            self.create_tests(dtmp, levels=5)
+            # Do not create scenarios intentionally
+            with self.assertRaises(FileNotFoundError):
+                @utils.load_templated_tests('scenarios/testplugin/'
+                                            '1/2/3/4/5')
+                class MyTests(ScenarioTestsBase):
+                    pass
+                MyTests()
