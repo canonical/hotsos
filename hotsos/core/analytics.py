@@ -57,7 +57,7 @@ class EventCollection(object):
         """
         For a given event end marker, find the most recent start marker.
         """
-        last = None
+        last = {}
         for item in self._events[event_id].get("heads", []):
             start_ts = item["start"]
             if start_ts <= end_ts:
