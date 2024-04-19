@@ -72,14 +72,7 @@ class RabbitMQReport(object):
 
             # Report the node with the greatest skew of queues/vhost
             if skewed_queue_nodes:
-                max_node = None
-                for node_name in skewed_queue_nodes:
-                    if max_node is None:
-                        max_node = node_name
-                    elif (skewed_queue_nodes[node_name] >=
-                            skewed_queue_nodes[max_node]):
-                        max_node = node_name
-
+                max_node = max(skewed_queue_nodes, key=skewed_queue_nodes.get)
                 if (skewed_queue_nodes[max_node] >
                         _skewed_nodes.get(max_node, 0)):
                     _skewed_nodes[max_node] = skewed_queue_nodes[max_node]
