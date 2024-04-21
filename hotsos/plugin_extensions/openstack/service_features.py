@@ -46,7 +46,7 @@ class ServiceFeatureChecks(OpenstackChecksBase):
         This is used to display whether or not specific features are enabled.
         """
         features = {}
-        for service in FEATURES:
+        for service, modules in FEATURES.items():
             svc_cfg = self.ost_projects.all[service].config
             if not svc_cfg['main'].exists:
                 continue
@@ -54,7 +54,7 @@ class ServiceFeatureChecks(OpenstackChecksBase):
             dbg_enabled = svc_cfg['main'].get('debug', section="DEFAULT")
             features[service] = {'main': {'debug': dbg_enabled or False}}
 
-            for module in FEATURES[service]:
+            for module, config in modules.items():
                 log.debug("getting features for '%s.%s'", service, module)
                 cfg = svc_cfg[module]
                 if not cfg.exists:
@@ -62,7 +62,7 @@ class ServiceFeatureChecks(OpenstackChecksBase):
                     continue
 
                 module_features = {}
-                for section, keys in FEATURES[service][module].items():
+                for section, keys in config.items():
                     for key in keys:
                         val = cfg.get(key, section=section)
                         if val is not None:

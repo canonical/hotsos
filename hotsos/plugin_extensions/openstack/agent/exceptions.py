@@ -70,9 +70,9 @@ class AgentExceptionCheckResults(UserDict):
         if not exceptions:
             return
 
-        for exc_type in exceptions:
+        for exc_type, values in exceptions.items():
             exceptions_sorted = {}
-            for k, v in sorted(exceptions[exc_type].items(),
+            for k, v in sorted(values.items(),
                                key=lambda x: x[0]):
                 exceptions_sorted[k] = v
 

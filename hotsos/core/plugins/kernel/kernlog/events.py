@@ -52,12 +52,12 @@ class KernLogEvents(KernLogBase):
             ovs_bridges = [br.strip() for br in ovs_bridges]
 
             interfaces_extant = {}
-            for iface in interfaces:
-                if iface in host_interfaces:
-                    if iface not in ovs_bridges:
-                        interfaces_extant[iface] = interfaces[iface]
+            for name, drops in interfaces.items():
+                if name in host_interfaces:
+                    if name not in ovs_bridges:
+                        interfaces_extant[name] = drops
                     else:
-                        log.debug("excluding ovs bridge %s", iface)
+                        log.debug("excluding ovs bridge %s", name)
 
             if interfaces_extant:
                 # sort by number of occurrences
