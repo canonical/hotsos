@@ -229,8 +229,11 @@ class TemplatedTestGenerator(object):
     @property
     def test_method_name(self):
         """ Test method name uses the original name. """
-        name = self.test_sub_path.split('.')[0]
-        name = name.replace('/', '_')
+        name = os.path.splitext(self.test_sub_path)[0]
+        replace_char = '_'
+        chars_to_replace = ('/', '.')
+        for char in chars_to_replace:
+            name = name.replace(char, replace_char)
         return 'test_{}'.format(name)
 
     def _generate(self):

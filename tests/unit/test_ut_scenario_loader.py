@@ -77,10 +77,38 @@ class TestScenarioTestLoader(ScenarioTestsBase):
             with open(testpath, 'w') as fd:
                 fd.write(FAKE_TEST)
 
+            testpath = os.path.join(_path, 'myscenario.with.'
+                                           'many.dots.{}.yaml'.format(lvl))
+            with open(testpath, 'w') as fd:
+                fd.write(FAKE_TEST)
+
+            testpath = os.path.join(_path, 'myscenario'
+                                           '_noextension{}'.format(lvl))
+            with open(testpath, 'w') as fd:
+                fd.write(FAKE_TEST)
+
             testpath = os.path.join(_path, 'myscenario{}alt.yaml'.format(lvl))
             with open(testpath, 'w') as fd:
                 fd.write(FAKE_TEST_W_TARGET.
                          format('myscenario{}.yaml'.format(lvl)))
+
+    def test_check_test_names(self):
+        with tempfile.TemporaryDirectory() as dtmp:
+            self.create_tests(dtmp, levels=1)
+            with mock.patch.object(utils, 'DEFS_TESTS_DIR',
+                                   os.path.join(dtmp, 'tests')):
+                @utils.load_templated_tests('scenarios/testplugin')
+                class MyTests(ScenarioTestsBase):
+                    pass
+
+                a = MyTests()
+                tests = [x for x in dir(a) if x.startswith("test_")]
+                self.assertEqual(len(tests), 4)
+
+                self.assertTrue("test_1_myscenario_with_many_dots_1" in tests)
+                self.assertTrue("test_1_myscenario1" in tests)
+                self.assertTrue("test_1_myscenario1alt" in tests)
+                self.assertTrue("test_1_myscenario_noextension1" in tests)
 
     def test_find_all_templated_tests(self):
         with tempfile.TemporaryDirectory() as dtmp:
@@ -90,14 +118,24 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 paths.append(path)
 
             plugin_path = 'tests/scenarios/testplugin'
-            s1 = os.path.join(dtmp, plugin_path, '1/myscenario1.yaml')
-            s1alt = os.path.join(dtmp, plugin_path, '1/myscenario1alt.yaml')
-            s2 = os.path.join(dtmp, plugin_path, '1/2/myscenario2.yaml')
-            s2alt = os.path.join(dtmp, plugin_path, '1/2/myscenario2alt.yaml')
-            s3 = os.path.join(dtmp, plugin_path, '1/2/3/myscenario3.yaml')
-            s3alt = os.path.join(dtmp, plugin_path,
-                                 '1/2/3/myscenario3alt.yaml')
-            expected = [s1, s1alt, s2, s2alt, s3, s3alt]
+
+            expected = [
+                '1/myscenario1.yaml',
+                '1/myscenario1alt.yaml',
+                '1/myscenario.with.many.dots.1.yaml',
+                '1/myscenario_noextension1',
+                '1/2/myscenario2.yaml',
+                '1/2/myscenario2alt.yaml',
+                '1/2/myscenario.with.many.dots.2.yaml',
+                '1/2/myscenario_noextension2',
+                '1/2/3/myscenario3.yaml',
+                '1/2/3/myscenario3alt.yaml',
+                '1/2/3/myscenario.with.many.dots.3.yaml',
+                '1/2/3/myscenario_noextension3'
+            ]
+
+            expected = [os.path.join(dtmp, plugin_path, x) for x in expected]
+
             self.assertEqual(sorted(paths), sorted(expected))
 
     @mock.patch.object(utils, 'TemplatedTestGenerator')
