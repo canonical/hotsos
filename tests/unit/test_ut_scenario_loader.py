@@ -63,40 +63,52 @@ class TestScenarioTestLoader(ScenarioTestsBase):
         for lvl in range(1, levels + 1):
             _path = os.path.join(_path, str(lvl))
             os.makedirs(_path)
-            with open(os.path.join(_path,
-                                   'myscenario{}.yaml'.format(lvl)),
-                      'w') as fd:
-                fd.write(FAKE_SCENARIO)
+
+            scenario_name_templates = [
+                'myscenario{}.yaml',
+                'myscenario.with.many.dots.{}.yaml',
+                'myscenario_noextension{}',
+                'myscenario{}alt.yaml'
+            ]
+
+            for scenario_name_template in scenario_name_templates:
+                scenario_name = scenario_name_template.format(lvl)
+                with open(os.path.join(_path, scenario_name), 'w') as fd:
+                    fd.write(FAKE_SCENARIO)
 
     def create_tests(self, path, levels=1):
         _path = os.path.join(path, 'tests/scenarios', HotSOSConfig.plugin_name)
         for lvl in range(1, levels + 1):
             _path = os.path.join(_path, str(lvl))
             os.makedirs(_path)
-            testpath = os.path.join(_path, 'myscenario{}.yaml'.format(lvl))
-            with open(testpath, 'w') as fd:
-                fd.write(FAKE_TEST)
 
-            testpath = os.path.join(_path, 'myscenario.with.'
-                                           'many.dots.{}.yaml'.format(lvl))
-            with open(testpath, 'w') as fd:
-                fd.write(FAKE_TEST)
+            test_files_without_target = [
+                'myscenario{}.yaml',
+                'myscenario.with.many.dots.{}.yaml',
+                'myscenario_noextension{}'
+            ]
 
-            testpath = os.path.join(_path, 'myscenario'
-                                           '_noextension{}'.format(lvl))
-            with open(testpath, 'w') as fd:
-                fd.write(FAKE_TEST)
+            test_files_with_target = [
+                'myscenario{}alt.yaml'
+            ]
 
-            testpath = os.path.join(_path, 'myscenario{}alt.yaml'.format(lvl))
-            with open(testpath, 'w') as fd:
-                fd.write(FAKE_TEST_W_TARGET.
-                         format('myscenario{}.yaml'.format(lvl)))
+            for name_template in test_files_without_target:
+                file_name = name_template.format(lvl)
+                with open(os.path.join(_path, file_name), 'w') as fd:
+                    fd.write(FAKE_TEST)
+
+            for name_template in test_files_with_target:
+                file_name = name_template.format(lvl)
+                with open(os.path.join(_path, file_name), 'w') as fd:
+                    fd.write(FAKE_TEST_W_TARGET)
 
     def test_check_test_names(self):
         with tempfile.TemporaryDirectory() as dtmp:
             self.create_tests(dtmp, levels=1)
-            with mock.patch.object(utils, 'DEFS_TESTS_DIR',
-                                   os.path.join(dtmp, 'tests')):
+            self.create_scenarios(dtmp, levels=1)
+            with mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+                 mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
+
                 @utils.load_templated_tests('scenarios/testplugin')
                 class MyTests(ScenarioTestsBase):
                     pass
