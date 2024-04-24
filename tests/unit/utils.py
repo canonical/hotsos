@@ -17,7 +17,8 @@ from hotsos.core.ycheck.scenarios import YScenarioChecker
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
 HOTSOS_ROOT = os.environ["HOTSOS_ROOT"]
-DEFS_TESTS_DIR = os.path.join(HOTSOS_ROOT, 'defs', 'tests')
+DEFS_DIR = os.path.join(HOTSOS_ROOT, 'defs')
+DEFS_TESTS_DIR = os.path.join(DEFS_DIR, 'tests')
 DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
 HotSOSConfig.data_root = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
 TEST_TEMPLATE_SCHEMA = set(['target-name', 'data-root', 'mock',
@@ -75,6 +76,11 @@ class TemplatedTest(object):
                  expected_issues, sub_root):
         self.sub_root = sub_root
         self.target_path = target_path
+        if not os.path.exists(os.path.join(DEFS_DIR,
+                                           self.sub_root,
+                                           self.target_path)):
+            raise FileNotFoundError(f"Scenario file {self.target_path}"
+                                    " not found!")
         self.data_root = data_root
         self.mocks = mocks
         self.expected_bugs = expected_bugs
