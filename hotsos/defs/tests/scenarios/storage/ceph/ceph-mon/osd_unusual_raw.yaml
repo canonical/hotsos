@@ -120,4 +120,3 @@ raised-issues:
     Ceph's using space not accounted by data+meta+omap columns, these are more
     than 5% and potentially indicate a bug in Ceph. If these OSDs appear
     full or misbehave, please restart them and possibly file a bug in Ceph tracker.
-

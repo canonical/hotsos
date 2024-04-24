@@ -1,7 +1,7 @@
 checks:
   has_1943937:
     input:
-      path:  'var/log/rabbitmq/rabbit@*.log'
+      path: 'var/log/rabbitmq/rabbit@*.log'
     expr: 'operation queue.declare caused a channel exception not_found: failed to perform operation on queue ''\S+'' in vhost ''\S+'' due to timeout'
 conclusions:
   lp1943937:

@@ -6,7 +6,8 @@ input:
       flags: '-m'
       args: 'system@ovs-system'
 checks:
-  # NOTE: we don't extract any info from the following searches so they define the smallest group possible so as to minimise saved data.
+  # NOTE: we don't extract any info from the following searches so they define
+  # the smallest group possible so as to minimise saved data.
   ovs_using_geneve:
     input:
       command: ovs_appctl
@@ -30,11 +31,11 @@ conclusions:
     decision:
       or:
         - and:
-           - ovs_using_geneve
-           - geneve_is_tracked
+            - ovs_using_geneve
+            - geneve_is_tracked
         - and:
-           - ovs_using_vxlan
-           - vxlan_is_tracked
+            - ovs_using_vxlan
+            - vxlan_is_tracked
     raises:
       type: LaunchpadBug
       bug-id: 1978806

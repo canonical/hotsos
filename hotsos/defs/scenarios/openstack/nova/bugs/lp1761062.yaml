@@ -12,7 +12,7 @@ checks:
         - key: images_type
           section: libvirt
           ops: [[eq, rbd]]
-          allow-unset: False
+          allow-unset: false
 conclusions:
   lp1761062:
     decision:

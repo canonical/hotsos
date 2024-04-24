@@ -17,4 +17,3 @@ raised-issues:
     both pmd-cpu-mask and dpdk-lcore-mask (see OVSDB Open_vSwitch table). This
     will lead to performance degradation due to contention between Poll Mode
     Driver threads and the rest of the system.
-

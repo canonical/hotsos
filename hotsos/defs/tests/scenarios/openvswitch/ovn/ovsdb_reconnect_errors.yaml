@@ -8,7 +8,7 @@ data-root:
     - sos_commands/date/date
     - uptime
 raised-bugs:
-  https://bugs.launchpad.net/bugs/1980211: >- 
+  https://bugs.launchpad.net/bugs/1980211: >-
     Installed package 'python3-openvswitch' with version
     2.17.0 has a known bug whereby if connections to the ovn
     southbound db are closed, the client fails to reconnect.

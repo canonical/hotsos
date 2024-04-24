@@ -19,7 +19,7 @@ neutron-ovs-agent:
       # Disabling all-logs for now since running against a long
       # history of logs can generate a very large amount of data that can
       # consume too much memory.
-      disable-all-logs: True
+      disable-all-logs: true
   # identify rpc_loop iterations and get stats and longest running loops.
   rpc-loop:
     start:
@@ -29,7 +29,7 @@ neutron-ovs-agent:
       expr: '([\d-]+) ([\d:]+\.\d{3}) .+ Agent rpc_loop - iteration:([0-9]+) completed..+'
       hint: 'Agent rpc_loop'
     # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
-    passthrough-results: True      
+    passthrough-results: true
 neutron-l3-agent:
   input:
     path: 'var/log/neutron/neutron-l3-agent.log'
@@ -42,7 +42,7 @@ neutron-l3-agent:
       expr: '([\d-]+) ([\d:]+\.\d{3}) .+ Finished a router update for (\S+), update_id (\S+). .+'
       hint: 'router update'
     # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
-    passthrough-results: True
+    passthrough-results: true
   # identify HA router keepalived spawn events that took the longest to complete and report the longest updates.
   router-spawn-events:
     # router state_change_monitor + keepalived spawn
@@ -54,4 +54,4 @@ neutron-l3-agent:
       expr: '([\d-]+) ([\d:]+\.\d{3}) .+ neutron.agent.linux.utils .+neutron-rootwrap.+''keepalived'',.+''/var/lib/neutron/ha_confs/([0-9a-z-]+)/keepalived.conf''.+ create_process'
       hint: 'Keepalived'
     # we want to analyse these with core.analytics.LogEventStats so don't treat as sequence.
-    passthrough-results: True
+    passthrough-results: true

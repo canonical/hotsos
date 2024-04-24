@@ -5,6 +5,5 @@ neutron:
     options:
       # If we do this for all logs the output will overwhelm
       # the summary so restrict to most recent.
-      disable-all-logs: True
+      disable-all-logs: true
   expr: '([\d-]+) [\d:]+\.\d{3} .+ neutron.wsgi .+ "(GET|POST|PUT|DELETE)'
-

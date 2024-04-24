@@ -12,7 +12,7 @@ checks:
 conclusions:
   charmed-ceph-osd-no-bcache-tuning:
     decision:
-      not: juju_bcache_tuning_charm_enabled 
+      not: juju_bcache_tuning_charm_enabled
       and:
         - juju_ceph_osd_charm_enabled
         - local_osds_using_bcache

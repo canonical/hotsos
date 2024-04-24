@@ -1,5 +1,6 @@
 vars:
-  nodes_with_limited_high_order_memory: '@hotsos.core.plugins.kernel.memory.MemoryChecks.nodes_with_limited_high_order_memory'
+  nodes_with_limited_high_order_memory:
+    '@hotsos.core.plugins.kernel.memory.MemoryChecks.nodes_with_limited_high_order_memory'
   compact_success: '@hotsos.core.plugins.kernel.memory.VMStat.compact_success'
   compaction_failures_percent: '@hotsos.core.plugins.kernel.memory.VMStat.compaction_failures_percent'
   slab_major_consumers: '@hotsos.core.plugins.kernel.memory.SlabInfo.major_consumers'
@@ -8,9 +9,12 @@ vars:
   # and is not necessarily representative of current state.
   min_compaction_success: 10000
   max_compaction_failures_pcent: 10
-  hugetlb_to_mem_total_percentage: '@hotsos.core.plugins.kernel.memory.MemInfo.hugetlb_to_mem_total_percentage'
-  mem_avail_to_mem_total_percentage: '@hotsos.core.plugins.kernel.memory.MemInfo.mem_avail_to_mem_total_percentage'
-  hugep_used_to_hugep_total_percentage: '@hotsos.core.plugins.kernel.memory.MemInfo.hugep_used_to_hugep_total_percentage'
+  hugetlb_to_mem_total_percentage:
+    '@hotsos.core.plugins.kernel.memory.MemInfo.hugetlb_to_mem_total_percentage'
+  mem_avail_to_mem_total_percentage:
+    '@hotsos.core.plugins.kernel.memory.MemInfo.mem_avail_to_mem_total_percentage'
+  hugep_used_to_hugep_total_percentage:
+    '@hotsos.core.plugins.kernel.memory.MemInfo.hugep_used_to_hugep_total_percentage'
   mem_total_gb: '@hotsos.core.plugins.kernel.memory.MemInfo.mem_total_gb'
   mem_available_gb: '@hotsos.core.plugins.kernel.memory.MemInfo.mem_available_gb'
   hugetlb_gb: '@hotsos.core.plugins.kernel.memory.MemInfo.hugetlb_gb'

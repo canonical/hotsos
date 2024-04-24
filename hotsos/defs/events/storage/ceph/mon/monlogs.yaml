@@ -15,4 +15,3 @@ long-heartbeat-pings:
 heartbeat-no-reply:
   expr: '([\d-]+)[T ]([\d:]+)\S+ .+ osd.[0-9]+ .+ heartbeat_check: no reply from [0-9.:]+ (osd.[0-9]+)'
   hint: 'heartbeat_check'
-

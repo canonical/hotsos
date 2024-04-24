@@ -3,10 +3,10 @@ data-root:
     sos_commands/snap/snap_list_--all: |
       juju                  3.1.5  23354  latest/stable  canonical**  -
 raised-issues:
-    JujuWarning: >-
-      The juju snap is installed from the latest/stable channel which is
-      discouraged since the release of the snap in that channel can/will change
-      at random and will auto-upgrade which may be undesired. The
-      recommended way is to use a specific release track/channel so that
-      release (or major version) upgrades can be performed in a controlled
-      way. See 'snap info juju' for available channels.
+  JujuWarning: >-
+    The juju snap is installed from the latest/stable channel which is
+    discouraged since the release of the snap in that channel can/will change
+    at random and will auto-upgrade which may be undesired. The
+    recommended way is to use a specific release track/channel so that
+    release (or major version) upgrades can be performed in a controlled
+    way. See 'snap info juju' for available channels.

@@ -21,4 +21,3 @@ conclusions:
         be resolved asap.
       format-dict:
         num_v1_only_osds: '@checks.cluster_has_v1_only_osds.requires.value_actual:len'
-

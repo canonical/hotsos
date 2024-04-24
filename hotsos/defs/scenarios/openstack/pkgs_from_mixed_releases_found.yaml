@@ -12,4 +12,3 @@ conclusions:
         Openstack packages from a more than one release identified: {releases}.
       format-dict:
         releases: '@checks.has_mixed_pkg_releases.requires.value_actual:comma_join'
-

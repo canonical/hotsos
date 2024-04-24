@@ -5,8 +5,10 @@ data-root:
       ii pacemaker-remote 2.0.3-3ubuntu4.3 all
       ii masakari-host-monitor 9.0.0-0ubuntu0.20.04.1 all
       ii nova-compute 2:21.2.1-0ubuntu1 all
+    # yamllint disable rule:trailing-spaces
     sos_commands/systemd/systemctl_list-units: |
       pacemaker_remote.service                                                                             loaded active running   Pacemaker Remote Service                                                     
     sos_commands/systemd/systemctl_list-unit-files: |
       pacemaker_remote.service                              enabled        
-raised-issues: # none expected
+    # yamllint enable rule:trailing-spaces
+raised-issues:  # none expected

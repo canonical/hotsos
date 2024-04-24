@@ -3,6 +3,7 @@ data-root:
   files:
     var/log/ovn/ovn-controller.log: |
       2023-09-06T08:31:20.060Z|00263|main|WARN|controller version - 22.03.2-20.21.0-61.4 mismatch with northd version - 22.03.0-20.21.0-58.3
+    # yamllint disable rule:trailing-spaces
     sos_commands/systemd/systemctl_list-unit-files: |
       neutron-ovn-metadata-agent.service         enabled         enabled      
       ovn-controller.service                     static          enabled      
@@ -11,6 +12,7 @@ data-root:
       neutron-ovn-metadata-agent.service                                          loaded active     running         Neutron OVN Metadata Agent                                                   
       ovn-controller.service                                                      loaded active     running         Open Virtual Network host control daemon                                     
       ovn-host.service                                                            loaded active     exited          Open Virtual Network host components  
+    # yamllint enable rule:trailing-spaces
     sos_commands/dpkg/dpkg_-l: |
       ii  neutron-ovn-metadata-agent           2:16.4.2-0ubuntu4                                    all          Neutron is a virtual network service for Openstack - OVN metadata agent
       ii  ovn-common                           22.03.2-0ubuntu0.22.04.1~cloud1                              amd64        OVN common components

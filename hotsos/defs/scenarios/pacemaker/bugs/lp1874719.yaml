@@ -20,4 +20,3 @@ conclusions:
         following command:
         juju run --application <application>-hacluster --
         sudo crm_node -R node1 --force
-

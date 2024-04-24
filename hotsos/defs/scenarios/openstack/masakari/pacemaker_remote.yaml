@@ -8,7 +8,7 @@ checks:
       systemd:
         pacemaker_remote: enabled
       pebble:
-        pacemaker_remote: active 
+        pacemaker_remote: active
 conclusions:
   pacemaker_not_installed:
     priority: 2

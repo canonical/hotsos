@@ -3,4 +3,3 @@ requires:
   property:
     path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
     ops: [[ne, lxc]]
-

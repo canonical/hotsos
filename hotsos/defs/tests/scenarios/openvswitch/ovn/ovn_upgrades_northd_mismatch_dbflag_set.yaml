@@ -5,6 +5,7 @@ data-root:
       {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1, ovn-match-northd-version="true"}
     var/log/ovn/ovn-controller.log: |
       2022-02-06T11:04:26.305Z|00017|main|WARN|controller version - 22.03.2-1.2.3 mismatch with northd version - 22.03.1-1.2.3
+    # yamllint disable rule:trailing-spaces
     sos_commands/systemd/systemctl_list-unit-files: |
       neutron-ovn-metadata-agent.service         enabled         enabled      
       ovn-controller.service                     static          enabled      
@@ -13,6 +14,7 @@ data-root:
       neutron-ovn-metadata-agent.service                                          loaded active     running         Neutron OVN Metadata Agent                                                   
       ovn-controller.service                                                      loaded active     running         Open Virtual Network host control daemon                                     
       ovn-host.service                                                            loaded active     exited          Open Virtual Network host components  
+    # yamllint enable rule:trailing-spaces
     sos_commands/dpkg/dpkg_-l: |
       ii  neutron-ovn-metadata-agent           2:16.4.2-0ubuntu4                                    all          Neutron is a virtual network service for Openstack - OVN metadata agent
       ii  ovn-common                           22.03.2-0ubuntu0.22.04.1~cloud1                              amd64        OVN common components

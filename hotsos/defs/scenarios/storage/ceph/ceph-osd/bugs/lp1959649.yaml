@@ -1,6 +1,8 @@
 vars:
-  bluestore_volume_selection_policy: '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_volume_selection_policy:CephDaemonConfigShow'
-  bluestore_cache_onode: '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_cache_onode:CephDaemonDumpMemPools'
+  bluestore_volume_selection_policy:
+    '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_volume_selection_policy:CephDaemonConfigShow'
+  bluestore_cache_onode:
+    '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_cache_onode:CephDaemonDumpMemPools'
 checks:
   has_1959649:
     - apt:

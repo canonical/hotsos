@@ -37,4 +37,3 @@ conclusions:
       format-dict:
         interfaces: hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names
         count: '@checks.ceph_log_has_election_calls.search.num_results'
-

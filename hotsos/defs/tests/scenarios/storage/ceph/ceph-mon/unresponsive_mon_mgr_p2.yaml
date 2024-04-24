@@ -11,9 +11,9 @@ mock:
       kwargs:
         new: false
 raised-issues:
-   CephMonWarning: >-
-     Some ceph commands are returning incomplete data. This
-     usually indicates a problem with ceph mon/mgr. Please check
-     ceph-mon.log and retry commands to see if they are still
-     unresponsive. Restarting ceph-mon and ceph-mgr might
-     resolve this.
+  CephMonWarning: >-
+    Some ceph commands are returning incomplete data. This
+    usually indicates a problem with ceph mon/mgr. Please check
+    ceph-mon.log and retry commands to see if they are still
+    unresponsive. Restarting ceph-mon and ceph-mgr might
+    resolve this.

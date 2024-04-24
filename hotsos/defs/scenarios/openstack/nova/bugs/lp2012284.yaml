@@ -15,9 +15,9 @@ checks:
 conclusions:
   lp2012284:
     decision:
-        - has_package
-        - has_2012284
-        - nc_in_enforce_mode
+      - has_package
+      - has_2012284
+      - nc_in_enforce_mode
     raises:
       type: LaunchpadBug
       bug-id: 2012284

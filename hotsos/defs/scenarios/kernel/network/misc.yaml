@@ -10,7 +10,7 @@ checks:
   has_over_mtu_dropped_packets:
     property: hotsos.core.plugins.kernel.kernlog.KernLogEvents.over_mtu_dropped_packets
 conclusions:
-  nf-conntrack-full:   
+  nf-conntrack-full:
     decision: has_nf_conntrack_full
     raises:
       type: NetworkWarning
@@ -28,4 +28,3 @@ conclusions:
         interfaces. See kern.log for full details.
       format-dict:
         num_ifaces: '@checks.has_over_mtu_dropped_packets.requires.value_actual:len'
-

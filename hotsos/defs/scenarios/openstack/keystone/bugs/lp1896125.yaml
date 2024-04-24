@@ -19,7 +19,7 @@ checks:
         - key: url
           section: ldap
           ops: [[truth]]  # i.e. does the setting have a value
-          allow-unset: False
+          allow-unset: false
 conclusions:
   lp1896125:
     decision: has_1896125

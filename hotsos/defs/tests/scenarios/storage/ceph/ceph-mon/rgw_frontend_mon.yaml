@@ -42,7 +42,6 @@ data-root:
                         },
                         "task_status": {}
                     }}}}}}
-
   copy-from-original:
     - sos_commands/date/date
     - sos_commands/systemd/systemctl_list-units

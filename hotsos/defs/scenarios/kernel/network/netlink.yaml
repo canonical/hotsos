@@ -8,9 +8,9 @@ conclusions:
       type: NetworkWarning
       message: >-
         This host is reporting dropped packets for the following netlink sockets:
-        
+
         {socks_with_drops}
-        
+
         This may be a symptom of problems in the associated process(es)
         and should be investigated further.
       format-dict:

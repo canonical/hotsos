@@ -1,12 +1,12 @@
 # Both issue conclusions use the same message template so using an anchor to
 # avoid having to write it twice.
 has_privsep_errors_msg: &has_privsep_errors_msg
-      message: >-
-        The privsep daemon used by the {svc_name} service on this host is
-        reporting {exc_types} errors for {buffer_type} that suggest it has
-        crashed due to the amount of data being transferred between the
-        privileged and unprivileged threads exceeding the allowed limit. This
-        is known to cause unresponsive agents.
+  message: >-
+    The privsep daemon used by the {svc_name} service on this host is
+    reporting {exc_types} errors for {buffer_type} that suggest it has
+    crashed due to the amount of data being transferred between the
+    privileged and unprivileged threads exceeding the allowed limit. This
+    is known to cause unresponsive agents.
 
 checks:
   has_l3_agent:
@@ -92,4 +92,3 @@ conclusions:
       format-dict:
         package: '@checks.has_bug_lp2029952.requires.package'
         version: '@checks.has_bug_lp2029952.requires.version'
-

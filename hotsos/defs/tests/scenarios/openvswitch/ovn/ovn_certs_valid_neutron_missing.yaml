@@ -6,7 +6,7 @@ mock:
     # the cert file.
     hotsos.core.plugins.sosreport.SOSReportChecksBase.data_root_is_sosreport:
       kwargs:
-        new: False
+        new: false
 data-root:
   files:
     etc/neutron/plugins/ml2/ml2_conf.ini: |

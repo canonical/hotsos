@@ -10,6 +10,7 @@ data-root:
       kswapd0     590        0  rtd       DIR                9,1         4096          2 /
       rsyslogd   4084        0  mem       REG                9,1        18976      51133 /lib/x86_64-linux-gnu/libuuid.so.1.3.0
       ceilomete  4129      116  mem       REG                9,1        43200      48271 /usr/lib/x86_64-linux-gnu/libyajl.so.2.1.0
+    # yamllint disable rule:trailing-spaces
     proc/net/netlink: |
       sk               Eth Pid        Groups   Rmem     Wmem     Dump  Locks    Drops    Inode
       0000000000000000 0   23984      00000113 0        0        0     2        0        129906  
@@ -22,4 +23,5 @@ data-root:
       0000000000000000 0   10542      00000113 0        0        0     2        0        114127  
       0000000000000000 0   2199       000405d1 0        0        0     2        0        34703   
       0000000000000000 0   3426       00000440 0        0        0     2        0        89397 
+    # yamllint enable rule:trailing-spaces
 raised-issues:
