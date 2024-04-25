@@ -1,0 +1,10 @@
+target-name: lp1980211.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-openvswitch 2.17.0 amd64
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:  # no issues
+raised-issues:  # no bugs

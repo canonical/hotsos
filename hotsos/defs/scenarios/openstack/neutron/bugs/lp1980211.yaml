@@ -1,0 +1,62 @@
+checks:
+  is_neutron_server:
+    systemd: neutron-server
+  is_neutron_ovn_metadata_agent:
+    systemd: neutron-ovn-metadata-agent
+  has_ovsdb_reconnection_errors:
+    input:
+      - var/log/neutron/neutron-server.log
+      - var/log/neutron/neutron-ovn-metadata-agent.log
+    expr: '([\d-]+) [\d:]+\.\d{3} .+ ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send\(\) on <class ''eventlet.green.ssl.GreenSSLSocket''>'
+    hint: ERROR
+  has_pyovs_with_reconnection_bug:
+    apt:
+      python3-openvswitch:
+        - min: 2.17.0
+          max: 2.17.1
+conclusions:
+  error_and_pkg_w_bug:
+    decision:
+      - has_pyovs_with_reconnection_bug
+      - has_ovsdb_reconnection_errors
+    raises:
+      type: LaunchpadBug
+      bug-id: 1980211
+      message: >-
+        Installed package '{package}' with version {version} has a known
+        bug whereby if connections to the ovn southbound db are closed, the
+        client fails to reconnect. This is usually resolved with a service
+        restart and a fix is available as of openvswitch version 2.17.2.
+      format-dict:
+        package: '@checks.has_pyovs_with_reconnection_bug.requires.package'
+        version: '@checks.has_pyovs_with_reconnection_bug.requires.version'
+  neutron_server_error_and_pkg_w_fix:
+    decision:
+      - not: has_pyovs_with_reconnection_bug
+      - is_neutron_server
+      - has_ovsdb_reconnection_errors
+    raises:
+      type: OpenstackWarning
+      message: >-
+        This host is running neutron-server and appears to be suffering from
+        bug LP 1980211 despite the fact that it is running {package} version
+        {version} which contains a fix for the bug. Please ensure that the agent
+        has been restarted since the package was upgraded.
+      format-dict:
+        package: '@checks.has_pyovs_with_reconnection_bug.requires.package'
+        version: '@checks.has_pyovs_with_reconnection_bug.requires.version'
+  neutron_ovn_meta_error_and_pkg_w_fix:
+    decision:
+      - not: has_pyovs_with_reconnection_bug
+      - is_neutron_ovn_metadata_agent
+      - has_ovsdb_reconnection_errors
+    raises:
+      type: OpenstackWarning
+      message: >-
+        This host is running neutron-ovn-metadata-agent and appears to be
+        suffering from bug LP 1980211 despite the fact that it is running
+        {package} version {version} which contains a fix for the bug. Please
+        ensure that the agent has been restarted since the package was upgraded.
+      format-dict:
+        package: '@checks.has_pyovs_with_reconnection_bug.requires.package'
+        version: '@checks.has_pyovs_with_reconnection_bug.requires.version'

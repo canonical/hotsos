@@ -1,0 +1,23 @@
+target-name: lp1980211.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-ovn-metadata-agent.log: |
+      2022-07-04 20:03:32.405 2050177 ERROR ovsdbapp.backend.ovs_idl.connection ValueError: non-zero flags not allowed in calls to send() on <class 'eventlet.green.ssl.GreenSSLSocket'>
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-openvswitch 2.17.2 amd64
+      ii  neutron-ovn-metadata-agent           2:16.4.2-0ubuntu4                                    all          Neutron is a virtual network service for Openstack - OVN metadata agent
+    sos_commands/systemd/systemctl_list-unit-files: |
+      neutron-ovn-metadata-agent.service         enabled         enabled
+    sos_commands/systemd/systemctl_list-units: |
+      neutron-ovn-metadata-agent.service                                          loaded active     running         Neutron OVN Metadata Agent
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  OpenstackWarning: >-
+    This host is running neutron-ovn-metadata-agent and appears to be
+    suffering from bug LP 1980211 despite the fact that it is running
+    python3-openvswitch version 2.17.2 which contains a fix for the bug.
+    Please ensure that the agent has been restarted since the package was
+    upgraded.
+
