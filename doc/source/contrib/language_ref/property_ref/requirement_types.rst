@@ -98,6 +98,39 @@ Cache keys:
   * package - name of each installed package
   * version - version of each installed package
 
+Binary
+---
+
+Takes a binary name and optional list of version ranges. Returns True if
+the binary exists and if provided, version is within ranges.
+
+Usage:
+
+.. code-block:: yaml
+
+    binary:
+      name: mybin
+      handler: path.to.handler
+
+Or with version ranges as follows:
+
+.. code-block:: yaml
+
+    binary:
+      handler: path.to.bininterfacehandler
+      mybin:
+        - min: 0.0
+          max: 1.0
+        - min: 4.0
+          max: 5.0
+
+NOTE: the version checking logic is currently the same as for the :ref:`Apt` type.
+
+Cache keys:
+
+  * binary - name of each installed binary
+  * version - version of each installed binary
+
 Snap
 ----
 
