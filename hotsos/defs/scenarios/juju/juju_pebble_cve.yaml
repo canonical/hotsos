@@ -1,0 +1,18 @@
+checks:
+  has_affected_pebble_snap:
+    snap:
+      pebble:
+        - min: 646
+          max: 646
+conclusions:
+  pebble_cve:
+    decision: has_affected_pebble_snap
+    raises:
+      type: MitreCVE
+      cve-id: CVE-2024-3250
+      message: >-
+        This host is running a version of Pebble ({revision}) that is
+        affected by a known security vulnerability. Please upgrade
+        to the latest version to get the fix.
+      format-dict:
+        revision: '@checks.has_affected_pebble_snap.requires.revision'
