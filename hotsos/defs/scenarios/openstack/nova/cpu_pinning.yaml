@@ -8,10 +8,14 @@ vars:
   cpu_dedicated_set: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set'
   cpu_dedicated_set_name: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_name'
   pinning_from_multi_numa_nodes: '@hotsos.core.plugins.openstack.nova.CPUPinning.nova_pinning_from_multi_numa_nodes'
-  cpu_dedicated_set_intersection_isolcpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_isolcpus'
-  cpu_dedicated_set_intersection_cpuaffinity: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_cpuaffinity'
-  cpu_shared_set_intersection_isolcpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_isolcpus'
-  cpu_shared_set_intersection_cpu_dedicated_set: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_cpu_dedicated_set'
+  cpu_dedicated_set_intersection_isolcpus:
+    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_isolcpus'
+  cpu_dedicated_set_intersection_cpuaffinity:
+    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_cpuaffinity'
+  cpu_shared_set_intersection_isolcpus:
+    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_isolcpus'
+  cpu_shared_set_intersection_cpu_dedicated_set:
+    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_cpu_dedicated_set'
   cpuaffinity_intersection_isolcpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpuaffinity_intersection_isolcpus'
   num_unpinned_cpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.num_unpinned_cpus'
   unpinned_cpus_pcent: '@hotsos.core.plugins.openstack.nova.CPUPinning.unpinned_cpus_pcent'
@@ -136,4 +140,3 @@ conclusions:
         Nova config option 'vcpu_pin_set' is configured yet it is deprecated as
         of the Train release and may be ignored. Recommendation is to switch to
         using cpu_dedicated_set and/or cpu_shared_set (see upstream docs).
-

@@ -30,8 +30,8 @@ conclusions:
       - ovs_dpdk_enabled
       - dpdk_installed
       - or:
-        - not: pmd_mask_is_set
-        - not: lcore_mask_is_set
+          - not: pmd_mask_is_set
+          - not: lcore_mask_is_set
     raises:
       type: OpenvSwitchWarning
       message: >-
@@ -66,8 +66,8 @@ conclusions:
       - pmd_mask_is_set
       - lcore_mask_is_set
       - or:
-        - pmd_cpu_mask_overlap_cpu_dedicated_set
-        - pmd_cpu_mask_overlap_cpu_shared_set
+          - pmd_cpu_mask_overlap_cpu_dedicated_set
+          - pmd_cpu_mask_overlap_cpu_shared_set
     raises:
       type: OpenvSwitchWarning
       message: >-

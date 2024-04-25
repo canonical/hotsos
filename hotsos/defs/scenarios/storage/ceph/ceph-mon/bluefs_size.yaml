@@ -17,4 +17,3 @@ conclusions:
       format-dict:
         bad_meta_osds: '@checks.bluefs_osds_have_oversize_metadata.requires.value_actual:comma_join'
         limit_percent: hotsos.core.plugins.storage.ceph.CephCluster.OSD_META_LIMIT_PERCENT
-

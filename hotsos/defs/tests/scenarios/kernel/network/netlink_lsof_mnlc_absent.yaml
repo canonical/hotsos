@@ -2,6 +2,7 @@ target-name: netlink.yaml
 data-root:
   files:
     sos_commands/process/lsof_M_-n_-l_-c: ""
+    # yamllint disable rule:trailing-spaces
     proc/net/netlink: |
       sk               Eth Pid        Groups   Rmem     Wmem     Dump  Locks    Drops    Inode
       0000000000000000 0   23984      00000113 0        0        0     2        0        129906  
@@ -14,3 +15,4 @@ data-root:
       0000000000000000 0   10542      00000113 0        0        0     2        0        114127  
       0000000000000000 0   2199       000405d1 0        0        0     2        0        34703   
       0000000000000000 0   3426       00000440 0        0        0     2        0        89397 
+    # yamllint enable rule:trailing-spaces

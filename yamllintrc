@@ -1,0 +1,26 @@
+extends: default
+
+ignore:
+  - '**/fake_data_root/**'
+
+rules:
+  # https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.document_start
+  document-start:
+    present: false
+  # https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.line_length
+  line-length: disable
+  # https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.anchors
+  anchors:
+    forbid-undeclared-aliases: true
+    forbid-duplicated-anchors: true
+    forbid-unused-anchors: true
+  # https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.truthy
+  truthy:
+    allowed-values: ['true', 'false']
+    check-keys: true
+  # https://yamllint.readthedocs.io/en/stable/rules.html#module-yamllint.rules.indentation
+  indentation:
+    spaces: 2
+    indent-sequences: true
+    check-multi-line-strings: false
+

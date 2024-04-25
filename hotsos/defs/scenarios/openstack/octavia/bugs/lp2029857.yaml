@@ -2,10 +2,8 @@ checks:
   has_2029857:
     input:
       path: 'var/log/apache2/octavia_error.log'
-    start: '(\[.+\]+) ([\d-]+) ([\d:]+\.[\d]+) .+ Unable to load provider
-driver ovn due to'
-    end: '(\[.+\]+) (octavia.common.exceptions.ProviderNotFound: Provider 
-''ovn'' was not found\.)'
+    start: '(\[.+\]+) ([\d-]+) ([\d:]+\.[\d]+) .+ Unable to load provider driver ovn due to'
+    end: '(\[.+\]+) (octavia.common.exceptions.ProviderNotFound: Provider ''ovn'' was not found\.)'
   ovn_provider_enabled:
     config:
       handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
@@ -13,7 +11,7 @@ driver ovn due to'
       assertions:
         - section: api_settings
           key: enabled_provider_drivers
-          ops: [[contains, ovn]] 
+          ops: [[contains, ovn]]
 conclusions:
   lp2029857:
     decision:

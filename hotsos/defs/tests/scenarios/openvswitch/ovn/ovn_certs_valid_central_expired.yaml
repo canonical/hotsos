@@ -25,6 +25,7 @@ data-root:
       -----END CERTIFICATE-----
     sos_commands/date/date:
       Thu Feb 10 16:19:17 UTC 2034
+    # yamllint disable rule:trailing-spaces
     sos_commands/systemd/systemctl_list-unit-files: |
       ovn-central.service                        enabled         enabled      
       ovn-nb-ovsdb.service                       enabled         enabled      
@@ -37,6 +38,7 @@ data-root:
       ovn-northd.service                                                          loaded active running   Open Virtual Network central control daemon
       ovn-ovsdb-server-nb.service                                                 loaded active running   Open vSwitch database server for OVN Northbound database
       ovn-ovsdb-server-sb.service                                                 loaded active running   Open vSwitch database server for OVN Southbound database
+    # yamllint enable rule:trailing-spaces
     sos_commands/dpkg/dpkg_-l: |
       ii  ovn-central                     20.03.2-0ubuntu0.20.04.4          amd64        OVN central components
       ii  ovn-common                      20.03.2-0ubuntu0.20.04.4          amd64        OVN common components

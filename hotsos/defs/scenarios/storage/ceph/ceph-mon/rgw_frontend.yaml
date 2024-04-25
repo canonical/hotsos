@@ -19,8 +19,8 @@ conclusions:
     decision:
       - node_is_ceph_rgw_and_beast_supported_version
       - or:
-        - is_rgw_using_civetweb
-        - rgw_outdated_frontend
+          - is_rgw_using_civetweb
+          - rgw_outdated_frontend
     raises:
       type: CephRGWWarning
       message: >-

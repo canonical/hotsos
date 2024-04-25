@@ -15,4 +15,3 @@ conclusions:
         restart of openvswitch-switch this can lead to inconsistent l2pop
         flows. If you think this node is impacted you can fix this with a
         restart of neutron-openvswitch-agent.
-

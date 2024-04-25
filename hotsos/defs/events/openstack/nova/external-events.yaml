@@ -4,8 +4,8 @@ input:
   options:
     # Searching all logs can yield too many results and we don't yet have a
     # way to override MAX_LOGROTATE_DEPTH so disabling for now.
-    disable-all-logs: True
-# Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events  # noqa E501
+    disable-all-logs: true
+# Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events
 events:
   network-changed:
     expr: '[\d-]+ [\d:]+\.\d{3} .+\[instance: (\S+)\].+Received event (network-changed)-(\S+)\s+'

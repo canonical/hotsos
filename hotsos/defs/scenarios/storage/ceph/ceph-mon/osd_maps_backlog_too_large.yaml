@@ -21,4 +21,3 @@ conclusions:
         https://tracker.ceph.com/issues/47290.
       format-dict:
         count: '@checks.cluster_has_too_many_osdmaps.requires.value_actual'
-

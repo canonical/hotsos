@@ -1,6 +1,7 @@
 target-name: hm_port_health.yaml
 data-root:
   files:
+    # yamllint disable rule:trailing-spaces
     sos_commands/systemd/systemctl_list-units: |
       octavia-health-manager.service                        loaded active     running   OpenStack Octavia Health Manager (octavia-health-manager)                
       octavia-housekeeping.service                          loaded active     running   OpenStack Octavia Housekeeping Manager (octavia-housekeeping)            
@@ -12,6 +13,7 @@ data-root:
       octavia-housekeeping.service                        enabled         enabled      
       octavia-mysql-router.service                        enabled         enabled      
       octavia-worker.service                              enabled         enabled    
+    # yamllint enable rule:trailing-spaces
     sos_commands/dpkg/dpkg_-l: |
       ii  octavia-api                    6.2.1-0ubuntu2                                 all          OpenStack Load Balancer as a Service - API frontend
       ii  octavia-common                 6.2.1-0ubuntu2                                 all          OpenStack Load Balancer as a Service - Common files

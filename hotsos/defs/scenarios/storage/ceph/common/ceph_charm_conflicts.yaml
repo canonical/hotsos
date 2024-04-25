@@ -39,4 +39,3 @@ conclusions:
         This host is running more than one ceph charm (ceph-osd, ceph-mon etc)
         which is not supported and will lead to unexpected behaviour such
         as conflicts when more than one charm writes ceph.conf at once.
-

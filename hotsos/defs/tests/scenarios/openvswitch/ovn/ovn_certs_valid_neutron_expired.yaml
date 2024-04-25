@@ -41,4 +41,5 @@ data-root:
       ii  neutron-server                  2:16.4.2-0ubuntu6.2               all          Neutron is a virtual network service for Openstack - server
 raised-issues:
   OVNError: >-
-    This neutron-server host's ml2-ovn cert (/etc/neutron/plugins/ml2/cert_host) is going to expire in less than 30 days.
+    This neutron-server host's ml2-ovn cert (/etc/neutron/plugins/ml2/cert_host)
+    is going to expire in less than 30 days.

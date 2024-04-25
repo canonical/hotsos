@@ -5,7 +5,7 @@ data-root:
   copy-from-original:
     - sos_commands/date/date
 raised-bugs:
-  https://bugs.launchpad.net/bugs/1943937: >- 
+  https://bugs.launchpad.net/bugs/1943937: >-
     Known RabbitMQ issue where queues get stuck and clients
     trying to use them will just keep timing out. This stops
     many services in the cloud from working correctly.

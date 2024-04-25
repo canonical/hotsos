@@ -52,6 +52,7 @@ data-root:
       nova-comp 49287      114  mem       REG                9,1        68512      33561 /usr/lib/x86_64-linux-gnu/libavahi-client.so.3.2.9
       nova-comp 49287      114   21u     IPv4            2914832          0t0        TCP 192.168.2.24:46064->192.168.2.45:5673 (ESTABLISHED)
       sosreport 67605        0    5r     FIFO               0,12          0t0  289262208 pipe
+    # yamllint disable rule:trailing-spaces
     proc/net/netlink: |
       sk               Eth Pid        Groups   Rmem     Wmem     Dump  Locks    Drops    Inode
       0000000000000000 0   23984      00000113 0        0        0     2        0        129906  
@@ -64,6 +65,7 @@ data-root:
       0000000000000000 0   10542      00000113 0        0        0     2        0        114127  
       0000000000000000 0   2199       000405d1 0        0        0     2        1        34703   
       0000000000000000 0   3426       00000440 0        0        0     2        0        89397 
+    # yamllint enable rule:trailing-spaces
 raised-issues:
   NetworkWarning: >-
     This host is reporting dropped packets for the following netlink sockets:

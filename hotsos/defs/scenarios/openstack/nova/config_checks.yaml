@@ -10,11 +10,11 @@ checks:
           - key: rx_queue_size
             section: libvirt
             ops: [[ge, 1024]]
-            allow-unset: False
+            allow-unset: false
           - key: tx_queue_size
             section: libvirt
             ops: [[ge, 1024]]
-            allow-unset: False
+            allow-unset: false
 conclusions:
   nova-dpdk-config-not-valid:
     decision:

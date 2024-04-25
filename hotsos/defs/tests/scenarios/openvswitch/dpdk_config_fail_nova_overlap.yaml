@@ -22,4 +22,3 @@ raised-issues:
     Nova cpu_dedicated_set ([5-10,16-25,44-63]) or cpu_shared_set ([11-15]).
     This will lead to performance degradation due to contention
     between Poll Mode Driver threads and the Nova instances.
-

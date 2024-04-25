@@ -12,10 +12,10 @@ vars:
   scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
-     # can we actually see the setting
-     - varops: [[$scaling_governor], [ne, unknown]]
-     # does it have the expected value
-     - varops: [[$scaling_governor], [ne, performance]]
+    # can we actually see the setting
+    - varops: [[$scaling_governor], [ne, unknown]]
+    # does it have the expected value
+    - varops: [[$scaling_governor], [ne, performance]]
   kubernetes_installed:
     - snap: kubelet
     # ignore if not running on metal

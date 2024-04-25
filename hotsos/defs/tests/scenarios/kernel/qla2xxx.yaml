@@ -4,7 +4,7 @@ data-root:
       Aug 25 15:01:20 tatoonie kernel: qla2xxx [0000:04:00.0]-0122:1: skipping scsi_scan_host() for non-initiator port
       Aug 25 15:01:22 tatoonie kernel: qla2xxx [0000:04:00.1]-0122:10: skipping scsi_scan_host() for non-initiator port
   copy-from-original:
-   - sos_commands/date/date
+    - sos_commands/date/date
 raised-issues:
   KernelWarning: >-
     The qla2xxx driver did not perform SCSI scan on host/port
