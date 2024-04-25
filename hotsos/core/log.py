@@ -26,7 +26,7 @@ class LoggingManager(object):
 
     @property
     def _format(self):
-        return ("%(asctime)s.%(msecs)03d %(process)d %(levelname)s %(name)s "
+        return ("%(asctime)s %(process)d %(levelname)s %(name)s "
                 "[-] %(message)s")
 
     @cached_property
