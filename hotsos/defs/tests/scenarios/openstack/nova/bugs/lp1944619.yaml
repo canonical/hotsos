@@ -1,0 +1,13 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2023-09-22 18:53:30.962 1910783 INFO nova.virt.libvirt.driver [-] Attaching vif 3a3329b5-d123-4009-a152-3e1ed33bd15f to instance 1
+      2023-09-22 18:53:31.253 1910783 INFO os_vif [-] Successfully plugged vif VIFHostDevice(active=True,address=fa:16:3e:4d:86:24,dev_address=0000:03:04.1,dev_type='ethernet',has_traffic_filtering=True,id=3a3329b5-d123-4009-a152-3e1ed33bd15f,network=Network(725fffcf-f6bf-4e6f-8430-ca2536311805),plugin='ovs',port_profile=VIFPortProfileOVSRepresentor,preserve_on_delete=True)
+      2023-09-22 18:53:31.267 1910783 ERROR nova.virt.libvirt.driver [-] [instance: de492a45-6498-4313-be8d-9961c53f78d9] attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device 0000:03:04.1 is in use by driver QEMU, domain instance-00000001
+      2023-09-22 18:53:31.267 1910783 ERROR nova.virt.libvirt.driver [instance: de492a45-6498-4313-be8d-9961c53f78d9]
+      2023-09-22 18:53:31.267 1910783 ERROR nova.virt.libvirt.driver [instance: de492a45-6498-4313-be8d-9961c53f78d9]
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1944619: >-
+   known nova bug identified
