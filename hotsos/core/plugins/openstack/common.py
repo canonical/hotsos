@@ -91,8 +91,14 @@ class OpenstackBase(object):
             # scenario check.
             return relnames[0]
 
-        relname = 'unknown'
+        relpath = os.path.join(HotSOSConfig.data_root,
+                               'etc/openstack-release')
+        # this exists as of Jammy/Yoga
+        if os.path.exists(relpath):
+            with open(relpath) as fd:
+                return fd.read().partition('=')[2]
 
+        relname = 'unknown'
         # fallback to uca version if exists
         if not os.path.exists(self.apt_source_path):
             return relname

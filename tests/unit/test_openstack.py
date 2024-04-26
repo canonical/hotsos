@@ -339,6 +339,13 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         base = openstack_core.OpenstackChecksBase()
         self.assertEqual(base.release_name, 'ussuri')
 
+    @utils.create_data_root({'etc/openstack-release':
+                             'OPENSTACK_CODENAME=yoga'})
+    def test_release_name_from_file(self):
+        base = openstack_core.OpenstackChecksBase()
+        with mock.patch.object(base, 'installed_pkg_release_names', None):
+            self.assertEqual(base.release_name, 'yoga')
+
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
     def test_get_release_eol(self, mock_date):
         # 2030-04-30
