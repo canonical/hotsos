@@ -1,0 +1,11 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2023-03-30 12:43:47.278 7 ERROR oslo_messaging.rpc.server NotImplementedError: Cannot load 'vif_type' in the base class
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-common                          2:20.1.1-0ubuntu1.1~cloud0                                    all          OpenStack Compute - common files
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1888395: >-
+    known nova bug identified
