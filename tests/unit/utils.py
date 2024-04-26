@@ -76,15 +76,19 @@ class TemplatedTest(object):
                  expected_issues, sub_root):
         self.sub_root = sub_root
         self.target_path = target_path
-        if not os.path.exists(os.path.join(DEFS_DIR,
-                                           self.sub_root,
-                                           self.target_path)):
-            raise FileNotFoundError(f"Scenario file {self.target_path}"
+
+        if not os.path.exists(self.target_scenario_path):
+            raise FileNotFoundError("Scenario file "
+                                    f"{self.target_scenario_path}"
                                     " not found!")
         self.data_root = data_root
         self.mocks = mocks
         self.expected_bugs = expected_bugs
         self.expected_issues = expected_issues
+
+    @property
+    def target_scenario_path(self):
+        return os.path.join(DEFS_DIR, self.sub_root, self.target_path)
 
     def check_raised_bugs(self, test_inst, expected, actual):
         """
@@ -226,6 +230,7 @@ class TemplatedTestGenerator(object):
     @property
     def target_path(self):
         """ Target path with filename replaced with target-name if provided."""
+
         if self.testdef.get('target-name'):
             return os.path.join(os.path.dirname(self.test_sub_path),
                                 self.testdef.get('target-name'))
@@ -240,7 +245,7 @@ class TemplatedTestGenerator(object):
         chars_to_replace = ('/', '.')
         for char in chars_to_replace:
             name = name.replace(char, replace_char)
-        return 'test_{}'.format(name)
+        return 'test_yscenario_{}'.format(name)
 
     def _generate(self):
         """ Generate a test from a template. """
