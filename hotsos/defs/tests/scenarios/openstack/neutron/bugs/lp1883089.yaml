@@ -1,0 +1,16 @@
+data-root:
+  files:
+    var/log/neutron/neutron-l3-agent.log: |
+      2023-06-11 15:39:28.361 1285214 INFO neutron.db.l3_dvr_db [None req-d6a41187-2495-46bf-a424-ab7195c0ecb1 - - - - -] Floating IP Agent Gateway port for network 3fcb7702-ae0b-46b4-807f-8ae94d656dd3 does not exist on host host-compute-1. Creating one.
+      2023-06-11 15:39:28.370 1285214 DEBUG neutron.db.l3_dvr_db [None req-d6a41187-2495-46bf-a424-ab7195c0ecb1 - - - - -] Floating IP Agent Gateway port for network 3fcb7702-ae0b-46b4-807f-8ae94d656dd3 already exists on host host-compute-1. Probably it was just created by other worker. create_fip_agent_gw_port_if_not_exists /usr/lib/python2.7/site-packages/neutron/db/l3_dvr_db.py:927
+      2023-06-11 15:39:28.390 1285214 DEBUG neutron.db.l3_dvr_db [None req-d6a41187-2495-46bf-a424-ab7195c0ecb1 - - - - -] Floating IP Agent Gateway port None found for the destination host: host-compute-1 create_fip_agent_gw_port_if_not_exists /usr/lib/python2.7/site-packages/neutron/db/l3_dvr_db.py:933
+      2023-06-11 15:39:28.391 1285214 ERROR oslo_messaging.rpc.server [None req-d6a41187-2495-46bf-a424-ab7195c0ecb1 - - - - -] Exception during message handling: AttributeError: 'NoneType' object has no attribute 'get'
+      2023-06-11 15:39:28.391 1285214 ERROR oslo_messaging.rpc.server Traceback (most recent call last):
+      2023-06-11 15:39:28.391 1285214 ERROR oslo_messaging.rpc.server   File "/usr/lib/python2.7/site-packages/oslo_messaging/rpc/server.py", line 170, in _process_incoming
+      2023-06-11 15:39:28.391 1285214 ERROR oslo_messaging.rpc.server     res = self.dispatcher.dispatch(message)
+      2023-06-11 15:39:28.391 1285214 ERROR oslo_messaging.rpc.server   File "/usr/lib/python2.7/site-packages/oslo_messaging/rpc/dispatcher.py", line 220, in dispatch
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1883089: >-
+    Known neutron l3-agent bug identified that affects dvr floating ips.
