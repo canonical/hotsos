@@ -1,0 +1,11 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2023-01-24 01:05:42.317 1214121 ERROR nova.virt.libvirt.driver [req-78337918-e580-4b64-ac73-227fb24c19b2 7a5e20f2d1fc4af18f959a4666c2265c b07f32d8f1f84ba7bbe821ee7fa4f09a - f750199c451f432f9d615a147744f4f5 f750199c451f432f9d615a147744f4f5] [instance: 3c70bf83-694d-4bff-a2c9-c6d50cf15c62] Live Migration failure: operation failed: Failed to connect to remote libvirt URI qemu+ssh://10.35.102.62/system: Cannot recv data: Host key verification failed.: Connection reset by peer: libvirtError: operation failed: Failed to connect to remote libvirt URI qemu+ssh://10.35.102.62/system: Cannot recv data: Host key verification failed.: Connection reset by peer
+      2023-01-24 01:05:42.399 1214121 ERROR nova.virt.libvirt.driver [req-78337918-e580-4b64-ac73-227fb24c19b2 7a5e20f2d1fc4af18f959a4666c2265c b07f32d8f1f84ba7bbe821ee7fa4f09a - f750199c451f432f9d615a147744f4f5 f750199c451f432f9d615a147744f4f5] [instance: 3c70bf83-694d-4bff-a2c9-c6d50cf15c62] Migration operation has aborted
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1860743: >-
+   known nova compute charm bug identified which affects live migrations
+   with cached keys
