@@ -1,0 +1,17 @@
+target-name: lp1980211.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-ovn-metadata-agent.log: |
+      2024-03-15 00:01:55.759 5331 ERROR neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn ValueError: non-zero flags not allowed in calls to send() on <class 'eventlet.green.ssl.GreenSSLSocket'>
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-openvswitch 2.17.0 amd64
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1980211: >-
+    Installed package 'python3-openvswitch' with version
+    2.17.0 has a known bug whereby if connections to the ovn
+    southbound db are closed, the client fails to reconnect.
+    This is usually resolved with a service restart and a
+    fix is available as of openvswitch version 2.17.2.
