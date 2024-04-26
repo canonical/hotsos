@@ -43,6 +43,9 @@ jobs:
     - name: Run bashate
       run: tox -e bashate
       if: matrix.python-version == '3.10'
+    - name: Run yamllint
+      run: tox -e yamllint
+      if: matrix.python-version == '3.10'
     - name: Run functional
       run: tox -e functional
       if: matrix.python-version == '3.10'
