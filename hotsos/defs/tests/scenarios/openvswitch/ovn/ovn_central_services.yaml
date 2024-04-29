@@ -1,0 +1,19 @@
+data-root:
+  files:
+    # yamllint disable rule:trailing-spaces
+    sos_commands/systemd/systemctl_list-unit-files: |
+      ovn-central.service                        enabled         enabled      
+      ovn-nb-ovsdb.service                       enabled         enabled      
+      ovn-northd.service                         static          enabled      
+      ovn-ovsdb-server-nb.service                enabled         enabled      
+      ovn-ovsdb-server-sb.service                enabled         enabled      
+      ovn-sb-ovsdb.service                       enabled         enabled 
+    # yamllint enable rule:trailing-spaces
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-central                     20.03.2-0ubuntu0.20.04.4          amd64        OVN central components
+      ii  ovn-common                      20.03.2-0ubuntu0.20.04.4          amd64        OVN common components
+raised-issues:
+  OVNError: >-
+    The ovn-northd service on this ovn-central host is not active/running
+    which means that changes made to the northbound database are not
+    being ported to the southbound database.

@@ -1,0 +1,24 @@
+target-name: ovn_central_services.yaml
+data-root:
+  files:
+    # yamllint disable rule:trailing-spaces
+    sos_commands/systemd/systemctl_list-unit-files: |
+      ovn-central.service                        enabled         enabled      
+      ovn-nb-ovsdb.service                       enabled         enabled      
+      ovn-northd.service                         static          enabled      
+      ovn-ovsdb-server-nb.service                enabled         enabled      
+      ovn-ovsdb-server-sb.service                enabled         enabled      
+      ovn-sb-ovsdb.service                       enabled         enabled 
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-central                     20.03.2-0ubuntu0.20.04.4          amd64        OVN central components
+      ii  ovn-common                      20.03.2-0ubuntu0.20.04.4          amd64        OVN common components
+    sys/fs/cgroup/system.slice/ovn-northd.service/cgroup.procs: |
+      1234567
+    ps: |
+      root      284990  0.0  0.0   7428   628 pts/1    -    11:34   0:00 timeout --foreground 300s ovn-sbctl --no-leader-only lflow-list
+      root      284991  0.0  0.0  12620  5052 pts/1    -    11:34   0:00 ovn-sbctl --no-leader-only lflow-list
+      root     3336403  2.3  0.0 261576 106664 ?       -     2023 3045:14 ovsdb-server -vconsole:off -vfile:info --log-file=/var/log/ovn/ovsdb-server-nb.log --remote=punix:/var/run/ovn/ovnnb_db.sock --pidfile=/var/run/ovn/ovnnb_db.pid --unixctl=/var/run/ovn/ovnnb_db.ctl --remote=db:OVN_Northbound,NB_Global,connections --private-key=/etc/ovn/key_host --certificate=/etc/ovn/cert_host --ca-cert=/etc/ovn/ovn-central.crt --ssl-protocols=db:OVN_Northbound,SSL,ssl_protocols --ssl-ciphers=db:OVN_Northbound,SSL,ssl_ciphers /var/lib/ovn/ovnnb_db.db
+      root     3336407  3.0  0.1 575388 402392 ?       -     2023 3835:12 ovsdb-server -vconsole:off -vfile:info --log-file=/var/log/ovn/ovsdb-server-sb.log --remote=punix:/var/run/ovn/ovnsb_db.sock --pidfile=/var/run/ovn/ovnsb_db.pid --unixctl=/var/run/ovn/ovnsb_db.ctl --remote=db:OVN_Southbound,SB_Global,connections --private-key=/etc/ovn/key_host --certificate=/etc/ovn/cert_host --ca-cert=/etc/ovn/ovn-central.crt --ssl-protocols=db:OVN_Southbound,SSL,ssl_protocols --ssl-ciphers=db:OVN_Southbound,SSL,ssl_ciphers /var/lib/ovn/ovnsb_db.db
+      root     1234567  3.4  0.0 449884 292956 ?       -     2023 4341:09 ovn-northd -vconsole:emer -vsyslog:err -vfile:info --ovnnb-db=ssl:10.217.240.187:6641,ssl:10.217.241.226:6641,ssl:10.217.240.121:6641 --ovnsb-db=ssl:10.217.240.187:16642,ssl:10.217.241.226:16642,ssl:10.217.240.121:16642 -c /etc/ovn/cert_host -C /etc/ovn/ovn-central.crt -p /etc/ovn/key_host --no-chdir --log-file=/var/log/ovn/ovn-northd.log --pidfile=/var/run/ovn/ovn-northd.pid --detach
+    # yamllint enable rule:trailing-spaces
+raised-issues:  # none expected
