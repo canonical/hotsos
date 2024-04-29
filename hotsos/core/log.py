@@ -48,17 +48,11 @@ class LoggingManager(object):
                 logger.removeHandler(logger.handlers[0])
 
             logger.addHandler(self._handler)
-            if HotSOSConfig.debug_mode:
-                level = HotSOSConfig.debug_log_levels.get(dep, 'WARNING')
-                logger.setLevel(level=level)
+            level = HotSOSConfig.debug_log_levels.get(dep, 'WARNING')
+            logger.setLevel(level=level)
 
-    def start(self, level=None):
-        if level is None and HotSOSConfig.debug_mode:
-            level = logging.DEBUG
-
-        if level is not None:
-            log.setLevel(level)
-
+    def start(self, level=logging.DEBUG):
+        log.setLevel(level)
         if log.hasHandlers():
             return
 

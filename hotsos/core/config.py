@@ -85,7 +85,8 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
                            description='Version of hotsos being run.',
                            default_value=None, value_type=str))
         self.add(ConfigOpt(name='debug_mode',
-                           description='Set to True to enable debug logging',
+                           description='Set to True to enable debug logging '
+                                       'to standard output',
                            default_value=False, value_type=bool))
         self.add(ConfigOpt(name='plugin_yaml_defs',
                            description='Path to yaml-defined checks.',

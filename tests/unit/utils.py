@@ -424,9 +424,7 @@ class BaseTestCase(unittest.TestCase):
                               'plugin_tmp_dir': None,
                               'use_all_logs': True,
                               'machine_readable': True,
-                              'debug_mode': True,
-                              'debug_log_levels': {'propertree': 'WARNING',
-                                                   'searchkit': 'INFO'}}
+                              'debug_mode': True}
 
     def part_output_to_actual(self, output):
         actual = {}
@@ -450,6 +448,7 @@ class BaseTestCase(unittest.TestCase):
         if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') == 'yes':
             LoggingManager().start()
         else:
+            HotSOSConfig.debug_log_levels['searchkit'] = 'WARNING'
             LoggingManager().start(level=logging.WARNING)
 
     def _addDuration(self, *args, **kwargs):  # For Python >= 3.12
