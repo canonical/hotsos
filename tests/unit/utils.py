@@ -424,7 +424,9 @@ class BaseTestCase(unittest.TestCase):
                               'plugin_tmp_dir': None,
                               'use_all_logs': True,
                               'machine_readable': True,
-                              'debug_mode': True}
+                              'debug_mode': True,
+                              'debug_log_levels': {'propertree': 'WARNING',
+                                                   'searchkit': 'INFO'}}
 
     def part_output_to_actual(self, output):
         actual = {}
@@ -446,7 +448,7 @@ class BaseTestCase(unittest.TestCase):
             HotSOSConfig.plugin_tmp_dir = self.plugin_tmp_dir
 
         if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') == 'yes':
-            LoggingManager().start(level=logging.DEBUG)
+            LoggingManager().start()
         else:
             LoggingManager().start(level=logging.WARNING)
 
