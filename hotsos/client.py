@@ -213,10 +213,7 @@ class HotSOSClient(object):
         all will be run.
         """
         self._summary = OutputManager()
-        if plugins:
-            self.plugins = plugins
-        else:
-            self.plugins = plugintools.PLUGINS.keys()
+        self.plugins = plugins or plugintools.PLUGINS.keys()
 
     def setup_global_env(self):
         """ State saved here persists across all plugin runs. """

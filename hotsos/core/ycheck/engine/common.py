@@ -87,15 +87,5 @@ class YHandlerBase(object):
         """
 
     @abc.abstractmethod
-    def load(self):
-        """
-        Load definitions from yaml in preparation for them to be processed.
-        """
-
-    @abc.abstractmethod
     def run(self):
         """ Process operations. """
-
-    @abc.abstractmethod
-    def load_and_run(self):
-        """ Load and run. """

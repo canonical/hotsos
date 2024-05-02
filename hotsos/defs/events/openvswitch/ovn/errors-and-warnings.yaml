@@ -3,19 +3,19 @@ ovsdb-server-sb:
   input:
     path: 'var/log/ovn/ovsdb-server-sb.log'
   hint: '(ERR|WARN|EMER)'
-  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)\|.+'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)'
 ovsdb-server-nb:
   input:
     path: 'var/log/ovn/ovsdb-server-nb.log'
   hint: '(ERR|WARN|EMER)'
-  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)\|.+'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)'
 ovn-northd:
   input:
     path: 'var/log/ovn/ovn-northd.log'
   hint: '(ERR|WARN|EMER)'
-  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)\|.+'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)'
 ovn-controller:
   input:
     path: 'var/log/ovn/ovn-controller.log'
   hint: '(ERR|WARN|EMER)'
-  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)\|.+'
+  expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)'

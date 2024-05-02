@@ -18,7 +18,5 @@ inactivity-probe:
 involuntary-context-switches:
   # we capture date and hour as subgroups
   expr: '([\d-]+)T(\d+):[\d:]+\.\d+Z.+\|timeval\|WARN\|context switches: 0 voluntary, (\d+) involuntary'
-  hint: timeval
 assertion-failures:
   expr: '([\d-]+)T[\d:]+\.\d+Z.+\|util.+\|EMER\|\S+: assertion '
-  hint: assertion

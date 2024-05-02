@@ -121,4 +121,4 @@ class CephEventHandler(CephChecksBase, EventHandlerBase):
     @property
     def summary(self):
         # mainline all results into summary root
-        return self.load_and_run()
+        return self.run()

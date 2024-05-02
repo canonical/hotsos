@@ -347,10 +347,9 @@ class L3HACallback(OpenstackEventCallbackBase):
             return {'transitions': transitions}, 'keepalived'
 
 
-class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
-    event_group = 'neutron.ml2-routers'
+class NeutronL3HAEventCheckJournalCtl(object):
 
-    def journalctl_args(self):
+    def args(self):
         """ Args callback for event cli command """
         args = []
         kwargs = {'unit': 'neutron-l3-agent'}
@@ -358,6 +357,10 @@ class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
             kwargs['date'] = CLIHelper().date(format="--iso-8601")
 
         return args, kwargs
+
+
+class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
+    event_group = 'neutron.ml2-routers'
 
     def __109_summary_neutron_l3ha(self):
         return self.final_event_results
@@ -374,9 +377,6 @@ class AgentEventChecks(OpenstackChecksBase):
         searcher = FileSearcher(constraint=SearchConstraintSearchSince(
                                         ts_matcher_cls=CommonTimestampMatcher))
         check_objs = [c(searcher=searcher) for c in checks]
-        for check in check_objs:
-            check.load()
-
         results = searcher.run()
         _final_results = {}
         for check in check_objs:

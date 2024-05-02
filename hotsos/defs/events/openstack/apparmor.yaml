@@ -10,8 +10,8 @@ denials:
   # day (\d{1,2}), time ([\d:]+) and key (\S+neutron\S+) separated for
   # grouping. See AgentApparmorChecks class for more details.
   nova:
-    expr: '(\w{3,5})\s+(\d{1,2})\s+([\d:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"\s+.+'
+    expr: '(\w{3,5})\s+(\d{1,2})\s+([\d:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+nova\S+)"'
     hint: apparmor
   neutron:
-    expr: '(\w{3,5})\s+(\d{1,2})\s+([\d:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"\s+.+'
+    expr: '(\w{3,5})\s+(\d{1,2})\s+([\d:]+)\s+.+apparmor="DENIED".+\s+profile="(\S+neutron\S+)"'
     hint: apparmor

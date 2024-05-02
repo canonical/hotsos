@@ -633,7 +633,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                         format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': 'hello x\n'})
     def test_yaml_def_expr_list(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 3)
         i_types = [i['type'] for i in issues[0]]
@@ -649,7 +649,7 @@ class TestYamlScenarios(utils.BaseTestCase):
     @utils.create_data_root({'data.txt': ("blah blah\nit's the start\nblah "
                                           "blah\nit's the end")})
     def test_yaml_def_seq_search(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 1)
         i_types = [i['type'] for i in issues[0]]
@@ -673,7 +673,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                 self.assertFalse(check.result)
 
         # now run the scenarios
-        checker.load_and_run()
+        checker.run(load=False)
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
@@ -701,7 +701,7 @@ class TestYamlScenarios(utils.BaseTestCase):
         self.assertEqual(checked, 4)
 
         # now run the scenarios
-        checker.load_and_run()
+        checker.run(load=False)
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
@@ -726,7 +726,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                     self.assertTrue(check.result)
 
         # now run the scenarios
-        checker.run()
+        checker.run(load=False)
 
         msg = ("log matched 4 times (00:00:00.000, 00:32:00.000, "
                "00:33:00.000, 00:36:00.000)")
@@ -795,7 +795,7 @@ class TestYamlScenarios(utils.BaseTestCase):
 
     @init_test_scenario(YDEF_NESTED_LOGIC)
     def test_yaml_def_nested_logic(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['message'] for issue in issues]),
                          sorted(['conc1', 'conc3']))
@@ -819,7 +819,7 @@ class TestYamlScenarios(utils.BaseTestCase):
     @init_test_scenario(SCENARIO_W_ERROR)
     def test_failed_scenario_caught(self, mock_log1, mock_log2, _mock_log3,
                                     mock_log4, mock_log5, mock_log6):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
 
         # Check caught exception logs
         args = ('failed to import and call property %s',
@@ -856,7 +856,7 @@ class TestYamlScenarios(utils.BaseTestCase):
     @init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
     def test_config_scenario_fail(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['message'] for issue in issues],
                          ['cfg is bad', 'cfg is bad2'])
@@ -864,7 +864,7 @@ class TestYamlScenarios(utils.BaseTestCase):
     @init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 102\n'})
     def test_config_scenario_pass(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
@@ -875,7 +875,7 @@ class TestYamlScenarios(utils.BaseTestCase):
     @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
     def test_raises_w_invalid_types(self, mock_exc, mock_log, mock_log2):
         mock_exc.side_effect = Exception
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
 
         # Check caught exception logs
         args = ('caught exception when running scenario %s:', 'scenarioD')
@@ -901,7 +901,7 @@ class TestYamlScenarios(utils.BaseTestCase):
 
     @init_test_scenario(VARS)
     def test_vars(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 4)
         msgs = []
@@ -926,7 +926,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                                               _mock_log3, mock_log4,
                                               mock_log5, mock_log6,
                                               _mock_log7):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         expected = [
             (mock_log1,
              ('failed to import and call property %s',
@@ -962,13 +962,13 @@ class TestYamlScenarios(utils.BaseTestCase):
 
     @init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
     def test_logical_collection_nested_no_issue(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
     @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE)
     def test_logical_collection_nested_w_issue(self):
-        scenarios.YScenarioChecker().load_and_run()
+        scenarios.YScenarioChecker().run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
 
@@ -1006,7 +1006,7 @@ class TestYamlScenarios(utils.BaseTestCase):
         OverrideRegistry.unregister([YPropertyConclusion])
         try:
             OverrideRegistry.register([YPropertyConclusionTest])
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
         finally:
             OverrideRegistry.unregister([YPropertyConclusionTest])
             OverrideRegistry.register([YPropertyConclusion])
@@ -1027,7 +1027,7 @@ class TestYamlScenarios(utils.BaseTestCase):
         OverrideRegistry.unregister([YPropertyConclusion])
         try:
             OverrideRegistry.register([YPropertyConclusionTest])
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
         finally:
             OverrideRegistry.unregister([YPropertyConclusionTest])
             OverrideRegistry.register([YPropertyConclusion])

@@ -8,6 +8,6 @@ input:
 # Supported events - https://docs.openstack.org/api-ref/compute/?expanded=run-events-detail#create-external-events-os-server-external-events
 events:
   network-changed:
-    expr: '[\d-]+ [\d:]+\.\d{3} .+\[instance: (\S+)\].+Received event (network-changed)-(\S+)\s+'
+    expr: '[\d-]+ [\d:]+\.\d{3} .+\[instance: (\S+)\].+Received event network-changed-(\S+)'
   network-vif-plugged:
-    expr: '[\d-]+ [\d:]+\.\d{3} .+\[instance: (\S+)\].+Preparing to wait for external event (network-vif-plugged)-(\S+)\s+'
+    expr: '[\d-]+ [\d:]+\.\d{3} .+\[instance: (\S+)\].+Preparing to wait for external event network-vif-plugged-(\S+)'

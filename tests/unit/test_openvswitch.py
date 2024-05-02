@@ -511,7 +511,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                         self.processes[svc] = 1
 
         mock_systemd.side_effect = FakeSystemdHelper
-        YScenarioChecker().load_and_run()
+        YScenarioChecker().run()
         msg = ('The ovn-northd service on this ovn-central host is not '
                'active/running which means that changes made to the '
                'northbound database are not being ported to the southbound '
@@ -544,7 +544,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
 
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().load_and_run()
+            YScenarioChecker().run()
             issues = list(IssuesStore().load().values())
             self.assertEqual(len(issues), 0)
 
@@ -573,7 +573,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
 
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().load_and_run()
+            YScenarioChecker().run()
             msg = ("One or more of services ovn-northd, ovn-ovsdb-server-nb "
                    "and ovn-ovsdb-server-sb has not been restarted since ssl "
                    "certs were updated and this may breaking their ability to "
@@ -601,7 +601,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                     FakeSystemdService('ovn-controller', 'enabled')}
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().load_and_run()
+            YScenarioChecker().run()
             issues = list(IssuesStore().load().values())
             self.assertEqual(len(issues), 0)
 
@@ -625,7 +625,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                     FakeSystemdService('ovn-controller', 'enabled')}
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().load_and_run()
+            YScenarioChecker().run()
             msg = ("ovn-controller has not been restarted since ssl certs "
                    "were updated so may be using old certs. Please check.")
             issues = list(IssuesStore().load().values())[0]

@@ -60,6 +60,6 @@ class OpenvSwitchEventHandlerBase(OpenvSwitchChecksBase, EventHandlerBase):
     @property
     def summary(self):
         # mainline all results into summary root
-        ret = self.load_and_run()
+        ret = self.run()
         if ret:
             return sorted_dict(ret)

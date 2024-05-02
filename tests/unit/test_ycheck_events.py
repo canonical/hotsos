@@ -51,15 +51,14 @@ pluginX:
 """
 
 EVENT_DEF_SIMPLE = r"""
-myplugin:
-  myeventgroup:
-    input:
-      path: a/path
-    myeventsubgroup:
-      event1:
-        expr: 'event1'
-      event2:
-        expr: 'event2'
+myeventgroup:
+  input:
+    path: a/path
+  myeventsubgroup:
+    event1:
+      expr: 'event1'
+    event2:
+      expr: 'event2'
 """  # noqa
 
 EVENT_DEF_MULTI_SEARCH = r"""
@@ -183,7 +182,7 @@ class TestYamlEvents(utils.BaseTestCase):
             def event_group(self):
                 return 'mygroup'
 
-        MyEventHandler().load_and_run()
+        MyEventHandler().run()
         self.assertEqual(match_count['count'], 3)
         self.assertEqual(list(callbacks_called.keys()),
                          ['my-sequence-search',
@@ -204,9 +203,10 @@ class TestYamlEvents(utils.BaseTestCase):
                 return 'mygroup'
 
         with self.assertRaises(EventCallbackNotFound):
-            MyEventHandler().load_and_run()
+            MyEventHandler().run()
 
-    @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE})
+    @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE,
+                             'a/path': 'content'})
     def test_events_filter_none(self):
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
         HotSOSConfig.plugin_name = 'myplugin'
@@ -217,22 +217,22 @@ class TestYamlEvents(utils.BaseTestCase):
             def event_group(self):
                 return 'mygroup'
 
-        prefix = 'mygroup.myplugin.myeventgroup.myeventsubgroup'
         defs = {'myeventsubgroup': {
-                    'event1': {
-                        'passthrough': False,
-                        'sequence': None,
-                        'tag': prefix + '.event1.search'},
-                    'event2': {
-                        'passthrough': False,
-                        'sequence': None,
-                        'tag': prefix + '.event2.search'}}}
-        self.assertEqual(MyEventHandler().event_definitions, defs)
+                    'event1': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
+                               'event1'),
+                    'event2': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
+                               'event2')}}
 
-    @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE})
+        handler = MyEventHandler()
+        self.assertEqual(handler.events, defs)
+        self.assertEqual(len(handler.searcher.catalog), 1)
+
+    @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE,
+                             'a/path': 'content'})
     def test_events_filter_event2(self):
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
-        HotSOSConfig.event_filter = 'myplugin.myeventsubgroup.event2'
+        HotSOSConfig.event_filter = ('myplugin.mygroup.myeventgroup.'
+                                     'myeventsubgroup.event2')
         HotSOSConfig.plugin_name = 'myplugin'
 
         class MyEventHandler(EventHandlerBase):
@@ -241,15 +241,15 @@ class TestYamlEvents(utils.BaseTestCase):
             def event_group(self):
                 return 'mygroup'
 
-        prefix = 'mygroup.myplugin.myeventgroup.myeventsubgroup'
         defs = {'myeventsubgroup': {
-                    'event2': {
-                        'passthrough': False,
-                        'sequence': None,
-                        'tag': prefix + '.event2.search'}}}
-        self.assertEqual(MyEventHandler().event_definitions, defs)
+                    'event2': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
+                               'event2')}}
+        handler = MyEventHandler()
+        self.assertEqual(handler.events, defs)
+        self.assertEqual(len(handler.searcher.catalog), 1)
 
-    @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE})
+    @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE,
+                             'a/path': 'content'})
     def test_events_filter_nonexistent(self):
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
         HotSOSConfig.event_filter = 'blahblah'
@@ -262,4 +262,6 @@ class TestYamlEvents(utils.BaseTestCase):
                 return 'mygroup'
 
         defs = {}
-        self.assertEqual(MyEventHandler().event_definitions, defs)
+        handler = MyEventHandler()
+        self.assertEqual(handler.events, defs)
+        self.assertEqual(len(handler.searcher.catalog), 0)

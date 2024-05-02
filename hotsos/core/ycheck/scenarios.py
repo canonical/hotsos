@@ -137,7 +137,10 @@ class YScenarioChecker(YHandlerBase):
         else:
             log.debug("no conclusions reached")
 
-    def run(self):
+    def run(self, load=True):
+        if load:
+            self.load()
+
         failed_scenarios = []
         issue_mgr = IssuesManager()
         for scenario in self.scenarios:
@@ -155,7 +158,3 @@ class YScenarioChecker(YHandlerBase):
                    "debug mode (--debug) to get more detail".
                    format(', '.join(failed_scenarios)))
             issue_mgr.add(HotSOSScenariosWarning(msg))
-
-    def load_and_run(self):
-        self.load()
-        return self.run()

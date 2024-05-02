@@ -36,14 +36,14 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
         s = FileSearcher(constraint=c)
         for result in event.results:
             instance_id = result.get(1)
-            event_id = result.get(3)
+            event_id = result.get(2)
             result_path = event.searcher.resolve_source_id(result.source_id)
             events[event_id] = {'instance_id': instance_id,
                                 'data_source': result_path}
 
             for stage in EXT_EVENT_META[event.name]['stages_keys']:
-                expr = (r".+\[instance: {}\]\s+{}\s.*\s?event\s+{}-{}.? "
-                        ".+".
+                expr = (r"[\d-]+ [\d:]+\.\d{{3}} .+\[instance: {}\]"
+                        r"\s+{}\s.*\s?event\s+{}-{}.?".
                         format(instance_id, stage, event.name, event_id))
                 tag = "{}_{}_{}".format(instance_id, event_id, stage)
                 sd = SearchDef(expr, tag, hint=event.name,
@@ -84,4 +84,4 @@ class NovaExternalEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 1
 
     def __8_summary_os_server_external_events(self):
-        return self.load_and_run()
+        return self.run()
