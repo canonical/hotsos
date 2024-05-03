@@ -86,13 +86,10 @@ class TestCLI(utils.BaseTestCase):
         self.assertEqual(repo_info, 'some version')
 
     def test_get_repo_info_pypi(self):
-        with tempfile.TemporaryDirectory() as workdir:
-            f_repo_info = os.path.join(workdir, 'repo-info')
-            with open(f_repo_info, 'w', encoding='utf-8') as fd:
-                fd.write('some version\n')
-
-            with mock.patch('importlib.resources.path') as path:
-                path.return_value.__enter__.return_value = f_repo_info
-                repo_info = hotsos.cli.get_repo_info()
+        with mock.patch("importlib.resources.files") as mock_files:
+            joinpath = mock_files.return_value.joinpath
+            joinpath_rv = joinpath.return_value
+            joinpath_rv.read_text.return_value = "some version"
+            repo_info = hotsos.cli.get_repo_info()
 
         self.assertEqual(repo_info, 'some version')

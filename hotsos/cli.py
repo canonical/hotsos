@@ -63,10 +63,9 @@ def get_repo_info():
             return fd.read().strip()
 
     # pypi
-    with resources.path('hotsos', '.repo-info') as repo_info:
-        if repo_info and os.path.exists(repo_info):
-            with open(repo_info) as fd:
-                return fd.read().strip()
+    repo_info = resources.files("hotsos").joinpath(".repo_info")
+    if repo_info.exists():
+        return repo_info.read_text().strip()
 
     try:
         out = subprocess.check_output(['git', '-C', get_hotsos_root(),
