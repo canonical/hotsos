@@ -1,0 +1,10 @@
+[run]
+branch = True
+source = hotsos
+omit = tests/*
+
+[report]
+ignore_errors = True
+skip_empty = True
+precision = 2
+fail_under = 84
