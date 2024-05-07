@@ -9,12 +9,14 @@ conclusions:
     raises:
       type: CephWarning
       message: >-
-        Large omap objects found in pgs '{large_omap_pgs}'.
+        Large OMAP objects found in pgs '{large_omap_pgs}'.
         This is usually resolved by deep-scrubbing the pgs. Check config
         options 'osd_deep_scrub_large_omap_object_key_threshold' and
         'osd_deep_scrub_large_omap_object_value_sum_threshold' to find whether
         the values of these keys are too high. See
-        https://canonical.lightning.force.com/lightning/r/Knowledge__kav/ka43z000000PMdJAAW/view
+        https://portal.support.canonical.com/ua/s/article/What-are-large-OMAP-objects-and-how-to-handle-them
         for more info.
+        If the large OMAP objects are reported from a pool used by OpenStack Gnocchi,
+        it may need tuning: https://portal.support.canonical.com/ua/s/article/Gnocchi-causing-large-OMAP-objects-in-a-Ceph-cluster
       format-dict:
         large_omap_pgs: hotsos.core.plugins.storage.ceph.CephCluster.large_omap_pgs_str
