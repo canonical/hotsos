@@ -1,0 +1,9 @@
+data-root:
+  files:
+    sos_commands/snap/snap_list_--all: |
+      pebble             v1.10.2          646    latest/stable  canonical**  classic
+raised-bugs:
+  https://www.cve.org/CVERecord?id=CVE-2024-3250: >-
+    This host is running a version of Pebble (646) that is
+    affected by a known security vulnerability. Please upgrade
+    to the latest version to get the fix.

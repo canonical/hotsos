@@ -66,6 +66,10 @@ juju:
           update-status:
             logger.go:
               '2022-02-10': 195
+  bugs-detected:
+    https://www.cve.org/CVERecord?id=CVE-2024-3250: This host is running a version
+      of Juju (2.9.22) that is affected by a known security vulnerability. Please
+      upgrade to the latest version to get the fix.
   potential-issues:
     JujuWarnings:
       - Juju logs for unit(s) 'nova-compute/0' contain 24 Traceback(s) from the last

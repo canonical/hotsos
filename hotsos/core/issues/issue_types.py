@@ -185,6 +185,17 @@ class UbuntuCVE(CVETypeBase):
         return "{}{}".format(self.base_url, self.id)
 
 
+class MitreCVE(CVETypeBase):
+
+    @property
+    def base_url(self):
+        return 'https://www.cve.org/CVERecord?id='
+
+    @property
+    def url(self):
+        return "{}{}".format(self.base_url, self.id)
+
+
 class LaunchpadBug(BugTypeBase):
 
     @property

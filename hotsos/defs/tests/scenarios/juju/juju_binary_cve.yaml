@@ -1,0 +1,10 @@
+mock:
+  patch:
+    hotsos.core.plugins.juju.resources.JujuBinaryInterface.get_version:
+      kwargs:
+        return_value: 3.4.1
+raised-bugs:
+  https://www.cve.org/CVERecord?id=CVE-2024-3250: >-
+    This host is running a version of Juju (3.4.1) that is
+    affected by a known security vulnerability. Please upgrade
+    to the latest version to get the fix.
