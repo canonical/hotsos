@@ -5,6 +5,7 @@ from hotsos.core import host_helpers
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
+from hotsos.core.ycheck.events import EventsPreloader
 from hotsos.plugin_extensions.storage import (
     ceph_summary,
     ceph_event_checks,
@@ -212,6 +213,11 @@ class TestCephOSDEvents(StorageCephOSDTestsBase):
         mock_cli.return_value.date.return_value = "2021-01-01 00:00:00"
         result = {'crc-err-bluestore': {'2021-02-12': 5, '2021-02-13': 1},
                   'crc-err-rocksdb': {'2021-02-12': 7}}
+
+        # This is done in setUp but we have to repeat here otherwise the
+        # date() mock will not be used in the search constraints.
+        EventsPreloader.reset()
+
         inst = ceph_event_checks.CephEventHandler()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, result)

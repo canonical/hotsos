@@ -4,6 +4,6 @@ l3ha:
     input:
       command: journalctl
       options:
-        args-callback: hotsos.plugin_extensions.openstack.agent.events.NeutronL3HAEventChecks.journalctl_args
+        args-callback: hotsos.plugin_extensions.openstack.agent.events.NeutronL3HAEventCheckJournalCtl.args
     # timestamp at start of line will be in journalctl -oshort-iso format
     expr: '([\d-]+)T([\d:]+)\S+ \S+ Keepalived_vrrp\[\d+\]: (?:VRRP_Instance)?\(VR_(\d+)\) .+ (\S+) STATE'

@@ -896,7 +896,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
 
         section_key = "neutron-ovs-agent"
         inst = agent.events.NeutronAgentEventChecks()
-        inst.load_and_run()
+        inst.run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual[section_key], expected)
 
@@ -956,7 +956,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
 
         section_key = "neutron-l3-agent"
         inst = agent.events.NeutronAgentEventChecks()
-        inst.load_and_run()
+        inst.run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual[section_key], expected)
 
@@ -978,10 +978,10 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 '2022-03-09': 1}}
                      }
                     }
+        inst = agent.events.OctaviaAgentEventChecks()
+        inst.run()
+        actual = self.part_output_to_actual(inst.output)
         for section_key in ['amp-missed-heartbeats', 'lb-failovers']:
-            inst = agent.events.OctaviaAgentEventChecks()
-            inst.load_and_run()
-            actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual["octavia"][section_key],
                              expected[section_key])
 
@@ -990,10 +990,10 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     def test_run_apache_checks(self):
         expected = {'connection-refused': {
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
+        inst = agent.events.ApacheEventChecks()
+        inst.run()
+        actual = self.part_output_to_actual(inst.output)
         for section_key in ['connection-refused']:
-            inst = agent.events.ApacheEventChecks()
-            inst.load_and_run()
-            actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual['apache'][section_key],
                              expected[section_key])
 
@@ -1008,7 +1008,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                             '/usr/bin/neutron-openvswitch-agent': {
                                 'Mar 3': 4}}}}
         inst = agent.events.AgentApparmorChecks()
-        inst.load_and_run()
+        inst.run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['apparmor'], expected)
 
@@ -1030,7 +1030,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                     '22:57:22': 1,
                                     '22:57:24': 2}}}}}
         inst = agent.events.AgentApparmorChecks()
-        inst.load_and_run()
+        inst.run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['apparmor'], expected)
 
@@ -1041,7 +1041,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                         '2022-09-17': {'0000:3b:0f.7': 1,
                                        '0000:3b:10.0': 1}}}
         inst = agent.events.NovaComputeEventChecks()
-        inst.load_and_run()
+        inst.run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["nova"], expected)
 
@@ -1051,7 +1051,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                          '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                              '2022-02-10': 1}}}}
         inst = agent.events.NeutronL3HAEventChecks()
-        inst.load_and_run()
+        inst.run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
 
@@ -1064,7 +1064,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                          '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                              '2022-02-10': 1}}}}
         inst = agent.events.NeutronL3HAEventChecks()
-        inst.load_and_run()
+        inst.run()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["neutron-l3ha"], expected)
         issues = list(IssuesStore().load().values())[0]
@@ -1076,7 +1076,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              NEUTRON_HTTP})
     def test_api_events(self):
         inst = agent.events.APIEvents()
-        inst.load_and_run()
+        inst.run()
         expected = {'http-requests': {'neutron': {
                                         '2022-05-11': {'GET': 2,
                                                        'PUT': 3,
@@ -1089,7 +1089,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              OVSDBAPP_LEADER_CHANGING})
     def test_server_ovsdbapp_events(self):
         inst = agent.events.NeutronAgentEventChecks()
-        inst.load_and_run()
+        inst.run()
         expected = {'neutron-server': {
                     'ovsdbapp-nb-leader-reconnect': {
                         '2023-11-23': {'6641': 2}},
@@ -1102,7 +1102,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              OVN_RESOURCE_VERSION_BUMP_EVENTS})
     def test_server_ovn_resource_version_bump_events(self):
         inst = agent.events.NeutronAgentEventChecks()
-        inst.load_and_run()
+        inst.run()
         expected = {'neutron-server': {
                         'ovn-resource-revision-bump': {'2023-12-09': {
                             '4dedf9dd-ff5e-4b71-bebb-9d168b83c0b8': 2,
@@ -1115,7 +1115,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              OVN_OVSDB_ABORTED_TRANSACTIONS})
     def test_server_ovsdb_aborted_transactions(self):
         inst = agent.events.NeutronAgentEventChecks()
-        inst.load_and_run()
+        inst.run()
         expected = {'neutron-server': {
                         'ovsdb-transaction-aborted': {'2023-12-12': 5}}}
         actual = self.part_output_to_actual(inst.output)

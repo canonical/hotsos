@@ -7,6 +7,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
 from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.ycheck.events import EventsPreloader
 
 PLUGINS = {}
 PLUGIN_RUN_ORDER = []
@@ -392,12 +393,13 @@ class PluginRunner(object):
         part_mgr = PartManager()
         failed_parts = []
         # The following are executed as part of each plugin run (but not last).
-        ALWAYS_RUN = {'auto_scenario_check': YScenarioChecker}
+        ALWAYS_RUN = {'auto_scenario_check': YScenarioChecker,
+                      'events_preload': EventsPreloader}
         for name, always_parts in ALWAYS_RUN.items():
             # update current env to reflect actual part being run
             HotSOSConfig.part_name = name
             try:
-                always_parts().load_and_run()
+                always_parts().run()
             except Exception as exc:
                 failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)

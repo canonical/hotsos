@@ -282,7 +282,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'foo')
 
@@ -309,7 +309,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'bar')
 
@@ -336,7 +336,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'foo')
 
@@ -362,7 +362,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
             self.assertEqual(len(IssuesStore().load()), 0)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
@@ -391,7 +391,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'foo')
 
@@ -421,7 +421,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().load_and_run()
+            scenarios.YScenarioChecker().run()
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'snapd')
 

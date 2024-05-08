@@ -299,7 +299,7 @@ class YPropertySearchBase(object):
     @property
     def simple_search(self):
         if (self.is_sequence_search or not self.search_pattern or
-                bool(self.passthrough_results)):
+                self.passthrough_results):
             return
 
         sdef = self.cache.simple_search
@@ -323,7 +323,7 @@ class YPropertySearchBase(object):
 
     @property
     def sequence_search(self):
-        if not self.is_sequence_search or bool(self.passthrough_results):
+        if not self.is_sequence_search or self.passthrough_results:
             return
 
         sdef = self.cache.sequence_search
@@ -334,7 +334,7 @@ class YPropertySearchBase(object):
         seq_body = self.body
         seq_end = self.end
 
-        if (seq_body or (seq_end and not bool(self.passthrough_results))):
+        if (seq_body or (seq_end and not self.passthrough_results)):
             sd_start = SearchDef(seq_start.search_pattern)
 
             sd_end = None
@@ -355,12 +355,12 @@ class YPropertySearchBase(object):
 
         log.warning("invalid sequence definition passthrough=%s "
                     "start=%s, body=%s, end=%s",
-                    bool(self.passthrough_results), seq_start, seq_body,
+                    self.passthrough_results, seq_start, seq_body,
                     seq_end)
 
     @property
     def sequence_passthrough_search(self):
-        if not self.is_sequence_search or not bool(self.passthrough_results):
+        if not self.is_sequence_search or not self.passthrough_results:
             return
 
         sdef = self.cache.sequence_passthrough_search
@@ -370,7 +370,7 @@ class YPropertySearchBase(object):
         seq_start = self.start
         seq_end = self.end
 
-        if bool(self.passthrough_results) and all([seq_start, seq_end]):
+        if self.passthrough_results and all([seq_start, seq_end]):
             # start and end required for core.analytics.LogEventStats
             start_tag = "{}-start".format(self.unique_search_tag)
             end_tag = "{}-end".format(self.unique_search_tag)
@@ -460,3 +460,11 @@ class YPropertySearch(YPropertySearchBase, YPropertyMappedOverrideBase):
     _override_keys = ['search']
     _override_members = [YPropertySearchOpt, YPropertySearchConstraints,
                          YPropertySequencePart]
+
+    @property
+    def passthrough_results(self):
+        """ Override the member to ensure we always return a bool. """
+        if not isinstance(self.content, dict):
+            return False
+
+        return bool(self.content.get('passthrough-results', False))

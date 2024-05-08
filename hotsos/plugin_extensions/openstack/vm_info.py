@@ -179,4 +179,4 @@ class NovaServerMigrationAnalysis(OpenstackEventHandlerBase):
     summary_part_index = 3
 
     def __6_summary_nova_migrations(self):
-        return self.load_and_run()
+        return self.run()
