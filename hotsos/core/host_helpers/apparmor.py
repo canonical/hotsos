@@ -27,7 +27,7 @@ class ApparmorHelper(object):
 
         @return: dictionary of {<mode>: {'profiles': <list>, 'count': <int>}}
         """
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         seqdef = SequenceSearchDef(
                      start=SearchDef(r"(\d+) profiles are in (\S+) mode."),
                      body=SearchDef(r"\s+(\S+)"),
