@@ -3,14 +3,14 @@ checks:
     binary:
       handler: hotsos.core.plugins.juju.JujuBinaryInterface
       juju:
-        - min: '1.0.0'
-          max: '2.9.49'
+        - min: '2.9.0'
+          max: '2.9.48'
         - min: '3.0.0'
-          max: '3.1.8'
+          max: '3.1.7'
         - min: '3.2.0'
-          max: '3.3.4'
+          max: '3.3.3'
         - min: '3.4.0'
-          max: '3.4.2'
+          max: '3.4.1'
 conclusions:
   juju_binary_cve:
     decision: has_affected_juju_binary
