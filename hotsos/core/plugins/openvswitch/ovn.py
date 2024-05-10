@@ -79,7 +79,7 @@ class OVNDBBase():
     """ Base class for OVN database objects. """
     def __init__(self):
         contents = mktemp_dump(''.join(self.db_show))
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         s.add(self.resources_sd, contents)
         self.results = s.run()
 

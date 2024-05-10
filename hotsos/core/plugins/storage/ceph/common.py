@@ -277,7 +277,7 @@ class CephChecks(StorageBase):
         """
         osds = []
 
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
                                body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
                                                r"\s+(devices)\s+([\S]+)\s*"]),

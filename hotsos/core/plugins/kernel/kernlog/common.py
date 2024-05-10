@@ -150,7 +150,8 @@ class KernLogBase():
                         "calltrace checker: %s", exc)
             constraint = None
 
-        searcher = FileSearcher(constraint=constraint)
+        searcher = FileSearcher(constraint=constraint,
+                                decode_errors='backslashreplace')
         with KernLogSource() as kls:
             if kls.path is None:
                 log.info("no kernlogs found")

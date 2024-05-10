@@ -31,7 +31,7 @@ class RabbitMQReport():
     def __init__(self):
         # save to file so we can search it later
         with CLIHelperFile() as cli:
-            searcher = FileSearcher()
+            searcher = FileSearcher(decode_errors='backslashreplace')
             fout = cli.rabbitmqctl_report()
             searcher.add(self.connections_searchdef, fout)
             searcher.add(self.memory_searchdef, fout)

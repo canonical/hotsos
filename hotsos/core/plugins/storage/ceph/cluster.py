@@ -330,7 +330,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         version (and only versions for that daemon type.)
         """
         versions = {}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         body = SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
                          r"\(\S+\)\":\s+(\d)+,?$")
         if daemon_type is None:
