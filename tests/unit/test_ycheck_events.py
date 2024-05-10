@@ -7,6 +7,7 @@ from hotsos.core.ycheck.events import (
     EventHandlerBase,
     EventCallbackBase,
     EventCallbackNotFound,
+    EventProcessingUtils,
 )
 
 from . import utils
@@ -265,3 +266,54 @@ class TestYamlEvents(utils.BaseTestCase):
         handler = MyEventHandler()
         self.assertEqual(handler.events, defs)
         self.assertEqual(len(handler.searcher.catalog), 0)
+
+    def test_processing_utils_key_by_date_true(self):
+        info = {}
+        results = [{'date': '2000-01-04', 'key': 'f4'},
+                   {'date': '2000-01-01', 'key': 'f1'},
+                   {'date': '2000-01-01', 'key': 'f3'},
+                   {'date': '2000-01-02', 'key': 'f2'}]
+        for r in results:
+            EventProcessingUtils._get_tally(r, info, key_by_date=True,
+                                            include_time=False,
+                                            squash_if_none_keys=False)
+        self.assertEqual(info, {'2000-01-04': {'f4': 1},
+                                '2000-01-01': {'f1': 1,
+                                               'f3': 1},
+                                '2000-01-02': {'f2': 1}})
+        ret = EventProcessingUtils._sort_results(info, key_by_date=True,
+                                        include_time=False,)
+        expected = {'2000-01-01': {'f1': 1,
+                                   'f3': 1},
+                    '2000-01-02': {'f2': 1},
+                    '2000-01-04': {'f4': 1}}
+        self.assertDictEqual(ret, expected)
+        # check key order
+        self.assertEqual(list(ret), list(expected))
+
+    def test_processing_utils_key_by_date_false(self):
+        info = {}
+        results = [{'date': '2000-01-04', 'key': 'f4'},
+                   {'date': '2000-01-01', 'key': 'f1'},
+                   {'date': '2000-01-01', 'key': 'f3'},
+                   {'date': '2000-01-03', 'key': 'f3'},
+                   {'date': '2000-01-02', 'key': 'f2'}]
+        for r in results:
+            EventProcessingUtils._get_tally(r, info, key_by_date=False,
+                                            include_time=False,
+                                            squash_if_none_keys=False)
+        self.assertEqual(info, {'f1': {'2000-01-01': 1},
+                                'f2': {'2000-01-02': 1},
+                                'f3': {'2000-01-01': 1,
+                                       '2000-01-03': 1},
+                                'f4': {'2000-01-04': 1}})
+        ret = EventProcessingUtils._sort_results(info, key_by_date=False,
+                                        include_time=False,)
+        expected = {'f4': {'2000-01-04': 1},
+                    'f3': {'2000-01-01': 1,
+                           '2000-01-03': 1},
+                    'f2': {'2000-01-02': 1},
+                    'f1': {'2000-01-01': 1}}
+        self.assertDictEqual(ret, expected)
+        # check key order
+        self.assertEqual(list(ret), list(expected))
