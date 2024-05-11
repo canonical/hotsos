@@ -83,6 +83,111 @@ class EventCheckResult(object):
 class EventProcessingUtils(object):
 
     @classmethod
+    def _get_event_results(cls, event):
+        """
+        Return dicts with keys 'date', 'key' and 'value' extracted from event
+        search results. The result can have between one and three groups to
+        match these keys respectively. If only one group (date) this provide a
+        tally per date. Two groups provides a tally per key per date etc.
+        """
+        _fail_count = 0
+        # Use these to ensure we only print the message once to avoid spamming
+        # the logs.
+        msg_flag = True
+        for r in event.results:
+            # the search expression used much ensure that these are
+            # available in order for this to work.
+            if len(r) > 2:
+                if not set([None, None, None]).intersection([r.get(1),
+                                                             r.get(2),
+                                                             r.get(3)]):
+                    yield {'date': r.get(1), 'time': r.get(2), 'key': r.get(3)}
+                else:
+                    _fail_count += 1
+            elif len(r) == 0:
+                msg = ("result (tag={}) does not have enough groups "
+                       "(min 1) to be categorised - aborting".
+                       format(r.tag))
+                raise Exception(msg)
+            else:
+                if msg_flag and len(r) < 2:
+                    msg_flag = False
+                    # results with just a date will have None for the key
+                    log.debug("results with tag=%s have just one group which "
+                              "is assumed to be a date so using key=None",
+                              r.tag)
+
+                yield {'date': r.get(1), 'key': r.get(2)}
+
+        if _fail_count:
+            log.info("%s results ignored from event %s due to insufficient "
+                     "fields",
+                     _fail_count, event.name)
+
+    @classmethod
+    def _get_tally(cls, result, info, key_by_date, include_time,
+                   squash_if_none_keys):
+        if key_by_date:
+            key = result['date']
+            value = result['key']
+        else:
+            key = result['key']
+            value = result['date']
+
+        if key not in info:
+            info[key] = {}
+
+        if value is None and squash_if_none_keys:
+            if info[key] == {}:
+                info[key] = 1
+            else:
+                info[key] += 1
+        else:
+            ts_time = result.get('time')
+            if value not in info[key]:
+                if ts_time is not None and include_time:
+                    info[key][value] = {}
+                else:
+                    info[key][value] = 0
+
+            if ts_time is not None and include_time:
+                if ts_time not in info[key][value]:
+                    info[key][value][ts_time] = 1
+                else:
+                    info[key][value][ts_time] += 1
+            else:
+                info[key][value] += 1
+
+    @classmethod
+    def _sort_results(cls, categorised_results, key_by_date, include_time):
+        log.debug("sorting categorised results")
+        # sort main dict keys
+        categorised_results = sorted_dict(categorised_results,
+                                          reverse=not key_by_date)
+
+        if all([key_by_date, include_time]):
+            return
+
+        # Sort values if they are dicts.
+        for key, value in categorised_results.items():
+            # If not using date as key we need to sort the values so that they
+            # will have the same order as if they were sorted by date key.
+            if not key_by_date:
+                categorised_results[key] = sorted_dict(value)
+                continue
+
+            # sort by value i.e. tally/count
+            for key, value in categorised_results.items():
+                if not isinstance(value, dict):
+                    break
+
+                categorised_results[key] = sorted_dict(value,
+                                                       key=lambda e: e[1],
+                                                       reverse=True)
+
+        return categorised_results
+
+    @classmethod
     def categorise_events(cls, event, results=None, key_by_date=True,
                           include_time=False, squash_if_none_keys=False,
                           max_results_per_date=None):
@@ -118,113 +223,35 @@ class EventProcessingUtils(object):
                                      True this will pick the top N entries
                                      with the highest count.
         """
-        info = {}
-        squash = False
         if results is None:
-            # use raw
-            results = []
-            _fail_count = 0
-            for r in event.results:
-                # the search expression used much ensure that tese are#
-                # available in order for this to work.
-                if len(r) > 2:
-                    if not set([None, None, None]).intersection([r.get(1),
-                                                                 r.get(2),
-                                                                 r.get(3)]):
-                        results.append({'date': r.get(1), 'time': r.get(2),
-                                        'key': r.get(3)})
-                    else:
-                        _fail_count += 1
-                elif len(r) < 1:
-                    msg = ("result (tag={}) does not have enough groups "
-                           "(min 1) to be categorised - aborting".
-                           format(r.tag))
-                    raise Exception(msg)
-                else:
-                    if len(r) < 2:
-                        # results with just a date will have None for the key
-                        log.debug("result (tag=%s) has just one group which "
-                                  "is assumed to be a date and using key=None",
-                                  r.tag)
+            results = cls._get_event_results(event)
 
-                    results.append({'date': r.get(1), 'key': r.get(2)})
-
-            if _fail_count:
-                log.info("event '%s' has %s results with insufficient fields",
-                         event.name, _fail_count)
-
+        categorised_results = {}
         for r in results:
-            if r['key'] is None and squash_if_none_keys:
-                squash = True
+            cls._get_tally(r, categorised_results, key_by_date, include_time,
+                           squash_if_none_keys)
 
-            ts_time = r.get('time')
-            if key_by_date:
-                key = r['date']
-                value = r['key']
-            else:
-                key = r['key']
-                value = r['date']
+        if not categorised_results:
+            return
 
-            if key not in info:
-                info[key] = {}
+        categorised_results = cls._sort_results(categorised_results,
+                                                key_by_date, include_time)
+        if not (key_by_date and max_results_per_date):
+            return categorised_results
 
-            if value not in info[key]:
-                if ts_time is not None and include_time:
-                    info[key][value] = {}
-                else:
-                    info[key][value] = 0
+        shortened = {}
+        for date, entries in categorised_results.items():
+            if len(entries) <= max_results_per_date:
+                shortened[date] = entries
+                continue
 
-            if ts_time is not None and include_time:
-                if ts_time not in info[key][value]:
-                    info[key][value][ts_time] = 1
-                else:
-                    info[key][value][ts_time] += 1
-            else:
-                info[key][value] += 1
+            top_n = dict(sorted(entries.items(),
+                                key=lambda e: e[1],
+                                reverse=True)[:max_results_per_date])
+            shortened[date] = {'total': len(entries),
+                               "top{}".format(max_results_per_date): top_n}
 
-        if info:
-            if squash:
-                squashed = {}
-                for k, v in info.items():
-                    if k not in squashed:
-                        squashed[k] = 0
-
-                    for count in v.values():
-                        squashed[k] += count
-
-                info = squashed
-
-            # If not using date as key we need to sort the values so that they
-            # will have the same order as if they were sorted by date key.
-            if not key_by_date:
-                for key in info:
-                    info[key] = sorted_dict(info[key])
-            elif not include_time:
-                # sort by value i.e. tally/count
-                for key, value in info.items():
-                    if not isinstance(value, dict):
-                        break
-
-                    info[key] = sorted_dict(value, key=lambda e: e[1],
-                                            reverse=True)
-
-            results = sorted_dict(info, reverse=not key_by_date)
-            if not (key_by_date and max_results_per_date):
-                return results
-
-            shortened = {}
-            for date, entries in results.items():
-                if len(entries) <= max_results_per_date:
-                    shortened[date] = entries
-                    continue
-
-                top_n = dict(sorted(entries.items(),
-                                    key=lambda e: e[1],
-                                    reverse=True)[:max_results_per_date])
-                shortened[date] = {'total': len(entries),
-                                   "top{}".format(max_results_per_date): top_n}
-
-            return shortened
+        return shortened
 
 
 class EventCallbackBase(EventProcessingUtils, metaclass=EventCallbackMeta):
