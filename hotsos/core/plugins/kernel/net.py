@@ -111,14 +111,14 @@ class SNMPBase(ProcNetBase):
 
 class SNMPTcp(SNMPBase):
 
-    def PcentInSegs(self, field):
+    def _percent_in_segs(self, field):
         """
         The value of a field can be provided as a percentage of the total rx
         segments.
         """
         return self._pcent_of(field, self.InSegs)
 
-    def PcentOutSegs(self, field):
+    def _percent_out_segs(self, field):
         """
         The value of a field can be provided as a percentage of the total tx
         segments.
@@ -146,10 +146,10 @@ class SNMPTcp(SNMPBase):
         """
         if fld.endswith('PcentInSegs'):
             fld = fld.partition('PcentInSegs')[0]
-            return self.PcentInSegs(fld)
+            return self._percent_in_segs(fld)
         if fld.endswith('PcentOutSegs'):
             fld = fld.partition('PcentOutSegs')[0]
-            return self.PcentOutSegs(fld)
+            return self._percent_out_segs(fld)
 
         return super().__getattr__(fld)
 
@@ -160,14 +160,14 @@ class SNMPUdp(SNMPBase):
     def _header(self):
         return 'Udp'
 
-    def PcentInDatagrams(self, field):
+    def _percent_in_datagrams(self, field):
         """
         The value of a field can be provided as a percentage of the total rx
         datagrams.
         """
         return self._pcent_of(field, self.InDatagrams)
 
-    def PcentOutDatagrams(self, field):
+    def _percent_out_datagrams(self, field):
         """
         The value of a field can be provided as a percentage of the total tx
         datagrams.
@@ -191,10 +191,10 @@ class SNMPUdp(SNMPBase):
         """
         if fld.endswith('PcentInDatagrams'):
             fld = fld.partition('PcentInDatagrams')[0]
-            return self.PcentInDatagrams(fld)
+            return self._percent_in_datagrams(fld)
         if fld.endswith('PcentOutDatagrams'):
             fld = fld.partition('PcentOutDatagrams')[0]
-            return self.PcentOutDatagrams(fld)
+            return self._percent_out_datagrams(fld)
 
         return super().__getattr__(fld)
 
@@ -214,14 +214,14 @@ class NetStatTCP(NetStatBase):
     def _header(self):
         return 'TcpExt'
 
-    def PcentInSegs(self, field):
+    def _percent_in_segs(self, field):
         """
         The value of a field can be provided as a percentage of the total rx
         segments.
         """
         return self._pcent_of(field, self.net_snmp_tcp.InSegs)
 
-    def PcentOutSegs(self, field):
+    def _percent_out_segs(self, field):
         """
         The value of a field can be provided as a percentage of the total tx
         segments.
@@ -278,10 +278,10 @@ class NetStatTCP(NetStatBase):
         """
         if fld.endswith('PcentInSegs'):
             fld = fld.partition('PcentInSegs')[0]
-            return self.PcentInSegs(fld)
+            return self._percent_in_segs(fld)
         if fld.endswith('PcentOutSegs'):
             fld = fld.partition('PcentOutSegs')[0]
-            return self.PcentOutSegs(fld)
+            return self._percent_out_segs(fld)
 
         return super().__getattr__(fld)
 

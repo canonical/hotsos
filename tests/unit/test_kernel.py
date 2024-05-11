@@ -113,7 +113,7 @@ class TestKernelBase(utils.BaseTestCase):
 
 class TestKernelCallTraceManager(TestKernelBase):
 
-    def test_CallTraceManager_handler(self):
+    def test_calltrace_manager_handler(self):
         for killer in CallTraceManager().oom_killer:
             self.assertEqual(killer.procname, 'kworker/0:0')
             self.assertEqual(killer.pid, '955')

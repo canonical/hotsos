@@ -393,9 +393,9 @@ class PluginRunner(object):
         part_mgr = PartManager()
         failed_parts = []
         # The following are executed as part of each plugin run (but not last).
-        ALWAYS_RUN = {'auto_scenario_check': YScenarioChecker,
+        always_run = {'auto_scenario_check': YScenarioChecker,
                       'events_preload': EventsPreloader}
-        for name, always_parts in ALWAYS_RUN.items():
+        for name, always_parts in always_run.items():
             # update current env to reflect actual part being run
             HotSOSConfig.part_name = name
             try:

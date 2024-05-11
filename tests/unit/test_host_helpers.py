@@ -333,7 +333,8 @@ class TestCLIHelper(utils.BaseTestCase):
                 HotSOSConfig.set(**orig_cfg)
 
 
-rsyslog_systemctl_status_template = r"""
+class TestSystemdHelper(utils.BaseTestCase):
+    rsyslog_systemctl_status_template = r"""
 * rsyslog.service - System Logging Service
      Loaded: loaded (/lib/systemd/system/rsyslog.service; enabled;)
      Active: active (running) since Wed 2022-02-09 22:38:17 {}; 17h ago
@@ -342,8 +343,6 @@ Feb 09 22:38:17 compute4 systemd[1]: Starting System Logging Service...
 
 * secureboot-db.service - Secure Boot updates for DB and DBX"""
 
-
-class TestSystemdHelper(utils.BaseTestCase):
     def test_service_factory(self):
         svc = host_helpers.systemd.ServiceFactory().rsyslog
         self.assertEqual(svc.start_time_secs, 1644446297.0)
