@@ -63,7 +63,8 @@ def get_repo_info():
             return fd.read().strip()
 
     # pypi
-    with resources.path('hotsos', '.repo-info') as repo_info:
+    with resources.as_file(resources.files('hotsos').joinpath(
+            '.repo-info')) as repo_info:
         if repo_info and os.path.exists(repo_info):
             with open(repo_info) as fd:
                 return fd.read().strip()
@@ -93,7 +94,8 @@ def get_defs_path():
     defs = os.path.join(get_hotsos_root(), 'defs')
     if not os.path.isdir(defs):
         # pypi
-        with resources.path('hotsos', 'defs') as path:
+        with resources.as_file(resources.files('hotsos').joinpath(
+                'defs')) as path:
             defs = path
 
     if not os.path.isdir(defs):
@@ -112,7 +114,8 @@ def get_templates_path():
     templates = os.path.join(get_hotsos_root(), 'templates')
     if not os.path.isdir(templates):
         # pypi
-        with resources.path('hotsos', 'templates') as path:
+        with resources.as_file(resources.files('hotsos').joinpath(
+                'templates')) as path:
             templates = path
 
     if not os.path.isdir(templates):

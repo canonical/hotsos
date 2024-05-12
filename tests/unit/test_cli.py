@@ -58,7 +58,7 @@ class TestCLI(utils.BaseTestCase):
         with tempfile.TemporaryDirectory() as workdir:
             d_templates_path = os.path.join(workdir, 'templates')
             os.makedirs(d_templates_path)
-            with mock.patch('importlib.resources.path') as path:
+            with mock.patch('importlib.resources.as_file') as path:
                 path.return_value.__enter__.return_value = d_templates_path
                 templates_path = hotsos.cli.get_templates_path()
 
@@ -68,7 +68,7 @@ class TestCLI(utils.BaseTestCase):
         with tempfile.TemporaryDirectory() as workdir:
             d_defs_path = os.path.join(workdir, 'defs')
             os.makedirs(d_defs_path)
-            with mock.patch('importlib.resources.path') as path:
+            with mock.patch('importlib.resources.as_file') as path:
                 path.return_value.__enter__.return_value = d_defs_path
                 defs_path = hotsos.cli.get_defs_path()
 
@@ -91,7 +91,7 @@ class TestCLI(utils.BaseTestCase):
             with open(f_repo_info, 'w', encoding='utf-8') as fd:
                 fd.write('some version\n')
 
-            with mock.patch('importlib.resources.path') as path:
+            with mock.patch('importlib.resources.as_file') as path:
                 path.return_value.__enter__.return_value = f_repo_info
                 repo_info = hotsos.cli.get_repo_info()
 
