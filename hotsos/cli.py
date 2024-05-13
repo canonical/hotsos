@@ -63,6 +63,10 @@ def get_repo_info():
             return fd.read().strip()
 
     # pypi
+    # NOTE: The pylint warning is suppressed for W4902 because the
+    # alternative (i.e. resources.files) is not available for python
+    # 3.8, which is a supported environment for hotsos.
+    # pylint: disable-next=W4902
     with resources.path('hotsos', '.repo-info') as repo_info:
         if repo_info and os.path.exists(repo_info):
             with open(repo_info) as fd:
@@ -93,7 +97,7 @@ def get_defs_path():
     defs = os.path.join(get_hotsos_root(), 'defs')
     if not os.path.isdir(defs):
         # pypi
-        with resources.path('hotsos', 'defs') as path:
+        with resources.path('hotsos', 'defs') as path:  # pylint: disable=W4902
             defs = path
 
     if not os.path.isdir(defs):
@@ -112,6 +116,7 @@ def get_templates_path():
     templates = os.path.join(get_hotsos_root(), 'templates')
     if not os.path.isdir(templates):
         # pypi
+        # pylint: disable-next=W4902
         with resources.path('hotsos', 'templates') as path:
             templates = path
 

@@ -125,8 +125,7 @@ class GenericTraceType(TraceTypeBase):
         return len(self.generics)
 
     def __iter__(self):
-        for generics in self.generics:
-            yield generics
+        yield from self.generics
 
 
 class MemFieldsBase(object):
@@ -256,8 +255,7 @@ class BcacheDeadlockType(TraceTypeBase):
         return len(self.deadlocks)
 
     def __iter__(self):
-        for deadlocks in self.deadlocks:
-            yield deadlocks
+        yield from self.deadlocks
 
 
 class FanotifyDeadlockType(TraceTypeBase):
@@ -304,8 +302,7 @@ class FanotifyDeadlockType(TraceTypeBase):
         return len(self.fanotify_hangs)
 
     def __iter__(self):
-        for fanotify_hangs in self.fanotify_hangs:
-            yield fanotify_hangs
+        yield from self.fanotify_hangs
 
 
 class OOMKillerTraceType(TraceTypeBase):
@@ -400,8 +397,7 @@ class OOMKillerTraceType(TraceTypeBase):
         return len(self.oom_traces)
 
     def __iter__(self):
-        for oom_trace in self.oom_traces:
-            yield oom_trace
+        yield from self.oom_traces
 
 
 class HungtaskTraceType(TraceTypeBase):
@@ -447,8 +443,7 @@ class HungtaskTraceType(TraceTypeBase):
         return len(self.hungtasks)
 
     def __iter__(self):
-        for hungtasks in self.hungtasks:
-            yield hungtasks
+        yield from self.hungtasks
 
 
 class CallTraceManager(KernLogBase):

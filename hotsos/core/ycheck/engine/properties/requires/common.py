@@ -46,8 +46,7 @@ class CheckItemsBase(abc.ABC):
             self._items = {raw: None}
 
     def __iter__(self):
-        for item in self._items.items():
-            yield item
+        yield from self._items.items()
 
 
 class PackageCheckItemsBase(CheckItemsBase):

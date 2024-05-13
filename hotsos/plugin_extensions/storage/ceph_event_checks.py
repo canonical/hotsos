@@ -79,8 +79,7 @@ class EventCallbackCRCErrors(CephEventCallbackBase):
 
             for osd, num_errs in osds.items():
                 if num_errs > 3:
-                    if num_errs > osd_err_max:
-                        osd_err_max = num_errs
+                    osd_err_max = max(osd_err_max, num_errs)
 
                     osds_in_err.add(osd)
 
