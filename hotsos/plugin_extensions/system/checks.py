@@ -160,9 +160,9 @@ class SYSCtlChecks(SystemChecksBase):
         sysctl = self._get_charm_sysctl_d()
         for key, config in sysctl['set'].items():
             value = config[0]
-            if value != self.sysctl_all[key]:
+            if value != self.sysctl_all.get(key):
                 mismatch[key] = {"conf": config[1],
-                                 "actual": self.sysctl_all[key],
+                                 "actual": self.sysctl_all.get(key),
                                  "expected": value}
 
         if mismatch:
