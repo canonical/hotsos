@@ -38,8 +38,7 @@ def find_all_templated_tests(path):
 
         defpath = os.path.join(path, testdef)
         if os.path.isdir(defpath):
-            for subpath in find_all_templated_tests(defpath):
-                yield subpath
+            yield from find_all_templated_tests(defpath)
         else:
             yield defpath
 
