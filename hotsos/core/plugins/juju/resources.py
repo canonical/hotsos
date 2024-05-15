@@ -1,3 +1,4 @@
+import errno
 import glob
 import os
 import re
@@ -81,6 +82,14 @@ class JujuMachine(object):
             except subprocess.CalledProcessError as exc:
                 log.debug("failed to get juju version from %s (%s) - trying "
                           "config", self.agent_bin_path, exc)
+            except OSError as exc:
+                if exc.errno == errno.ENOEXEC:
+                    # Probably a different arch than host where hotsos runs.
+                    # So we get the version from the symlink.
+                    _dir = os.readlink(os.path.dirname(self.agent_bin_path))
+                    return os.path.basename(_dir)
+                log.debug("failed to get juju version from %s (%s)",
+                          self.agent_bin_path, exc.strerror)
 
         return self.config.get("upgradedToVersion", "unknown")
 
