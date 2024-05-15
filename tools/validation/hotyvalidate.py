@@ -51,7 +51,8 @@ class HotYValidate(TestCase):
 
                 # Determine the test's target scenario path.
                 target_scenario_path = os.path.join(utils.DEFS_DIR,
-                    tg.test_defs_root, tg.target_path)
+                                                    tg.test_defs_root,
+                                                    tg.target_path)
 
                 # Add the test case's name to tests associated with the
                 # scenario.
@@ -67,7 +68,7 @@ class HotYValidate(TestCase):
         # essential things we require in scenarios (e.g. having `checks` and
         # `conclusions` sections) as well.
         scenario_files = glob.glob(scenarios_root_path + '/**/*.yaml',
-            recursive=True)
+                                   recursive=True)
 
         # This list will contain the names of the scenarios which does not have
         # a test case.

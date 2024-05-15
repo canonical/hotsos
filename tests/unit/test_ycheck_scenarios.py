@@ -931,19 +931,19 @@ class TestYamlScenarios(utils.BaseTestCase):
             (mock_log1,
              ('failed to import and call property %s',
               'tests.unit.test_ycheck_scenarios.TestProperty.doesntexist'),
-            'exception'),
+             'exception'),
             (mock_log2,
              ('requires.%s.result raised the following', 'YPropertyVarOps'),
-            'error'),
+             'error'),
             # we can't test mock_log3 because it passes in an AttributeError
             (mock_log4, ('something went wrong while executing check %s',
                          'chk_nand'),
-            'exception'),
+             'exception'),
             (mock_log5, ('something went wrong when executing decision',),
-            'exception'),
+             'exception'),
             (mock_log6,
              ('caught exception when running scenario %s:', 'test'),
-            'exception')]
+             'exception')]
 
         for logger, args, level in expected:
             getattr(logger, level).assert_called_with(*args)

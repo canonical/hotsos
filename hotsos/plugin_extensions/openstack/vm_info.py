@@ -39,7 +39,7 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
     event_names = ['src-migration']
 
     def _migration_seq_info(self, event, resource_idx, info_idxs,
-                           incl_time_in_date=False):
+                            incl_time_in_date=False):
         """
         Process the results of an event that was defined as a sequence.
 
