@@ -1,6 +1,7 @@
 [run]
 branch = True
 source = hotsos
+parallel = True
 omit = tests/*
 
 [report]
