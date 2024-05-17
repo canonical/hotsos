@@ -214,8 +214,8 @@ class TestCephOSDEvents(StorageCephOSDTestsBase):
         result = {'crc-err-bluestore': {'2021-02-12': 5, '2021-02-13': 1},
                   'crc-err-rocksdb': {'2021-02-12': 7}}
 
-        with GlobalSearcher() as searcher:
-            inst = ceph_event_checks.CephEventHandler(global_searcher=searcher)
+        with GlobalSearcher() as global_searcher:
+            inst = ceph_event_checks.CephEventHandler(global_searcher)
             actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual, result)
 

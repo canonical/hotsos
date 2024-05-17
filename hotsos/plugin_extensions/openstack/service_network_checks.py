@@ -17,8 +17,8 @@ from hotsos.core.issues import (
 class OpenstackNetworkChecks(OpenstackChecksBase):
     summary_part_index = 4
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.cli = CLIHelper()
 
     @property

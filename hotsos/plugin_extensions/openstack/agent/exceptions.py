@@ -10,7 +10,7 @@ from hotsos.core.search import (
     SearchDef,
     SearchConstraintSearchSince,
 )
-from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
+from hotsos.core.search import CommonTimestampMatcher
 
 
 class AgentExceptionCheckResults(UserDict):
@@ -111,8 +111,8 @@ class AgentExceptionChecks(OpenstackChecksBase):
     """
     summary_part_index = 6
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self._agent_results = None
         c = SearchConstraintSearchSince(
                                       ts_matcher_cls=CommonTimestampMatcher)

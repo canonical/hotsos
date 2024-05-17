@@ -1,6 +1,9 @@
+import os
 import re
+import uuid
 from functools import cached_property
 
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.log import log
 from hotsos.core.host_helpers import (
@@ -8,7 +11,13 @@ from hotsos.core.host_helpers import (
     CLIHelperFile,
     HostNetworkingHelper
 )
-from hotsos.core.search import FileSearcher, SearchDef
+from hotsos.core.search import (
+    ExtraSearchConstraints,
+    FileSearcher,
+    SearchDef,
+    create_constraint,
+)
+from hotsos.core.plugins.openvswitch.common import OpenvSwitchGlobalSearch
 
 
 class OVSDBTable(object):
@@ -123,7 +132,8 @@ class OVSBridge(object):
 
 class OpenvSwitchBase(object):
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, global_searcher=None, **kwargs):
+        self.global_searcher = global_searcher
         super().__init__(*args, **kwargs)
         self.cli = CLIHelper()
         self.net_helper = HostNetworkingHelper()
@@ -198,6 +208,83 @@ class OpenvSwitchBase(object):
             return True
 
         return False
+
+
+class OVSBFDSearch(OpenvSwitchGlobalSearch):
+    unique_search_tag = str(uuid.uuid4()) + 'bfd'
+
+    @classmethod
+    def simple_search(cls):
+        """
+        Represents OVS BFD.
+    
+        State names: https://github.com/openvswitch/ovs/blob/ec405e8573c5ce1590171a029e6be546b3821aad/lib/bfd.c#L1058
+        State transitions: https://github.com/openvswitch/ovs/blob/ec405e8573c5ce1590171a029e6be546b3821aad/lib/bfd.c#L703
+        """  # noqa
+        pattern = (r'([\d-]+)T([\d:]+)\.\d+Z.+\|bfd\(\S+\)\|INFO\|'
+                   r'([a-z0-9-]+): BFD state change: (\S+)')
+        constraint = create_constraint(search_result_age_hours=24,
+                                       min_hours_since_last_boot=0)
+        return SearchDef(pattern, tag=cls.unique_search_tag,
+                         constraints=[constraint])
+
+    @classmethod
+    def paths(cls):
+        return [os.path.join(HotSOSConfig.data_root,
+                             'var/log/openvswitch/ovs-vswitchd.log')]
+
+
+class OVSBFD(OpenvSwitchBase):
+
+    @property
+    def up_states(self):
+        return ['up', 'init']
+
+    @property
+    def down_states(self):
+        return ['down']
+
+    @property
+    def _results(self):
+        """
+        Identify a set of transitions where there are a min of 5 results within
+        an hour from within the last 24 hours.
+        """
+        results = self.global_searcher.results.find_by_tag(
+                      OVSBFDSearch.unique_search_tag)
+        return ExtraSearchConstraints().apply(results, search_period_hours=1,
+                                              min_results=5)
+
+    @property
+    def _transitions(self):
+        """
+        A transition represents going from UP to DOWN where UP can also be
+        intermediary states like INIT since the remote neighbour can bring the
+        local host DOWN when in this state also.
+        """
+        ports = {}
+        for result in self._results:
+            ts = "{} {}".format(result.get(1), result.get(2))
+            port = result.get(3)
+            if port not in ports:
+                ports[port] = {'changes': [(ts, result.get(4))],
+                               'transitions': 0}
+            else:
+                ports[port]['changes'].append((ts, result.get(4)))
+
+        for port, info in ports.items():
+            for _, st in sorted(info['changes'], key=lambda e: e[0]):
+                _from, _, _to = st.partition('->')
+                if _to in self.down_states:
+                    if _from in self.up_states:
+                        info['transitions'] += 1
+
+        return ports
+
+    @cached_property
+    def max_transitions_last_24h_within_hour(self):
+        return sum((port['transitions']
+                    for port in self._transitions.values()))
 
 
 class OVSDPDK(OpenvSwitchBase):

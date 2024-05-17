@@ -7,7 +7,7 @@ from hotsos.core.search import (
     SearchDef,
     SearchConstraintSearchSince,
 )
-from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
+from hotsos.core.search import CommonTimestampMatcher
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                           ['Preparing', 'Received',

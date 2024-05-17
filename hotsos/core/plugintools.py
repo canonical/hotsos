@@ -312,9 +312,22 @@ class PartManager(object):
 class PluginPartBase(ApplicationBase):
     # max per part before overlap
     PLUGIN_PART_INDEX_MAX = 500
+    # Must be set to the name of the plugin context in which we are
+    # running and at runtime should match HotSOSConfig.plugin_name.
+    plugin_name = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, global_searcher=None, **kwargs):
+        """
+        @param global_searcher: optional ...
+        """
+        self.global_searcher = global_searcher
         plugin_tmp = HotSOSConfig.plugin_tmp_dir
+
+        if self.plugin_name is None:
+            raise Exception("{}.plugin_name must be set to a value that "
+                            "represents the name of the plugin".
+                            format(self.__class__.__name__))
+
         if not plugin_tmp or not os.path.isdir(plugin_tmp):
             raise Exception("plugin plugin_tmp_dir not initialised - exiting")
 
@@ -436,7 +449,7 @@ class PluginRunner(object):
             if issubclass(runner, YHandlerBase):
                 inst = runner(global_searcher)
             else:
-                inst = runner()
+                inst = runner(global_searcher=global_searcher)
 
             # Only run plugin if it declares itself runnable.
             if not HotSOSConfig.force_mode and not inst.plugin_runnable:

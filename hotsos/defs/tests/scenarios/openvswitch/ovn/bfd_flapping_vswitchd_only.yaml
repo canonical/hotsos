@@ -1,23 +1,24 @@
 target-name: bfd_flapping.yaml
 data-root:
   files:
-    var/log/openvswitch/ovs-vswitchd.log: |
-      2022-04-21T21:00:0.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:1.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:2.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:3.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:4.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:5.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:6.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:7.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:8.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
-      2022-04-21T21:00:9.466Z|01221|bfd(monitor130)|INFO|ovn-abc-ra-f: BFD state change: up->down "Control Detection Time Expired"->"Control Detection Time Expired".
+    var/log/openvswitch/ovs-vswitchd.log: |-
+      2024-05-10T11:11:55.844Z|00073|bfd|INFO|ovn-node-0-1: BFD state change: admin_down->down "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:11:58.696Z|00003|bfd(handler1)|INFO|ovn-node-0-0: BFD state change: down->init "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:11:58.696Z|00003|bfd(handler2)|INFO|ovn-node-0-6: BFD state change: down->init "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:11:58.696Z|00003|bfd(handler4)|INFO|ovn-node-1-3: BFD state change: down->init "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:11:58.884Z|00006|bfd(handler2)|INFO|ovn-node-0-3: BFD state change: init->up "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:12:51.776Z|00442|bfd|INFO|ovn-node-0-1: BFD state change: admin_down->down "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:12:51.781Z|00008|bfd(handler1)|INFO|ovn-node-0-1: BFD state change: up->down "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:12:51.794Z|00011|bfd(handler1)|INFO|ovn-node-1-3: BFD state change: init->down "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:12:51.796Z|00004|bfd(handler3)|INFO|ovn-node-0-4: BFD state change: up->down "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:12:51.823Z|00014|bfd(handler1)|INFO|ovn-node-0-1: BFD state change: up->down "No Diagnostic"->"No Diagnostic".
+      2024-05-10T11:12:52.774Z|00004|bfd(handler7)|INFO|ovn-node-0-0: BFD state change: init->down "No Diagnostic"->"No Diagnostic".
   copy-from-original:
     - sos_commands/date/date
     - uptime
 raised-issues:
   OVNWarning: >-
-    The ovn-controller on this host has experienced 10 BFD
+    The ovn-controller on this host has experienced 5 BFD
     state changes within an hour (and within the last 24
     hours). This is unusual and could be an indication that
     something is wrong with the network between this node and

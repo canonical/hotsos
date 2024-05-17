@@ -12,6 +12,8 @@ suggestion-mode=yes
 
 [FORMAT]
 max-line-length=79
+# Allow doctrings containing long urls
+ignore-long-lines=^\s+.+<?https?://\S+>?$
 
 [REPORTS]
 #reports=yes

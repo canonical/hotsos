@@ -6,6 +6,7 @@ from hotsos.core.ycheck.engine import (
     YDefsSection,
     YHandlerBase,
 )
+from hotsos.core.ycheck.engine.properties.common import YDefsContext
 from hotsos.core.ycheck.common import GlobalSearcherPreloaderBase
 from hotsos.core.ycheck.engine.properties import checks
 
@@ -129,7 +130,9 @@ class YScenarioChecker(YHandlerBase):
         if not plugin_content:
             return
 
-        yscenarios = YDefsSection(HotSOSConfig.plugin_name, plugin_content)
+        yscenarios = YDefsSection(HotSOSConfig.plugin_name, plugin_content,
+                                  context=YDefsContext({'global_searcher':
+                                                        self.global_searcher}))
         if (not HotSOSConfig.force_mode and yscenarios.requires and not
                 yscenarios.requires.result):
             log.debug("plugin '%s' scenarios pre-requisites not met - "

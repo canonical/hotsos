@@ -3,8 +3,11 @@ import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
-from hotsos.core.search import FileSearcher, SearchConstraintSearchSince
-from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
+from hotsos.core.search import (
+    CommonTimestampMatcher,
+    FileSearcher,
+    SearchConstraintSearchSince,
+)
 
 KERNLOG_TS = r'\[\s*\d+\.\d+\]'
 KERNLOG_PREFIX = (r'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{}'.

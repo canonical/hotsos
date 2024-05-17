@@ -7,9 +7,8 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.config import IniConfigBase
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.search import FileSearcher, SearchDef
+from hotsos.core.search import ExtraSearchConstraints, FileSearcher, SearchDef
 from hotsos.core.ycheck import scenarios
-from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.engine.properties.conclusions import (
     YPropertyConclusion,
@@ -765,7 +764,7 @@ class TestYamlScenarios(utils.BaseTestCase):
 
             contents = ['2021-04-01 00:01:00.000 an event\n']
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24)
+            result = ExtraSearchConstraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 1)
 
             contents = ['2021-04-01 00:01:00.000 an event\n',
@@ -773,7 +772,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                         '2021-04-03 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24)
+            result = ExtraSearchConstraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 1)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -783,7 +782,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                         '2021-04-02 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24)
+            result = ExtraSearchConstraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 4)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -792,7 +791,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                         '2021-04-02 00:02:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24)
+            result = ExtraSearchConstraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -804,7 +803,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                         '2021-04-06 01:00:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = YPropertySearch.filter_by_period(results, 24)
+            result = ExtraSearchConstraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
     @init_test_scenario(YDEF_NESTED_LOGIC)

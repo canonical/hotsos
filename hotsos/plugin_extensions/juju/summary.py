@@ -12,7 +12,7 @@ from hotsos.core.search import (
     SearchConstraintSearchSince,
 )
 from hotsos.core.utils import sorted_dict
-from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
+from hotsos.core.search import CommonTimestampMatcher
 
 
 class UnitLogInfo(object):
