@@ -776,11 +776,11 @@ class TestYamlRequiresTypeAPT(utils.BaseTestCase):
         result = ci.package_version_within_ranges(
             'openssh-server',
             [{'gt': '1:8.2p1-4ubuntu0.4'},
-            {'gt': '1:8.1',
-            'lt': '1:8.1.1'},
-            {'gt': '1:8.2',
-            'lt': '1:8.2'},
-            {'gt': '1:8.3'}]
+             {'gt': '1:8.1',
+              'lt': '1:8.1.1'},
+             {'gt': '1:8.2',
+              'lt': '1:8.2'},
+             {'gt': '1:8.3'}]
         )
         self.assertFalse(result)
 
@@ -791,11 +791,11 @@ class TestYamlRequiresTypeAPT(utils.BaseTestCase):
         result = ci.package_version_within_ranges(
             'openssh-server',
             [{'gt': '1:8.2p1-4ubuntu0.4'},
-            {'gt': '1:8.1',
-            'lt': '1:8.1.1'},
-            {'gt': '1:8.2p1-4ubuntu0.3',
-            'lt': '1:8.2p1-4ubuntu0.5'},
-            {'gt': '1:8.3'}]
+             {'gt': '1:8.1',
+              'lt': '1:8.1.1'},
+             {'gt': '1:8.2p1-4ubuntu0.3',
+              'lt': '1:8.2p1-4ubuntu0.5'},
+             {'gt': '1:8.3'}]
         )
         self.assertTrue(result)
 
@@ -806,11 +806,11 @@ class TestYamlRequiresTypeAPT(utils.BaseTestCase):
         result = ci.package_version_within_ranges(
             'openssh-server',
             [{'ge': '1:8.2p1-4ubuntu0.4'},
-            {'gt': '1:8.1',
-            'lt': '1:8.1.1'},
-            {'gt': '1:8.2p1-4ubuntu0.3',
-            'lt': '1:8.2p1-4ubuntu0.5'},
-            {'gt': '1:8.3'}]
+             {'gt': '1:8.1',
+              'lt': '1:8.1.1'},
+             {'gt': '1:8.2p1-4ubuntu0.3',
+              'lt': '1:8.2p1-4ubuntu0.5'},
+             {'gt': '1:8.3'}]
         )
         self.assertTrue(result)
 
@@ -821,11 +821,11 @@ class TestYamlRequiresTypeAPT(utils.BaseTestCase):
         result = ci.package_version_within_ranges(
             'openssh-server',
             [{'gt': '1:8.2p1-4ubuntu0.4'},
-            {'gt': '1:8.1',
-            'le': '1:8.2p1-4ubuntu0.4'},
-            {'gt': '1:8.2p1-4ubuntu0.6',
-            'lt': '1:8.2p1-4ubuntu0.9'},
-            {'gt': '1:8.3'}]
+             {'gt': '1:8.1',
+              'le': '1:8.2p1-4ubuntu0.4'},
+             {'gt': '1:8.2p1-4ubuntu0.6',
+              'lt': '1:8.2p1-4ubuntu0.9'},
+             {'gt': '1:8.3'}]
         )
         self.assertTrue(result)
 
@@ -836,11 +836,11 @@ class TestYamlRequiresTypeAPT(utils.BaseTestCase):
         result = ci.package_version_within_ranges(
             'openssh-server',
             [{'gt': '1:8.2p1-4ubuntu0.4'},
-            {'gt': '1:8.1',
-            'le': '1:8.2p1-4ubuntu0.4'},
-            {'gt': '1:8.2p1-4ubuntu0.6',
-            'lt': '1:8.2p1-4ubuntu0.9'},
-            {'eq': '1:8.2p1-4ubuntu0.4'}]
+             {'gt': '1:8.1',
+              'le': '1:8.2p1-4ubuntu0.4'},
+             {'gt': '1:8.2p1-4ubuntu0.6',
+              'lt': '1:8.2p1-4ubuntu0.9'},
+             {'eq': '1:8.2p1-4ubuntu0.4'}]
         )
         self.assertTrue(result)
 

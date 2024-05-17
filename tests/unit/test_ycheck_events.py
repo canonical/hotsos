@@ -282,7 +282,7 @@ class TestYamlEvents(utils.BaseTestCase):
                                                'f3': 1},
                                 '2000-01-02': {'f2': 1}})
         ret = EventProcessingUtils._sort_results(info, key_by_date=True,
-                                        include_time=False,)
+                                                 include_time=False,)
         expected = {'2000-01-01': {'f1': 1,
                                    'f3': 1},
                     '2000-01-02': {'f2': 1},
@@ -308,7 +308,7 @@ class TestYamlEvents(utils.BaseTestCase):
                                        '2000-01-03': 1},
                                 'f4': {'2000-01-04': 1}})
         ret = EventProcessingUtils._sort_results(info, key_by_date=False,
-                                        include_time=False,)
+                                                 include_time=False,)
         expected = {'f4': {'2000-01-04': 1},
                     'f3': {'2000-01-01': 1,
                            '2000-01-03': 1},

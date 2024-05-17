@@ -20,7 +20,8 @@ class DPKGVersion(object):
     def _compare_impl(self, op, b):
         try:
             output = subprocess.check_output(['dpkg', '--compare-versions',
-                                   self.a, op, b], stderr=subprocess.STDOUT)
+                                              self.a, op, b],
+                                             stderr=subprocess.STDOUT)
             if re.search(b"dpkg: warning: version.*has bad syntax:.*", output):
                 raise DPKGBadVersionSyntax(output)
         except subprocess.CalledProcessError as se:

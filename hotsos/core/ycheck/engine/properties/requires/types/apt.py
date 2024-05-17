@@ -166,8 +166,8 @@ class APTCheckItems(PackageCheckItemsBase):
                 break
             result = False
 
-        log.debug("package %s=%s within version ranges %s "
-            "(result=%s)", pkg, pkg_version, version_criteria, result)
+        log.debug("package %s=%s within version ranges %s (result=%s)", pkg,
+                  pkg_version, version_criteria, result)
         return result
 
 
