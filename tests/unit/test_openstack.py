@@ -312,25 +312,25 @@ OVN_OVSDB_ABORTED_TRANSACTIONS = """
 
 class TestOpenstackBase(utils.BaseTestCase):
 
-    IP_LINK_SHOW = None
+    ip_link_show = None
 
     def fake_ip_link_w_errors_drops(self):
-        lines = ''.join(self.IP_LINK_SHOW).format(10000000, 100000000)
+        lines = ''.join(self.ip_link_show).format(10000000, 100000000)
         return [line + '\n' for line in lines.split('\n')]
 
     def fake_ip_link_no_errors_drops(self):
-        lines = ''.join(self.IP_LINK_SHOW).format(0, 0)
+        lines = ''.join(self.ip_link_show).format(0, 0)
         return [line + '\n' for line in lines.split('\n')]
 
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         HotSOSConfig.plugin_name = 'openstack'
 
-        if self.IP_LINK_SHOW is None:
+        if self.ip_link_show is None:
             path = os.path.join(HotSOSConfig.data_root,
                                 "sos_commands/networking/ip_-s_-d_link")
             with open(path) as fd:
-                self.IP_LINK_SHOW = fd.readlines()
+                self.ip_link_show = fd.readlines()
 
 
 class TestOpenstackPluginCore(TestOpenstackBase):

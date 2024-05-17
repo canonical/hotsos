@@ -101,14 +101,14 @@ class TestOpenvswitchBase(utils.BaseTestCase):
 
 class TestCoreOpenvSwitch(TestOpenvswitchBase):
 
-    def testBase_offload_disabled(self):
+    def test_base_offload_disabled(self):
         enabled = OpenvSwitchBase().offload_enabled
         self.assertFalse(enabled)
 
     @utils.create_data_root({('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
                               'Open_vSwitch_._other_config'):
                              '{hw-offload="true", max-idle="30000"}'})
-    def testBase_offload_enabled(self):
+    def test_base_offload_enabled(self):
         enabled = OpenvSwitchBase().offload_enabled
         self.assertTrue(enabled)
 

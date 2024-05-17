@@ -439,7 +439,7 @@ class BaseTestCase(unittest.TestCase):
         return actual
 
     def setUp(self):
-        self.maxDiff = None
+        self.maxDiff = None  # pylint: disable=invalid-name
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
         # Always reset env globals
@@ -463,8 +463,8 @@ class BaseTestCase(unittest.TestCase):
         # properly.
         EventsPreloader.reset()
 
-    def _addDuration(self, *args, **kwargs):  # For Python >= 3.12
-        """ Python 3.12 needs subclasses of unittest.TestCase to implement
+    def _addDuration(self, *args, **kwargs):  # pylint: disable=invalid-name
+        """ Python >=3.12 needs subclasses of unittest.TestCase to implement
         this in order to record times and execute any cleanup actions once
         a test completes regardless of success. Otherwise it emits a warning.
         This generic implementation helps suppress it and possibly others in
