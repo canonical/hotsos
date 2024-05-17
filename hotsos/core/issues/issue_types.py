@@ -118,6 +118,10 @@ class NetworkWarning(IssueTypeBase):
     pass
 
 
+class NFSNameResolutionError(IssueTypeBase):
+    pass
+
+
 class RabbitMQWarning(IssueTypeBase):
     pass
 

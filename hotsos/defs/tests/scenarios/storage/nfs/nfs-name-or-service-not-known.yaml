@@ -1,0 +1,12 @@
+target-name: nfs-detect-mount-name-resolution-failure.yaml
+data-root:
+  files:
+    var/log/syslog: |
+      Aug 23 07:27:31 juju-0c7157-trilio-test-16 mount[809]: mount.nfs: Failed to resolve server my.great.nfsserver.org: Name or service not known
+      Oct  9 11:28:22 mail mount[714]: mount.nfs4: Failed to resolve server my.another.great.nfs.org: Temporary failure in name resolution
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  NFSNameResolutionError: >-
+    Name resolution failures have been detected for the following NFS mounts:
+    my.another.great.nfs.org, my.great.nfsserver.org

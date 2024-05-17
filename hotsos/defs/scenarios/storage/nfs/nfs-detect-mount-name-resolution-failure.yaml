@@ -1,0 +1,15 @@
+checks:
+  has_nfs_name_resolution_failures:
+    input:
+      path: ['var/log/syslog', 'var/log/boot.log']
+    expr: '.*mount.nfs.*Failed to resolve server (.*): (Name or service not known|Temporary failure in name resolution).*'
+conclusions:
+  nfs_name_resolution_failures:
+    decision: has_nfs_name_resolution_failures
+    raises:
+      type: NFSNameResolutionError
+      message: >-
+        Name resolution failures have been detected for the following NFS mounts:
+        {names}
+      format-dict:
+        names: '@checks.has_nfs_name_resolution_failures.search.results_group_1:unique_comma_join'
