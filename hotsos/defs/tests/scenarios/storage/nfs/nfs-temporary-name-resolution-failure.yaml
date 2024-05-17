@@ -1,0 +1,14 @@
+target-name: nfs-detect-mount-name-resolution-failure.yaml
+data-root:
+  files:
+    var/log/boot.log: |
+      mount.nfs: Failed to resolve server filesrv23: Temporary failure in name resolution
+      mountall: mount /epgbatch_data [623] terminated with status 32
+      mount.nfs: Failed to resolve server filesrv24: Temporary failure in name resolution
+      mountall: mount /epgbatch_data [632] terminated with status 32
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  NFSNameResolutionError: >-
+    Name resolution failures have been detected for the following NFS mounts:
+    filesrv23, filesrv24
