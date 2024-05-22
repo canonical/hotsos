@@ -31,7 +31,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r gh-test-requirements.txt
     - name: Test with tox
-      run: tox -e py3
+      run: tox -e py3-coverage
     - name: Test with tox (non-utc timezone)
       run: tox -e py3-non-utc-tz
     - name: Run pylint
@@ -40,8 +40,8 @@ jobs:
     - name: Run pep8
       run: tox -e pep8
       if: matrix.python-version == '3.10'
-    - name: Run coverage
-      run: tox -e coverage
+    - name: Run coveragereport
+      run: tox -e coveragereport
       if: matrix.python-version == '3.10'
     - name: Run bashate
       run: tox -e bashate
