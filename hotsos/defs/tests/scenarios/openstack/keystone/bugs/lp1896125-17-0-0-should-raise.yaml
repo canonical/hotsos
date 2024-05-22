@@ -1,0 +1,23 @@
+target-name: lp1896125.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  keystone 2:17.0.0-0ubuntu0.20.04.1 amd64
+    var/log/keystone/keystone.log: |
+      Traceback (most recent call last):
+          File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+            return next(self.gen)
+          File "/usr/lib/python3/dist-packages/ldappool/__init__.py", line 391, in connection
+            raise MaxConnectionReachedError(self.uri)
+      ldappool.MaxConnectionReachedError: ldaps://ldapserver.example.com
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1896125: >-
+    Known Keystone bug identified that causes Denial-of-Service when
+    LDAP connection pooling is enabled via use_pool=True. This bug may
+    manifest itself in LDAP operations such as OpenStack dashboard login
+    failures. It is recommended to upgrade to the next point release
+    available for the package. To workaround LDAP login failure problem,
+    disable LDAP pooling by setting `ldap-use-pool` to `false` for *all*
+    deployed `keystone-ldap` applications in charmed deployments. For
+    non-charmed deployments, set `use_pool` to `false` in the LDAP domain
+    /etc/keystone/domains/*.conf file.

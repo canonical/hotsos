@@ -1,0 +1,13 @@
+target-name: lp1896125.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  keystone 2:17.0.2-0ubuntu0.20.04.1 amd64
+    var/log/keystone/keystone.log: |
+      Traceback (most recent call last):
+          File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+            return next(self.gen)
+          File "/usr/lib/python3/dist-packages/ldappool/__init__.py", line 391, in connection
+            raise MaxConnectionReachedError(self.uri)
+      ldappool.MaxConnectionReachedError: ldaps://ldapserver.example.com
+raised-bugs:  # none
