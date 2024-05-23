@@ -6,6 +6,11 @@ from hotsos.core.utils import sorted_dict
 
 
 class _BaseProcKeyValue(object):
+    # Set to list of keys we expect to find in the file. If these keys are not
+    # found their value will be returned as DEFAULT_RETURN_VALUE instead of
+    # raising an AttributeError.
+    VALID_KEYS = []
+    DEFAULT_RETURN_VALUE = 0
 
     def __init__(self):
         self._proc_file_keys_values = {}
@@ -37,11 +42,15 @@ class _BaseProcKeyValue(object):
                     self._proc_file_keys_values[key] = value
                     return value
 
+        if key in self.VALID_KEYS:
+            return self.DEFAULT_RETURN_VALUE
+
         raise AttributeError('attribute {} not found in {}.'.
                              format(key, self.__class__.__name__))
 
 
 class VMStat(_BaseProcKeyValue):
+    VALID_KEYS = ['compact_fail', 'compact_success']
 
     @property
     def path(self):
@@ -61,6 +70,8 @@ class VMStat(_BaseProcKeyValue):
 
 
 class MemInfo(_BaseProcKeyValue):
+    VALID_KEYS = ['MemTotal', 'MemAvailable', 'Hugetlb', 'HugePages_Total',
+                  'HugePages_Free']
 
     @property
     def path(self):
