@@ -1,0 +1,16 @@
+target-name: disk_failure.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      <6>2024-04-17T00:26:33.540821+05:30 host-name kernel: [   29.751657] i40e 0000:5d:00.0 eth5: Changing Rx descriptor count from 512 to 4096
+      <6>2024-04-17T00:26:33.540822+05:30 host-name kernel: [   29.782098] sd 1:0:0:0: [sdb] tag#6 FAILED Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE
+      <6>2024-04-17T00:26:33.540823+05:30 host-name kernel: [   29.782101] sd 1:0:0:0: [sdb] tag#6 Sense Key : Medium Error [current]
+      <6>2024-04-17T00:26:33.540829+05:30 host-name kernel: [   29.782104] sd 1:0:0:0: [sdb] tag#6 Add. Sense: Unrecovered read error
+      <6>2024-04-17T00:26:33.540831+05:30 host-name kernel: [   29.782107] sd 1:0:0:0: [sdb] tag#6 CDB: Read(10) 28 00 00 85 1f 80 00 00 80 00
+      <3>2024-04-17T00:26:33.540832+05:30 host-name kernel: [   29.782109] print_req_error: critical medium error, dev sdb, sector 8724376
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  KernelError: >-
+    critical medium error detected in kern.log for device sdb. This implies
+    that this disk has a hardware issue!
