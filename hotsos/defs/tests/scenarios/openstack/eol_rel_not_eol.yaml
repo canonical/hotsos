@@ -1,0 +1,8 @@
+target-name: eol.yaml
+data-root:
+  copy-from-original:
+    - sos_commands/dpkg/dpkg_-l
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+
