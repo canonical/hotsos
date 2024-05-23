@@ -132,8 +132,9 @@ class OpenstackBase(object):
                 delta = (eol - today).days
                 return delta
 
-            log.warning("unable to determine eol info for unknown release "
-                        "name '%s'", self.release_name)
+        log.warning("unable to determine eol info for release "
+                    "name '%s' - assuming 0 days left", self.release_name)
+        return 0
 
     @property
     def bind_interfaces(self):
