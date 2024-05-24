@@ -740,12 +740,18 @@ class TestYamlProperties(utils.BaseTestCase):
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
 
         _result = {1: '2022-01-06', 2: 'foo'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertIsNone(ts)
+        with self.assertLogs(logger='hotsos', level='WARNING') as log:
+            ts = YPropertySearch.get_datetime_from_result(result)
+            self.assertIsNone(ts)
+            self.assertEqual(len(log.output), 1)
+            self.assertIn('failed to parse timestamp string', log.output[0])
 
         _result = {1: 'foo'}
-        ts = YPropertySearch.get_datetime_from_result(result)
-        self.assertIsNone(ts)
+        with self.assertLogs(logger='hotsos', level='WARNING') as log:
+            ts = YPropertySearch.get_datetime_from_result(result)
+            self.assertIsNone(ts)
+            self.assertEqual(len(log.output), 1)
+            self.assertIn('failed to parse timestamp string', log.output[0])
 
     @utils.create_data_root({'mytype/myplugin/defs.yaml':
                              'foo: bar\n',
@@ -1001,13 +1007,18 @@ class TestYamlProperties(utils.BaseTestCase):
 
     def test_cache_resolver(self):
         self.assertFalse(PropertyCacheRefResolver.is_valid_cache_ref('foo'))
-        for test in [('foo', 'first', 'foo'),
-                     (['foo', 'second'], 'first', 'foo'),
-                     (['1', '2'], 'comma_join', '1, 2'),
-                     (['1', '2', '1'], 'unique_comma_join', '1, 2'),
-                     ({'1': 'foo', '2': 'bar', '3': 'blah'},
-                      'comma_join', '1, 2, 3'),
-                     ({'1': 'foo', '2': 'bar', '3': 'blah'},
-                      'len', 3)]:
-            out = PropertyCacheRefResolver.apply_renderer(test[0], test[1])
-            self.assertEqual(out, test[2])
+        with self.assertLogs(logger='hotsos', level='WARNING') as log:
+            for test in [('foo', 'first', 'foo'),
+                         (['foo', 'second'], 'first', 'foo'),
+                         (['1', '2'], 'comma_join', '1, 2'),
+                         (['1', '2', '1'], 'unique_comma_join', '1, 2'),
+                         ({'1': 'foo', '2': 'bar', '3': 'blah'},
+                          'comma_join', '1, 2, 3'),
+                         ({'1': 'foo', '2': 'bar', '3': 'blah'},
+                          'len', 3)]:
+                out = PropertyCacheRefResolver.apply_renderer(test[0], test[1])
+                self.assertEqual(out, test[2])
+                # If input == output, log.warning() will have been called
+                if test[0] == test[2]:
+                    self.assertEqual(len(log.output), 1)
+                    self.assertIn('attempted to apply', log.output[0])

@@ -1,4 +1,9 @@
 target-name: eol.yaml
+mock:
+  patch:
+    hotsos.core.plugins.openstack.common.log:
+      args: []
+      kwargs: {}
 data-root:
   files:
     sos_commands/dpkg/dpkg_-l: |-

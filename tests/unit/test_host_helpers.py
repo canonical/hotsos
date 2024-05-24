@@ -260,7 +260,11 @@ class TestCLIHelper(utils.BaseTestCase):
     @utils.create_data_root({'sos_commands/date/date':
                              'Thu Mar 25 10:55:05 123UTC 2021'})
     def test_get_date_w_invalid_tz(self):
-        self.assertEqual(host_helpers.cli.CLIHelper().date(), "")
+        with self.assertLogs(logger='hotsos', level='ERROR') as log:
+            self.assertEqual(host_helpers.cli.CLIHelper().date(), "")
+            # If invalid date, log.error() will have been called
+            self.assertEqual(len(log.output), 1)
+            self.assertIn('has invalid date string', log.output[0])
 
     def test_ovs_ofctl_bin_w_errors(self):
 
@@ -477,9 +481,14 @@ Feb 09 22:38:17 compute4 systemd[1]: Starting System Logging Service...
         copy_from_original=['sos_commands/systemd/systemctl_list-units',
                             'sos_commands/systemd/systemctl_list-unit-files'])
     def test_start_time_svc_not_active(self):
-        svc = getattr(host_helpers.systemd.ServiceFactory(),
-                      'neutron-ovs-cleanup')
-        self.assertEqual(svc.start_time_secs, 0)
+        with self.assertLogs(logger='hotsos', level='WARNING') as log:
+            svc = getattr(host_helpers.systemd.ServiceFactory(),
+                          'neutron-ovs-cleanup')
+            self.assertEqual(svc.start_time_secs, 0)
+            # If not active, log.warning() will have been called
+            self.assertEqual(len(log.output), 1)
+            self.assertIn('no active status found for neutron-ovs-cleanup',
+                          log.output[0])
 
 
 class TestPebbleHelper(utils.BaseTestCase):
