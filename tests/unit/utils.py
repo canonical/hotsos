@@ -12,7 +12,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 # disable for stestr otherwise output is much too verbose
 from hotsos.core.log import log, logging, LoggingManager
-from hotsos.core.ycheck.events import EventsPreloader
+from hotsos.core.ycheck.common import GLOBAL_SEARCH_REGISTRY
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 
 # Must be set prior to other imports
@@ -461,7 +461,7 @@ class BaseTestCase(unittest.TestCase):
         # here and defer the loading of searches and execution of the search
         # to happen as part of test so that any env changes can be consumed
         # properly.
-        EventsPreloader.reset()
+        GLOBAL_SEARCH_REGISTRY.reset()
 
     def _addDuration(self, *args, **kwargs):  # pylint: disable=invalid-name
         """ Python >=3.12 needs subclasses of unittest.TestCase to implement

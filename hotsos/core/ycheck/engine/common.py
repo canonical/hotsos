@@ -9,13 +9,14 @@ from hotsos.core.log import log
 class YDefsLoader(object):
     """ Load yaml definitions. """
 
-    def __init__(self, ytype):
+    def __init__(self, ytype, filter_path=None):
         """
         @param ytype: the type of defs we are loading i.e. defs/<ytype>
         """
         self.ytype = ytype
         self._loaded_defs = None
         self.stats_num_files_loaded = 0
+        self.filter_path = filter_path
 
     def _is_def(self, abs_path):
         return abs_path.endswith('.yaml')
@@ -54,6 +55,24 @@ class YDefsLoader(object):
 
         return defs
 
+    def _apply_filter(self, loaded):
+        """
+        If a path filter has been provided, exclude any/all properties that are
+        not descendants of that path.
+        """
+        if not self.filter_path:
+            return loaded
+
+        groups = self.filter_path.split('.')
+        for i, subgroup in enumerate(groups):
+            if i == 0:
+                loaded = {subgroup: loaded[subgroup]}
+            else:
+                prev = groups[i - 1]
+                loaded[prev] = {subgroup: loaded[prev][subgroup]}
+
+        return loaded
+
     @property
     def plugin_defs(self):
         """ Load yaml defs for the current plugin and type. """
@@ -73,18 +92,12 @@ class YDefsLoader(object):
                       HotSOSConfig.plugin_name, self.stats_num_files_loaded)
             # only return if we loaded actual definitions (not just globals)
             if self.stats_num_files_loaded:
+                loaded = self._apply_filter(loaded)
                 self._loaded_defs = loaded
                 return loaded
 
 
 class YHandlerBase(object):
-
-    @property
-    @abc.abstractmethod
-    def searcher(self):
-        """
-        @return: FileSearcher object to be used by this handler.
-        """
 
     @abc.abstractmethod
     def run(self):

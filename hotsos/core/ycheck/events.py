@@ -1,22 +1,15 @@
 import abc
 from functools import cached_property
-from collections import UserDict
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.search import (
-    FileSearcher,
-    SearchConstraintSearchSince,
-)
 from hotsos.core.utils import sorted_dict
 from hotsos.core.ycheck.engine import (
     YDefsLoader,
     YHandlerBase,
     YDefsSection,
 )
-from hotsos.core.ycheck.engine.properties import search
-from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
-
+from hotsos.core.ycheck.common import GLOBAL_SEARCH_REGISTRY
 
 CALLBACKS = {}
 
@@ -27,17 +20,6 @@ class EventCallbackNameConflict(Exception):
 
 class EventCallbackNotFound(Exception):
     pass
-
-
-class EventsSearchRegistryKeyNotFound(Exception):
-    def __init__(self, key, all_keys):
-        self.key = key
-        self.all_keys = all_keys
-
-    def __str__(self):
-        return ("'{}' not found in event registry. Available keys are:"
-                "\n      - {}".
-                format(self.key, '\n      - '.join(self.all_keys)))
 
 
 class EventCallbackMeta(type):
@@ -265,267 +247,22 @@ class EventCallbackBase(EventProcessingUtils, metaclass=EventCallbackMeta):
         """ Callback method. """
 
 
-class EventsSearchRegistry(UserDict):
-    """
-    Maintains a set of event names - dot paths to events in yaml tree - that
-    have been registered as having a search property, a global FileSearcher
-    object and the results from running searches. This information is used
-    to load searches from a set of events, run them and save their results for
-    later retrieval. Search results are tagged with the names stored here.
-
-    It might be the case that an event handler wants to use its own
-    FileSearcher in which case this supports setting a _custom_searcher that
-    is cleared when the global searcher is accessed.
-    """
-
-    def __init__(self):
-        self._global_searcher = None
-        self._custom_searcher = None
-        self._global_searcher_results = None
-        super().__init__()
-
-    def __getitem__(self, key):
-        try:
-            return super().__getitem__(key)
-        except KeyError:
-            raise EventsSearchRegistryKeyNotFound(
-                                                key,
-                                                list(self.data)) from KeyError
-
-    def get_global_searcher_results(self):
-        if self._global_searcher is None:
-            raise Exception("registry global searcher is None")
-
-        if self._global_searcher_results is not None:
-            log.debug("using cached global event search results")
-            return self._global_searcher_results
-
-        log.debug("fetching global event search results")
-        self._global_searcher_results = self._global_searcher.run()
-        return self._global_searcher_results
-
-    def get_global_searcher(self, allow_create=False):
-        if self._global_searcher:
-            log.debug("using existing global searcher (%s)",
-                      self._global_searcher)
-            return self._global_searcher
-
-        if not allow_create:
-            raise Exception("global events searcher is not set but is "
-                            "expected to be.")
-
-        self._custom_searcher = None
-        constraint = SearchConstraintSearchSince(
-                                         ts_matcher_cls=CommonTimestampMatcher)
-        searcher = FileSearcher(constraint=constraint)
-        self._global_searcher = searcher
-        self._global_searcher_results = None
-        log.debug("creating new global searcher (%s)", searcher)
-        return searcher
-
-    def set_custom_searcher(self, searcher):
-        self._custom_searcher = searcher
-
-    @property
-    def current_searcher(self):
-        return self._custom_searcher or self.get_global_searcher()
-
-    def _reset_searchers(self):
-        self._global_searcher = None
-        self._custom_searcher = None
-        self._global_searcher_results = None
-
-    def reset(self, create_new_global_searcher=False):
-        log.info("resetting events global registry")
-        self._reset_searchers()
-        self.data = {}
-        if create_new_global_searcher:
-            self.get_global_searcher(allow_create=True)
-
-
-class EventsBase(object):
-    # IMPORTANT: this state is maintained at class level so that all
-    # implementations can share it. It is therefore crucial that state is reset
-    # before loading a new set of event searches.
-    search_registry = EventsSearchRegistry()
-
-    @staticmethod
-    def meets_requirements(event):
-        """
-        If an event or group has a requirements property it must return True
-        for the events to be executed.
-        """
-        if HotSOSConfig.force_mode:
-            return True
-
-        if event.requires and not event.requires.result:
-            log.debug("event '%s' pre-requisites not met - "
-                      "skipping", event.name)
-            return False
-
-        return True
-
-    @staticmethod
-    def skip_filtered_event(event_path):
-        """
-        Apply event filter if provided.
-        """
-        e_filter = HotSOSConfig.event_filter
-        if e_filter and event_path != e_filter:
-            log.info("skipping event %s (filter=%s)", event_path, e_filter)
-            return True
-
-        return False
-
-    @staticmethod
-    def get_defs(group=None):
-        """
-        Load the event definitions for the current plugin. By default all are
-        loaded and if a group path is provided, only events that are part of
-        that group are included.
-
-        @param group: a group path can be provided to include events part of a
-                      group.
-        """
-        log.debug("loading event defs (group=%s)", group)
-        plugin_defs = YDefsLoader('events').plugin_defs
-        if not plugin_defs:
-            return {}
-
-        if not group:
-            return plugin_defs
-
-        # Exclude events that are not part of the group.
-        groups = group.split('.')
-        for i, subgroup in enumerate(groups):
-            if i == 0:
-                plugin_defs = {subgroup: plugin_defs[subgroup]}
-            else:
-                prev = groups[i - 1]
-                plugin_defs[prev] = {subgroup: plugin_defs[prev][subgroup]}
-
-        return plugin_defs
-
-    @staticmethod
-    def _get_event_from_path(events, path):
-        """
-        Walk down path until we hit the event containing the
-        search property. We skip root/plugin name at start and
-        ".search" at the end.
-
-        @param event: YDefsSection object representing the entire tree of
-                      events.
-        @param path: event search property resolve path.
-        """
-        event = None
-        for branch in path.split('.')[1:-1]:
-            if event is None:
-                event = getattr(events, branch)
-            else:
-                event = getattr(event, branch)
-
-        return event
-
-    @classmethod
-    def _load_event_search(cls, event, searcher):
-        """ Load search information from event into searcher.
-
-        @param event: YDefsSection event object
-        @param searcher: FileSearcher object
-        """
-        allow_constraints = True
-        if event.input.command:
-            # don't apply constraints to command outputs
-            allow_constraints = False
-
-        for path in event.input.paths:
-            log.debug("loading search for event %s (path=%s, tag=%s)",
-                      event.resolve_path,
-                      path, event.search.unique_search_tag)
-            # Add to registry in case it is needed by handlers e.g. for
-            # sequence lookups.
-            cls.search_registry[event.resolve_path] = {'search':
-                                                       event.search}
-            event.search.load_searcher(
-                                searcher, path,
-                                allow_constraints=allow_constraints)
-
-    @classmethod
-    def load_searches(cls, group=None, searcher=None):
-        """
-        Find all events that have a search property and load their search into
-        the global searcher. A custom searcher will be used instead if
-        provided.
-
-        @param group: a group path can be provided to filter a subset of
-                      events.
-        @param searcher: customer FileSearcher object to be used instead of the
-                         global searcher.
-        """
-        if searcher is None:
-            searcher = cls.search_registry.get_global_searcher()
-            if len(searcher.catalog) > 0:
-                raise Exception("global event searcher catalog is not empty "
-                                "and must be reset before loading so as not "
-                                "to include searches from a previous run.")
-
-        log.debug("started loading event (group=%s) searches into searcher "
-                  "(%s)", group, searcher)
-
-        search_props = set()
-        events = YDefsSection(HotSOSConfig.plugin_name,
-                              cls.get_defs(group) or {})
-        for prop in events.manager.properties.values():
-            for item in prop:
-                if not issubclass(item['cls'], search.YPropertySearch):
-                    break
-
-                search_props.add(item['path'])
-
-        if len(search_props) == 0:
-            log.debug("finished loading event searches but no search "
-                      "properties found")
-            return
-
-        log.debug("loading searches for %s events", len(search_props))
-        for event_search_prop_path in search_props:
-            event = cls._get_event_from_path(events, event_search_prop_path)
-            if cls.skip_filtered_event(event.resolve_path):
-                log.debug("skipping event %s", event.resolve_path)
-                continue
-
-            cls._load_event_search(event, searcher)
-
-        log.debug("finished loading event searches into searcher "
-                  "(registry has %s items)", len(cls.search_registry))
-
-
-class EventsPreloader(EventsBase):
+class EventsPreloader(object):
     """
     Pre-load all searches used in event definitions into a global FileSearcher
     object and execute the search before running any event callbacks.
     """
 
     @classmethod
-    def execute(cls):
+    def run(cls):
         # Pre-load all event searches into a global event searcher
-        cls.load_searches()
+        GLOBAL_SEARCH_REGISTRY.preload_event_searches()
         # Run the searches so that results are ready when event handlers are
         # run.
-        cls.search_registry.get_global_searcher_results()
-
-    @classmethod
-    def reset(cls):
-        # Make sure we start with a clean registry
-        cls.search_registry.reset(create_new_global_searcher=True)
-
-    @classmethod
-    def run(cls):
-        cls.reset()
-        cls.execute()
+        GLOBAL_SEARCH_REGISTRY.searcher.results
 
 
-class EventHandlerBase(EventsBase, YHandlerBase, EventProcessingUtils):
+class EventHandlerBase(YHandlerBase, EventProcessingUtils):
     """
     Root name used to identify a group of event definitions. Once all the
     yaml definitions are loaded this defines the level below which events
@@ -533,62 +270,66 @@ class EventHandlerBase(EventsBase, YHandlerBase, EventProcessingUtils):
     """
     event_group = None
 
-    def __init__(self, *args, searcher=None, **kwargs):
-        """
-        @param searcher: optional FileSearcher object. If not provided then the
-                         global searcher will be used which is the recommended
-                         approach so that all searches are aggregated into one
-                         operation and therefore files only need to be searched
-                         once.
-        """
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if searcher is None:
-            log.debug("no searcher provided - using global searcher")
-            searcher = self.search_registry.get_global_searcher()
-            # If no searcher is provided it is assumed that the global searcher
-            # already exists, is loaded with searches and they have been
-            # executed. Unit tests however, should be resetting the registry
-            # prior to each run and we will therefore need to load searches
-            # each time which is why we do this here. This is therefore not
-            # intended to be used outside of a test scenario.
-            if len(searcher.catalog) == 0:
-                log.info("global searcher catalog is empty so launching "
-                         "pre-load of event searches for group '%s'",
-                         self.event_group)
-                # NOTE: this is not re-entrant safe and is only ever expected
-                #       to be done from a unit test.
-                self.load_searches(group=self.event_group)
-        else:
-            # If a searcher is provided we switch over but do not clear global
-            # searcher.
-            if self.search_registry._custom_searcher != searcher:
-                self.search_registry.set_custom_searcher(searcher)
-
-            self.load_searches(group=self.event_group, searcher=searcher)
+        # It is assumed that the global searcher already exists, is loaded with
+        # searches and they have been executed. Unit tests however, should be
+        # resetting the registry prior to each run and we will therefore need
+        # to load searches each time which is why we do this here. This is
+        # therefore not intended to be used outside of a test scenario.
+        if len(GLOBAL_SEARCH_REGISTRY) == 0:
+            log.info("global searcher catalog is empty so launching "
+                     "pre-load of event searches for group '%s'",
+                     self.event_group)
+            # NOTE: this is not re-entrant safe and is only ever expected
+            #       to be done from a unit test.
+            GLOBAL_SEARCH_REGISTRY.preload_event_searches(
+                                                        group=self.event_group)
 
         self._event_results = None
 
+    @staticmethod
+    def meets_requirements(item):
+        """
+        If an item or group has a requirements property it must return True
+        in order to be executed.
+        """
+        if HotSOSConfig.force_mode:
+            return True
+
+        if item.requires and not item.requires.result:
+            log.debug("item '%s' pre-requisites not met - "
+                      "skipping", item.name)
+            return False
+
+        return True
+
+    @staticmethod
+    def skip_filtered_item(event_path):
+        e_filter = HotSOSConfig.event_filter
+        if e_filter and event_path != e_filter:
+            log.info("skipping event %s (filter=%s)", event_path, e_filter)
+            return True
+
+        return False
+
     @property
     def searcher(self):
-        """
-        Return the current searcher we are using. If custom searcher is no
-        longer needed it is expected that it will have been cleared in the
-        __init__ method.
-        """
-        return self.search_registry.current_searcher
+        return GLOBAL_SEARCH_REGISTRY.searcher
 
     @cached_property
     def events(self):
         """ Load event definitions from yaml. """
-        group = YDefsSection(HotSOSConfig.plugin_name,
-                             self.get_defs(self.event_group) or {})
+        group_defs = YDefsLoader('events',
+                                 filter_path=self.event_group).plugin_defs
+        group = YDefsSection(HotSOSConfig.plugin_name, group_defs or {})
         log.debug("sections=%s, events=%s",
                   len(list(group.branch_sections)),
                   len(list(group.leaf_sections)))
 
         _events = {}
         for event in group.leaf_sections:
-            if self.skip_filtered_event(event.resolve_path):
+            if self.skip_filtered_item(event.resolve_path):
                 continue
 
             if not self.meets_requirements(event):
@@ -625,18 +366,13 @@ class EventHandlerBase(EventsBase, YHandlerBase, EventProcessingUtils):
         else:
             return global_results.find_by_tag(event_search.unique_search_tag)
 
-    def run(self, results=None):
+    def run(self):
         """
         Process each event and call respective callback functions when results
         where found.
-
-        @param results: If no results are provides we get them from the global
-                        searcher. This is provided for the case where a custom
-                        searcher is in use.
         """
-        if results is None:
-            results = self.search_registry.get_global_searcher_results()
 
+        results = GLOBAL_SEARCH_REGISTRY.searcher.results
         if self.final_event_results is not None:
             return self.final_event_results
 
@@ -649,7 +385,7 @@ class EventHandlerBase(EventsBase, YHandlerBase, EventProcessingUtils):
         info = {}
         for section_name, section in self.events.items():
             for event, fullname in section.items():
-                event_search = self.search_registry[fullname]['search']
+                event_search = GLOBAL_SEARCH_REGISTRY[fullname]['search']
                 search_results = self._get_event_search_results(event_search,
                                                                 results)
                 if not search_results:
@@ -667,11 +403,13 @@ class EventHandlerBase(EventsBase, YHandlerBase, EventProcessingUtils):
 
                 callback = CALLBACKS[callback_name]
                 seq_def = event_search.sequence_search
-                event_result = EventCheckResult(section_name, event,
-                                                search_results,
-                                                event_search.unique_search_tag,
-                                                self.searcher,
-                                                sequence_def=seq_def)
+                event_result = EventCheckResult(
+                                               section_name,
+                                               event,
+                                               search_results,
+                                               event_search.unique_search_tag,
+                                               GLOBAL_SEARCH_REGISTRY.searcher,
+                                               sequence_def=seq_def)
                 log.debug("executing event %s.%s callback '%s'",
                           event_result.section, event, callback_name)
                 ret = callback()(event_result)

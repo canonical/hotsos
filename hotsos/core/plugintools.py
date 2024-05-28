@@ -7,6 +7,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
 from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.ycheck.common import GlobalSearchContext
 from hotsos.core.ycheck.events import EventsPreloader
 
 PLUGINS = {}
@@ -390,6 +391,10 @@ class PluginRunner(object):
         self.parts = PLUGINS[plugin]
 
     def run(self):
+        with GlobalSearchContext():
+            return self._run()
+
+    def _run(self):
         part_mgr = PartManager()
         failed_parts = []
         # The following are executed as part of each plugin run (but not last).

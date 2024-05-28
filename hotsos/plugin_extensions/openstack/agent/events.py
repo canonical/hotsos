@@ -17,13 +17,8 @@ from hotsos.core.plugins.openstack.common import (
     OpenstackEventCallbackBase,
 )
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
-from hotsos.core.search import (
-    FileSearcher,
-    SearchConstraintSearchSince,
-)
 from hotsos.core import utils
 from hotsos.core.utils import sorted_dict
-from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
 
 VRRP_TRANSITION_WARN_THRESHOLD = 8
 
@@ -374,13 +369,10 @@ class AgentEventChecks(OpenstackChecksBase):
         if not self.openstack_installed:
             return
 
-        searcher = FileSearcher(constraint=SearchConstraintSearchSince(
-                                        ts_matcher_cls=CommonTimestampMatcher))
-        check_objs = [c(searcher=searcher) for c in checks]
-        results = searcher.run()
+        check_objs = [c() for c in checks]
         _final_results = {}
         for check in check_objs:
-            check.run(results)
+            check.run()
             check_results = check.raw_output
             if check_results:
                 _final_results.update(check_results)
