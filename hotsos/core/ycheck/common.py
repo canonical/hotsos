@@ -36,46 +36,40 @@ class SearchRegistryKeyNotFound(Exception):
                 format(self.key, '\n      - '.join(self.all_keys)))
 
 
-class GlobalSearcher(FileSearcher):
-    """ Searcher with deferred execution and cached results. """
+class GlobalSearcher(UserDict):
+    """
+    A shared searcher to be used to load searches from as many sources as
+    possible prior to execution so as to minimise the amount of times we have
+    to walk the same files. The is particularly useful for YAML definitions
+    i.e. events and scenarios that contain search properties.
+
+    Search properties are registered using their dot paths i.e. to events or
+    scenarios in the yaml tree that contains them. Entries must be unique. Once
+    all searches are loaded they are executed and their results are made
+    available to anyone who wants them. Results are accessed using the yaml dot
+    path used to register the search.
+    """
 
     def __init__(self):
         constraint = SearchConstraintSearchSince(
                                          ts_matcher_cls=CommonTimestampMatcher)
         self._results = None
-        log.debug("creating new global searcher (%s)", self)
-        super().__init__(constraint=constraint)
-
-    @property
-    def results(self):
-        """
-        Execute searches of first time called and cached results for future
-        callers.
-        """
-        if self._results is not None:
-            log.debug("using cached global searcher results")
-            return self._results
-
-        log.debug("fetching global searcher results")
-        self._results = self.run()
-        return self._results
-
-
-class GlobalSearchRegistry(UserDict):
-    """
-    Maintains a set of properties e.g. dot paths to events or scenarios in yaml
-    tree - that have been registered as having a search property, a global
-    FileSearcher object and the results from running searches. This information
-    is used to load searches from a set of events, run them and save their
-    results for later retrieval. Search results are tagged with the names
-    stored here.
-    """
-
-    def __init__(self):
-        self._global_searcher = None
+        self._global_searcher = FileSearcher(constraint=constraint)
+        log.debug("creating new global searcher (%s)", self._global_searcher)
         super().__init__()
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args, **kwargs):
+        pass
+
     def __setitem__(self, key, item):
+        """ Register a new search.
+
+        @param key: search property YAML resolve path.
+        @param item: search property object.
+        """
         if key in self:
             raise SearchRegistryKeyConflict(key, list(self.data))
 
@@ -83,6 +77,10 @@ class GlobalSearchRegistry(UserDict):
         super().__setitem__(key, item)
 
     def __getitem__(self, key):
+        """ Access a search entry.
+
+        @param key: search property YAML resolve path.
+        """
         try:
             return super().__getitem__(key)
         except KeyError:
@@ -90,18 +88,21 @@ class GlobalSearchRegistry(UserDict):
 
     @property
     def searcher(self):
-        if self._global_searcher is None:
-            raise Exception("global searcher is not set but is expected to "
-                            "be.")
-
-        log.debug("using existing global searcher (%s)",
-                  self._global_searcher)
         return self._global_searcher
 
-    def reset(self):
-        log.info("resetting global searcher registry")
-        self.data = {}
-        self._global_searcher = GlobalSearcher()
+    @property
+    def results(self):
+        """
+        Execute searches if first time called and use cached results for
+        future calls.
+        """
+        if self._results is not None:
+            log.debug("using cached global searcher results")
+            return self._results
+
+        log.debug("fetching global searcher results")
+        self._results = self._global_searcher.run()
+        return self._results
 
     @staticmethod
     def skip_filtered_item(event_path):
@@ -129,8 +130,7 @@ class GlobalSearchRegistry(UserDict):
 
         return item
 
-    @classmethod
-    def _load_item_search(cls, item, searcher):
+    def _load_item_search(self, item, searcher):
         """ Load search information from item into searcher.
 
         @param item: YDefsSection item object
@@ -146,7 +146,7 @@ class GlobalSearchRegistry(UserDict):
 
         # Add to registry in case it is needed by handlers e.g. for
         # sequence lookups.
-        GLOBAL_SEARCH_REGISTRY[item.resolve_path] = {'search': item.search}
+        self.data[item.resolve_path] = {'search': item.search}
 
         for path in item.input.paths:
             log.debug("loading search for item %s (path=%s, tag=%s)",
@@ -156,8 +156,7 @@ class GlobalSearchRegistry(UserDict):
                                 searcher, path,
                                 allow_constraints=allow_constraints)
 
-    @classmethod
-    def preload_event_searches(cls, group=None):
+    def preload_event_searches(self, group=None):
         """
         Find all items that have a search property and load their search into
         the global searcher.
@@ -165,7 +164,7 @@ class GlobalSearchRegistry(UserDict):
         @param group: a group path can be provided to filter a subset of
                       items.
         """
-        searcher = GLOBAL_SEARCH_REGISTRY.searcher
+        searcher = self.searcher
         if len(searcher.catalog) > 0:
             raise Exception("global searcher catalog is not empty "
                             "and must be reset before loading so as not "
@@ -191,27 +190,12 @@ class GlobalSearchRegistry(UserDict):
 
         log.debug("loading searches for %s items", len(search_props))
         for item_search_prop_path in search_props:
-            item = cls._find_search_prop_parent(items, item_search_prop_path)
-            if cls.skip_filtered_item(item.resolve_path):
+            item = self._find_search_prop_parent(items, item_search_prop_path)
+            if self.skip_filtered_item(item.resolve_path):
                 log.debug("skipping item %s", item.resolve_path)
                 continue
 
-            cls._load_item_search(item, searcher)
+            self._load_item_search(item, searcher)
 
         log.debug("finished loading item searches into searcher "
-                  "(registry has %s items)", len(GLOBAL_SEARCH_REGISTRY))
-
-
-# Maintain a global searcher in module scope so that it is available to
-# everyone. Upon the start of each plugin this should be cleared and populated
-# then executed as early as possible so that results are ready to be used.
-GLOBAL_SEARCH_REGISTRY = GlobalSearchRegistry()
-
-
-class GlobalSearchContext(object):
-
-    def __enter__(self):
-        GLOBAL_SEARCH_REGISTRY.reset()
-
-    def __exit__(self, *args, **kwargs):
-        GLOBAL_SEARCH_REGISTRY.reset()
+                  "(registry has %s items)", len(self))

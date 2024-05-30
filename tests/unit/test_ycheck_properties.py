@@ -19,6 +19,7 @@ from hotsos.core.ycheck.engine.properties.common import (
     YPropertyBase,
     PropertyCacheRefResolver,
 )
+from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 from hotsos.core.ycheck.engine.properties.requires.types import (
     apt,
@@ -282,7 +283,9 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                scenarios.YScenarioChecker(searcher).run()
+
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'foo')
 
@@ -309,7 +312,9 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                scenarios.YScenarioChecker(searcher).run()
+
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'bar')
 
@@ -336,7 +341,9 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                scenarios.YScenarioChecker(searcher).run()
+
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'foo')
 
@@ -362,7 +369,9 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                scenarios.YScenarioChecker(searcher).run()
+
             self.assertEqual(len(IssuesStore().load()), 0)
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
@@ -391,7 +400,9 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                scenarios.YScenarioChecker(searcher).run()
+
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'foo')
 
@@ -421,7 +432,9 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
             with open(tmpscenarios.path, 'w') as fd:
                 fd.write(scenario)
 
-            scenarios.YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                scenarios.YScenarioChecker(searcher).run()
+
             issues = list(IssuesStore().load().values())[0]
             self.assertEqual(issues[0]['message'], 'snapd')
 

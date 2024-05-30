@@ -7,6 +7,7 @@ from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.plugins.openvswitch import OpenvSwitchBase, OVSDB
 from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.openvswitch import (
     event_checks,
     summary,
@@ -269,8 +270,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                     {'2022-02-10': 3},
                 'bridge-no-such-device': {
                     '2022-02-10': {'tap6a0486f9-82': 1}}}}
-        inst = event_checks.OVSEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVSEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs-vswitchd.yaml',
@@ -284,8 +286,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
             'ovs-vswitchd': {
                 'assertion-failures':
                     {'2023-06-08': 2}}}
-        inst = event_checks.OVSEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVSEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml',
@@ -303,8 +306,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         '2022-02-04': 6,
                         '2022-02-09': 2,
                         '2022-02-10': 4}}}}
-        inst = event_checks.OVSEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVSEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml',
@@ -319,8 +323,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 'ovs-vswitchd': {
                     'EMER': {
                         '2023-06-08': 2}}}}
-        inst = event_checks.OVSEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVSEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('datapath-checks.yaml',
@@ -336,8 +341,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                             'RX': {
                                 'dropped': 1394875,
                                 'packets': 309}}}}
-        inst = event_checks.OVSEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVSEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn-central.yaml',
@@ -363,9 +369,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                             '2022-02-16': 2,
                             '2022-02-17': 1}
                     }}
-
-        inst = event_checks.OVNEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVNEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn-controller.yaml',
@@ -382,8 +388,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         '2022-02-16':
                             {'provnet-aa3a4fec-a788-42e6-a773-bf3a0cdb52c2':
                              1}}}}
-        inst = event_checks.OVNEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVNEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml',
@@ -402,9 +409,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         'ovsdb-server-sb': {
                             'ERR': {'2022-02-16': 2, '2022-02-17': 2},
                             'WARN': {'2022-02-16': 23, '2022-02-17': 23}}}}
-
-        inst = event_checks.OVNEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVNEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd.yaml',
@@ -422,8 +429,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                                 '2022-07-27': {'ovn-abc-xb-0': 1,
                                                'ovn-abc-xa-2': 1,
                                                'ovn-abc-xa-15': 3}}}}}}
-        inst = event_checks.OVSEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVSEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn/ovn-central.yaml',
@@ -438,8 +446,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                                             '2022-07-27': 2}},
                     'ovsdb-server-sb': {'leadership-transfers': {
                                             '2022-07-27': 2}}}
-        inst = event_checks.OVNEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVNEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn/ovn-central.yaml',
@@ -450,8 +459,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
     def test_ovn_northd_leadership_changes(self):
         expected = {'ovn-northd': {'leadership-acquired': {
                                             '2023-12-13': 2}}}
-        inst = event_checks.OVNEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVNEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn/ovn-central.yaml',
@@ -466,8 +476,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                                             '2022-07-13': 3}},
                     'ovsdb-server-sb': {'compactions': {
                                             '2022-07-14': 3}}}
-        inst = event_checks.OVNEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVNEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs/datapath-checks.yaml',
@@ -479,8 +490,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 'deferred-action-limit-reached': {
                     'ovs-system':
                         {'Mar 3': 7}}}}
-        inst = event_checks.OVSEventChecks()
-        self.assertEqual(self.part_output_to_actual(inst.output), expected)
+        with GlobalSearcher() as searcher:
+            inst = event_checks.OVSEventChecks(searcher)
+            self.assertEqual(self.part_output_to_actual(inst.output), expected)
 
 
 @utils.load_templated_tests('scenarios/openvswitch')
@@ -511,7 +523,9 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                         self.processes[svc] = 1
 
         mock_systemd.side_effect = FakeSystemdHelper
-        YScenarioChecker().run()
+        with GlobalSearcher() as searcher:
+            YScenarioChecker(searcher).run()
+
         msg = ('The ovn-northd service on this ovn-central host is not '
                'active/running which means that changes made to the '
                'northbound database are not being ported to the southbound '
@@ -544,7 +558,9 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
 
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                YScenarioChecker(searcher).run()
+
             issues = list(IssuesStore().load().values())
             self.assertEqual(len(issues), 0)
 
@@ -573,7 +589,9 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
 
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                YScenarioChecker(searcher).run()
+
             msg = ("One or more of services ovn-northd, ovn-ovsdb-server-nb "
                    "and ovn-ovsdb-server-sb has not been restarted since ssl "
                    "certs were updated and this may breaking their ability to "
@@ -601,7 +619,9 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                     FakeSystemdService('ovn-controller', 'enabled')}
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                YScenarioChecker(searcher).run()
+
             issues = list(IssuesStore().load().values())
             self.assertEqual(len(issues), 0)
 
@@ -625,7 +645,9 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                     FakeSystemdService('ovn-controller', 'enabled')}
         with mock.patch(('hotsos.core.host_helpers.systemd.SystemdHelper.'
                          'services'), services):
-            YScenarioChecker().run()
+            with GlobalSearcher() as searcher:
+                YScenarioChecker(searcher).run()
+
             msg = ("ovn-controller has not been restarted since ssl certs "
                    "were updated so may be using old certs. Please check.")
             issues = list(IssuesStore().load().values())[0]

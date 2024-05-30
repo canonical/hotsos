@@ -3,6 +3,7 @@ import os
 import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.engine import YDefsSection
+from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.events import (
     EventHandlerBase,
     EventCallbackBase,
@@ -183,7 +184,9 @@ class TestYamlEvents(utils.BaseTestCase):
             def event_group(self):
                 return 'mygroup'
 
-        MyEventHandler().run()
+        with GlobalSearcher() as searcher:
+            MyEventHandler(global_searcher=searcher).run()
+
         self.assertEqual(match_count['count'], 3)
         self.assertEqual(list(callbacks_called.keys()),
                          ['my-sequence-search',
@@ -204,7 +207,8 @@ class TestYamlEvents(utils.BaseTestCase):
                 return 'mygroup'
 
         with self.assertRaises(EventCallbackNotFound):
-            MyEventHandler().run()
+            with GlobalSearcher() as searcher:
+                MyEventHandler(global_searcher=searcher).run()
 
     @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE,
                              'a/path': 'content'})
@@ -224,7 +228,9 @@ class TestYamlEvents(utils.BaseTestCase):
                     'event2': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
                                'event2')}}
 
-        handler = MyEventHandler()
+        with GlobalSearcher() as searcher:
+            handler = MyEventHandler(global_searcher=searcher)
+
         self.assertEqual(handler.events, defs)
         self.assertEqual(len(handler.searcher.catalog), 1)
 
@@ -245,7 +251,9 @@ class TestYamlEvents(utils.BaseTestCase):
         defs = {'myeventsubgroup': {
                     'event2': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
                                'event2')}}
-        handler = MyEventHandler()
+        with GlobalSearcher() as searcher:
+            handler = MyEventHandler(global_searcher=searcher)
+
         self.assertEqual(handler.events, defs)
         self.assertEqual(len(handler.searcher.catalog), 1)
 
@@ -263,7 +271,9 @@ class TestYamlEvents(utils.BaseTestCase):
                 return 'mygroup'
 
         defs = {}
-        handler = MyEventHandler()
+        with GlobalSearcher() as searcher:
+            handler = MyEventHandler(global_searcher=searcher)
+
         self.assertEqual(handler.events, defs)
         self.assertEqual(len(handler.searcher.catalog), 0)
 

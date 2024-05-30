@@ -12,7 +12,6 @@ from hotsos.core.issues import (
 )
 from hotsos.core.log import log
 from hotsos.core.plugins.openstack.common import (
-    OpenstackChecksBase,
     OpenstackEventHandlerBase,
     OpenstackEventCallbackBase,
 )
@@ -73,10 +72,13 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
 
 
 class ApacheEventChecks(OpenstackEventHandlerBase):
+    summary_part_index = 8
     event_group = 'apache'
 
-    def __104_summary_apache(self):
-        return self.final_event_results
+    def __101_summary_agent_checks(self):
+        out = self.run()
+        if out:
+            return {self.event_group: out}
 
 
 class APIEventsCallback(OpenstackEventCallbackBase):
@@ -92,12 +94,13 @@ class APIEventsCallback(OpenstackEventCallbackBase):
 
 
 class APIEvents(OpenstackEventHandlerBase):
+    summary_part_index = 9
     event_group = 'http-requests'
 
-    def __105_summary_http_requests(self):
-        out = self.final_event_results
+    def __100_summary_api_info(self):
+        out = self.run()
         if out:
-            return out
+            return {self.event_group: out}
 
 
 class AgentEventsCallback(OpenstackEventCallbackBase):
@@ -193,21 +196,14 @@ class NeutronAgentEventChecks(OpenstackEventHandlerBase):
     results are sorted by date and the "top 5" are presented along with stats
     on the full set of samples.
     """
+    summary_part_index = 7
     event_group = 'neutron.agents'
 
-    # NOTE: can share summary index with l3 agent since they will never be
-    #       colocated.
-    def __102_summary_neutron_server(self):
-        out = self.final_event_results or {}
-        return out.get('neutron-server')
-
-    def __102_summary_neutron_l3_agent(self):
-        out = self.final_event_results or {}
-        return out.get('neutron-l3-agent')
-
-    def __103_summary_neutron_ovs_agent(self):
-        out = self.final_event_results or {}
-        return out.get('neutron-ovs-agent')
+    def __101_summary_agent_checks(self):
+        # NOTE: order is important here
+        agents = ['neutron-server', 'neutron-l3-agent', 'neutron-ovs-agent']
+        out = self.run() or {}
+        return {agent: out[agent] for agent in agents if agent in out}
 
 
 class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
@@ -249,10 +245,13 @@ class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
 
 
 class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
+    summary_part_index = 10
     event_group = 'octavia'
 
-    def __106_summary_octavia(self):
-        return self.final_event_results
+    def __101_summary_agent_checks(self):
+        out = self.run()
+        if out:
+            return {self.event_group: out}
 
 
 class PCINotFoundCallback(OpenstackEventCallbackBase):
@@ -266,10 +265,13 @@ class PCINotFoundCallback(OpenstackEventCallbackBase):
 
 
 class NovaComputeEventChecks(OpenstackEventHandlerBase):
+    summary_part_index = 11
     event_group = 'nova.nova-compute'
 
-    def __107_summary_nova(self):
-        return self.final_event_results
+    def __101_summary_agent_checks(self):
+        out = self.run()
+        if out:
+            return {'nova': out}
 
 
 class ApparmorCallback(OpenstackEventCallbackBase):
@@ -289,10 +291,13 @@ class ApparmorCallback(OpenstackEventCallbackBase):
 
 
 class AgentApparmorChecks(OpenstackEventHandlerBase):
+    summary_part_index = 12
     event_group = 'apparmor'
 
-    def __108_summary_apparmor(self):
-        return self.final_event_results
+    def __101_summary_agent_checks(self):
+        out = self.run()
+        if out:
+            return {self.event_group: out}
 
 
 class L3HACallback(OpenstackEventCallbackBase):
@@ -355,43 +360,10 @@ class NeutronL3HAEventCheckJournalCtl(object):
 
 
 class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
+    summary_part_index = 13
     event_group = 'neutron.ml2-routers'
 
-    def __109_summary_neutron_l3ha(self):
-        return self.final_event_results
-
-
-class AgentEventChecks(OpenstackChecksBase):
-    summary_part_index = 7
-
-    def _run_checks(self, checks):
-        # Only run if we think Openstack is installed.
-        if not self.openstack_installed:
-            return
-
-        check_objs = [c() for c in checks]
-        _final_results = {}
-        for check in check_objs:
-            check.run()
-            check_results = check.raw_output
-            if check_results:
-                _final_results.update(check_results)
-
-        return _final_results
-
-    def __100_summary_api_info(self):
-        checks = [APIEvents]
-        results = self._run_checks(checks)
-        if results:
-            return results
-
     def __101_summary_agent_checks(self):
-        checks = [AgentApparmorChecks,
-                  ApacheEventChecks,
-                  NeutronL3HAEventChecks,
-                  NeutronAgentEventChecks,
-                  NovaComputeEventChecks,
-                  OctaviaAgentEventChecks]
-        results = self._run_checks(checks)
-        if results:
-            return results
+        out = self.run()
+        if out:
+            return {'neutron-l3ha': out}

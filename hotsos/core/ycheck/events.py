@@ -9,7 +9,6 @@ from hotsos.core.ycheck.engine import (
     YHandlerBase,
     YDefsSection,
 )
-from hotsos.core.ycheck.common import GLOBAL_SEARCH_REGISTRY
 
 CALLBACKS = {}
 
@@ -247,19 +246,18 @@ class EventCallbackBase(EventProcessingUtils, metaclass=EventCallbackMeta):
         """ Callback method. """
 
 
-class EventsPreloader(object):
+class EventsPreloader(YHandlerBase):
     """
     Pre-load all searches used in event definitions into a global FileSearcher
     object and execute the search before running any event callbacks.
     """
 
-    @classmethod
-    def run(cls):
+    def run(self):
         # Pre-load all event searches into a global event searcher
-        GLOBAL_SEARCH_REGISTRY.preload_event_searches()
+        self.global_searcher.preload_event_searches()
         # Run the searches so that results are ready when event handlers are
         # run.
-        GLOBAL_SEARCH_REGISTRY.searcher.results
+        self.global_searcher.results
 
 
 class EventHandlerBase(YHandlerBase, EventProcessingUtils):
@@ -277,13 +275,13 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         # resetting the registry prior to each run and we will therefore need
         # to load searches each time which is why we do this here. This is
         # therefore not intended to be used outside of a test scenario.
-        if len(GLOBAL_SEARCH_REGISTRY) == 0:
+        if len(self.global_searcher) == 0:
             log.info("global searcher catalog is empty so launching "
                      "pre-load of event searches for group '%s'",
                      self.event_group)
             # NOTE: this is not re-entrant safe and is only ever expected
             #       to be done from a unit test.
-            GLOBAL_SEARCH_REGISTRY.preload_event_searches(
+            self.global_searcher.preload_event_searches(
                                                         group=self.event_group)
 
         self._event_results = None
@@ -315,7 +313,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
     @property
     def searcher(self):
-        return GLOBAL_SEARCH_REGISTRY.searcher
+        return self.global_searcher.searcher
 
     @cached_property
     def events(self):
@@ -372,7 +370,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         where found.
         """
 
-        results = GLOBAL_SEARCH_REGISTRY.searcher.results
+        results = self.global_searcher.results
         if self.final_event_results is not None:
             return self.final_event_results
 
@@ -385,7 +383,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         info = {}
         for section_name, section in self.events.items():
             for event, fullname in section.items():
-                event_search = GLOBAL_SEARCH_REGISTRY[fullname]['search']
+                event_search = self.global_searcher[fullname]['search']
                 search_results = self._get_event_search_results(event_search,
                                                                 results)
                 if not search_results:
@@ -408,7 +406,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                                                event,
                                                search_results,
                                                event_search.unique_search_tag,
-                                               GLOBAL_SEARCH_REGISTRY.searcher,
+                                               self.global_searcher.searcher,
                                                sequence_def=seq_def)
                 log.debug("executing event %s.%s callback '%s'",
                           event_result.section, event, callback_name)

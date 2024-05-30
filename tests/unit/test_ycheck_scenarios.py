@@ -10,6 +10,7 @@ from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import FileSearcher, SearchDef
 from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine.properties.search import YPropertySearch
+from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.engine.properties.conclusions import (
     YPropertyConclusion,
 )
@@ -34,6 +35,14 @@ class TestProperty(object):
     @property
     def always_false(self):
         return False
+
+
+def global_search_context(f):
+    def global_search_context_inner(inst, *args, **kwargs):
+        with GlobalSearcher() as searcher:
+            return f(inst, searcher, *args, **kwargs)
+
+    return global_search_context_inner
 
 
 class TestConfig(SectionalConfigBase):
@@ -632,8 +641,9 @@ class TestYamlScenarios(utils.BaseTestCase):
     @init_test_scenario(SCENARIO_W_EXPR_LIST.
                         format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': 'hello x\n'})
-    def test_yaml_def_expr_list(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_yaml_def_expr_list(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 3)
         i_types = [i['type'] for i in issues[0]]
@@ -648,8 +658,9 @@ class TestYamlScenarios(utils.BaseTestCase):
                         format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': ("blah blah\nit's the start\nblah "
                                           "blah\nit's the end")})
-    def test_yaml_def_seq_search(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_yaml_def_seq_search(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 1)
         i_types = [i['type'] for i in issues[0]]
@@ -664,8 +675,9 @@ class TestYamlScenarios(utils.BaseTestCase):
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
                                  'Thu Feb 10 16:19:17 UTC 2022'})
-    def test_yaml_def_scenario_checks_false(self):
-        checker = scenarios.YScenarioChecker()
+    @global_search_context
+    def test_yaml_def_scenario_checks_false(self, global_searcher):
+        checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
         for scenario in checker.scenarios:
@@ -678,8 +690,9 @@ class TestYamlScenarios(utils.BaseTestCase):
         self.assertEqual(IssuesManager().load_issues(), {})
 
     @init_test_scenario(SCENARIO_CHECKS)
-    def test_yaml_def_scenario_checks_requires(self):
-        checker = scenarios.YScenarioChecker()
+    @global_search_context
+    def test_yaml_def_scenario_checks_requires(self, global_searcher):
+        checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
         checked = 0
@@ -716,8 +729,9 @@ class TestYamlScenarios(utils.BaseTestCase):
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
                                  'Thu Mar 31 16:19:17 UTC 2021'})
-    def test_yaml_def_scenario_checks_expr(self):
-        checker = scenarios.YScenarioChecker()
+    @global_search_context
+    def test_yaml_def_scenario_checks_expr(self, global_searcher):
+        checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
         for scenario in checker.scenarios:
@@ -794,15 +808,17 @@ class TestYamlScenarios(utils.BaseTestCase):
             self.assertEqual(len(result), 2)
 
     @init_test_scenario(YDEF_NESTED_LOGIC)
-    def test_yaml_def_nested_logic(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_yaml_def_nested_logic(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['message'] for issue in issues]),
                          sorted(['conc1', 'conc3']))
 
     @init_test_scenario(YAML_DEF_REQUIRES_MAPPED)
-    def test_yaml_def_mapped_overrides(self):
-        checker = scenarios.YScenarioChecker()
+    @global_search_context
+    def test_yaml_def_mapped_overrides(self, global_searcher):
+        checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
         for scenario in checker.scenarios:
@@ -817,9 +833,11 @@ class TestYamlScenarios(utils.BaseTestCase):
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
     @init_test_scenario(SCENARIO_W_ERROR)
-    def test_failed_scenario_caught(self, mock_log1, mock_log2, _mock_log3,
+    @global_search_context
+    def test_failed_scenario_caught(self, global_searcher, mock_log1,
+                                    mock_log2, _mock_log3,
                                     mock_log4, mock_log5, mock_log6):
-        scenarios.YScenarioChecker().run()
+        scenarios.YScenarioChecker(global_searcher).run()
 
         # Check caught exception logs
         args = ('failed to import and call property %s',
@@ -855,16 +873,18 @@ class TestYamlScenarios(utils.BaseTestCase):
 
     @init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
-    def test_config_scenario_fail(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_config_scenario_fail(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['message'] for issue in issues],
                          ['cfg is bad', 'cfg is bad2'])
 
     @init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 102\n'})
-    def test_config_scenario_pass(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_config_scenario_pass(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
@@ -873,9 +893,11 @@ class TestYamlScenarios(utils.BaseTestCase):
     @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.'
                 'ScenarioException')
     @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
-    def test_raises_w_invalid_types(self, mock_exc, mock_log, mock_log2):
+    @global_search_context
+    def test_raises_w_invalid_types(self, global_searcher, mock_exc, mock_log,
+                                    mock_log2):
         mock_exc.side_effect = Exception
-        scenarios.YScenarioChecker().run()
+        scenarios.YScenarioChecker(global_searcher).run()
 
         # Check caught exception logs
         args = ('caught exception when running scenario %s:', 'scenarioD')
@@ -900,8 +922,9 @@ class TestYamlScenarios(utils.BaseTestCase):
                 self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(VARS)
-    def test_vars(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_vars(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 4)
         msgs = []
@@ -922,11 +945,12 @@ class TestYamlScenarios(utils.BaseTestCase):
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
     @init_test_scenario(LOGIC_TEST)
-    def test_logical_collection_and_with_fail(self, mock_log1, mock_log2,
-                                              _mock_log3, mock_log4,
+    @global_search_context
+    def test_logical_collection_and_with_fail(self, global_searcher, mock_log1,
+                                              mock_log2, _mock_log3, mock_log4,
                                               mock_log5, mock_log6,
                                               _mock_log7):
-        scenarios.YScenarioChecker().run()
+        scenarios.YScenarioChecker(global_searcher).run()
         expected = [
             (mock_log1,
              ('failed to import and call property %s',
@@ -961,39 +985,45 @@ class TestYamlScenarios(utils.BaseTestCase):
                 self.assertEqual(issue['message'], msg)
 
     @init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
-    def test_logical_collection_nested_no_issue(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_logical_collection_nested_no_issue(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
     @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE)
-    def test_logical_collection_nested_w_issue(self):
-        scenarios.YScenarioChecker().run()
+    @global_search_context
+    def test_logical_collection_nested_w_issue(self, global_searcher):
+        scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
 
     @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    def test_scenarios_filter_none(self):
-        sc = scenarios.YScenarioChecker()
+    @global_search_context
+    def test_scenarios_filter_none(self, global_searcher):
+        sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
 
     @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    def test_scenarios_filter_myscenario(self):
+    @global_search_context
+    def test_scenarios_filter_myscenario(self, global_searcher):
         HotSOSConfig.scenario_filter = 'myplugin.scenariogroup.myscenario'
-        sc = scenarios.YScenarioChecker()
+        sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
 
     @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    def test_scenarios_filter_nonexistent(self):
+    @global_search_context
+    def test_scenarios_filter_nonexistent(self, global_searcher):
         HotSOSConfig.scenario_filter = 'blahblah'
-        sc = scenarios.YScenarioChecker()
+        sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], [])
 
     @init_test_scenario(CONCLUSION_PRIORITY_1, 'myscenario')
-    def test_conclusion_priority_exec_highest(self):
+    @global_search_context
+    def test_conclusion_priority_exec_highest(self, global_searcher):
         called = []
 
         class YPropertyConclusionTest(YPropertyConclusion):
@@ -1006,7 +1036,7 @@ class TestYamlScenarios(utils.BaseTestCase):
         OverrideRegistry.unregister([YPropertyConclusion])
         try:
             OverrideRegistry.register([YPropertyConclusionTest])
-            scenarios.YScenarioChecker().run()
+            scenarios.YScenarioChecker(global_searcher).run()
         finally:
             OverrideRegistry.unregister([YPropertyConclusionTest])
             OverrideRegistry.register([YPropertyConclusion])
@@ -1014,7 +1044,8 @@ class TestYamlScenarios(utils.BaseTestCase):
         self.assertEqual(called, ['conc3'])
 
     @init_test_scenario(CONCLUSION_PRIORITY_2, 'myscenario')
-    def test_conclusion_priority_exec_all_same(self):
+    @global_search_context
+    def test_conclusion_priority_exec_all_same(self, global_searcher):
         called = []
 
         class YPropertyConclusionTest(YPropertyConclusion):
@@ -1027,7 +1058,7 @@ class TestYamlScenarios(utils.BaseTestCase):
         OverrideRegistry.unregister([YPropertyConclusion])
         try:
             OverrideRegistry.register([YPropertyConclusionTest])
-            scenarios.YScenarioChecker().run()
+            scenarios.YScenarioChecker(global_searcher).run()
         finally:
             OverrideRegistry.unregister([YPropertyConclusionTest])
             OverrideRegistry.register([YPropertyConclusion])
