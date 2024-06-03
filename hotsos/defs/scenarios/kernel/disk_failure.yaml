@@ -6,13 +6,13 @@ checks:
     #       "Jun  8 10:48:13 compute4 kernel:"
     #       or
     #       "Jun 08 10:48:13 compute4 kernel:"
-    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\S+ .+ critical medium error, dev (\S+), .+'
+    expr: '.* kernel: \[.*\] .+ critical medium error, dev ([^,\s]+)'
   any_io_error:
     input:
       path: 'var/log/kern.log'
     # This will match the above 'disk_failure' too. But we want to treat this
     # as a less severe issue.
-    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\S+ .+ blk_update_request: (.*?) error, dev (\S+), .+'
+    expr: '.* kernel: \[.*\].* blk_update_request: (.*?) error, dev ([^,\s]+)'
 conclusions:
   failing_disk:
     decision: disk_failure
@@ -22,7 +22,7 @@ conclusions:
         critical medium error detected in kern.log for device {dev}.
         This implies that this disk has a hardware issue!
       format-dict:
-        dev: '@checks.disk_failure.search.results_group_2:comma_join'
+        dev: '@checks.disk_failure.search.results_group_1:comma_join'
   block_io_error:
     decision:
       - any_io_error
@@ -32,5 +32,5 @@ conclusions:
       message: >-
         Block I/O error '{errno}' detected for device {dev}.
       format-dict:
-        errno: '@checks.any_io_error.search.results_group_2:comma_join'
-        dev: '@checks.any_io_error.search.results_group_3:comma_join'
+        errno: '@checks.any_io_error.search.results_group_1:comma_join'
+        dev: '@checks.any_io_error.search.results_group_2:comma_join'
