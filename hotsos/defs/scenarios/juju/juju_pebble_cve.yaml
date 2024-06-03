@@ -2,8 +2,8 @@ checks:
   has_affected_pebble_snap:
     snap:
       pebble:
-        - min: 646
-          max: 646
+        - revision:
+            eq: 646
 conclusions:
   pebble_cve:
     decision: has_affected_pebble_snap

@@ -156,8 +156,8 @@ class DPKGVersion(object):
         """Check if pkg's version satisfies any criterion listed in
         the version_criteria.
 
-        @param pkg: The name of the apt package
-        @param version_criteria: List of version ranges to normalize
+        @param version: Version
+        @param version_criteria: Criteria to check version against
 
         @return: True if ver(pkg) satisfies any criterion, false otherwise.
         """
@@ -178,6 +178,9 @@ class DPKGVersion(object):
             version_criteria)
 
         for version_criterion in version_criteria:
+            if not version_criterion.keys() <= ops.keys():
+                raise Exception("Unrecognized comparison operator name(s):"
+                                f"{version_criterion.keys()-ops.keys()}")
             # Each criterion is evaluated on its own
             # so if any of the criteria is true, then
             # the check is also true.

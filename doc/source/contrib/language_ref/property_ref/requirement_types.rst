@@ -134,8 +134,9 @@ Cache keys:
 Snap
 ----
 
-Takes a snap package name and optional list of revision ranges. Returns True if
-the package exists and if provided, revision is within ranges.
+Takes a snap package name and optional list of revision, version and channel.
+The check returns True if the package is installed and at least one of the r/v/c
+combination evaluates to True.
 
 Usage:
 
@@ -143,27 +144,33 @@ Usage:
 
     snap: mypackage
 
-Or with revision ranges as follows:
+Or with optional conditions as follows:
 
 .. code-block:: yaml
 
     snap:
       mypackage:
-        - min: 1234
-          max: 2345
+        - revision:
+            min: 1234
+            max: 2345
           channel: 2.0/stable
-        - min: 3456
-          max: 4567
+        - version:
+            eq: 1.17
+        - channel: 3.0/beta
 
-In the above example *mypackage* must have a revision between *1234* and *2345*
-or 3456 and 4567 inclusive. If *mypackage* revision is between *1234* and
-*2345* it must also be from channel *2.0/stable*
+In the above example in order for snap requirement to be True, *mypackage* snap must be
+installed in the system and either one of the following conditions must be true:
+
+ * revision number is between *1234*-*2345* and the channel name is *2.0/stable*
+ * version number is *1.17*
+ * channel name is "3.0/beta"
 
 Cache keys:
 
   * channel - channel of each installed package
   * package - name of each installed package
   * revision - revision of each installed package
+  * version - version of each installed package
 
 Pebble
 ------

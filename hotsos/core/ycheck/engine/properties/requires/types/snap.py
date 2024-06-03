@@ -1,6 +1,9 @@
 from functools import cached_property
 
-from hotsos.core.host_helpers import SnapPackageHelper
+from hotsos.core.host_helpers import (
+    SnapPackageHelper,
+    DPKGVersion
+)
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
@@ -17,67 +20,65 @@ class SnapCheckItems(PackageCheckItemsBase):
 
     @cached_property
     def installed_revisions(self):
-        _revisions = []
-        for p in self.installed:
-            _revisions.append(self.packaging_helper.get_revision(p))
+        return [self.packaging_helper.get_revision(p) for p in self.installed]
 
-        return _revisions
+    @cached_property
+    def installed_versions(self):
+        return [self.packaging_helper.get_version(p) for p in self.installed]
 
     @cached_property
     def installed_channels(self):
-        _channels = []
-        for p in self.installed:
-            _channels.append(self.packaging_helper.get_channel(p))
+        return [self.packaging_helper.get_channel(p) for p in self.installed]
 
-        return _channels
-
-    def package_info_matches(self, pkg, pkg_info):
+    def package_info_matches(self, pkg, pkg_infos):
         """
         If snap package has revisions and/or channels we check them here.
 
         @param pkg: name of package
         @param pkg_info: list of {min: x, max: y, channel: z}
         """
-        result = False
+        log.debug("checking snap package %s against %s",
+                  str(pkg), str(pkg_infos))
+        valid_keys = {"revision", "version", "channel"}
 
-        # Ranges must be specified as min:max
-        if any((i.get('min') is None and i.get('max') is not None) or
-               (i.get('max') is None and i.get('min') is not None)
-                for i in pkg_info):
-            raise Exception("revision ranges for snap package '{}' contain "
-                            "one or more range with a missing min or max "
-                            "value".format(pkg))
+        for pkg_info in pkg_infos:
+            # Check if there are unrecognized keys.
+            if not pkg_info.keys() <= valid_keys:
+                raise Exception(f"Unrecognized key name {pkg_info.keys()}."
+                                f"Valid key names are {valid_keys}")
 
-        _channel_to_check = None
-        if any(i.get('min') is not None for i in pkg_info):
-            revision = int(self.packaging_helper.get_revision(pkg))
-            # compare revisions for the time being
-            for item in sorted(pkg_info, key=lambda i: i['max'],
-                               reverse=True):
-                r_max = int(item['max'])
-                r_min = int(item['min'])
-                if r_min <= revision <= r_max:
-                    if 'channel' in item:
-                        _channel_to_check = item['channel']
-                        break
+            if "revision" in pkg_info:
+                sub = pkg_info["revision"]
+                log.debug("revision criteria: %s", str(sub))
+                # We're leveraging DPKG's version comparison algorithm
+                # for the revisions as well.
+                revision = self.packaging_helper.get_revision(pkg)
+                result = DPKGVersion.is_version_within_ranges(revision, [sub])
+                if not result:
+                    continue
+                log.debug("revision %s satisifies %s", str(revision), str(sub))
 
-                    log.debug("match snap revision within range %s:%s", r_min,
-                              r_max)
-                    return True
+            if "version" in pkg_info:
+                sub = pkg_info["version"]
+                log.debug("version criteria: %s", str(sub))
+                version = self.packaging_helper.get_version(pkg)
+                result = DPKGVersion.is_version_within_ranges(version, [sub])
+                if not result:
+                    continue
+                log.debug("version %s satisifies %s", str(version), str(sub))
 
-        if not all(i.get('channel') is None for i in pkg_info):
-            channel = self.packaging_helper.get_channel(pkg)
-            if _channel_to_check is not None:
-                if _channel_to_check == channel:
-                    result = True
-            else:
-                for item in pkg_info:
-                    if item['channel'] == channel:
-                        result = True
-                        log.debug("match snap channel %s", channel)
-                        break
+            if "channel" in pkg_info:
+                channel_v = pkg_info["channel"]
+                log.debug("channel criteria: %s", str(channel_v))
+                pkg_channel = self.packaging_helper.get_channel(pkg)
+                if channel_v != pkg_channel:
+                    continue
+                log.debug("channel %s satisifies %s", pkg_channel, channel_v)
 
-        return result
+            # Package satisfies all criteria.
+            return True
+        # All checks failed.
+        return False
 
 
 class YRequirementTypeSnap(YRequirementTypeBase):
@@ -114,4 +115,5 @@ class YRequirementTypeSnap(YRequirementTypeBase):
         self.cache.set('package', ', '.join(items.installed))
         self.cache.set('revision', ', '.join(items.installed_revisions))
         self.cache.set('channel', ', '.join(items.installed_channels))
+        self.cache.set('version', ', '.join(items.installed_versions))
         return _result
