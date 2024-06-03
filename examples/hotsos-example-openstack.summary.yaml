@@ -201,11 +201,6 @@ openstack:
         live_migration_permit_post_copy: false
     api-ssl: false
   agent-checks:
-    neutron-l3ha:
-      keepalived:
-        transitions:
-          984c22fd-64b3-4fa1-8ddd-87090f401ce5:
-            '2022-02-10': 1
     neutron-l3-agent:
       router-updates:
         top:
@@ -281,6 +276,11 @@ openstack:
           stdev: 0.0
           avg: 0.0
           samples: 2500
+    neutron-l3ha:
+      keepalived:
+        transitions:
+          984c22fd-64b3-4fa1-8ddd-87090f401ce5:
+            '2022-02-10': 1
   bugs-detected:
     https://bugs.launchpad.net/bugs/2029952: This host is running neutron agents that
       use python3-oslo.privsep and the installed version (2.1.1-0ubuntu1) is impacted

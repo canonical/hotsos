@@ -6,6 +6,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
 )
+from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
 
 from .. import utils
@@ -406,9 +407,10 @@ class TestCephMonEvents(CephMonTestsBase):
                   'long-heartbeat-pings': {'2022-02-09': 4},
                   'heartbeat-no-reply': {'2022-02-09': {'osd.0': 1,
                                                         'osd.1': 2}}}
-        inst = ceph_event_checks.CephEventHandler()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, result)
+        with GlobalSearcher() as searcher:
+            inst = ceph_event_checks.CephEventHandler(global_searcher=searcher)
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual, result)
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-mon')

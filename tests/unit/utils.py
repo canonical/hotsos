@@ -12,8 +12,8 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 # disable for stestr otherwise output is much too verbose
 from hotsos.core.log import log, logging, LoggingManager
-from hotsos.core.ycheck.common import GLOBAL_SEARCH_REGISTRY
 from hotsos.core.ycheck.scenarios import YScenarioChecker
+from hotsos.core.ycheck.common import GlobalSearcher
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
@@ -181,7 +181,9 @@ class TemplatedTest(object):
 
             log.debug("running scenario under test")
             try:
-                YScenarioChecker().run()
+                with GlobalSearcher() as searcher:
+                    YScenarioChecker(searcher).run()
+
                 raised_issues = IssuesManager().load_issues()
                 raised_bugs = IssuesManager().load_bugs()
             finally:
@@ -455,13 +457,6 @@ class BaseTestCase(unittest.TestCase):
         else:
             HotSOSConfig.debug_log_levels['searchkit'] = 'WARNING'
             LoggingManager().start(level=logging.WARNING)
-
-        # IMPORTANT: to avoid cross-pollution between tests we reset the event
-        # search registry before each test is run. We only do the reset stage
-        # here and defer the loading of searches and execution of the search
-        # to happen as part of test so that any env changes can be consumed
-        # properly.
-        GLOBAL_SEARCH_REGISTRY.reset()
 
     def _addDuration(self, *args, **kwargs):  # pylint: disable=invalid-name
         """ Python >=3.12 needs subclasses of unittest.TestCase to implement

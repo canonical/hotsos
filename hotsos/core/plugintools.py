@@ -6,8 +6,9 @@ from jinja2 import FileSystemLoader, Environment
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
+from hotsos.core.ycheck.engine.common import YHandlerBase
 from hotsos.core.ycheck.scenarios import YScenarioChecker
-from hotsos.core.ycheck.common import GlobalSearchContext
+from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.events import EventsPreloader
 
 PLUGINS = {}
@@ -391,10 +392,10 @@ class PluginRunner(object):
         self.parts = PLUGINS[plugin]
 
     def run(self):
-        with GlobalSearchContext():
-            return self._run()
+        with GlobalSearcher() as global_search:
+            return self._run(global_search)
 
-    def _run(self):
+    def _run(self, global_search):
         part_mgr = PartManager()
         failed_parts = []
         # The following are executed as part of each plugin run (but not last).
@@ -404,7 +405,7 @@ class PluginRunner(object):
             # update current env to reflect actual part being run
             HotSOSConfig.part_name = name
             try:
-                always_parts().run()
+                always_parts(global_search).run()
             except Exception as exc:
                 failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
@@ -418,7 +419,11 @@ class PluginRunner(object):
             runner = part_info['runner']
             name = runner.__name__
             HotSOSConfig.part_name = name
-            inst = runner()
+            if issubclass(runner, YHandlerBase):
+                inst = runner(global_search)
+            else:
+                inst = runner()
+
             # Only run plugin if it declares itself runnable.
             if not HotSOSConfig.force_mode and not inst.plugin_runnable:
                 log.debug("%s.%s.%s not runnable - skipping",

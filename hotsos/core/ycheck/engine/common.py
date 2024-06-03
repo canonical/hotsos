@@ -99,6 +99,10 @@ class YDefsLoader(object):
 
 class YHandlerBase(object):
 
+    def __init__(self, global_searcher, *args, **kwargs):
+        self.global_searcher = global_searcher
+        super().__init__(*args, **kwargs)
+
     @abc.abstractmethod
     def run(self):
         """ Process operations. """

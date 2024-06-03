@@ -15,6 +15,7 @@ from hotsos.plugin_extensions.openstack import (
     service_features,
     agent,
 )
+from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.issues import IssuesManager
 
 
@@ -694,25 +695,28 @@ class TestOpenstackVmInfo(TestOpenstackBase):
                                      'disk': 0},
                                  'iterations': 1}]
                         }}}
-        inst = vm_info.NovaServerMigrationAnalysis()
-        actual = self.part_output_to_actual(inst.output)
+        with GlobalSearcher() as searcher:
+            inst = vm_info.NovaServerMigrationAnalysis(searcher)
+            actual = self.part_output_to_actual(inst.output)
+
         self.assertEqual(actual, expected)
 
 
 class TestOpenstackNovaExternalEvents(TestOpenstackBase):
 
     def test_get_events(self):
-        inst = nova_external_events.NovaExternalEventChecks()
-        events = {'network-changed':
-                  {"succeeded":
-                   [{"port": "6a0486f9-823b-4dcf-91fb-8a4663d31855",
-                     "instance": "359150c9-6f40-416e-b381-185bff09e974"}]},
-                  'network-vif-plugged':
-                  {"succeeded":
-                   [{"instance": '359150c9-6f40-416e-b381-185bff09e974',
-                     "port": "6a0486f9-823b-4dcf-91fb-8a4663d31855"}]}}
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual["os-server-external-events"], events)
+        with GlobalSearcher() as searcher:
+            inst = nova_external_events.NovaExternalEventChecks(searcher)
+            events = {'network-changed':
+                      {"succeeded":
+                       [{"port": "6a0486f9-823b-4dcf-91fb-8a4663d31855",
+                         "instance": "359150c9-6f40-416e-b381-185bff09e974"}]},
+                      'network-vif-plugged':
+                      {"succeeded":
+                       [{"instance": '359150c9-6f40-416e-b381-185bff09e974',
+                         "port": "6a0486f9-823b-4dcf-91fb-8a4663d31855"}]}}
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual["os-server-external-events"], events)
 
 
 class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
@@ -895,10 +899,11 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'start': '2022-02-10 00:53:27.434000'}}}}
 
         section_key = "neutron-ovs-agent"
-        inst = agent.events.NeutronAgentEventChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual[section_key], expected)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NeutronAgentEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual['agent-checks'][section_key], expected)
 
     def test_get_router_event_stats(self):
         expected = {'router-spawn-events': {
@@ -955,10 +960,12 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'start': '2022-02-10 16:10:35.711000'}}}}
 
         section_key = "neutron-l3-agent"
-        inst = agent.events.NeutronAgentEventChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual[section_key], expected)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NeutronAgentEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
+        self.assertEqual(actual['agent-checks'][section_key], expected)
 
     @utils.create_data_root({'var/log/octavia/octavia-health-manager.log':
                              EVENT_OCTAVIA_CHECKS})
@@ -978,11 +985,13 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 '2022-03-09': 1}}
                      }
                     }
-        inst = agent.events.OctaviaAgentEventChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.OctaviaAgentEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
         for section_key in ['amp-missed-heartbeats', 'lb-failovers']:
-            self.assertEqual(actual["octavia"][section_key],
+            self.assertEqual(actual['agent-checks']["octavia"][section_key],
                              expected[section_key])
 
     @utils.create_data_root({'var/log/apache2/error.log':
@@ -990,11 +999,14 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     def test_run_apache_checks(self):
         expected = {'connection-refused': {
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
-        inst = agent.events.ApacheEventChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
+
+        with GlobalSearcher() as searcher:
+            inst = agent.events.ApacheEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
         for section_key in ['connection-refused']:
-            self.assertEqual(actual['apache'][section_key],
+            self.assertEqual(actual['agent-checks']['apache'][section_key],
                              expected[section_key])
 
     @utils.create_data_root({'var/log/kern.log': AA_MSGS})
@@ -1007,10 +1019,12 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 'Mar 3': 1},
                             '/usr/bin/neutron-openvswitch-agent': {
                                 'Mar 3': 4}}}}
-        inst = agent.events.AgentApparmorChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual['apparmor'], expected)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.AgentApparmorChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
+        self.assertEqual(actual['agent-checks']['apparmor'], expected)
 
     @utils.create_data_root({'var/log/kern.log': AA_MSGS})
     def test_run_apparmor_checks_w_time_granularity(self):
@@ -1029,10 +1043,12 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                     '22:57:11': 1,
                                     '22:57:22': 1,
                                     '22:57:24': 2}}}}}
-        inst = agent.events.AgentApparmorChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual['apparmor'], expected)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.AgentApparmorChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
+        self.assertEqual(actual['agent-checks']['apparmor'], expected)
 
     @utils.create_data_root({'var/log/nova/nova-compute.log':
                              EVENT_PCIDEVNOTFOUND_LOG})
@@ -1040,20 +1056,24 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         expected = {'PciDeviceNotFoundById': {
                         '2022-09-17': {'0000:3b:0f.7': 1,
                                        '0000:3b:10.0': 1}}}
-        inst = agent.events.NovaComputeEventChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual["nova"], expected)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NovaComputeEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
+        self.assertEqual(actual['agent-checks']['nova'], expected)
 
     def test_run_neutron_l3ha_checks(self):
         expected = {'keepalived': {
                      'transitions': {
                          '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                              '2022-02-10': 1}}}}
-        inst = agent.events.NeutronL3HAEventChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual["neutron-l3ha"], expected)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NeutronL3HAEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
+        self.assertEqual(actual['agent-checks']['neutron-l3ha'], expected)
 
     @mock.patch.object(agent.events, "VRRP_TRANSITION_WARN_THRESHOLD",
                        0)
@@ -1063,10 +1083,12 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                      'transitions': {
                          '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
                              '2022-02-10': 1}}}}
-        inst = agent.events.NeutronL3HAEventChecks()
-        inst.run()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual["neutron-l3ha"], expected)
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NeutronL3HAEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
+        self.assertEqual(actual['agent-checks']['neutron-l3ha'], expected)
         issues = list(IssuesStore().load().values())[0]
         msg = ('1 router(s) have had more than 0 vrrp transitions (max=1) in '
                'the last 24 hours.')
@@ -1075,51 +1097,59 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              NEUTRON_HTTP})
     def test_api_events(self):
-        inst = agent.events.APIEvents()
-        inst.run()
+        with GlobalSearcher() as searcher:
+            inst = agent.events.APIEvents(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
         expected = {'http-requests': {'neutron': {
                                         '2022-05-11': {'GET': 2,
                                                        'PUT': 3,
                                                        'POST': 4,
                                                        'DELETE': 5}}}}
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual['api-info'], expected)
 
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVSDBAPP_LEADER_CHANGING})
     def test_server_ovsdbapp_events(self):
-        inst = agent.events.NeutronAgentEventChecks()
-        inst.run()
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NeutronAgentEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
         expected = {'neutron-server': {
                     'ovsdbapp-nb-leader-reconnect': {
                         '2023-11-23': {'6641': 2}},
                     'ovsdbapp-sb-leader-reconnect': {
                         '2023-11-23': {'16642': 3}}}}
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual['agent-checks'], expected)
 
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVN_RESOURCE_VERSION_BUMP_EVENTS})
     def test_server_ovn_resource_version_bump_events(self):
-        inst = agent.events.NeutronAgentEventChecks()
-        inst.run()
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NeutronAgentEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
         expected = {'neutron-server': {
                         'ovn-resource-revision-bump': {'2023-12-09': {
                             '4dedf9dd-ff5e-4b71-bebb-9d168b83c0b8': 2,
                             'd82ce545-ccdf-4784-9cc7-ba10f8051d1a': 2,
                             'ed43f1b0-c11c-46dc-9c1a-9654d450a010': 2}}}}
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual['agent-checks'], expected)
 
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVN_OVSDB_ABORTED_TRANSACTIONS})
     def test_server_ovsdb_aborted_transactions(self):
-        inst = agent.events.NeutronAgentEventChecks()
-        inst.run()
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NeutronAgentEventChecks(searcher)
+            inst.run()
+            actual = self.part_output_to_actual(inst.output)
+
         expected = {'neutron-server': {
                         'ovsdb-transaction-aborted': {'2023-12-12': 5}}}
-        actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual['agent-checks'], expected)
 
 
 class TestOpenstackAgentExceptions(TestOpenstackBase):
