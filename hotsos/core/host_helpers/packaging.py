@@ -32,6 +32,9 @@ class DPKGVersion(object):
 
         return True
 
+    def __repr__(self):
+        return str(self)
+
     def __str__(self):
         return self.a
 
@@ -49,6 +52,154 @@ class DPKGVersion(object):
 
     def __ge__(self, b):
         return self._compare_impl('ge', str(b))
+
+    @staticmethod
+    def normalize_version_criteria(version_criteria):
+        """Normalize all the criterions in a criteria.
+
+        Normalization does the following:
+        - removes empty criteria
+        - replaces old ops with the new ones
+        - sorts each criterion(ascending) and criteria(descending)
+        - adds upper/lower bounds to criteria, where needed
+
+        @param version_criteria: List of version ranges to normalize
+        @return: Normalized list of version ranges
+        """
+
+        # Step 0: Ensure that all version values are DPKGVersion type
+        for idx, version_criterion in enumerate(version_criteria):
+            for k, v in version_criterion.items():
+                version_criterion.update({k: DPKGVersion(v)})
+
+        # Step 1: Remove empty criteria
+        version_criteria = [x for x in version_criteria if len(x) > 0]
+
+        # Step 2: Replace legacy ops with the new ones
+        legacy_ops = {"min": "ge", "max": "le"}
+        for idx, version_criterion in enumerate(version_criteria):
+            for lop, nop in legacy_ops.items():
+                if lop in version_criterion:
+                    version_criterion[nop] = version_criterion[lop]
+                    del version_criterion[lop]
+
+        # Step 3: Sort each criterion in itself, so the smallest version
+        # appears first
+        for idx, version_criterion in enumerate(version_criteria):
+            version_criterion = dict(sorted(version_criterion.items(),
+                                     key=lambda a: a[1]))
+            version_criteria[idx] = version_criterion
+
+        # Step 4: Sort all criteria by the first element in the criterion
+        version_criteria = sorted(version_criteria,
+                                  key=lambda a: list(a.values())[0])
+
+        # Step 5: Add the implicit upper/lower bounds where needed
+        lower_bound_ops = ["gt", "ge", "eq"]  # ops that define a lower bound
+        upper_bound_ops = ["lt", "le", "eq"]  # ops that define an upper bound
+        equal_compr_ops = ["eq", "ge", "le"]  # ops that compare for equality
+        for idx, version_criterion in enumerate(version_criteria):
+            log.debug("\tchecking criterion %s", str(version_criterion))
+
+            has_lower_bound = any(x in lower_bound_ops
+                                  for x in version_criterion)
+            has_upper_bound = any(x in upper_bound_ops
+                                  for x in version_criterion)
+            is_the_last_item = idx == (len(version_criteria) - 1)
+            is_the_first_item = idx == 0
+
+            log.debug("\t\tcriterion %s has lower bound?"
+                      "%s has upper bound? %s", str(version_criterion),
+                      has_lower_bound, has_upper_bound)
+
+            if not has_upper_bound and not is_the_last_item:
+                op = "le"  # default
+                next_criterion = version_criteria[idx + 1]
+                next_op, next_val = list(next_criterion.items())[0]
+                # If the next criterion op compares for equality, then the
+                # implicit op added to this criterion should not compare for
+                # equality.
+                if next_op in equal_compr_ops:
+                    op = "lt"
+                log.debug("\t\tadding implicit upper bound %s:%s to %s", op,
+                          next_val, version_criterion)
+                version_criterion[op] = next_val
+            elif not has_lower_bound and not is_the_first_item:
+                op = "ge"  # default
+                prev_criterion = version_criteria[idx - 1]
+                prev_op, prev_val = list(prev_criterion.items())[-1]
+                # If the previous criterion op compares for equality, then the
+                # implicit op added to this criterion should not compare for
+                # equality.
+                if prev_op in equal_compr_ops:
+                    op = "gt"
+                log.debug("\t\tadding implicit lower bound %s:%s to %s", op,
+                          prev_val, version_criterion)
+                version_criterion[op] = prev_val
+
+            # Re-sort and overwrite the criterion
+            version_criteria[idx] = dict(
+                sorted(version_criterion.items(),
+                       key=lambda a: a[1]))
+
+        # Step 6: Sort by descending order so the largest version range
+        # appears first
+        version_criteria = sorted(version_criteria,
+                                  key=lambda a: list(a.values())[0],
+                                  reverse=True)
+
+        log.debug("final criteria: %s", str(version_criteria))
+        return version_criteria
+
+    @staticmethod
+    def is_version_within_ranges(version, version_criteria):
+        """Check if pkg's version satisfies any criterion listed in
+        the version_criteria.
+
+        @param pkg: The name of the apt package
+        @param version_criteria: List of version ranges to normalize
+
+        @return: True if ver(pkg) satisfies any criterion, false otherwise.
+        """
+        result = True
+
+        # Supported operations for defining version ranges
+        ops = {
+            "eq": lambda lhs, rhs: lhs == DPKGVersion(rhs),
+            "lt": lambda lhs, rhs: lhs < DPKGVersion(rhs),
+            "le": lambda lhs, rhs: lhs <= DPKGVersion(rhs),
+            "gt": lambda lhs, rhs: lhs > DPKGVersion(rhs),
+            "ge": lambda lhs, rhs: lhs >= DPKGVersion(rhs),
+            "min": lambda lhs, rhs: ops["ge"](lhs, rhs),
+            "max": lambda lhs, rhs: ops["le"](lhs, rhs),
+        }
+
+        version_criteria = DPKGVersion.normalize_version_criteria(
+            version_criteria)
+
+        for version_criterion in version_criteria:
+            # Each criterion is evaluated on its own
+            # so if any of the criteria is true, then
+            # the check is also true.
+            for op_name, op_fn in ops.items():
+                if op_name in version_criterion:
+                    cversion = str(version_criterion[op_name])
+                    # Check if the criterion is satisfied or not
+                    if not op_fn(str(version), cversion):
+                        break
+            else:
+                # Loop is not exited by a break which means
+                # all ops in the criterion are satisfied.
+                result = True
+                log.debug("version criterion %s satisfied by %s",
+                          version_criterion, version)
+                # Break the outer loop
+                break
+            result = False
+
+        log.debug("version %s within version ranges %s "
+                  "(result=%s)", version, version_criteria, result)
+        return result
 
 
 class PackageHelperBase(abc.ABC):
@@ -267,14 +418,12 @@ class APTPackageHelper(PackageHelperBase):
         dpkg_l = self.cli.dpkg_l()
         if not dpkg_l:
             return self._all_packages
-
         all_exprs = self.core_pkg_exprs + self.other_pkg_exprs
         for line in dpkg_l:
             for pkg in all_exprs:
                 name, version = self._match_package(pkg, line)
                 if name is None:
                     continue
-
                 if pkg in self.core_pkg_exprs:
                     self._core_packages[name] = version
                 else:

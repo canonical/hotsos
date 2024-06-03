@@ -1,15 +1,17 @@
 from functools import cached_property
 
 from hotsos.core.log import log
+from hotsos.core.host_helpers import (
+    DPKGVersion
+)
 from hotsos.core.ycheck.engine.properties.requires import (
     intercept_exception,
     YRequirementTypeBase,
+    PackageCheckItemsBase
 )
-from hotsos.core.ycheck.engine.properties.requires.types.apt import \
-    APTCheckItems
 
 
-class BinCheckItems(APTCheckItems):
+class BinCheckItems(PackageCheckItemsBase):
     """
     By default we use the APT version checks logic for binary versions. At some
     point in the future we may want to support overriding this.
@@ -22,6 +24,14 @@ class BinCheckItems(APTCheckItems):
     @cached_property
     def packaging_helper(self):
         return self.bin_handler()
+
+    @cached_property
+    def installed_versions(self):
+        _versions = []
+        for p in self.installed:
+            _versions.append(self.packaging_helper.get_version(p))
+
+        return _versions
 
 
 class YRequirementTypeBinary(YRequirementTypeBase):
@@ -48,8 +58,9 @@ class YRequirementTypeBinary(YRequirementTypeBase):
                 log.debug("binary %s installed=%s", binary, _result)
                 if not versions:
                     continue
-
-                _result = items.package_version_within_ranges(binary, versions)
+                version = items.packaging_helper.get_version(binary)
+                _result = DPKGVersion.is_version_within_ranges(version,
+                                                               versions)
                 # bail at first failure
                 if not _result:
                     break
