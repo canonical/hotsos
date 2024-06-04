@@ -70,7 +70,6 @@ class ServiceFeatureChecks(OpenstackChecksBase):
 
                         if key in module_features:
                             continue
-
                         if service in DEFAULTS:
                             if module in DEFAULTS[service]:
                                 if key in DEFAULTS[service][module]:

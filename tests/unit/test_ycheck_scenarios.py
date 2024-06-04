@@ -4,7 +4,7 @@ from unittest import mock
 
 from propertree.propertree2 import OverrideRegistry
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.config import SectionalConfigBase
+from hotsos.core.host_helpers.config import IniConfigBase
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import FileSearcher, SearchDef
@@ -45,7 +45,7 @@ def global_search_context(f):
     return global_search_context_inner
 
 
-class TestConfig(SectionalConfigBase):
+class TestConfig(IniConfigBase):
     pass
 
 

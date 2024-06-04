@@ -254,7 +254,7 @@ Perform config checks by applying assertion rules to the contents of config
 file. Assertions are defined as a list that is grouped as a
 :ref:`LogicalGroupings` with AND as the default grouping. The final result
 evaluates to True/False. Makes use of config "handlers" i.e. implementations of
-*core.host_helpers.config.SectionalConfigBase* that support querying the
+*core.host_helpers.config.IniConfigBase* that support querying the
 contents of config files in a common way.
 
 Usage:

@@ -270,7 +270,7 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   }
 
 
-class OpenstackConfig(host_helpers.SectionalConfigBase):
+class OpenstackConfig(host_helpers.IniConfigBase):
 
     def __getattr__(self, key):
         return self.get(key)

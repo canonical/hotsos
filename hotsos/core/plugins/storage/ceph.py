@@ -17,7 +17,7 @@ from hotsos.core.host_helpers import (
     PebbleHelper,
     SnapPackageHelper,
     SystemdHelper,
-    SectionalConfigBase,
+    IniConfigBase,
 )
 from hotsos.core.log import log
 from hotsos.core.plugins.kernel.net import Lsof
@@ -92,7 +92,7 @@ def csv_to_set(f):
     return csv_to_set_inner
 
 
-class CephConfig(SectionalConfigBase):
+class CephConfig(IniConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root, 'etc/ceph/ceph.conf')
         super().__init__(*args, path=path, **kwargs)
@@ -1082,7 +1082,7 @@ class CephChecksBase(StorageBase):
         bs_keys = ['bluestore block wal size', 'bluestore block db size',
                    r'bluestore compression .+']
 
-        for keys in self.ceph_config.all.values():
+        for keys in self.ceph_config.all_keys:
             for conf_key in keys:
                 if conf_key in bs_keys:
                     return True

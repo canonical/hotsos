@@ -39,7 +39,7 @@ class KernelConfig(host_helpers.ConfigBase):
                     break
 
 
-class SystemdConfig(host_helpers.SectionalConfigBase):
+class SystemdConfig(host_helpers.IniConfigBase):
     """Systemd configuration."""
 
     def __init__(self, *args, **kwargs):

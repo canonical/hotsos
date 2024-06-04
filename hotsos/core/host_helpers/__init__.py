@@ -4,7 +4,7 @@ from .cli import (  # noqa: F403,F401
 )
 from .config import (  # noqa: F403,F401
     ConfigBase,
-    SectionalConfigBase,
+    IniConfigBase,
 )
 from .network import (  # noqa: F403,F401
     NetworkPort,

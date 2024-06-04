@@ -32,14 +32,14 @@ class MySQLChecksBase(plugintools.PluginPartBase):
         return self.apt_info.core is not None
 
 
-class MySQLConfig(host_helpers.SectionalConfigBase):
+class MySQLConfig(host_helpers.IniConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root,
                             'etc/mysql/mysql.conf.d/mysqld.cnf')
         super().__init__(*args, path=path, **kwargs)
 
 
-class MySQLRouterConfig(host_helpers.SectionalConfigBase):
+class MySQLRouterConfig(host_helpers.IniConfigBase):
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root,
                             'var/lib/mysql/*mysql-router/mysqlrouter.conf')
