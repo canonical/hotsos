@@ -68,7 +68,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         property's context. We filter results using our tag and apply any
         search constraints requested.
         """
-        global_results = self.context.search_results
+        global_results = self.context.global_searcher.results
         if global_results is None:
             raise Exception("no search results provided to check '{}'".
                             format(self.check_name))  # pylint: disable=E1101
@@ -81,8 +81,8 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
                   self.check_name, len(simple_results), tag)  # noqa, pylint: disable=E1101
         results = self.search.apply_extra_constraints(simple_results)  # noqa, pylint: disable=E1101
 
-        seq_def = self.search.cache.sequence_search  # pylint: disable=E1101
-        if not seq_def:
+        search_info = self.context.global_searcher[tag]
+        if search_info['sequence_search'] is None:
             return results
 
         # Not try for sequence search results
@@ -97,7 +97,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         # to be complete i.e. a full match and the result is ultimately
         # True/False based on whether or not a result was found.
         for result in list(sections)[0]:
-            if result.tag == seq_def.start_tag:
+            if result.tag == search_info['sequence_search'].start_tag:
                 # NOTE: we don't yet support applying extra constraints here
                 results.append(result)
                 break
@@ -130,7 +130,8 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
         # Saves a list of files that contained search results.
         sources = set(r.source_id for r in results)
-        files = [self.context.search_obj.resolve_source_id(s) for s in sources]
+        searcher = self.context.global_searcher.searcher
+        files = [searcher.resolve_source_id(s) for s in sources]
         self.search.cache.set('files', files)  # pylint: disable=E1101
 
     @cached_property
@@ -171,7 +172,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 class YPropertyChecks(YPropertyOverrideBase):
     _override_keys = ['checks']
 
-    def initialise(self, local_vardefs, global_input, searcher, scenario):
+    def initialise(self, local_vardefs):
         """
         Perform initialisation tasks for this set of checks.
 
@@ -182,31 +183,8 @@ class YPropertyChecks(YPropertyOverrideBase):
         @param local_vardefs: YPropertyVars object containing all variables
                               defined in the context of these checks and that
                               we wil pass on the all check def and properties.
-        @param global_input: YPropertyInput object
-        @param searcher: FileSearcher object
         """
         self.check_context = YDefsContext({'vars': local_vardefs})
-
-        log.debug("pre-loading scenario '%s' checks searches into "
-                  "filesearcher", scenario.name)
-        # first load all the search definitions into the searcher
-        for c in self._checks:
-            if c.search:
-                # local takes precedence over global
-                _input = c.input or global_input
-                if _input.command:
-                    # don't apply constraints to command outputs
-                    allow_constraints = False
-                else:
-                    allow_constraints = True
-
-                for path in _input.paths:
-                    log.debug("loading searches for check %s", c.check_name)
-                    c.search.load_searcher(searcher, path,
-                                           allow_constraints=allow_constraints)
-
-        # provide results to each check object using global context
-        self.check_context.search_obj = searcher
 
     @cached_property
     def _checks(self):
