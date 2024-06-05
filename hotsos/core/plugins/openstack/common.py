@@ -96,7 +96,7 @@ class OpenstackBase(object):
         # this exists as of Jammy/Yoga
         if os.path.exists(relpath):
             with open(relpath) as fd:
-                return fd.read().partition('=')[2]
+                return fd.read().partition('=')[2].strip()
 
         relname = 'unknown'
         # fallback to uca version if exists
