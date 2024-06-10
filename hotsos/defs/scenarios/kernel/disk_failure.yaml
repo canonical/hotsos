@@ -22,7 +22,7 @@ conclusions:
         critical medium error detected in kern.log for device {dev}.
         This implies that this disk has a hardware issue!
       format-dict:
-        dev: '@checks.disk_failure.search.results_group_1:comma_join'
+        dev: '@checks.disk_failure.search.results_group_1:unique_comma_join'
   block_io_error:
     decision:
       - any_io_error
@@ -32,5 +32,5 @@ conclusions:
       message: >-
         Block I/O error '{errno}' detected for device {dev}.
       format-dict:
-        errno: '@checks.any_io_error.search.results_group_1:comma_join'
-        dev: '@checks.any_io_error.search.results_group_2:comma_join'
+        errno: '@checks.any_io_error.search.results_group_1:unique_comma_join'
+        dev: '@checks.any_io_error.search.results_group_2:unique_comma_join'
