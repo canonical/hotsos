@@ -18,18 +18,18 @@ class YPropertyInputBase(object):
                     'kwargs': {},
                     'args-callback': None}
 
-        if isinstance(self.content, dict):
-            _options = self.content.get('options', defaults)
+        if isinstance(self.content, dict):  # pylint: disable=E1101
+            _options = self.content.get('options', defaults)  # noqa, pylint: disable=E1101
             defaults.update(_options)
 
         return defaults
 
     @property
     def command(self):
-        if not isinstance(self.content, dict):
+        if not isinstance(self.content, dict):  # pylint: disable=E1101
             return
 
-        return self.content.get('command')
+        return self.content.get('command')  # pylint: disable=E1101
 
     def expand_paths(self, paths):
         _paths = []
@@ -51,10 +51,10 @@ class YPropertyInputBase(object):
     def paths(self):
         _paths = []
         fs_path = None
-        if isinstance(self.content, (str, list)):
-            fs_path = self.content
+        if isinstance(self.content, (str, list)):  # pylint: disable=E1101
+            fs_path = self.content  # pylint: disable=E1101
         else:
-            fs_path = self.content.get('path')
+            fs_path = self.content.get('path')  # pylint: disable=E1101
 
         if fs_path:
             if isinstance(fs_path, list):
@@ -66,7 +66,7 @@ class YPropertyInputBase(object):
             return self.expand_paths(_paths)
 
         if self.command:
-            cmd_tmp_path = self.cache.cmd_tmp_path
+            cmd_tmp_path = self.cache.cmd_tmp_path  # pylint: disable=E1101
             if cmd_tmp_path:
                 return [cmd_tmp_path]
 
@@ -79,7 +79,7 @@ class YPropertyInputBase(object):
 
             with CLIHelperFile(delete_temp=False) as cli:
                 outfile = getattr(cli, self.command)(*args, **kwargs)
-                self.cache.set('cmd_tmp_path', outfile)
+                self.cache.set('cmd_tmp_path', outfile)  # noqa, pylint: disable=E1101
                 return [outfile]
 
         log.debug("no input provided")

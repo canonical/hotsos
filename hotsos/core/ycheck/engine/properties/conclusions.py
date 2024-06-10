@@ -111,7 +111,7 @@ class YPropertyRaises(YPropertyOverrideBase):
 class DecisionBase(object):
 
     def get_check_item(self, name):
-        checks = self.context.checks
+        checks = self.context.checks  # pylint: disable=E1101
         try:
             log.debug("%s: get_check_item() %s", self.__class__.__name__,
                       name)

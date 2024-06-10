@@ -237,16 +237,16 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 class MyTests(ScenarioTestsBase):
                     pass
 
-                MyTests().test_yscenario_1_myscenario1()
-                MyTests().test_yscenario_1_myscenario1alt()
-                MyTests().test_yscenario_1_2_myscenario2()
-                MyTests().test_yscenario_1_2_myscenario2alt()
-                MyTests().test_yscenario_1_2_3_myscenario3()
-                MyTests().test_yscenario_1_2_3_myscenario3alt()
-                MyTests().test_yscenario_1_2_3_4_myscenario4()
-                MyTests().test_yscenario_1_2_3_4_myscenario4alt()
-                MyTests().test_yscenario_1_2_3_4_5_myscenario5()
-                MyTests().test_yscenario_1_2_3_4_5_myscenario5alt()
+                MyTests().test_yscenario_1_myscenario1()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_myscenario1alt() # noqa, # pylint: disable=E1101
+                MyTests().test_yscenario_1_2_myscenario2()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_2_myscenario2alt()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_2_3_myscenario3()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_2_3_myscenario3alt()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_2_3_4_myscenario4()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_2_3_4_myscenario4alt()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_2_3_4_5_myscenario5()  # noqa, pylint: disable=E1101
+                MyTests().test_yscenario_1_2_3_4_5_myscenario5alt()  # noqa, pylint: disable=E1101
 
                 raised = False
                 try:
@@ -275,8 +275,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 class MyTests(ScenarioTestsBase):
                     pass
 
-                MyTests().test_yscenario_myscenario5()
-                MyTests().test_yscenario_myscenario5alt()
+                MyTests().test_yscenario_myscenario5()  # pylint: disable=E1101
+                MyTests().test_yscenario_myscenario5alt()  # noqa, pylint: disable=E1101
 
                 raised = False
                 try:
