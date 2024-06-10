@@ -22,7 +22,7 @@ class CheckBase(object):
     def fetch_item_result(self, item):
         log.debug("%s: fetch_item_result() %s", self.__class__.__name__,
                   item.__class__.__name__)
-        check = self.context['check']
+        check = self.context['check']  # pylint: disable=E1101
         if isinstance(item, YPropertySearch):
             _results = check._search_results
             check._set_search_cache_info(_results)
@@ -71,24 +71,24 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         global_results = self.context.search_results
         if global_results is None:
             raise Exception("no search results provided to check '{}'".
-                            format(self.check_name))
+                            format(self.check_name))  # pylint: disable=E1101
 
-        tag = self.search.unique_search_tag
+        tag = self.search.unique_search_tag  # pylint: disable=E1101
 
         # first get simple search results
         simple_results = global_results.find_by_tag(tag)
         log.debug("check %s has %s simple search results with tag %s",
-                  self.check_name, len(simple_results), tag)
-        results = self.search.apply_extra_constraints(simple_results)
+                  self.check_name, len(simple_results), tag)  # noqa, pylint: disable=E1101
+        results = self.search.apply_extra_constraints(simple_results)  # noqa, pylint: disable=E1101
 
-        seq_def = self.search.cache.sequence_search
+        seq_def = self.search.cache.sequence_search  # pylint: disable=E1101
         if not seq_def:
             return results
 
         # Not try for sequence search results
         sections = global_results.find_sequence_by_tag(tag).values()
         log.debug("check %s has %s sequence search results with tag %s",
-                  self.check_name, len(sections), tag)
+                  self.check_name, len(sections), tag)  # pylint: disable=E1101
         if not sections:
             return results
 
@@ -123,15 +123,15 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         """
         # this is so that the information can be accessed like:
         # @checks.<checkname>.search.<setting>
-        self.cache.set('search', self.search.cache)
-        self.search.cache.set('num_results', len(results))
+        self.cache.set('search', self.search.cache)  # pylint: disable=E1101
+        self.search.cache.set('num_results', len(results))  # noqa, pylint: disable=E1101
         if not results:
             return
 
         # Saves a list of files that contained search results.
         sources = set(r.source_id for r in results)
         files = [self.context.search_obj.resolve_source_id(s) for s in sources]
-        self.search.cache.set('files', files)
+        self.search.cache.set('files', files)  # pylint: disable=E1101
 
     @cached_property
     def result(self):

@@ -163,7 +163,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
                                          hours=hours)
 
 
-class YPropertySearchBase(object):
+class YPropertySearchBase(YPropertyOverrideBase):
 
     @classmethod
     def get_datetime_from_result(cls, result):
@@ -245,7 +245,7 @@ class YPropertySearchBase(object):
 
     @property
     def unique_search_tag(self):
-        return self._override_path
+        return self._override_path  # pylint: disable=E1101
 
     def _resolve_exprs(self, patterns):
         """
@@ -255,9 +255,9 @@ class YPropertySearchBase(object):
         _patterns = []
         if isinstance(patterns, list):
             for p in patterns:
-                _patterns.append(self.resolve_var(p))
+                _patterns.append(self.resolve_var(p))  # pylint: disable=E1101
         else:
-            _patterns.append(self.resolve_var(patterns))
+            _patterns.append(self.resolve_var(patterns))  # noqa, pylint: disable=E1101
 
         return _patterns
 
@@ -431,24 +431,24 @@ class SeqPartSearchOptsBase(object):
 
     @property
     def expr(self):
-        if not isinstance(self.content, dict):
-            return self.content
+        if not isinstance(self.content, dict):  # pylint: disable=E1101
+            return self.content  # pylint: disable=E1101
 
-        return self.content.get('expr', '')
+        return self.content.get('expr', '')  # pylint: disable=E1101
 
     @property
     def hint(self):
-        if not isinstance(self.content, dict):
+        if not isinstance(self.content, dict):  # pylint: disable=E1101
             return None
 
-        return self.content.get('hint', '')
+        return self.content.get('hint', '')  # pylint: disable=E1101
 
     @property
     def passthrough_results(self):
-        if not isinstance(self.content, dict):
+        if not isinstance(self.content, dict):  # pylint: disable=E1101
             return False
 
-        return self.content.get('passthrough-results', False)
+        return self.content.get('passthrough-results', False)  # noqa, pylint: disable=E1101
 
 
 class YPropertySequencePart(YPropertySearchBase, SeqPartSearchOptsBase,

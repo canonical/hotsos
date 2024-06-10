@@ -146,7 +146,7 @@ class OpsUtils(object):
                 if expected is not None:
                     if isinstance(expected, str) and expected.startswith("$"):
                         varname = expected.partition("$")[2]
-                        varval = self.context.vars.resolve(varname)
+                        varval = self.context.vars.resolve(varname)  # noqa, pylint: disable=E1101
                         expected = varval
 
                     if normalise_value_types:

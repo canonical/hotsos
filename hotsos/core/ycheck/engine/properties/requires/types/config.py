@@ -41,27 +41,27 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
 
     @cached_property
     def attrs(self):
-        _attrs = {'key': str(self.key), 'allow_unset': False, 'value': None,
+        _attrs = {'key': str(self.key), 'allow_unset': False, 'value': None,  # noqa, pylint: disable=E1101
                   'section': None}
-        if self.value is not None:
-            if isinstance(self.value, bool):
-                value = self.value
+        if self.value is not None:  # pylint: disable=E1101
+            if isinstance(self.value, bool):  # pylint: disable=E1101
+                value = self.value  # pylint: disable=E1101
             else:
                 try:
-                    value = int(self.value)
+                    value = int(self.value)  # pylint: disable=E1101
                 except TypeError:
-                    value = str(self.value)
+                    value = str(self.value)  # pylint: disable=E1101
 
             _attrs['value'] = value
 
-        if self.allow_unset is not None:
-            _attrs['allow_unset'] = bool(self.allow_unset)
+        if self.allow_unset is not None:  # pylint: disable=E1101
+            _attrs['allow_unset'] = bool(self.allow_unset)  # noqa, pylint: disable=E1101
 
-        if self.section is not None:
-            _attrs['section'] = str(self.section)
+        if self.section is not None:  # pylint: disable=E1101
+            _attrs['section'] = str(self.section)  # pylint: disable=E1101
 
-        if self.ops:
-            _attrs['ops'] = self.ops.ops
+        if self.ops:  # pylint: disable=E1101
+            _attrs['ops'] = self.ops.ops  # pylint: disable=E1101
         else:
             _attrs['ops'] = [['eq', _attrs['value']]]
 
