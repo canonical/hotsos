@@ -224,9 +224,9 @@ class TestYamlEvents(utils.BaseTestCase):
 
         defs = {'myeventsubgroup': {
                     'event1': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
-                               'event1'),
+                               'event1.search'),
                     'event2': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
-                               'event2')}}
+                               'event2.search')}}
 
         with GlobalSearcher() as searcher:
             handler = MyEventHandler(global_searcher=searcher)
@@ -250,7 +250,7 @@ class TestYamlEvents(utils.BaseTestCase):
 
         defs = {'myeventsubgroup': {
                     'event2': ('myplugin.mygroup.myeventgroup.myeventsubgroup.'
-                               'event2')}}
+                               'event2.search')}}
         with GlobalSearcher() as searcher:
             handler = MyEventHandler(global_searcher=searcher)
 

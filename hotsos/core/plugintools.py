@@ -9,7 +9,8 @@ from hotsos.core.log import log
 from hotsos.core.ycheck.engine.common import YHandlerBase
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.ycheck.common import GlobalSearcher
-from hotsos.core.ycheck.events import EventsPreloader
+from hotsos.core.ycheck.events import EventsSearchPreloader
+from hotsos.core.ycheck.scenarios import ScenariosSearchPreloader
 
 PLUGINS = {}
 PLUGIN_RUN_ORDER = []
@@ -392,20 +393,26 @@ class PluginRunner(object):
         self.parts = PLUGINS[plugin]
 
     def run(self):
-        with GlobalSearcher() as global_search:
-            return self._run(global_search)
+        with GlobalSearcher() as global_searcher:
+            return self._run(global_searcher)
 
-    def _run(self, global_search):
+    def _run(self, global_searcher):
+        # Load searches into the GlobalSearcher
+        EventsSearchPreloader(global_searcher).run()
+        ScenariosSearchPreloader(global_searcher).run()
+        # Run the searches so that results are ready to be consumed when the
+        # parts and handlers are run.
+        global_searcher.run()
+
         part_mgr = PartManager()
         failed_parts = []
         # The following are executed as part of each plugin run (but not last).
-        always_run = {'auto_scenario_check': YScenarioChecker,
-                      'events_preload': EventsPreloader}
+        always_run = {'auto_scenario_check': YScenarioChecker}
         for name, always_parts in always_run.items():
             # update current env to reflect actual part being run
             HotSOSConfig.part_name = name
             try:
-                always_parts(global_search).run()
+                always_parts(global_searcher).run()
             except Exception as exc:
                 failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
@@ -420,7 +427,7 @@ class PluginRunner(object):
             name = runner.__name__
             HotSOSConfig.part_name = name
             if issubclass(runner, YHandlerBase):
-                inst = runner(global_search)
+                inst = runner(global_searcher)
             else:
                 inst = runner()
 

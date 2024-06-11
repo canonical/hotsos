@@ -285,6 +285,9 @@ class YPropertyBase(PTreeOverrideBase):
                 _name = name.partition('$')[2]
                 return self.context.vars.resolve(_name)
 
+        log.warning("could not resolve var '%s' - vars not found in "
+                    "context", name)
+
         return name
 
     @property

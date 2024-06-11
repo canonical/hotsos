@@ -9,6 +9,8 @@ from hotsos.core.ycheck.engine import (
     YHandlerBase,
     YDefsSection,
 )
+from hotsos.core.ycheck.common import GlobalSearcherPreloaderBase
+from hotsos.core.ycheck.engine.properties import search
 
 CALLBACKS = {}
 
@@ -246,18 +248,66 @@ class EventCallbackBase(EventProcessingUtils, metaclass=EventCallbackMeta):
         """ Callback method. """
 
 
-class EventsPreloader(YHandlerBase):
+class EventsSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
     """
     Pre-load all searches used in event definitions into a global FileSearcher
     object and execute the search before running any event callbacks.
     """
 
-    def run(self):
-        # Pre-load all event searches into a global event searcher
-        self.global_searcher.preload_event_searches()
-        # Run the searches so that results are ready when event handlers are
-        # run.
-        self.global_searcher.results
+    @staticmethod
+    def skip_filtered(path):
+        e_filter = HotSOSConfig.event_filter
+        if e_filter and path != e_filter:
+            log.info("skipping event %s (filter=%s)", path, e_filter)
+            return True
+
+        return False
+
+    def preload_searches(self, global_searcher, group=None):
+        """
+        Find all events that have a search property and load their search into
+        the global searcher.
+
+        @param global_searcher: GlobalSearcher object
+        @param group: a group path can be provided to filter a subset of
+                      items.
+        """
+        if global_searcher.is_loaded(self.__class__.__name__):
+            raise Exception("event searches have already been loaded into the "
+                            "global searcher. This operation can only be "
+                            "performed once.")
+
+        log.debug("started loading (group=%s) searches into searcher "
+                  "(%s)", group, global_searcher.searcher)
+
+        plugin_defs = YDefsLoader('events', filter_path=group).plugin_defs
+        root = YDefsSection(HotSOSConfig.plugin_name, plugin_defs or {})
+        added = 0
+        for prop in root.manager.properties.values():
+            if not issubclass(prop[0]['cls'], search.YPropertySearch):
+                continue
+
+            for item in prop:
+                parent = self._find_search_prop_parent(root, item['path'])
+                if self.skip_filtered(parent.resolve_path):
+                    log.debug("skipping item %s", parent.resolve_path)
+                    continue
+
+                added += 1
+                self._load_item_search(global_searcher, parent.search,
+                                       parent.input)
+
+        global_searcher.set_loaded(self.__class__.__name__)
+        log.debug("identified a total of %s event check searches", added)
+        log.debug("finished loading event searches into searcher "
+                  "(registry now has %s items)", len(global_searcher))
+
+    def run(self, group=None):
+        log.debug("registered event callbacks:\n%s", '\n'.
+                  join(CALLBACKS.keys()))
+
+        # Pre-load all event searches into a global searcher
+        self.preload_searches(self.global_searcher, group=group)
 
 
 class EventHandlerBase(YHandlerBase, EventProcessingUtils):
@@ -275,13 +325,14 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         # resetting the registry prior to each run and we will therefore need
         # to load searches each time which is why we do this here. This is
         # therefore not intended to be used outside of a test scenario.
-        if len(self.global_searcher) == 0:
+        label = EventsSearchPreloader.__name__
+        if not self.global_searcher.is_loaded(label):
             log.info("global searcher catalog is empty so launching "
                      "pre-load of event searches for group '%s'",
                      self.event_group)
             # NOTE: this is not re-entrant safe and is only ever expected
             #       to be done from a unit test.
-            self.global_searcher.preload_event_searches(
+            EventsSearchPreloader(self.global_searcher).run(
                                                         group=self.event_group)
 
         self._event_results = None
@@ -302,15 +353,6 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
         return True
 
-    @staticmethod
-    def skip_filtered_item(event_path):
-        e_filter = HotSOSConfig.event_filter
-        if e_filter and event_path != e_filter:
-            log.info("skipping event %s (filter=%s)", event_path, e_filter)
-            return True
-
-        return False
-
     @property
     def searcher(self):
         return self.global_searcher.searcher
@@ -327,7 +369,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
         _events = {}
         for event in group.leaf_sections:
-            if self.skip_filtered_item(event.resolve_path):
+            if EventsSearchPreloader.skip_filtered(event.resolve_path):
                 continue
 
             if not self.meets_requirements(event):
@@ -341,7 +383,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
             if section_name not in _events:
                 _events[section_name] = {}
 
-            _events[section_name][event.name] = event.resolve_path
+            _events[section_name][event.name] = event.search.unique_search_tag
 
         return _events
 
@@ -350,19 +392,20 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         """ Cache of results in case run() is called again. """
         return self._event_results
 
-    def _get_event_search_results(self, event_search, global_results):
-        if event_search.passthrough_results:
+    def _get_event_search_results(self, global_results, search_tag,
+                                  sequence_search_def, passthrough_results):
+        if passthrough_results:
             # this is for implementations that have their own means of
             # retrieving results.
             return global_results
 
-        seq_def = event_search.sequence_search
-        if seq_def:
-            search_results = global_results.find_sequence_sections(seq_def)
-            if search_results:
-                return search_results.values()
-        else:
-            return global_results.find_by_tag(event_search.unique_search_tag)
+        if sequence_search_def is None:
+            return global_results.find_by_tag(search_tag)
+
+        search_results = global_results.find_sequence_sections(
+                             sequence_search_def)
+        if search_results:
+            return search_results.values()
 
     def run(self):
         """
@@ -378,17 +421,21 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
             raise Exception("need to register at least one callback for "
                             "event handler.")
 
-        log.debug("registered event callbacks:\n%s", '\n'.
-                  join(CALLBACKS.keys()))
+        log.debug("running event(s) for group=%s", self.event_group)
         info = {}
         for section_name, section in self.events.items():
             for event, fullname in section.items():
-                event_search = self.global_searcher[fullname]['search']
-                search_results = self._get_event_search_results(event_search,
-                                                                results)
+                event_search = self.global_searcher[fullname]
+                seq_def = event_search['sequence_search']
+                search_tag = event_search['search_tag']
+                passthrough = event_search['passthrough_results']
+                search_results = self._get_event_search_results(results,
+                                                                search_tag,
+                                                                seq_def,
+                                                                passthrough)
                 if not search_results:
                     log.debug("event %s (tag=%s) did not yield any results",
-                              event, event_search.unique_search_tag)
+                              event, event_search['search_tag'])
                     continue
 
                 # We want this to throw an exception if the callback is not
@@ -400,12 +447,11 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                     raise EventCallbackNotFound(msg)
 
                 callback = CALLBACKS[callback_name]
-                seq_def = event_search.sequence_search
                 event_result = EventCheckResult(
                                                section_name,
                                                event,
                                                search_results,
-                                               event_search.unique_search_tag,
+                                               search_tag,
                                                self.global_searcher.searcher,
                                                sequence_def=seq_def)
                 log.debug("executing event %s.%s callback '%s'",
