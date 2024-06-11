@@ -1012,3 +1012,11 @@ class TestDPKGVersion(utils.BaseTestCase):
              {'eq': '1:8.2p1-4ubuntu0.4'}]
         )
         self.assertTrue(result)
+
+    def test_dpkg_version_invalid_op_name(self):
+        with self.assertRaises(Exception):
+            # 1:8.2p1-4ubuntu0.4
+            DPKGVersion.is_version_within_ranges(
+                '1:8.2p1-4ubuntu0.4',
+                [{'foo': '1:8.2p1-4ubuntu0.4'}]
+            )

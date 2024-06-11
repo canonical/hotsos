@@ -10,8 +10,9 @@ checks:
   has_lxd_version_5_9:
     snap:
       lxd:
-        - min: 24096
-          max: 24180
+        - revision:
+            min: 24096
+            max: 24180
   fuse_out_of_threads_error:
     input:
       command: journalctl
