@@ -10,7 +10,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     DPKGVersion
 )
-from hotsos.core.host_helpers.config import SectionalConfigBase
+from hotsos.core.host_helpers.config import IniConfigBase
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine import (
@@ -52,7 +52,7 @@ class TestProperty(YPropertyBase):
         return False
 
 
-class TestConfig(SectionalConfigBase):
+class TestConfig(IniConfigBase):
     pass
 
 

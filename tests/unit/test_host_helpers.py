@@ -623,9 +623,9 @@ class TestSnapPackageHelper(utils.BaseTestCase):
 class TestConfigHelper(utils.BaseTestCase):
 
     @utils.create_data_root({'test.conf': DUMMY_CONFIG})
-    def test_sectionalconfig_base(self):
+    def test_iniconfig_base(self):
         conf = os.path.join(HotSOSConfig.data_root, 'test.conf')
-        cfg = host_helpers.SectionalConfigBase(conf)
+        cfg = host_helpers.IniConfigBase(conf)
         self.assertTrue(cfg.exists)
         self.assertEqual(cfg.get('a-key'), '1023')
         self.assertEqual(cfg.get('a-key', section='a-section'), '1023')

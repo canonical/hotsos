@@ -1,6 +1,6 @@
 import abc
 import os
-import re
+import configparser
 
 from hotsos.core.log import log
 
@@ -80,14 +80,11 @@ class ConfigBase(abc.ABC):
         """ Get a config value. """
 
 
-class SectionalConfigBase(ConfigBase):
+class IniConfigBase(ConfigBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._sections = {}
-        # this provides an easy sectionless lookup but is prone to collisions.
-        # always returns the last value for key found in config file.
-        self._flattened_config = {}
+        self.config = None
         self._load()
 
     @staticmethod
@@ -99,63 +96,64 @@ class SectionalConfigBase(ConfigBase):
 
         return val
 
-    @property
-    def all(self):
-        return self._sections
-
-    def get(self, key, section=None, expand_to_list=False):
-        """ If section is None use flattened """
-        if section is None:
-            value = self._flattened_config.get(key)
-        else:
-            if section not in self._sections:
-                log.debug("section '%s' not found in config file, "
-                          "trying lower case", section)
-                section = section.lower()
-
-            value = self._sections.get(section, {}).get(key)
+    @classmethod
+    def post_processing(cls, v, expand_to_list=False):
+        # Sanitize the string and perform
+        # boolean type conversion if needed
+        if isinstance(v, str):
+            v = v.strip()
+            for char in ["'", '"']:
+                v = v.strip(char)
+            v = cls.bool_str(v)
 
         if expand_to_list:
-            return self.expand_value_ranges(value)
+            return cls.expand_value_ranges(v)
 
-        return value
+        return v
 
     @property
-    def dump(self):
-        with open(self.path) as fd:
-            return fd.read()
+    def all_keys(self):
+        return [x for option in self.config.items()
+                for x in list(option[1].keys())]
+
+    def get(self, key, section=None, expand_to_list=False):
+        """ If section is None, then search all sections and return first
+        match. """
+        log.debug("ini read call -> %s:%s", section, key)
+
+        if not self.config:
+            return None
+
+        # 1: Section is specified.
+        if section is not None:
+            # Look for section name, case-insensitive
+            for sect in self.config.sections() + ["DEFAULT"]:
+                if section.upper() == sect.upper():
+                    return self.post_processing(
+                        self.config.get(sect, key, fallback=None),
+                        expand_to_list
+                    )
+            return None
+
+        # 2: No section specified.
+        # The default section is not included in the section
+        # set so append it
+        for sec in self.config.sections() + ["DEFAULT"]:
+            v = self.config.get(sec, key, fallback=None)
+            log.debug("ini read value -> %s:%s = %s", section, key, v)
+            if v:
+                return self.post_processing(v, expand_to_list)
+
+        return None
 
     def _load(self):
         if not self.exists:
+            log.debug("config file %s does not exist", self.path)
+            self.config = None
             return
 
-        current_section = None
-        with open(self.path) as fd:
-            for line in fd:
-                if re.compile(r"^\s*#").search(line):
-                    continue
-
-                # section names are not expected to contain whitespace
-                ret = re.compile(r"^\s*\[(\S+)].*").search(line)
-                if ret:
-                    current_section = ret.group(1)
-                    self._sections[current_section] = {}
-                    continue
-
-                if current_section is None:
-                    continue
-
-                # key names may contain whitespace
-                # values may contain whitespace
-                expr = r"^\s*(\S+(?:\s+\S+)?)\s*=\s*(.+)\s*"
-                ret = re.compile(expr).search(line)
-                if ret:
-                    key = ret.group(1)
-                    val = self.bool_str(ret.group(2))
-                    if isinstance(val, str):
-                        val = val.strip()
-                        for char in ["'", '"']:
-                            val = val.strip(char)
-
-                    self._sections[current_section][key] = val
-                    self._flattened_config[key] = val
+        self.config = configparser.ConfigParser()
+        if self.path not in self.config.read(self.path):
+            log.error("cannot parse config file `%s`", self.path)
+            self.config = None
+            return
