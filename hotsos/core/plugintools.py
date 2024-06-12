@@ -397,15 +397,22 @@ class PluginRunner(object):
             return self._run(global_searcher)
 
     def _run(self, global_searcher):
+        failed_parts = []
         # Load searches into the GlobalSearcher
-        EventsSearchPreloader(global_searcher).run()
-        ScenariosSearchPreloader(global_searcher).run()
+        for preloader in [EventsSearchPreloader, ScenariosSearchPreloader]:
+            try:
+                preloader(global_searcher).run()
+            except Exception as exc:
+                name = preloader.__name__
+                failed_parts.append(name)
+                log.exception("search preloader '%s' raised exception: %s",
+                              name, exc)
+
         # Run the searches so that results are ready to be consumed when the
         # parts and handlers are run.
         global_searcher.run()
 
         part_mgr = PartManager()
-        failed_parts = []
         # The following are executed as part of each plugin run (but not last).
         always_run = {'auto_scenario_check': YScenarioChecker}
         for name, always_parts in always_run.items():

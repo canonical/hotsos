@@ -690,6 +690,8 @@ class SourceRunner(object):
             with open(self.output_file, 'w') as fd:
                 if isinstance(out.value, list):
                     fd.write(''.join(out.value))
+                elif isinstance(out.value, dict):
+                    fd.write(json.dumps(out.value))
                 else:
                     fd.write(out.value)
 
