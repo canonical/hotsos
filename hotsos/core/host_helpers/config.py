@@ -152,7 +152,7 @@ class IniConfigBase(ConfigBase):
             self.config = None
             return
 
-        self.config = configparser.ConfigParser()
+        self.config = configparser.ConfigParser(strict=False)
         if self.path not in self.config.read(self.path):
             log.error("cannot parse config file `%s`", self.path)
             self.config = None
