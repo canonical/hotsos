@@ -1,11 +1,9 @@
 from functools import cached_property
 
-# NOTE: we import direct from searchkit rather than hotsos.core.search to
-#       avoid circular dependency issues.
-from searchkit import (
+from hotsos.core.search import (
     FileSearcher,
     SearchDef,
-    SequenceSearchDef,
+    SequenceSearchDef
 )
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelperFile

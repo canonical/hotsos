@@ -3,13 +3,21 @@ import os
 from searchkit import (   # noqa: F403,F401, pylint: disable=W0611
     FileSearcher as _FileSearcher,
     ResultFieldInfo,
-    SearchDef,
     SequenceSearchDef,
+    HyperscanSearchDef,
 )
+from hotsos.core.config import HotSOSConfig
+if HotSOSConfig.use_hyperscan:
+    from searchkit import(   # noqa: F403,F401, pylint: disable=W0611
+        HyperscanSearchDef as SearchDef
+    ) 
+else:
+    from searchkit import (   # noqa: F403,F401, pylint: disable=W0611
+        SearchDef
+    )
 from searchkit.constraints import (
     SearchConstraintSearchSince as _SearchConstraintSearchSince
 )
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
 
@@ -50,7 +58,6 @@ class SearchConstraintSearchSince(_SearchConstraintSearchSince):
             log.info("skipping line constraint since data_root is not a "
                      "sosreport therefore files may be changing")
             return True
-
         return super().apply_to_line(*args, **kwargs)
 
     def apply_to_file(self, *args, **kwargs):

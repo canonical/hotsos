@@ -7,12 +7,11 @@ from functools import cached_property
 import dateutil
 import pytz
 from dateutil import parser as dateutil_parser
-# NOTE: we import direct from searchkit rather than hotsos.core.search to
-#       avoid circular dependency issues.
-from searchkit import (
+
+from hotsos.core.search import (
     FileSearcher,
     SearchDef,
-    SequenceSearchDef,
+    SequenceSearchDef
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
@@ -78,6 +77,10 @@ class SystemdService(object):
 
         if last:
             return datetime.strptime(last, "%Y-%m-%dT%H:%M:%S%z")
+        import logging
+        loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict]
+        for logger in loggers:
+            logger.setLevel(logging.DEBUG)
 
         log.debug("start time not found in journal, trying service status")
         # NOTE: should consider getting service status directly rather than
@@ -97,6 +100,7 @@ class SystemdService(object):
         with CLIHelperFile() as cli:
             fs.add(seqdef, path=cli.systemctl_status_all())
             sections = list(fs.run().find_sequence_sections(seqdef).values())
+            print(sections)
             if len(sections) == 0:
                 log.warning("no active status found for %s.service (state=%s)",
                             self.name, self.state)
@@ -105,11 +109,14 @@ class SystemdService(object):
             if len(sections) > 1:
                 log.warning("more than one status found for %s.service",
                             self.name)
-
+            print("sections " + str(sections))
             for result in sections[0]:
                 if result.tag == seqdef.body_tag:
+                    print("timeee" + result.get(1))
                     return dateutil_parser.parse(result.get(1),
                                                  tzinfos=self._tzinfos)
+                else:
+                    print("no tag match: " + result.tag + "," + seqdef.body_tag )
         log.debug("no start time identified for svc %s (state=%s)", self.name,
                   self.state)
 

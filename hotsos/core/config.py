@@ -126,6 +126,11 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
                            default_value={'propertree': 'WARNING',
                                           'searchkit': 'DEBUG'},
                            value_type=dict))
+        self.add(ConfigOpt(name='use_hyperscan',
+                           description=("Use hyperscan/vectorscan for "
+                                        "all search operations instead of "
+                                        "Python's `re`."),
+                           default_value=True, value_type=bool))
 
     @property
     def name(self):
