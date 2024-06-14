@@ -427,7 +427,7 @@ class CephCluster(object):
         version (and only versions for that daemon type.)
         """
         versions = {}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         body = SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
                          r"\(\S+\)\":\s+(\d)+,?$")
         if daemon_type is None:
@@ -800,7 +800,7 @@ class CephDaemonBase(object):
 
         NOTE: this assumes we have ps auxwwwm format.
         """
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
         if self.id is not None:
             ceph_id = r"--id\s+{}".format(self.id)
@@ -1030,7 +1030,7 @@ class CephChecksBase(StorageBase):
         """
         osds = []
 
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
                                body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
                                                r"\s+(devices)\s+([\S]+)\s*"]),

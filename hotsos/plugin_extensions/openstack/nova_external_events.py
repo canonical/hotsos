@@ -33,7 +33,7 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
         events_found = {}
 
         c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
-        s = FileSearcher(constraint=c)
+        s = FileSearcher(constraint=c, decode_errors='backslashreplace')
         for result in event.results:
             instance_id = result.get(1)
             event_id = result.get(2)

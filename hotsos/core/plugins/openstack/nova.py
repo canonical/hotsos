@@ -127,7 +127,7 @@ class NovaLibvirt(NovaBase):
 
         guests = []
         seqs = {}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         for i in self.instances.values():
             guests.append(i.name)
             start = SearchDef(r"\s+<cpu .+>")

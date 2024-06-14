@@ -24,7 +24,7 @@ class LXD(object):
     def instances(self):
         """ Return a list of instance names. """
         _instances = []
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         seq = SequenceSearchDef(start=SearchDef(r'^## Instances$'),
                                 body=SearchDef(r'^\|\s+(\S+)\s+\|'),
                                 end=SearchDef(r'##.*'),

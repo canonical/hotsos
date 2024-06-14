@@ -753,7 +753,7 @@ class TestYamlScenarios(utils.BaseTestCase):
                 for line in contents:
                     fd.write(line)
 
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         s.add(SearchDef(r'^(\S+) (\S+) .+', tag='all'), path)
         return s.run().find_by_tag('all')
 

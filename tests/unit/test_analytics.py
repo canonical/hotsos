@@ -66,7 +66,7 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
         s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
@@ -90,7 +90,7 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
         s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
@@ -114,7 +114,7 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
         s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
@@ -141,7 +141,7 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
         s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
@@ -169,7 +169,7 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 120.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
         s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'
@@ -193,7 +193,7 @@ class TestAnalytics(utils.BaseTestCase):
         expected = {'0': {'duration': 60.0,
                           'start': start0, 'end': end0},
                     '1': {'duration': 60.0, 'start': start1, 'end': end1}}
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) start'
         s.add(SearchDef(expr, tag="eventX-start"), path=fname)
         expr = r'^([0-9\-]+) (\S+) iteration:([0-9]+) end'

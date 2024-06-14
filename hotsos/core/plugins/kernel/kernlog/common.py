@@ -84,7 +84,8 @@ class KernLogBase(object):
 
     def __init__(self):
         c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
-        self.searcher = FileSearcher(constraint=c)
+        self.searcher = FileSearcher(constraint=c,
+                                     decode_errors='backslashreplace')
         self.hostnet_helper = HostNetworkingHelper()
         self.cli_helper = CLIHelper()
 

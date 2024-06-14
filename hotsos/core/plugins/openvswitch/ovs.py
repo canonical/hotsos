@@ -148,7 +148,7 @@ class OpenvSwitchBase(object):
 
         nethelp = HostNetworkingHelper()
         with CLIHelperFile() as cli:
-            s = FileSearcher()
+            s = FileSearcher(decode_errors='backslashreplace')
             expr = r'.+ \(([a-z]+): ([a-f\d\.:]+)->([a-f\d\.:]+), .+'
             s.add(SearchDef(expr, tag='all'),
                   cli.ovs_appctl(command='ofproto/list-tunnels'))
