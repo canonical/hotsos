@@ -87,6 +87,9 @@ class IniConfigBase(ConfigBase):
         self.config = None
         self._load()
 
+    def __bool__(self):
+        return self.config is not None
+
     @staticmethod
     def bool_str(val):
         if val.lower() == "true":
@@ -112,6 +115,10 @@ class IniConfigBase(ConfigBase):
         return v
 
     @property
+    def all_sections(self):
+        return self.config.sections() + ["DEFAULT"]
+
+    @property
     def all_keys(self):
         return [x for option in self.config.items()
                 for x in list(option[1].keys())]
@@ -127,7 +134,7 @@ class IniConfigBase(ConfigBase):
         # 1: Section is specified.
         if section is not None:
             # Look for section name, case-insensitive
-            for sect in self.config.sections() + ["DEFAULT"]:
+            for sect in self.all_sections:
                 if section.upper() == sect.upper():
                     return self.post_processing(
                         self.config.get(sect, key, fallback=None),
@@ -138,7 +145,7 @@ class IniConfigBase(ConfigBase):
         # 2: No section specified.
         # The default section is not included in the section
         # set so append it
-        for sec in self.config.sections() + ["DEFAULT"]:
+        for sec in self.all_sections:
             v = self.config.get(sec, key, fallback=None)
             log.debug("ini read value -> %s:%s = %s", section, key, v)
             if v:
@@ -157,3 +164,7 @@ class IniConfigBase(ConfigBase):
             log.error("cannot parse config file `%s`", self.path)
             self.config = None
             return
+
+
+class GenericIniConfig(IniConfigBase):
+    pass

@@ -1,0 +1,78 @@
+data-root:
+  files:
+    etc/sssd/sssd.conf: |
+      [sssd]
+      domains = example.local
+      config_file_version = 2
+      services = nss, pam
+      debug_level = 9
+
+      # id_provider ad, ldap_use_tokengroups implicit true
+      [domain/example.local]
+      default_shell = /bin/bash
+      krb5_store_password_if_offline = True
+      cache_credentials = True
+      krb5_realm = example.local
+      realmd_tags = manages-system joined-with-adcli
+      id_provider = ad
+      fallback_homedir = /home/%u@%d
+      ad_domain = example.local
+      use_fully_qualified_names = False
+      ldap_id_mapping = True
+      access_provider = ad
+      ad_server = ms8.example.local
+
+      # id_provider ad, ldap_use_tokengroups explicit true
+      [domain/example.local2]
+      default_shell = /bin/bash
+      krb5_store_password_if_offline = True
+      cache_credentials = True
+      krb5_realm = example.local
+      realmd_tags = manages-system joined-with-adcli
+      id_provider = ad
+      ldap_use_tokengroups = True
+      fallback_homedir = /home/%u@%d
+      ad_domain = example.local
+      use_fully_qualified_names = False
+      ldap_id_mapping = True
+      access_provider = ad
+      ad_server = ms8.example.local
+
+      # Uses a different id provider
+      [domain/example.local3]
+      default_shell = /bin/bash
+      id_provider = ipa
+      fallback_homedir = /home/%u@%d
+      access_provider = ipa
+      ldap_use_tokengroups = True
+
+      # id_provider ad, ldap_use_tokengroups explicit False
+      [domain/example.local4]
+      default_shell = /bin/bash
+      krb5_store_password_if_offline = True
+      cache_credentials = True
+      krb5_realm = example.local
+      realmd_tags = manages-system joined-with-adcli
+      id_provider = ad
+      ldap_use_tokengroups = False
+      fallback_homedir = /home/%u@%d
+      ad_domain = example.local
+      use_fully_qualified_names = False
+      ldap_id_mapping = True
+      access_provider = ad
+      ad_server = ms8.example.local
+
+      [nss]
+      debug_level = 0xFFF0
+raised-issues:
+  SSSDWarning: >-
+    The following SSSD Active Directory domains have `ldap_use_tokengroups`
+    enabled which is known to be causing sssd user group membership problems:
+
+    domain/example.local, domain/example.local2
+
+    Consider disabling `ldap_use_tokengroups` for those domains if there are
+    intermittent user group membership problems like group permission issues,
+    system login or "sudo" failures.
+
+    https://sssd.io/troubleshooting/ad_provider.html

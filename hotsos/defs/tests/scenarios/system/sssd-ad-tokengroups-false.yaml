@@ -1,0 +1,35 @@
+target-name: sssd-ad-tokengroups.yaml
+data-root:
+  files:
+    etc/sssd/sssd.conf: |
+      [sssd]
+      domains = example.local
+      config_file_version = 2
+      services = nss, pam
+      debug_level = 9
+
+      # Uses a different id provider
+      [domain/example.local1]
+      default_shell = /bin/bash
+      id_provider = ldap
+      fallback_homedir = /home/%u@%d
+      access_provider = ldap
+      ldap_use_tokengroups = True
+
+      # id_provider absent
+      [domain/example.local2]
+      default_shell = /bin/bash
+      krb5_store_password_if_offline = True
+      cache_credentials = True
+      krb5_realm = example.local
+      realmd_tags = manages-system joined-with-adcli
+      ldap_use_tokengroups = True
+      fallback_homedir = /home/%u@%d
+      ad_domain = example.local
+      use_fully_qualified_names = False
+      ldap_id_mapping = True
+      ad_server = ms8.example.local
+
+      [nss]
+      debug_level = 0xFFF0
+raised-issues:  # none expected
