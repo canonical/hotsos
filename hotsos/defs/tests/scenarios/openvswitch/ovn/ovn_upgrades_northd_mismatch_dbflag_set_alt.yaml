@@ -1,0 +1,39 @@
+target-name: ovn_upgrades.yaml
+data-root:
+  files:
+    sos_commands/openvswitch/ovs-vsctl_-t_5_get_Open_vSwitch_._external_ids: |
+      {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1, ovn-match-northd-version="True"}
+    var/log/ovn/ovn-controller.log: |
+      2022-02-06T11:04:26.305Z|00017|main|WARN|controller version - 22.03.2-1.2.3 mismatch with northd version - 22.03.1-1.2.3
+    # yamllint disable rule:trailing-spaces
+    sos_commands/systemd/systemctl_list-unit-files: |
+      neutron-ovn-metadata-agent.service         enabled         enabled      
+      ovn-controller.service                     static          enabled      
+      ovn-host.service                           enabled         enabled      
+    sos_commands/systemd/systemctl_list-units: |
+      neutron-ovn-metadata-agent.service                                          loaded active     running         Neutron OVN Metadata Agent                                                   
+      ovn-controller.service                                                      loaded active     running         Open Virtual Network host control daemon                                     
+      ovn-host.service                                                            loaded active     exited          Open Virtual Network host components  
+    # yamllint enable rule:trailing-spaces
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-ovn-metadata-agent           2:16.4.2-0ubuntu4                                    all          Neutron is a virtual network service for Openstack - OVN metadata agent
+      ii  ovn-common                           22.03.2-0ubuntu0.22.04.1~cloud1                              amd64        OVN common components
+      ii  ovn-host                             22.03.2-0ubuntu0.22.04.1~cloud1                              amd64        OVN host components
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-issues:
+  OVNError: >-
+    The ovn-controller service on this node is reporting northd version
+    mismatch errors. This happens when the version of OVN differs between
+    ovn-central and ovn-controller and you have ovn-match-northd-version=true
+    set locally. This flag is intended to protect against downtime during major
+    release upgrades by preventing the ovn-controller from getting updates from
+    the southbound database until the versions match. It is not necessary for
+    this flag to be set to 'true' during minor release upgrades. The version
+    difference is reported as 22.03.2-1.2.3 vs. 22.03.1-1.2.3. If you are
+    performing a major version upgrade this problem should disappear once the
+    upgrade has completed on both ovn-central and locally. If you are
+    performing a minor release upgrade you can safely do 'ovs-vsctl set
+    Open_vSwitch . external-ids:ovn-match-northd-version="false"' and that
+    should allow ovn-controller to resume service.

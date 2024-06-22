@@ -11,7 +11,9 @@ checks:
   dbflag_is_true:
     - varops: [[$external_ids], [truth]]  # check not None
     - varops: [[$external_ids], [contains, $dbkey]]
-    - varops: [[$external_ids], [getitem, $dbkey], [eq, 'true']]
+    - or:
+        - varops: [[$external_ids], [getitem, $dbkey], [eq, 'true']]
+        - varops: [[$external_ids], [getitem, $dbkey], [eq, 'True']]
   ovn_controller_pkg_has_upgrade_bug:
     apt:
       ovn-host:
