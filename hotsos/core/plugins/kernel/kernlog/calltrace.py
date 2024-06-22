@@ -323,7 +323,14 @@ class OOMKillerTraceType(TraceTypeBase):
         start = SearchDef(r'{} (\S+) invoked oom-killer: .+, '
                           r'order=([+-]?\d+),.+'.
                           format(KERNLOG_PREFIX))
-        body = SearchDef('.+')
+
+        fields = set()
+        for mfieldtype in [MemFieldsMain, MemFieldsNodeZoneMem,
+                           MemFieldsNodeMem, MemFieldsNodeUNRC]:
+            fields.update(mfieldtype().fields)
+
+        # Only include lines that actually contain fields we want to extract
+        body = SearchDef(r"(.+(?:{}).+)".format('|'.join(fields)))
         # NOTE: we need a better way to capture the different variations of
         #       the following message.
         end = SearchDef(r'{} '
@@ -345,7 +352,7 @@ class OOMKillerTraceType(TraceTypeBase):
                     oom_kill.add('order', item.get(2))
                 elif item.tag.endswith('-body'):
                     # There will be one or more of these.
-                    line = item.get(0)
+                    line = item.get(1)
 
                     ret = re.search(r"Node (\d+) active_anon:", line)
                     if ret:
@@ -416,7 +423,8 @@ class HungtaskTraceType(TraceTypeBase):
             return self._search_def
 
         start = SearchDef(r'.+ blocked for more than (\d+) seconds.')
-        body = SearchDef('.+')
+        # We don't need the body so don't match/save it
+        body = None
         end = SearchDef(r'.+\s+do_syscall_(\S+)')
         self._search_def = SequenceSearchDef(start, tag='hungtask', body=body,
                                              end=end)
