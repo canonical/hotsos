@@ -407,8 +407,8 @@ class TestCephMonEvents(CephMonTestsBase):
                   'long-heartbeat-pings': {'2022-02-09': 4},
                   'heartbeat-no-reply': {'2022-02-09': {'osd.0': 1,
                                                         'osd.1': 2}}}
-        with GlobalSearcher() as searcher:
-            inst = ceph_event_checks.CephEventHandler(global_searcher=searcher)
+        with GlobalSearcher() as global_searcher:
+            inst = ceph_event_checks.CephEventHandler(global_searcher)
             actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual, result)
 

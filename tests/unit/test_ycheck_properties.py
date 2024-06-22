@@ -12,6 +12,7 @@ from hotsos.core.host_helpers import (
 )
 from hotsos.core.host_helpers.config import IniConfigBase
 from hotsos.core.issues.utils import IssuesStore
+from hotsos.core.search import ExtraSearchConstraints
 from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine import (
     YDefsSection,
@@ -22,7 +23,6 @@ from hotsos.core.ycheck.engine.properties.common import (
     PropertyCacheRefResolver,
 )
 from hotsos.core.ycheck.common import GlobalSearcher
-from hotsos.core.ycheck.engine.properties.search import YPropertySearch
 from hotsos.core.ycheck.engine.properties.requires.types import (
     apt,
     binary,
@@ -782,39 +782,39 @@ class TestYamlProperties(utils.BaseTestCase):
         result.get.side_effect = lambda idx: _result.get(idx)
 
         _result = {1: '2022-01-06', 2: '12:34:56.123'}
-        ts = YPropertySearch.get_datetime_from_result(result)
+        ts = ExtraSearchConstraints._get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06', 2: '12:34:56'}
-        ts = YPropertySearch.get_datetime_from_result(result)
+        ts = ExtraSearchConstraints._get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06'}
-        ts = YPropertySearch.get_datetime_from_result(result)
+        ts = ExtraSearchConstraints._get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
 
         _result = {1: '2022-01-06 12:34:56.123'}
-        ts = YPropertySearch.get_datetime_from_result(result)
+        ts = ExtraSearchConstraints._get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06 12:34:56'}
-        ts = YPropertySearch.get_datetime_from_result(result)
+        ts = ExtraSearchConstraints._get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
         _result = {1: '2022-01-06'}
-        ts = YPropertySearch.get_datetime_from_result(result)
+        ts = ExtraSearchConstraints._get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 0, 0))
 
         _result = {1: '2022-01-06', 2: 'foo'}
         with self.assertLogs(logger='hotsos', level='WARNING') as log:
-            ts = YPropertySearch.get_datetime_from_result(result)
+            ts = ExtraSearchConstraints._get_datetime_from_result(result)
             self.assertIsNone(ts)
             self.assertEqual(len(log.output), 1)
             self.assertIn('failed to parse timestamp string', log.output[0])
 
         _result = {1: 'foo'}
         with self.assertLogs(logger='hotsos', level='WARNING') as log:
-            ts = YPropertySearch.get_datetime_from_result(result)
+            ts = ExtraSearchConstraints._get_datetime_from_result(result)
             self.assertIsNone(ts)
             self.assertEqual(len(log.output), 1)
             self.assertIn('failed to parse timestamp string', log.output[0])

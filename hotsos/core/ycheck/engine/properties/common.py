@@ -426,7 +426,11 @@ class YPropertyBase(PTreeOverrideBase):
         key = "{}.object".format(cls)
         cls_inst = self._load_from_import_cache(key)
         if not cls_inst:
-            cls_inst = cls()
+            try:
+                cls_inst = cls(global_searcher=self.context.global_searcher)
+            except TypeError:
+                cls_inst = cls()
+
             self._add_to_import_cache(key, cls_inst)
 
         if ':' in _prop:

@@ -1,3 +1,5 @@
+vars:
+  bfd_transitions: '@hotsos.core.plugins.openvswitch.OVSBFD.max_transitions_last_24h_within_hour'
 checks:
   vswitchd_to_ovn_controller_inactivity_timeouts:
     input:
@@ -10,15 +12,7 @@ checks:
         search-period-hours: 1
         search-result-age-hours: 24
   bfd_state_changes:
-    input:
-      path: var/log/openvswitch/ovs-vswitchd.log
-    search:
-      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|bfd\(\S+\)\|INFO\|[a-z0-9-]+: BFD state change'
-      constraints:
-        # trigger if we at least this many in 1 hour period and look at last 24 hours only.
-        min-results: 10
-        search-period-hours: 1
-        search-result-age-hours: 24
+    varops: [[$bfd_transitions], [ge, 5]]
   chassis_gw_port_reassignments:
     input:
       path: var/log/ovn/ovn-controller.log
@@ -54,7 +48,7 @@ conclusions:
         something is wrong with the network between this node and one or more peer chassis
         nodes.
       format-dict:
-        count: '@checks.bfd_state_changes.search.num_results'
+        count: '$bfd_transitions'
   vswitchd_to_ovn_controller_inactivity_timeouts:
     priority: 3
     decision:

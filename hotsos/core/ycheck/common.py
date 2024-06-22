@@ -7,7 +7,8 @@ from hotsos.core.search import (
     FileSearcher,
     SearchConstraintSearchSince,
 )
-from hotsos.core.ycheck.engine.properties.search import CommonTimestampMatcher
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.search import CommonTimestampMatcher
 
 
 class SearchRegistryKeyConflict(Exception):
@@ -30,6 +31,9 @@ class SearchRegistryKeyNotFound(Exception):
         return ("'{}' not found in search registry. Available keys are:"
                 "\n      - {}".
                 format(self.key, '\n      - '.join(self.all_keys)))
+
+
+SEARCHES_TO_BE_REGISTERED = []
 
 
 class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
@@ -110,9 +114,44 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
             log.debug("using cached global searcher results")
             return self._results
 
+        for s in SEARCHES_TO_BE_REGISTERED:
+            if not s().validate(HotSOSConfig.plugin_name):
+                continue
+
+            self.add_search(s.simple_search(), s.sequence_search(),
+                            s.passthrough_results, s.paths())
+
         log.debug("fetching global searcher results")
         self._results = self.searcher.run()
         return self._results
+
+    def add_search(self, simple_search, sequence_search, passthrough_results,
+                   paths):
+        """
+        Register a new search in the registry and add it to the global
+        searcher.
+
+        @param simple_search: SearchDef object.
+        @param sequence_search: SequenceSearchDef object.
+        @param passthrough_results: True or False.
+        @param paths: list of one or more paths.
+        """
+        if simple_search is not None:
+            searchdef = simple_search
+        else:
+            searchdef = sequence_search
+
+        tag = searchdef.tag
+        self[tag] = {'search_tag': tag,
+                     'passthrough_results': passthrough_results,
+                     'simple_search': simple_search,
+                     'sequence_search': sequence_search}
+
+        for path in paths:
+            log.debug("loading search (tag=%s, input_path=%s)", tag,
+                      path)
+            self.searcher.add(searchdef, path,
+                              allow_global_constraints=True)
 
     def run(self):
         self.results
@@ -180,3 +219,65 @@ class GlobalSearcherPreloaderBase(object):
     @abc.abstractmethod
     def preload_searches(self, global_searcher):
         pass
+
+
+class GlobalSearcherAutoRegisterMeta(type):
+    """ Add to list of searches to be registered at runtime. """
+
+    def __init__(cls, _name, _mro, _members):
+        if cls.unique_search_tag is None:
+            return
+
+        SEARCHES_TO_BE_REGISTERED.append(cls)
+
+
+class GlobalSearcherAutoRegisterBase(object,
+                                     metaclass=GlobalSearcherAutoRegisterMeta):
+    """
+    Generic interface for loading search definitions into the global searcher.
+    The attributes of this class are intentionally similar to those of
+    hotsos.core.ycheck.engine.properties.search so as to be able to give them
+    equivalent meaning but this is really intended for use by code that wants
+    to perform searches but that is not using YPropertySearch (i.e. not event
+    or scenario yaml).
+    """
+    # This must be set to the same value as used by corresponding
+    # implementation of PluginPartBase.plugin_name.
+    plugin_name = None
+    # This will be used to register and lookup the search in the registry and
+    # must not conflict with any existing tags.
+    unique_search_tag = None
+
+    def validate(self, plugin_name):
+        """
+        This is used to ensure that we only load searches applicable to the
+        plugin currently being executed.
+
+        Returns True if we are running the context of the plugin to which this
+        search belongs.
+        """
+        if self.plugin_name is None:
+            raise Exception("{}.plugin_name must set to the name of the "
+                            "plugin in which it will run (currently={})".
+                            format(self.__class__.__name__, self.plugin_name))
+
+        return plugin_name == self.plugin_name
+
+    @property
+    def passthrough_results(self):
+        return False
+
+    @classmethod
+    @abc.abstractmethod
+    def simple_search(cls):
+        """ Returns SearchDef object. """
+
+    @classmethod
+    @abc.abstractmethod
+    def sequence_search(cls):
+        """ Returns a SequenceSearchDef object. """
+
+    @classmethod
+    @abc.abstractmethod
+    def paths(cls):
+        """ Returns a list of one or more paths to search. """

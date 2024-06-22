@@ -7,8 +7,8 @@ from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
 class OpenvSwitchSummary(OpenvSwitchChecksBase):
     summary_part_index = 0
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.ovs = OpenvSwitchBase()
         self.ovn = OVNBase()
 

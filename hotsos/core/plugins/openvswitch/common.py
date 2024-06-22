@@ -6,6 +6,7 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
 )
 from hotsos.core.ycheck.events import EventCallbackBase, EventHandlerBase
+from hotsos.core.ycheck.common import GlobalSearcherAutoRegisterBase
 from hotsos.core.utils import sorted_dict
 
 OVS_SERVICES_EXPRS = [r'ovsdb[a-zA-Z-]*',
@@ -23,6 +24,10 @@ OVS_PKGS_DEPS = ['libc-bin',
                  'openvswitch-switch-dpdk',
                  ]
 PY_CLIENT_PREFIX = r"python3?-{}\S*"
+
+
+class OpenvSwitchGlobalSearch(GlobalSearcherAutoRegisterBase):
+    plugin_name = "openvswitch"
 
 
 class OpenvSwitchChecksBase(plugintools.PluginPartBase):
