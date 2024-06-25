@@ -1,12 +1,8 @@
 checks:
-  is_not_a_lxc_container:
-    property:
-      path: hotsos.core.plugins.system.SystemBase.virtualisation_type
-      ops: [[ne, 'lxc']]
-  has_lxc_containers:
-    property:
-      path: hotsos.core.plugins.lxd.LXD.instances
-      ops: [[length_hint], [gt, 0]]
+  is_not_a_lxc_container: |
+    @hotsos.core.plugins.system.SystemBase.virtualisation_type != 'lxc'
+  has_lxc_containers: |
+    len(@hotsos.core.plugins.lxd.LXD.instances) > 0
   has_lxd_version_5_9:
     snap:
       lxd:

@@ -7,8 +7,8 @@ checks:
     #       or
     #       "Jun 08 10:48:13 compute4 kernel:"
     expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\S+.+ nf_conntrack: table full, dropping packet'
-  has_over_mtu_dropped_packets:
-    property: hotsos.core.plugins.kernel.kernlog.KernLogEvents.over_mtu_dropped_packets
+  has_over_mtu_dropped_packets: |
+    len(@hotsos.core.plugins.kernel.kernlog.KernLogEvents.over_mtu_dropped_packets) > 0
 conclusions:
   nf-conntrack-full:
     decision: has_nf_conntrack_full
@@ -27,4 +27,4 @@ conclusions:
         This host is reporting over-mtu dropped packets for ({num_ifaces})
         interfaces. See kern.log for full details.
       format-dict:
-        num_ifaces: '@checks.has_over_mtu_dropped_packets.requires.value_actual:len'
+        num_ifaces: hotsos.core.plugins.kernel.kernlog.KernLogEvents.over_mtu_dropped_packets:len

@@ -1,24 +1,14 @@
 checks:
-  has_stacktraces:
-    property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_anytype
-      ops: [[length_hint]]
-  has_oom_killer_invoked:
-    property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.oom_killer
-      ops: [[length_hint]]
-  has_bcache_deadlock_invoked:
-    property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace-bcache
-      ops: [[length_hint]]
-  has_hungtasks:
-    property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_hungtask
-      ops: [[length_hint]]
-  has_fanotify_hang:
-    property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace-fanotify
-      ops: [[length_hint]]
+  has_stacktraces: |
+    len(@hotsos.core.plugins.kernel.CallTraceManager.calltrace_anytype) > 0
+  has_oom_killer_invoked: |
+    len(@hotsos.core.plugins.kernel.CallTraceManager.oom_killer) > 0
+  has_bcache_deadlock_invoked: |
+    len(@hotsos.core.plugins.kernel.CallTraceManager.calltrace-bcache) > 0
+  has_hungtasks: |
+    len(@hotsos.core.plugins.kernel.CallTraceManager.calltrace_hungtask) > 0
+  has_fanotify_hang: |
+    len(@hotsos.core.plugins.kernel.CallTraceManager.calltrace-fanotify) > 0
 conclusions:
   stacktraces:
     # Give this one lowest priority so that if any other call trace types match they
@@ -30,7 +20,7 @@ conclusions:
       message: >-
         {numreports} reports of stacktraces in kern.log - please check.
       format-dict:
-        numreports: '@checks.has_stacktraces.requires.value_actual:len'
+        numreports: hotsos.core.plugins.kernel.CallTraceManager.calltrace_anytype:len
   oom-killer-invoked:
     priority: 2
     decision: has_oom_killer_invoked
@@ -39,7 +29,7 @@ conclusions:
       message: >-
         {numreports} reports of oom-killer invoked in kern.log - please check.
       format-dict:
-        numreports: '@checks.has_oom_killer_invoked.requires.value_actual:len'
+        numreports: hotsos.core.plugins.kernel.CallTraceManager.oom_killer:len
   bcache-deadlock-invoked:
     priority: 2
     decision: has_bcache_deadlock_invoked
@@ -60,7 +50,7 @@ conclusions:
       message: >-
         {numreports} reports of hung tasks in kern.log - please check.
       format-dict:
-        numreports: '@checks.has_hungtasks.requires.value_actual:len'
+        numreports: hotsos.core.plugins.kernel.CallTraceManager.calltrace_hungtask:len
   fanotify_hangs:
     priority: 2
     decision: has_fanotify_hang
@@ -70,4 +60,4 @@ conclusions:
         {numreports} reports of fanotify related hangs in kern.log. This may
         be related to antivirus software running in the system.
       format-dict:
-        numreports: '@checks.has_fanotify_hang.requires.value_actual:len'
+        numreports: hotsos.core.plugins.kernel.CallTraceManager.calltrace-fanotify:len

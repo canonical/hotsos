@@ -1,36 +1,20 @@
-vars:
-  inerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrors'
-  inerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrorsPcentInDatagrams'
-  rcvbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors'
-  rcvbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrorsPcentInDatagrams'
-  sndbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrors'
-  sndbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrorsPcentOutDatagrams'
-  incsumerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors'
-  incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams'
-  memusage_pages_inuse: '@hotsos.core.plugins.kernel.net.SockStat.GlobUdpSocksTotalMemPages'
-  memusage_pages_max: '@hotsos.core.plugins.kernel.net.SockStat.SysctlUdpMemMax'
-  memusage_pct: '@hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct'
 checks:
-  rcvbuferrors_high:
-    or:
-      - varops: [[$rcvbuferrors], [gt, 500]]
-      - varops: [[$rcvbuferrors_pcent], [gt, 1]]
-  sndbuferrors_high:
-    or:
-      - varops: [[$sndbuferrors], [gt, 500]]
-      - varops: [[$sndbuferrors_pcent], [gt, 1]]
-  inerrs_high_pcent_or_above_limit:
-    or:
-      - varops: [[$inerrors], [gt, 500]]
-      - varops: [[$inerrors_pcent], [gt, 1]]
-  incsumerrs_high_or_above_limit:
-    or:
-      - varops: [[$incsumerrors], [gt, 500]]
-      - varops: [[$incsumerrors_pcent], [gt, 1]]
-  memusage_pct_high:
-    varops: [[$memusage_pct], [gt, 85]]
-  memusage_pct_exhausted:
-    varops: [[$memusage_pct], [ge, 100]]
+  rcvbuferrors_high: |
+    @hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors > 500 OR
+    @hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrorsPcentInDatagrams > 1
+  sndbuferrors_high: |
+    @hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrors > 500 OR
+    @hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrorsPcentOutDatagrams > 1
+  inerrs_high_pcent_or_above_limit: |
+    @hotsos.core.plugins.kernel.net.SNMPUdp.InErrors > 500 OR
+    @hotsos.core.plugins.kernel.net.SNMPUdp.InErrorsPcentInDatagrams > 1
+  incsumerrs_high_or_above_limit: |
+    @hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors > 500 OR
+    @hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams > 1
+  memusage_pct_high: |
+    @hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct > 85
+  memusage_pct_exhausted: |
+    @hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct >= 100
 conclusions:
   inerrs_high_pcent_or_above_limit:
     decision: inerrs_high_pcent_or_above_limit
@@ -39,8 +23,8 @@ conclusions:
       message: >-
         UDP ingress errors are at {count} ({pcent}% of total datagrams).
       format-dict:
-        count: $inerrors
-        pcent: $inerrors_pcent
+        count: hotsos.core.plugins.kernel.net.SNMPUdp.InErrors
+        pcent: hotsos.core.plugins.kernel.net.SNMPUdp.InErrorsPcentInDatagrams
   incsumerrs_high_or_above_limit:
     decision: incsumerrs_high_or_above_limit
     raises:
@@ -49,8 +33,8 @@ conclusions:
         UDP ingress checksum errors are at {count} ({pcent}% of total datagrams). This could
         mean that one or more interfaces are experiencing hardware errors.
       format-dict:
-        count: $incsumerrors
-        pcent: $incsumerrors_pcent
+        count: hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors
+        pcent: hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams
   rcvbuferrors_high:
     decision: rcvbuferrors_high
     raises:
@@ -58,8 +42,8 @@ conclusions:
       message: >-
         UDP receive buffer errors are at {count} ({pcent}% of total rx).
       format-dict:
-        count: $rcvbuferrors
-        pcent: $rcvbuferrors_pcent
+        count: hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors
+        pcent: hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrorsPcentInDatagrams
   sndbuferrors_high:
     decision: sndbuferrors_high
     raises:
@@ -67,8 +51,8 @@ conclusions:
       message: >-
         UDP send buffer errors are at {count} ({pcent}% of total tx).
       format-dict:
-        count: $sndbuferrors
-        pcent: $sndbuferrors_pcent
+        count: hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrors
+        pcent: hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrorsPcentOutDatagrams
   memusage_pct_high:
     decision:
       - memusage_pct_high
@@ -79,9 +63,9 @@ conclusions:
         UDP memory page usage is high ({pct}%), ({pa} out of {pm} mem pages are in use).
         Kernel will start to drop UDP frames if all pages are exhausted.
       format-dict:
-        pa: $memusage_pages_inuse
-        pm: $memusage_pages_max
-        pct: $memusage_pct
+        pa: hotsos.core.plugins.kernel.net.SockStat.GlobUdpSocksTotalMemPages
+        pm: hotsos.core.plugins.kernel.net.SockStat.SysctlUdpMemMax
+        pct: hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct
   memusage_pct_exhausted:
     decision: memusage_pct_exhausted
     raises:
@@ -90,6 +74,6 @@ conclusions:
         All UDP memory pages are exhausted! ({pa} out of {pm} mem pages are in use).
         Kernel will drop UDP packets, expect packet losses on ALL UDP transport!
       format-dict:
-        pa: $memusage_pages_inuse
-        pm: $memusage_pages_max
-        pct: $memusage_pct
+        pa: hotsos.core.plugins.kernel.net.SockStat.GlobUdpSocksTotalMemPages
+        pm: hotsos.core.plugins.kernel.net.SockStat.SysctlUdpMemMax
+        pct: hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct

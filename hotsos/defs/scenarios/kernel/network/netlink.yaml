@@ -1,6 +1,6 @@
 checks:
-  has_socks_with_drops:
-    property: hotsos.core.plugins.kernel.net.NetLink.all_with_drops
+  has_socks_with_drops: |
+    len(@hotsos.core.plugins.kernel.net.NetLink.all_with_drops) > 0
 conclusions:
   netlink-socks-with-drops:
     decision: has_socks_with_drops

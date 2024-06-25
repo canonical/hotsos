@@ -1,20 +1,12 @@
-vars:
-  virt_type: '@hotsos.core.plugins.system.SystemBase.virtualisation_type'
-  cpu_vendor: '@hotsos.core.plugins.kernel.sysfs.CPU.vendor'
-  kernel_cmd_line: '@hotsos.core.plugins.kernel.KernelBase.boot_parameters'
 checks:
-  is_phy_host:
-    varops: [[$virt_type], [not_]]
-  cpu_vendor_is_amd:
-    varops: [[$cpu_vendor], [eq, 'authenticamd']]
-  iommu_not_pt:
-    varops: [[$kernel_cmd_line], [contains, 'iommu=pt'], [not_]]
+  not_using_iommu_passthrough_for_suitable_amd: |
+    (@hotsos.core.plugins.kernel.sysfs.CPU.vendor == 'authenticamd') AND
+    (@hotsos.core.plugins.system.SystemBase.virtualisation_type == None) AND
+    NOT('iommu=pt' IN @hotsos.core.plugins.kernel.KernelBase.boot_parameters)
 conclusions:
   mixed-pkg-releases:
     decision:
-      - is_phy_host
-      - cpu_vendor_is_amd
-      - iommu_not_pt
+      - not_using_iommu_passthrough_for_suitable_amd
     raises:
       type: SystemWarning
       message: >-

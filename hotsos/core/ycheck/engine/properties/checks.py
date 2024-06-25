@@ -1,6 +1,9 @@
 from functools import cached_property
 
-from propertree.propertree2 import PTreeLogicalGrouping
+from propertree.propertree2 import (
+    PTreeLogicalGrouping,
+    PTreeOverrideLiteralType
+)
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
     YPropertyOverrideBase,
@@ -10,6 +13,9 @@ from hotsos.core.ycheck.engine.properties.common import (
 )
 from hotsos.core.ycheck.engine.properties.requires.requires import (
     YPropertyRequires
+)
+from hotsos.core.ycheck.engine.properties.requires.types.expr import (
+    YPropertyExpr
 )
 from hotsos.core.ycheck.engine.properties.search import (
     YPropertySearch,
@@ -162,6 +168,12 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
             stop_executon = False
             for member in self.members:
                 for item in member:
+                    # Allow implicit declaration of expression.
+                    if isinstance(item, PTreeOverrideLiteralType):
+                        item = YPropertyExpr(item.root, "expression",
+                                             item.content, item.override_path,
+                                             context=self.context)
+
                     # Ignore these here as they are used by search properties.
                     if isinstance(item, YPropertyInput):
                         continue

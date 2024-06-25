@@ -337,3 +337,623 @@ Cache keys:
 * input_value: value of the variable used as input
 * ops: str representation of ops list
 
+
+Expression
+----------
+
+Expressions allow the user to express a requirement in a human-readable domain specific language. Its purpose
+is to provide a simplified, clear and concise expression grammar for all requirement types, and to eliminate
+redundancies.
+
+Usage:
+
+.. code-block:: yaml
+
+  checks:
+    checkmyvar:
+      # Explicit expression
+      expression: |
+        NOT 'test' IN @hotsos.core.plugins.plugin.class.property AND
+        (@hotsos.core.plugins.plugin2.class.property_1 >= 500 OR
+        @hotsos.core.plugins.plugin3.class.property_2)
+
+Explicit expression form can be combined with other requirement types:
+
+.. code-block:: yaml
+
+  checks:
+    checkmyvar:
+      # Explicit expression
+      expression: |
+        # 'test' should not be present
+        NOT 'test' IN @hotsos.core.plugins.plugin.class.property AND
+        # Property value should exceed the threshold
+        (@hotsos.core.plugins.plugin2.class.property_1 >= 500 OR
+        # Property is True
+        @hotsos.core.plugins.plugin3.class.property_2)
+      systemd: test-service
+
+Expressions can be declared implicitly when assigned as a literal to a check:
+
+.. code-block:: yaml
+
+  checks:
+    # Implicit expression
+    checkmyvar: |
+        NOT 'test' IN @hotsos.core.plugins.plugin.class.property AND
+        (@hotsos.core.plugins.plugin2.class.property_1 >= 500 OR
+        @hotsos.core.plugins.plugin3.class.property_2)
+
+Expression grammar consist of the following constructs to allow user to express a requirement:
+
+Keywords
+********
+
+Keywords consist of a special set of words that has a purpose in the grammar. The current keywords are
+[:ref:`None keyword` | :ref:`True keyword` | :ref:`False keyword`]
+
+None keyword
+==============
+
+Case-insensitive. Equal to Python `None`.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    NONE
+    NoNE
+
+True keyword
+==============
+
+Case-insensitive. Equal to Python `True`.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    True
+    TrUe
+
+False keyword
+===============
+
+Case-insensitive. Equal to Python `False`.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    FALSE
+    False
+
+Constants
+*********
+
+Constants are invariable values in the grammar. The current constants are [:ref:`float constant` | :ref:`integer constant` | :ref:`String literal`]
+
+float constant
+================
+
+Floating point constants. `[0-9]+\.[0-9]+`
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    12.34
+    -56.78
+
+integer constant
+==================
+
+Integer constants. `[0-9]+`
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    1234
+    -4567
+
+String literal
+==============
+
+String literal. Declared with single quotes `''`
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    'this is a string literal'
+    'this is @nother 1'
+    '1234'
+    '1.2'
+    'True'
+
+Functions
+*********
+
+Functions are defined as CaselessKeyword, followed by a `(` args `)`.
+
+`caseless_keyword(expr1, ... exprN)`.
+
+len(expr...)
+============
+
+Function to retrieve length of an expression. The expression argument should evaluate
+to a construct that has a `length` property.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    len('literal') # would return 7
+    len('lit' + 'eral') # would return 7
+    len(@class.property) # would return the length of the property value
+
+not(expr...)
+============
+
+Function to negate an expression's boolean vlaue. The expression argument should evaluate
+to a construct that is `boolable`.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    not(True) # would return False
+    not(None) # would return True
+    not(3 == 4) # Would return True
+
+file('path-to-file', 'property-name[optional]')
+===============================================
+
+Function to retrieve a file's properties. Returns True or False when called with one argument depending
+whether the file exists or not. Returns the property's value when called with two arguments. Property names
+are all the properties that `hotsos.core.host_helpers.filestat.FileObj` has.
+
+** Examples **
+
+.. code-block:: yaml
+
+  expression: |
+    # Returns True or False, depending on whether the `/path/to/file` exists or not.
+    file('/path/to/file')
+
+.. code-block:: yaml
+
+  expression: |
+    # Returns file's mtime property when file exists, YExprNotFound when the
+    # file is absent. Raises an exception when the given property name is not
+    # present on the service object.
+    file('/path/to/file', 'mtime')
+
+systemd('service-name', 'property-name[optional]')
+==================================================
+
+Function to retrieve a systemd service's properties. Returns True or False when called with one argument depending
+whether the service exists or not. Returns the property's value when called with two arguments.
+
+Property names are all the properties that `hotsos.core.host_helpers.systemd.SystemdService` has.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # Returns True or False, depending on whether the `systemd-resolve` service
+    # exists or not.
+    systemd('systemd-resolved')
+
+.. code-block:: yaml
+
+  expression: |
+    # Returns the service's `start_time_secs` property value when the service file
+    # exists, YExprNotFound when the service is absent. Raises an exception when the
+    # given property name is not present on the service object.
+    systemd('systemd-resolved', 'start_time_secs')
+
+read_ini('path-to-ini', 'key', 'section[optional]', 'default[optional]')
+========================================================================
+
+Function to read values from an ini file. Returns the first matching key's value when called with two arguments. Returns
+the key's value in the specific section when called with three arguments. Returns the value specified in `default` when
+the `default` argument is provided and given key in given section is not found.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # would return the value of the first encountered key 'foo' from any section.
+    # would return YExprNotFound when the key is not found.
+    read_ini('/etc/ini-file', 'foo')
+
+.. code-block:: yaml
+
+  expression: |
+    # would return the value of the key 'foo' from section 'bar.
+    # would return YExprNotFound when the key is not found.
+    read_ini('/etc/ini-file', 'foo', 'bar')
+
+.. code-block:: yaml
+
+  expression: |
+    # would return the value of the key 'foo' from section 'bar'.
+    # would return the string literal 'abcd' when the key is not found.
+    read_ini('/etc/ini-file', 'foo', 'bar', 'abcd')
+
+.. code-block:: yaml
+
+  expression: |
+    # would return the value of the key 'foo' from any section.
+    # would return the string literal 'abcd' when the key is not found.
+    read_ini('/etc/ini-file', 'foo', None, 'abcd')
+
+read_cert('path-to-cert', 'property-name[optional]')
+====================================================
+
+Function to read values from a X509 certificate (e.g. a typical SSL certificate). Returns True or False depending whether
+the certificate file 'path-to-cert' exist when called with a single argument. With two arguments, Returns the value of the
+`property-name` when the certificate file `path-to-cert` exist, YExprNotFound otherwise.
+
+Property names are all the properties that `hotsos.core.host_helpers.ssl.SSLCertificate` has.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # would return True or False depending on whether '/etc/ssl/cert' exist or not.
+    read_cert('/etc/ssl/cert')
+
+.. code-block:: yaml
+
+    expression: |
+      # Would return the certificate's expiry_date property when the certificate
+      # file is present.
+      # Raises an exception when property name cannot be found on SSLCertificate object.
+      #read_cert('/etc/ssl/cert', 'expiry_date')
+
+Runtime variables
+*****************
+
+Python property `@module.class.property_name`
+=============================================
+
+Retrieve the value of a runtime Python property. Raises an exception when a property with a given name is not found.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # would return the value of the property
+    # Raises exception when property is absent.
+    @hotsos.plugins.plugin.class_name.property_name
+
+
+Operands
+********
+
+:ref:`Keywords` | :ref:`Constants` | :ref:`Functions` | :ref:`Runtime Variables`
+
+Arithmetic operators
+********************
+
+plus sign (`+`)
+===============
+
+Indicate the sign of an Integer or Float.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # plus six
+    +6
+    # plus six
+    +(+6)
+
+minus sign (`-`)
+================
+
+Indicate the sign of an Integer or Float.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # plus six
+    -(-6)
+    # minus six
+    -6
+
+multiplication (`*`)
+====================
+
+Multiply the given operands for the operands that are multiplicable with each other.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is 0.6
+    1 * 0.6
+
+division(`/`)
+=============
+
+Perform a division with the given operands for the operands that supports division with each other.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is 2.5
+    1 / 0.4
+
+addition(`+`)
+=============
+
+Add two things with each other.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is 8
+    3 + 5 # 8
+    # result is 'aabb'
+    'aa' + 'bb'
+
+subtraction(`-`)
+================
+
+Subtract two things from each other.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is -9
+    3 - 5 - 7
+
+exponent (`\*\*`)
+=================
+
+Calculate the exponent of a number.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is 8
+    2**3
+    # result is 729
+    9**3
+
+Comparison operators
+********************
+
+Comparison operators allow users to compare values within expressions. These operators can be used to evaluate whether a particular condition is met.
+
+less than (`<`, `LT`)
+=====================
+
+Evaluates whether the left operand is less than the right operand.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    3 < 5
+    # result is False
+    3.81 > 3.80
+
+less than or equal (`<=`, `LE`)
+===============================
+
+Evaluates whether the left operand is less than or equal to the right operand.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    5 <= 5
+    # result is False
+    3.81 LE 3.80
+
+greater than (`>`, `GT`)
+========================
+
+Evaluates whether the left operand is greater than the right operand.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is False
+    3 > 5
+    # result is True
+    3.81 > (2.80 + 1)
+
+greater than or equal (`>=`, `GE`)
+==================================
+
+Evaluates whether the left operand is greater than or equal to the right operand.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is False
+    3 >= 5
+    # result is True
+    3.81 GE (3.80 + 0.01)
+
+equal (`==`, `EQ`)
+==================
+
+Evaluates whether the left operand is equal to the right operand.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    3 == 3
+    # result is False
+    True == False
+    # result is True
+    'test' EQ 'test'
+
+not equal (`!=`, `NE`, `<>`)
+============================
+
+Evaluates whether the left operand is not equal to the right operand.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    3 != 5
+    # result is False
+    3.81 <> (3.80 + 0.01)
+    # result is True
+    'test' NE None
+
+in (`IN`)
+=========
+
+Evaluates whether the left operand is contained within the right operand (e.g., within a string or list).
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    'a' in 'ab'
+    # result is True (assuming list of ints = [1,2,3])
+    1 in @module.prop.list_of_ints
+
+Logical operators
+*****************
+
+Logical operators allow users to combine multiple expressions. These operators evaluate the truthiness of expressions to determine the overall outcome.
+
+logical and (`and`)
+===================
+
+Returns True if both operands are True.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    True and (5 < 3 or 'test' in 'testament')
+    # result is False
+    (3.3 <= 2) or (5 > 3 and 'rest' in 'testament')
+
+logical or (`or`)
+=================
+
+Returns True if at least one of the operands is True.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    True or False
+    # result is False
+    False or not True
+
+logical not (`not`)
+===================
+
+Returns the opposite boolean value of the operand.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # result is True
+    not None
+    # result is True
+    not False
+
+Comments
+********
+
+Comments are used to annotate the code and are ignored during execution. This can be useful for adding explanations or notes within the expression grammar.
+
+Python-style comments (`#`)
+===========================
+
+Single-line comments that begin with `#`.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+    # This is a comment explaining what the expression does.
+    not None
+
+
+C-style comments (`//`, `/*...*/`)
+==================================
+
+Single-line comments using `//` or multi-line comments enclosed in `/*...*/`.
+
+**Examples**
+
+.. code-block:: yaml
+
+  expression: |
+  // This is a single-line comment
+
+.. code-block:: yaml
+
+  expression: |
+  /* This is a
+     multi-line comment */
+
+Expression grammar
+******************
+
+- :ref:`Operands` | :ref:`Arithmetic operators` | :ref:`Comparison operators` | :ref:`Logical operators`
+
+Note that comments are not the part of the expression and ignored by the parser.
