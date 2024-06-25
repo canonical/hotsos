@@ -1,30 +1,20 @@
-vars:
-  ml2_mechanism_driver: '@hotsos.core.plugins.openstack.neutron.Config.mechanism_drivers:plugins/ml2/ml2_conf.ini'
-  data_root_is_sosreport: '@hotsos.core.plugins.sosreport.SOSReportChecksBase.data_root_is_sosreport'
-  ovn_cert_host_exists: '@hotsos.core.host_helpers.filestat.FileFactory.exists:etc/ovn/cert_host'
-  ovn_cert_host_days: '@hotsos.core.host_helpers.ssl.SSLCertificatesFactory.days_to_expire:etc/ovn/cert_host'
-  neutron_ml2_cert_host_exists:
-    '@hotsos.core.host_helpers.filestat.FileFactory.exists:etc/neutron/plugins/ml2/cert_host'
-  neutron_ml2_cert_host_days:
-    '@hotsos.core.host_helpers.ssl.SSLCertificatesFactory.days_to_expire:etc/neutron/plugins/ml2/cert_host'
 checks:
-  is_not_sosreport_data_root:
-    varops: [[$data_root_is_sosreport], [ne, true]]
+  is_not_sosreport_data_root: |
+    @hotsos.core.plugins.sosreport.SOSReportChecksBase.data_root_is_sosreport != True
   is_ovn_central:
     apt: ovn-central
-  neutron_ml2_ovn_enabled:
-    - varops: [[$ml2_mechanism_driver], [ne, null]]
-    - varops: [[$ml2_mechanism_driver], [contains, 'ovn']]
-  central_cert_exists:
-    varops: [[$ovn_cert_host_exists], [truth]]
-  central_cert_expiring:
-    varops: [[$ovn_cert_host_days], [lt, 30]]
+  neutron_ml2_ovn_enabled: |
+    'ovn' IN read_ini('etc/neutron/plugins/ml2/ml2_conf.ini', 'mechanism_drivers')
+  central_cert_exists: |
+    file('etc/ovn/cert_host', 'exists')
+  central_cert_expiring: |
+    read_cert('etc/ovn/cert_host', 'days_to_expire') < 30
   is_neutron_server:
     apt: neutron-server
-  neutron_cert_exists:
-    varops: [[$neutron_ml2_cert_host_exists], [truth]]
-  neutron_cert_expiring:
-    varops: [[$neutron_ml2_cert_host_days], [lt, 30]]
+  neutron_cert_exists: |
+    file('etc/neutron/plugins/ml2/cert_host', 'exists')
+  neutron_cert_expiring: |
+    read_cert('etc/neutron/plugins/ml2/cert_host', 'days_to_expire') < 30
 conclusions:
   central_missing_cert:
     decision:

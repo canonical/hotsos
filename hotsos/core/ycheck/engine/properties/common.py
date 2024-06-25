@@ -266,52 +266,25 @@ class PropertyCache(UserDict):
             return self.data[key]
 
 
-class YPropertyBase(PTreeOverrideBase):
+class PythonEntityResolver:
+    """A class to resolve Python entities (e.g. variable, property)
+    by their import path."""
 
-    def __init__(self, *args, **kwargs):
-        self._cache = PropertyCache()
-        super().__init__(*args, **kwargs)
-
-    def resolve_var(self, name):
-        """
-        Resolve variable with name to value. This can be used speculatively and
-        will return the name as value if it can't be resolved.
-        """
-        if not name.startswith('$'):
-            return name
-
-        if hasattr(self, 'context'):
-            if self.context.vars:
-                _name = name.partition('$')[2]
-                return self.context.vars.resolve(_name)
-
-        log.warning("could not resolve var '%s' - vars not found in "
-                    "context", name)
-
-        return name
-
-    @property
-    def cache(self):
-        """
-        All properties get their own cache object that they can use as they
-        wish.
-        """
-        return self._cache
+    # Class-level cache for Python module imports for future use
+    import_cache = None
 
     def _load_from_import_cache(self, key):
-        """ Retrieve from global context if one exists.
+        """ Retrieve from global cache if one exists.
 
         @param key: key to retrieve
         """
-        if self.context is None:
-            log.info("context not available - cannot load '%s'", key)
+
+        if not self.import_cache:
+            log.info("cannot load import `%s` from cache,"
+                     " import cache is not initialized yet", key)
             return
 
-        # we save all imports in a dict called "import_cache" within the
-        # global context so that all properties have access.
-        c = getattr(self.context, 'import_cache')
-        if c:
-            return c.get(key)
+        return self.import_cache.get(key)
 
     def _get_mod_class_from_path(self, path):
         _mod = path.rpartition('.')[0]
@@ -348,16 +321,14 @@ class YPropertyBase(PTreeOverrideBase):
         @param key: key to save
         @param value: value to save
         """
-        if self.context is None:
-            log.info("context not available - cannot save '%s'", key)
+
+        if not self.import_cache:
+            self.import_cache = {key: value}
+            log.debug("import cache initialized with initial key `%s`", key)
             return
 
-        c = getattr(self.context, 'import_cache')
-        if c:
-            c[key] = value
-        else:
-            c = {key: value}
-            setattr(self.context, 'import_cache', c)
+        self.import_cache[key] = value
+        log.debug("import cache updated for key %s", key)
 
     def get_cls(self, import_str):
         """ Import and instantiate Python class.
@@ -503,6 +474,39 @@ class YPropertyBase(PTreeOverrideBase):
             log.exception("get_property failed for unknown reason")
 
         return self.get_attribute(import_str)
+
+
+class YPropertyBase(PTreeOverrideBase, PythonEntityResolver):
+
+    def __init__(self, *args, **kwargs):
+        self._cache = PropertyCache()
+        super().__init__(*args, **kwargs)
+
+    def resolve_var(self, name):
+        """
+        Resolve variable with name to value. This can be used speculatively and
+        will return the name as value if it can't be resolved.
+        """
+        if not name.startswith('$'):
+            return name
+
+        if hasattr(self, 'context'):
+            if self.context.vars:
+                _name = name.partition('$')[2]
+                return self.context.vars.resolve(_name)
+
+        log.warning("could not resolve var '%s' - vars not found in "
+                    "context", name)
+
+        return name
+
+    @property
+    def cache(self):
+        """
+        All properties get their own cache object that they can use as they
+        wish.
+        """
+        return self._cache
 
 
 class YPropertyOverrideBase(YPropertyBase, PTreeOverrideBase):

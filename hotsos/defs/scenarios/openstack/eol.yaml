@@ -1,8 +1,6 @@
 checks:
-  is_eol:
-    property:
-      path: hotsos.core.plugins.openstack.OpenstackChecksBase.days_to_eol
-      ops: [[le, 0]]
+  is_eol: |
+    @hotsos.core.plugins.openstack.OpenstackChecksBase.days_to_eol <= 0
 conclusions:
   is-eol:
     decision: is_eol

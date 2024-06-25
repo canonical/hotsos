@@ -1,12 +1,10 @@
-vars:
-  local_charms: '@hotsos.core.plugins.juju.JujuChecksBase.charms'
 checks:
-  neutron_conflicts:
-    - varops: [[$local_charms], [contains, neutron-api]]
-    - varops: [[$local_charms], [contains, neutron-gateway]]
-  nova_conflicts:
-    - varops: [[$local_charms], [contains, nova-cloud-controller]]
-    - varops: [[$local_charms], [contains, nova-compute]]
+  neutron_conflicts: |
+    'neutron-api' IN @hotsos.core.plugins.juju.JujuChecksBase.charms AND
+    'neutron-gateway' IN @hotsos.core.plugins.juju.JujuChecksBase.charms
+  nova_conflicts: |
+    'nova-cloud-controller' IN @hotsos.core.plugins.juju.JujuChecksBase.charms and
+    'nova-compute' IN @hotsos.core.plugins.juju.JujuChecksBase.charms
 conclusions:
   neutron_charm_conflicts:
     decision: neutron_conflicts

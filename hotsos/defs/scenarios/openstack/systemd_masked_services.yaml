@@ -1,8 +1,6 @@
 checks:
-  has_unexpected_masked:
-    property:
-      path: hotsos.core.plugins.openstack.OpenstackChecksBase.unexpected_masked_services
-      ops: [[ne, []]]
+  has_unexpected_masked: |
+    len(@hotsos.core.plugins.openstack.OpenstackChecksBase.unexpected_masked_services) > 0
 conclusions:
   has-unexpected-masked:
     decision: has_unexpected_masked
@@ -13,4 +11,4 @@ conclusions:
         ensure that this is intended otherwise these services may be
         unavailable.
       format-dict:
-        masked: '@checks.has_unexpected_masked.requires.value_actual:comma_join'
+        masked: hotsos.core.plugins.openstack.OpenstackChecksBase.unexpected_masked_services:comma_join

@@ -12,13 +12,10 @@ vars:
   msg_ondemand: >-
     You will also need to stop and disable the ondemand systemd service in
     order for changes to persist.
-  scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
-  cpufreq_governor_not_performance:
-    # can we actually see the setting
-    - varops: [[$scaling_governor], [ne, unknown]]
-    # does it have the expected value
-    - varops: [[$scaling_governor], [ne, performance]]
+  cpufreq_governor_not_performance: |
+    @hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all != 'unknown' and
+    @hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all != 'performance'
   is_neutron_gateway:
     # i.e. neutron-l3-agent but no nova == neutron gateway
     - not:
@@ -42,7 +39,7 @@ conclusions:
       format-dict:
         msg_pt1: $message_pt1_nova_compute
         msg_pt2: $message_pt2
-        governor: $scaling_governor
+        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-n-gw:
     priority: 1
     decision:
@@ -55,7 +52,7 @@ conclusions:
       format-dict:
         msg_pt1: $message_pt1_neutron_gateway
         msg_pt2: $message_pt2
-        governor: $scaling_governor
+        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand-n-cpu:
     priority: 2
     decision:
@@ -70,7 +67,7 @@ conclusions:
         msg_pt1: $message_pt1_nova_compute
         msg_pt2: $message_pt2
         msg_ondemand: $msg_ondemand
-        governor: $scaling_governor
+        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
   cpufreq-not-performance-with-ondemand-n-gw:
     priority: 2
     decision:
@@ -85,4 +82,4 @@ conclusions:
         msg_pt1: $message_pt1_neutron_gateway
         msg_pt2: $message_pt2
         msg_ondemand: $msg_ondemand
-        governor: $scaling_governor
+        governor: hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all
