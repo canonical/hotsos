@@ -1,0 +1,25 @@
+vars:
+  ad_domains_with_tokengroups_enabled: '@hotsos.core.plugins.system.system.SSSD.tokengroups_enabled_domains'
+
+checks:
+  any_tokengroups_enabled_domains:
+    - varops: [[$ad_domains_with_tokengroups_enabled], [length_hint]]
+
+conclusions:
+  ad_domains_with_tokengroups_enabled:
+    decision: any_tokengroups_enabled_domains
+    raises:
+      type: SSSDWarning
+      message: >-
+        The following SSSD Active Directory domains have `ldap_use_tokengroups`
+        enabled which is known to be causing sssd user group membership problems:
+
+        {domains}
+
+        Consider disabling `ldap_use_tokengroups` for those domains if there are
+        intermittent user group membership problems like group permission issues,
+        system login or "sudo" failures.
+
+        https://sssd.io/troubleshooting/ad_provider.html
+      format-dict:
+        domains: $ad_domains_with_tokengroups_enabled:comma_join

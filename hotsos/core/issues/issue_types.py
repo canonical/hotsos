@@ -178,6 +178,10 @@ class VaultWarning(IssueTypeBase):
     pass
 
 
+class SSSDWarning(IssueTypeBase):
+    pass
+
+
 class UbuntuCVE(CVETypeBase):
 
     @property

@@ -13,5 +13,5 @@ from . import (  # noqa: F401
     sosreport,
     storage,
     system,
-    vault,
+    vault
 )

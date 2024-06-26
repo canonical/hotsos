@@ -3,6 +3,7 @@ import re
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.config import GenericIniConfig
 from hotsos.core.host_helpers import (
     CLIHelper, CLIHelperFile,
     SYSCtlFactory, UptimeHelper
@@ -224,3 +225,32 @@ class SystemBase(object):
     @cached_property
     def sysctl_all(self):
         return SYSCtlFactory().sysctl_all
+
+
+class SSSD():
+
+    def __init__(self):
+        self.sssd_config = GenericIniConfig(
+            os.path.join(HotSOSConfig.data_root,
+                         "etc/sssd/sssd.conf"))
+
+    @property
+    def tokengroups_enabled_domains(self):
+        # If not explicitly closed
+        if not self.sssd_config:
+            return []
+
+        # Filter domain sections
+        domain_sections = [
+            x for x in self.sssd_config.all_sections if x.startswith("domain")
+        ]
+
+        ad_domain_sections = [
+            x for x in domain_sections
+            if self.sssd_config.get("id_provider", x) == "ad"]
+
+        ad_domain_sects_w_tokengroups = [
+            x for x in ad_domain_sections
+            if self.sssd_config.get("ldap_use_tokengroups", x) is not False]
+
+        return ad_domain_sects_w_tokengroups
