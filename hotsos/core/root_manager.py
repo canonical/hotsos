@@ -10,7 +10,7 @@ from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.log import log
 
 
-class DataRootManager(object):
+class DataRootManager():
     TYPE_HOST = 0
     TYPE_SOSREPORT = 1
 

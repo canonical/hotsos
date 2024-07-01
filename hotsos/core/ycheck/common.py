@@ -157,7 +157,7 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
         self.results
 
 
-class GlobalSearcherPreloaderBase(object):
+class GlobalSearcherPreloaderBase():
     """ Used by plugin components to preload the global searcher. """
 
     @staticmethod
@@ -231,8 +231,7 @@ class GlobalSearcherAutoRegisterMeta(type):
         SEARCHES_TO_BE_REGISTERED.append(cls)
 
 
-class GlobalSearcherAutoRegisterBase(object,
-                                     metaclass=GlobalSearcherAutoRegisterMeta):
+class GlobalSearcherAutoRegisterBase(metaclass=GlobalSearcherAutoRegisterMeta):
     """
     Generic interface for loading search definitions into the global searcher.
     The attributes of this class are intentionally similar to those of

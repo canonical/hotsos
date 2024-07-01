@@ -8,7 +8,7 @@ from hotsos.core.host_helpers.common import ServiceManagerBase
 from hotsos.core.utils import sorted_dict
 
 
-class PebbleService(object):
+class PebbleService():
 
     def __init__(self, name, state):
         self.name = name

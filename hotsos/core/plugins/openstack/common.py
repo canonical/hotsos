@@ -27,7 +27,7 @@ from hotsos.core import plugintools
 from hotsos.core.ycheck.events import EventHandlerBase, EventCallbackBase
 
 
-class OpenstackBase(object):
+class OpenstackBase():
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

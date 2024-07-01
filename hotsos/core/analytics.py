@@ -2,7 +2,7 @@ import statistics
 from datetime import datetime
 
 
-class EventCollection(object):
+class EventCollection():
     """Used to collect events found in logfiles. Events are defined as having
     identifiable start and end points containing timestamp information such
     that we can calculate their duration.
@@ -150,7 +150,7 @@ class EventCollection(object):
                 start_item["end"] = end_ts
 
 
-class SearchResultIndices(object):
+class SearchResultIndices():
     def __init__(self, day_idx=1, secs_idx=2, event_id_idx=3,
                  metadata_idx=None, metadata_key=None):
         """
@@ -168,7 +168,7 @@ class SearchResultIndices(object):
         self.metadata_key = metadata_key
 
 
-class LogEventStats(object):
+class LogEventStats():
     """Used to identify events within logs whereby a event has a start and end
     point. It can thenbe implemented by other classes to perform further
     analysis on event data.

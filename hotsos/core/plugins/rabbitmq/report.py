@@ -10,7 +10,7 @@ from hotsos.core.search import (
 from hotsos.core.host_helpers import CLIHelperFile
 
 
-class RabbitMQReport(object):
+class RabbitMQReport():
     """
     Class providing easy access to the contents of a rabbitmqctl report.
 
@@ -203,7 +203,7 @@ class RabbitMQReport(object):
         return results[0].get(1)
 
 
-class RabbitMQVhost(object):
+class RabbitMQVhost():
     def __init__(self, name):
         self.name = name
         self._node_queues = {}

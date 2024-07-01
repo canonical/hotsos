@@ -38,7 +38,7 @@ class HotSOSSummary(plugintools.PluginPartBase):
         return out
 
 
-class OutputManager(object):
+class OutputManager():
     FILTER_SCHEMA = [IssuesManager.SUMMARY_OUT_ISSUES_ROOT,
                      IssuesManager.SUMMARY_OUT_BUGS_ROOT]
     SUMMARY_FORMATS = ['yaml', 'json', 'markdown', 'html']
@@ -205,7 +205,7 @@ class OutputManager(object):
         self._summary[plugin] = content
 
 
-class HotSOSClient(object):
+class HotSOSClient():
 
     def __init__(self, plugins=None):
         """

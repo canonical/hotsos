@@ -17,7 +17,7 @@ from hotsos.core.ycheck.engine.properties.search import (
 from hotsos.core.ycheck.engine.properties.inputdef import YPropertyInput
 
 
-class CheckBase(object):
+class CheckBase():
 
     def fetch_item_result(self, item):
         log.debug("%s: fetch_item_result() %s", self.__class__.__name__,

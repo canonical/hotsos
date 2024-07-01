@@ -15,7 +15,7 @@ from hotsos.core.search import (
 )
 
 
-class NUMAInfo(object):
+class NUMAInfo():
     numactl = ""
 
     def __init__(self):
@@ -75,7 +75,7 @@ class NUMAInfo(object):
         return self.nodes.get(node)
 
 
-class SystemBase(object):
+class SystemBase():
 
     @cached_property
     def date(self):

@@ -39,7 +39,7 @@ class EventCallbackMeta(type):
             CALLBACKS[event] = cls
 
 
-class EventCheckResult(object):
+class EventCheckResult():
     """ This is passed to an event check callback when matches are found """
 
     def __init__(self, defs_section, defs_event, search_results, search_tag,
@@ -63,7 +63,7 @@ class EventCheckResult(object):
         self.sequence_def = sequence_def
 
 
-class EventProcessingUtils(object):
+class EventProcessingUtils():
 
     @classmethod
     def _get_event_results(cls, event):

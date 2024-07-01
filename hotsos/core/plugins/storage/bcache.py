@@ -24,7 +24,7 @@ class BcacheConfig(ConfigBase):
                 return fd.read().strip()
 
 
-class BDev(object):
+class BDev():
 
     def __init__(self, path, cache):
         self.cache = cache
@@ -60,7 +60,7 @@ class BDev(object):
         raise AttributeError("{} not found in bdev config".format(key))
 
 
-class Cacheset(object):
+class Cacheset():
 
     def __init__(self, path):
         self.path = path

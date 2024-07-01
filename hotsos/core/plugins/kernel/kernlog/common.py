@@ -14,7 +14,7 @@ KERNLOG_PREFIX = (r'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{}'.
                   format(KERNLOG_TS))
 
 
-class CallTraceHeuristicBase(object):
+class CallTraceHeuristicBase():
     """ Defines a common interface for heuristics implementations. """
 
     @abc.abstractmethod
@@ -22,7 +22,7 @@ class CallTraceHeuristicBase(object):
         """ Ensure callable to get results. """
 
 
-class CallTraceStateBase(object):
+class CallTraceStateBase():
     """
     A state capture object that allows getting and setting arbitrary state.
     """
@@ -83,7 +83,7 @@ class TraceTypeBase(abc.ABC):
         """ Iterate over each call trace found. """
 
 
-class KernLogBase(object):
+class KernLogBase():
 
     def __init__(self):
         c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)

@@ -5,7 +5,7 @@ from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.log import log
 
 
-class UptimeHelper(object):
+class UptimeHelper():
     def __init__(self):
         """
         uptime is either expressed in different combinations of days, hours

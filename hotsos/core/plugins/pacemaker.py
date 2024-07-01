@@ -13,7 +13,7 @@ PACEMAKER_SVC_EXPR = ['pacemaker[a-zA-Z-]*',
                       'corosync']
 
 
-class PacemakerBase(object):
+class PacemakerBase():
 
     @cached_property
     def crm_status(self):

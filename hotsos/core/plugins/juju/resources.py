@@ -11,7 +11,7 @@ from hotsos.core.log import log
 from hotsos.core import utils
 
 
-class JujuMachine(object):
+class JujuMachine():
 
     def __init__(self, juju_lib_path):
         self.juju_lib_path = juju_lib_path
@@ -111,7 +111,7 @@ class JujuMachine(object):
         return units
 
 
-class JujuUnit(object):
+class JujuUnit():
 
     def __init__(self, unit_id, application, juju_lib_path, path=None):
         self.id = unit_id
@@ -157,14 +157,14 @@ class JujuUnit(object):
         return info
 
 
-class JujuCharm(object):
+class JujuCharm():
 
     def __init__(self, name, version):
         self.name = name
         self.version = int(version)
 
 
-class JujuBase(object):
+class JujuBase():
     CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
 
     @property

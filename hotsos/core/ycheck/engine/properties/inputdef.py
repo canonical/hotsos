@@ -9,7 +9,7 @@ from hotsos.core.ycheck.engine.properties.common import (
 )
 
 
-class YPropertyInputBase(object):
+class YPropertyInputBase():
 
     @property
     def options(self):

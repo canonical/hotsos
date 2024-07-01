@@ -6,7 +6,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 
 
-class YDefsLoader(object):
+class YDefsLoader():
     """ Load yaml definitions. """
 
     def __init__(self, ytype, filter_path=None):
@@ -97,7 +97,7 @@ class YDefsLoader(object):
                 return loaded
 
 
-class YHandlerBase(object):
+class YHandlerBase():
 
     def __init__(self, global_searcher, *args, **kwargs):
         self.global_searcher = global_searcher

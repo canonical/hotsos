@@ -14,14 +14,14 @@ from hotsos.core.host_helpers import SystemdHelper
 from hotsos.core.plugins.openvswitch.common import OVS_SERVICES_EXPRS
 
 
-class OVNSBDBPort(object):
+class OVNSBDBPort():
 
     def __init__(self, name, port_type):
         self.name = name
         self.type = port_type
 
 
-class OVNSBDBChassis(object):
+class OVNSBDBChassis():
 
     def __init__(self, name, content):
         self.name = name
@@ -50,7 +50,7 @@ class OVNSBDBChassis(object):
         return [p for p in self._ports if p.type == 'cr-lrp']
 
 
-class OVNDBBase(object):
+class OVNDBBase():
 
     def __init__(self):
         contents = mktemp_dump(''.join(self.db_show))
@@ -140,7 +140,7 @@ class OVNSBDB(OVNDBBase):
         return _chassis
 
 
-class OVNBase(object):
+class OVNBase():
     """
     Base class for all OVN components.
     """

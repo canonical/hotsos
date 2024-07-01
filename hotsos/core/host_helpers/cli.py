@@ -67,7 +67,7 @@ class CommandNotFound(Exception):
         return self.msg
 
 
-class NullSource(object):
+class NullSource():
     def __call__(self, *args, **kwargs):
         return CmdOutput([])
 
@@ -117,13 +117,13 @@ def reset_command(f):
     return reset_command_inner
 
 
-class CmdOutput(object):
+class CmdOutput():
     def __init__(self, value, source=None):
         self.value = value
         self.source = source
 
 
-class CmdBase(object):
+class CmdBase():
     """ Base class for all command source types. """
 
     def __init__(self):
@@ -323,7 +323,7 @@ class BinFileCmd(FileCmd):
         return CmdOutput(output.splitlines(keepends=True))
 
 
-class JournalctlBase(object):
+class JournalctlBase():
 
     @property
     def since_date(self):
@@ -414,7 +414,7 @@ class OVSAppCtlFileCmd(FileCmd):
         return out
 
 
-class OVSOFCtlCmdBase(object):
+class OVSOFCtlCmdBase():
     OFPROTOCOL_VERSIONS = ['OpenFlow15', 'OpenFlow14', 'OpenFlow13',
                            'OpenFlow12', 'OpenFlow11', 'OpenFlow10']
 
@@ -595,7 +595,7 @@ class CephJSONFileCmd(FileCmd):
         return output
 
 
-class SourceRunner(object):
+class SourceRunner():
 
     def __init__(self, cmdkey, sources, cache, output_file=None):
         """
@@ -700,7 +700,7 @@ class SourceRunner(object):
         return out.value
 
 
-class CLICacheWrapper(object):
+class CLICacheWrapper():
 
     def __init__(self, cache_load_f, cache_save_f):
         self.load_f = cache_load_f

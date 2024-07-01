@@ -108,7 +108,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         return self.get_cls(_type)
 
 
-class DecisionBase(object):
+class DecisionBase():
 
     def get_check_item(self, name):
         checks = self.context.checks  # pylint: disable=E1101

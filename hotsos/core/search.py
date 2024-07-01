@@ -133,7 +133,7 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         return [openstack, ceph, kernlog]
 
 
-class ExtraSearchConstraints(object):
+class ExtraSearchConstraints():
     """
     Provides a way to apply constraints to search results that are not yet
     natively supported by searchkit.

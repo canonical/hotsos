@@ -9,7 +9,7 @@ from hotsos.core.config import HotSOSConfig
 log = logging.getLogger('hotsos')
 
 
-class LoggingManager(object):
+class LoggingManager():
 
     def __init__(self):
         self.delete_temp_file = True

@@ -7,7 +7,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.kernel.config import KernelConfig
 
 
-class KernelBase(object):
+class KernelBase():
 
     @cached_property
     def version(self):

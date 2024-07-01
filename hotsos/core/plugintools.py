@@ -80,7 +80,7 @@ def yaml_dump(data):
                      default_flow_style=False).rstrip("\n")
 
 
-class OutputFormatterBase(object):
+class OutputFormatterBase():
 
     def render(self, context, template):
         # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
@@ -203,7 +203,7 @@ class MarkdownFormatter(OutputFormatterBase):
         return markdown.rstrip('\n')
 
 
-class ApplicationBase(object, metaclass=PluginRegistryMeta):
+class ApplicationBase(metaclass=PluginRegistryMeta):
 
     @property
     def bind_interfaces(self):
@@ -213,14 +213,14 @@ class ApplicationBase(object, metaclass=PluginRegistryMeta):
         raise NotImplementedError
 
 
-class SummaryEntry(object):
+class SummaryEntry():
 
     def __init__(self, data, index):
         self.data = data
         self.index = index
 
 
-class PartManager(object):
+class PartManager():
 
     def save(self, data, index):
         """
@@ -400,7 +400,7 @@ class PluginPartBase(ApplicationBase):
             return {key: entry.data for key, entry in out.items()}
 
 
-class PluginRunner(object):
+class PluginRunner():
 
     def __init__(self, plugin):
         self.parts = PLUGINS[plugin]

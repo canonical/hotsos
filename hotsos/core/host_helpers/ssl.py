@@ -9,7 +9,7 @@ from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
 
 
-class SSLCertificate(object):
+class SSLCertificate():
 
     def __init__(self, certificate_path):
         self.path = os.path.join(HotSOSConfig.data_root, certificate_path)
@@ -46,7 +46,7 @@ class SSLCertificate(object):
         return int(days.days)
 
 
-class SSLCertificatesHelper(object):
+class SSLCertificatesHelper():
 
     def __init__(self, certificate, expire_days):
         """

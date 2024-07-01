@@ -22,7 +22,7 @@ from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 
 
-class SystemdService(object):
+class SystemdService():
 
     def __init__(self, name, state, has_instances=False):
         self.name = name

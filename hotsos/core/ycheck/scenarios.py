@@ -86,7 +86,7 @@ class ScenariosSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
         self.preload_searches(self.global_searcher)
 
 
-class Scenario(object):
+class Scenario():
 
     def __init__(self, name, _checks, conclusions):
         log.debug("scenario: %s", name)

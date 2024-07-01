@@ -133,7 +133,7 @@ class CephConfig(IniConfigBase):
         return self.get('public network')
 
 
-class CephCrushMap(object):
+class CephCrushMap():
 
     def _filter_pools_by_rule(self, pools, crush_rule):
         res_pool = []
@@ -332,7 +332,7 @@ class CephCrushMap(object):
         return False
 
 
-class CephCluster(object):
+class CephCluster():
     OSD_META_LIMIT_PERCENT = 5
     OSD_PG_MAX_LIMIT = 500
     OSD_PG_OPTIMAL_NUM_MAX = 200
@@ -775,7 +775,7 @@ class CephCluster(object):
         return sorted(_bad_osds)
 
 
-class CephDaemonBase(object):
+class CephDaemonBase():
 
     def __init__(self, daemon_type):
         self.daemon_type = daemon_type
@@ -1131,7 +1131,7 @@ class CephChecksBase(StorageBase):
         return len(osds) == tcmalloc_osds
 
 
-class CephDaemonCommand(object):
+class CephDaemonCommand():
     """
     This class is used to run a ceph daemon command that must be supported by
     CLIHelper. Attributes of the output can then be retrieved by calling them
@@ -1150,7 +1150,7 @@ class CephDaemonCommand(object):
                              format(name, self.command))
 
 
-class CephDaemonConfigShow(object):
+class CephDaemonConfigShow():
 
     def __init__(self, osd_id):
         self.cmd = CephDaemonCommand('ceph_daemon_osd_config_show',
@@ -1160,7 +1160,7 @@ class CephDaemonConfigShow(object):
         return getattr(self.cmd, name)
 
 
-class CephDaemonDumpMemPools(object):
+class CephDaemonDumpMemPools():
 
     def __init__(self, osd_id):
         self.cmd = CephDaemonCommand('ceph_daemon_osd_dump_mempools',
@@ -1172,7 +1172,7 @@ class CephDaemonDumpMemPools(object):
             return val.get('by_pool', {}).get(name, {}).get('items')
 
 
-class CephDaemonAllOSDsCommand(object):
+class CephDaemonAllOSDsCommand():
     """
     This class is used to CephDaemonCommand for all local OSDs.
     """
