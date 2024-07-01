@@ -20,7 +20,7 @@ from hotsos.core.search import (
 from hotsos.core.plugins.openvswitch.common import OpenvSwitchGlobalSearch
 
 
-class OVSDBTable(object):
+class OVSDBTable():
     """
     Provides an interface to an OVSDB table. Records can be extracted from
     either 'get' or 'list' command outputs. We try 'get' first and of not found
@@ -87,7 +87,7 @@ class OVSDB(FactoryBase):
         return OVSDBTable(table)
 
 
-class OVSDPLookups(object):
+class OVSDPLookups():
 
     def __init__(self):
         cli = CLIHelper()
@@ -107,7 +107,7 @@ class OVSDPLookups(object):
             return self.fields[key]
 
 
-class OVSBridge(object):
+class OVSBridge():
 
     def __init__(self, name, nethelper):
         self.name = name
@@ -130,7 +130,7 @@ class OVSBridge(object):
         return ports
 
 
-class OpenvSwitchBase(object):
+class OpenvSwitchBase():
 
     def __init__(self, *args, global_searcher=None, **kwargs):
         self.global_searcher = global_searcher

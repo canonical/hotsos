@@ -56,7 +56,7 @@ class TestConfig(IniConfigBase):
     pass
 
 
-class FakeServiceObjectManager(object):
+class FakeServiceObjectManager():
 
     def __init__(self, start_times):
         self._start_times = start_times
@@ -66,7 +66,7 @@ class FakeServiceObjectManager(object):
                                  start_time=self._start_times[name])
 
 
-class FakeServiceObject(object):
+class FakeServiceObject():
 
     def __init__(self, name, state, has_instances, start_time):
         self.name = name
@@ -229,7 +229,7 @@ ii  openssh-server                       1:8.2p1-4ubuntu0.4                     
 """  # noqa
 
 
-class TempScenarioDefs(object):
+class TempScenarioDefs():
 
     def __init__(self):
         self.root = None

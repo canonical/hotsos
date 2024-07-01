@@ -347,7 +347,7 @@ class L3HACallback(OpenstackEventCallbackBase):
             return {'transitions': transitions}, 'keepalived'
 
 
-class NeutronL3HAEventCheckJournalCtl(object):
+class NeutronL3HAEventCheckJournalCtl():
 
     def args(self):
         """ Args callback for event cli command """

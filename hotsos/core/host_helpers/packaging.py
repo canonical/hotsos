@@ -12,7 +12,7 @@ class DPKGBadVersionSyntax(Exception):
     pass
 
 
-class DPKGVersion(object):
+class DPKGVersion():
 
     def __init__(self, a):
         self.a = str(a)
@@ -468,7 +468,7 @@ class APTPackageHelper(PackageHelperBase):
         return self._core_packages
 
 
-class AptPackage(object):
+class AptPackage():
 
     def __init__(self, name, version):
         self.name = name

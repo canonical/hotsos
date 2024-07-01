@@ -512,7 +512,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                                         'scenarios/openvswitch'))
     def test_ovn_northd_running(self, mock_systemd):
 
-        class FakeSystemdHelper(object):
+        class FakeSystemdHelper():
 
             def __init__(self, svcs):
                 self.processes = {}

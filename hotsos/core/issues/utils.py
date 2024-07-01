@@ -7,7 +7,7 @@ from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 
 
-class IssueContext(object):
+class IssueContext():
     def __init__(self, **kwargs):
         self.context = {}
         self.set(**kwargs)
@@ -142,7 +142,7 @@ class IssuesStore(IssuesStoreBase):
             fd.write(yaml.dump(current))
 
 
-class IssuesManager(object):
+class IssuesManager():
     SUMMARY_OUT_ISSUES_ROOT = 'potential-issues'
     SUMMARY_OUT_BUGS_ROOT = 'bugs-detected'
 

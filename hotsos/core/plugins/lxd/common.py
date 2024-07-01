@@ -18,7 +18,7 @@ CORE_SNAPS = [r"(?:snap\.)?{}".format(p) for p in CORE_APT]
 SERVICE_EXPRS = [r"{}\S*".format(s) for s in CORE_SNAPS]
 
 
-class LXD(object):
+class LXD():
 
     @cached_property
     def instances(self):

@@ -7,7 +7,7 @@ class ConfigException(Exception):
     pass
 
 
-class ConfigOpt(object):
+class ConfigOpt():
 
     def __init__(self, name, description, default_value, value_type):
         self.name = name
@@ -205,7 +205,7 @@ class ConfigMeta(abc.ABCMeta):
         super().__setattr__(key, val)
 
 
-class HotSOSConfig(object, metaclass=ConfigMeta):
+class HotSOSConfig(metaclass=ConfigMeta):
 
     @classmethod
     def reset(cls):

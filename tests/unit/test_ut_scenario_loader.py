@@ -12,7 +12,7 @@ class ScenarioTestsBase(utils.BaseTestCase):
     pass
 
 
-class FakeTemplatedTestGenerator(object):
+class FakeTemplatedTestGenerator():
 
     @property
     def test_method_name(self):
@@ -159,7 +159,7 @@ class TestScenarioTestLoader(ScenarioTestsBase):
             self.create_tests(dtmp)
             with mock.patch.object(utils, 'DEFS_TESTS_DIR',
                                    os.path.join(dtmp, 'tests')):
-                class FakeTests(object):
+                class FakeTests():
 
                     @utils.load_templated_tests('scenarios/testplugin/1')
                     def faketest(self):
@@ -178,7 +178,7 @@ class TestScenarioTestLoader(ScenarioTestsBase):
             self.create_tests(dtmp, levels=3)
             with mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
                 @utils.load_templated_tests('scenarios/testplugin/1')
-                class FakeTests(object):  # pylint: disable=W0612
+                class FakeTests():  # pylint: disable=W0612
                     pass
 
                 plugin_path = 'tests/scenarios/testplugin'

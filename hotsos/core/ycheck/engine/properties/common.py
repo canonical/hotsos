@@ -56,7 +56,7 @@ class YDefsContext(UserDict):
         return self.data.get(key)
 
 
-class PropertyCacheRefResolver(object):
+class PropertyCacheRefResolver():
     """
     This class is used to resolve string references to property cache entries.
     """

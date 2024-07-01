@@ -6,7 +6,7 @@ from hotsos.core import host_helpers
 from hotsos.core.plugins.system.system import SystemBase
 
 
-class SYSFSBase(object):
+class SYSFSBase():
 
     def get(self, relpath):
         """

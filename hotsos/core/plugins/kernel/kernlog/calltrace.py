@@ -128,7 +128,7 @@ class GenericTraceType(TraceTypeBase):
         yield from self.generics
 
 
-class MemFieldsBase(object):
+class MemFieldsBase():
     """
     Provides a common way to identify fields in an oom kill trace and extract
     their values.

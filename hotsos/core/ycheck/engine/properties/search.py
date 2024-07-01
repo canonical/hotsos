@@ -287,7 +287,7 @@ class YPropertySearchOpt(YPropertyOverrideBase):
         return self.content
 
 
-class SeqPartSearchOptsBase(object):
+class SeqPartSearchOptsBase():
 
     @property
     def expr(self):

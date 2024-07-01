@@ -5,7 +5,7 @@ from hotsos.core.factory import FactoryBase
 from hotsos.core.log import log
 
 
-class FileObj(object):
+class FileObj():
 
     def __init__(self, filename):
         self.filename = os.path.join(HotSOSConfig.data_root, filename)

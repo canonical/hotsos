@@ -7,7 +7,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 
 
-class NullCache(object):
+class NullCache():
     """ A cache that does nothing but maintains the MPCache abi. """
 
     def get(self, *args, **kwargs):

@@ -44,7 +44,7 @@ class NeutronBase(OSTServiceBase):
         return interfaces
 
 
-class ServiceChecks(object):
+class ServiceChecks():
 
     @cached_property
     def ovs_cleanup_run_manually(self):
@@ -67,7 +67,7 @@ class ServiceChecks(object):
         return run_manually
 
 
-class NeutronRouter(object):
+class NeutronRouter():
 
     def __init__(self, uuid, ha_state):
         self.uuid = uuid
@@ -75,7 +75,7 @@ class NeutronRouter(object):
         self.vr_id = None
 
 
-class NeutronHAInfo(object):
+class NeutronHAInfo():
 
     def __init__(self):
         self.vr_id = None

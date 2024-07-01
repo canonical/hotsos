@@ -15,7 +15,7 @@ from hotsos.core.utils import sorted_dict
 from hotsos.core.search import CommonTimestampMatcher
 
 
-class UnitLogInfo(object):
+class UnitLogInfo():
     """
     Create a tally of log errors and warnings for each unit.
     """

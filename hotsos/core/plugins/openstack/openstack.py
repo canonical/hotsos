@@ -276,7 +276,7 @@ class OpenstackConfig(host_helpers.IniConfigBase):
         return self.get(key)
 
 
-class OSTProject(object):
+class OSTProject():
     SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
@@ -369,7 +369,7 @@ class OSTProject(object):
             yield svc, self.log_path_overrides.get(svc, [path])
 
 
-class OSTProjectCatalog(object):
+class OSTProjectCatalog():
     # Services that are not actually openstack projects but are used by them
     OST_SERVICES_DEPS = ['dnsmasq',
                          r'(?:nfs-)?ganesha\S*',
@@ -533,7 +533,7 @@ class OSTProjectCatalog(object):
         return list(deps)
 
 
-class OSTServiceBase(object):
+class OSTServiceBase():
 
     def __init__(self, name, *args, **kwargs):
         super().__init__(*args, **kwargs)

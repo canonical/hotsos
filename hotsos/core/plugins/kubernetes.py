@@ -44,7 +44,7 @@ K8S_PACKAGE_DEPS = [r'charm[\S]+',
 K8S_PACKAGE_DEPS_SNAP = [r'core[0-9]*']
 
 
-class KubernetesBase(object):
+class KubernetesBase():
 
     @cached_property
     def flannel_ports(self):

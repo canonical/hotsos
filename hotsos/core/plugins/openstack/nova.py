@@ -351,7 +351,7 @@ class CPUPinning(NovaBase):
         return node_count > 1
 
 
-class NovaInstance(object):
+class NovaInstance():
     def __init__(self, uuid, name):
         self.uuid = uuid
         self.name = name

@@ -11,14 +11,14 @@ from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelperFile
 
 
-class AAProfile(object):
+class AAProfile():
 
     def __init__(self, name):
         self.name = name
         self.mode = ApparmorHelper().get_profile_mode(name)
 
 
-class ApparmorHelper(object):
+class ApparmorHelper():
 
     @cached_property
     def profiles(self):

@@ -3,7 +3,7 @@ from hotsos.core.plugins.kernel.kernlog.common import KernLogBase
 from hotsos.core.search import SearchDef
 
 
-class OverMTUDroppedPacketEvent(object):
+class OverMTUDroppedPacketEvent():
 
     @property
     def searchdef(self):

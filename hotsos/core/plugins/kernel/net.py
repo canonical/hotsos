@@ -438,7 +438,7 @@ class STOVParserBase(UserList):
         """
 
 
-class FieldTranslator(object):
+class FieldTranslator():
 
     def __init__(self, result, translations):
         self.result = result

@@ -70,7 +70,7 @@ def load_templated_tests(path):
     return _inner
 
 
-class TemplatedTest(object):
+class TemplatedTest():
 
     def __init__(self, target_path, data_root, mocks, expected_bugs,
                  expected_issues, sub_root):
@@ -197,7 +197,7 @@ class TemplatedTest(object):
         return inner
 
 
-class TemplatedTestGenerator(object):
+class TemplatedTestGenerator():
 
     def __init__(self, test_defs_root, test_def_path):
         """
@@ -404,7 +404,7 @@ def create_data_root(files_to_create, copy_from_original=None):
     return create_files_inner1
 
 
-class ContextManagerBase(object):
+class ContextManagerBase():
 
     def __enter__(self):
         return self

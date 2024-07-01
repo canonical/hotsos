@@ -5,7 +5,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.utils import sorted_dict
 
 
-class _BaseProcKeyValue(object):
+class _BaseProcKeyValue():
     # Set to list of keys we expect to find in the file. If these keys are not
     # found their value will be returned as DEFAULT_RETURN_VALUE instead of
     # raising an AttributeError.
@@ -109,7 +109,7 @@ class MemInfo(_BaseProcKeyValue):
         return round(100 - (self.HugePages_Free * 100) / self.HugePages_Total)
 
 
-class SlabInfo(object):
+class SlabInfo():
 
     def __init__(self, filter_names=None):
         self._filter_names = filter_names or []
@@ -193,7 +193,7 @@ class SlabInfo(object):
         return top5
 
 
-class BuddyInfo(object):
+class BuddyInfo():
 
     def __init__(self):
         self._numa_nodes = []
@@ -228,7 +228,7 @@ class BuddyInfo(object):
         return None
 
 
-class MallocInfo(object):
+class MallocInfo():
 
     def __init__(self, node, zone):
         self.node = node
@@ -280,7 +280,7 @@ class MallocInfo(object):
         return count
 
 
-class MemoryChecks(object):
+class MemoryChecks():
 
     @property
     def max_unavailable_block_sizes(self):

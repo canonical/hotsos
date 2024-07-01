@@ -35,7 +35,7 @@ class SYSCtlFactory(FactoryBase):
         return self.get(name)
 
 
-class SYSCtlConfHelper(object):
+class SYSCtlConfHelper():
 
     def __init__(self, path):
         self.path = path

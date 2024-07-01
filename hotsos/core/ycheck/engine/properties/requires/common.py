@@ -73,7 +73,7 @@ class PackageCheckItemsBase(CheckItemsBase):
         return set(self.packages_to_check).difference(self.installed)
 
 
-class OpsUtils(object):
+class OpsUtils():
 
     def ops_to_str(self, ops):
         """

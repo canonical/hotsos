@@ -1,7 +1,7 @@
 import abc
 
 
-class IssueTypeBase(object):
+class IssueTypeBase():
     ISSUE_TYPE = 'issue'
 
     def __init__(self, msg):
