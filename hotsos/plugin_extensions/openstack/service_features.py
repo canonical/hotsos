@@ -41,6 +41,35 @@ DEFAULTS = {'neutron': {'dhcp-agent': {
 class ServiceFeatureChecks(OpenstackChecksBase):
     summary_part_index = 5
 
+    @staticmethod
+    def _get_module_features(service, module, sections, cfg):
+        """
+        Get dictionary of features for this service module and whether they are
+        enabled/disabled.
+
+        @param service: name of Openstack service
+        @param module: service submodule (agent)
+        @param sections: config sections
+        @param cfg: OpenstackConfig object
+        """
+        module_features = {}
+        for section, keys in sections.items():
+            for key in keys:
+                val = cfg.get(key, section=section)
+                if val is not None:
+                    module_features[key] = val
+
+                if key in module_features or service not in DEFAULTS:
+                    continue
+
+                if (module not in DEFAULTS[service] or
+                        key not in DEFAULTS[service][module]):
+                    continue
+
+                module_features[key] = DEFAULTS[service][module][key]
+
+        return module_features
+
     def __7_summary_features(self):
         """
         This is used to display whether or not specific features are enabled.
@@ -54,35 +83,24 @@ class ServiceFeatureChecks(OpenstackChecksBase):
             dbg_enabled = svc_cfg['main'].get('debug', section="DEFAULT")
             features[service] = {'main': {'debug': dbg_enabled or False}}
 
-            for module, config in modules.items():
+            for module, sections in modules.items():
                 log.debug("getting features for '%s.%s'", service, module)
                 cfg = svc_cfg[module]
                 if not cfg.exists:
                     log.debug("%s not found - skipping features", cfg.path)
                     continue
 
-                module_features = {}
-                for section, keys in config.items():
-                    for key in keys:
-                        val = cfg.get(key, section=section)
-                        if val is not None:
-                            module_features[key] = val
-
-                        if key in module_features:
-                            continue
-                        if service in DEFAULTS:
-                            if module in DEFAULTS[service]:
-                                if key in DEFAULTS[service][module]:
-                                    default = DEFAULTS[service][module][key]
-                                    module_features[key] = default
-
+                module_features = self._get_module_features(service, module,
+                                                            sections, cfg)
                 # TODO: only include modules for which there is an actual agent
                 #       installed since otherwise their config is irrelevant.
-                if module_features:
-                    if module in features[service]:
-                        features[service][module].update(module_features)
-                    else:
-                        features[service][module] = module_features
+                if not module_features:
+                    continue
+
+                if module in features[service]:
+                    features[service][module].update(module_features)
+                else:
+                    features[service][module] = module_features
 
         if self.ssl_enabled is not None:
             features['api-ssl'] = self.ssl_enabled or False

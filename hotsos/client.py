@@ -50,12 +50,14 @@ class OutputManager():
         filtered = {}
         for plugin in summary:
             for key in self.FILTER_SCHEMA:
-                if key in summary[plugin]:
-                    if key not in filtered:
-                        filtered[key] = {}
+                if key not in summary[plugin]:
+                    continue
 
-                    items = summary[plugin][key]
-                    filtered[key][plugin] = items
+                if key not in filtered:
+                    filtered[key] = {}
+
+                items = summary[plugin][key]
+                filtered[key][plugin] = items
 
         return filtered
 
@@ -63,34 +65,37 @@ class OutputManager():
         filtered = {}
         for plugin in summary:
             for key in self.FILTER_SCHEMA:
-                if key in summary[plugin]:
-                    if key not in filtered:
-                        filtered[key] = {}
+                if key not in summary[plugin]:
+                    continue
 
-                    items = summary[plugin][key]
-                    if isinstance(items, dict):
-                        filtered[key][plugin] = {key: len(val)
-                                                 for key, val in items.items()}
-                    else:
-                        # support old format summaries
-                        if key == IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
-                            aggr_info = {}
+                if key not in filtered:
+                    filtered[key] = {}
+
+                items = summary[plugin][key]
+                if isinstance(items, dict):
+                    filtered[key][plugin] = {key: len(val)
+                                             for key, val in items.items()}
+                    continue
+
+                # support old format summaries
+                if key == IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
+                    aggr_info = {}
+                else:
+                    aggr_info = []
+
+                for item in items:
+                    if key == IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
+                        item_key = item['type']
+                        if item_key not in aggr_info:
+                            aggr_info[item_key] = 1
                         else:
-                            aggr_info = []
+                            aggr_info[item_key] += 1
 
-                        for item in items:
-                            if key == IssuesManager.SUMMARY_OUT_ISSUES_ROOT:
-                                item_key = item['type']
-                                if item_key not in aggr_info:
-                                    aggr_info[item_key] = 1
-                                else:
-                                    aggr_info[item_key] += 1
+                    else:
+                        item_key = item['id']
+                        aggr_info.append(item_key)
 
-                            else:
-                                item_key = item['id']
-                                aggr_info.append(item_key)
-
-                        filtered[key][plugin] = aggr_info
+                filtered[key][plugin] = aggr_info
 
         return filtered
 
