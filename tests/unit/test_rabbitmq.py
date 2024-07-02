@@ -41,7 +41,8 @@ class TestRabbitmqSummary(TestRabbitmqBase):
     def test_summary_bionic(self, mock_helper):
         class FakeCLIHelperFile(utils.ContextManagerBase):
 
-            def rabbitmqctl_report(self):
+            @staticmethod
+            def rabbitmqctl_report():
                 return os.path.join(HotSOSConfig.data_root,
                                     "sos_commands/rabbitmq/rabbitmqctl_report."
                                     "bionic")
@@ -127,7 +128,8 @@ class TestRabbitmqSummary(TestRabbitmqBase):
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(utils.ContextManagerBase):
 
-                def rabbitmqctl_report(self):
+                @staticmethod
+                def rabbitmqctl_report():
                     return ftmp.name
 
             mock_helper.side_effect = FakeCLIHelperFile

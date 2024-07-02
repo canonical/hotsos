@@ -172,7 +172,8 @@ class YScenarioChecker(YHandlerBase):
     def scenarios(self):
         return self._scenarios
 
-    def _run_scenario_conclusion(self, scenario, issue_mgr):
+    @staticmethod
+    def _run_scenario_conclusion(scenario, issue_mgr):
         """ Determine the conclusion of this scenario. """
         results = {}
         # Run conclusions in order of priority. One or more conclusion may

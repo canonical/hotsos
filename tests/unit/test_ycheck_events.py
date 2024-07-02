@@ -147,7 +147,8 @@ class TestYamlEvents(utils.BaseTestCase):
                            'my-pass-search', 'my-fail-search1',
                            'my-fail-search2']
 
-            def my_sequence_search(self, event):
+            @staticmethod
+            def my_sequence_search(event):
                 callbacks_called[event.name] = True
                 for section in event.results:
                     for result in section:
@@ -161,7 +162,8 @@ class TestYamlEvents(utils.BaseTestCase):
                             match_count['count'] += 1
                             test_self.assertEqual(result.get(0), 'world')
 
-            def my_passthrough_search(self, event):
+            @staticmethod
+            def my_passthrough_search(event):
                 # expected to be passthough results (i.e. raw)
                 callbacks_called[event.name] = True
                 tag = '{}-start'.format(event.search_tag)

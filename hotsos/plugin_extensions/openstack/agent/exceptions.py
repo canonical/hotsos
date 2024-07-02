@@ -35,7 +35,8 @@ class AgentExceptionCheckResults(UserDict):
         """ Returns a list of agents for that have raised exceptions. """
         return list(self.results.keys())
 
-    def _tally_results(self, results):
+    @staticmethod
+    def _tally_results(results):
         """ Tally search results.
 
         Returns a dictionary with results grouped/presented by date but

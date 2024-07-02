@@ -90,7 +90,8 @@ class TemplatedTest():
     def target_scenario_path(self):
         return os.path.join(DEFS_DIR, self.sub_root, self.target_path)
 
-    def check_raised_bugs(self, test_inst, expected, actual):
+    @staticmethod
+    def check_raised_bugs(test_inst, expected, actual):
         """
         Compare what was raised vs what was expected.
 
@@ -116,7 +117,8 @@ class TemplatedTest():
         for bugurl in expected:
             test_inst.assertEqual(expected[bugurl], _actual[bugurl])
 
-    def check_raised_issues(self, test_inst, expected, actual):
+    @staticmethod
+    def check_raised_issues(test_inst, expected, actual):
         """
         Compare what was raised vs what was expected.
 
@@ -433,7 +435,8 @@ class BaseTestCase(unittest.TestCase):
                               'machine_readable': True,
                               'debug_mode': True}
 
-    def part_output_to_actual(self, output):
+    @staticmethod
+    def part_output_to_actual(output):
         actual = {}
         for key, entry in output.items():
             actual[key] = entry.data

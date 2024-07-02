@@ -38,7 +38,8 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
     event_group = 'nova.migrations'
     event_names = ['src-migration']
 
-    def _migration_seq_info(self, event, resource_idx, info_idxs,
+    @staticmethod
+    def _migration_seq_info(event, resource_idx, info_idxs,
                             incl_time_in_date=False):
         """
         Process the results of an event that was defined as a sequence.
@@ -150,7 +151,8 @@ class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
     event_group = 'nova.migrations'
     event_names = ['src-post-live-migration', 'dst-pre-live-migration']
 
-    def _migration_stats_info(self, event):
+    @staticmethod
+    def _migration_stats_info(event):
         """
         Process events that have passthrough-results=True such that they can be
         passed directory to analytics.LogEventStats for parsing.

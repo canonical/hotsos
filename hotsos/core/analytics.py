@@ -14,7 +14,8 @@ class EventCollection():
     def __init__(self):
         self._events = {}
 
-    def most_recent(self, items):
+    @staticmethod
+    def most_recent(items):
         """ For an event id that has been re-used, find the most recent one.
 
         This means that when we calculate stats on events found we will include

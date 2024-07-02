@@ -6,7 +6,8 @@ class YPropertyVars(YPropertyOverrideBase):
     _override_keys = ['vars']
     _allow_subtree = False
 
-    def _is_import_path(self, value):
+    @staticmethod
+    def _is_import_path(value):
         return isinstance(value, str) and value.startswith('@')
 
     def resolve(self, name):

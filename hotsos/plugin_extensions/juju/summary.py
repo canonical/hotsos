@@ -20,7 +20,8 @@ class UnitLogInfo():
     Create a tally of log errors and warnings for each unit.
     """
 
-    def error_and_warnings(self):
+    @staticmethod
+    def error_and_warnings():
         log.debug("searching unit logs for errors and warnings")
         c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
         searchobj = FileSearcher(constraint=c)

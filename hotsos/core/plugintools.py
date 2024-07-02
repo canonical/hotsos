@@ -82,7 +82,8 @@ def yaml_dump(data):
 
 class OutputFormatterBase():
 
-    def render(self, context, template):
+    @staticmethod
+    def render(context, template):
         # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
         templates_dir = str(HotSOSConfig.templates_path)
         if not os.path.isdir(templates_dir):
@@ -173,7 +174,8 @@ class MarkdownFormatter(OutputFormatterBase):
 
         return markdown_output
 
-    def _expand_list(self, data):
+    @staticmethod
+    def _expand_list(data):
         markdown_output = '\n%s' % ''.join(f'- {item}\n' for item in data)
 
         return markdown_output
@@ -273,7 +275,8 @@ class PartManager():
 
             fd.write(yaml.dump(indexes))
 
-    def meld_part_output(self, data, existing):
+    @staticmethod
+    def meld_part_output(data, existing):
         """
         Don't allow root level keys to be clobbered, instead just
         update them. This assumes that part subkeys will be unique.
