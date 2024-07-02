@@ -196,7 +196,8 @@ class HostNetworkingHelper(HostHelpersBase):
         else:
             self.cache.set('interfaces', data)
 
-    def _extract_iface_info(self, seqdef, section, search_obj):
+    @staticmethod
+    def _extract_iface_info(seqdef, section, search_obj):
         addrs = []
         encap_info = None
         hwaddr = None

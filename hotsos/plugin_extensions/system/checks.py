@@ -12,7 +12,8 @@ class SYSCtlChecks(SystemChecksBase):
         super().__init__(*args, **kwargs)
         self._cached_fs_sysctl = None
 
-    def _get_values_prioritised(self, config, key_priorities, conffile):
+    @staticmethod
+    def _get_values_prioritised(config, key_priorities, conffile):
         """
         Run through all key/value pairs from this config set and only keep ones
         that have not yet been supersceded by another file.

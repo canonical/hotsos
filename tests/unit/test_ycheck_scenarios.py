@@ -746,7 +746,8 @@ class TestYamlScenarios(utils.BaseTestCase):
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['message'] for issue in issues], [msg])
 
-    def _create_search_results(self, path, contents=None):
+    @staticmethod
+    def _create_search_results(path, contents=None):
         if contents:
             with open(path, 'w') as fd:
                 for line in contents:

@@ -113,7 +113,8 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
     event_names = ['rpc-loop', 'router-spawn-events', 'router-updates']
     event_names += ovsdbapp_event_names + ovn_mech_driver_events
 
-    def _get_event_stats(self, results, tag_prefix, custom_idxs=None):
+    @staticmethod
+    def _get_event_stats(results, tag_prefix, custom_idxs=None):
         stats = LogEventStats(results, tag_prefix, custom_idxs=custom_idxs)
         stats.run()
         top5 = stats.get_top_n_events_sorted(5)
@@ -304,7 +305,8 @@ class L3HACallback(OpenstackEventCallbackBase):
     event_group = 'neutron.ml2-routers'
     event_names = ['vrrp-transitions']
 
-    def check_vrrp_transitions(self, transitions):
+    @staticmethod
+    def check_vrrp_transitions(transitions):
         # there will likely be a large number of transitions if we look across
         # all time so dont run this check.
         if HotSOSConfig.use_all_logs:
@@ -349,7 +351,8 @@ class L3HACallback(OpenstackEventCallbackBase):
 
 class NeutronL3HAEventCheckJournalCtl():
 
-    def args(self):
+    @staticmethod
+    def args():
         """ Args callback for event cli command """
         args = []
         kwargs = {'unit': 'neutron-l3-agent'}

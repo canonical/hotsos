@@ -18,10 +18,12 @@ class YDefsLoader():
         self.stats_num_files_loaded = 0
         self.filter_path = filter_path
 
-    def _is_def(self, abs_path):
+    @staticmethod
+    def _is_def(abs_path):
         return abs_path.endswith('.yaml')
 
-    def _get_yname(self, path):
+    @staticmethod
+    def _get_yname(path):
         return os.path.basename(path).partition('.yaml')[0]
 
     def _get_defs_recursive(self, path):

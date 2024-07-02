@@ -20,7 +20,8 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
     event_group = 'nova.external-events'
     event_names = ['network-changed', 'network-vif-plugged']
 
-    def _get_state_dict(self, event_name):
+    @staticmethod
+    def _get_state_dict(event_name):
         state = {}
         for key in EXT_EVENT_META[event_name]['stages_keys']:
             state[key] = False

@@ -16,7 +16,8 @@ class LXDSummary(LXDChecksBase):
         if self.apt:
             return self.apt.all_formatted
 
-    def __3_summary_instances(self):
+    @staticmethod
+    def __3_summary_instances():
         instances = LXD().instances
         if instances:
             return instances

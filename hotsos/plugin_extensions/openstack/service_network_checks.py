@@ -25,7 +25,8 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
     def summary_subkey(self):
         return 'network'
 
-    def _get_port_stat_outliers(self, counters):
+    @staticmethod
+    def _get_port_stat_outliers(counters):
         """ For a given port's packet counters, identify outliers i.e. > 1%
         and create a new dict with count and percent values.
         """
