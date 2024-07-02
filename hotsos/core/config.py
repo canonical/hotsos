@@ -19,6 +19,7 @@ class ConfigOpt():
 class ConfigOptGroupBase(UserDict):
 
     def __init__(self):
+        super().__init__()
         self.opts = {}
 
     @property
@@ -26,13 +27,13 @@ class ConfigOptGroupBase(UserDict):
     def name(self):
         """ OptGroup name """
 
-    @property
-    def data(self):
-        d = {}
-        for name, opt in self.opts.items():
-            d[name] = opt.default_value
+    def __getattribute__(self, name):
+        """ Ensure dict contains all registered options. """
+        if name == 'data':
+            return {_name: opt.default_value
+                    for _name, opt in self.opts.items()}
 
-        return d
+        return super().__getattribute__(name)
 
     def add(self, opt):
         self.opts[opt.name] = opt
@@ -156,18 +157,20 @@ class RegisteredOpts(UserDict):
 
     def __init__(self, *optgroups):
         self.optsgroups = []
-        self.data = {}
+        data = {}
         for optgroup in optgroups:
             optgroup = optgroup()
             self.optsgroups.append(optgroup)
-            a = [name.lower() for name in self.data.keys()]
-            b = [name.lower() for name in optgroup.keys()]
+            a = [name.lower() for name in data]
+            b = [name.lower() for name in optgroup]
             if set(a).intersection(b):
                 raise Exception("optgroup '{}' contains one or more names "
                                 "that have already been registered".
                                 format(optgroup.name))
 
-            self.data.update(optgroup)
+            data.update(optgroup)
+
+        super().__init__(data)
 
     def __setitem__(self, key, item):
         for group in self.optsgroups:
