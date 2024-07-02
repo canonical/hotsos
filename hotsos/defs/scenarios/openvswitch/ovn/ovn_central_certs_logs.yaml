@@ -7,21 +7,30 @@ vars:
   cert_expired_expr: '([\d-]+)T([\d:]+)\.\d+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired'
   cert_invalid_expr: '([\d-]+)T([\d:]+)\.\d+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
 checks:
-  northd_not_restarted_after_cert_update:
-    - systemd: ovn-northd
-    - varops: [[$northd_start_time], [gt, 0]]
-    - varops: [[$host_cert_mtime], [gt, $northd_start_time]]
-    - varops: [[$ovn_central_cert_mtime], [gt, $northd_start_time]]
-  nbdb_not_restarted_after_cert_update:
-    - systemd: ovn-ovsdb-server-nb
-    - varops: [[$ovsdb_nb_start_time], [gt, 0]]
-    - varops: [[$host_cert_mtime], [gt, $ovsdb_nb_start_time]]
-    - varops: [[$ovn_central_cert_mtime], [gt, $ovsdb_nb_start_time]]
-  sbdb_not_restarted_after_cert_update:
-    - systemd: ovn-ovsdb-server-sb
-    - varops: [[$ovsdb_sb_start_time], [gt, 0]]
-    - varops: [[$host_cert_mtime], [gt, $ovsdb_sb_start_time]]
-    - varops: [[$ovn_central_cert_mtime], [gt, $ovsdb_sb_start_time]]
+  northd_not_restarted_after_cert_update: |
+      systemd('ovn-northd') AND systemd('ovn-northd', 'start_time_secs') > 0 AND
+      file('etc/ovn/cert_host', 'mtime') > systemd('ovn-northd', 'start_time_secs') AND
+      file('etc/ovn/ovn-central.crt', 'mtime') > systemd('ovn-northd', 'start_time_secs')
+    # - systemd: ovn-northd
+    # - varops: [[$northd_start_time], [gt, 0]]
+    # - varops: [[$host_cert_mtime], [gt, $northd_start_time]]
+    # - varops: [[$ovn_central_cert_mtime], [gt, $northd_start_time]]
+  nbdb_not_restarted_after_cert_update: |
+      systemd('ovn-ovsdb-server-nb') AND systemd('ovn-ovsdb-server-nb', 'start_time_secs') > 0 AND
+      file('etc/ovn/cert_host', 'mtime') > systemd('ovn-ovsdb-server-nb', 'start_time_secs') AND
+      file('etc/ovn/ovn-central.crt', 'mtime') > systemd('ovn-ovsdb-server-nb', 'start_time_secs')
+    # - systemd: ovn-ovsdb-server-nb
+    # - varops: [[$ovsdb_nb_start_time], [gt, 0]]
+    # - varops: [[$host_cert_mtime], [gt, $ovsdb_nb_start_time]]
+    # - varops: [[$ovn_central_cert_mtime], [gt, $ovsdb_nb_start_time]]
+  sbdb_not_restarted_after_cert_update: |
+      systemd('ovn-ovsdb-server-sb') AND systemd('ovn-ovsdb-server-sb', 'start_time_secs') > 0 AND
+      file('etc/ovn/cert_host', 'mtime') > systemd('ovn-ovsdb-server-sb', 'start_time_secs') AND
+      file('etc/ovn/ovn-central.crt', 'mtime') > systemd('ovn-ovsdb-server-sb', 'start_time_secs')
+    # - systemd: ovn-ovsdb-server-sb
+    # - varops: [[$ovsdb_sb_start_time], [gt, 0]]
+    # - varops: [[$host_cert_mtime], [gt, $ovsdb_sb_start_time]]
+    # - varops: [[$ovn_central_cert_mtime], [gt, $ovsdb_sb_start_time]]
   northd_certs_invalid_logs:
     input: var/log/ovn/ovn-northd.log
     expr: $cert_invalid_expr

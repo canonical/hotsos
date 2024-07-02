@@ -13,6 +13,7 @@ from hotsos.core.ycheck.engine.properties.requires.types import (
     property as rproperty,
     path,
     varops,
+    expr,
 )
 
 CACHE_CHECK_KEY = '__PREVIOUSLY_CACHED_PROPERTY_TYPE'
@@ -78,7 +79,8 @@ class YPropertyRequires(YPropertyMappedOverrideBase):
                          systemd.YRequirementTypeSystemd,
                          rproperty.YRequirementTypeProperty,
                          path.YRequirementTypePath,
-                         varops.YPropertyVarOps]
+                         varops.YPropertyVarOps,
+                         expr.YPropertyExpr,]
     # We want to be able to use this property both on its own and as a member
     # of other mapping properties e.g. Checks. The following setting enables
     # this.

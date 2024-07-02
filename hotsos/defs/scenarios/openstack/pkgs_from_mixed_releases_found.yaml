@@ -1,8 +1,6 @@
 checks:
-  has_mixed_pkg_releases:
-    property:
-      path: hotsos.core.plugins.openstack.OpenstackChecksBase.installed_pkg_release_names
-      ops: [[length_hint], [gt, 1]]
+  has_mixed_pkg_releases: |
+    len(@hotsos.core.plugins.openstack.OpenstackChecksBase.installed_pkg_release_names) > 1
 conclusions:
   mixed-pkg-releases:
     decision: has_mixed_pkg_releases
@@ -11,4 +9,4 @@ conclusions:
       message: >-
         Openstack packages from a more than one release identified: {releases}.
       format-dict:
-        releases: '@checks.has_mixed_pkg_releases.requires.value_actual:comma_join'
+        releases: hotsos.core.plugins.openstack.OpenstackChecksBase.installed_pkg_release_names:comma_join

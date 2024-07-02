@@ -11,17 +11,14 @@ vars:
     order for changes to persist.
   scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
-  cpufreq_governor_not_performance:
-    # can we actually see the setting
-    - varops: [[$scaling_governor], [ne, unknown]]
-    # does it have the expected value
-    - varops: [[$scaling_governor], [ne, performance]]
+  cpufreq_governor_not_performance: |
+    @hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all != 'unknown' AND
+    @hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all != 'performance'
   kubernetes_installed:
     - snap: kubelet
     # ignore if not running on metal
-    - property:
-        path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
-        ops: [[eq, null]]
+    - expression: |
+        @hotsos.core.plugins.system.system.SystemBase.virtualisation_type == None
   ondemand_installed_and_enabled:
     systemd:
       ondemand: enabled
