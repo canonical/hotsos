@@ -155,7 +155,8 @@ class CephMonTestsBase(utils.BaseTestCase):
         HotSOSConfig.data_root = CEPH_MON_DATA_ROOT
         HotSOSConfig.plugin_name = 'storage'
 
-    def setup_fake_cli_osds_imbalanced_pgs(self, mock_cli_helper):
+    @staticmethod
+    def setup_fake_cli_osds_imbalanced_pgs(mock_cli_helper):
         """
         Mocks ceph osd df tree so that it contains OSDs with imbalanced PGs.
 

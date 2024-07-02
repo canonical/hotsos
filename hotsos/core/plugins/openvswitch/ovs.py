@@ -30,7 +30,8 @@ class OVSDBTable():
     def __init__(self, name):
         self.name = name
 
-    def _convert_record_to_dict(self, record):
+    @staticmethod
+    def _convert_record_to_dict(record):
         """ Convert the ovsdb record dict format to a python dictionary. """
         out = {}
         if not record or record == '{}':
@@ -46,11 +47,13 @@ class OVSDBTable():
 
         return out
 
-    def _get_cmd(self, table):
+    @staticmethod
+    def _get_cmd(table):
         return lambda **kwargs: CLIHelper().ovs_vsctl_get(table=table,
                                                           **kwargs)
 
-    def _list_cmd(self, table):
+    @staticmethod
+    def _list_cmd(table):
         return lambda **kwargs: CLIHelper().ovs_vsctl_list(table=table,
                                                            **kwargs)
 

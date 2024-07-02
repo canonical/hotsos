@@ -8,7 +8,8 @@ from hotsos.core.plugins.system.system import SystemBase
 
 class SYSFSBase():
 
-    def get(self, relpath):
+    @staticmethod
+    def get(relpath):
         """
         Read a sysfs entry and return its value.
 

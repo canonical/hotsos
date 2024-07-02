@@ -215,21 +215,24 @@ class HotSOSClient():
         self._summary = OutputManager()
         self.plugins = plugins or plugintools.PLUGINS.keys()
 
-    def setup_global_env(self):
+    @staticmethod
+    def setup_global_env():
         """ State saved here persists across all plugin runs. """
         log.debug("setting up global env")
         global_tmp_dir = tempfile.mkdtemp()
         HotSOSConfig.global_tmp_dir = global_tmp_dir
         os.makedirs(os.path.join(global_tmp_dir, 'locks'))
 
-    def teardown_global_env(self):
+    @staticmethod
+    def teardown_global_env():
         log.debug("tearing down global env")
         if os.path.exists(HotSOSConfig.global_tmp_dir):
             shutil.rmtree(HotSOSConfig.global_tmp_dir)
         # Ensure tmp dir doesn't get accidentally recreated
         HotSOSConfig.plugin_tmp_dir = None
 
-    def setup_plugin_env(self, plugin):
+    @staticmethod
+    def setup_plugin_env(plugin):
         """ State saved here is specific to a plugin. """
         log.debug("setting up plugin env")
         global_tmp = HotSOSConfig.global_tmp_dir

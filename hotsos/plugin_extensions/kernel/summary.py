@@ -51,7 +51,8 @@ class KernelSummary(KernelChecksBase):
         if self.boot_parameters:
             return ' '.join(self.boot_parameters)
 
-    def __2_summary_systemd(self):
+    @staticmethod
+    def __2_summary_systemd():
         cfg = SystemdConfig()
         if cfg.exists:
             if cfg.get('CPUAffinity'):
@@ -62,7 +63,8 @@ class KernelSummary(KernelChecksBase):
         if cpu_info:
             return cpu_info
 
-    def __4_summary_memory(self):
+    @staticmethod
+    def __4_summary_memory():
         nodes = MemoryChecks().nodes_with_limited_high_order_memory_full
         if nodes:
             return nodes

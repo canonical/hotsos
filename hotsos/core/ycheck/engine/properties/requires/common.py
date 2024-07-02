@@ -75,7 +75,8 @@ class PackageCheckItemsBase(CheckItemsBase):
 
 class OpsUtils():
 
-    def ops_to_str(self, ops):
+    @staticmethod
+    def ops_to_str(ops):
         """
         Convert an ops list of tuples to a string. This is typically used when
         printing in a msg or storing in the cache.
@@ -96,7 +97,8 @@ class OpsUtils():
 
         return ' -> '.join(_result)
 
-    def _apply_op(self, op, opinput=None, expected=None, force_expected=False):
+    @staticmethod
+    def _apply_op(op, opinput=None, expected=None, force_expected=False):
         """
         @param expected: can be a value or variable name that needs to be
                          resolved. Variable names are identified by having a

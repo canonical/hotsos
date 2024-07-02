@@ -10,10 +10,12 @@ from hotsos.core.log import log
 class NullCache():
     """ A cache that does nothing but maintains the MPCache abi. """
 
-    def get(self, *args, **kwargs):
+    @staticmethod
+    def get(*args, **kwargs):
         log.debug("null cache get() op args=%s kwargs=%s", args, kwargs)
 
-    def set(self, *args, **kwargs):
+    @staticmethod
+    def set(*args, **kwargs):
         log.debug("null cache set() op args=%s kwargs=%s", args, kwargs)
 
 

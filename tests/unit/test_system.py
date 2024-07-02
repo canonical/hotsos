@@ -216,7 +216,8 @@ class TestUbuntuPro(SystemTestsBase):
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(utils.ContextManagerBase):
 
-                def pro_status(self):
+                @staticmethod
+                def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UBUNTU_PRO_ATTACHED))
 
@@ -258,7 +259,8 @@ class TestUbuntuPro(SystemTestsBase):
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(utils.ContextManagerBase):
 
-                def pro_status(self):
+                @staticmethod
+                def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UBUNTU_PRO_NOT_ATTACHED))
 
@@ -276,7 +278,8 @@ class TestUbuntuPro(SystemTestsBase):
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(utils.ContextManagerBase):
 
-                def pro_status(self):
+                @staticmethod
+                def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UA_ATTACHED))
 
@@ -323,7 +326,8 @@ class TestUbuntuPro(SystemTestsBase):
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(utils.ContextManagerBase):
 
-                def pro_status(self):
+                @staticmethod
+                def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UA_ATTACHED_WITH_NOTICE))
 
@@ -359,7 +363,8 @@ class TestUbuntuPro(SystemTestsBase):
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(utils.ContextManagerBase):
 
-                def pro_status(self):
+                @staticmethod
+                def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UA_NOT_ATTACHED))
 
@@ -377,7 +382,8 @@ class TestUbuntuPro(SystemTestsBase):
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(utils.ContextManagerBase):
 
-                def pro_status(self):
+                @staticmethod
+                def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write('M' + ''.join(UBUNTU_PRO_ATTACHED[1:]))
 

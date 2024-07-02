@@ -392,7 +392,8 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         """ Cache of results in case run() is called again. """
         return self._event_results
 
-    def _get_event_search_results(self, global_results, search_tag,
+    @staticmethod
+    def _get_event_search_results(global_results, search_tag,
                                   sequence_search_def, passthrough_results):
         if passthrough_results:
             # this is for implementations that have their own means of

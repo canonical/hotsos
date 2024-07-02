@@ -38,7 +38,8 @@ class TestCLI(utils.BaseTestCase):
         with mock.patch.object(distro, 'version', return_value='22.04'):
             self.assertEqual(hotsos.cli.get_os_version(), 22.04)
 
-    def test_is_os_version_supported_in_snap(self):
+    @staticmethod
+    def test_is_os_version_supported_in_snap():
         with mock.patch.object(sys, 'exit') as mock_exit:
             with mock.patch.dict(os.environ, {'SNAP_NAME': 'hotsos'}):
                 with mock.patch.object(distro, 'id',

@@ -511,7 +511,8 @@ class SnapPackageHelper(PackageHelperBase):
     def is_installed(self, pkg):
         return pkg in self.all
 
-    def _get_snap_info_from_line(self, line, cexpr):
+    @staticmethod
+    def _get_snap_info_from_line(line, cexpr):
         """ Returns snap name and info if found in line. """
         ret = re.match(cexpr, line)
         if ret:

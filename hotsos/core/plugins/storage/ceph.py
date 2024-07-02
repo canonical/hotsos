@@ -135,7 +135,8 @@ class CephConfig(IniConfigBase):
 
 class CephCrushMap():
 
-    def _filter_pools_by_rule(self, pools, crush_rule):
+    @staticmethod
+    def _filter_pools_by_rule(pools, crush_rule):
         res_pool = []
         for pool in pools:
             if pool['crush_rule'] == crush_rule:
@@ -172,7 +173,8 @@ class CephCrushMap():
 
         return rule_to_pool
 
-    def _build_buckets_from_crushdump(self, crushdump):
+    @staticmethod
+    def _build_buckets_from_crushdump(crushdump):
         buckets = {}
         # iterate jp for each bucket
         for bucket in crushdump["buckets"]:
@@ -419,7 +421,8 @@ class CephCluster():
 
         return v1_osds
 
-    def _get_version_info(self, daemon_type=None):
+    @staticmethod
+    def _get_version_info(daemon_type=None):
         """
         Returns a dict of ceph versions info for the provided daemon type. If
         no daemon type provided, version info is collected for all types and

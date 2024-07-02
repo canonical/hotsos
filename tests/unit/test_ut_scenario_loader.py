@@ -58,7 +58,8 @@ raised-issues:
 
 class TestScenarioTestLoader(ScenarioTestsBase):
 
-    def create_scenarios(self, path, levels=1):
+    @staticmethod
+    def create_scenarios(path, levels=1):
         _path = os.path.join(path, 'scenarios', HotSOSConfig.plugin_name)
         for lvl in range(1, levels + 1):
             _path = os.path.join(_path, str(lvl))
@@ -76,7 +77,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 with open(os.path.join(_path, scenario_name), 'w') as fd:
                     fd.write(FAKE_SCENARIO)
 
-    def create_tests(self, path, levels=1):
+    @staticmethod
+    def create_tests(path, levels=1):
         _path = os.path.join(path, 'tests/scenarios', HotSOSConfig.plugin_name)
         for lvl in range(1, levels + 1):
             _path = os.path.join(_path, str(lvl))
@@ -162,7 +164,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 class FakeTests():
 
                     @utils.load_templated_tests('scenarios/testplugin/1')
-                    def faketest(self):
+                    @staticmethod
+                    def faketest():
                         pass
 
                 FakeTests().faketest()

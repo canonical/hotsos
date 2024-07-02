@@ -18,7 +18,8 @@ class SystemSummary(SystemChecksBase):
         if self.num_cpus:
             return self.num_cpus
 
-    def __3_summary_load(self):
+    @staticmethod
+    def __3_summary_load():
         if UptimeHelper().loadavg:
             return UptimeHelper().loadavg
 
@@ -26,7 +27,8 @@ class SystemSummary(SystemChecksBase):
         if self.virtualisation_type:
             return self.virtualisation_type
 
-    def __5_summary_rootfs(self):
+    @staticmethod
+    def __5_summary_rootfs():
         df_output = CLIHelper().df()
         if df_output:
             for line in df_output:

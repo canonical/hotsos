@@ -20,7 +20,8 @@ class _BaseProcKeyValue():
         raise NotImplementedError('Method "path" must be implemened in {}.'.
                                   format(self.__class__.__name__))
 
-    def key_val_sep(self):
+    @staticmethod
+    def key_val_sep():
         """
         Returns regexp pattern for separating key and value in the
         /proc/<file>. Child class can override the default if the <file>

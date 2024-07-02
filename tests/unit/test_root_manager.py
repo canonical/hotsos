@@ -23,7 +23,8 @@ class TestRootManager(utils.BaseTestCase):
         shutil.rmtree(self.tmpdir)
         super().tearDown()
 
-    def create_sosreport(self, sospath):
+    @staticmethod
+    def create_sosreport(sospath):
         os.makedirs(os.path.join(sospath, 'sos_commands'))
         tarroot = os.path.basename(sospath)
         with tarfile.open(sospath + '.xz', 'w:xz') as tar:

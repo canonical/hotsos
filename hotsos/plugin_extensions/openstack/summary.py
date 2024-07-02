@@ -28,7 +28,8 @@ class OpenstackSummary(OpenstackChecksBase):
         if self.docker.core:
             return self.docker.all_formatted
 
-    def __4_summary_neutron_l3ha(self):
+    @staticmethod
+    def __4_summary_neutron_l3ha():
         routers = {}
         ha_info = NeutronHAInfo()
         for router in ha_info.ha_routers:

@@ -476,13 +476,15 @@ class Lsof(STOVParserBase):
             for r in results.find_by_tag('content'):
                 self.data.append(r)
 
-    def _int_if_numeric(self, value):
+    @staticmethod
+    def _int_if_numeric(value):
         if value.isnumeric():
             return int(value)
 
         return value
 
-    def _strip(self, value):
+    @staticmethod
+    def _strip(value):
         return value.strip()
 
     @property

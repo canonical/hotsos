@@ -313,12 +313,14 @@ class YPropertyBase(PTreeOverrideBase):
         if c:
             return c.get(key)
 
-    def _get_mod_class_from_path(self, path):
+    @staticmethod
+    def _get_mod_class_from_path(path):
         _mod = path.rpartition('.')[0]
         _cls = path.rpartition('.')[2]
         return _mod, _cls
 
-    def _get_class_property_from_path(self, path, no_property=False):
+    @staticmethod
+    def _get_class_property_from_path(path, no_property=False):
         log.debug("fetching class and property from path (no_property=%s)",
                   no_property)
         # first strip any factory class info and add back to prop at end.
@@ -456,7 +458,8 @@ class YPropertyBase(PTreeOverrideBase):
         self._add_to_import_cache(import_str, _obj)
         return _obj
 
-    def get_method(self, import_str):
+    @staticmethod
+    def get_method(import_str):
         """ Import and instantiate Python class then call method.
 
         @param import_str: import path to Python class with method name after
@@ -476,7 +479,8 @@ class YPropertyBase(PTreeOverrideBase):
 
         return ret
 
-    def get_attribute(self, import_str):
+    @staticmethod
+    def get_attribute(import_str):
         log.debug("fetching attribute %s", import_str)
         mod = import_str.rpartition('.')[0]
         attr = import_str.rpartition('.')[2]
