@@ -43,7 +43,7 @@ class YDefsContext(UserDict):
         """
         @param initial_state: optional dict to use as initial state.
         """
-        self.data = initial_state or {}
+        super().__init__(initial_state or {})
 
     def __setitem__(self, key, item):
         # don't print values as they can be very large and e.g. search

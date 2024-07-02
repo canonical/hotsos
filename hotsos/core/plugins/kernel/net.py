@@ -403,7 +403,7 @@ class SockStat(ProcNetBase):
 class STOVParserBase(UserList):
 
     def __init__(self):
-        self.data = []
+        super().__init__()
         self._load()
 
     @abc.abstractmethod
