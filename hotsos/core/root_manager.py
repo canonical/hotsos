@@ -39,7 +39,7 @@ class DataRootManager():
 
         try:
             shutil.rmtree(self.tmpdir)
-        except Exception:
+        except PermissionError:
             os.system('chmod -R 777 {}'.format(self.tmpdir))
             shutil.rmtree(self.tmpdir)
 
@@ -75,7 +75,9 @@ class DataRootManager():
                                      format(path, target))
                     try:
                         tar.extractall(self.tmpdir)
-                    except Exception:
+                    # We really do want to catch all here since we don't care
+                    # why it failed but don't want to fail hard if it does.
+                    except Exception:  # pylint: disable=W0718
                         log.exception("error occured while unpacking "
                                       "sosreport:")
                         # some members might fail to extract e.g. permission

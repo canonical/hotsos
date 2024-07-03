@@ -507,8 +507,6 @@ class YPropertyBase(PTreeOverrideBase):
             return self.get_property(import_str)
         except TypeError as exc:
             log.debug("get_property failed, trying get_attribute: %s", exc)
-        except Exception:
-            log.exception("get_property failed for unknown reason")
 
         return self.get_attribute(import_str)
 
