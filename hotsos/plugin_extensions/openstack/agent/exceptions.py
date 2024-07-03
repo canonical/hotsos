@@ -24,9 +24,9 @@ class AgentExceptionCheckResults(UserDict):
                                             the result and this callback is
                                             called to resolve back to a path.
         """
+        super().__init__()
         self.results = results
         self.source_id_resolver_callback = source_id_resolver_callback
-        self.data = {}
         for name, _results in self.results.items():
             self.data[name] = self._tally_results(_results)
 
