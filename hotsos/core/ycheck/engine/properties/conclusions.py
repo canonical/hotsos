@@ -220,17 +220,22 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
 class YPropertyConclusions(YPropertyOverrideBase):
     _override_keys = ['conclusions']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._initialised = False
+        self.conclusion_context = YDefsContext()
+
     def initialise(self, ypvars, checks):
         """
         Perform initialisation tasks for this set of conclusions.
         """
-        self.conclusion_context = YDefsContext({'vars': ypvars,
-                                                'checks': checks})
+        self.conclusion_context.update({'vars': ypvars, 'checks': checks})
+        self._initialised = True
 
     @cached_property
     def _conclusions(self):
         log.debug("parsing conclusions section")
-        if not hasattr(self, 'conclusion_context'):
+        if not self._initialised:
             raise Exception("conclusions not yet initialised")
 
         resolved = []

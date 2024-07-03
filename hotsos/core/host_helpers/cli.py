@@ -164,7 +164,7 @@ class BinCmd(CmdBase):
         """
         @param cmd: command in string format (not list)
         """
-        self.original_cmd = cmd
+        self.cmd = self.original_cmd = cmd
         self.original_cmd_extras = []
         self.original_json_decode = json_decode
         self.original_singleline = singleline
@@ -219,7 +219,8 @@ class FileCmd(CmdBase):
 
     def __init__(self, path, json_decode=False,
                  singleline=False, decode_error_handling=None):
-        self.original_path = os.path.join(HotSOSConfig.data_root, path)
+        self.path = self.original_path = os.path.join(HotSOSConfig.data_root,
+                                                      path)
         self.original_json_decode = json_decode
         self.original_singleline = singleline
         self.original_decode_error_handling = decode_error_handling
