@@ -862,7 +862,7 @@ class TestYamlProperties(utils.BaseTestCase):
                          expected)
 
     @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase')
-    def test_requires_grouped(self, mock_plugin):
+    def test_requires_grouped(self, mock_plugin):  # pylint: disable=R0915
         mock_plugin.return_value = mock.MagicMock()
         r1 = {'property':
               'hotsos.core.plugins.openstack.OpenstackChecksBase.r1'}

@@ -407,29 +407,28 @@ class PluginRunner():
 
     def __init__(self, plugin):
         self.parts = PLUGINS[plugin]
+        self.failed_parts = []
 
-    def run(self):
-        with GlobalSearcher() as global_searcher:
-            return self._run(global_searcher)
-
-    def _run(self, global_searcher):
-        failed_parts = []
+    def _load_global_searcher(self, global_searcher):
+        """ Load event and scenario searches into global searcher. """
         # Load searches into the GlobalSearcher
         for preloader in [EventsSearchPreloader, ScenariosSearchPreloader]:
             try:
                 preloader(global_searcher).run()
             except Exception as exc:
                 name = preloader.__name__
-                failed_parts.append(name)
+                self.failed_parts.append(name)
                 log.exception("search preloader '%s' raised exception: %s",
                               name, exc)
 
-        # Run the searches so that results are ready to be consumed when the
-        # parts and handlers are run.
-        global_searcher.run()
+    def _run_always_parts(self, global_searcher):
+        """
+        Execute parts that run regardless of plugin context.
 
-        part_mgr = PartManager()
-        # The following are executed as part of each plugin run (but not last).
+        The following are executed as part of each plugin run (but not last).
+
+        @param global_searcher: GlobalSearcher object
+        """
         always_run = {'auto_scenario_check': YScenarioChecker}
         for name, always_parts in always_run.items():
             # update current env to reflect actual part being run
@@ -437,13 +436,20 @@ class PluginRunner():
             try:
                 always_parts(global_searcher).run()
             except Exception as exc:
-                failed_parts.append(name)
+                self.failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
 
             # NOTE: we don't expect these parts to produce any output
             # for the summary so we wont check for it (they only raise
             # issues and bugs which are handled independently).
 
+    def _run_plugin_parts(self, global_searcher):
+        """ Execute parts for the current plugin context.
+
+        @param global_searcher: GlobalSearcher object
+        @return: dictionary summary of output.
+        """
+        part_mgr = PartManager()
         for part_info in self.parts:
             # update current env to reflect actual part being run
             runner = part_info['runner']
@@ -469,7 +475,7 @@ class PluginRunner():
                 output = inst.output
                 subkey = inst.summary_subkey
             except Exception as exc:
-                failed_parts.append(name)
+                self.failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
                 output = None
 
@@ -484,9 +490,9 @@ class PluginRunner():
                     index = (part_index * part_max) + entry.index
                     part_mgr.save(out, index=index)
 
-        if failed_parts:
+        if self.failed_parts:
             # always put these at the top
-            part_mgr.save({'failed-parts': failed_parts}, index=0)
+            part_mgr.save({'failed-parts': self.failed_parts}, index=0)
 
         imgr = IssuesManager()
         bugs = imgr.load_bugs()
@@ -502,3 +508,17 @@ class PluginRunner():
             part_mgr.save(raised_issues, index=summary_end_index)
 
         return part_mgr.all()
+
+    def run(self):
+        """ Execute all plugin parts. """
+        self.failed_parts = []
+        with GlobalSearcher() as global_searcher:
+            self._load_global_searcher(global_searcher)
+
+            # Run the searches so that results are ready to be consumed when
+            # the parts and handlers are run.
+            global_searcher.run()
+
+            self._run_always_parts(global_searcher)
+
+            return self._run_plugin_parts(global_searcher)

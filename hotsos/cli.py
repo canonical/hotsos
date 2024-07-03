@@ -140,10 +140,14 @@ def spinner(msg, done):
 
 
 @contextlib.contextmanager
-def progress_spinner(show_spinner, spinner_msg):
+def progress_spinner(show_spinner, path):
     if not show_spinner:
         yield
         return
+
+    sys.stdout.write(
+        'INFO: analysing {}\n'.format(path))
+    spinner_msg = 'INFO: analysing '
 
     done = threading.Event()
     thread = threading.Thread(target=spinner, args=(spinner_msg, done))
@@ -155,7 +159,7 @@ def progress_spinner(show_spinner, spinner_msg):
         thread.join()
 
 
-def main():
+def main():  # pylint: disable=R0915
     @click.command(name='hotsos')
     @click.option('--event', default='',
                   help=('Filter a particular event name. Useful for '
@@ -312,17 +316,7 @@ def main():
                     sys.stdout.write('\n')
                     return
 
-                if quiet:
-                    show_spinner = False
-                    spinner_msg = ''
-                else:
-                    show_spinner = not debug
-                    if show_spinner:
-                        sys.stdout.write(
-                            'INFO: analysing {}\n'.format(drm.name))
-                    spinner_msg = 'INFO: analysing '
-
-                with progress_spinner(show_spinner, spinner_msg):
+                with progress_spinner(not quiet and not debug, drm.name):
                     plugins = []
                     for k, v in kwargs.items():
                         if v is True:
