@@ -14,7 +14,7 @@ class KernelConfig(host_helpers.ConfigBase):
         self._cfg = {}
         self._load()
 
-    def get(self, key, expand_to_list=False):
+    def get(self, key, section=None, expand_to_list=False):
         value = self._cfg.get(key)
         if expand_to_list and value is not None:
             return self.expand_value_ranges(value)

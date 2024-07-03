@@ -171,6 +171,18 @@ class EventProcessingUtils():
         return categorised_results
 
     @classmethod
+    def global_event_tally_time_granularity_override(cls):
+        """
+        If results are categorised without time included and this returned True
+        we checks if HotSOSConfig.event_tally_granularity is set to 'time' and
+        if so enforce time included in results.
+
+        Implementations should override this property to return True if they
+        want this behaviour.
+        """
+        return False
+
+    @classmethod
     def categorise_events(cls, event, results=None, key_by_date=True,
                           include_time=False, squash_if_none_keys=False,
                           max_results_per_date=None):
@@ -208,6 +220,9 @@ class EventProcessingUtils():
         """
         if results is None:
             results = cls._get_event_results(event)
+
+        if cls.global_event_tally_time_granularity_override() is True:
+            include_time = HotSOSConfig.event_tally_granularity == 'time'
 
         categorised_results = {}
         for r in results:

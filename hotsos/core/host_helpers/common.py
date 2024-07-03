@@ -54,11 +54,11 @@ class HostHelpersBase(abc.ABC):
         """
 
     @abc.abstractmethod
-    def cache_load(self):
+    def cache_load(self, key):
         """ Load cache contents. """
 
     @abc.abstractmethod
-    def cache_save(self):
+    def cache_save(self, key, value):
         """ Save contents to cache. """
 
 

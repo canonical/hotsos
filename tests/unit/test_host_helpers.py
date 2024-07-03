@@ -166,7 +166,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         # do this to cache stats
         iface.stats
         helper = host_helpers.HostNetworkingHelper()
-        data = helper.cache_load()
+        data = helper.cache_load('interfaces')
         iface_found = False
         for _iface in data:
             if _iface['name'] == iface.name:
