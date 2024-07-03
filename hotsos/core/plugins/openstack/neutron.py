@@ -125,6 +125,8 @@ class NeutronHAInfo():
             if r.vr_id == vr_id:
                 return r
 
+        return None
+
 
 class Config(FactoryBase):
 

@@ -110,6 +110,8 @@ class CommonTimestampMatcher(TimestampMatcherBase):
             log.exception("could not establish month integer from '%s'",
                           _month)
 
+        return None
+
     @property
     def patterns(self):
         """
@@ -155,11 +157,12 @@ class ExtraSearchConstraints():
             ts = "{} 00:00:00".format(ts)
 
         ts_matcher = CommonTimestampMatcher(ts)
-        if ts_matcher.matched:
-            return ts_matcher.strptime
+        if not ts_matcher.matched:
+            log.warning("failed to parse timestamp string '%s' (num_group=%s) "
+                        "- returning None", ts, len(result))
+            return None
 
-        log.warning("failed to parse timestamp string '%s' (num_group=%s) - "
-                    "returning None", ts, len(result))
+        return ts_matcher.strptime
 
     @classmethod
     def filter_by_period(cls, results, period_hours):
@@ -211,7 +214,7 @@ class ExtraSearchConstraints():
 def create_constraint(search_result_age_hours=None,
                       min_hours_since_last_boot=None):
     if not any([search_result_age_hours, min_hours_since_last_boot]):
-        return
+        return None
 
     uptime_etime_hours = UptimeHelper().in_hours
     hours = search_result_age_hours

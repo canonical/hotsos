@@ -149,8 +149,7 @@ class SYSCtlChecks(SystemChecksBase):
                 mismatch[key] = {"actual": self.sysctl_all[key],
                                  "expected": value}
 
-        if mismatch:
-            return mismatch
+        return mismatch or None
 
     def __11_summary_juju_charm_sysctl_mismatch(self):
         """ Compare the values for any key set under sysctl.d and report
@@ -166,5 +165,4 @@ class SYSCtlChecks(SystemChecksBase):
                                  "actual": self.sysctl_all.get(key),
                                  "expected": value}
 
-        if mismatch:
-            return mismatch
+        return mismatch or None

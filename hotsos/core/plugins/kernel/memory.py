@@ -160,6 +160,8 @@ class SlabInfo():
                                         int(sections[2]),
                                         int(sections[3])])
 
+        return None
+
     @property
     def major_consumers(self):
         top5 = []
@@ -243,15 +245,15 @@ class MallocInfo():
             return self._block_sizes
 
         node_zones = BuddyInfo().get_node_zones(self.zone, self.node)
-        if node_zones is None:
-            return
+        if node_zones:
+            # start from highest order zone (10) and work down to 0
+            for order in range(10, -1, -1):
+                free = int(node_zones.split()[5 + order - 1])
+                self._block_sizes[order] = free
 
-        # start from highest order zone (10) and work down to 0
-        for order in range(10, -1, -1):
-            free = int(node_zones.split()[5 + order - 1])
-            self._block_sizes[order] = free
+            return self._block_sizes
 
-        return self._block_sizes
+        return None
 
     @property
     def empty_order_tally(self):
@@ -329,11 +331,9 @@ class MemoryChecks():
         """
         nodes = []
         _nodes = self.nodes_with_limited_high_order_memory_full
-        if not _nodes:
-            return
-
-        for node, zones in _nodes['nodes'].items():
-            for name in zones['zones']:
-                nodes.append("node{}-{}".format(node, name.lower()))
+        if _nodes:
+            for node, zones in _nodes['nodes'].items():
+                for name in zones['zones']:
+                    nodes.append("node{}-{}".format(node, name.lower()))
 
         return nodes

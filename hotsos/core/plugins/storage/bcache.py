@@ -19,9 +19,11 @@ class BcacheConfig(ConfigBase):
 
     def get(self, key, section=None, expand_to_list=False):
         cfg = os.path.join(self.path, key)
-        if os.path.exists(cfg):
-            with open(cfg) as fd:
-                return fd.read().strip()
+        if not os.path.exists(cfg):
+            return None
+
+        with open(cfg) as fd:
+            return fd.read().strip()
 
 
 class BDev():
@@ -41,6 +43,8 @@ class BDev():
             ret = re.compile(expr).match(line)
             if ret:
                 return ret[1]
+
+        return None
 
     @property
     def dev(self):
@@ -162,6 +166,8 @@ class BcacheBase(StorageBase):
                 for bdev in cset.bdevs:
                     if bdev.dev == bcache_name:
                         return bdev
+
+        return None
 
     def is_bcache_device(self, dev):
         """

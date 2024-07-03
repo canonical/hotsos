@@ -22,7 +22,7 @@ class EventCallbackMisc(CephEventCallbackBase):
                    'This drive needs to be inspected further using '
                    'sar/smartctl.')
             IssuesManager().add(CephOSDError(msg))
-            return
+            return None
 
         key_by_date = event.name == 'heartbeat-no-reply'
         return self.categorise_events(event, key_by_date=key_by_date)

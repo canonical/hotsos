@@ -31,16 +31,20 @@ class SOSReportChecksBase(PluginPartBase):
     @cached_property
     def version(self):
         if not self.data_root_is_sosreport:
-            return
+            return None
 
         path = os.path.join(HotSOSConfig.data_root, 'version.txt')
         if not os.path.exists(path):
-            return
+            return None
 
         with open(path) as fd:
             for line in fd:
-                if line.startswith('sosreport:'):
-                    return line.partition(' ')[2].strip()
+                if not line.startswith('sosreport:'):
+                    continue
+
+                return line.partition(' ')[2].strip()
+
+        return None
 
     @cached_property
     def timed_out_plugins(self):

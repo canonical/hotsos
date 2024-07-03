@@ -44,12 +44,13 @@ class KernelSummary(KernelChecksBase):
         return info
 
     def __0_summary_version(self):
-        if self.version:
-            return self.version
+        return self.version or None
 
     def __1_summary_boot(self):
         if self.boot_parameters:
             return ' '.join(self.boot_parameters)
+
+        return None
 
     @staticmethod
     def __2_summary_systemd():
@@ -58,13 +59,11 @@ class KernelSummary(KernelChecksBase):
             if cfg.get('CPUAffinity'):
                 return {'CPUAffinity': cfg.get('CPUAffinity')}
 
+        return None
+
     def __3_summary_cpu(self):
-        cpu_info = self.cpu_info
-        if cpu_info:
-            return cpu_info
+        return self.cpu_info or None
 
     @staticmethod
     def __4_summary_memory():
-        nodes = MemoryChecks().nodes_with_limited_high_order_memory_full
-        if nodes:
-            return nodes
+        return MemoryChecks().nodes_with_limited_high_order_memory_full or None

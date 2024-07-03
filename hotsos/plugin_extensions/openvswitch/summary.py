@@ -19,6 +19,8 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
         if self.pebble.services:
             return self.pebble.summary
 
+        return None
+
     def __1_summary_dpkg(self):
         return self.apt.all_formatted
 
@@ -35,8 +37,7 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
         if _external_ids:
             _config['external-ids'] = _external_ids
 
-        if _config:
-            return _config
+        return _config or None
 
     def __3_summary_bridges(self):
         bridges = {}
@@ -66,12 +67,10 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
 
             bridges[bridge.name] = ports
 
-        if bridges:
-            return bridges
+        return bridges or None
 
     def __4_summary_tunnels(self):
-        if self.ovs.tunnels:
-            return self.ovs.tunnels
+        return self.ovs.tunnels or None
 
     def __5_summary_ovn(self):
         info = {}
@@ -92,5 +91,4 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
                             'ports': len(ports),
                             'router-gateways': len(cr_ports)}
 
-        if info:
-            return info
+        return info or None

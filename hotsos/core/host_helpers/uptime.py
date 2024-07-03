@@ -36,7 +36,7 @@ class UptimeHelper():
         """ Total uptime in minutes. """
         if not self.subgroups:
             log.info("uptime not available")
-            return
+            return None
 
         if self.subgroups['hour']['value']:
             expr = self.subgroups['hour']['expr']
@@ -90,3 +90,5 @@ class UptimeHelper():
     def loadavg(self):
         if self.subgroups:
             return self.subgroups['loadavg']['value']
+
+        return None

@@ -10,10 +10,10 @@ class RabbitMQSummary(RabbitMQChecksBase):
         if self.pebble.services:
             return self.pebble.summary
 
+        return None
+
     def __1_summary_dpkg(self):
-        apt = self.apt.all_formatted
-        if apt:
-            return apt
+        return self.apt.all_formatted or None
 
     @property
     def queue_info(self):
@@ -43,6 +43,8 @@ class RabbitMQSummary(RabbitMQChecksBase):
                 {k: v for k, v in vhost_queue_dists.items() if v}
             return _queue_info
 
+        return None
+
     def __2_summary_config(self):
         setting = self.report.partition_handling or 'unknown'
         return {'cluster-partition-handling': setting}
@@ -63,5 +65,4 @@ class RabbitMQSummary(RabbitMQChecksBase):
         if self.report.memory_used:
             resources["memory-used-mib"] = self.report.memory_used
 
-        if resources:
-            return resources
+        return resources or None

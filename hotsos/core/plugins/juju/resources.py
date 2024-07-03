@@ -22,6 +22,8 @@ class JujuMachine():
         if name:
             return name.partition("jujud-machine-")[2]
 
+        return None
+
     @cached_property
     def config(self):
         path = glob.glob(os.path.join(self.juju_lib_path,
@@ -31,9 +33,12 @@ class JujuMachine():
 
         # NOTE: we only expect one of these to exist
         path = path[0]
+        if not os.path.exists(path):
+            return None
+
         # filter out 'sanitised' lines since they will not be valid yaml
-        if os.path.exists(path):
-            ftmp = utils.mktemp_dump("")
+        ftmp = utils.mktemp_dump("")
+        try:
             with open(ftmp, 'w') as fdtmp:
                 expr = re.compile(r"\*{9}")
                 with open(path) as fd:
@@ -43,9 +48,10 @@ class JujuMachine():
 
             with open(ftmp) as fd:
                 cfg = yaml.safe_load(fd)
-
+        finally:
             os.remove(ftmp)
-            return cfg
+
+        return cfg
 
     @cached_property
     def agent_service_name(self):
@@ -62,6 +68,8 @@ class JujuMachine():
                             'var/lib/juju/tools/machine-*/jujud')
         for path in glob.glob(path):
             return path
+
+        return None
 
     @cached_property
     def version(self):
@@ -136,6 +144,8 @@ class JujuUnit():
             # e.g. ch_3a_amd64_2f_focal_2f_mysql-innodb-cluster-30
             return manifest_file.split('_')[-1].rpartition('-')[0]
 
+        return None
+
     @cached_property
     def repo_info(self):
         """
@@ -176,7 +186,7 @@ class JujuBase():
         machine = JujuMachine(self.juju_lib_path)
         if not machine.config:
             log.debug("no juju machine identified")
-            return
+            return None
 
         return machine
 

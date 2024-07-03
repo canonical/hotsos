@@ -109,6 +109,8 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         if hasattr(self, 'check_name'):
             return getattr(self, 'check_name')
 
+        return None
+
     def _set_search_cache_info(self, results):
         """
         Set information in check cache so that it can be retrieved using

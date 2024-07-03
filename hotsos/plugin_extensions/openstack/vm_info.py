@@ -33,6 +33,8 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
         if _info:
             return _info
 
+        return None
+
 
 class SrcMigrationCallback(OpenstackEventCallbackBase):
     event_group = 'nova.migrations'
@@ -161,7 +163,7 @@ class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
         stats.run()
         top5 = stats.get_top_n_events_sorted(5)
         if not top5:
-            return
+            return None
 
         results = {"top": top5}
         # There can be a very large number of incomplete migrations so need to

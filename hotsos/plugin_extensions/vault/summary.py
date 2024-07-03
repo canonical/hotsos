@@ -10,6 +10,10 @@ class VaultSummary(VaultChecksBase):
         if self.pebble.services:
             return self.pebble.summary
 
+        return None
+
     def __1_summary_snaps(self):
         if self.snaps.core:
             return self.snaps.all_formatted
+
+        return None

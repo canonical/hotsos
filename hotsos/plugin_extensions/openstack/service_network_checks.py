@@ -86,10 +86,14 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         if config_info:
             return config_info
 
+        return None
+
     def __10_summary_phy_port_health(self):
         port_health_info = self.get_phy_port_health_info()
         if port_health_info:
             return port_health_info
+
+        return None
 
     def __11_summary_namespaces(self):
         """Populate namespace information dict."""
@@ -104,6 +108,8 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
 
         if ns_info:
             return ns_info
+
+        return None
 
     def _get_router_iface_mtus(self):
         """
@@ -172,7 +178,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """
         if not self.nova.instances:
-            return
+            return None
 
         port_health_info = {}
         for guest in self.nova.instances.values():
@@ -192,3 +198,5 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
             health = {'num-vms-checked': len(self.nova.instances),
                       'stats': port_health_info}
             return health
+
+        return None

@@ -62,7 +62,7 @@ class NetworkPort(HostHelpersBase):
         contents = self.cache.get(key)
         if not contents:
             log.debug("network port %s not found in cache", self.name)
-            return
+            return None
 
         log.debug("loading network port %s from cache", self.name)
         return contents
@@ -189,6 +189,7 @@ class HostNetworkingHelper(HostHelpersBase):
         log.debug("network helper info not available in cache "
                   "(all_namespaces=%s, namespace=%s)", all_namespaces,
                   namespace)
+        return None
 
     def cache_save(self, key, value, all_namespaces=False, namespace=None):
         log.debug("saving network helper info to cache (all_namespaces=%s, "
@@ -321,6 +322,8 @@ class HostNetworkingHelper(HostHelpersBase):
         for iface in interfaces_raw:
             yield NetworkPort(**iface)
 
+        return None
+
     @property
     def host_interfaces(self):
         if self._host_interfaces is not None:
@@ -348,16 +351,22 @@ class HostNetworkingHelper(HostHelpersBase):
             if iface.hwaddr == hwaddr:
                 return iface
 
+        return None
+
     def get_interface_with_addr(self, addr):
         for iface in self.host_interfaces_all:
             for _addr in iface.addresses:
                 if _addr.startswith(addr):
                     return iface
 
+        return None
+
     def get_interface_with_name(self, name):
         for iface in self.host_interfaces_all:
             if iface.name == name:
                 return iface
+
+        return None
 
     def host_interface_exists(self, name, check_namespaces=True):
         names = [_iface.name for _iface in self.host_interfaces]

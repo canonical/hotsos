@@ -98,6 +98,8 @@ class YDefsLoader():
                 self._loaded_defs = loaded
                 return loaded
 
+        return {}
+
 
 class YHandlerBase():
 

@@ -123,6 +123,8 @@ class CephConfig(IniConfigBase):
         if hasattr(self, orig_key):
             return getattr(self, orig_key)
 
+        return None
+
     @property
     @csv_to_set
     def cluster_network_set(self):
@@ -303,6 +305,8 @@ class CephCrushMap():
         if unequal:
             return ", ".join(unequal)
 
+        return None
+
     @cached_property
     def autoscaler_enabled_pools(self):
         if not self.ceph_report:
@@ -332,6 +336,7 @@ class CephCrushMap():
                         return True
         except (ValueError, KeyError):
             pass
+
         return False
 
 
@@ -352,6 +357,8 @@ class CephCluster():
         status = CLIHelper().ceph_status_json_decoded()
         if status:
             return status['health']['status']
+
+        return None
 
     @cached_property
     def mon_dump(self):
@@ -557,12 +564,14 @@ class CephCluster():
 
     def pool_id_to_name(self, pool_id):
         if not self.osd_dump:
-            return
+            return None
 
         pools = self.osd_dump.get('pools', [])
         for pool in pools:
             if pool['pool'] == int(pool_id):
                 return pool['pool_name']
+
+        return None
 
     @cached_property
     def large_omap_pgs(self):
@@ -585,7 +594,7 @@ class CephCluster():
     @cached_property
     def large_omap_pgs_str(self):
         if not self.large_omap_pgs:
-            return
+            return None
 
         return ', '.join(self.large_omap_pgs.keys())
 
@@ -833,10 +842,10 @@ class CephDaemonBase():
         ps_auxww.
         """
         if not get_ps_axo_flags_available():
-            return
+            return None
 
         if self.id is None:
-            return
+            return None
 
         ps_info = []
         daemon = "ceph-{}".format(self.daemon_type)
@@ -851,7 +860,7 @@ class CephDaemonBase():
                 ps_info.append(ret.group(0))
 
         if not ps_info:
-            return
+            return None
 
         _etime = None
         for cmd in ps_info:
@@ -915,7 +924,7 @@ class CephOSD(CephDaemonBase):
     def devtype(self):
         osd_tree = CLIHelper().ceph_osd_df_tree_json_decoded()
         if not osd_tree:
-            return
+            return None
 
         _devtype = None
         for node in osd_tree.get('nodes'):
@@ -972,11 +981,13 @@ class CephChecksBase(StorageBase):
 
     @cached_property
     def days_to_eol(self):
-        if self.release_name != 'unknown':
-            eol = CEPH_EOL_INFO[self.release_name]
-            today = datetime.utcfromtimestamp(int(CLIHelper().date()))
-            delta = (eol - today).days
-            return delta
+        if self.release_name == 'unknown':
+            return None
+
+        eol = CEPH_EOL_INFO[self.release_name]
+        today = datetime.utcfromtimestamp(int(CLIHelper().date()))
+        delta = (eol - today).days
+        return delta
 
     def _get_bind_interfaces(self, iface_type):
         """
@@ -999,6 +1010,8 @@ class CephChecksBase(StorageBase):
 
         if port:
             return {iface_type: port}
+
+        return None
 
     @cached_property
     def _ceph_bind_interfaces(self):
@@ -1174,6 +1187,8 @@ class CephDaemonDumpMemPools():
         val = getattr(self.cmd, 'mempool')
         if val:
             return val.get('by_pool', {}).get(name, {}).get('items')
+
+        return None
 
 
 class CephDaemonAllOSDsCommand():

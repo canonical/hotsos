@@ -106,6 +106,8 @@ class JujuSummary(JujuChecksBase):
         if self.pebble.services:
             return self.pebble.summary
 
+        return None
+
     def __1_summary_version(self):
         if self.machine:
             return self.machine.version
@@ -120,7 +122,7 @@ class JujuSummary(JujuChecksBase):
 
     def __3_summary_units(self):
         if not self.units:
-            return
+            return None
 
         unit_info = {}
         loginfo = UnitLogInfo().error_and_warnings()
@@ -141,5 +143,4 @@ class JujuSummary(JujuChecksBase):
             if u.name in loginfo:
                 unit_info[u_name]['logs'] = loginfo[u.name]
 
-        if unit_info:
-            return unit_info
+        return unit_info or None

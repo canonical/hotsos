@@ -10,23 +10,19 @@ class KubernetesSummary(KubernetesChecksBase):
         if self.pebble.services:
             return self.pebble.summary
 
+        return None
+
     def __2_summary_snaps(self):
-        snaps = self.snaps.all_formatted
-        if snaps:
-            return snaps
+        return self.snaps.all_formatted or None
 
     def __3_summary_dpkg(self):
-        dpkg = self.apt.all_formatted
-        if dpkg:
-            return dpkg
+        return self.apt.all_formatted or None
 
     def __4_summary_pods(self):
-        if self.pods:
-            return self.pods
+        return self.pods or None
 
     def __5_summary_containers(self):
-        if self.containers:
-            return self.containers
+        return self.containers or None
 
     def __6_summary_flannel(self):
         info = {}
@@ -35,5 +31,4 @@ class KubernetesSummary(KubernetesChecksBase):
             if port.addresses:
                 info[port.name]['addr'] = port.addresses[0]
 
-        if info:
-            return info
+        return info or None

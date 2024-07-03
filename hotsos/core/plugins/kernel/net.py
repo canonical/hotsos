@@ -331,7 +331,7 @@ class SockStat(ProcNetBase):
     def _process_file(self, fname):
         if not os.path.exists(fname):
             log.debug("file not found '%s' - skipping load", fname)
-            return
+            return None
 
         log.debug("start processing %s", fname)
         with open(fname) as fd:
@@ -355,6 +355,8 @@ class SockStat(ProcNetBase):
                                 "for `%s`, bad data `%s` (%s)",
                                 label, stats, e)
                     continue
+
+        return None
 
     @property
     def _header(self):
@@ -621,7 +623,8 @@ class NetLink(STOVParserBase):
     @property
     def all_with_drops_str(self):
         if not self.all_with_drops:
-            return
+            return None
+
         drops_info = [
             f"\tnlsock inode `{nlsock.sk_inode_num}`: "
             f"procs[{','.join(nlsock.procs)}]"

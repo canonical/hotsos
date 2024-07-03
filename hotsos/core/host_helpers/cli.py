@@ -478,6 +478,8 @@ class OVSOFCtlFileCmd(OVSOFCtlCmdBase, FileCmd):
             log.debug("%s: command with no protocol version failed",
                       self.__class__.__name__)
 
+        return None
+
 
 class DateBinCmd(BinCmd):
 
@@ -660,6 +662,8 @@ class SourceRunner():
                 return CmdOutput(exc.return_value)
             except SourceNotFound:
                 pass
+
+        return None
 
     def _execute(self, *args, **kwargs):
         # always try file sources first
@@ -1118,6 +1122,8 @@ class CLIHelperFile(CLIHelperBase):
         except KeyError as exc:
             raise CommandNotFound(cmdname, exc) from exc
 
+        return None
+
 
 def get_ps_axo_flags_available():
     path = os.path.join(HotSOSConfig.data_root,
@@ -1129,7 +1135,7 @@ def get_ps_axo_flags_available():
         _paths.append(path)
 
     if not _paths:
-        return
+        return None
 
     # strip data_root since it will be prepended later
     return _paths[0].partition(HotSOSConfig.data_root)[2]

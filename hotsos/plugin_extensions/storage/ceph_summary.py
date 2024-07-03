@@ -13,8 +13,11 @@ class CephSummary(CephChecksBase):
         """Get string info for running services."""
         if self.systemd.services:
             return self.systemd.summary
+
         if self.pebble.services:
             return self.pebble.summary
+
+        return None
 
     def __2_summary_dpkg(self):
         # require at least one core package to be installed to include
@@ -22,13 +25,16 @@ class CephSummary(CephChecksBase):
         if self.apt.core:
             return self.apt.all_formatted
 
+        return None
+
     def __2_summary_snaps(self):
         if self.snaps.core:
             return self.snaps.all_formatted
 
+        return None
+
     def __3_summary_status(self):
-        if self.cluster.health_status:
-            return self.cluster.health_status
+        return self.cluster.health_status or None
 
     def __4_summary_network(self):
         """ Identify ports used by Ceph daemons, include them in output
@@ -41,22 +47,26 @@ class CephSummary(CephChecksBase):
         if net_info:
             return net_info
 
+        return None
+
     def __5_summary_osd_pgs_near_limit(self):
         if self.cluster.osds_pgs_above_max:
             return self.cluster.osds_pgs_above_max
+
+        return None
 
     def __6_summary_osd_pgs_suboptimal(self):
         if self.cluster.osds_pgs_suboptimal:
             return self.cluster.osds_pgs_suboptimal
 
+        return None
+
     def __7_summary_versions(self):
         versions = self.cluster.ceph_daemon_versions_unique()
-        if versions:
-            return versions
+        return versions or None
 
     def __8_summary_mgr_modules(self):
-        if self.cluster.mgr_modules:
-            return self.cluster.mgr_modules
+        return self.cluster.mgr_modules or None
 
     def __9_summary_local_osds(self):
         if self.local_osds:
@@ -66,10 +76,10 @@ class CephSummary(CephChecksBase):
 
             return sorted_dict(osds)
 
+        return None
+
     def __10_summary_crush_rules(self):
-        if self.cluster.crush_map.rules:
-            return self.cluster.crush_map.rules
+        return self.cluster.crush_map.rules or None
 
     def __11_summary_large_omap_pgs(self):
-        if self.cluster.large_omap_pgs:
-            return self.cluster.large_omap_pgs
+        return self.cluster.large_omap_pgs or None

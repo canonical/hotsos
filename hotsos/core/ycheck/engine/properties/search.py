@@ -160,7 +160,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
     def simple_search(self):
         if (self.is_sequence_search or not self.search_pattern or
                 self.passthrough_results):
-            return
+            return None
 
         sdef = self.cache.simple_search
         if sdef:
@@ -184,7 +184,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
     @property
     def sequence_search(self):
         if not self.is_sequence_search or self.passthrough_results:
-            return
+            return None
 
         sdef = self.cache.sequence_search
         if sdef:
@@ -217,11 +217,12 @@ class YPropertySearchBase(YPropertyOverrideBase):
                     "start=%s, body=%s, end=%s",
                     self.passthrough_results, seq_start, seq_body,
                     seq_end)
+        return None
 
     @property
     def sequence_passthrough_search(self):
         if not self.is_sequence_search or not self.passthrough_results:
-            return
+            return None
 
         sdef = self.cache.sequence_passthrough_search
         if sdef:
@@ -230,14 +231,16 @@ class YPropertySearchBase(YPropertyOverrideBase):
         seq_start = self.start
         seq_end = self.end
 
-        if self.passthrough_results and all([seq_start, seq_end]):
-            # start and end required for core.analytics.LogEventStats
-            start_tag = "{}-start".format(self.unique_search_tag)
-            end_tag = "{}-end".format(self.unique_search_tag)
-            sdefs = [SearchDef(str(seq_start.search_pattern), tag=start_tag),
-                     SearchDef(str(seq_end.search_pattern), tag=end_tag)]
-            self.cache.set('sequence_passthrough_search', sdefs)
-            return sdefs
+        if not (self.passthrough_results and all([seq_start, seq_end])):
+            return None
+
+        # start and end required for core.analytics.LogEventStats
+        start_tag = "{}-start".format(self.unique_search_tag)
+        end_tag = "{}-end".format(self.unique_search_tag)
+        sdefs = [SearchDef(str(seq_start.search_pattern), tag=start_tag),
+                 SearchDef(str(seq_end.search_pattern), tag=end_tag)]
+        self.cache.set('sequence_passthrough_search', sdefs)
+        return sdefs
 
     def load_searcher(self, searchobj, search_path, allow_constraints=True):
         """ Load search definitions into the given searcher object. """
@@ -246,21 +249,21 @@ class YPropertySearchBase(YPropertyOverrideBase):
             log.debug("loading simple search")
             searchobj.add(sdef, search_path,
                           allow_global_constraints=allow_constraints)
-            return
-
-        sdef = self.sequence_search
-        if sdef:
-            log.debug("loading sequence search")
-            searchobj.add(sdef, search_path,
-                          allow_global_constraints=allow_constraints)
-            return
-
-        sdef = self.sequence_passthrough_search
-        if sdef:
-            log.debug("loading sequence passthrough searches")
-            for _sdef in sdef:
-                searchobj.add(_sdef, search_path,
+        else:
+            sdef = self.sequence_search
+            if sdef:
+                log.debug("loading sequence search")
+                searchobj.add(sdef, search_path,
                               allow_global_constraints=allow_constraints)
+            else:
+                sdef = self.sequence_passthrough_search
+                if sdef:
+                    log.debug("loading sequence passthrough searches")
+                    for _sdef in sdef:
+                        searchobj.add(
+                            _sdef,
+                            search_path,
+                            allow_global_constraints=allow_constraints)
 
 
 class YPropertySearchOpt(YPropertyOverrideBase):

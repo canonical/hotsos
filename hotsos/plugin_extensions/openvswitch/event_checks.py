@@ -18,6 +18,8 @@ class OVSEventCallbackVSwitchd(OpenvSwitchEventCallbackBase):
         if ret:
             return {event.name: ret}, 'ovs-vswitchd'
 
+        return None
+
 
 class OVSEventCallbackLogs(OpenvSwitchEventCallbackBase):
     event_group = 'ovs'
@@ -38,6 +40,8 @@ class OVSEventCallbackLogs(OpenvSwitchEventCallbackBase):
         if ret:
             return {event.name: ret}, event.section
 
+        return None
+
 
 class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
     event_group = 'ovs'
@@ -50,6 +54,8 @@ class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
         ret = self.categorise_events(event, results=results, key_by_date=False)
         if ret:
             return {event.name: ret}, event.section
+
+        return None
 
 
 class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
@@ -141,6 +147,8 @@ class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
             output_key = "{}-port-stats".format(event.section)
             return stats_sorted, output_key
 
+        return None
+
 
 class OVSEventCallbackBFD(OpenvSwitchEventCallbackBase):
     event_group = 'ovs'
@@ -186,6 +194,8 @@ class OVSEventCallbackBFD(OpenvSwitchEventCallbackBase):
         stats['all-ports-day-avg'] = sorted_dict(stats['all-ports-day-avg'])
         if stats:
             return {'bfd': {'state-change-stats': stats}}, 'ovs-vswitchd'
+
+        return None
 
 
 class OVSEventCallback4(OpenvSwitchEventCallbackBase):
@@ -239,6 +249,8 @@ class OVNEventCallbackLogs(OpenvSwitchEventCallbackBase):
                                      squash_if_none_keys=True)
         if ret:
             return {event.name: ret}, event.section
+
+        return None
 
 
 class OVNEventCallbackContextSwitches(OpenvSwitchEventCallbackBase):

@@ -144,12 +144,12 @@ class EventProcessingUtils():
     @classmethod
     def _sort_results(cls, categorised_results, key_by_date, include_time):
         log.debug("sorting categorised results")
+        if all([key_by_date, include_time]):
+            return {}
+
         # sort main dict keys
         categorised_results = sorted_dict(categorised_results,
                                           reverse=not key_by_date)
-
-        if all([key_by_date, include_time]):
-            return
 
         # Sort values if they are dicts.
         for key, value in categorised_results.items():
@@ -230,7 +230,7 @@ class EventProcessingUtils():
                            squash_if_none_keys)
 
         if not categorised_results:
-            return
+            return {}
 
         categorised_results = cls._sort_results(categorised_results,
                                                 key_by_date, include_time)
@@ -423,6 +423,8 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         if search_results:
             return search_results.values()
 
+        return {}
+
     def run(self):
         """
         Process each event and call respective callback functions when results
@@ -497,3 +499,5 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
         if info:
             self._event_results = info
             return info
+
+        return {}

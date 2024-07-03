@@ -179,6 +179,7 @@ class TestYamlEvents(utils.BaseTestCase):
                     return self.my_passthrough_search(event)
 
                 test_self.assertEqual(event.results[0].get(0), 'hello')
+                return None
 
         class MyEventHandler(EventHandlerBase):
 

@@ -296,7 +296,7 @@ class PartManager():
 
     def all(self):
         if not self.indexes:
-            return
+            return {}
 
         parts = {}
         for index in sorted(self.indexes):
@@ -399,8 +399,10 @@ class PluginPartBase(ApplicationBase):
     @property
     def raw_output(self):
         out = self.output
-        if out:
-            return {key: entry.data for key, entry in out.items()}
+        if not out:
+            return {}
+
+        return {key: entry.data for key, entry in out.items()}
 
 
 class PluginRunner():
