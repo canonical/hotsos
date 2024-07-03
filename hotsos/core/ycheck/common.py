@@ -267,14 +267,18 @@ class GlobalSearcherAutoRegisterBase(metaclass=GlobalSearcherAutoRegisterMeta):
         return False
 
     @classmethod
-    @abc.abstractmethod
     def simple_search(cls):
-        """ Returns SearchDef object. """
+        """ Returns SearchDef object.
+
+        NOTE: either this or sequence_search must be implemented but not both.
+        """
 
     @classmethod
-    @abc.abstractmethod
     def sequence_search(cls):
-        """ Returns a SequenceSearchDef object. """
+        """ Returns a SequenceSearchDef object.
+
+        NOTE: either this or simple_search must be implemented but not both.
+        """
 
     @classmethod
     @abc.abstractmethod

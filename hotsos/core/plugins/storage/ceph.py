@@ -1,3 +1,4 @@
+import abc
 import os
 import re
 import subprocess
@@ -1216,4 +1217,7 @@ class CephDaemonAllOSDsFactory(FactoryBase):
 
 
 class CephEventCallbackBase(EventCallbackBase):
-    pass
+
+    @abc.abstractmethod
+    def __call__(self):
+        """ Callback method. """

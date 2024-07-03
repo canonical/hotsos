@@ -1,3 +1,4 @@
+import abc
 from datetime import datetime
 import os
 import re
@@ -255,6 +256,10 @@ class OpenstackEventCallbackBase(OpenstackBase, EventCallbackBase):
             kwargs['include_time'] = include_time
 
         return super().categorise_events(*args, **kwargs)
+
+    @abc.abstractmethod
+    def __call__(self):
+        """ Callback method. """
 
 
 class OpenstackEventHandlerBase(OpenstackChecksBase, EventHandlerBase):

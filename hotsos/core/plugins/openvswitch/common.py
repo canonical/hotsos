@@ -1,3 +1,5 @@
+import abc
+
 from hotsos.core import plugintools
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
@@ -29,6 +31,11 @@ PY_CLIENT_PREFIX = r"python3?-{}\S*"
 class OpenvSwitchGlobalSearch(GlobalSearcherAutoRegisterBase):
     plugin_name = "openvswitch"
 
+    @classmethod
+    @abc.abstractmethod
+    def paths(cls):
+        """ Returns a list of one or more paths to search. """
+
 
 class OpenvSwitchChecksBase(plugintools.PluginPartBase):
     plugin_name = "openvswitch"
@@ -58,6 +65,10 @@ class OpenvSwitchEventCallbackBase(EventCallbackBase):
             kwargs['include_time'] = include_time
 
         return super().categorise_events(*args, **kwargs)
+
+    @abc.abstractmethod
+    def __call__(self):
+        """ Callback method. """
 
 
 class OpenvSwitchEventHandlerBase(OpenvSwitchChecksBase, EventHandlerBase):
