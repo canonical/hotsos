@@ -105,31 +105,40 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
         if ns_info:
             return ns_info
 
+    def _get_router_iface_mtus(self):
+        """
+        Get the mtu of each qr and qg port in every qrouter or snat namespace.
+
+        @return: dictionary of port prefixes and list of mtus associated with
+                 those prefixes.
+        """
+        router_mtus = {}
+        for ns in self.cli.ip_netns():
+            # strip index
+            ns = ns.partition(" ")[0]
+            for nsprefix in ['qrouter', 'snat']:
+                if not ns.startswith(nsprefix):
+                    continue
+
+                for port in HostNetworkingHelper().get_ns_interfaces(ns):
+                    for pprefix in ['qr', 'sg']:
+                        if not port.name.startswith(pprefix):
+                            continue
+
+                        if pprefix not in router_mtus:
+                            router_mtus[pprefix] = set()
+
+                        router_mtus[pprefix].add(port.mtu)
+
+        return {prefix: list(mtus) for prefix, mtus in router_mtus.items()}
+
     def __12_summary_router_port_mtus(self):
         """ Provide a summary of ml2-ovs router port mtus. """
         phy_mtus = set()
-        router_mtus = {}
         project = getattr(self, 'neutron')
         if project and project.bind_interfaces:
             for port in project.bind_interfaces.values():
                 phy_mtus.add(port.mtu)
-
-            for ns in self.cli.ip_netns():
-                # strip index
-                ns = ns.partition(" ")[0]
-                for nsprefix in ['qrouter', 'snat']:
-                    if not ns.startswith(nsprefix):
-                        continue
-
-                    for port in HostNetworkingHelper().get_ns_interfaces(ns):
-                        for pprefix in ['qr', 'sg']:
-                            if not port.name.startswith(pprefix):
-                                continue
-
-                            if pprefix not in router_mtus:
-                                router_mtus[pprefix] = set()
-
-                            router_mtus[pprefix].add(port.mtu)
 
             tunnels = OpenvSwitchBase().tunnels
             # ip header
@@ -140,11 +149,10 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                 # gre
                 overhead += GRE_HEADER_BYTES
 
+            router_mtus = self._get_router_iface_mtus()
             all_router_mtus = set()
-            for prefix, mtus in router_mtus.items():
-                router_mtus[prefix] = list(mtus)
-                for mtu in mtus:
-                    all_router_mtus.add(mtu)
+            for mtus in router_mtus.values():
+                all_router_mtus.update(mtus)
 
             if phy_mtus and all_router_mtus:
                 smallest_allowed = min(phy_mtus) - overhead

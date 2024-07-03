@@ -126,18 +126,22 @@ class NetworkPort(HostHelpersBase):
         # NOTE: we only expect one match
         for i, line in enumerate(stats_raw):
             ret = re.compile(r"\s+([RT]X):\s+.+").findall(line)
-            if ret:
-                rxtx = ret[0].lower()
-                ret = re.compile(r"\s*([a-z]+)\s*").findall(line)
-                if ret:
-                    for j, column in enumerate(ret):
-                        value = int(stats_raw[i + 1].split()[j])
-                        if column in ['packets', 'dropped', 'errors',
-                                      'overrun']:
-                            if rxtx not in counters:
-                                counters[rxtx] = {}
+            if not ret:
+                continue
 
-                            counters[rxtx][column] = value
+            rxtx = ret[0].lower()
+            ret = re.compile(r"\s*([a-z]+)\s*").findall(line)
+            if not ret:
+                continue
+
+            for j, column in enumerate(ret):
+                value = int(stats_raw[i + 1].split()[j])
+                if column in ['packets', 'dropped', 'errors',
+                              'overrun']:
+                    if rxtx not in counters:
+                        counters[rxtx] = {}
+
+                    counters[rxtx][column] = value
 
         if counters:
             self.cache_save(counters)
