@@ -110,6 +110,10 @@ class BcacheBase(StorageBase):
 
         return False
 
+    @property
+    def plugin_runnable(self):
+        return self.bcache_enabled
+
     @cached_property
     def udev_bcache_devs(self):
         """ If bcache devices exist fetch information and return as a list. """
@@ -260,7 +264,3 @@ class BcacheChecksBase(BcacheBase):
     @property
     def summary_subkey(self):
         return 'bcache'
-
-    @property
-    def plugin_runnable(self):
-        return self.bcache_enabled

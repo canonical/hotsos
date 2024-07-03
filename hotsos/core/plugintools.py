@@ -209,10 +209,10 @@ class ApplicationBase(metaclass=PluginRegistryMeta):
 
     @property
     def bind_interfaces(self):
-        """Implement this method to return a dict of network interfaces used
-        by this application.
         """
-        raise NotImplementedError
+        Optionally implement this method to return a dictionary of network
+        interfaces used by this application.
+        """
 
 
 class SummaryEntry():

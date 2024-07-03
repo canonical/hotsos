@@ -184,6 +184,14 @@ class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
 class YRequirementTypeWithOpsBase(YRequirementTypeBase):
 
     @property
+    @abc.abstractmethod
+    def _result(self):
+        """ Assert whether the requirement is met.
+
+        Returns True if met otherwise False.
+        """
+
+    @property
     def default_ops(self):
         return [['truth']]
 
