@@ -78,7 +78,9 @@ def get_repo_info():
                                       stderr=subprocess.DEVNULL)
         if not out:
             return "unknown"
-    except Exception:
+    # We really do want to catch all here since we don't care why it failed
+    # but don't want to fail hard if it does.
+    except Exception:  # pylint: disable=W0718
         return "unknown"
 
     return out.decode().strip()

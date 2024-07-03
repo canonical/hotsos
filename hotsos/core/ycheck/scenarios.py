@@ -217,7 +217,9 @@ class YScenarioChecker(YHandlerBase):
             # catch failed scenarios and allow others to run
             try:
                 self._run_scenario_conclusion(scenario, issue_mgr)
-            except Exception:
+            # We really do want to catch all here since we don't care why
+            # it failed but don't want to fail hard if it does.
+            except Exception:  # pylint: disable=W0718
                 log.exception("caught exception when running scenario %s:",
                               scenario.name)
                 failed_scenarios.append(scenario.name)

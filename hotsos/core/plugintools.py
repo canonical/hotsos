@@ -415,7 +415,9 @@ class PluginRunner():
         for preloader in [EventsSearchPreloader, ScenariosSearchPreloader]:
             try:
                 preloader(global_searcher).run()
-            except Exception as exc:
+            # We really do want to catch all here since we don't care why
+            # it failed but don't want to fail hard if it does.
+            except Exception as exc:  # pylint: disable=W0718
                 name = preloader.__name__
                 self.failed_parts.append(name)
                 log.exception("search preloader '%s' raised exception: %s",
@@ -435,7 +437,9 @@ class PluginRunner():
             HotSOSConfig.part_name = name
             try:
                 always_parts(global_searcher).run()
-            except Exception as exc:
+            # We really do want to catch all here since we don't care why
+            # it failed but don't want to fail hard if it does.
+            except Exception as exc:  # pylint: disable=W0718
                 self.failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
 
@@ -474,7 +478,9 @@ class PluginRunner():
                 # output property.
                 output = inst.output
                 subkey = inst.summary_subkey
-            except Exception as exc:
+            # We really do want to catch all here since we don't care why
+            # it failed but don't want to fail hard if it does.
+            except Exception as exc:  # pylint: disable=W0718
                 self.failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
                 output = None

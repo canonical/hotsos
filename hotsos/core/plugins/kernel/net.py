@@ -350,7 +350,7 @@ class SockStat(ProcNetBase):
                     # Convert string values to `int``
                     stats = {k: int(v) for k, v in stats.items()}
                     self._data[label] = stats
-                except Exception as e:
+                except ValueError as e:
                     log.warning("badness: failed to parse statistics "
                                 "for `%s`, bad data `%s` (%s)",
                                 label, stats, e)
