@@ -1,7 +1,6 @@
 import abc
 
 from hotsos.core import plugintools
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     PebbleHelper,
@@ -59,12 +58,9 @@ class OpenvSwitchChecksBase(plugintools.PluginPartBase):
 
 class OpenvSwitchEventCallbackBase(EventCallbackBase):
 
-    def categorise_events(self, *args, **kwargs):
-        if 'include_time' not in kwargs:
-            include_time = HotSOSConfig.event_tally_granularity == 'time'
-            kwargs['include_time'] = include_time
-
-        return super().categorise_events(*args, **kwargs)
+    @classmethod
+    def global_event_tally_time_granularity_override(cls):
+        return True
 
     @abc.abstractmethod
     def __call__(self):

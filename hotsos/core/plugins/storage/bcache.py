@@ -17,7 +17,7 @@ from hotsos.core.utils import sort_suffixed_integers
 
 class BcacheConfig(ConfigBase):
 
-    def get(self, key):
+    def get(self, key, section=None, expand_to_list=False):
         cfg = os.path.join(self.path, key)
         if os.path.exists(cfg):
             with open(cfg) as fd:

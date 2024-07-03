@@ -78,7 +78,8 @@ class MemInfo(_BaseProcKeyValue):
     def path(self):
         return os.path.join(HotSOSConfig.data_root, 'proc/meminfo')
 
-    def key_val_sep(self):
+    @staticmethod
+    def key_val_sep():
         return r':?\s+'
 
     @property

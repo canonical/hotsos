@@ -68,7 +68,7 @@ class IssuesStoreBase(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def add(self):
+    def add(self, issue):
         pass
 
 

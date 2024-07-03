@@ -58,8 +58,8 @@ class NetworkPort(HostHelpersBase):
 
         return "port-{}".format(self.name)
 
-    def cache_load(self):
-        contents = self.cache.get('stats')  # pylint: disable=E1111
+    def cache_load(self, key):
+        contents = self.cache.get(key)
         if not contents:
             log.debug("network port %s not found in cache", self.name)
             return
@@ -67,9 +67,9 @@ class NetworkPort(HostHelpersBase):
         log.debug("loading network port %s from cache", self.name)
         return contents
 
-    def cache_save(self, data):
+    def cache_save(self, key, value):
         log.debug("saving network port %s to cache", self.name)
-        self.cache.set('stats', data)
+        self.cache.set(key, value)
 
     def to_dict(self):
         info = {'addresses': copy.deepcopy(self.addresses),
@@ -98,7 +98,7 @@ class NetworkPort(HostHelpersBase):
     @property
     def stats(self):
         """ Get ip link info for the interface. """
-        counters = self.cache_load() or {}
+        counters = self.cache_load('stats') or {}
         if counters:
             return counters
 
@@ -144,7 +144,7 @@ class NetworkPort(HostHelpersBase):
                     counters[rxtx][column] = value
 
         if counters:
-            self.cache_save(counters)
+            self.cache_save('stats', counters)
             return counters
 
         return {}
@@ -167,7 +167,7 @@ class HostNetworkingHelper(HostHelpersBase):
         # this is a global cache i.e. shared by all plugins
         return 'network-helper'
 
-    def cache_load(self, all_namespaces=False, namespace=None):
+    def cache_load(self, key, all_namespaces=False, namespace=None):
         """
         @param all_namespaces: Set to True to if we are retrieving network info
                                for all namespaces.
@@ -177,11 +177,11 @@ class HostNetworkingHelper(HostHelpersBase):
         log.debug("loading network helper info from cache (all_namespaces=%s, "
                   "namespace=%s)", all_namespaces, namespace)
         if namespace is not None:
-            contents = self.cache.get('ns-{}-interfaces'.format(namespace))  # noqa, pylint: disable=E1111
+            contents = self.cache.get(f'ns-{namespace}-{key}')
         elif all_namespaces:
-            contents = self.cache.get('ns-interfaces')  # pylint: disable=E1111
+            contents = self.cache.get(f'ns-{key}')
         else:
-            contents = self.cache.get('interfaces')  # pylint: disable=E1111
+            contents = self.cache.get(key)
 
         if contents:
             return contents
@@ -190,15 +190,15 @@ class HostNetworkingHelper(HostHelpersBase):
                   "(all_namespaces=%s, namespace=%s)", all_namespaces,
                   namespace)
 
-    def cache_save(self, data, all_namespaces=False, namespace=None):
+    def cache_save(self, key, value, all_namespaces=False, namespace=None):
         log.debug("saving network helper info to cache (all_namespaces=%s, "
                   "namespaces=%s)", all_namespaces, namespace)
         if namespace is not None:
-            self.cache.set('ns-{}-interfaces'.format(namespace), data)
+            self.cache.set(f'ns-{namespace}-{key}', value)
         elif all_namespaces:
-            self.cache.set('ns-interfaces', data)
+            self.cache.set(f'ns-{key}', value)
         else:
-            self.cache.set('interfaces', data)
+            self.cache.set(key, value)
 
     @staticmethod
     def _extract_iface_info(seqdef, section, search_obj):
@@ -250,7 +250,8 @@ class HostNetworkingHelper(HostHelpersBase):
         @param namespace: name of namespace
         @return: generator of NetworkPort objects
         """
-        interfaces_raw = self.cache_load(namespace=namespace) or []
+        interfaces_raw = self.cache_load('interfaces',
+                                         namespace=namespace) or []
         if not interfaces_raw:
             seq = self._ip_addr_show_iface_sequence_def
             search_obj = FileSearcher()
@@ -268,7 +269,7 @@ class HostNetworkingHelper(HostHelpersBase):
             finally:
                 os.unlink(path)
 
-            self.cache_save(interfaces_raw, namespace=namespace)
+            self.cache_save('interfaces', interfaces_raw, namespace=namespace)
 
         for iface in interfaces_raw:
             yield NetworkPort(**iface)
@@ -281,7 +282,8 @@ class HostNetworkingHelper(HostHelpersBase):
         namespaces on the host.
         @return: list of NetworkPort objects for each interface found.
         """
-        interfaces_raw = self.cache_load(all_namespaces=all_namespaces) or []
+        interfaces_raw = self.cache_load('interfaces',
+                                         all_namespaces=all_namespaces) or []
         if not interfaces_raw:
             seq = self._ip_addr_show_iface_sequence_def
             search_obj = FileSearcher()
@@ -313,7 +315,8 @@ class HostNetworkingHelper(HostHelpersBase):
                 finally:
                     os.unlink(path)
 
-            self.cache_save(interfaces_raw, all_namespaces=all_namespaces)
+            self.cache_save('interfaces', interfaces_raw,
+                            all_namespaces=all_namespaces)
 
         for iface in interfaces_raw:
             yield NetworkPort(**iface)

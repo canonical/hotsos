@@ -737,8 +737,8 @@ class CLIHelperBase(HostHelpersBase):
     def cache_load(self, key):
         return self.cache.get(key)
 
-    def cache_save(self, key, output):
-        return self.cache.set(key, output)
+    def cache_save(self, key, value):
+        return self.cache.set(key, value)
 
     @property
     def command_catalog(self):
