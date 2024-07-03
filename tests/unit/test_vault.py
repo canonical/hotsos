@@ -23,9 +23,8 @@ class TestVaultSummary(VaultTestsBase):
                          ['vault 1.5.9'])
 
     def test_services(self):
-        # TODO: this needs fixing - the pid is not identifiable
+        # NOTE: this needs fixing - the pid is not identifiable
         # under the vault.service but instead under a .scope of
-        #
         # snap.vault.vault
         expected = {'ps': [],
                     'systemd': {
