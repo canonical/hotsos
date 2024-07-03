@@ -172,6 +172,11 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 class YPropertyChecks(YPropertyOverrideBase):
     _override_keys = ['checks']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._initialised = False
+        self.check_context = YDefsContext()
+
     def initialise(self, local_vardefs):
         """
         Perform initialisation tasks for this set of checks.
@@ -184,12 +189,13 @@ class YPropertyChecks(YPropertyOverrideBase):
                               defined in the context of these checks and that
                               we wil pass on the all check def and properties.
         """
-        self.check_context = YDefsContext({'vars': local_vardefs})
+        self.check_context.update({'vars': local_vardefs})
+        self._initialised = True
 
     @cached_property
     def _checks(self):
         log.debug("parsing checks section")
-        if not hasattr(self, 'check_context'):
+        if not self._initialised:
             raise Exception("checks not yet initialised")
 
         resolved = []
