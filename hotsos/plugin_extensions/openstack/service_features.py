@@ -92,8 +92,6 @@ class ServiceFeatureChecks(OpenstackChecksBase):
 
                 module_features = self._get_module_features(service, module,
                                                             sections, cfg)
-                # TODO: only include modules for which there is an actual agent
-                #       installed since otherwise their config is irrelevant.
                 if not module_features:
                     continue
 

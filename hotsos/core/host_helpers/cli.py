@@ -295,8 +295,6 @@ class BinFileCmd(FileCmd):
     @run_post_exec_hooks
     @run_pre_exec_hooks
     def __call__(self, *args, **kwargs):
-        # TODO: find a better way to handle this because path may still need
-        # formatting.
         if not os.path.exists(self.original_path):
             raise SourceNotFound(self.original_path)
 
