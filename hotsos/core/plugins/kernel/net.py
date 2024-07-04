@@ -97,8 +97,7 @@ class ProcNetBase(abc.ABC):
         if fld in self._fields:
             return self._get_field(self._header, fld)
 
-        raise AttributeError("{} not found in {}".
-                             format(fld, self.__class__.__name__))
+        raise AttributeError(f"{fld} not found in {self.__class__.__name__}")
 
 
 class SNMPBase(ProcNetBase):
@@ -311,10 +310,7 @@ class SockStat(ProcNetBase):
         self._maybe_parse_sysctl_net_ipv4_xmem("UDP")
 
     def _maybe_parse_sysctl_net_ipv4_xmem(self, key):
-        xmem = getattr(
-            SYSCtlFactory(),
-            'net.ipv4.{}_mem'.format(key.lower())
-        )
+        xmem = getattr(SYSCtlFactory(), f'net.ipv4.{key.lower()}_mem')
         # Some environments may not have all the sysctl
         # parameters present, so make parsing `optional`
         if xmem is not None:
@@ -398,8 +394,7 @@ class SockStat(ProcNetBase):
                 self._fields[fld][1]
             )
 
-        raise AttributeError("{} not found in {}".
-                             format(fld, self.__class__.__name__))
+        raise AttributeError(f"{fld} not found in {self.__class__.__name__}")
 
 
 class STOVParserBase(UserList):
@@ -519,7 +514,7 @@ class Lsof(STOVParserBase):
 
             # These fields can be empty/None
             if key in ['TYPE', 'DEVICE', 'SIZE/OFF', 'NODE']:
-                _expr = '{}?'.format(_expr)
+                _expr = f'{_expr}?'
 
             expr.append(_expr)
 

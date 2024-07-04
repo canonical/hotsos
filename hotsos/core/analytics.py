@@ -203,19 +203,19 @@ class LogEventStats():
         """
         seq_idxs = self.log_seq_idxs
 
-        end_tag = "{}-end".format(self.results_tag_prefix)
+        end_tag = f"{self.results_tag_prefix}-end"
         for result in self.results.find_by_tag(end_tag):
             day = result.get(seq_idxs.day)
             secs = result.get(seq_idxs.secs)
-            end = "{} {}".format(day, secs)
+            end = f"{day} {secs}"
             end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S.%f")
             self.data.add_event_end(result.get(seq_idxs.event_id), end)
 
-        start_tag = "{}-start".format(self.results_tag_prefix)
+        start_tag = f"{self.results_tag_prefix}-start"
         for result in self.results.find_by_tag(start_tag):
             day = result.get(seq_idxs.day)
             secs = result.get(seq_idxs.secs)
-            start = "{} {}".format(day, secs)
+            start = f"{day} {secs}"
             start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S.%f")
             metadata = result.get(seq_idxs.metadata)
             meta_key = seq_idxs.metadata_key

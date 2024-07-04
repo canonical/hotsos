@@ -336,7 +336,7 @@ class OSTProject():
 
     @cached_property
     def services_expr(self):
-        exprs = ['{}{}'.format(self.name, self.SVC_VALID_SUFFIX)]
+        exprs = [f'{self.name}{self.SVC_VALID_SUFFIX}']
         if self.systemd_extra_services:
             exprs += self.systemd_extra_services
         return exprs
@@ -356,8 +356,8 @@ class OSTProject():
         """
         Returns tuples of daemon name, log path for each agent/daemon.
         """
-        proj_manage = "{}-manage".format(self.name)
-        path = os.path.join('var/log', self.name, "{}.log".format(proj_manage))
+        proj_manage = f"{self.name}-manage"
+        path = os.path.join('var/log', self.name, f"{proj_manage}.log")
         yield proj_manage, [path]
         for svc in self.services:
             if (not include_deprecated_services and
@@ -365,7 +365,7 @@ class OSTProject():
                 continue
 
             path = os.path.join('var/log', self.name,
-                                "{}.log".format(svc))
+                                f"{svc}.log")
             yield svc, self.log_path_overrides.get(svc, [path])
 
 
@@ -374,8 +374,8 @@ class OSTProjectCatalog():
     OST_SERVICES_DEPS = ['dnsmasq',
                          r'(?:nfs-)?ganesha\S*',
                          'haproxy',
-                         r"keepalived{}".format(OSTProject.SVC_VALID_SUFFIX),
-                         r"vault{}".format(OSTProject.SVC_VALID_SUFFIX),
+                         rf"keepalived{OSTProject.SVC_VALID_SUFFIX}",
+                         rf"vault{OSTProject.SVC_VALID_SUFFIX}",
                          r'qemu-system-\S+',
                          'radvd',
                          ]
@@ -484,7 +484,7 @@ class OSTProjectCatalog():
         if name in self._projects:
             return self._projects[name]
 
-        raise AttributeError("project {} not found".format(name))
+        raise AttributeError(f"project {name} not found")
 
     @cached_property
     def all(self):

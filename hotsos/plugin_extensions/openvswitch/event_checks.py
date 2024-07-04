@@ -48,7 +48,7 @@ class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
     event_names = ['deferred-action-limit-reached']
 
     def __call__(self, event):
-        results = [{'date': "{} {}".format(r.get(1), r.get(2)),
+        results = [{'date': f"{r.get(1)} {r.get(2)}",
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]
         ret = self.categorise_events(event, results=results, key_by_date=False)
@@ -131,20 +131,20 @@ class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
 
         if stats:
             if all_dropped:
-                msg = ("found {} ovs interfaces with 100% dropped packets."
-                       .format(len(all_dropped)))
+                msg = (f"found {len(all_dropped)} ovs interfaces with 100% "
+                       "dropped packets.")
                 IssuesManager().add(OpenvSwitchWarning(msg))
 
             if all_errors:
-                msg = ("found {} ovs interfaces with 100% packet errors."
-                       .format(len(all_errors)))
+                msg = (f"found {len(all_errors)} ovs interfaces with 100% "
+                       "packet errors.")
                 IssuesManager().add(OpenvSwitchWarning(msg))
 
             stats_sorted = {}
             for k in sorted(stats):
                 stats_sorted[k] = stats[k]
 
-            output_key = "{}-port-stats".format(event.section)
+            output_key = f"{event.section}-port-stats"
             return stats_sorted, output_key
 
         return None

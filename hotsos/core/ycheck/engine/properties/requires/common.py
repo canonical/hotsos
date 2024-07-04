@@ -89,9 +89,9 @@ class OpsUtils():
             item = str(op[0])
             if len(op) > 1:
                 if isinstance(op[1], str):
-                    item = "{} \"{}\"".format(item, op[1])
+                    item = f"{item} \"{op[1]}\""
                 else:
-                    item = "{} {}".format(item, op[1])
+                    item = f"{item} {op[1]}"
 
             _result.append(item)
 
@@ -129,8 +129,7 @@ class OpsUtils():
         """
         log.debug("ops=%s, input=%s", ops, opinput)
         if not isinstance(ops, list):
-            raise Exception("Expected list of ops but got {}".
-                            format(ops))
+            raise Exception(f"Expected list of ops but got {ops}")
 
         for op in ops:
             expected = None

@@ -10,8 +10,7 @@ from hotsos.core.search import (
 )
 
 KERNLOG_TS = r'\[\s*\d+\.\d+\]'
-KERNLOG_PREFIX = (r'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{}'.
-                  format(KERNLOG_TS))
+KERNLOG_PREFIX = rf'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{KERNLOG_TS}'
 
 
 class CallTraceHeuristicBase():
@@ -95,6 +94,6 @@ class KernLogBase():
     def path(self):
         path = os.path.join(HotSOSConfig.data_root, 'var/log/kern.log')
         if HotSOSConfig.use_all_logs:
-            return "{}*".format(path)
+            return f"{path}*"
 
         return path

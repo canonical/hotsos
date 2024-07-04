@@ -37,7 +37,7 @@ class YPropertyInputBase():
             path = os.path.join(HotSOSConfig.data_root, path)
             if (HotSOSConfig.use_all_logs and not
                     self.options['disable-all-logs']):
-                path = "{}*".format(path)
+                path = f"{path}*"
 
             _paths.append(path)
 

@@ -45,7 +45,7 @@ CEPH_PKGS_CORE = [r"ceph",
 CEPH_PKGS_OTHER = []
 # Add in clients/deps
 for ceph_pkg in CEPH_PKGS_CORE:
-    CEPH_PKGS_OTHER.append(r"python3?-{}\S*".format(ceph_pkg))
+    CEPH_PKGS_OTHER.append(rf"python3?-{ceph_pkg}\S*")
 
 CEPH_SNAPS_CORE = [r'microceph']
 
@@ -293,9 +293,8 @@ class CephCrushMap():
         unequal_buckets = []
         for _, tree, failure_domain in to_check:
             if self._is_bucket_imbalanced(buckets, tree, failure_domain):
-                unequal_buckets.append(
-                    "tree '{}' at the '{}' level"
-                    .format(buckets[tree]["name"], failure_domain))
+                unequal_buckets.append(f"tree '{buckets[tree]['name']}' at "
+                                       f"the '{failure_domain}' level")
 
         return unequal_buckets
 
@@ -452,7 +451,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
             sd = SequenceSearchDef(start=SearchDef(r"^\s+\"(\S+)\":\s+{"),
                                    body=body, tag='versions')
         else:
-            start = SearchDef(r"^\s+\"({})\":\s+{{".format(daemon_type))
+            start = SearchDef(rf"^\s+\"({daemon_type})\":\s+{{")
             sd = SequenceSearchDef(start=start, body=body,
                                    end=SearchDef(r"^\s+\"\S+\":\s+{"),
                                    tag='versions')
@@ -804,7 +803,7 @@ class CephDaemonBase():
     @classmethod
     def get_date_secs(cls, datestring=None):
         if datestring:
-            cmd = ["date", "--utc", "--date={}".format(datestring), "+%s"]
+            cmd = ["date", "--utc", f"--date={datestring}", "+%s"]
             date_in_secs = subprocess.check_output(cmd)
         else:
             date_in_secs = CLIHelper().date() or 0
@@ -822,12 +821,12 @@ class CephDaemonBase():
         s = FileSearcher()
         # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
         if self.id is not None:
-            ceph_id = r"--id\s+{}".format(self.id)
+            ceph_id = rf"--id\s+{self.id}"
         else:
             ceph_id = ''
 
-        expr = (r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-{}\s+.+{}\s+.+"
-                r".+".format(self.daemon_type, ceph_id))
+        expr = (r"\S+\s+\d+\s+\S+\s+\S+\s+\d+\s+(\d+)\s+.+/ceph-"
+                rf"{self.daemon_type}\s+.+{ceph_id}\s+.+.+")
         sd = SearchDef(expr)
         with CLIHelperFile() as cli:
             ps_out = cli.ps()
@@ -838,7 +837,7 @@ class CephDaemonBase():
                 rss = int(int(result.get(1)) / 1024)
                 break
 
-        return "{}M".format(rss)
+        return f"{rss}M"
 
     @cached_property
     def etime(self):
@@ -854,7 +853,7 @@ class CephDaemonBase():
             return None
 
         ps_info = []
-        daemon = "ceph-{}".format(self.daemon_type)
+        daemon = f"ceph-{self.daemon_type}"
         for line in CLIHelper().ps_axo_flags():
             ret = re.compile(daemon).search(line)
             if not ret:
@@ -870,7 +869,7 @@ class CephDaemonBase():
 
         _etime = None
         for cmd in ps_info:
-            ret = re.compile(r".+\s+.+--id {}\s+.+".format(self.id)).match(cmd)
+            ret = re.compile(rf".+\s+.+--id {self.id}\s+.+").match(cmd)
             if ret:
                 osd_start = ' '.join(cmd.split()[13:17])
                 if self.date_in_secs and osd_start:
@@ -1002,8 +1001,8 @@ class CephChecksBase(StorageBase):
 
         @param iface_type: cluster or public
         """
-        net = self.ceph_config.get('{} network'.format(iface_type))
-        addr = self.ceph_config.get('{} addr'.format(iface_type))
+        net = self.ceph_config.get(f'{iface_type} network')
+        addr = self.ceph_config.get(f'{iface_type} addr')
         if not any([net, addr]):
             return {}
 
@@ -1169,8 +1168,7 @@ class CephDaemonCommand():
         if name in self.output:
             return self.output[name]
 
-        raise AttributeError("{} not found in output of {}".
-                             format(name, self.command))
+        raise AttributeError(f"{name} not found in output of {self.command}")
 
 
 class CephDaemonConfigShow():

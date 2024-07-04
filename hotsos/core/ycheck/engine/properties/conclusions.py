@@ -104,7 +104,7 @@ class YPropertyRaises(YPropertyOverrideBase):
     def type(self):
         """ Name of core.issues.IssueTypeBase object and will be used to raise
         an issue or bug using message as argument. """
-        _type = "hotsos.core.issues.{}".format(self.content['type'])
+        _type = f"hotsos.core.issues.{self.content['type']}"
         return self.get_cls(_type)
 
 
@@ -207,9 +207,9 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
         if cve_id or bug_id or is_bug_type:
             if not (all([bug_id, bug_type == 'bug']) or
                     all([cve_id, bug_type == 'cve'])):
-                msg = ("both cve-id/bug-id (current={}) and bug type "
-                       "(current={}) required in order to raise a bug".
-                       format(bug_id or cve_id, bug_type))
+                msg = (f"both cve-id/bug-id (current={bug_id or cve_id}) and "
+                       f"bug type (current={bug_type}) required in order to "
+                       "raise a bug")
                 raise ScenarioException(msg)
 
         message = self.raises.message_formatted(checks=checks)

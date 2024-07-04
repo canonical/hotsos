@@ -55,16 +55,16 @@ def load_templated_tests(path):
         for testdef in find_all_templated_tests(_path):
             tg = TemplatedTestGenerator(path, testdef)
             if hasattr(cls, tg.test_method_name):
-                raise Exception("test name conflict for '{}' - "
-                                "a test with this name already exists".
-                                format(tg.test_method_name))
+                raise Exception("test name conflict for "
+                                f"'{tg.test_method_name}' - "
+                                "a test with this name already exists")
 
             count += 1
             setattr(cls, tg.test_method_name, tg.test_method)
 
         if os.environ.get('TESTS_LOG_LEVEL_DEBUG', 'no') == 'yes':
-            sys.stderr.write("[test template loader] loaded {} templated "
-                             "test(s) from {}\n".format(count, path))
+            sys.stderr.write(f"[test template loader] loaded {count} "
+                             f"templated test(s) from {path}\n")
         return cls
 
     return _inner
@@ -210,18 +210,17 @@ class TemplatedTestGenerator():
         self.test_def_path = test_def_path
 
         if not os.path.exists(test_def_path):
-            raise Exception("{} does not exist".format(test_def_path))
+            raise Exception(f"{test_def_path} does not exist")
 
         with open(test_def_path) as fd:
             self.testdef = yaml.safe_load(fd) or {}
         if not self.testdef or not os.path.exists(test_def_path):
-            raise Exception("invalid test template at {}".
-                            format(test_def_path))
+            raise Exception(f"invalid test template at {test_def_path}")
 
         _diff = set(self.testdef.keys()).difference(TEST_TEMPLATE_SCHEMA)
         if _diff:
-            raise Exception("invalid keys found in test template {}: {}".
-                            format(test_def_path, _diff))
+            raise Exception("invalid keys found in test template "
+                            f"{test_def_path}: {_diff}")
 
         self.test_method = self._generate()
 
@@ -249,7 +248,7 @@ class TemplatedTestGenerator():
         chars_to_replace = ('/', '.')
         for char in chars_to_replace:
             name = name.replace(char, replace_char)
-        return 'test_yscenario_{}'.format(name)
+        return f'test_yscenario_{name}'
 
     def _generate(self):
         """ Generate a test from a template. """
@@ -276,13 +275,13 @@ def expand_log_template(template, hours=None, mins=None, secs=None,
 
     for hour in range(hours or 1):
         if hour < 10:
-            hour = "0{}".format(hour)
+            hour = f"0{hour}"
         for minute in range(mins or 1):
             if minute < 10:
-                minute = "0{}".format(minute)
+                minute = f"0{minute}"
             for sec in range(secs or 1):
                 if sec < 10:
-                    sec = "0{}".format(sec)
+                    sec = f"0{sec}"
                 out += _template.format(hour=hour, minute=minute, sec=sec)
 
     return out
@@ -325,7 +324,7 @@ def is_def_filter(def_path, sub_root):
             if base_dir != parent_dir:
                 return False
 
-            if os.path.basename(abs_path) == "{}.yaml".format(parent_dir):
+            if os.path.basename(abs_path) == f"{parent_dir}.yaml":
                 log.debug("files loaded so far=%s",
                           _inst.stats_num_files_loaded)
                 assert _inst.stats_num_files_loaded < 2

@@ -68,7 +68,7 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
                 ts_date = result.get(1)
                 if incl_time_in_date:
                     ts_time = result.get(2)
-                    ts_date = "{} {}".format(ts_date, ts_time)
+                    ts_date = f"{ts_date} {ts_time}"
 
                 resource = result.get(resource_idx)
                 if resource not in info:

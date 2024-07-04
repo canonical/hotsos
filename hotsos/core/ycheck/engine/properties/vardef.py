@@ -19,8 +19,7 @@ class YPropertyVars(YPropertyOverrideBase):
         """
         log.debug("resolving var '%s'", name)
         if not name:
-            raise Exception("attempting to resolve invalid varname '{}'".
-                            format(name))
+            raise Exception(f"attempting to resolve invalid varname '{name}'")
 
         if hasattr(self, name):
             value = getattr(self, name)

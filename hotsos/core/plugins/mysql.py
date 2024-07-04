@@ -13,7 +13,7 @@ from hotsos.core import (
 )
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
-MYSQL_SVC_EXPRS = [r'mysql{}'.format(SVC_VALID_SUFFIX)]
+MYSQL_SVC_EXPRS = [rf'mysql{SVC_VALID_SUFFIX}']
 CORE_APT = ['mysql']
 
 

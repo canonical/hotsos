@@ -33,13 +33,13 @@ class ConfigBase(abc.ABC):
                     if rstart == rprev:
                         irange.append(str(rstart))
                     else:
-                        irange.append("{}-{}".format(rstart, rprev))
+                        irange.append(f"{rstart}-{rprev}")
                         if i == (len(ilist) - 1):
                             irange.append(str(value))
 
                     rstart = value
                 elif i == (len(ilist) - 1):
-                    irange.append("{}-{}".format(rstart, value))
+                    irange.append(f"{rstart}-{value}".format(rstart, value))
                     break
 
             rprev = value

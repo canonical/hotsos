@@ -44,8 +44,8 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
             year = result.get(3)
             addr = result.get(4)
             port = result.get(5)
-            results.append({'date': "{}-{}-{}".format(year, month, day),
-                            'key': "{}:{}".format(addr, port)})
+            results.append({'date': f"{year}-{month}-{day}",
+                            'key': f"{addr}:{port}"})
 
         conns_refused = self.categorise_events(event, results=results)
         for addrs in conns_refused.values():
@@ -64,8 +64,8 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
         if ports_max:
             msg = ('apache is reporting connection refused errors for the '
                    'following ports which could mean some services are not '
-                   'working properly - {} - please check.'.
-                   format(','.join(ports_max.keys())))
+                   f"working properly - {','.join(ports_max.keys())} - please "
+                   'check.')
             IssuesManager().add(OpenstackWarning(msg), IssueContext(**context))
 
         return sorted_dict(conns_refused)
@@ -145,8 +145,7 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
             results = sorted(results,
                              key=lambda e:
                              datetime.datetime.strptime(
-                                 "{} {}".format(e['date'],
-                                                e['time']),
+                                 f"{e['date']} {e['time']}",
                                  '%Y-%m-%d %H:%M:%S'))
 
             new_results = []
@@ -296,7 +295,7 @@ class ApparmorCallback(OpenstackEventCallbackBase):
     event_names = ['nova', 'neutron']
 
     def __call__(self, event):
-        results = [{'date': "{} {}".format(r.get(1), r.get(2)),
+        results = [{'date': f"{r.get(1)} {r.get(2)}",
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]
         ret = self.categorise_events(event, results=results,
@@ -343,10 +342,9 @@ class L3HACallback(OpenstackEventCallbackBase):
                 warn_count += 1
 
         if warn_count:
-            msg = ("{} router(s) have had more than {} vrrp transitions "
-                   "(max={}) in the last 24 hours.".format(warn_count,
-                                                           threshold,
-                                                           max_transitions))
+            msg = (f"{warn_count} router(s) have had more than {threshold} "
+                   f"vrrp transitions (max={max_transitions}) in the last 24 "
+                   "hours.")
             IssuesManager().add(NeutronL3HAWarning(msg))
 
         return None

@@ -60,8 +60,8 @@ class CPU(SYSFSBase):
         return smt == '1'
 
     def cpufreq_scaling_governor(self, cpu_id):
-        return self.get('devices/system/cpu/cpu{}/cpufreq/scaling_governor'.
-                        format(cpu_id))
+        return self.get(f'devices/system/cpu/cpu{cpu_id}/cpufreq/'
+                        'scaling_governor')
 
     @property
     def cpufreq_scaling_governor_all(self):

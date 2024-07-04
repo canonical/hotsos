@@ -63,7 +63,7 @@ class OpenvSwitchSummary(OpenvSwitchChecksBase):
 
             # show total count for br-int since it can have a very large number
             if bridge.name == 'br-int' and ports:
-                ports = ["({} ports)".format(len(ports))]
+                ports = [f"({len(ports)} ports)"]
 
             bridges[bridge.name] = ports
 

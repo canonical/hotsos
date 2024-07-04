@@ -151,10 +151,7 @@ class ExtraSearchConstraints():
         will be used a fallback.
         """
         ts = result.get(1)
-        if result.get(2):
-            ts = "{} {}".format(ts, result.get(2))
-        else:
-            ts = "{} 00:00:00".format(ts)
+        ts = f"{ts} {result.get(2) or '00:00:00'}"
 
         ts_matcher = CommonTimestampMatcher(ts)
         if not ts_matcher.matched:

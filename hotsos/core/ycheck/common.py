@@ -17,7 +17,7 @@ class SearchRegistryKeyConflict(Exception):
         self.all_keys = all_keys
 
     def __str__(self):
-        return (f"'{self.key}' key already exists in search registry. "
+        return (f"'{self.key}' key already exists in search registry. "  # noqa, pylint: disable=consider-using-f-string
                 "Available keys are:\n      - {}".
                 format('\n      - '.join(self.all_keys)))
 
@@ -28,9 +28,9 @@ class SearchRegistryKeyNotFound(Exception):
         self.all_keys = all_keys
 
     def __str__(self):
-        return ("'{}' not found in search registry. Available keys are:"
-                "\n      - {}".
-                format(self.key, '\n      - '.join(self.all_keys)))
+        return (f"'{self.key}' not found in search registry. Available keys "  # noqa, pylint: disable=consider-using-f-string
+                "are:\n      - {}".
+                format('\n      - '.join(self.all_keys)))
 
 
 SEARCHES_TO_BE_REGISTERED = []
@@ -93,7 +93,7 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
         """
         if label in self._loaded_searches:
             raise SearchRegistryKeyConflict("Search Registry has already been "
-                                            "loaded by label={}".format(label))
+                                            f"loaded by label={label}")
 
         self._loaded_searches.append(label)
 
@@ -256,9 +256,9 @@ class GlobalSearcherAutoRegisterBase(metaclass=GlobalSearcherAutoRegisterMeta):
         search belongs.
         """
         if self.plugin_name is None:
-            raise Exception("{}.plugin_name must set to the name of the "
-                            "plugin in which it will run (currently={})".
-                            format(self.__class__.__name__, self.plugin_name))
+            raise Exception(f"{self.__class__.__name__}.plugin_name must set "
+                            "to the name of the plugin in which it will run "
+                            f"(currently={self.plugin_name})")
 
         return plugin_name == self.plugin_name
 

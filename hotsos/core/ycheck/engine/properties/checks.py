@@ -61,6 +61,12 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
     _override_members = [YPropertyRequires, YPropertySearch, YPropertyInput]
     _override_logical_grouping_type = CheckLogicalGrouping
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # These are set later on before the check is used
+        self._initialised = False
+        self.check_name = None
+
     @property
     def _search_results(self):
         """
@@ -70,16 +76,16 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         """
         global_results = self.context.global_searcher.results
         if global_results is None:
-            raise Exception("no search results provided to check '{}'".
-                            format(self.check_name))  # pylint: disable=E1101
+            raise Exception("no search results provided to check "
+                            f"'{self.check_name}'")
 
         tag = self.search.unique_search_tag  # pylint: disable=E1101
 
         # first get simple search results
         simple_results = global_results.find_by_tag(tag)
         log.debug("check %s has %s simple search results with tag %s",
-                  self.check_name, len(simple_results), tag)  # noqa, pylint: disable=E1101
-        results = self.search.apply_extra_constraints(simple_results)  # noqa, pylint: disable=E1101
+                  self.check_name, len(simple_results), tag)
+        results = self.search.apply_extra_constraints(simple_results)  # noqa, pylint: disable=no-member
 
         search_info = self.context.global_searcher[tag]
         if search_info['sequence_search'] is None:
@@ -88,7 +94,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         # Not try for sequence search results
         sections = global_results.find_sequence_by_tag(tag).values()
         log.debug("check %s has %s sequence search results with tag %s",
-                  self.check_name, len(sections), tag)  # pylint: disable=E1101
+                  self.check_name, len(sections), tag)
         if not sections:
             return results
 
@@ -106,8 +112,8 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
     @property
     def name(self):
-        if hasattr(self, 'check_name'):
-            return getattr(self, 'check_name')
+        if self._initialised:
+            return self.check_name
 
         return None
 
@@ -207,6 +213,7 @@ class YPropertyChecks(YPropertyOverrideBase):
                              resolve_path=self._override_path,
                              context=self.check_context)
             for c in s.leaf_sections:
+                c.check._initialised = True
                 c.check.check_name = c.name
                 resolved.append(c.check)
 

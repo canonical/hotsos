@@ -28,12 +28,12 @@ class RabbitMQSummary(RabbitMQChecksBase):
 
             for node, vhost_dist in vhost.node_queue_distributions.items():
                 if vhost_dist['queues']:
-                    vhost_queue_dists[vhost.name][node] = (
-                        "{:d} ({:.2f}%)".format(vhost_dist['queues'],
-                                                vhost_dist['pcent']))
+                    vhost_queue_dists[vhost.name][node] = \
+                        (f"{vhost_dist['queues']:d} "
+                         f"({vhost_dist['pcent']:.2f}%)")
                 else:
-                    vhost_queue_dists[vhost.name][node] = "{:d} (N/A)".format(
-                        vhost_dist['queues'])
+                    vhost_queue_dists[vhost.name][node] = \
+                        f"{vhost_dist['queues']:d} (N/A)"
 
         _queue_info = {}
         if vhost_queue_dists:

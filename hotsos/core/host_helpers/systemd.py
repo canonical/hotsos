@@ -88,7 +88,7 @@ class SystemdService():
         # that might exist in the output e.g. line can start with '*' or U+25CF
         # Active: active (running) since Wed 2022-02-09 22:38:17 UTC; 17h ago
         seqdef = SequenceSearchDef(
-                    start=SearchDef(r'\S+ ({}.service) -'.format(self.name)),
+                    start=SearchDef(rf'\S+ ({self.name}.service) -'),
                     body=SearchDef(r"\s+Active: active \(?\S*\)?\s*since "
                                    r"\S{3} (\d{4}-\d{2}-\d{2} "
                                    r"\d{2}:\d{2}:\d{2} [\w\+:-]+);"),
@@ -139,11 +139,11 @@ class SystemdService():
         See https://www.kernel.org/doc/Documentation/cgroup-v2.txt
         """
         cgroupv1 = os.path.join(HotSOSConfig.data_root, 'sys/fs/cgroup',
-                                "memory/system.slice/{}.service".
-                                format(self.name), 'memory.stat')
+                                f"memory/system.slice/{self.name}.service",
+                                'memory.stat')
         cgroupv2 = os.path.join(HotSOSConfig.data_root, 'sys/fs/cgroup',
-                                'system.slice', "{}.service".
-                                format(self.name), 'memory.current')
+                                'system.slice', f"{self.name}.service",
+                                'memory.current')
         if os.path.exists(cgroupv1):
             total_usage = {}
             fs = FileSearcher()
@@ -153,7 +153,7 @@ class SystemdService():
 
             if len(total_usage) == 0:
                 log.warning("failed to identify mem usage info for %s in %s",
-                            "{}.service".format(self.name), cgroupv1)
+                            f"{self.name}.service", cgroupv1)
 
             total = sum(total_usage.values())
             if total == 0:
@@ -175,9 +175,9 @@ class SystemdService():
             return int(total / 1024)
 
     def __repr__(self):
-        return ("name={}, state={}, start_time={}, has_instances={}".
-                format(self.name, self.state, self.start_time,
-                       self.has_instances))
+        return (f"name={self.name}, state={self.state}, "
+                f"start_time={self.start_time}, "
+                f"has_instances={self.has_instances}")
 
 
 class SystemdHelper(ServiceManagerBase):
@@ -224,10 +224,10 @@ class SystemdHelper(ServiceManagerBase):
             return self._cached_unit_files_exprs[svc_name_expr]
 
         # Add snap prefix/suffixes
-        base_expr = r"(?:snap\.)?{}(?:\.daemon)?".format(svc_name_expr)
+        base_expr = rf"(?:snap\.)?{svc_name_expr}(?:\.daemon)?"
         # NOTE: we include indirect services (ending with @) so that
         #       we can search for related units later.
-        unit_expr = r'^\s*({}@?)\.service\s+(\S+)'.format(base_expr)
+        unit_expr = rf'^\s*({base_expr}@?)\.service\s+(\S+)'
         # match entries in systemctl list-unit-files
         self._cached_unit_files_exprs[svc_name_expr] = re.compile(unit_expr)
         return self._cached_unit_files_exprs[svc_name_expr]
@@ -301,7 +301,7 @@ class SystemdHelper(ServiceManagerBase):
     def get_services_expanded(self, name):
         _expanded = []
         for line in self._systemctl_list_units:
-            expr = r'^\s*({}(@\S*)?)\.service'.format(name)
+            expr = rf'^\s*({name}(@\S*)?)\.service'
             ret = re.compile(expr).match(line)
             if ret:
                 _expanded.append(ret.group(1))
@@ -330,11 +330,11 @@ class SystemdHelper(ServiceManagerBase):
 
         for svc in self.services:
             for svc in self.get_services_expanded(svc):
-                _path = os.path.join(path, "{}.service".format(svc),
+                _path = os.path.join(path, f"{svc}.service",
                                      'cgroup.procs')
                 if not os.path.exists(_path):
                     _path = glob.glob(os.path.join(path, 'system-*.slice',
-                                                   "{}.service".format(svc),
+                                                   f"{svc}.service",
                                                    'cgroup.procs'))
                     if not _path or not os.path.exists(_path[0]):
                         continue
@@ -344,8 +344,7 @@ class SystemdHelper(ServiceManagerBase):
                 with open(_path) as fd:
                     for pid in fd:
                         for line in self._ps:
-                            if re.match(r'^\S+\s+{}\s+'.format(int(pid)),
-                                        line):
+                            if re.match(rf'^\S+\s+{int(pid)}\s+', line):
                                 ps_filtered.append(line)
                                 break
 
@@ -399,7 +398,7 @@ class SystemdHelper(ServiceManagerBase):
     @property
     def _process_info(self):
         """Return a list of processes associated with services. """
-        return ["{} ({})".format(name, count)
+        return [f"{name} ({count})"
                 for name, count in sorted_dict(self.processes).items()]
 
     @property

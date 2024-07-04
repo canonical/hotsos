@@ -45,7 +45,7 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                     if rxtx not in stats:
                         stats[rxtx] = {}
 
-                    stats[rxtx][key] = "{} ({}%)".format(int(value), pcent)
+                    stats[rxtx][key] = f"{int(value)} ({pcent}%)"
 
         return stats
 
@@ -164,12 +164,11 @@ class OpenstackNetworkChecks(OpenstackChecksBase):
                 smallest_allowed = min(phy_mtus) - overhead
                 if max(all_router_mtus) > smallest_allowed:
                     msg = ("This Neutron L3 agent host has one or more router "
-                           "ports with mtu={} which is greater or equal to "
-                           "the smallest allowed ({}) on "
-                           "the physical network. This will result in dropped "
-                           "packets or unexpected fragmentation in overlay "
-                           "networks.".format(max(all_router_mtus),
-                                              smallest_allowed))
+                           f"ports with mtu={max(all_router_mtus)} which is "
+                           "greater or equal to the smallest allowed "
+                           f"({smallest_allowed}) on the physical network. "
+                           "This will result in dropped packets or "
+                           "unexpected fragmentation in overlay networks.")
                     IssuesManager().add(OpenstackWarning(msg))
 
         return router_mtus

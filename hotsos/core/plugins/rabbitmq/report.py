@@ -190,7 +190,7 @@ class RabbitMQReport():
                 elif result.tag == sd.body_tag:
                     total = result.get(1)
                     mib_used = int(total) / 1024. / 1024.
-                    _memory_used[node_name] = "{:.3f}".format(mib_used)
+                    _memory_used[node_name] = f"{mib_used:.3f}"
 
         return _memory_used
 

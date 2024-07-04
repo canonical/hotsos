@@ -70,11 +70,10 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
                 invalid.append(attr)
 
         if invalid:
-            raise Exception("Invalid search constraints attributes found: {}. "
-                            "Valid options are: {}".
-                            format(', '.join(invalid),
-                                   ', '.join(self.valid_attributes)))
-
+            raise Exception("Invalid search constraints attributes found: "
+                            f"{', '.join(invalid)}. "
+                            "Valid options are: "
+                            f"{', '.join(self.valid_attributes)}")
         return create_constraint(self.search_result_age_hours,
                                  self.min_hours_since_last_boot)
 
@@ -235,8 +234,8 @@ class YPropertySearchBase(YPropertyOverrideBase):
             return None
 
         # start and end required for core.analytics.LogEventStats
-        start_tag = "{}-start".format(self.unique_search_tag)
-        end_tag = "{}-end".format(self.unique_search_tag)
+        start_tag = f"{self.unique_search_tag}-start"
+        end_tag = f"{self.unique_search_tag}-end"
         sdefs = [SearchDef(str(seq_start.search_pattern), tag=start_tag),
                  SearchDef(str(seq_end.search_pattern), tag=end_tag)]
         self.cache.set('sequence_passthrough_search', sdefs)
@@ -283,9 +282,8 @@ class YPropertySearchOpt(YPropertyOverrideBase):
         valid = [k for k in
                  self._get_override_keys_back_compat() if k not in invalid]
         if self._override_name not in valid:
-            raise Exception("__str__ only valid for {} (not {})".
-                            format(','.join(valid),
-                                   self._override_name))
+            raise Exception(f"__str__ only valid for {','.join(valid)} "
+                            f"(not {self._override_name})")
 
         return self.content
 

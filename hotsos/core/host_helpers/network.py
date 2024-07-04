@@ -54,9 +54,9 @@ class NetworkPort(HostHelpersBase):
     @property
     def cache_name(self):
         if self.namespace:
-            return "ns-{}-port-{}".format(self.namespace, self.name)
+            return f"ns-{self.namespace}-port-{self.name}"
 
-        return "port-{}".format(self.name)
+        return f"port-{self.name}"
 
     def cache_load(self, key):
         contents = self.cache.get(key)
@@ -257,7 +257,7 @@ class HostNetworkingHelper(HostHelpersBase):
             seq = self._ip_addr_show_iface_sequence_def
             search_obj = FileSearcher()
             ip_addr = self.cli.ns_ip_addr(namespace=namespace)
-            prefix = "__ns_start__{}__ns__end__".format(namespace)
+            prefix = f"__ns_start__{namespace}__ns__end__"
             path = mktemp_dump(''.join(ip_addr), prefix=prefix)
             try:
                 search_obj.add(seq, path)
@@ -292,7 +292,7 @@ class HostNetworkingHelper(HostHelpersBase):
                 for ns in self.cli.ip_netns():
                     ns_name = ns.partition(" ")[0]
                     ip_addr = self.cli.ns_ip_addr(namespace=ns_name)
-                    prefix = "__ns_start__{}__ns__end__".format(ns_name)
+                    prefix = f"__ns_start__{ns_name}__ns__end__"
                     path = mktemp_dump(''.join(ip_addr), prefix=prefix)
                     search_obj.add(seq, path)
             else:
