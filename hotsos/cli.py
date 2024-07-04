@@ -4,6 +4,7 @@ import os
 import subprocess
 import sys
 import threading
+import warnings
 from importlib import metadata, resources
 from dataclasses import dataclass, fields
 
@@ -82,15 +83,16 @@ def get_repo_info():
         with open(repo_info, encoding='utf-8') as fd:
             return fd.read().strip()
 
-    # pypi
     # NOTE: The pylint warning is suppressed for W4902 because the
     # alternative (i.e. resources.files) is not available for python
     # 3.8, which is a supported environment for hotsos.
-    # pylint: disable-next=W4902
-    with resources.path('hotsos', '.repo-info') as repo_info:
-        if repo_info and os.path.exists(repo_info):
-            with open(repo_info, encoding='utf-8') as fd:
-                return fd.read().strip()
+    with warnings.catch_warnings(), contextlib.suppress(Exception):
+        warnings.filterwarnings("ignore", category=DeprecationWarning)
+        # pylint: disable-next=W4902
+        with resources.path('hotsos', '.repo-info') as repo_info:
+            if repo_info and os.path.exists(repo_info):
+                with open(repo_info, encoding='utf-8') as fd:
+                    return fd.read().strip()
 
     try:
         out = subprocess.check_output(['git', '-C', get_hotsos_root(),
