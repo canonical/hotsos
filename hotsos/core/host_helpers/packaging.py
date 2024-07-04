@@ -292,7 +292,7 @@ class DockerImageHelper(PackageHelperBase):
         used_images = self.get_container_images()
         image_list = self.cli.docker_images()
         if not image_list:
-            return
+            return None
 
         all_exprs = self.core_image_exprs + self.other_image_exprs
         for line in image_list:
@@ -403,6 +403,8 @@ class APTPackageHelper(PackageHelperBase):
                 if name:
                     return version
 
+        return None
+
     def _match_package(self, pkg, entry):
         """ Returns tuple of (package name, version) """
         expr = self._match_expr_template.format(pkg)
@@ -489,6 +491,8 @@ class AptFactory(FactoryBase):
         if name in helper.all:
             return AptPackage(name, helper.all[name])
 
+        return None
+
 
 class SnapPackageHelper(PackageHelperBase):
 
@@ -522,7 +526,7 @@ class SnapPackageHelper(PackageHelperBase):
                     'channel': ret.group(4),
                     }
 
-        return
+        return None
 
     def get_revision(self, snap):
         """ Return revision of package.
@@ -530,6 +534,8 @@ class SnapPackageHelper(PackageHelperBase):
         info = self._get_snap_info(snap)
         if info:
             return info[0]['revision']
+
+        return None
 
     def get_version(self, pkg):
         """ Return version of snap package.
@@ -540,6 +546,8 @@ class SnapPackageHelper(PackageHelperBase):
         if info:
             return info[0]['version']
 
+        return None
+
     def get_channel(self, pkg):
         """ Return channel of snap package.
 
@@ -548,6 +556,8 @@ class SnapPackageHelper(PackageHelperBase):
         info = self._get_snap_info(pkg)
         if info:
             return info[0]['channel']
+
+        return None
 
     def _get_snap_info(self, snap_name_expr):
         """
@@ -558,7 +568,7 @@ class SnapPackageHelper(PackageHelperBase):
         @return: a list of snaps and their info.
         """
         if not self.snap_list_all:
-            return
+            return None
 
         info = []
         cexpr = re.compile(self._match_expr_template.format(snap_name_expr))

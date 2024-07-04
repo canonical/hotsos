@@ -75,3 +75,5 @@ class OpenvSwitchEventHandlerBase(OpenvSwitchChecksBase, EventHandlerBase):
         ret = self.run()
         if ret:
             return sorted_dict(ret)
+
+        return None

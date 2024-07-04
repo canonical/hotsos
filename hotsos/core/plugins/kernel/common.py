@@ -43,6 +43,8 @@ class KernelBase():
 
             return parameters
 
+        return None
+
 
 class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
     plugin_name = 'kernel'

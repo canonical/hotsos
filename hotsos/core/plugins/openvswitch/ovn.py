@@ -178,7 +178,11 @@ class OVNBase():
         if self.is_ovn_central:
             return OVNSBDB()
 
+        return None
+
     @cached_property
     def nbdb(self):
         if self.is_ovn_central:
             return OVNNBDB()
+
+        return None

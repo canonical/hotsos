@@ -62,8 +62,12 @@ class OVSDBTable():
         for cmd in [self._list_cmd(self.name),
                     self._list_cmd(self.name.lower())]:
             for line in cmd():
-                if line.startswith('{} '.format(column)):
-                    return line.partition(':')[2].strip()
+                if not line.startswith('{} '.format(column)):
+                    continue
+
+                return line.partition(':')[2].strip()
+
+        return None
 
     def get(self, record, column):
         """
@@ -108,6 +112,10 @@ class OVSDPLookups():
     def __getattr__(self, key):
         if key in self.fields:
             return self.fields[key]
+
+        # This is only ever expected to be used for db lookups for object attr
+        # lookups so return None if key not found in DB.
+        return None
 
 
 class OVSBridge():
@@ -309,8 +317,12 @@ class OVSDPDK(OpenvSwitchBase):
         if mask is not None:
             return int(mask, 16)
 
+        return None
+
     @property
     def dpdk_lcore_mask(self):
         mask = self.config.get('dpdk-lcore-mask')
         if mask is not None:
             return int(mask, 16)
+
+        return None

@@ -80,6 +80,8 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
         if out:
             return {self.event_group: out}
 
+        return None
+
 
 class APIEventsCallback(OpenstackEventCallbackBase):
     event_group = 'http-requests'
@@ -92,6 +94,8 @@ class APIEventsCallback(OpenstackEventCallbackBase):
         if ret:
             return ret
 
+        return None
+
 
 class APIEvents(OpenstackEventHandlerBase):
     summary_part_index = 9
@@ -101,6 +105,8 @@ class APIEvents(OpenstackEventHandlerBase):
         out = self.run()
         if out:
             return {self.event_group: out}
+
+        return None
 
 
 class AgentEventsCallback(OpenstackEventCallbackBase):
@@ -119,7 +125,7 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
         stats.run()
         top5 = stats.get_top_n_events_sorted(5)
         if not top5:
-            return
+            return None
 
         return {"top": top5,
                 "stats": stats.get_event_stats()}
@@ -190,6 +196,8 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
             if ret:
                 return {event.name: ret}, agent
 
+        return None
+
 
 class NeutronAgentEventChecks(OpenstackEventHandlerBase):
     """
@@ -233,7 +241,7 @@ class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
             missed_heartbeats = self.categorise_events(event,
                                                        key_by_date=False)
             if not missed_heartbeats:
-                return
+                return None
 
             # sort each amp by occurences
             for ts_date, amps in missed_heartbeats.items():
@@ -243,6 +251,8 @@ class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
 
             # then sort by date
             return utils.sorted_dict(missed_heartbeats)
+
+        return None
 
 
 class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
@@ -254,6 +264,8 @@ class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
         if out:
             return {self.event_group: out}
 
+        return None
+
 
 class PCINotFoundCallback(OpenstackEventCallbackBase):
     event_group = 'nova.nova-compute'
@@ -264,6 +276,8 @@ class PCINotFoundCallback(OpenstackEventCallbackBase):
         if ret:
             return ret, 'PciDeviceNotFoundById'
 
+        return None
+
 
 class NovaComputeEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 11
@@ -273,6 +287,8 @@ class NovaComputeEventChecks(OpenstackEventHandlerBase):
         out = self.run()
         if out:
             return {'nova': out}
+
+        return None
 
 
 class ApparmorCallback(OpenstackEventCallbackBase):
@@ -290,6 +306,8 @@ class ApparmorCallback(OpenstackEventCallbackBase):
             # action.
             return {event.name: ret}, event.section
 
+        return None
+
 
 class AgentApparmorChecks(OpenstackEventHandlerBase):
     summary_part_index = 12
@@ -299,6 +317,8 @@ class AgentApparmorChecks(OpenstackEventHandlerBase):
         out = self.run()
         if out:
             return {self.event_group: out}
+
+        return None
 
 
 class L3HACallback(OpenstackEventCallbackBase):
@@ -310,7 +330,7 @@ class L3HACallback(OpenstackEventCallbackBase):
         # there will likely be a large number of transitions if we look across
         # all time so dont run this check.
         if HotSOSConfig.use_all_logs:
-            return
+            return None
 
         max_transitions = 0
         warn_count = 0
@@ -328,6 +348,8 @@ class L3HACallback(OpenstackEventCallbackBase):
                                                            threshold,
                                                            max_transitions))
             IssuesManager().add(NeutronL3HAWarning(msg))
+
+        return None
 
     def __call__(self, event):
         results = []
@@ -347,6 +369,8 @@ class L3HACallback(OpenstackEventCallbackBase):
             self.check_vrrp_transitions(transitions)
             # add info to summary
             return {'transitions': transitions}, 'keepalived'
+
+        return None
 
 
 class NeutronL3HAEventCheckJournalCtl():
@@ -370,3 +394,5 @@ class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
         out = self.run()
         if out:
             return {'neutron-l3ha': out}
+
+        return None

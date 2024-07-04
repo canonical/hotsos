@@ -92,12 +92,16 @@ class SystemBase():
     @cached_property
     def os_release_name(self):
         data_source = os.path.join(HotSOSConfig.data_root, "etc/lsb-release")
-        if os.path.exists(data_source):
-            with open(data_source) as fd:
-                for line in fd.read().split():
-                    ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
-                    if ret:
-                        return "ubuntu {}".format(ret[1])
+        if not os.path.exists(data_source):
+            return None
+
+        with open(data_source) as fd:
+            for line in fd.read().split():
+                ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
+                if ret:
+                    return "ubuntu {}".format(ret[1])
+
+        return None
 
     @cached_property
     def virtualisation_type(self):
@@ -111,7 +115,7 @@ class SystemBase():
             if 'Virtualization' in split_line[0]:
                 return split_line[2].strip()
 
-        return
+        return None
 
     @cached_property
     def num_cpus(self):
@@ -129,7 +133,7 @@ class SystemBase():
     def unattended_upgrades_enabled(self):
         apt_config_dump = CLIHelper().apt_config_dump()
         if not apt_config_dump:
-            return
+            return None
 
         for line in apt_config_dump:
             ret = re.compile(r"^APT::Periodic::Unattended-Upgrade\s+"
@@ -137,6 +141,7 @@ class SystemBase():
             if ret:
                 if int(ret[1]) == 0:
                     return False
+
                 return True
 
         return False

@@ -17,12 +17,10 @@ class SYSFSBase():
         """
         path = os.path.join(HotSOSConfig.data_root, 'sys', relpath)
         if not os.path.exists(path):
-            return
+            return None
 
         with open(path) as fd:
-            value = fd.read()
-
-        return value.strip()
+            return fd.read().strip()
 
 
 class CPU(SYSFSBase):
@@ -30,22 +28,26 @@ class CPU(SYSFSBase):
     @property
     def model(self):
         out = host_helpers.CLIHelper().lscpu()
-        if not out:
-            return
+        if out:
+            for line in out:
+                if not line.startswith("Model name:"):
+                    continue
 
-        for line in out:
-            if line.startswith("Model name:"):
                 return re.search(r'Model name:\s+(.+)', line).group(1)
+
+        return None
 
     @property
     def vendor(self):
         out = host_helpers.CLIHelper().lscpu()
-        if not out:
-            return
+        if out:
+            for line in out:
+                if not line.startswith("Vendor ID:"):
+                    continue
 
-        for line in out:
-            if line.startswith("Vendor ID:"):
                 return re.search(r'Vendor ID:\s+(.+)', line).group(1).lower()
+
+        return None
 
     @property
     def isolated(self):
@@ -55,13 +57,7 @@ class CPU(SYSFSBase):
     @property
     def smt(self):
         smt = self.get('devices/system/cpu/smt/active')
-        if smt is None:
-            return
-
-        if smt == '1':
-            return True
-
-        return False
+        return smt == '1'
 
     def cpufreq_scaling_governor(self, cpu_id):
         return self.get('devices/system/cpu/cpu{}/cpufreq/scaling_governor'.

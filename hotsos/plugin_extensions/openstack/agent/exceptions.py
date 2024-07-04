@@ -69,7 +69,7 @@ class AgentExceptionCheckResults(UserDict):
             exceptions[exc_name][key] += 1
 
         if not exceptions:
-            return
+            return None
 
         for exc_type, values in exceptions.items():
             exceptions_sorted = {}
@@ -287,6 +287,8 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
             return {agent: dict(info) for agent, info in _exc_info.items()}
 
+        return None
+
     def __201_summary_agent_warnings(self):
         """
         Only WARNING level exceptions
@@ -297,3 +299,5 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 _exc_info[svc] = dict(results)
 
             return {agent: dict(info) for agent, info in _exc_info.items()}
+
+        return None

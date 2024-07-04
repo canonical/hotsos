@@ -486,3 +486,5 @@ class CallTraceManager(KernLogBase):
         for h in self.tracetypes:
             if h.name == name.replace('_', '-'):
                 return h
+
+        return None

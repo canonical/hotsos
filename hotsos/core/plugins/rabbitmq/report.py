@@ -198,7 +198,7 @@ class RabbitMQReport():
     def partition_handling(self):
         results = self.results.find_by_tag("cluster_partition_handling")
         if not results:
-            return
+            return None
 
         return results[0].get(1)
 

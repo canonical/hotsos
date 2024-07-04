@@ -100,7 +100,7 @@ class SystemdService():
             if len(sections) == 0:
                 log.warning("no active status found for %s.service (state=%s)",
                             self.name, self.state)
-                return
+                return None
 
             if len(sections) > 1:
                 log.warning("more than one status found for %s.service",
@@ -112,6 +112,7 @@ class SystemdService():
                                                  tzinfos=self._tzinfos)
         log.debug("no start time identified for svc %s (state=%s)", self.name,
                   self.state)
+        return None
 
     @cached_property
     def start_time_secs(self):

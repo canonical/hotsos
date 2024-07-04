@@ -16,17 +16,23 @@ class OpenstackSummary(OpenstackChecksBase):
         if self.pebble.services:
             return self.pebble.summary
 
+        return None
+
     def __2_summary_dpkg(self):
         # require at least one core package to be installed to include
         # this in the report.
         if self.apt.core:
             return self.apt.all_formatted
 
+        return None
+
     def __3_summary_docker_images(self):
         # require at least one core image to be in-use to include
         # this in the report.
         if self.docker.core:
             return self.docker.all_formatted
+
+        return None
 
     @staticmethod
     def __4_summary_neutron_l3ha():
@@ -39,5 +45,4 @@ class OpenstackSummary(OpenstackChecksBase):
             else:
                 routers[state] = 1
 
-        if routers:
-            return routers
+        return routers or None

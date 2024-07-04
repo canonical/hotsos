@@ -27,7 +27,7 @@ class YPropertyInputBase():
     @property
     def command(self):
         if not isinstance(self.content, dict):  # pylint: disable=E1101
-            return
+            return None
 
         return self.content.get('command')  # pylint: disable=E1101
 
@@ -83,6 +83,7 @@ class YPropertyInputBase():
                 return [outfile]
 
         log.debug("no input provided")
+        return None
 
 
 class YPropertyInput(YPropertyOverrideBase, YPropertyInputBase):

@@ -76,7 +76,7 @@ class NovaBase(OSTServiceBase):
         """
         addr = self.nova_config.get(cfg_key)
         if not addr:
-            return
+            return None
 
         return self.nethelp.get_interface_with_addr(addr)
 

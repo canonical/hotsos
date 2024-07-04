@@ -103,5 +103,4 @@ class ServiceFeatureChecks(OpenstackChecksBase):
         if self.ssl_enabled is not None:
             features['api-ssl'] = self.ssl_enabled or False
 
-        if features:
-            return features
+        return features or None

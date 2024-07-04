@@ -99,6 +99,8 @@ class ServiceManagerBase(abc.ABC):
                           expr_type)
                 return cmd
 
+        return None
+
     @property
     @abc.abstractmethod
     def services(self):

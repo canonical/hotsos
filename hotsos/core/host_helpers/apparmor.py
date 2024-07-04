@@ -58,6 +58,8 @@ class ApparmorHelper():
             if name in profiles['profiles']:
                 return mode
 
+        return None
+
     @property
     def profiles_enforce(self):
         return self.profiles.get('enforce', {}).get('profiles', [])

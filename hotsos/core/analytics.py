@@ -265,7 +265,7 @@ class LogEventStats():
         """ Return common statistics on the dataset of events. """
         events = self.data.complete_events
         if not events:
-            return
+            return {}
 
         events = [s["duration"] for s in events.values()]
         stats = {'min': round(min(events), 2),

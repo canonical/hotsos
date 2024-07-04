@@ -119,6 +119,8 @@ class DecisionBase():
         except KeyError:
             log.exception("check '%s' not found in %s", name, checks)
 
+        return None
+
 
 class DecisionLogicalGrouping(DecisionBase, PTreeLogicalGrouping):
     _override_autoregister = False
@@ -184,6 +186,8 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
     def name(self):
         if hasattr(self, 'conclusion_name'):
             return getattr(self, 'conclusion_name')
+
+        return None
 
     def reached(self, checks):
         """

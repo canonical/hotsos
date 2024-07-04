@@ -8,10 +8,10 @@ class PacemakerSummary(PacemakerChecksBase):
         if self.systemd.services:
             return self.systemd.summary
 
+        return None
+
     def __1_summary_dpkg(self):
-        apt = self.apt.all_formatted
-        if apt:
-            return apt
+        return self.apt.all_formatted or None
 
     def __2_summary_nodes(self):
         nodes = {}
@@ -19,5 +19,5 @@ class PacemakerSummary(PacemakerChecksBase):
             nodes["online"] = self.online_nodes
         if self.offline_nodes:
             nodes["offline"] = self.offline_nodes
-        if nodes:
-            return nodes
+
+        return nodes or None

@@ -130,8 +130,10 @@ class PropertyCacheRefResolver():
 
     @property
     def property_name(self):
-        if self.reftype == 'checks':
-            return self._ref_body.partition('.')[0]
+        if self.reftype != 'checks':
+            return None
+
+        return self._ref_body.partition('.')[0]
 
     @property
     def property_cache_key(self):
@@ -227,7 +229,7 @@ class PropertyCacheRefResolver():
             val = self.vars.resolve(varname)
 
         if val is None:
-            return
+            return None
 
         func = self.property_cache_value_renderer_function
         if not func:
@@ -262,8 +264,7 @@ class PropertyCache(UserDict):
     def __getattr__(self, key):
         log.debug("%s: fetching key=%s (exists=%s)", self.id, key,
                   key in self.data)
-        if key in self.data:
-            return self.data[key]
+        return self.data.get(key)
 
 
 class YPropertyBase(PTreeOverrideBase):
@@ -305,13 +306,15 @@ class YPropertyBase(PTreeOverrideBase):
         """
         if self.context is None:
             log.info("context not available - cannot load '%s'", key)
-            return
+            return None
 
         # we save all imports in a dict called "import_cache" within the
         # global context so that all properties have access.
         c = getattr(self.context, 'import_cache')
-        if c:
-            return c.get(key)
+        if not c:
+            return None
+
+        return c.get(key)
 
     @staticmethod
     def _get_mod_class_from_path(path):
