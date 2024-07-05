@@ -59,7 +59,7 @@ class AgentExceptionCheckResults(UserDict):
             if HotSOSConfig.event_tally_granularity == 'time':
                 # use hours and minutes only
                 ts_time = re.compile(r'(\d+:\d+).+').search(result.get(2))[1]
-                key = "{}_{}".format(ts_date, ts_time)
+                key = f"{ts_date}_{ts_time}"
             else:
                 key = str(ts_date)
 
@@ -155,9 +155,9 @@ class AgentExceptionChecks(OpenstackChecksBase):
         if project.name == 'keystone':
             constraints = False
 
-        tag = "{}.{}".format(project.name, agent_name)
+        tag = f"{project.name}.{agent_name}"
         if project.exceptions:
-            exc_names = "(?:{})".format('|'.join(project.exceptions))
+            exc_names = f"(?:{'|'.join(project.exceptions)})"
             expr = expr_template.format(exc_names)
             self.searchobj.add(SearchDef(expr, tag=tag + '.error',
                                          hint='( ERROR | Traceback)'),
@@ -166,7 +166,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
         warn_exprs = self._agent_warnings.get(project.name, [])
         if warn_exprs:
-            values = "(?:{})".format('|'.join(warn_exprs))
+            values = f"(?:{'|'.join(warn_exprs)})"
             expr = expr_template.format(values)
             self.searchobj.add(SearchDef(expr, tag=tag + '.warning',
                                          hint='WARNING'), logs_path,
@@ -174,7 +174,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
         err_exprs = self._agent_errors.get(project.name, [])
         if err_exprs:
-            values = "(?:{})".format('|'.join(err_exprs))
+            values = f"(?:{'|'.join(err_exprs)})"
             expr = expr_template.format(values)
             sd = SearchDef(expr, tag=tag + '.error', hint='ERROR')
             self.searchobj.add(sd, logs_path,
@@ -210,18 +210,17 @@ class AgentExceptionChecks(OpenstackChecksBase):
 
             prefix_match = ''
             if all([wsgi_prefix, keystone_prefix]):
-                prefix_match = r'(?:{}|{})?'.format(wsgi_prefix,
-                                                    keystone_prefix)
+                prefix_match = rf'(?:{wsgi_prefix}|{keystone_prefix})?'
             elif any([wsgi_prefix, keystone_prefix]):
-                prefix_match = (r'(?:{})?'.
-                                format(wsgi_prefix or keystone_prefix))
+                prefix_match = rf'(?:{wsgi_prefix or keystone_prefix})?'
 
             # Sometimes the exception is printed with just the class name
             # and sometimes it is printed with a full import path e.g.
             # MyExc or somemod.MyExc so we need to account for both.
             exc_obj_full_path_match = r'(?:\S+\.)?'
-            expr_template = (r"^{}([0-9\-]+) (\S+) .+\S+\s({}{{}})[\s:\.]".
-                             format(prefix_match, exc_obj_full_path_match))
+            expr_template = (rf"^{prefix_match}([0-9\-]+) (\S+) "
+                             rf".+\S+\s({exc_obj_full_path_match}"
+                             r"{})[\s:\.]")
 
             # NOTE: don't check exceptions for deprecated services
             for agent, log_paths in project.log_paths(
@@ -229,7 +228,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
                 for path in log_paths:
                     path = os.path.join(HotSOSConfig.data_root, path)
                     if HotSOSConfig.use_all_logs:
-                        path = "{}*".format(path)
+                        path = f"{path}*"
 
                     self._add_agent_searches(project, agent, path,
                                              expr_template)
@@ -250,7 +249,7 @@ class AgentExceptionChecks(OpenstackChecksBase):
             for log_level in ['warning', 'error']:
                 agent_results = {}
                 for agent in project.services:
-                    tag = "{}.{}".format(name, agent)
+                    tag = f"{name}.{agent}"
                     results = search_results.find_by_tag(tag + '.' + log_level)
                     if results:
                         agent_results[agent] = results

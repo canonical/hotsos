@@ -15,7 +15,7 @@ class PebbleService():
         self.state = state
 
     def __repr__(self):
-        return "name={}, state={}".format(self.name, self.state)
+        return f"name={self.name}, state={self.state}"
 
 
 class PebbleHelper(ServiceManagerBase):
@@ -27,7 +27,7 @@ class PebbleHelper(ServiceManagerBase):
         _services = {}
         for line in CLIHelper().pebble_services():
             for svc_name_expr in self._service_exprs:
-                _expr = r"({})\s+\S+\s+(\S+)\s+.*".format(svc_name_expr)
+                _expr = rf"({svc_name_expr})\s+\S+\s+(\S+)\s+.*"
                 ret = re.compile(_expr).match(line)
                 if not ret:
                     continue
@@ -83,7 +83,7 @@ class PebbleHelper(ServiceManagerBase):
     @property
     def _process_info(self):
         """Return a list of processes associated with services. """
-        return ["{} ({})".format(name, count)
+        return [f"{name} ({count})"
                 for name, count in sorted_dict(self.processes).items()]
 
     @property

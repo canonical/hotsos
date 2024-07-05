@@ -28,7 +28,7 @@ class UnitLogInfo():
         path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
         ts_expr = r"^([\d-]+)\s+([\d:]+)"
         for msg in ['ERROR', 'WARNING']:
-            expr = r'{} {} (\S+) (\S+):\d+ '.format(ts_expr, msg)
+            expr = rf'{ts_expr} {msg} (\S+) (\S+):\d+ '
             tag = msg
             hint = msg
             searchobj.add(SearchDef(expr, tag=tag, hint=hint), path)
@@ -37,7 +37,7 @@ class UnitLogInfo():
         log.debug("fetching unit log results")
         events = {}
         date_format = CommonTimestampMatcher.DEFAULT_DATETIME_FORMAT
-        now = CLIHelper().date(format="+{}".format(date_format))
+        now = CLIHelper().date(format=f"+{date_format}")
         now = datetime.strptime(now, date_format)
 
         for tag in ['WARNING', 'ERROR']:
@@ -47,7 +47,7 @@ class UnitLogInfo():
                     ts_time = result.get(2)
                     # use hours and minutes only
                     ts_time = re.compile(r'(\d+:\d+).+').search(ts_time)[1]
-                    key = "{}_{}".format(ts_date, ts_time)
+                    key = f"{ts_date}_{ts_time}"
                 else:
                     ts_time = '00:00:00'
                     key = ts_date
@@ -55,8 +55,7 @@ class UnitLogInfo():
                 # Since juju logs files don't typically get logrotated they
                 # may contain a large history of logs so we have to do this to
                 # ensure we don't get too much.
-                then = datetime.strptime("{} {}".format(ts_date, ts_time),
-                                         date_format)
+                then = datetime.strptime(f"{ts_date} {ts_time}", date_format)
                 days = 1
                 if HotSOSConfig.use_all_logs:
                     days = HotSOSConfig.max_logrotate_depth
@@ -128,7 +127,7 @@ class JujuSummary(JujuChecksBase):
         loginfo = UnitLogInfo().error_and_warnings()
         for u in self.units.values():
             name, _, ver = u.name.rpartition('-')
-            u_name = "{}/{}".format(name, ver)
+            u_name = f"{name}/{ver}"
             unit_info[u_name] = {}
             if u.repo_info:
                 c_name = u.charm_name

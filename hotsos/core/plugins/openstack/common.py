@@ -115,7 +115,7 @@ class OpenstackBase():
                         release_info['uca'] = set()
 
                     if ret[1] != 'updates':
-                        release_info['uca'].add("{}-{}".format(ret[2], ret[1]))
+                        release_info['uca'].add(f"{ret[2]}-{ret[1]}")
                     else:
                         release_info['uca'].add(ret[2])
 

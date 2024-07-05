@@ -121,7 +121,8 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
 
         # this will represent what we have actually checked
         self.cache.set('services', ', '.join(cache_info))
-        svcs = ["{}={}".format(svc, settings) for svc, settings in items]
+
+        svcs = [f"{svc}={settings}" for svc, settings in items]
         log.debug('requirement check: %s (result=%s)',
                   ', '.join(svcs), _result)
         return _result

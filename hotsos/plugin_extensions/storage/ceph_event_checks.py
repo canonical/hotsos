@@ -56,7 +56,7 @@ class EventCallbackCRCErrors(CephEventCallbackBase):
         for r in event.results:
             ret = c_expr.match(event.searcher.resolve_source_id(r.source_id))
             if ret:
-                key = "osd.{}".format(ret.group(1))
+                key = f"osd.{ret.group(1)}"
             else:
                 key = None
 
@@ -84,10 +84,9 @@ class EventCallbackCRCErrors(CephEventCallbackBase):
                     osds_in_err.add(osd)
 
         if osds_in_err:
-            msg = ("{} osds ({}) found with > 3 {} crc errors (max={}) "
-                   "each within a 24hr period - please investigate".
-                   format(len(osds_in_err), ','.join(osds_in_err),
-                          osd_type, osd_err_max))
+            msg = (f"{len(osds_in_err)} osds ({','.join(osds_in_err)}) "
+                   f"found with > 3 {osd_type} crc errors (max={osd_err_max}) "
+                   "each within a 24hr period - please investigate")
             IssuesManager().add(CephOSDError(msg))
 
         return ret
@@ -103,7 +102,7 @@ class EventCallbackHeartbeatPings(CephEventCallbackBase):
         for r in event.results:
             ret = c_expr.match(event.searcher.resolve_source_id(r.source_id))
             if ret:
-                key = "osd.{}".format(ret.group(1))
+                key = f"osd.{ret.group(1)}"
             else:
                 key = None
 

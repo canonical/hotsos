@@ -14,8 +14,7 @@ from hotsos.core.plugins.kernel.kernlog.common import (
 )
 
 KERNLOG_TS = r'\[\s*\d+\.\d+\]'
-KERNLOG_PREFIX = (r'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{}'.
-                  format(KERNLOG_TS))
+KERNLOG_PREFIX = rf'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{KERNLOG_TS}'
 
 
 class OOMTraceHeuristicCheckFreePages(CallTraceHeuristicBase):
@@ -40,13 +39,11 @@ class OOMTraceHeuristicCheckFreePages(CallTraceHeuristicBase):
         """
         fails = []
         if self.free < self.min:
-            fails.append("Node {} zone {} free pages {} below "
-                         "min {}".format(self.node, self.zone, self.free,
-                                         self.min))
+            fails.append(f"Node {self.node} zone {self.zone} free pages "
+                         f"{self.free} below min {self.min}")
         elif self.free < self.low:
-            fails.append("Node {} zone {} free pages {} below "
-                         "low {}".format(self.node, self.zone, self.free,
-                                         self.low))
+            fails.append(f"Node {self.node} zone {self.zone} free pages "
+                         f"{self.free} below low {self.low}")
 
         return fails
 
@@ -64,15 +61,16 @@ class OOMCallTraceState(CallTraceStateBase):
         s = []
         for k, v in self._info.items():
             if k == 'nodes':
-                s.append("{}{}:".format(prefix, k))
+                s.append(f"{prefix}{k}:")
                 for node, zones in v.items():
-                    s.append(">> node{}".format(node))
+                    s.append(f">> node{node}")
                     for zone, fields in zones.items():
-                        s.append(" {}: {}".format(zone, repr(fields)))
+                        s.append(f" {zone}: {repr(fields)}")
             else:
-                s.append("{}{}: {}".format(prefix, k, v))
+                s.append(f"{prefix}{k}: {v}")
 
-        return "\n{}\n".format('\n'.join(s))
+        # can't use formatted string with backslash < py312
+        return "\n{}\n".format('\n'.join(s))  # noqa, pylint: disable=consider-using-f-string
 
 
 class GenericTraceType(TraceTypeBase):
@@ -136,7 +134,7 @@ class MemFieldsBase():
 
     def extract(self, part, line):
         for field in self.fields:
-            ret = re.search('{}:{}'.format(field, self.expr), line)
+            ret = re.search(f'{field}:{self.expr}', line)
             if ret:
                 part.add(field, ret.group(1))
 
@@ -223,13 +221,12 @@ class BcacheDeadlockType(TraceTypeBase):
         if self._search_def:
             return self._search_def
 
-        start = SearchDef(r'{}.+\s+task bcache-register:(\d+) blocked for '
-                          r'more than (\d+) seconds.'.
-                          format(KERNLOG_PREFIX))
+        start = SearchDef(rf'{KERNLOG_PREFIX}.+\s+task bcache-register:(\d+) '
+                          r'blocked for more than (\d+) seconds.')
         body = SearchDef(r'(\S+) schedule(\S+) closure_sync(\S+)'
                          r' bch_journal_meta(\S+) bch_btree_set_root(\S+)'
                          r' bch_journal_replay(\S+) register_bcache(\S+)')
-        end = SearchDef(r'{}.+\s+do_syscall_(\S+)'.format(KERNLOG_PREFIX))
+        end = SearchDef(rf'{KERNLOG_PREFIX}.+\s+do_syscall_(\S+)')
         self._search_def = SequenceSearchDef(start, tag='bcache', body=body,
                                              end=end)
         return self._search_def
@@ -320,9 +317,8 @@ class OOMKillerTraceType(TraceTypeBase):
         if self._search_def:
             return self._search_def
 
-        start = SearchDef(r'{} (\S+) invoked oom-killer: .+, '
-                          r'order=([+-]?\d+),.+'.
-                          format(KERNLOG_PREFIX))
+        start = SearchDef(rf'{KERNLOG_PREFIX} (\S+) invoked oom-killer: .+, '
+                          r'order=([+-]?\d+),.+')
 
         fields = set()
         for mfieldtype in [MemFieldsMain, MemFieldsNodeZoneMem,
@@ -330,12 +326,12 @@ class OOMKillerTraceType(TraceTypeBase):
             fields.update(mfieldtype().fields)
 
         # Only include lines that actually contain fields we want to extract
-        body = SearchDef(r"(.+(?:{}).+)".format('|'.join(fields)))
+        body = SearchDef(rf"(.+(?:{'|'.join(fields)}).+)")
         # NOTE: we need a better way to capture the different variations of
         #       the following message.
-        end = SearchDef(r'{} '
+        end = SearchDef(rf'{KERNLOG_PREFIX} '
                         r'(?:Out of memory: |Memory cgroup out of memory: )?'
-                        r'Killed process (\d+) .+'.format(KERNLOG_PREFIX))
+                        r'Killed process (\d+) .+')
         self._search_def = SequenceSearchDef(start, tag='oom', body=body,
                                              end=end)
         return self._search_def

@@ -18,8 +18,7 @@ class UptimeHelper():
         # this needs to take into account the different formats supported by
         # https://gitlab.com/procps-ng/procps/-/blob/newlib/library/uptime.c
         etime_expr = r"(?:([\d:]+)|(\d+\s+\S+,\s+[\d:]+)|(\d+\s+\S+)),"
-        expr = (r"\s*[\d:]+\s+up\s+{}.+\s+load average:\s+(.+)".
-                format(etime_expr))
+        expr = rf"\s*[\d:]+\s+up\s+{etime_expr}.+\s+load average:\s+(.+)"
         ret = re.compile(expr).match(self.uptime)
         self.subgroups = {}
         if ret:
@@ -84,7 +83,7 @@ class UptimeHelper():
         days = int(self.in_hours / 24)
         hours = self.in_hours - days * 24
         minutes = self.in_minutes - (self.in_hours * 60)
-        return "{}d:{}h:{}m".format(days, hours, minutes)
+        return f"{days}d:{hours}h:{minutes}m"
 
     @property
     def loadavg(self):

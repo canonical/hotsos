@@ -145,8 +145,8 @@ class YScenarioChecker(YHandlerBase):
 
         to_skip = set()
         for scenario in yscenarios.leaf_sections:
-            fullname = "{}.{}.{}".format(HotSOSConfig.plugin_name,
-                                         scenario.parent.name, scenario.name)
+            fullname = (f"{HotSOSConfig.plugin_name}.{scenario.parent.name}."
+                        f"{scenario.name}")
             if ScenariosSearchPreloader.skip_filtered(fullname):
                 continue
 
@@ -225,7 +225,7 @@ class YScenarioChecker(YHandlerBase):
                 failed_scenarios.append(scenario.name)
 
         if failed_scenarios:
-            msg = ("One or more scenarios failed to run ({}) - run hotsos in "
-                   "debug mode (--debug) to get more detail".
-                   format(', '.join(failed_scenarios)))
+            msg = ("One or more scenarios failed to run "
+                   f"({', '.join(failed_scenarios)}) - run hotsos in "
+                   "debug mode (--debug) to get more detail")
             issue_mgr.add(HotSOSScenariosWarning(msg))

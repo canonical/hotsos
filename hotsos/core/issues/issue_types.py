@@ -190,7 +190,7 @@ class UbuntuCVE(CVETypeBase):
 
     @property
     def url(self):
-        return "{}{}".format(self.base_url, self.id)
+        return f"{self.base_url}{self.id}"
 
 
 class MitreCVE(CVETypeBase):
@@ -201,7 +201,7 @@ class MitreCVE(CVETypeBase):
 
     @property
     def url(self):
-        return "{}{}".format(self.base_url, self.id)
+        return f"{self.base_url}{self.id}"
 
 
 class LaunchpadBug(BugTypeBase):
@@ -212,7 +212,7 @@ class LaunchpadBug(BugTypeBase):
 
     @property
     def url(self):
-        return "{}{}".format(self.base_url, self.id)
+        return f"{self.base_url}{self.id}"
 
 
 class Bugzilla(BugTypeBase):
@@ -223,7 +223,7 @@ class Bugzilla(BugTypeBase):
 
     @property
     def url(self):
-        return "{}{}".format(self.base_url, self.id)
+        return f"{self.base_url}{self.id}"
 
 
 class StoryBoardBug(BugTypeBase):
@@ -234,7 +234,7 @@ class StoryBoardBug(BugTypeBase):
 
     @property
     def url(self):
-        return "{}{}".format(self.base_url, self.id)
+        return f"{self.base_url}{self.id}"
 
 
 class CephTrackerBug(BugTypeBase):
@@ -245,4 +245,4 @@ class CephTrackerBug(BugTypeBase):
 
     @property
     def url(self):
-        return "{}{}".format(self.base_url, self.id)
+        return f"{self.base_url}{self.id}"

@@ -133,10 +133,10 @@ class NovaLibvirt(NovaBase):
             start = SearchDef(r"\s+<cpu .+>")
             body = SearchDef(r".+")
             end = SearchDef(r"\s+</cpu>")
-            tag = "{}.cpu".format(i.name)
+            tag = f"{i.name}.cpu"
             seqs[i.name] = SequenceSearchDef(start=start, body=body,
                                              end=end, tag=tag)
-            path = os.path.join(self.xmlpath, "{}.xml".format(i.name))
+            path = os.path.join(self.xmlpath, f"{i.name}.xml")
             s.add(seqs[i.name], path)
 
         results = s.run()
@@ -174,14 +174,14 @@ class NovaLibvirt(NovaBase):
         s = FileSearcher()
         for i in self.instances.values():
             guests.append(i.name)
-            tag = "{}.vcpus".format(i.name)
-            path = os.path.join(self.xmlpath, "{}.xml".format(i.name))
+            tag = f"{i.name}.vcpus"
+            path = os.path.join(self.xmlpath, f"{i.name}.xml")
             s.add(SearchDef(".+vcpus>([0-9]+)<.+", tag=tag), path)
 
         total_vcpus = 0
         results = s.run()
         for guest in guests:
-            for r in results.find_by_tag("{}.vcpus".format(guest)):
+            for r in results.find_by_tag(f"{guest}.vcpus"):
                 vcpus = r.get(1)
                 total_vcpus += int(vcpus)
 

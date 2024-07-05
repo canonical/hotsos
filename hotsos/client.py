@@ -125,7 +125,7 @@ class OutputManager():
             filtered = self.minimise(filtered, minimal_mode)
 
         if fmt not in self.SUMMARY_FORMATS:
-            raise Exception("unsupported summary format '{}'".format(fmt))
+            raise Exception(f"unsupported summary format '{fmt}'")
 
         hostname = CLIHelper().hostname() or ""
         log.debug('Saving summary as %s', fmt)
@@ -164,8 +164,7 @@ class OutputManager():
         if output_path:
             output_root = output_path
         else:
-            output_root = ('hotsos-output-{}'.
-                           format(CLIHelper().date(format='+%s')))
+            output_root = f"hotsos-output-{CLIHelper().date(format='+%s')}"
 
         for minimal_mode in ['full', 'short', 'very-short']:
             _minimal_mode = minimal_mode.replace('-', '_')
@@ -180,19 +179,16 @@ class OutputManager():
 
                 for plugin in self._summary:
                     path = os.path.join(output_path,
-                                        "hotsos-summary.{}.{}".format(plugin,
-                                                                      fmt))
+                                        f"hotsos-summary.{plugin}.{fmt}")
                     self._save(path, fmt, html_escape=html_escape,
                                minimal_mode=minimal_mode, plugin=plugin)
 
-                path = os.path.join(output_path,
-                                    "hotsos-summary.all.{}".format(fmt))
+                path = os.path.join(output_path, f"hotsos-summary.all.{fmt}")
                 self._save(path, fmt, html_escape=html_escape,
                            minimal_mode=minimal_mode)
 
                 if not minimal_mode:
-                    dst = os.path.join(output_root, '{}.summary.{}'.
-                                       format(name, fmt))
+                    dst = os.path.join(output_root, f'{name}.summary.{fmt}')
                     if os.path.exists(dst):
                         os.remove(dst)
 
@@ -261,7 +257,7 @@ class HotSOSClient():
                     continue
 
                 self.setup_plugin_env(plugin)
-                log.name = 'hotsos.plugin.{}'.format(plugin)
+                log.name = f'hotsos.plugin.{plugin}'
                 log.debug("running plugin %s", plugin)
                 HotSOSConfig.plugin_name = plugin
                 content = plugintools.PluginRunner(plugin).run()

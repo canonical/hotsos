@@ -62,7 +62,7 @@ class OVSDBTable():
         for cmd in [self._list_cmd(self.name),
                     self._list_cmd(self.name.lower())]:
             for line in cmd():
-                if not line.startswith('{} '.format(column)):
+                if not line.startswith(f'{column} '):
                     continue
 
                 return line.partition(':')[2].strip()
@@ -275,7 +275,7 @@ class OVSBFD(OpenvSwitchBase):
         """
         ports = {}
         for result in self._results:
-            ts = "{} {}".format(result.get(1), result.get(2))
+            ts = f"{result.get(1)} {result.get(2)}"
             port = result.get(3)
             if port not in ports:
                 ports[port] = {'changes': [(ts, result.get(4))],

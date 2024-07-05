@@ -64,15 +64,15 @@ class PropertyCacheRefResolver():
         log.debug("%s: resolving '%s'", self.__class__.__name__, refstr)
         self.refstr = refstr
         if not self.is_valid_cache_ref(refstr):
-            msg = ("{} is not a valid property cache reference or variable".
-                   format(refstr))
+            msg = (f"{refstr} is not a valid property cache reference or "
+                   "variable")
             raise Exception(msg)
 
         self.vars = pcrr_vars
         self.checks = checks
         if self.reftype == 'checks' and checks is None:
-            msg = ("{} is a checks cache reference but checks dict not "
-                   "provided".format(refstr))
+            msg = (f"{refstr} is a checks cache reference but checks dict not "
+                   "provided")
             raise Exception(msg)
 
     @property
@@ -101,7 +101,7 @@ class PropertyCacheRefResolver():
         if self.reftype == 'variable':
             prefix = "$"
         elif self.reftype == 'checks':
-            prefix = "@checks.{}.".format(self.check_name)
+            prefix = f"@checks.{self.check_name}."
 
         return self.refstr.partition(prefix)[2]
 
@@ -428,7 +428,7 @@ class YPropertyBase(PTreeOverrideBase):
             log.exception("class '%s' import failed", _cls)
             raise
 
-        key = "{}.object".format(cls)
+        key = f"{cls}.object"
         cls_inst = self._load_from_import_cache(key)
         if not cls_inst:
             try:

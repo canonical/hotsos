@@ -14,8 +14,8 @@ from hotsos.core.search import (
 
 
 CORE_APT = ['lxd', 'lxc']
-CORE_SNAPS = [r"(?:snap\.)?{}".format(p) for p in CORE_APT]
-SERVICE_EXPRS = [r"{}\S*".format(s) for s in CORE_SNAPS]
+CORE_SNAPS = [rf"(?:snap\.)?{p}" for p in CORE_APT]
+SERVICE_EXPRS = [rf"{s}\S*" for s in CORE_SNAPS]
 
 
 class LXD():

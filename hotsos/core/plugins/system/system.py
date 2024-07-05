@@ -49,7 +49,7 @@ class NUMAInfo():
 
         for node in node_ids:
             for line in self.numactl:
-                expr = r'^node\s+{}\s+cpus:\s([0-9\s]+)'.format(node)
+                expr = rf'^node\s+{node}\s+cpus:\s([0-9\s]+)'
                 ret = re.compile(expr).match(line)
                 if ret:
                     self._nodes[node] = [int(e) for e in ret[1].split()]
@@ -99,7 +99,7 @@ class SystemBase():
             for line in fd.read().split():
                 ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
                 if ret:
-                    return "ubuntu {}".format(ret[1])
+                    return f"ubuntu {ret[1]}"
 
         return None
 

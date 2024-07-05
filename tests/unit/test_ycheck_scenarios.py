@@ -81,7 +81,7 @@ def init_test_scenario(yaml_contents, scenario_name=None):
                 yroot = os.path.join(dtmp, 'scenarios', 'myplugin',
                                      'scenariogroup')
                 sname = scenario_name or 'test'
-                yfile = os.path.join(yroot, '{}.yaml'.format(sname))
+                yfile = os.path.join(yroot, f'{sname}.yaml')
                 os.makedirs(os.path.dirname(yfile))
                 with open(yfile, 'w') as fd:
                     fd.write(yaml_contents)

@@ -88,8 +88,8 @@ def get_repo_info():
 
 def set_plugin_options(f):
     for plugin in plugintools.PLUGINS:
-        click.option('--{}'.format(plugin), default=False, is_flag=True,
-                     help='Run the {} plugin.'.format(plugin))(f)
+        click.option(f'--{plugin}', default=False, is_flag=True,
+                     help=f'Run the {plugin} plugin.')(f)
 
     return f
 
@@ -108,7 +108,7 @@ def get_defs_path():
         defs = os.path.join(root, 'etc/hotsos/defs')
 
     if not os.path.exists(defs):
-        raise Exception("defs path {} not found".format(defs))
+        raise Exception(f"defs path {defs} not found")
 
     return defs
 
@@ -128,7 +128,7 @@ def get_templates_path():
         templates = os.path.join(root, 'etc/hotsos/templates')
 
     if not os.path.exists(templates):
-        raise Exception("templates path {} not found".format(templates))
+        raise Exception(f"templates path {templates} not found")
 
     return templates
 
@@ -147,8 +147,7 @@ def progress_spinner(show_spinner, path):
         yield
         return
 
-    sys.stdout.write(
-        'INFO: analysing {}\n'.format(path))
+    sys.stdout.write(f'INFO: analysing {path}\n')
     spinner_msg = 'INFO: analysing '
 
     done = threading.Event()
@@ -347,7 +346,7 @@ def main():  # pylint: disable=R0915
                 if save:
                     path = summary.save(drm.basename, html_escape=html_escape,
                                         output_path=output_path)
-                    sys.stdout.write("INFO: output saved to {}\n".format(path))
+                    sys.stdout.write(f"INFO: output saved to {path}\n")
                 else:
                     if short:
                         minimal_mode = 'short'
@@ -360,7 +359,7 @@ def main():  # pylint: disable=R0915
                                       html_escape=html_escape,
                                       minimal_mode=minimal_mode)
                     if out:
-                        sys.stdout.write("{}\n".format(out))
+                        sys.stdout.write(f"{out}\n")
 
     cli(prog_name='hotsos')
 

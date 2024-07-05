@@ -230,7 +230,7 @@ class PackageHelperBase(abc.ABC):
         if not _all:
             return []
 
-        return ["{} {}".format(*e) for e in _all.items()]
+        return [f"{e[0]} {e[1]}" for e in _all.items()]
 
     @property
     def all(self):
@@ -381,7 +381,7 @@ class APTPackageHelper(PackageHelperBase):
         if not dpkg_l:
             return False
 
-        cexpr = re.compile(r"^.i\s+{}\s+.+".format(pkg))
+        cexpr = re.compile(rf"^.i\s+{pkg}\s+.+")
         for line in dpkg_l:
             # See https://man7.org/linux/man-pages/man1/dpkg-query.1.html for
             # package states.
@@ -636,8 +636,7 @@ class SnapPackageHelper(PackageHelperBase):
         if not _all:
             return []
 
-        return ["{} {}".format(name, info['version'])
-                for name, info in _all.items()]
+        return [f"{name} {info['version']}" for name, info in _all.items()]
 
     @property
     def core(self):

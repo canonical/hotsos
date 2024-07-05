@@ -61,7 +61,7 @@ class BDev():
             with open(cfg) as fd:
                 return fd.read().strip()
 
-        raise AttributeError("{} not found in bdev config".format(key))
+        raise AttributeError(f"{key} not found in bdev config")
 
 
 class Cacheset():
@@ -84,7 +84,7 @@ class Cacheset():
             with open(cfg) as fd:
                 return fd.read().strip()
 
-        raise AttributeError("{} not found in cacheset config".format(key))
+        raise AttributeError(f"{key} not found in cacheset config")
 
 
 class BcacheBase(StorageBase):

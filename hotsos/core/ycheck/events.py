@@ -31,9 +31,9 @@ class EventCallbackMeta(type):
             return
 
         for event in members['event_names']:
-            event = '{}.{}'.format(event_group, event)
+            event = f'{event_group}.{event}'
             if event in CALLBACKS:
-                msg = "event callback already registered: {}".format(event)
+                msg = f"event callback already registered: {event}"
                 raise EventCallbackNameConflict(msg)
 
             CALLBACKS[event] = cls
@@ -88,9 +88,8 @@ class EventProcessingUtils():
                 else:
                     _fail_count += 1
             elif len(r) == 0:
-                msg = ("result (tag={}) does not have enough groups "
-                       "(min 1) to be categorised - aborting".
-                       format(r.tag))
+                msg = (f"result (tag={r.tag}) does not have enough groups "
+                       "(min 1) to be categorised - aborting")
                 raise Exception(msg)
             else:
                 if msg_flag and len(r) < 2:
@@ -247,7 +246,7 @@ class EventProcessingUtils():
                                 key=lambda e: e[1],
                                 reverse=True)[:max_results_per_date])
             shortened[date] = {'total': len(entries),
-                               "top{}".format(max_results_per_date): top_n}
+                               f"top{max_results_per_date}": top_n}
 
         return shortened
 
@@ -458,10 +457,9 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
                 # We want this to throw an exception if the callback is not
                 # defined.
-                callback_name = '{}.{}'.format(self.event_group, event)
+                callback_name = f'{self.event_group}.{event}'
                 if callback_name not in CALLBACKS:
-                    msg = ("no callback found for event {}".
-                           format(callback_name))
+                    msg = f"no callback found for event {callback_name}"
                     raise EventCallbackNotFound(msg)
 
                 callback = CALLBACKS[callback_name]

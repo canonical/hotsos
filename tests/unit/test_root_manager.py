@@ -34,8 +34,8 @@ class TestRootManager(utils.BaseTestCase):
         path = self.sospath_packed
         with hotsos.core.root_manager.DataRootManager(path) as drm:
             basename = os.path.basename(self.sospath_unpacked)
-            self.assertEqual(drm.name, 'sosreport {}'.
-                             format(os.path.join(drm.tmpdir, basename)))
+            self.assertEqual(drm.name,
+                             f'sosreport {os.path.join(drm.tmpdir, basename)}')
             self.assertEqual(drm.basename, basename)
 
     def test_fix_data_root(self):
@@ -58,7 +58,7 @@ class TestRootManager(utils.BaseTestCase):
         path = os.path.join(self.tmpdir, 'foo/bar')
         os.makedirs(path)
         drm = hotsos.core.root_manager.DataRootManager(path)
-        self.assertEqual(drm.name, 'sosreport {}'.format(path))
+        self.assertEqual(drm.name, f'sosreport {path}')
 
     @mock.patch('hotsos.core.root_manager.CLIHelper')
     @mock.patch('hotsos.core.root_manager.tarfile.is_tarfile',

@@ -17,8 +17,8 @@ class _BaseProcKeyValue():
 
     @property
     def path(self):
-        raise NotImplementedError('Method "path" must be implemened in {}.'.
-                                  format(self.__class__.__name__))
+        raise NotImplementedError('Method "path" must be implemened in '
+                                  f'{self.__class__.__name__}.')
 
     @staticmethod
     def key_val_sep():
@@ -46,8 +46,8 @@ class _BaseProcKeyValue():
         if key in self.VALID_KEYS:
             return self.DEFAULT_RETURN_VALUE
 
-        raise AttributeError('attribute {} not found in {}.'.
-                             format(key, self.__class__.__name__))
+        raise AttributeError(f'attribute {key} not found in '
+                             f'{self.__class__.__name__}.')
 
 
 class VMStat(_BaseProcKeyValue):
@@ -144,7 +144,7 @@ class SlabInfo():
             for line in fd:
                 exclude = False
                 for name in self._filter_names:
-                    if re.compile(r'^{}'.format(name)).search(line):
+                    if re.compile(rf'^{name}').search(line):
                         exclude = True
                         break
 
@@ -192,7 +192,7 @@ class SlabInfo():
         for i in range(5):
             if top5_name.get(i):
                 kbytes = top5_num_objs.get(i) * top5_objsize.get(i) / 1024
-                top5.append("{} ({}k)".format(top5_name.get(i), kbytes))
+                top5.append(f"{top5_name.get(i)} ({kbytes}k)")
 
         return top5
 
@@ -225,7 +225,7 @@ class BuddyInfo():
         with open(self.path) as fd:
             for line in fd:
                 if line.split()[3] == zones_type and \
-                        line.startswith("Node {},".format(node)):
+                        line.startswith(f"Node {node},"):
                     line = line.split()
                     return " ".join(line)
 
@@ -334,6 +334,6 @@ class MemoryChecks():
         if _nodes:
             for node, zones in _nodes['nodes'].items():
                 for name in zones['zones']:
-                    nodes.append("node{}-{}".format(node, name.lower()))
+                    nodes.append(f"node{node}-{name.lower()}")
 
         return nodes

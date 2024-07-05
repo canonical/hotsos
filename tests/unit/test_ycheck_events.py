@@ -128,8 +128,7 @@ class TestYamlEvents(utils.BaseTestCase):
             group = YDefsSection(name, group)
             data_file = os.path.join(HotSOSConfig.data_root, 'data.txt')
             for entry in group.leaf_sections:
-                self.assertEqual(entry.input.paths,
-                                 ['{}*'.format(data_file)])
+                self.assertEqual(entry.input.paths, [f'{data_file}*'])
 
     @utils.create_data_root({'data.txt': 'hello\nbrave\nworld\n',
                              'events/myplugin/mygroup.yaml':
@@ -166,7 +165,7 @@ class TestYamlEvents(utils.BaseTestCase):
             def my_passthrough_search(event):
                 # expected to be passthough results (i.e. raw)
                 callbacks_called[event.name] = True
-                tag = '{}-start'.format(event.search_tag)
+                tag = f'{event.search_tag}-start'
                 start_results = event.results.find_by_tag(tag)
                 test_self.assertEqual(start_results[0].get(0), 'hello')
 

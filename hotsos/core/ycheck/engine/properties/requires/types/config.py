@@ -102,11 +102,10 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
                 continue
 
             cache = self.context.assertions_ctxt['cache']
-            msg = "{} {}/actual=\"{}\"".format(key, self.ops_to_str(ops or []),
-                                               actual)
+            msg = f"{key} {self.ops_to_str(ops or [])}/actual=\"{actual}\""
             if cache.assertion_results is not None:
-                cache.set('assertion_results', "{}, {}".
-                          format(cache.assertion_results, msg))
+                cache.set('assertion_results',
+                          f"{cache.assertion_results}, {msg}")
             else:
                 cache.set('assertion_results', msg)
 

@@ -35,7 +35,7 @@ def catch_exceptions(*exc_types):
             try:
                 return f(*args, **kwargs)
             except exc_types as exc:
-                msg = "{}: {}".format(type(exc), exc)
+                msg = f"{type(exc)}: {exc}"
                 if isinstance(exc, subprocess.TimeoutExpired):
                     log.info(msg)
                 else:
@@ -56,12 +56,12 @@ class SourceNotFound(Exception):
         self.path = path
 
     def __repr__(self):
-        return "source path '{}' not found".format(self.path)
+        return f"source path '{self.path}' not found"
 
 
 class CommandNotFound(Exception):
     def __init__(self, cmd, msg):
-        self.msg = "command '{}' not found in catalog: '{}'".format(cmd, msg)
+        self.msg = f"command '{cmd}' not found in catalog: '{msg}'"
 
     def __str__(self):
         return self.msg
@@ -353,12 +353,12 @@ class JournalctlBinCmd(BinCmd, JournalctlBase):
     def format_journalctl_cmd(self, **kwargs):
         """ Add optional extras to journalctl command. """
         if kwargs.get("unit"):
-            self.cmd = "{} --unit {}".format(self.cmd, kwargs.get("unit"))
+            self.cmd = f"{self.cmd} --unit {kwargs.get('unit')}"
 
         if kwargs.get("date"):
-            self.cmd = "{} --since {}".format(self.cmd, kwargs.get("date"))
+            self.cmd = f"{self.cmd} --since {kwargs.get('date')}"
         else:
-            self.cmd = "{} --since {}".format(self.cmd, self.since_date)
+            self.cmd = f"{self.cmd} --since {self.since_date}"
 
 
 class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
@@ -368,14 +368,14 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
         self.register_hook("pre-exec", self.preformat_sos_journalctl)
 
     def preformat_sos_journalctl(self, **kwargs):
-        self.path = "journalctl -oshort-iso -D {}".format(self.path)
+        self.path = f"journalctl -oshort-iso -D {self.path}"
         if kwargs.get("unit"):
-            self.path = "{} --unit {}".format(self.path, kwargs.get("unit"))
+            self.path = f"{self.path} --unit {kwargs.get('unit')}"
 
         if kwargs.get("date"):
-            self.path = "{} --since {}".format(self.path, kwargs.get("date"))
+            self.path = f"{self.path} --since {kwargs.get('date')}"
         else:
-            self.path = "{} --since {}".format(self.path, self.since_date)
+            self.path = f"{self.path} --since {self.since_date}"
 
 
 class OVSAppCtlBinCmd(BinCmd):
@@ -394,7 +394,7 @@ class OVSAppCtlFileCmd(FileCmd):
     def __call__(self, *args, **kwargs):
         for key in ['flags', 'args']:
             if key in kwargs:
-                kwargs[key] = '_{}'.format(kwargs[key])
+                kwargs[key] = f'_{kwargs[key]}'
             else:
                 kwargs[key] = ''
 
@@ -425,7 +425,7 @@ class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
         First try without specifying protocol version. If error is raised
         try with different versions until we get a result.
         """
-        self.cmd = "ovs-ofctl {}".format(self.cmd)
+        self.cmd = f"ovs-ofctl {self.cmd}"
         try:
             return super().__call__(*args, **kwargs)
         except CLIExecError:
@@ -440,7 +440,7 @@ class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
             log.debug("%s: trying again with protocol version %s",
                       self.__class__.__name__, ver)
             self.reset()
-            self.cmd = "ovs-ofctl -O {} {}".format(ver, self.cmd)
+            self.cmd = f"ovs-ofctl -O {ver} {self.cmd}"
             try:
                 return super().__call__(*args, **kwargs)
             except CLIExecError:
@@ -462,7 +462,7 @@ class OVSOFCtlFileCmd(OVSOFCtlCmdBase, FileCmd):
                       self.__class__.__name__, ver)
             self.reset()
             try:
-                kwargs['ofversion'] = '_-O_{}'.format(ver)
+                kwargs['ofversion'] = f'_-O_{ver}'
                 out = super().__call__(*args, **kwargs)
                 if out.value and 'version negotiation failed' in out.value[0]:
                     continue
@@ -494,7 +494,7 @@ class DateBinCmd(BinCmd):
         if not no_format and fmt is None:
             fmt = '+%s'
 
-        self.cmd = '{} --utc'.format(self.cmd)
+        self.cmd = f'{self.cmd} --utc'
         if fmt:
             # this can't get split() so add to the end of the command list
             self.original_cmd_extras = [fmt]
@@ -533,8 +533,8 @@ class DateFileCmd(FileCmd):
             tz = 'UTC+8'
 
         # Include tz if available and then convert to utc
-        date = "{} {} {}".format(ret[1], tz, ret[3])
-        cmd = ["date", "--utc", "--date={}".format(date)]
+        date = f"{ret[1]} {tz} {ret[3]}"
+        cmd = ["date", "--utc", f"--date={date}"]
         if fmt:
             cmd.append(fmt)
 
@@ -611,7 +611,7 @@ class SourceRunner():
         # Command output can differ between CLIHelper and CLIHelperFile so we
         # need to cache them separately.
         if output_file:
-            self.cache_cmdkey = "{}.file".format(cmdkey)
+            self.cache_cmdkey = f"{cmdkey}.file"
         else:
             self.cache_cmdkey = cmdkey
 

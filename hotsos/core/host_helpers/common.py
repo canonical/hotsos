@@ -28,7 +28,7 @@ class HostHelpersBase(abc.ABC):
             self.cache = NullCache()
         else:
             self.cache = MPCache(self.cache_name,
-                                 'host_helpers_{}'.format(self.cache_type),
+                                 f'host_helpers_{self.cache_type}',
                                  self.cache_root)
 
         super().__init__(*args, **kwargs)

@@ -43,10 +43,10 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
                                 'data_source': result_path}
 
             for stage in EXT_EVENT_META[event.name]['stages_keys']:
-                expr = (r"[\d-]+ [\d:]+\.\d{{3}} .+\[instance: {}\]"
-                        r"\s+{}\s.*\s?event\s+{}-{}.?".
-                        format(instance_id, stage, event.name, event_id))
-                tag = "{}_{}_{}".format(instance_id, event_id, stage)
+                expr = (r"[\d-]+ [\d:]+\.\d{3} "
+                        rf".+\[instance: {instance_id}\]"
+                        rf"\s+{stage}\s.*\s?event\s+{event.name}-{event_id}.?")
+                tag = f"{instance_id}_{event_id}_{stage}"
                 sd = SearchDef(expr, tag, hint=event.name,
                                store_result_contents=False)
                 s.add(sd, result_path)
@@ -57,7 +57,7 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
             data_source = event_dict['data_source']
             stages = self._get_state_dict(event.name)
             for stage in stages:
-                tag = "{}_{}_{}".format(instance_id, event_id, stage)
+                tag = f"{instance_id}_{event_id}_{stage}"
                 r = results.find_by_tag(tag, path=data_source)
                 if r:
                     stages[stage] = True

@@ -1946,7 +1946,7 @@ _NEUTRONCLIENT_EXCEPTIONS = [
     "UnsupportedVersion",
     "NeutronClientNoUniqueMatch",
 ]
-NEUTRONCLIENT_EXCEPTIONS = ["neutronclient.common.exceptions.{}".format(exc)
+NEUTRONCLIENT_EXCEPTIONS = [f"neutronclient.common.exceptions.{exc}"
                             for exc in _NEUTRONCLIENT_EXCEPTIONS]
 
 # Including this as a dep of (at least) Neutron
@@ -2217,7 +2217,7 @@ _OS_VIF_EXCEPTIONS = [
     "RepresentorNotFound",
     "PciDeviceNotFoundById",
 ]
-OS_VIF_EXCEPTIONS = ["os_vif.exception.{}".format(exc)
+OS_VIF_EXCEPTIONS = [f"os_vif.exception.{exc}"
                      for exc in _OS_VIF_EXCEPTIONS]
 
 # Exceptions common to any project should be defined here

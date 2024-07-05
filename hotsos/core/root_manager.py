@@ -40,7 +40,7 @@ class DataRootManager():
         try:
             shutil.rmtree(self.tmpdir)
         except PermissionError:
-            os.system('chmod -R 777 {}'.format(self.tmpdir))
+            os.system(f'chmod -R 777 {self.tmpdir}')
             shutil.rmtree(self.tmpdir)
 
     @cached_property
@@ -71,8 +71,8 @@ class DataRootManager():
                 rootdir = tar.firstmember.name.partition('/')[0]
                 target = os.path.join(self.tmpdir, rootdir)
                 if not os.path.exists(target):
-                    sys.stdout.write("INFO: extracting sosreport {} to {}\n".
-                                     format(path, target))
+                    sys.stdout.write(f"INFO: extracting sosreport {path} to "
+                                     "{target}\n")
                     try:
                         tar.extractall(self.tmpdir)
                     # We really do want to catch all here since we don't care
@@ -90,12 +90,12 @@ class DataRootManager():
                                          "be incomplete as a result)\n")
                         tar.extractall(self.tmpdir)
                 else:
-                    sys.stdout.write("INFO: target {} already exists - "
-                                     "skipping unpack\n".format(target))
+                    sys.stdout.write(f"INFO: target {target} already exists - "
+                                     "skipping unpack\n")
 
             return target
 
-        raise Exception("invalid data root '{}'".format(path))
+        raise Exception(f"invalid data root '{path}'")
 
     def _type(self, path):
         if path == '/':
@@ -113,15 +113,14 @@ class DataRootManager():
         if self.type == self.TYPE_HOST:
             return 'localhost'
 
-        return 'sosreport {}'.format(self.data_root)
+        return f'sosreport {self.data_root}'
 
     @property
     def basename(self):
         path = self.data_root
         if path == '/':
             if HotSOSConfig.data_root != self.data_root:
-                raise Exception("HotSOSConfig.data_root != {}".
-                                format(self.data_root))
+                raise Exception(f"HotSOSConfig.data_root != {self.data_root}")
 
             return CLIHelper().hostname()
 

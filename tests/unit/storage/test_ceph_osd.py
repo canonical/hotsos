@@ -108,7 +108,7 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
     def test_local_osd_info(self):
         fsid = "48858aa1-71a3-4f0e-95f3-a07d1d9a6749"
         expected = {0: {
-                    'dev': '/dev/mapper/crypt-{}'.format(fsid),
+                    'dev': f'/dev/mapper/crypt-{fsid}',
                     'fsid': fsid,
                     'rss': '317M'}}
         inst = ceph_summary.CephSummary()

@@ -47,9 +47,8 @@ class PluginRegistryMeta(type):
                 index = subcls.summary_part_index
                 existing = [e[index_key] for e in PLUGINS[cls.plugin_name]]
                 if index in existing:
-                    raise SummaryOffsetConflict("plugin {} has index "
-                                                "conflict {}".format(name,
-                                                                     index))
+                    raise SummaryOffsetConflict(f"plugin {name} has index "
+                                                f"conflict {index}")
 
                 PLUGINS[cls.plugin_name].append({index_key: index,
                                                  'runner': subcls})
@@ -87,8 +86,8 @@ class OutputFormatterBase():
         # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
         templates_dir = str(HotSOSConfig.templates_path)
         if not os.path.isdir(templates_dir):
-            raise Exception("jinja templates directory not found: '{}'".
-                            format(templates_dir))
+            raise Exception("jinja templates directory not found: "
+                            f"'{templates_dir}'")
 
         env = Environment(loader=FileSystemLoader(templates_dir))
         template = env.get_template(template)
@@ -236,9 +235,8 @@ class PartManager():
                         default_flow_style=False).rstrip("\n")
 
         part_path = os.path.join(HotSOSConfig.plugin_tmp_dir,
-                                 "{}.{}.part.yaml".
-                                 format(HotSOSConfig.plugin_name,
-                                        HotSOSConfig.part_name))
+                                 (f"{HotSOSConfig.plugin_name}."
+                                  f"{HotSOSConfig.part_name}.part.yaml"))
 
         # don't clobber
         if os.path.exists(part_path):
@@ -246,7 +244,7 @@ class PartManager():
             i = 0
             while os.path.exists(newpath):
                 i += 1
-                newpath = "{}.{}".format(part_path, i)
+                newpath = f"{part_path}.{i}"
 
             part_path = newpath
 
@@ -327,9 +325,9 @@ class PluginPartBase(ApplicationBase):
         plugin_tmp = HotSOSConfig.plugin_tmp_dir
 
         if self.plugin_name is None:
-            raise Exception("{}.plugin_name must be set to a value that "
-                            "represents the name of the plugin".
-                            format(self.__class__.__name__))
+            raise Exception(f"{self.__class__.__name__}.plugin_name must be "
+                            "set to a value that represents the name of the "
+                            "plugin")
 
         if not plugin_tmp or not os.path.isdir(plugin_tmp):
             raise Exception("plugin plugin_tmp_dir not initialised - exiting")
@@ -373,12 +371,12 @@ class PluginPartBase(ApplicationBase):
 
         for m in dir(self.__class__):
             cls = self.__class__.__name__
-            ret = re.match(r'_{}__(\d+)_summary_(\S+)'.format(cls), m)
+            ret = re.match(rf'_{cls}__(\d+)_summary_(\S+)', m)
             if ret:
                 index = int(ret.group(1))
                 key = ret.group(2)
             else:
-                ret = re.match(r'_{}__summary_(\S+)'.format(cls), m)
+                ret = re.match(rf'_{cls}__summary_(\S+)', m)
                 if ret:
                     log.info("summary sub entry with no index: %s", m)
                     key = ret.group(1)

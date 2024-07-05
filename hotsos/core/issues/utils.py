@@ -28,8 +28,7 @@ class IssueEntryBase(abc.ABC):
         self.context = context
         self.ref = ref
         self.message = message
-        self.origin = "{}.{}".format(HotSOSConfig.plugin_name,
-                                     HotSOSConfig.part_name)
+        self.origin = f"{HotSOSConfig.plugin_name}.{HotSOSConfig.part_name}"
 
     @property
     @abc.abstractmethod
@@ -55,8 +54,8 @@ class IssuesStoreBase(abc.ABC):
 
     def __init__(self):
         if not os.path.isdir(HotSOSConfig.plugin_tmp_dir):
-            raise Exception("plugin tmp dir  '{}' not found".
-                            format(HotSOSConfig.plugin_tmp_dir))
+            raise Exception(f"plugin tmp dir '{HotSOSConfig.plugin_tmp_dir}' "
+                            "not found")
 
     @property
     @abc.abstractmethod
@@ -167,7 +166,7 @@ class IssuesManager():
             types = {}
             for issue in issues[self.SUMMARY_OUT_ISSUES_ROOT]:
                 # pluralise the type for display purposes
-                issue_type = "{}s".format(issue['type'])
+                issue_type = f"{issue['type']}s"
                 if issue_type not in types:
                     types[issue_type] = []
 

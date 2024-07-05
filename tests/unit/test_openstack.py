@@ -494,7 +494,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
     def test_plugin_not_runnable_clients_only(self, mock_cli):
         mock_cli.return_value = mock.MagicMock()
         mock_cli.return_value.dpkg_l.return_value = \
-            ["{}\n".format(line) for line in DPKG_L_CLIENTS_ONLY.split('\n')]
+            [f"{line}\n" for line in DPKG_L_CLIENTS_ONLY.split('\n')]
 
         ost_base = openstack_core.OpenstackChecksBase()
         self.assertFalse(ost_base.plugin_runnable)

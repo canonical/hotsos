@@ -113,7 +113,7 @@ class JujuMachine():
             app = unit.partition('/')[0]
             unit_id = unit.partition('/')[2]
             path = os.path.join(self.juju_lib_path,
-                                "agents/unit-{}-{}".format(app, unit_id))
+                                f"agents/unit-{app}-{unit_id}")
             units.append(JujuUnit(unit_id, app, self.juju_lib_path, path=path))
 
         return units
@@ -124,7 +124,7 @@ class JujuUnit():
     def __init__(self, unit_id, application, juju_lib_path, path=None):
         self.id = unit_id
         self.application = application
-        self.name = '{}-{}'.format(application, unit_id)
+        self.name = f'{application}-{unit_id}'
         self.juju_lib_path = juju_lib_path
         self.path = path
 
@@ -135,8 +135,7 @@ class JujuUnit():
         deploy the unit whose name may not match the charm. It also tells us
         where the charm was deployed from i.e. cs:, ch: etc
         """
-        manifest_path = ("agents/unit-{}/state/deployer/manifests/*".
-                         format(self.name))
+        manifest_path = f"agents/unit-{self.name}/state/deployer/manifests/*"
         for entry in glob.glob(os.path.join(self.juju_lib_path,
                                             manifest_path)):
             # we expect only one

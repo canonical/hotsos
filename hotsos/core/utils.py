@@ -31,12 +31,11 @@ def mktemp_dump(data, prefix=None):
 
 
 def seconds_to_date(secs):
-    days = secs / 86400
-    hours = secs / 3600 % 24
-    mins = secs / 60 % 60
-    secs = secs % 60
-    return '{}d:{}h:{}m:{}s'.format(int(days), int(hours),
-                                    int(mins), int(secs))
+    days = int(secs / 86400)
+    hours = int(secs / 3600 % 24)
+    mins = int(secs / 60 % 60)
+    secs = int(secs % 60)
+    return f'{days}d:{hours}h:{mins}m:{secs}s'
 
 
 def sample_set_regressions(samples, ascending=True):
