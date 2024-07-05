@@ -1,7 +1,7 @@
 checks:
   cluster_has_pgs_with_large_omap_objects:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.large_omap_pgs
+      path: ceph.cluster.large_omap_pgs
       ops: [[length_hint], [gt, 0]]
 conclusions:
   large-omap-pgs:
@@ -19,4 +19,4 @@ conclusions:
         If the large OMAP objects are reported from a pool used by OpenStack Gnocchi,
         it may need tuning: https://portal.support.canonical.com/ua/s/article/Gnocchi-causing-large-OMAP-objects-in-a-Ceph-cluster
       format-dict:
-        large_omap_pgs: hotsos.core.plugins.storage.ceph.CephCluster.large_omap_pgs_str
+        large_omap_pgs: ceph.cluster.large_omap_pgs_str

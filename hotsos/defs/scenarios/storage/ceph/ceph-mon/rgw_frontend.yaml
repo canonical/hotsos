@@ -5,7 +5,7 @@ checks:
         - min: 14.2.0
   rgw_outdated_frontend:
     config:
-      handler: hotsos.core.plugins.storage.ceph.CephConfig
+      handler: ceph.config
       assertions:
         - key: rgw_frontends
           ops: [[ne, null]]
@@ -13,7 +13,7 @@ checks:
           ops: [[contains, civetweb]]
   is_rgw_using_civetweb:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCrushMap.is_rgw_using_civetweb
+      path: ceph.crushmap.is_rgw_using_civetweb
 conclusions:
   rgw_outdated_frontend:
     decision:

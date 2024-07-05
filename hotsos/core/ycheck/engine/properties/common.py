@@ -15,6 +15,7 @@ from hotsos.core.exceptions import (
     MissingRequiredParameterError,
     UnexpectedParameterError
 )
+from hotsos.core.alias import AliasRegistry
 
 
 class ImportPathIsNotAClass(Exception):
@@ -395,8 +396,12 @@ class YPropertyBase(PTreeOverrideBase):
             log.debug("instantiating class %s (from_cache=True)", import_str)
             return ret
 
+        # Try to resolve class alias
+        import_str = AliasRegistry.resolve(import_str, import_str)
+
         log.debug("instantiating class %s (from_cache=False)", import_str)
         mod, cls_name = self._get_mod_class_from_path(import_str)
+
         try:
             _mod = importlib.import_module(mod)
             ret = getattr(_mod, cls_name)
@@ -414,6 +419,7 @@ class YPropertyBase(PTreeOverrideBase):
         self._add_to_import_cache(import_str, ret)
         return ret
 
+    # pylint: disable-next=too-many-statements
     def get_property(self, import_str):
         """
         Import and fetch value of a Python property or factory.
@@ -428,6 +434,11 @@ class YPropertyBase(PTreeOverrideBase):
 
         @param import_str: a path to a Python property or Factory.
         """
+
+        # Try to resolve aliases first.
+        import_path, _, __ = import_str.partition(":")
+        import_str = AliasRegistry.resolve(import_path, import_str)
+
         ret = self._load_from_import_cache(import_str)
         if ret:
             log.debug("calling property %s (from_cache=True)", import_str)

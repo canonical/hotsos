@@ -10,6 +10,7 @@ from hotsos.core.plugins.openstack.openstack import (
     OpenstackConfig,
     OSTServiceBase,
 )
+from hotsos.core.alias import alias
 
 # See https://github.com/openstack/neutron-lib/blob/master/neutron_lib/constants.py#L346  # noqa, pylint: disable=C0301
 IP_HEADER_BYTES = 20
@@ -45,6 +46,7 @@ class NeutronBase(OSTServiceBase):
         return interfaces
 
 
+@alias('neutron.service_checks')
 class ServiceChecks():
     """ Neutron service specific checks.  """
     @cached_property
@@ -130,6 +132,7 @@ class NeutronHAInfo():
         return None
 
 
+@alias('neutron.config')
 class Config(FactoryBase):
     """ Neutron config. """
     def __getattr__(self, path):

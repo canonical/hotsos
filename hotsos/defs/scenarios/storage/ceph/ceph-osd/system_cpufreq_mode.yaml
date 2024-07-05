@@ -9,7 +9,7 @@ vars:
   message_ondemand: >-
     You will also need to stop and disable the ondemand systemd service in
     order for changes to persist.
-  scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
+  scaling_governor: '@kernel.sysfs.cpu.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
     # can we actually see the setting

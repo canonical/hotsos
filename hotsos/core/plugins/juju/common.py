@@ -3,6 +3,7 @@ import os
 from hotsos.core.host_helpers import PebbleHelper, SystemdHelper
 from hotsos.core.plugins.juju.resources import JujuBase
 from hotsos.core import plugintools
+from hotsos.core.alias import alias
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
 JUJU_SVC_EXPRS = [rf'mongod{SVC_VALID_SUFFIX}',
@@ -12,6 +13,7 @@ JUJU_SVC_EXPRS = [rf'mongod{SVC_VALID_SUFFIX}',
                   rf'(?:^|[^\s])juju-db{SVC_VALID_SUFFIX}']
 
 
+@alias('juju')
 class JujuChecks(plugintools.PluginPartBase, JujuBase):
     """ Juju checks. """
     plugin_name = 'juju'

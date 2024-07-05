@@ -11,13 +11,14 @@ from hotsos.core.search import (
     FileSearcher, SearchDef,
     SequenceSearchDef
 )
-
+from hotsos.core.alias import alias
 
 CORE_APT = ['lxd', 'lxc']
 CORE_SNAPS = [rf"(?:snap\.)?{p}" for p in CORE_APT]
 SERVICE_EXPRS = [rf"{s}\S*" for s in CORE_SNAPS]
 
 
+@alias('lxd')
 class LXD():
     """ LXD interface. """
     @cached_property

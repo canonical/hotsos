@@ -6,7 +6,7 @@ checks:
     hint: 'DestinationDiskExists'
   libvirt_rbd_backend:
     config:
-      handler: hotsos.core.plugins.openstack.OpenstackConfig
+      handler: openstack.config
       path: etc/nova/nova.conf
       assertions:
         - key: images_type

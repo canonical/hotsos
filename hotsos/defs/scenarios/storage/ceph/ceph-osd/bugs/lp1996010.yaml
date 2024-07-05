@@ -1,8 +1,8 @@
 vars:
   bluestore_volume_selection_policy:
-    '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_volume_selection_policy:CephDaemonConfigShow'
+    '@ceph.daemon.all-osds.bluestore_volume_selection_policy:CephDaemonConfigShow'
   bluestore_cache_onode:
-    '@hotsos.core.plugins.storage.ceph.CephDaemonAllOSDsFactory.bluestore_cache_onode:CephDaemonDumpMemPools'
+    '@ceph.daemon.all-osds.bluestore_cache_onode:CephDaemonDumpMemPools'
 checks:
   has_1996010_osd_log:
     # NOTE: this needs quite a high debug level to appear - debug_bluestore=30/30

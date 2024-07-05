@@ -2,7 +2,7 @@
 input:
   path: var/log/openvswitch/ovs-vswitchd.log
 vars:
-  num_lost_packets: '@hotsos.core.plugins.openvswitch.OVSDPLookups.lost'
+  num_lost_packets: '@openvswitch.dplookups.lost'
   lost_packets_msg_part1: >-
     This host is running Openvswitch and its datapath is reporting a non-zero
     amount

@@ -1,8 +1,10 @@
 from hotsos.core.log import log
 from hotsos.core.plugins.kernel.kernlog.common import KernLogBase
 from hotsos.core.search import SearchDef
+from hotsos.core.alias import alias
 
 
+@alias('kernel.kernlog.events')
 class KernLogEvents(KernLogBase):
     """ Kern log events info. """
     def __init__(self, *args, **kwargs):

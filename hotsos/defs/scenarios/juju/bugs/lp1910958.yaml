@@ -17,4 +17,4 @@ conclusions:
       format-dict:
         units: '@checks.has_lp1910958.search.results_group_1:unique_comma_join'
         rels: '@checks.has_lp1910958.search.results_group_2:unique_comma_join'
-        juju_version: 'hotsos.core.plugins.juju.resources.JujuBase.version'
+        juju_version: 'juju.base.version'

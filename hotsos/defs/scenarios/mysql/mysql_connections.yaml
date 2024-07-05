@@ -3,7 +3,7 @@ checks:
     apt: percona-xtradb-cluster-server
   max_connections_gt_default_limit:
     config:
-      handler: hotsos.core.plugins.mysql.MySQLConfig
+      handler: mysql.config
       assertions:
         key: max_connections
         ops: [[gt, 4190]]

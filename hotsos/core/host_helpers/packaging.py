@@ -7,6 +7,7 @@ from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
+from hotsos.core.alias import alias
 
 lower_bound_ops = ["gt", "ge", "eq"]  # ops that define a lower bound
 upper_bound_ops = ["lt", "le", "eq"]  # ops that define an upper bound
@@ -495,6 +496,7 @@ class AptPackage:
     version: str
 
 
+@alias('apt.package')
 class AptFactory(FactoryBase):
     """
     Factory to dynamically get package versions.

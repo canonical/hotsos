@@ -15,10 +15,12 @@ from hotsos.core.plugins.storage.ceph.daemon import (
     CephOSD,
 )
 from hotsos.core.utils import sorted_dict
+from hotsos.core.alias import alias
 
 CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
 
+@alias('ceph.crushmap')
 class CephCrushMap():
     """
     Representation of a Ceph cluster CRUSH map.
@@ -224,6 +226,7 @@ class CephCrushMap():
         return False
 
 
+@alias('ceph.cluster')
 class CephCluster():  # pylint: disable=too-many-public-methods
     """
     Provides an interface to a Ceph cluster.

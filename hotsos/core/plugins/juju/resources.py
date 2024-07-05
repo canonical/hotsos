@@ -11,6 +11,7 @@ import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
 from hotsos.core import utils
+from hotsos.core.alias import alias
 
 
 class JujuMachine():
@@ -176,6 +177,7 @@ class JujuCharm:
     version: int
 
 
+@alias('juju.base')
 class JujuBase():
     """ Juju checks base class. """
     CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
@@ -259,6 +261,7 @@ class JujuBase():
         return list(self.charms.keys())
 
 
+@alias('juju.bin')
 class JujuBinaryInterface(JujuBase):
     """ Interface to juju binary. """
     @property

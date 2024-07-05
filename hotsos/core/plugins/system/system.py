@@ -13,6 +13,7 @@ from hotsos.core.search import (
     FileSearcher, SearchDef,
     SequenceSearchDef
 )
+from hotsos.core.alias import alias
 
 
 class NUMAInfo():
@@ -76,6 +77,7 @@ class NUMAInfo():
         return self.nodes.get(node)
 
 
+@alias('system')
 class SystemBase():
     """ Base class for system checks. """
     @cached_property
@@ -233,6 +235,7 @@ class SystemBase():
         return SYSCtlFactory().sysctl_all
 
 
+@alias('sssd')
 class SSSD():
     """ SSSD interface. """
     def __init__(self):

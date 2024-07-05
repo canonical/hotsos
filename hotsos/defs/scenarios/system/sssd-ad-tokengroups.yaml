@@ -1,5 +1,5 @@
 vars:
-  ad_domains_with_tokengroups_enabled: '@hotsos.core.plugins.system.system.SSSD.tokengroups_enabled_domains'
+  ad_domains_with_tokengroups_enabled: '@sssd.tokengroups_enabled_domains'
 
 checks:
   any_tokengroups_enabled_domains:

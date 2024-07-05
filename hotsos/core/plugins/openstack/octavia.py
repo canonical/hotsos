@@ -1,12 +1,15 @@
 from functools import cached_property
 
 from hotsos.core.plugins.openstack.openstack import OSTServiceBase
+from hotsos.core.alias import alias
 
-OCTAVIA_HM_PORT_NAME = 'o-hm0'
 
-
+@alias('openstack.octavia')
 class OctaviaBase(OSTServiceBase):
     """ Base class for Octavia checks. """
+
+    OCTAVIA_HM_PORT_NAME = 'o-hm0'
+
     def __init__(self, *args, **kwargs):
         super().__init__('octavia', *args, **kwargs)
 
@@ -17,15 +20,16 @@ class OctaviaBase(OSTServiceBase):
         keyed by config key used to identify interface.
         """
         interfaces = {}
-        port = self.nethelp.get_interface_with_name(OCTAVIA_HM_PORT_NAME)
+        port = self.nethelp.get_interface_with_name(
+            OctaviaBase.OCTAVIA_HM_PORT_NAME)
         if port:
-            interfaces.update({OCTAVIA_HM_PORT_NAME: port})
+            interfaces.update({OctaviaBase.OCTAVIA_HM_PORT_NAME: port})
 
         return interfaces
 
     @property
     def hm_port_has_address(self):
-        port = self.bind_interfaces.get(OCTAVIA_HM_PORT_NAME)
+        port = self.bind_interfaces.get(OctaviaBase.OCTAVIA_HM_PORT_NAME)
         if port is None or not port.addresses:
             return False
 
@@ -33,7 +37,7 @@ class OctaviaBase(OSTServiceBase):
 
     @cached_property
     def hm_port_healthy(self):
-        port = self.bind_interfaces.get(OCTAVIA_HM_PORT_NAME)
+        port = self.bind_interfaces.get(OctaviaBase.OCTAVIA_HM_PORT_NAME)
         if port is None:
             return True
 

@@ -1,5 +1,5 @@
 vars:
-  nc_aa_mode: '@hotsos.core.host_helpers.apparmor.AAProfileFactory.mode:/usr/bin/nova-compute'
+  nc_aa_mode: '@apparmor.profile.mode:/usr/bin/nova-compute'
 checks:
   has_2012284:
     input:

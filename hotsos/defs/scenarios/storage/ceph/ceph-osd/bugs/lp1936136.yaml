@@ -1,5 +1,5 @@
 vars:
-  cache_available_percent: '@hotsos.core.plugins.storage.bcache.CachesetsInfo.cache_available_percent'
+  cache_available_percent: '@bcache.cachesetsinfo.cache_available_percent'
 checks:
   node_is_ceph_osd_and_has_version:
     # Get version of osd based on package installed. This is prone to
@@ -16,15 +16,15 @@ checks:
         - min: 17.0.0
           max: 17.0.0
   node_has_osds_using_bcache:
-    property: hotsos.core.plugins.storage.ceph.CephChecks.local_osds_use_bcache
+    property: ceph.local_osds_use_bcache
   kernel_version_check:
     property:
-      path: hotsos.core.plugins.kernel.KernelBase.version
+      path: kernel.version
       ops: [[lt, '5.4']]
   bluefs_buffered_io_enabled:
     config:
       # We will need a better way to check the actual osd config
-      handler: hotsos.core.plugins.storage.ceph.CephConfig
+      handler: ceph.config
       assertions:
         key: bluefs_buffered_io
         ops: [[eq, true]]

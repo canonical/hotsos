@@ -30,14 +30,14 @@ Usage:
 
 .. code-block:: yaml
 
-    property: <import path to python property>
+    property: <import path to python property or alias>
 
 or
 
 .. code-block:: yaml
 
     property:
-      path: <import path to python property>
+      path: <import path to python property or alias>
       ops: OPS_LIST
 
 Cache keys:
@@ -269,7 +269,7 @@ Usage:
 .. code-block:: yaml
 
     config:
-      handler: <import path>
+      handler: <import path or alias>
       path: <path to config file>
       assertions:
         - allow-unset: <bool>
@@ -295,7 +295,7 @@ Example:
     checks:
       checkcfg:
         config:
-          handler: hotsos.core.plugins.openstack.OpenstackConfig
+          handler: openstack.config
           path: etc/nova/nova.conf
           assertions:
             - key: debug

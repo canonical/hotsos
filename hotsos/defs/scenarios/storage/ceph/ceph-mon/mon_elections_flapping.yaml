@@ -11,7 +11,7 @@ checks:
         search-result-age-hours: 48
         min-hours-since-last-boot: 1
   ceph_interfaces_have_errors:
-    property: hotsos.core.plugins.storage.ceph.CephChecks.has_interface_errors
+    property: ceph.has_interface_errors
 conclusions:
   cause-unknown:
     priority: 1
@@ -35,5 +35,5 @@ conclusions:
         period and the network interface(s) {interfaces} used by the ceph-mon are showing
         errors - please investigate.
       format-dict:
-        interfaces: hotsos.core.plugins.storage.ceph.CephChecks.bind_interface_names
+        interfaces: ceph.bind_interface_names
         count: '@checks.ceph_log_has_election_calls.search.num_results'

@@ -50,5 +50,6 @@ the rest of the directory will only be run if it resolves to *True*:
     requires:
       or:
         - property: hotsos.core.plugins.myplugin.mustbetrue
+        - property: alias.mustbetrue
         - path: file/that/must/exist
 

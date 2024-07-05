@@ -3,7 +3,7 @@ checks:
     apt: openvswitch-switch-dpdk
   nova_libvirt_queue_sizes_invalid_config:
     config:
-      handler: hotsos.core.plugins.openstack.OpenstackConfig
+      handler: openstack.config
       path: etc/nova/nova.conf
       assertions:
         not:

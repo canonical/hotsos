@@ -8,8 +8,10 @@ from hotsos.core.search import (
     FileSearcher,
 )
 from hotsos.core.host_helpers import CLIHelperFile
+from hotsos.core.alias import alias
 
 
+@alias('rabbitmq')
 class RabbitMQReport():
     """
     Class providing easy access to the contents of a rabbitmqctl report.

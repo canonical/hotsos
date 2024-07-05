@@ -11,12 +11,14 @@ from hotsos.core import (
     host_helpers,
     plugintools,
 )
+from hotsos.core.alias import alias
 
 SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
 MYSQL_SVC_EXPRS = [rf'mysql{SVC_VALID_SUFFIX}']
 CORE_APT = ['mysql']
 
 
+@alias('mysql')
 class MySQLChecks(plugintools.PluginPartBase):
     """ MySQL checks. """
     plugin_name = 'mysql'
@@ -33,6 +35,7 @@ class MySQLChecks(plugintools.PluginPartBase):
         return self.apt.core is not None
 
 
+@alias('mysql.config')
 class MySQLConfig(host_helpers.IniConfigBase):
     """ MySQL config interface. """
     def __init__(self, *args, **kwargs):
@@ -41,6 +44,7 @@ class MySQLConfig(host_helpers.IniConfigBase):
         super().__init__(*args, path=path, **kwargs)
 
 
+@alias('mysql.config.router')
 class MySQLRouterConfig(host_helpers.IniConfigBase):
     """ MySQL Router config interface. """
     def __init__(self, *args, **kwargs):

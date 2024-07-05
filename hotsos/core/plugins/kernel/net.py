@@ -6,6 +6,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import SYSCtlFactory, CLIHelperFile
 from hotsos.core.log import log
 from hotsos.core.search import FileSearcher, SearchDef, ResultFieldInfo
+from hotsos.core.alias import alias
 
 
 class ProcNetBase(abc.ABC):
@@ -108,6 +109,7 @@ class SNMPBase(ProcNetBase):
                                        'proc/net/snmp'))
 
 
+@alias('kernel.net.snmp.tcp')
 class SNMPTcp(SNMPBase):
     """ /proc/net/snmp interface implementation to extract TCP information. """
     def _percent_in_segs(self, field):
@@ -153,6 +155,7 @@ class SNMPTcp(SNMPBase):
         return super().__getattr__(fld)
 
 
+@alias('kernel.net.snmp.udp')
 class SNMPUdp(SNMPBase):
     """ /proc/net/snmp interface implementation to extract UDP information. """
     @property
@@ -207,6 +210,7 @@ class NetStatBase(ProcNetBase):
         self.net_snmp_tcp = SNMPTcp()
 
 
+@alias('kernel.net.netstat.tcp')
 class NetStatTCP(NetStatBase):
     """
     /proc/net/netstat interface implementation to extract TCP information.
@@ -287,6 +291,7 @@ class NetStatTCP(NetStatBase):
         return super().__getattr__(fld)
 
 
+@alias('kernel.net.sockstat')
 class SockStat(ProcNetBase):
     """
     Provides a common way to extract fields from /proc/net/sockstat.
@@ -530,6 +535,7 @@ class Lsof(STOVParserBase):
         return list(filter(lambda x: (x.NODE == inode), self.data))
 
 
+@alias('kernel.net.netlink')
 class NetLink(STOVParserBase):
     """
     Provides a way to extract fields from /proc/net/netlink.

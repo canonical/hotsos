@@ -1,24 +1,24 @@
 # All conclusions in this scenario share the same priority so that one or more
 # of them can be reached.
 vars:
-  isolcpus_enabled: '@hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled'
-  cpuaffinity_enabled: '@hotsos.core.plugins.kernel.SystemdConfig.cpuaffinity_enabled'
-  openstack_release: '@hotsos.core.plugins.openstack.OpenstackBase.release_name'
-  vcpu_pinset: '@hotsos.core.plugins.openstack.nova.CPUPinning.vcpu_pin_set'
-  cpu_dedicated_set: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set'
-  cpu_dedicated_set_name: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_name'
-  pinning_from_multi_numa_nodes: '@hotsos.core.plugins.openstack.nova.CPUPinning.nova_pinning_from_multi_numa_nodes'
+  isolcpus_enabled: '@kernel.isolcpus_enabled'
+  cpuaffinity_enabled: '@kernel.systemdconfig.cpuaffinity_enabled'
+  openstack_release: '@openstack.release_name'
+  vcpu_pinset: '@openstack.nova.cpupinning.vcpu_pin_set'
+  cpu_dedicated_set: '@openstack.nova.cpupinning.cpu_dedicated_set'
+  cpu_dedicated_set_name: '@openstack.nova.cpupinning.cpu_dedicated_set_name'
+  pinning_from_multi_numa_nodes: '@openstack.nova.cpupinning.nova_pinning_from_multi_numa_nodes'
   cpu_dedicated_set_intersection_isolcpus:
-    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_isolcpus'
+    '@openstack.nova.cpupinning.cpu_dedicated_set_intersection_isolcpus'
   cpu_dedicated_set_intersection_cpuaffinity:
-    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_intersection_cpuaffinity'
+    '@openstack.nova.cpupinning.cpu_dedicated_set_intersection_cpuaffinity'
   cpu_shared_set_intersection_isolcpus:
-    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_isolcpus'
+    '@openstack.nova.cpupinning.cpu_shared_set_intersection_isolcpus'
   cpu_shared_set_intersection_cpu_dedicated_set:
-    '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_intersection_cpu_dedicated_set'
-  cpuaffinity_intersection_isolcpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpuaffinity_intersection_isolcpus'
-  num_unpinned_cpus: '@hotsos.core.plugins.openstack.nova.CPUPinning.num_unpinned_cpus'
-  unpinned_cpus_pcent: '@hotsos.core.plugins.openstack.nova.CPUPinning.unpinned_cpus_pcent'
+    '@openstack.nova.cpupinning.cpu_shared_set_intersection_cpu_dedicated_set'
+  cpuaffinity_intersection_isolcpus: '@openstack.nova.cpupinning.cpuaffinity_intersection_isolcpus'
+  num_unpinned_cpus: '@openstack.nova.cpupinning.num_unpinned_cpus'
+  unpinned_cpus_pcent: '@openstack.nova.cpupinning.unpinned_cpus_pcent'
 checks:
   is_nova_compute_node:
     systemd: nova-compute
@@ -106,7 +106,7 @@ conclusions:
       format-dict:
         pcent_unpinned: $unpinned_cpus_pcent
         nonisolated: $num_unpinned_cpus
-        total: hotsos.core.plugins.system.common.SystemBase.num_cpus
+        total: system.num_cpus
   nova-pinning-from-multi-numa-nodes:
     decision:
       - is_nova_compute_node

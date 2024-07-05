@@ -27,6 +27,7 @@ from hotsos.core.plugins.openstack.nova import NovaBase
 from hotsos.core.plugins.openstack.octavia import OctaviaBase
 from hotsos.core import plugintools
 from hotsos.core.ycheck.events import EventHandlerBase, EventCallbackBase
+from hotsos.core.alias import alias
 
 
 @dataclass
@@ -37,6 +38,7 @@ class OSTProjectHelpers:
     octavia: OctaviaBase
 
 
+@alias('openstack')
 class OpenstackBase():
     """
     Base class for Openstack checks.
@@ -252,6 +254,7 @@ class OpenstackBase():
         return False
 
 
+@alias('openstack.checks')
 class OpenStackChecks(plugintools.PluginPartBase):
     """ OpenStack checks. """
     plugin_name = "openstack"

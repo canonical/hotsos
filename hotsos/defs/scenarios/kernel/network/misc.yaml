@@ -8,7 +8,7 @@ checks:
     #       "Jun 08 10:48:13 compute4 kernel:"
     expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\S+.+ nf_conntrack: table full, dropping packet'
   has_over_mtu_dropped_packets:
-    property: hotsos.core.plugins.kernel.kernlog.KernLogEvents.over_mtu_dropped_packets
+    property: kernel.kernlog.events.over_mtu_dropped_packets
 conclusions:
   nf-conntrack-full:
     decision: has_nf_conntrack_full

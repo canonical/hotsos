@@ -1,7 +1,7 @@
 checks:
   ssds_using_bcache:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.ssds_using_bcache
+      path: ceph.cluster.ssds_using_bcache
       ops: [[length_hint], [gt, 0]]
 conclusions:
   ssd_osds_using_bcache:
@@ -17,4 +17,4 @@ conclusions:
         the OSDs directly instead. Please compare the IOPs of the SSD (OSDs)
         vs. the bcache device (SSD/NVMe) to ascertain.
       format-dict:
-        osds: hotsos.core.plugins.storage.ceph.CephCluster.ssds_using_bcache
+        osds: ceph.cluster.ssds_using_bcache

@@ -1,15 +1,15 @@
 vars:
-  inerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrors'
-  inerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrorsPcentInDatagrams'
-  rcvbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors'
-  rcvbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrorsPcentInDatagrams'
-  sndbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrors'
-  sndbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrorsPcentOutDatagrams'
-  incsumerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors'
-  incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams'
-  memusage_pages_inuse: '@hotsos.core.plugins.kernel.net.SockStat.GlobUdpSocksTotalMemPages'
-  memusage_pages_max: '@hotsos.core.plugins.kernel.net.SockStat.SysctlUdpMemMax'
-  memusage_pct: '@hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct'
+  inerrors: '@kernel.net.snmp.udp.InErrors'
+  inerrors_pcent: '@kernel.net.snmp.udp.InErrorsPcentInDatagrams'
+  rcvbuferrors: '@kernel.net.snmp.udp.RcvbufErrors'
+  rcvbuferrors_pcent: '@kernel.net.snmp.udp.RcvbufErrorsPcentInDatagrams'
+  sndbuferrors: '@kernel.net.snmp.udp.SndbufErrors'
+  sndbuferrors_pcent: '@kernel.net.snmp.udp.SndbufErrorsPcentOutDatagrams'
+  incsumerrors: '@kernel.net.snmp.udp.InCsumErrors'
+  incsumerrors_pcent: '@kernel.net.snmp.udp.InCsumErrorsPcentInDatagrams'
+  memusage_pages_inuse: '@kernel.net.sockstat.GlobUdpSocksTotalMemPages'
+  memusage_pages_max: '@kernel.net.sockstat.SysctlUdpMemMax'
+  memusage_pct: '@kernel.net.sockstat.UDPMemUsagePct'
 checks:
   rcvbuferrors_high:
     or:

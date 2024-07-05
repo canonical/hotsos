@@ -1,6 +1,6 @@
 vars:
   limit: 5242880  # 5G in kb
-  libvirtd_usage: '@hotsos.core.host_helpers.systemd.ServiceFactory.memory_current_kb:libvirtd'
+  libvirtd_usage: '@systemd.service.memory_current_kb:libvirtd'
 checks:
   libvirtd_mem_use_above_limit:
     systemd: libvirtd

@@ -52,6 +52,11 @@ class PluginRegistryMeta(type):
                 if index is None:
                     continue
 
+                if not hasattr(cls, 'plugin_name') or cls.plugin_name is None:
+                    raise NameNotSetError(
+                        f"{cls.__name__}.plugin_name must be set to a value"
+                        " that represents the name of the plugin")
+
                 existing = [e[index_key] for e in PLUGINS[cls.plugin_name]]
                 if index in existing:
                     raise SummaryOffsetConflict(f"plugin {name} has index "

@@ -1,6 +1,6 @@
 checks:
   isolcpus_enabled:
-    property: hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled
+    property: kernel.isolcpus_enabled
   has_1907686:
     input:
       path: 'var/log/neutron/neutron-openvswitch-agent.log'

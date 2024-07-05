@@ -1,7 +1,7 @@
 vars:
-  virt_type: '@hotsos.core.plugins.system.SystemBase.virtualisation_type'
-  cpu_vendor: '@hotsos.core.plugins.kernel.sysfs.CPU.vendor'
-  kernel_cmd_line: '@hotsos.core.plugins.kernel.KernelBase.boot_parameters'
+  virt_type: '@system.virtualisation_type'
+  cpu_vendor: '@kernel.sysfs.cpu.vendor'
+  kernel_cmd_line: '@kernel.boot_parameters'
 checks:
   is_phy_host:
     varops: [[$virt_type], [not_]]
@@ -22,4 +22,4 @@ conclusions:
         passthrough mode (e.g. set iommu=pt in boot parameters) which is
         recommended in order to get the best performance e.g. for networking.
       format-dict:
-        cpu_model: hotsos.core.plugins.kernel.sysfs.CPU.model
+        cpu_model: kernel.sysfs.cpu.model

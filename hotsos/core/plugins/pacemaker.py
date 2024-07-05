@@ -7,12 +7,14 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
 )
 from hotsos.core.plugintools import PluginPartBase
+from hotsos.core.alias import alias
 
 PACEMAKER_PKGS_CORE = ['pacemaker', r'pacemaker-\S+', 'crmsh', 'corosync']
 PACEMAKER_SVC_EXPR = ['pacemaker[a-zA-Z-]*',
                       'corosync']
 
 
+@alias('pacemaker')
 class PacemakerBase():
     """ Base class for pacemaker checks. """
     @cached_property
@@ -40,6 +42,7 @@ class PacemakerBase():
         return []
 
 
+@alias('pacemaker.checks')
 class PacemakerChecks(PacemakerBase, PluginPartBase):
     """ Pacemaker checks. """
     plugin_name = 'pacemaker'

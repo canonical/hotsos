@@ -1,6 +1,6 @@
 checks:
   has_socks_with_drops:
-    property: hotsos.core.plugins.kernel.net.NetLink.all_with_drops
+    property: kernel.net.netlink.all_with_drops
 conclusions:
   netlink-socks-with-drops:
     decision: has_socks_with_drops
@@ -14,4 +14,4 @@ conclusions:
         This may be a symptom of problems in the associated process(es)
         and should be investigated further.
       format-dict:
-        socks_with_drops: hotsos.core.plugins.kernel.net.NetLink.all_with_drops_str
+        socks_with_drops: kernel.net.netlink.all_with_drops_str

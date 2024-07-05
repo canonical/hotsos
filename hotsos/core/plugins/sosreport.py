@@ -8,10 +8,12 @@ from hotsos.core.search import (
     SearchDef,
     FileSearcher,
 )
+from hotsos.core.alias import alias
 
 CORE_APT = ['sosreport']
 
 
+@alias('sosreport')
 class SOSReportChecks(PluginPartBase):
     """ Sosreport checks. """
     plugin_name = 'sosreport'

@@ -1,9 +1,9 @@
 vars:
-  host_cert_mtime: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:etc/ovn/cert_host'
-  ovn_central_cert_mtime: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:etc/ovn/ovn-central.crt'
-  northd_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-northd'
-  ovsdb_nb_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-ovsdb-server-nb'
-  ovsdb_sb_start_time: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:ovn-ovsdb-server-sb'
+  host_cert_mtime: '@file.mtime:etc/ovn/cert_host'
+  ovn_central_cert_mtime: '@file.mtime:etc/ovn/ovn-central.crt'
+  northd_start_time: '@systemd.service.start_time_secs:ovn-northd'
+  ovsdb_nb_start_time: '@systemd.service.start_time_secs:ovn-ovsdb-server-nb'
+  ovsdb_sb_start_time: '@systemd.service.start_time_secs:ovn-ovsdb-server-sb'
   cert_expired_expr: '([\d-]+)T([\d:]+)\.\d+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:ssl3_read_bytes:sslv3 alert certificate expired'
   cert_invalid_expr: '([\d-]+)T([\d:]+)\.\d+Z\|\S+\|stream_ssl\|WARN\|SSL_accept: error:\S+:SSL routines:tls_process_client_certificate:certificate verify failed'
 checks:

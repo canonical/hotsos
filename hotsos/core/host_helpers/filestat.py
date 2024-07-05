@@ -3,6 +3,7 @@ import os
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.log import log
+from hotsos.core.alias import alias
 
 
 class FileObj():
@@ -38,6 +39,7 @@ class FileObj():
         return size
 
 
+@alias('file')
 class FileFactory(FactoryBase):
     """
     Factory to dynamically create FileObj objects using file path as input.

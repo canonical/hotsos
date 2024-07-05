@@ -1,5 +1,5 @@
 vars:
-  local_charms: '@hotsos.core.plugins.juju.JujuChecks.charms'
+  local_charms: '@juju.charms'
 checks:
   ceph_osd_has_conflicts:
     varops: [[$local_charms], [contains, ceph-osd]]

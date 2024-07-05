@@ -23,6 +23,7 @@ from hotsos.core.plugins.system.system import (
     NUMAInfo,
     SystemBase,
 )
+from hotsos.core.alias import alias
 
 
 @dataclass
@@ -263,6 +264,7 @@ class NovaLibvirt(NovaBase):
         return self._get_vcpu_info(total_vcpus)
 
 
+@alias('openstack.nova.cpupinning')
 class CPUPinning(NovaBase):
     """ Interface to Nova CPU pinning. """
     def __init__(self):

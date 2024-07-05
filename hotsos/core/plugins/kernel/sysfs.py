@@ -4,6 +4,7 @@ import re
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.plugins.system.system import SystemBase
+from hotsos.core.alias import alias
 
 
 class SYSFSBase():
@@ -23,6 +24,7 @@ class SYSFSBase():
             return fd.read().strip()
 
 
+@alias('kernel.sysfs.cpu')
 class CPU(SYSFSBase):
     """ Helper to get CPU information. """
     @property

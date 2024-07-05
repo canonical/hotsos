@@ -3,6 +3,7 @@ import re
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.utils import sorted_dict
+from hotsos.core.alias import alias
 
 
 class _BaseProcKeyValue():
@@ -54,6 +55,7 @@ class _BaseProcKeyValue():
                              f'{self.__class__.__name__}.')
 
 
+@alias('kernel.vmstat')
 class VMStat(_BaseProcKeyValue):
     """ Interface to /proc/vmstat """
     VALID_KEYS = ['compact_fail', 'compact_success']
@@ -63,6 +65,7 @@ class VMStat(_BaseProcKeyValue):
         return os.path.join(HotSOSConfig.data_root, 'proc/vmstat')
 
     @property
+    @alias("kernel.vmstat.compaction_failures_pct")
     def compaction_failures_percent(self):
         if not os.path.exists(self.path):
             return 0
@@ -75,6 +78,7 @@ class VMStat(_BaseProcKeyValue):
         return int(fail_count / (success_count / 100))
 
 
+@alias("kernel.meminfo")
 class MemInfo(_BaseProcKeyValue):
     """ Interface to /proc/meminfo """
     VALID_KEYS = ['MemTotal', 'MemAvailable', 'Hugetlb', 'HugePages_Total',
@@ -117,6 +121,7 @@ class MemInfo(_BaseProcKeyValue):
         return round(100 - (self.HugePages_Free * 100) / self.HugePages_Total)
 
 
+@alias("kernel.slab")
 class SlabInfo():
     """ Interface to /proc/slabinfo """
     def __init__(self, filter_names=None):
@@ -290,6 +295,7 @@ class MallocInfo():
         return count
 
 
+@alias('kernel.memchecks')
 class MemoryChecks():
     """ Memory checks implementation. """
     @property

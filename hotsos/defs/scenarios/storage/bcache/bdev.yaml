@@ -1,10 +1,10 @@
 vars:
-  sequential_cutoff: '@hotsos.core.plugins.storage.bcache.BDevsInfo.sequential_cutoff'
-  cache_mode: '@hotsos.core.plugins.storage.bcache.BDevsInfo.cache_mode'
-  writeback_percent: '@hotsos.core.plugins.storage.bcache.BDevsInfo.writeback_percent'
+  sequential_cutoff: '@bcache.bdevsinfo.sequential_cutoff'
+  cache_mode: '@bcache.bdevsinfo.cache_mode'
+  writeback_percent: '@bcache.bdevsinfo.writeback_percent'
 checks:
   bcache_enabled:
-    property: hotsos.core.plugins.storage.bcache.BcacheBase.bcache_enabled
+    property: bcache.bcache_enabled
   has_invalid_bdev_cutoff:
     varops: [[$sequential_cutoff], [getitem, 0], [ne, '0.0k']]
   has_invalid_bdev_cache_mode:

@@ -1,15 +1,15 @@
 vars:
   pmd_cpu_mask_key: 'pmd-cpu-mask'
-  pmd_cpu_mask: '@hotsos.core.plugins.openvswitch.OVSDPDK.pmd_cpu_mask'
+  pmd_cpu_mask: '@openvswitch.dpdk.pmd_cpu_mask'
   lcore_mask_key: 'dpdk-lcore-mask'
-  lcore_mask: '@hotsos.core.plugins.openvswitch.OVSDPDK.dpdk_lcore_mask'
-  other_config: '@hotsos.core.plugins.openvswitch.OVSDB.other_config:Open_vSwitch'
-  cpu_dedicated_set_hex: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_hex'
-  cpu_shared_set_hex: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set_hex'
+  lcore_mask: '@openvswitch.dpdk.dpdk_lcore_mask'
+  other_config: '@openvswitch.db.other_config:Open_vSwitch'
+  cpu_dedicated_set_hex: '@openstack.nova.cpupinning.cpu_dedicated_set_hex'
+  cpu_shared_set_hex: '@openstack.nova.cpupinning.cpu_shared_set_hex'
 checks:
   ovs_dpdk_enabled:
     # see https://docs.openvswitch.org/en/latest/intro/install/dpdk/#setup-ovs
-    property: hotsos.core.plugins.openvswitch.OVSDPDK.enabled
+    property: openvswitch.dpdk.enabled
   dpdk_installed:
     apt: [openvswitch-switch-dpdk, dpdk]
   pmd_mask_is_set:
@@ -79,5 +79,5 @@ conclusions:
         Poll Mode Driver threads and the Nova instances.
       format-dict:
         pmd_cpu_mask: '$pmd_cpu_mask_key'
-        cpu_dedicated_set: 'hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set:int_ranges'
-        cpu_shared_set: 'hotsos.core.plugins.openstack.nova.CPUPinning.cpu_shared_set:int_ranges'
+        cpu_dedicated_set: 'openstack.nova.cpupinning.cpu_dedicated_set:int_ranges'
+        cpu_shared_set: 'openstack.nova.cpupinning.cpu_shared_set:int_ranges'

@@ -1,11 +1,11 @@
 checks:
   ssd_ceph_osds_exist:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephChecks.local_osds_devtypes
+      path: ceph.local_osds_devtypes
       ops: [[contains, ssd]]
   ceph_discard_not_enabled:
     config:
-      handler: hotsos.core.plugins.storage.ceph.CephConfig
+      handler: ceph.config
       assertions:
         key: bdev enable_discard
         ops: [[ne, 'true']]
