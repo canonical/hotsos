@@ -11,6 +11,11 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.search import CommonTimestampMatcher
 
 
+class SearchRegistryError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+
+
 class SearchRegistryKeyConflict(Exception):
     def __init__(self, key, all_keys):
         self.key = key
@@ -92,8 +97,8 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
         @param label: string label to mark a set of searches as registered.
         """
         if label in self._loaded_searches:
-            raise SearchRegistryKeyConflict("Search Registry has already been "
-                                            f"loaded by label={label}")
+            raise SearchRegistryError("Search Registry has already been "
+                                      f"loaded by label={label}")
 
         self._loaded_searches.append(label)
 
