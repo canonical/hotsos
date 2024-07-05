@@ -361,7 +361,7 @@ def main():  # pylint: disable=R0915
                     if out:
                         sys.stdout.write(f"{out}\n")
 
-    cli(prog_name='hotsos')
+    cli(prog_name='hotsos')  # pylint: disable=no-value-for-parameter
 
 
 def exit_if_os_version_not_supported_in_snap():
