@@ -7,6 +7,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
+from hotsos.core.alias import alias
 
 
 class SSLCertificate():
@@ -65,6 +66,7 @@ class SSLCertificatesHelper():
         return self.certificate.days_to_expire <= self.expire_days
 
 
+@alias('sslcert')
 class SSLCertificatesFactory(FactoryBase):
     """
     Factory to dynamically create SSLCertificate objects for given paths.

@@ -9,6 +9,7 @@ from hotsos.core.host_helpers import (
 from hotsos.core.ycheck.events import EventCallbackBase, EventHandlerBase
 from hotsos.core.ycheck.common import GlobalSearcherAutoRegisterBase
 from hotsos.core.utils import sorted_dict
+from hotsos.core.alias import alias
 
 OVS_SERVICES_EXPRS = [r'ovsdb[a-zA-Z-]*',
                       r'ovs-vswitch[a-zA-Z-]*',
@@ -37,6 +38,7 @@ class OpenvSwitchGlobalSearchBase(GlobalSearcherAutoRegisterBase):
         """ Returns a list of one or more paths to search. """
 
 
+@alias('openvswitch.checks')
 class OpenvSwitchChecks(plugintools.PluginPartBase):
     """ OpenvSwitch checks. """
     plugin_name = "openvswitch"

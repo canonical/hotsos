@@ -15,11 +15,11 @@ checks:
           max: 3.0.3-0ubuntu1~18.04.2
   is_not_a_lxc_container:
     property:
-      path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+      path: system.virtualisation_type
       ops: [[ne, 'lxc']]
   has_lxc_containers:
     property:
-      path: hotsos.core.plugins.lxd.LXD.instances
+      path: lxd.instances
       ops: [[length_hint], [gt, 0]]
 conclusions:
   lxcfs_segfault:

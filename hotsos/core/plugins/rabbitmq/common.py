@@ -5,6 +5,7 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
 )
 from hotsos.core.plugins.rabbitmq.report import RabbitMQReport
+from hotsos.core.alias import alias
 
 RMQ_SERVICES_EXPRS = [
     r"beam.smp",
@@ -16,6 +17,7 @@ RMQ_PACKAGES = [
 ]
 
 
+@alias('rabbitmq.checks')
 class RabbitMQChecks(plugintools.PluginPartBase):
     """ Rabbitmq checks. """
     plugin_name = 'rabbitmq'

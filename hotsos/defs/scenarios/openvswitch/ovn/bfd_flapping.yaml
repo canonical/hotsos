@@ -1,5 +1,5 @@
 vars:
-  bfd_transitions: '@hotsos.core.plugins.openvswitch.OVSBFD.max_transitions_last_24h_within_hour'
+  bfd_transitions: '@openvswitch.bfd.max_transitions_last_24h_within_hour'
 checks:
   vswitchd_to_ovn_controller_inactivity_timeouts:
     input:

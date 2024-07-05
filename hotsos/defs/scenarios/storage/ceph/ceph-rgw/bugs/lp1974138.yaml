@@ -4,9 +4,9 @@ checks:
       librgw2:
         - min: 14.2.0
   ssl_enabled:
-    property: hotsos.core.plugins.openstack.OpenstackBase.ssl_enabled
+    property: openstack.ssl_enabled
   apache2_allow_encoded_slashes_on:
-    property: hotsos.core.plugins.openstack.OpenstackBase.apache2_allow_encoded_slashes_on
+    property: openstack.apache2_allow_encoded_slashes_on
 conclusions:
   lp1974138:
     decision:

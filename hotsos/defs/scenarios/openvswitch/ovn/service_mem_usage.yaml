@@ -1,6 +1,6 @@
 vars:
   limit: 5242880  # 5G in kb
-  northd_usage: '@hotsos.core.host_helpers.systemd.ServiceFactory.memory_current_kb:ovn-northd'
+  northd_usage: '@systemd.service.memory_current_kb:ovn-northd'
   version_fixed: '22.03.2-0ubuntu0.22.04.1'
 checks:
   northd_mem_use_above_limit:

@@ -18,6 +18,7 @@ from hotsos.core.search import (
     create_constraint,
 )
 from hotsos.core.plugins.openvswitch.common import OpenvSwitchGlobalSearchBase
+from hotsos.core.alias import alias
 
 
 class OVSDBTable():
@@ -84,6 +85,7 @@ class OVSDBTable():
         return self.get(record='.', column=column)
 
 
+@alias('openvswitch.db')
 class OVSDB(FactoryBase):
     """
     This class is used like a factory in that attributes are table names that
@@ -93,6 +95,7 @@ class OVSDB(FactoryBase):
         return OVSDBTable(table)
 
 
+@alias('openvswitch.dplookups')
 class OVSDPLookups():
     """ Interface to OVS datapath lookups. """
     def __init__(self):
@@ -250,6 +253,7 @@ class OVSBFDSearch(OpenvSwitchGlobalSearchBase):
                              'var/log/openvswitch/ovs-vswitchd.log')]
 
 
+@alias("openvswitch.bfd")
 class OVSBFD(OpenvSwitchBase):
     """ OVS BFD representation. """
     @property
@@ -303,6 +307,7 @@ class OVSBFD(OpenvSwitchBase):
                     for port in self._transitions.values()))
 
 
+@alias('openvswitch.dpdk')
 class OVSDPDK(OpenvSwitchBase):
     """ Interface to OVS DPDK. """
     @cached_property

@@ -1,18 +1,18 @@
 checks:
   cluster_has_osds_with_pgs_above_max:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_above_max
+      path: ceph.cluster.osds_pgs_above_max
       ops: [[length_hint], [gt, 0]]
   cluster_has_osds_with_suboptimal_pgs:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.osds_pgs_suboptimal
+      path: ceph.cluster.osds_pgs_suboptimal
       ops: [[length_hint], [gt, 0]]
   cluster_has_non_empty_pools:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools
+      path: ceph.cluster.cluster_has_non_empty_pools
   autoscaler_disabled_for_any_pool:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_pools
+      path: ceph.crushmap.autoscaler_disabled_pools
       ops: [[length_hint]]
 conclusions:
   cluster-osds-with-pgs-above-max:
@@ -24,7 +24,7 @@ conclusions:
         limit at which point they will stop creating pgs and fail - please
         investigate.
       format-dict:
-        limit: hotsos.core.plugins.storage.ceph.CephCluster.OSD_PG_MAX_LIMIT
+        limit: ceph.cluster.OSD_PG_MAX_LIMIT
   cluster-osds-with-suboptimal-pgs:
     decision:
       - cluster_has_osds_with_suboptimal_pgs
@@ -37,5 +37,5 @@ conclusions:
         of {min}-{max} pgs. This could indicate poor data distribution across the
         cluster and result in performance degradation.
       format-dict:
-        min: hotsos.core.plugins.storage.ceph.CephCluster.OSD_PG_OPTIMAL_NUM_MIN
-        max: hotsos.core.plugins.storage.ceph.CephCluster.OSD_PG_OPTIMAL_NUM_MAX
+        min: ceph.cluster.OSD_PG_OPTIMAL_NUM_MIN
+        max: ceph.cluster.OSD_PG_OPTIMAL_NUM_MAX

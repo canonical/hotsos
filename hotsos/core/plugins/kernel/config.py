@@ -3,6 +3,7 @@ import re
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
+from hotsos.core.alias import alias
 
 
 class KernelConfig(host_helpers.ConfigBase):
@@ -38,6 +39,7 @@ class KernelConfig(host_helpers.ConfigBase):
                     break
 
 
+@alias('kernel.systemdconfig')
 class SystemdConfig(host_helpers.IniConfigBase):
     """Systemd configuration."""
     def __init__(self, *args, **kwargs):
