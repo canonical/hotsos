@@ -635,7 +635,7 @@ ii  openssh-server                       1:8.2p1-4ubuntu0.4                     
 """  # noqa
 
 
-class TestYamlScenarios(utils.BaseTestCase):
+class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-public-methods
 
     @init_test_scenario(SCENARIO_W_EXPR_LIST.
                         format(path=os.path.basename('data.txt')))
