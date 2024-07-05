@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.log import log
-from hotsos.core.plugins.juju.common import JujuChecksBase
+from hotsos.core.plugins.juju.common import JujuChecks
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
@@ -96,7 +96,8 @@ class UnitLogInfo():
         return sorted_dict(events)
 
 
-class JujuSummary(JujuChecksBase):
+class JujuSummary(JujuChecks):
+    """ Implementation of Juju summary. """
     summary_part_index = 0
 
     def __0_summary_services(self):

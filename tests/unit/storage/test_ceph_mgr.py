@@ -9,7 +9,7 @@ CEPH_MGR_DATA_ROOT = os.path.join(utils.TESTS_DIR,
 
 
 class CephMgrTestsBase(utils.BaseTestCase):
-
+    """ Custom test case that sets the storage plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.data_root = CEPH_MGR_DATA_ROOT

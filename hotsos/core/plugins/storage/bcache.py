@@ -16,8 +16,13 @@ from hotsos.core.utils import sort_suffixed_integers
 
 
 class BcacheConfig(ConfigBase):
+    """ Bcache config.  """
 
     def get(self, key, section=None, expand_to_list=False):
+        """
+        Override the default get method since we get values from the filesystem
+        rather then a file.
+        """
         cfg = os.path.join(self.path, key)
         if not os.path.exists(cfg):
             return None
@@ -27,7 +32,7 @@ class BcacheConfig(ConfigBase):
 
 
 class BDev():
-
+    """ Representation of a BDEV. """
     def __init__(self, path, cache):
         self.cache = cache
         self.path = path
@@ -65,7 +70,7 @@ class BDev():
 
 
 class Cacheset():
-
+    """ Representation of a Bcache cacheset. """
     def __init__(self, path):
         self.path = path
         self.bdevs = []
@@ -88,7 +93,7 @@ class Cacheset():
 
 
 class BcacheBase(StorageBase):
-
+    """ Base class for bcache checks. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.cachesets = []
@@ -187,7 +192,7 @@ class BcacheBase(StorageBase):
 
 
 class BDevsInfo(BcacheBase):
-
+    """ Representation of al bdevs in a host. """
     def _get_parameter(self, key):
         all_values = []
         for cset in self.cachesets:
@@ -230,7 +235,7 @@ class BDevsInfo(BcacheBase):
 
 
 class CachesetsInfo(BcacheBase):
-
+    """ Representation of all bcache cachsets in a host. """
     def _get_parameter(self, key):
         return [cset.cfg.get(key) for cset in self.cachesets]
 
@@ -265,8 +270,8 @@ class CachesetsInfo(BcacheBase):
         return sorted(list(map(int, ret)))
 
 
-class BcacheChecksBase(BcacheBase):
-
+class BcacheChecks(BcacheBase):
+    """ Bcache checks. """
     @property
     def summary_subkey(self):
         return 'bcache'

@@ -44,14 +44,14 @@ ii  python3-maas-provisioningserver        2.7.3-8291-g.384e521e6         all   
 
 
 class MAASTestsBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets maas plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'maas'
 
 
 class TestMAASSummary(MAASTestsBase):
-
+    """ Unit tests for maas summary """
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': MAAS_DPKG})
     def test_dpkg(self):
         inst = summary.MAASSummary()
@@ -71,7 +71,7 @@ class TestMAASSummary(MAASTestsBase):
             SYSTEMD_UNIT_FILES.splitlines(keepends=True)
         mock_helper.return_value.systemctl_list_units.return_value = \
             SYSTEMD_UNITS.splitlines(keepends=True)
-        with mock.patch('hotsos.core.plugins.maas.MAASChecksBase',
+        with mock.patch('hotsos.core.plugins.maas.MAASChecks',
                         'maas_installed', lambda: True):
             expected = {'services': {
                             'ps': [],

@@ -1,4 +1,4 @@
 # This file is used to define overrides applicable to contents of this
 # directory including subdirectories.
 requires:
-  property: hotsos.core.plugins.kubernetes.KubernetesChecksBase.plugin_runnable
+  property: hotsos.core.plugins.kubernetes.KubernetesChecks.plugin_runnable

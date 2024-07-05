@@ -18,6 +18,10 @@ from hotsos.core.log import log
 
 
 class FileSearcher(_FileSearcher):
+    """
+    Custom representation of searchkit FilesSearcher that sets some parameters
+    based on HotSOSConfig that we want to apply to all use cases.
+    """
     def __init__(self, *args, **kwargs):
         if HotSOSConfig.use_all_logs:
             max_logrotate_depth = HotSOSConfig.max_logrotate_depth
@@ -31,6 +35,10 @@ class FileSearcher(_FileSearcher):
 
 
 class SearchConstraintSearchSince(_SearchConstraintSearchSince):
+    """
+    Custom representation of searchkit SearchConstraintSearchSince that
+    automatically applies global log history limiting.
+    """
     def __init__(self, *args, **kwargs):
         if 'days' not in kwargs and 'hours' not in kwargs:
             days = 1
@@ -210,6 +218,10 @@ class ExtraSearchConstraints():
 
 def create_constraint(search_result_age_hours=None,
                       min_hours_since_last_boot=None):
+    """
+    Create a SearchConstraintSearchSince object if necessary (if one of
+    search_result_age_hours or min_hours_since_last_boot is not None).
+    """
     if not any([search_result_age_hours, min_hours_since_last_boot]):
         return None
 

@@ -83,7 +83,7 @@ class TraceTypeBase(abc.ABC):
 
 
 class KernLogBase():
-
+    """ Base class for kernlog analysis implementations. """
     def __init__(self):
         c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
         self.searcher = FileSearcher(constraint=c)

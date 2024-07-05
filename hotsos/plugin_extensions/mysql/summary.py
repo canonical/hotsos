@@ -1,7 +1,8 @@
-from hotsos.core.plugins.mysql import MySQLChecksBase
+from hotsos.core.plugins.mysql import MySQLChecks
 
 
-class MySQLSummary(MySQLChecksBase):
+class MySQLSummary(MySQLChecks):
+    """ Implementation of MySQL summary. """
     summary_part_index = 0
 
     def __0_summary_services(self):

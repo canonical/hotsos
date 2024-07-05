@@ -4,7 +4,7 @@ from collections import UserDict
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.plugins.openstack.common import OpenstackChecksBase
+from hotsos.core.plugins.openstack.common import OpenStackChecks
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
@@ -14,7 +14,7 @@ from hotsos.core.search import CommonTimestampMatcher
 
 
 class AgentExceptionCheckResults(UserDict):
-
+    """ Exception check results processing. """
     def __init__(self, results, source_id_resolver_callback):
         """
         @param results: list of searchkit.SearchResult objects grouped by
@@ -103,7 +103,7 @@ class AgentExceptionCheckResults(UserDict):
         return files
 
 
-class AgentExceptionChecks(OpenstackChecksBase):
+class AgentExceptionChecks(OpenStackChecks):
     """
     Openstack services/agents will log exceptions using ERROR and
     WARNING log levels depending on who raised them and their

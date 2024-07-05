@@ -152,11 +152,13 @@ class EventCollection():
 
 
 class SearchResultIndices():
+    """
+    Used to know where to find required information within a SearchResult.
+    """
     def __init__(self, day_idx=1, secs_idx=2, event_id_idx=3,
                  metadata_idx=None, metadata_key=None):
         """
-        This is used to know where to find required information within a
-        SearchResult. The indexes refer to python.re groups.
+        The indexes refer to python.re groups.
 
         The minimum required information that a result must contain is day,
         secs and event_id. Results will be referred to using whatever event_id

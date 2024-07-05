@@ -8,7 +8,7 @@ checks:
       path: hotsos.core.plugins.juju.resources.JujuBase.charm_names
       ops: [[contains, bcache-tuning]]
   local_osds_using_bcache:
-    property: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache
+    property: hotsos.core.plugins.storage.ceph.CephChecks.local_osds_use_bcache
 conclusions:
   charmed-ceph-osd-no-bcache-tuning:
     decision:

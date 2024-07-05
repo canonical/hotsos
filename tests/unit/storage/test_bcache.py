@@ -6,14 +6,14 @@ from .. import utils
 
 
 class BCacheTestsBase(utils.BaseTestCase):
-
+    """ Custom test case that sets the storage context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'storage'
 
 
-class TestBcacheBase(BCacheTestsBase):
-
+class TestBcachePlugin(BCacheTestsBase):
+    """ Unit tests for bcache plugin code. """
     def test_bcache_enabled(self):
         b = bcache_core.BcacheBase()
         self.assertTrue(b.bcache_enabled)
@@ -50,7 +50,7 @@ class TestBcacheBase(BCacheTestsBase):
 
 
 class TestBDevsInfo(BCacheTestsBase):
-
+    """ Unit tests for bcache bdevs interface code. """
     def test_sequential_cutoff(self):
         b = bcache_core.BDevsInfo()
         self.assertEqual(b.sequential_cutoff, ['4.0M', '4.0M'])
@@ -67,7 +67,7 @@ class TestBDevsInfo(BCacheTestsBase):
 
 
 class TestCachesetsInfo(BCacheTestsBase):
-
+    """ Unit tests for bcache cachesets interface code. """
     def test_congested_read_threshold_us(self):
         c = bcache_core.CachesetsInfo()
         self.assertEqual(c.congested_read_threshold_us, [2000])
@@ -82,7 +82,7 @@ class TestCachesetsInfo(BCacheTestsBase):
 
 
 class TestBCacheSummary(BCacheTestsBase):
-
+    """ Unit tests for bcache summary. """
     def test_get_cacheset_info(self):
         cachesets = {'d7696818-1be9-4dea-9991-de95e24d7256': {
                        'cache_available_percent': 99,

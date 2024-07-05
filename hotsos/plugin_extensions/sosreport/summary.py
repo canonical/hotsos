@@ -1,7 +1,8 @@
-from hotsos.core.plugins.sosreport import SOSReportChecksBase
+from hotsos.core.plugins.sosreport import SOSReportChecks
 
 
-class SOSReportSummary(SOSReportChecksBase):
+class SOSReportSummary(SOSReportChecks):
+    """ Implementation of SOSReport summary. """
     summary_part_index = 0
 
     def __0_summary_version(self):

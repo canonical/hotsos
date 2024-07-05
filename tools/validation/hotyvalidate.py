@@ -10,6 +10,7 @@ from tests.unit import utils
 
 
 class HotYValidate(TestCase):
+    """ Validation for HotSOS YAML definitions i.e. events and scenarios. """
 
     def scenarios_check_mappings(self):
         """Check for all YAML tests and scenarios to determine whether

@@ -36,7 +36,7 @@ class SYSCtlFactory(FactoryBase):
 
 
 class SYSCtlConfHelper():
-
+    """ Helpers used to analyse sysctl config files. """
     def __init__(self, path):
         self.path = path
         self._config = {}

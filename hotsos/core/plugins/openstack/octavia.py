@@ -6,7 +6,7 @@ OCTAVIA_HM_PORT_NAME = 'o-hm0'
 
 
 class OctaviaBase(OSTServiceBase):
-
+    """ Base class for Octavia checks. """
     def __init__(self, *args, **kwargs):
         super().__init__('octavia', *args, **kwargs)
 

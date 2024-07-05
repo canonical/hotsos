@@ -28,7 +28,7 @@ IP_EOF = r"^$"
 
 
 class NetworkPort(HostHelpersBase):
-
+    """ Representation of a network port. """
     def __init__(self, name, addresses, hwaddr, state, encap_info,
                  mtu, namespace=None):
         self.name = name
@@ -151,7 +151,7 @@ class NetworkPort(HostHelpersBase):
 
 
 class HostNetworkingHelper(HostHelpersBase):
-
+    """ Helper methods for query host networking. """
     def __init__(self):
         super().__init__()
         self._host_interfaces = None

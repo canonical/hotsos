@@ -17,7 +17,9 @@ PLUGIN_RUN_ORDER = []
 
 
 class SummaryOffsetConflict(Exception):
-    pass
+    """ If more than one entry competes for the same offset in the summary
+    it could give unexpected results so we raise this exception.
+    """
 
 
 class PluginRegistryMeta(type):
@@ -55,6 +57,7 @@ class PluginRegistryMeta(type):
 
 
 class HOTSOSDumper(yaml.Dumper):
+    """ Custom yaml dumper that preserves order. """
     def increase_indent(self, flow=False, indentless=False):
         return super().increase_indent(flow, False)
 
@@ -80,6 +83,7 @@ def yaml_dump(data):
 
 
 class OutputFormatterBase():
+    """ Base class for output formatters. """
 
     @staticmethod
     def render(context, template):
@@ -163,6 +167,9 @@ class HTMLFormatter(OutputFormatterBase):
 
 
 class MarkdownFormatter(OutputFormatterBase):
+    """
+    Formatter to convert output to Markdown.
+    """
 
     def _expand_dict(self, data, level):
         level_prefix = ''.join(['#' for i in range(level)])
@@ -205,6 +212,9 @@ class MarkdownFormatter(OutputFormatterBase):
 
 
 class ApplicationBase(metaclass=PluginRegistryMeta):
+    """
+    Base class for all plugins representing an application.
+    """
 
     @property
     def bind_interfaces(self):
@@ -215,6 +225,7 @@ class ApplicationBase(metaclass=PluginRegistryMeta):
 
 
 class SummaryEntry():
+    """ Formatter to convert output to Markdown. """
 
     def __init__(self, data, index):
         self.data = data
@@ -222,6 +233,9 @@ class SummaryEntry():
 
 
 class PartManager():
+    """
+    Collects output of all parts from a plugin and saves them in YAML format.
+    """
 
     def save(self, data, index):
         """
@@ -311,6 +325,11 @@ class PartManager():
 
 
 class PluginPartBase(ApplicationBase):
+    """ This is the base class used for all plugins.
+
+    Provides a standard set of methods that plugins will need as well as the
+    plumbing needed to add their output to the summary.
+    """
     # max per part before overlap
     PLUGIN_PART_INDEX_MAX = 500
     # Must be set to the name of the plugin context in which we are
@@ -404,7 +423,10 @@ class PluginPartBase(ApplicationBase):
 
 
 class PluginRunner():
-
+    """
+    Run a plugin. This will run all requests parts of a plugin including
+    defaults, providing a global searcher for the runtime of the plugin.
+    """
     def __init__(self, plugin):
         self.parts = PLUGINS[plugin]
         self.failed_parts = []

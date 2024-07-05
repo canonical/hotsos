@@ -1,5 +1,5 @@
 from hotsos.core.log import log
-from hotsos.core.plugins.openstack.common import OpenstackChecksBase
+from hotsos.core.plugins.openstack.common import OpenStackChecks
 
 FEATURES = {'neutron': {
                 'main': {
@@ -38,7 +38,8 @@ DEFAULTS = {'neutron': {'dhcp-agent': {
                               'live_migration_permit_post_copy': False}}}
 
 
-class ServiceFeatureChecks(OpenstackChecksBase):
+class ServiceFeatureChecks(OpenStackChecks):
+    """ Implements Openstack service feature checks. """
     summary_part_index = 5
 
     @staticmethod

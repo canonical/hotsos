@@ -1,7 +1,8 @@
-from hotsos.core.plugins.kubernetes import KubernetesChecksBase
+from hotsos.core.plugins.kubernetes import KubernetesChecks
 
 
-class KubernetesSummary(KubernetesChecksBase):
+class KubernetesSummary(KubernetesChecks):
+    """ Implementation of Kubernetes summary. """
     summary_part_index = 0
 
     def __1_summary_services(self):

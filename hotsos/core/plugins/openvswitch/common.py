@@ -27,7 +27,8 @@ OVS_PKGS_DEPS = ['libc-bin',
 PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
 
-class OpenvSwitchGlobalSearch(GlobalSearcherAutoRegisterBase):
+class OpenvSwitchGlobalSearchBase(GlobalSearcherAutoRegisterBase):
+    """ Base class for global searcher registration for OpenvSwitch. """
     plugin_name = "openvswitch"
 
     @classmethod
@@ -36,7 +37,8 @@ class OpenvSwitchGlobalSearch(GlobalSearcherAutoRegisterBase):
         """ Returns a list of one or more paths to search. """
 
 
-class OpenvSwitchChecksBase(plugintools.PluginPartBase):
+class OpenvSwitchChecks(plugintools.PluginPartBase):
+    """ OpenvSwitch checks. """
     plugin_name = "openvswitch"
     plugin_root_index = 6
 
@@ -57,7 +59,7 @@ class OpenvSwitchChecksBase(plugintools.PluginPartBase):
 
 
 class OpenvSwitchEventCallbackBase(EventCallbackBase):
-
+    """ Base class for OpenvSwitch events callbacks. """
     @classmethod
     def global_event_tally_time_granularity_override(cls):
         return True
@@ -67,8 +69,8 @@ class OpenvSwitchEventCallbackBase(EventCallbackBase):
         """ Callback method. """
 
 
-class OpenvSwitchEventHandlerBase(OpenvSwitchChecksBase, EventHandlerBase):
-
+class OpenvSwitchEventHandlerBase(OpenvSwitchChecks, EventHandlerBase):
+    """ Base class for OpenvSwitch event handlers. """
     @property
     def summary(self):
         # mainline all results into summary root

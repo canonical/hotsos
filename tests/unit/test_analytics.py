@@ -55,6 +55,7 @@ SEQ_TEST_6 = """2021-07-19 09:01:58.498 iteration:0 start
 
 
 class TestAnalytics(utils.BaseTestCase):
+    """ Unit tests for analytics. """
 
     @utils.create_data_root({'atestfile': SEQ_TEST_1})
     def test_ordered_complete(self):

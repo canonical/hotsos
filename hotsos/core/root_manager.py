@@ -11,6 +11,12 @@ from hotsos.core.log import log
 
 
 class DataRootManager():
+    """
+    Context manager to manager the "data root" used by HotSOS during its
+    execution. Data roots can either be system root / or an unpacked soseport
+    which can be provided compressed and HotSOS will take care of unpacking it
+    here.
+    """
     TYPE_HOST = 0
     TYPE_SOSREPORT = 1
 

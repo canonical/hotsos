@@ -27,7 +27,7 @@ snapd     2.59.1         18933  latest/stable  canonical*   snapd
 
 
 class KubernetesTestsBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets kubernetes plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'kubernetes'
@@ -36,7 +36,7 @@ class KubernetesTestsBase(utils.BaseTestCase):
 
 
 class TestKubernetesSummary(KubernetesTestsBase):
-
+    """ Unit tests for kubernetes summary. """
     def test_services(self):
         expected = {'systemd': {
                         'enabled': [

@@ -1,7 +1,8 @@
-from hotsos.core.plugins.storage.bcache import BcacheChecksBase
+from hotsos.core.plugins.storage.bcache import BcacheChecks
 
 
-class BcacheSummary(BcacheChecksBase):
+class BcacheSummary(BcacheChecks):
+    """ Implementation of Bcache summary. """
     summary_part_index = 2
 
     def __0_summary_cachesets(self):

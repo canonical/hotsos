@@ -1,3 +1,4 @@
+
 import errno
 import glob
 import os
@@ -12,7 +13,7 @@ from hotsos.core import utils
 
 
 class JujuMachine():
-
+    """ Juju machine interface. """
     def __init__(self, juju_lib_path):
         self.juju_lib_path = juju_lib_path
 
@@ -120,7 +121,7 @@ class JujuMachine():
 
 
 class JujuUnit():
-
+    """ Juju unit interface. """
     def __init__(self, unit_id, application, juju_lib_path, path=None):
         self.id = unit_id
         self.application = application
@@ -167,13 +168,14 @@ class JujuUnit():
 
 
 class JujuCharm():
-
+    """ Juju charm interface. """
     def __init__(self, name, version):
         self.name = name
         self.version = int(version)
 
 
 class JujuBase():
+    """ Juju checks base class. """
     CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
 
     @property
@@ -256,7 +258,7 @@ class JujuBase():
 
 
 class JujuBinaryInterface(JujuBase):
-
+    """ Interface to juju binary. """
     @property
     def bin_names(self):
         return ['juju']

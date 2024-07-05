@@ -1,7 +1,8 @@
-from hotsos.core.plugins.lxd import LXD, LXDChecksBase
+from hotsos.core.plugins.lxd import LXD, LXDChecks
 
 
-class LXDSummary(LXDChecksBase):
+class LXDSummary(LXDChecks):
+    """ Implementation of LXD summary. """
     summary_part_index = 0
 
     def __0_summary_services(self):

@@ -1,8 +1,9 @@
-from hotsos.core.plugins.storage.ceph import CephChecksBase
+from hotsos.core.plugins.storage.ceph import CephChecks
 from hotsos.core.utils import sorted_dict
 
 
-class CephSummary(CephChecksBase):
+class CephSummary(CephChecks):
+    """ Implementation of Ceph summary. """
     summary_part_index = 0
 
     def __0_summary_release(self):

@@ -23,7 +23,7 @@ from hotsos.core.utils import sorted_dict
 
 
 class SystemdService():
-
+    """ Representation of systemd service. """
     def __init__(self, name, state, has_instances=False):
         self.name = name
         self.state = state

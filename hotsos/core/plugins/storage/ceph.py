@@ -94,6 +94,11 @@ def csv_to_set(f):
 
 
 class CephConfig(IniConfigBase):
+    """
+    Ceph config.
+
+    Adds support for specific format used in Ceph config files.
+    """
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root, 'etc/ceph/ceph.conf')
         super().__init__(*args, path=path, **kwargs)
@@ -137,7 +142,9 @@ class CephConfig(IniConfigBase):
 
 
 class CephCrushMap():
-
+    """
+    Representation of a Ceph cluster CRUSH map.
+    """
     @staticmethod
     def _filter_pools_by_rule(pools, crush_rule):
         res_pool = []
@@ -794,7 +801,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
 
 class CephDaemonBase():
-
+    """ Base class for all Ceph daemon implementations. """
     def __init__(self, daemon_type):
         self.daemon_type = daemon_type
         self.id = None
@@ -882,26 +889,26 @@ class CephDaemonBase():
 
 
 class CephMon(CephDaemonBase):
-
+    """ Representation of a Ceph Mon """
     def __init__(self, name):
         super().__init__('mon')
         self.name = name
 
 
 class CephMDS(CephDaemonBase):
-
+    """ Representation of a Ceph MDS """
     def __init__(self):
         super().__init__('mds')
 
 
 class CephRGW(CephDaemonBase):
-
+    """ Representation of a Ceph RGW """
     def __init__(self):
         super().__init__('radosgw')
 
 
 class CephOSD(CephDaemonBase):
-
+    """ Representation of a Ceph OSD """
     def __init__(self, ceph_id, fsid=None, device=None, dump=None):
         super().__init__('osd')
         self.id = ceph_id
@@ -939,8 +946,8 @@ class CephOSD(CephDaemonBase):
         return _devtype
 
 
-class CephChecksBase(StorageBase):
-
+class CephChecks(StorageBase):
+    """ Ceph Checks. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
@@ -1159,7 +1166,6 @@ class CephDaemonCommand():
     CLIHelper. Attributes of the output can then be retrieved by calling them
     on the returned object.
     """
-
     def __init__(self, command, *args, **kwargs):
         self.command = command
         self.output = getattr(CLIHelper(), command)(*args, **kwargs)
@@ -1172,7 +1178,7 @@ class CephDaemonCommand():
 
 
 class CephDaemonConfigShow():
-
+    """ Interface to ceph daemon config show command. """
     def __init__(self, osd_id):
         self.cmd = CephDaemonCommand('ceph_daemon_osd_config_show',
                                      osd_id=osd_id)
@@ -1182,7 +1188,7 @@ class CephDaemonConfigShow():
 
 
 class CephDaemonDumpMemPools():
-
+    """ Interface to ceph daemon osd dump mempools. """
     def __init__(self, osd_id):
         self.cmd = CephDaemonCommand('ceph_daemon_osd_dump_mempools',
                                      osd_id=osd_id)
@@ -1197,11 +1203,10 @@ class CephDaemonDumpMemPools():
 
 class CephDaemonAllOSDsCommand():
     """
-    This class is used to CephDaemonCommand for all local OSDs.
+    This class is used to run CephDaemonCommand for all local OSDs.
     """
-
     def __init__(self, command):
-        self.checks_base = CephChecksBase()
+        self.checks_base = CephChecks()
         self.command = command
 
     def __getattr__(self, name=None):
@@ -1236,6 +1241,7 @@ class CephDaemonAllOSDsFactory(FactoryBase):
 
 
 class CephEventCallbackBase(EventCallbackBase):
+    """ Base class for ceph event callbacks. """
 
     @abc.abstractmethod
     def __call__(self):

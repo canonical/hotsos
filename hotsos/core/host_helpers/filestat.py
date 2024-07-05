@@ -6,7 +6,7 @@ from hotsos.core.log import log
 
 
 class FileObj():
-
+    """ Helper to enable querying filesystem entries. """
     def __init__(self, filename):
         self.filename = os.path.join(HotSOSConfig.data_root, filename)
 

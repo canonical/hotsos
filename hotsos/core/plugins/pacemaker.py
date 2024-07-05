@@ -14,7 +14,7 @@ PACEMAKER_SVC_EXPR = ['pacemaker[a-zA-Z-]*',
 
 
 class PacemakerBase():
-
+    """ Base class for pacemaker checks. """
     @cached_property
     def crm_status(self):
         return CLIHelper().pacemaker_crm_status
@@ -40,7 +40,8 @@ class PacemakerBase():
         return []
 
 
-class PacemakerChecksBase(PacemakerBase, PluginPartBase):
+class PacemakerChecks(PacemakerBase, PluginPartBase):
+    """ Pacemaker checks. """
     plugin_name = 'pacemaker'
     plugin_root_index = 5
 

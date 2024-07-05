@@ -6,7 +6,7 @@ from hotsos.core.log import log
 
 
 class ConfigBase(abc.ABC):
-
+    """ Base class for config implementations. """
     def __init__(self, path):
         self.path = path
 
@@ -81,7 +81,7 @@ class ConfigBase(abc.ABC):
 
 
 class IniConfigBase(ConfigBase):
-
+    """ INI-style config file implementation. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.config = None
@@ -167,4 +167,4 @@ class IniConfigBase(ConfigBase):
 
 
 class GenericIniConfig(IniConfigBase):
-    pass
+    """ Generic INI file config implementation. """

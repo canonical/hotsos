@@ -7,7 +7,6 @@ from hotsos.core import host_helpers
 
 class KernelConfig(host_helpers.ConfigBase):
     """ Kernel configuration. """
-
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root, "proc/cmdline")
         super().__init__(path=path, *args, **kwargs)
@@ -41,7 +40,6 @@ class KernelConfig(host_helpers.ConfigBase):
 
 class SystemdConfig(host_helpers.IniConfigBase):
     """Systemd configuration."""
-
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root, "etc/systemd/system.conf")
         super().__init__(path=path, *args, **kwargs)

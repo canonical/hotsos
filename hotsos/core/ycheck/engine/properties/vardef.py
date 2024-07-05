@@ -3,6 +3,15 @@ from hotsos.core.ycheck.engine.properties.common import YPropertyOverrideBase
 
 
 class YPropertyVars(YPropertyOverrideBase):
+    """
+    Vars property. Provides support for defining variables in YAML e.g.
+
+    vars:
+      var1: val1
+      var2: @property1
+
+    where val1 is a literal and property2 is an import path.
+    """
     _override_keys = ['vars']
     _allow_subtree = False
 

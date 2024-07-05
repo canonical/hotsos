@@ -106,13 +106,14 @@ sosreport 67605        0    5r     FIFO               0,12          0t0  2892622
 
 
 class TestKernelBase(utils.BaseTestCase):
+    """ Custom base testcase that sets kernel plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'kernel'
 
 
 class TestKernelCallTraceManager(TestKernelBase):
-
+    """ Unit tests for kernlog trace manager. """
     def test_calltrace_manager_handler(self):
         for killer in CallTraceManager().oom_killer:
             self.assertEqual(killer.procname, 'kworker/0:0')
@@ -135,7 +136,7 @@ class TestKernelCallTraceManager(TestKernelBase):
 
 
 class TestKernelInfo(TestKernelBase):
-
+    """ Unit tests for kernel info. """
     @utils.create_data_root({'etc/systemd/system.conf':
                              ('[Manager]\n'
                               '#CPUAffinity=1 2\n'
@@ -172,7 +173,7 @@ class TestKernelInfo(TestKernelBase):
 
 
 class TestKernelMemoryInfo(TestKernelBase):
-
+    """ Unit tests for kernel memory info. """
     def test_numa_nodes(self):
         ret = BuddyInfo().nodes
         expected = [0]
@@ -211,6 +212,7 @@ class TestKernelMemoryInfo(TestKernelBase):
 
 
 class TestKernelNetworkInfo(TestKernelBase):
+    """ Unit tests for kernel networking info. """
     @utils.create_data_root(
         {'proc/net/sockstat': PROC_SOCKSTAT,
          'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}

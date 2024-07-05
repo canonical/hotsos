@@ -12,7 +12,8 @@ JUJU_SVC_EXPRS = [rf'mongod{SVC_VALID_SUFFIX}',
                   rf'(?:^|[^\s])juju-db{SVC_VALID_SUFFIX}']
 
 
-class JujuChecksBase(plugintools.PluginPartBase, JujuBase):
+class JujuChecks(plugintools.PluginPartBase, JujuBase):
+    """ Juju checks. """
     plugin_name = 'juju'
     plugin_root_index = 12
 

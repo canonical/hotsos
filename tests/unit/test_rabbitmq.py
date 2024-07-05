@@ -1,3 +1,4 @@
+import contextlib
 import os
 import tempfile
 from unittest import mock
@@ -9,7 +10,7 @@ from . import utils
 
 
 class TestRabbitmqBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets rabbitmq plugin context. """
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         HotSOSConfig.plugin_name = 'rabbitmq'
@@ -18,7 +19,7 @@ class TestRabbitmqBase(utils.BaseTestCase):
 
 
 class TestRabbitmqSummary(TestRabbitmqBase):
-
+    """ Unit tests for RabbitMQ summary. """
     def test_get_summary(self):
         inst = summary.RabbitMQSummary()
         self.assertTrue(inst.plugin_runnable)
@@ -39,13 +40,17 @@ class TestRabbitmqSummary(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelperFile')
     def test_summary_bionic(self, mock_helper):
-        class FakeCLIHelperFile(utils.ContextManagerBase):
-
+        class FakeCLIHelperFile(contextlib.AbstractContextManager):
+            """ fake clihelper """
             @staticmethod
             def rabbitmqctl_report():
                 return os.path.join(HotSOSConfig.data_root,
                                     "sos_commands/rabbitmq/rabbitmqctl_report."
                                     "bionic")
+
+            @staticmethod
+            def __exit__(*_args, **_kwargs):
+                return False
 
         mock_helper.side_effect = FakeCLIHelperFile
         expected = {
@@ -126,11 +131,15 @@ class TestRabbitmqSummary(TestRabbitmqBase):
     @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelperFile')
     def test_get_summary_no_report(self, mock_helper):
         with tempfile.NamedTemporaryFile() as ftmp:
-            class FakeCLIHelperFile(utils.ContextManagerBase):
-
+            class FakeCLIHelperFile(contextlib.AbstractContextManager):
+                """ fake clihelper """
                 @staticmethod
                 def rabbitmqctl_report():
                     return ftmp.name
+
+                @staticmethod
+                def __exit__(*_args, **_kwargs):
+                    return False
 
             mock_helper.side_effect = FakeCLIHelperFile
             inst = summary.RabbitMQSummary()

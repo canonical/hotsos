@@ -1,1 +1,1 @@
-from .common import SystemBase, SystemChecksBase  # noqa: F403,F401
+from .common import SystemBase, SystemChecks  # noqa: F403,F401

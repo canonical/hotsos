@@ -1,3 +1,4 @@
+import contextlib
 import os
 import shutil
 import tempfile
@@ -98,14 +99,14 @@ Technical support level: standard
 
 
 class SystemTestsBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets system plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'system'
 
 
 class TestSystemSummary(SystemTestsBase):
-
+    """ Unit tests for system summary """
     def test_get_service_info(self):
         expected = {'date': 'Thu Feb 10 16:19:17 UTC 2022',
                     'load': '3.58, 3.27, 2.58',
@@ -124,7 +125,7 @@ class TestSystemSummary(SystemTestsBase):
 
 
 class TestNUMAInfo(SystemTestsBase):
-
+    """ Unit tests for numa info """
     @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
     def test_numainfo(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -141,7 +142,7 @@ class TestNUMAInfo(SystemTestsBase):
 
 
 class TestSYSCtlChecks(SystemTestsBase):
-
+    """ Unit tests for sysctl checks """
     def test_sysctl_checks(self):
         expected = {'juju-charm-sysctl-mismatch': {
                         'kernel.pid_max': {
@@ -210,18 +211,22 @@ class TestSYSCtlChecks(SystemTestsBase):
 
 
 class TestUbuntuPro(SystemTestsBase):
-
+    """ Unit tests for ubuntu pro checks """
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_pro_attached(self, mock_helper):
         with tempfile.NamedTemporaryFile() as ftmp:
-            class FakeCLIHelperFile(utils.ContextManagerBase):
-
+            class FakeCLIHelperFile(contextlib.AbstractContextManager):
+                """ fake clihelper """
                 @staticmethod
                 def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UBUNTU_PRO_ATTACHED))
 
                     return ftmp.name
+
+                @staticmethod
+                def __exit__(*_args, **_kwargs):
+                    return False
 
             mock_helper.side_effect = FakeCLIHelperFile
             result = SystemBase().ubuntu_pro_status
@@ -257,14 +262,18 @@ class TestUbuntuPro(SystemTestsBase):
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_pro_not_attached(self, mock_helper):
         with tempfile.NamedTemporaryFile() as ftmp:
-            class FakeCLIHelperFile(utils.ContextManagerBase):
-
+            class FakeCLIHelperFile(contextlib.AbstractContextManager):
+                """ fake clihelper """
                 @staticmethod
                 def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UBUNTU_PRO_NOT_ATTACHED))
 
                     return ftmp.name
+
+                @staticmethod
+                def __exit__(*_args, **_kwargs):
+                    return False
 
             mock_helper.side_effect = FakeCLIHelperFile
             result = SystemBase().ubuntu_pro_status
@@ -276,14 +285,18 @@ class TestUbuntuPro(SystemTestsBase):
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_advantage_attached(self, mock_helper):
         with tempfile.NamedTemporaryFile() as ftmp:
-            class FakeCLIHelperFile(utils.ContextManagerBase):
-
+            class FakeCLIHelperFile(contextlib.AbstractContextManager):
+                """ fake clihelper """
                 @staticmethod
                 def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UA_ATTACHED))
 
                     return ftmp.name
+
+                @staticmethod
+                def __exit__(*_args, **_kwargs):
+                    return False
 
             mock_helper.side_effect = FakeCLIHelperFile
             result = SystemBase().ubuntu_pro_status
@@ -324,14 +337,18 @@ class TestUbuntuPro(SystemTestsBase):
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_advantage_attached_with_notice(self, mock_helper):
         with tempfile.NamedTemporaryFile() as ftmp:
-            class FakeCLIHelperFile(utils.ContextManagerBase):
-
+            class FakeCLIHelperFile(contextlib.AbstractContextManager):
+                """ fake clihelper """
                 @staticmethod
                 def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UA_ATTACHED_WITH_NOTICE))
 
                     return ftmp.name
+
+                @staticmethod
+                def __exit__(*_args, **_kwargs):
+                    return False
 
             mock_helper.side_effect = FakeCLIHelperFile
             result = SystemBase().ubuntu_pro_status
@@ -361,14 +378,18 @@ class TestUbuntuPro(SystemTestsBase):
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_advantage_not_attached(self, mock_helper):
         with tempfile.NamedTemporaryFile() as ftmp:
-            class FakeCLIHelperFile(utils.ContextManagerBase):
-
+            class FakeCLIHelperFile(contextlib.AbstractContextManager):
+                """ fake clihelper """
                 @staticmethod
                 def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write(''.join(UA_NOT_ATTACHED))
 
                     return ftmp.name
+
+                @staticmethod
+                def __exit__(*_args, **_kwargs):
+                    return False
 
             mock_helper.side_effect = FakeCLIHelperFile
             result = SystemBase().ubuntu_pro_status
@@ -380,14 +401,18 @@ class TestUbuntuPro(SystemTestsBase):
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_pro_invalid(self, mock_helper):
         with tempfile.NamedTemporaryFile() as ftmp:
-            class FakeCLIHelperFile(utils.ContextManagerBase):
-
+            class FakeCLIHelperFile(contextlib.AbstractContextManager):
+                """ fake clihelper """
                 @staticmethod
                 def pro_status():
                     with open(ftmp.name, 'w') as fd:
                         fd.write('M' + ''.join(UBUNTU_PRO_ATTACHED[1:]))
 
                     return ftmp.name
+
+                @staticmethod
+                def __exit__(*_args, **_kwargs):
+                    return False
 
             mock_helper.side_effect = FakeCLIHelperFile
             result = SystemBase().ubuntu_pro_status

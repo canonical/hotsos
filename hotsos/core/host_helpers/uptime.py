@@ -6,6 +6,7 @@ from hotsos.core.log import log
 
 
 class UptimeHelper():
+    """ Helper to enable querying system uptime. """
     def __init__(self):
         """
         uptime is either expressed in different combinations of days, hours

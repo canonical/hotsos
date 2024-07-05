@@ -21,10 +21,10 @@ mock:
     hotsos.core.search.UptimeHelper.in_hours:
       kwargs:
         new: 49
-    hotsos.core.plugins.storage.ceph.CephChecksBase.has_interface_errors:
+    hotsos.core.plugins.storage.ceph.CephChecks.has_interface_errors:
       kwargs:
         new: true
-    hotsos.core.plugins.storage.ceph.CephChecksBase.bind_interface_names:
+    hotsos.core.plugins.storage.ceph.CephChecks.bind_interface_names:
       kwargs:
         new: ethX
 raised-issues:

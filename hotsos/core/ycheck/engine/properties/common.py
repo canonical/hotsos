@@ -13,13 +13,18 @@ from hotsos.core.host_helpers.config import ConfigBase
 
 
 class ImportPathIsNotAClass(Exception):
+    """ Exception used when an import is not a class. """
     def __init__(self, msg):
         self.msg = msg
         super().__init__()
 
 
 class YDefsSection(PTreeSection):
-
+    """
+    Implementation of PTreeSection that ensures a context is always provided.
+    This is used by all YAML handler types to load their defintitions e.g. of
+    events or scenarios.
+    """
     def __init__(self, name, content, *args, context=None, **kwargs):
         """
         @param name: name of defs group
@@ -240,7 +245,12 @@ class PropertyCacheRefResolver():
 
 
 class PropertyCache(UserDict):
-
+    """
+    A cached used by YAML property objects. This is useful where we want to
+    retain state for the lifetime of a property object instance. Note that this
+    state does and will not persist a reload of the YAML tree i.e. if the
+    property objects are recreated the caches are as well.
+    """
     def merge(self, cache):
         if not isinstance(cache, self.__class__):
             log.error("attempt to merge cache failed - provided cache is not "
@@ -268,7 +278,11 @@ class PropertyCache(UserDict):
 
 
 class YPropertyBase(PTreeOverrideBase):
-
+    """
+    Base class used for all YAML property objects. Implements and extends
+    PTreeOverrideBase to provide frequently used methods and helpers to
+    property implementations.
+    """
     def __init__(self, *args, **kwargs):
         self._cache = PropertyCache()
         super().__init__(*args, **kwargs)
@@ -515,8 +529,8 @@ class YPropertyBase(PTreeOverrideBase):
 
 
 class YPropertyOverrideBase(YPropertyBase, PTreeOverrideBase):
-    pass
+    """ Base class for all simple/flat property objects. """
 
 
 class YPropertyMappedOverrideBase(YPropertyBase, PTreeMappedOverrideBase):
-    pass
+    """ Base class for all mapped property objects. """

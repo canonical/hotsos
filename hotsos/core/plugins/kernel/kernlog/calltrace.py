@@ -22,7 +22,6 @@ class OOMTraceHeuristicCheckFreePages(CallTraceHeuristicBase):
     Defines a basic memory check heuristic using information extracted from
     an OOM kill call trace.
     """
-
     def __init__(self, state):
         """
         @param state: an OOMCallTraceState object.
@@ -49,7 +48,7 @@ class OOMTraceHeuristicCheckFreePages(CallTraceHeuristicBase):
 
 
 class OOMCallTraceState(CallTraceStateBase):
-
+    """ Representation of OOM call trace state. """
     def __repr__(self):
         """
         Provide a nice way to view the state e.g. in debug logs.
@@ -150,7 +149,10 @@ class MemFieldsBase():
 
 
 class MemFieldsMain(MemFieldsBase):
-
+    """
+    Expression and fields for extracting process memory information from call
+    traces.
+    """
     @property
     def expr(self):
         return r'\s?(\d+)'
@@ -165,7 +167,10 @@ class MemFieldsMain(MemFieldsBase):
 
 
 class MemFieldsNodeMem(MemFieldsBase):
-
+    """
+    Expression and fields for extracting process numa node-specific memory
+    information from call traces.
+    """
     @property
     def expr(self):
         return r'\s?(\d+)kB'
@@ -181,7 +186,10 @@ class MemFieldsNodeMem(MemFieldsBase):
 
 
 class MemFieldsNodeUNRC(MemFieldsBase):
-
+    """
+    Expression and fields for extracting process unreclaimable memory
+    information from call traces.
+    """
     @property
     def expr(self):
         return r'\s?([a-z]+)$'
@@ -192,7 +200,10 @@ class MemFieldsNodeUNRC(MemFieldsBase):
 
 
 class MemFieldsNodeZoneMem(MemFieldsBase):
-
+    """
+    Expression and fields for extracting process numa node-zone-specific memory
+    information from call traces.
+    """
     @property
     def expr(self):
         return r'\s?(\d+)[Kk]B'
@@ -207,7 +218,9 @@ class MemFieldsNodeZoneMem(MemFieldsBase):
 
 
 class BcacheDeadlockType(TraceTypeBase):
-
+    """
+    Implementation of traceback analysis for bcache deadlocks.
+    """
     def __init__(self):
         self._search_def = None
         self.deadlocks = []
@@ -256,7 +269,9 @@ class BcacheDeadlockType(TraceTypeBase):
 
 
 class FanotifyDeadlockType(TraceTypeBase):
-
+    """
+    Implementation of traceback analysis for fanotify deadlocks.
+    """
     def __init__(self):
         self._search_def = None
         self.fanotify_hangs = []
@@ -303,7 +318,9 @@ class FanotifyDeadlockType(TraceTypeBase):
 
 
 class OOMKillerTraceType(TraceTypeBase):
-
+    """
+    Implementation of traceback analysis for OOM tracebacks.
+    """
     def __init__(self):
         self._search_def = None
         self.oom_traces = []
@@ -404,7 +421,9 @@ class OOMKillerTraceType(TraceTypeBase):
 
 
 class HungtaskTraceType(TraceTypeBase):
-
+    """
+    Implementation of traceback analysis for hung task tracebacks.
+    """
     def __init__(self):
         self._search_def = None
         self.hungtasks = []
@@ -451,7 +470,10 @@ class HungtaskTraceType(TraceTypeBase):
 
 
 class CallTraceManager(KernLogBase):
-
+    """
+    Manager for all call trace analysis types. From here all analysis is run
+    and results collected.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # All trace types should be registered here.

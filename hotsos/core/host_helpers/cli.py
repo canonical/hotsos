@@ -20,7 +20,7 @@ CLI_COMMON_EXCEPTIONS = (OSError, subprocess.CalledProcessError,
 
 
 class CLIExecError(Exception):
-
+    """ Exception raised when execution of a command files. """
     def __init__(self, return_value=None):
         """
         @param return_value: default return value that a command
@@ -52,6 +52,7 @@ def catch_exceptions(*exc_types):
 
 
 class SourceNotFound(Exception):
+    """ Exception raised when a file-based command is not found. """
     def __init__(self, path):
         self.path = path
 
@@ -60,6 +61,7 @@ class SourceNotFound(Exception):
 
 
 class CommandNotFound(Exception):
+    """ Exception raised when command is not found. """
     def __init__(self, cmd, msg):
         self.msg = f"command '{cmd}' not found in catalog: '{msg}'"
 
@@ -68,6 +70,7 @@ class CommandNotFound(Exception):
 
 
 class NullSource():
+    """ Exception raised to indicate that a datasource is not available. """
     def __call__(self, *args, **kwargs):
         return CmdOutput([])
 
@@ -118,14 +121,18 @@ def reset_command(f):
 
 
 class CmdOutput():
+    """ Representation of the output of a command. """
     def __init__(self, value, source=None):
+        """
+        @param value: output value.
+        @param source: optional command source path.
+        """
         self.value = value
         self.source = source
 
 
 class CmdBase():
     """ Base class for all command source types. """
-
     def __init__(self):
         self.hooks = {}
         self.reset()
@@ -158,6 +165,7 @@ class CmdBase():
 
 
 class BinCmd(CmdBase):
+    """ Implements binary command execution. """
     TYPE = "BIN"
 
     def __init__(self, cmd, json_decode=False, singleline=False):
@@ -215,6 +223,11 @@ class BinCmd(CmdBase):
 
 
 class FileCmd(CmdBase):
+    """ Implements file-based command execution.
+
+    This is used e.g. with sosreports where the output of a command is saved
+    to disk.
+    """
     TYPE = "FILE"
 
     def __init__(self, path, json_decode=False,
@@ -323,7 +336,7 @@ class BinFileCmd(FileCmd):
 
 
 class JournalctlBase():
-
+    """ Base class for journalctl command implementations. """
     @property
     def since_date(self):
         """
@@ -345,7 +358,7 @@ class JournalctlBase():
 
 
 class JournalctlBinCmd(BinCmd, JournalctlBase):
-
+    """ Implements binary journalctl command. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.register_hook("pre-exec", self.format_journalctl_cmd)
@@ -362,7 +375,7 @@ class JournalctlBinCmd(BinCmd, JournalctlBase):
 
 
 class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
-
+    """ Implements file-based journalctl command. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.register_hook("pre-exec", self.preformat_sos_journalctl)
@@ -379,7 +392,7 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
 
 
 class OVSAppCtlBinCmd(BinCmd):
-
+    """ Implements ovs-appctl binary command. """
     def __call__(self, *args, **kwargs):
         # Set defaults for optional args
         for key in ['flags', 'args']:
@@ -390,7 +403,7 @@ class OVSAppCtlBinCmd(BinCmd):
 
 
 class OVSAppCtlFileCmd(FileCmd):
-
+    """ Implements ovs-appctl file-based command. """
     def __call__(self, *args, **kwargs):
         for key in ['flags', 'args']:
             if key in kwargs:
@@ -414,12 +427,13 @@ class OVSAppCtlFileCmd(FileCmd):
 
 
 class OVSOFCtlCmdBase():
+    """ Base class for implementations of ovs-ofctl command. """
     OFPROTOCOL_VERSIONS = ['OpenFlow15', 'OpenFlow14', 'OpenFlow13',
                            'OpenFlow12', 'OpenFlow11', 'OpenFlow10']
 
 
 class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
-
+    """ Implementation of ovs-ofctl binary command. """
     def __call__(self, *args, **kwargs):
         """
         First try without specifying protocol version. If error is raised
@@ -451,7 +465,7 @@ class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
 
 
 class OVSOFCtlFileCmd(OVSOFCtlCmdBase, FileCmd):
-
+    """ Implementation of ovs-ofctl file-based command. """
     def __call__(self, *args, **kwargs):
         """
         We do this in reverse order to bin command since it won't actually
@@ -482,7 +496,7 @@ class OVSOFCtlFileCmd(OVSOFCtlCmdBase, FileCmd):
 
 
 class DateBinCmd(BinCmd):
-
+    """ Implementation binary date command. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.register_hook("pre-exec", self.format_date_cmd)
@@ -501,7 +515,7 @@ class DateBinCmd(BinCmd):
 
 
 class DateFileCmd(FileCmd):
-
+    """ Implementation of file-based date command. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.register_hook("post-exec", self.format_date)
@@ -597,7 +611,10 @@ class CephJSONFileCmd(FileCmd):
 
 
 class SourceRunner():
+    """ Manager to control how we execute commands.
 
+    Ensures that we try data sources in a consistent order.
+    """
     def __init__(self, cmdkey, sources, cache, output_file=None):
         """
         @param cmdkey: unique key identifying this command.
@@ -704,7 +721,7 @@ class SourceRunner():
 
 
 class CLICacheWrapper():
-
+    """ Wrapper for cli cache. """
     def __init__(self, cache_load_f, cache_save_f):
         self.load_f = cache_load_f
         self.save_f = cache_save_f
@@ -717,7 +734,7 @@ class CLICacheWrapper():
 
 
 class CLIHelperBase(HostHelpersBase):
-
+    """ Base class for clihelper implementations. """
     def __init__(self):
         self._command_catalog = None
         super().__init__()

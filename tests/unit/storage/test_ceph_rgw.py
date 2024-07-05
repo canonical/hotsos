@@ -5,7 +5,7 @@ from .. import utils
 
 
 class StorageCephRGWTestsBase(utils.BaseTestCase):
-
+    """ Custom test case that sets the storage plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'storage'

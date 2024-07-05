@@ -16,7 +16,7 @@ mock:
     hotsos.core.plugins.system.system.NUMAInfo.nodes:
       kwargs:
         new: {0: [1, 3, 5], 1: [0, 2, 4]}
-    hotsos.core.plugins.openstack.OpenstackChecksBase.release_name:
+    hotsos.core.plugins.openstack.OpenStackChecks.release_name:
       kwargs:
         new: train
     hotsos.core.plugins.system.SystemBase.num_cpus:

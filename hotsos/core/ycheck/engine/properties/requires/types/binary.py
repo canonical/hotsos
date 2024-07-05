@@ -35,6 +35,10 @@ class BinCheckItems(PackageCheckItemsBase):
 
 
 class YRequirementTypeBinary(YRequirementTypeBase):
+    """
+    Binary requires type property. Provides support for defining binary
+    checks.
+    """
     _override_keys = ['binary']
     _overrride_autoregister = True
 

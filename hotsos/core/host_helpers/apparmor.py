@@ -12,14 +12,14 @@ from hotsos.core.host_helpers.cli import CLIHelperFile
 
 
 class AAProfile():
-
+    """ Representation of an Apparmor profile. """
     def __init__(self, name):
         self.name = name
         self.mode = ApparmorHelper().get_profile_mode(name)
 
 
 class ApparmorHelper():
-
+    """ Helper for analysing apparmor profiles and state. """
     @cached_property
     def profiles(self):
         """

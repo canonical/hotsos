@@ -6,7 +6,7 @@ from tests.unit import utils
 
 
 class TestPacemakerBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets pacemaker plugin context. """
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         HotSOSConfig.plugin_name = 'pacemaker'
@@ -15,6 +15,7 @@ class TestPacemakerBase(utils.BaseTestCase):
 
 
 class TestPacemakerSummary(TestPacemakerBase):
+    """ Unit tests for pacemaker summary """
     def test_dpkg(self):
         expected = ['corosync 3.0.3-2ubuntu2.1',
                     'crmsh 4.2.0-2ubuntu1',

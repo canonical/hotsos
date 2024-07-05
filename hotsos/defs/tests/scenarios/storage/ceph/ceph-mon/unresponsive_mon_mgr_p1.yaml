@@ -1,7 +1,7 @@
 target-name: unresponsive_mon_mgr.yaml
 mock:
   patch:
-    hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins:
+    hotsos.core.plugins.sosreport.SOSReportChecks.timed_out_plugins:
       kwargs:
         new: ['ceph_mon']
 raised-issues:

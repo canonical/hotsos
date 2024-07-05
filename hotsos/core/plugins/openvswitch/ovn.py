@@ -15,14 +15,14 @@ from hotsos.core.plugins.openvswitch.common import OVS_SERVICES_EXPRS
 
 
 class OVNSBDBPort():
-
+    """ Representation of OVS SBDB port """
     def __init__(self, name, port_type):
         self.name = name
         self.type = port_type
 
 
 class OVNSBDBChassis():
-
+    """ Representation of OVS SBDB chassis """
     def __init__(self, name, content):
         self.name = name
         self.content = content or {}
@@ -51,7 +51,7 @@ class OVNSBDBChassis():
 
 
 class OVNDBBase():
-
+    """ Base class for OVN database objects. """
     def __init__(self):
         contents = mktemp_dump(''.join(self.db_show))
         s = FileSearcher()
@@ -141,9 +141,7 @@ class OVNSBDB(OVNDBBase):
 
 
 class OVNBase():
-    """
-    Base class for all OVN components.
-    """
+    """ Base class for all OVN components. """
     def __init__(self):
         self.systemd = SystemdHelper(service_exprs=OVS_SERVICES_EXPRS)
 

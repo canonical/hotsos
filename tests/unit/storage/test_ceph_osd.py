@@ -23,14 +23,14 @@ filestore xattr use omap = true
 
 
 class StorageCephOSDTestsBase(utils.BaseTestCase):
-
+    """ Custom test case that sets the storage plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'storage'
 
 
-class TestCephOSDChecksBase(StorageCephOSDTestsBase):
-
+class TestCephOSDChecks(StorageCephOSDTestsBase):
+    """ Unit tests for Ceph osd checks. """
     @mock.patch.object(ceph_core, 'CLIHelper')
     def test_get_date_secs(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
@@ -48,7 +48,7 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
                          1616669705)
 
     def test_release_name(self):
-        release_name = ceph_core.CephChecksBase().release_name
+        release_name = ceph_core.CephChecks().release_name
         self.assertEqual(release_name, 'octopus')
 
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
@@ -56,7 +56,7 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
         # 2030-04-30
         mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
 
-        base = ceph_core.CephChecksBase()
+        base = ceph_core.CephChecks()
 
         self.assertEqual(base.release_name, 'octopus')
         self.assertLessEqual(base.days_to_eol, 0)
@@ -66,18 +66,18 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
         # 2030-01-01
         mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
 
-        base = ceph_core.CephChecksBase()
+        base = ceph_core.CephChecks()
 
         self.assertEqual(base.release_name, 'octopus')
         self.assertGreater(base.days_to_eol, 0)
 
     def test_bluestore_enabled(self):
-        enabled = ceph_core.CephChecksBase().bluestore_enabled
+        enabled = ceph_core.CephChecks().bluestore_enabled
         self.assertTrue(enabled)
 
     @utils.create_data_root({'etc/ceph/ceph.conf': CEPH_CONF_NO_BLUESTORE})
     def test_bluestore_not_enabled(self):
-        enabled = ceph_core.CephChecksBase().bluestore_enabled
+        enabled = ceph_core.CephChecks().bluestore_enabled
         self.assertFalse(enabled)
 
     def test_daemon_osd_config(self):
@@ -99,7 +99,7 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
 
 
 class TestCephOSDSummary(StorageCephOSDTestsBase):
-
+    """ Unit tests for Ceph osd summary. """
     def test_local_osd_ids(self):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
@@ -193,7 +193,7 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
                                            'mtu': 1500,
                                            'state': 'UP',
                                            'speed': 'unknown'}}}
-        ports = ceph_core.CephChecksBase().bind_interfaces
+        ports = ceph_core.CephChecks().bind_interfaces
         _ports = {}
         for config, port in ports.items():
             _ports.update({config: port.to_dict()})
@@ -202,7 +202,7 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
 
 
 class TestCephOSDEvents(StorageCephOSDTestsBase):
-
+    """ Unit tests for Ceph osd event checks. """
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('osd/osdlogs.yaml',
                                         'events/storage/ceph'))

@@ -10,6 +10,7 @@ from . import utils
 
 
 class TestCLI(utils.BaseTestCase):
+    """ Unit tests for HotSOS cli. """
 
     def test_get_hotsos_root(self):
         with mock.patch.object(sys, 'argv', ['/usr/bin/hotsos', '1', '2']):

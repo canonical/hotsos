@@ -10,6 +10,7 @@ from hotsos.core.utils import sorted_dict
 
 
 class OVSEventCallbackVSwitchd(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVS vswitchd events """
     event_group = 'ovs'
     event_names = ['bridge-no-such-device', 'netdev-linux-no-such-device']
 
@@ -22,6 +23,7 @@ class OVSEventCallbackVSwitchd(OpenvSwitchEventCallbackBase):
 
 
 class OVSEventCallbackLogs(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVS log events """
     event_group = 'ovs'
     event_names = ['ovsdb-server', 'ovs-vswitchd',
                    'receive-tunnel-port-not-found',
@@ -44,6 +46,7 @@ class OVSEventCallbackLogs(OpenvSwitchEventCallbackBase):
 
 
 class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVS dalr events """
     event_group = 'ovs'
     event_names = ['deferred-action-limit-reached']
 
@@ -59,6 +62,7 @@ class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
 
 
 class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVS portstat events """
     event_group = 'ovs'
     event_names = ['port-stats']
 
@@ -151,6 +155,7 @@ class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
 
 
 class OVSEventCallbackBFD(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVS BFD events """
     event_group = 'ovs'
     event_names = ['bfd-state-changes']
 
@@ -198,7 +203,8 @@ class OVSEventCallbackBFD(OpenvSwitchEventCallbackBase):
         return None
 
 
-class OVSEventCallback4(OpenvSwitchEventCallbackBase):
+class OVSEventCallbackInvoluntaryContextSwitches(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVS involuntary context switch events """
     event_group = 'ovs'
     event_names = ['involuntary-context-switches']
 
@@ -223,6 +229,7 @@ class OVSEventCallback4(OpenvSwitchEventCallbackBase):
 
 
 class OVSEventChecks(OpenvSwitchEventHandlerBase):
+    """ Events handler for OVS events """
     event_group = 'ovs'
     summary_part_index = 1
 
@@ -232,6 +239,7 @@ class OVSEventChecks(OpenvSwitchEventHandlerBase):
 
 
 class OVNEventCallbackLogs(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVS log events """
     event_group = 'ovn'
     event_names = ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
                    'ovn-controller', 'unreasonably-long-poll-interval',
@@ -254,6 +262,7 @@ class OVNEventCallbackLogs(OpenvSwitchEventCallbackBase):
 
 
 class OVNEventCallbackContextSwitches(OpenvSwitchEventCallbackBase):
+    """ Events callback for OVN involuntary context switch events """
     event_group = 'ovn'
     event_names = ['involuntary-context-switches']
 
@@ -278,6 +287,7 @@ class OVNEventCallbackContextSwitches(OpenvSwitchEventCallbackBase):
 
 
 class OVNEventChecks(OpenvSwitchEventHandlerBase):
+    """ Events handler for OVN events """
     event_group = 'ovn'
     summary_part_index = 2
 

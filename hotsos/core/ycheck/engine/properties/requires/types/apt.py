@@ -13,7 +13,9 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class APTCheckItems(PackageCheckItemsBase):
-
+    """
+    Implementation for check items on apt package properties.
+    """
     @cached_property
     def packaging_helper(self):
         return APTPackageHelper(self.packages_to_check)
@@ -24,7 +26,10 @@ class APTCheckItems(PackageCheckItemsBase):
 
 
 class YRequirementTypeAPT(YRequirementTypeBase):
-    """ Provides logic to perform checks on APT packages. """
+    """
+    Apt requires type property. Provides support for defining the apt package
+    requires type to perform checks on APT packages.
+    """
     _override_keys = ['apt']
     _overrride_autoregister = True
 

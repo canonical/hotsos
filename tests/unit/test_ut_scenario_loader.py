@@ -8,12 +8,8 @@ from hotsos.core.config import HotSOSConfig
 from . import utils
 
 
-class ScenarioTestsBase(utils.BaseTestCase):
-    pass
-
-
 class FakeTemplatedTestGenerator():
-
+    """ Fake templated test generator. """
     @property
     def test_method_name(self):
         return str(uuid.uuid4())
@@ -56,8 +52,8 @@ raised-issues:
 """
 
 
-class TestScenarioTestLoader(ScenarioTestsBase):
-
+class TestScenarioTestLoader(utils.BaseTestCase):
+    """ Tests for automated templated scenarios unit test loader. """
     @staticmethod
     def create_scenarios(path, levels=1):
         _path = os.path.join(path, 'scenarios', HotSOSConfig.plugin_name)
@@ -112,8 +108,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                  mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
 
                 @utils.load_templated_tests('scenarios/testplugin')
-                class MyTests(ScenarioTestsBase):
-                    pass
+                class MyTests(utils.BaseTestCase):
+                    """ dummy tests """
 
                 a = MyTests()
                 tests = [x for x in dir(a) if x.startswith("test_")]
@@ -162,7 +158,7 @@ class TestScenarioTestLoader(ScenarioTestsBase):
             with mock.patch.object(utils, 'DEFS_TESTS_DIR',
                                    os.path.join(dtmp, 'tests')):
                 class FakeTests():
-
+                    """ dummy tests """
                     @utils.load_templated_tests('scenarios/testplugin/1')
                     @staticmethod
                     def faketest():
@@ -182,7 +178,7 @@ class TestScenarioTestLoader(ScenarioTestsBase):
             with mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
                 @utils.load_templated_tests('scenarios/testplugin/1')
                 class FakeTests():  # pylint: disable=W0612
-                    pass
+                    """ dummy tests """
 
                 plugin_path = 'tests/scenarios/testplugin'
                 s1 = os.path.join(dtmp, plugin_path,
@@ -237,8 +233,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 HotSOSConfig.plugin_tmp_dir = dtmp
 
                 @utils.load_templated_tests('scenarios/testplugin')
-                class MyTests(ScenarioTestsBase):
-                    pass
+                class MyTests(utils.BaseTestCase):
+                    """ dummy tests """
 
                 MyTests().test_yscenario_1_myscenario1()  # noqa, pylint: disable=E1101
                 MyTests().test_yscenario_1_myscenario1alt() # noqa, # pylint: disable=E1101
@@ -275,8 +271,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
 
                 @utils.load_templated_tests('scenarios/testplugin/'
                                             '1/2/3/4/5')
-                class MyTests(ScenarioTestsBase):
-                    pass
+                class MyTests(utils.BaseTestCase):
+                    """ dummy tests """
 
                 MyTests().test_yscenario_myscenario5()  # pylint: disable=E1101
                 MyTests().test_yscenario_myscenario5alt()  # noqa, pylint: disable=E1101
@@ -300,6 +296,7 @@ class TestScenarioTestLoader(ScenarioTestsBase):
             with self.assertRaises(FileNotFoundError):
                 @utils.load_templated_tests('scenarios/testplugin/'
                                             '1/2/3/4/5')
-                class MyTests(ScenarioTestsBase):
-                    pass
+                class MyTests(utils.BaseTestCase):
+                    """ dummy tests """
+
                 MyTests()

@@ -16,15 +16,25 @@ CALLBACKS = {}
 
 
 class EventCallbackNameConflict(Exception):
-    pass
+    """
+    When more than one callback are registered with the same name this
+    exception is raised.
+    """
 
 
 class EventCallbackNotFound(Exception):
-    pass
+    """
+    When an event is raised but the associated callback is not found, this
+    exception is raised.
+    """
 
 
-class EventCallbackMeta(type):
-
+class EventCallbackAutoRegister(type):
+    """
+    Event callbacks are registered by implementing this metaclass so that they
+    are automatically added to the list of callbacks on which we do a lookup to
+    find a match when an event is raised.
+    """
     def __init__(cls, _name, _mro, members):
         event_group = members.get('event_group')
         if event_group is None:
@@ -64,7 +74,9 @@ class EventCheckResult():
 
 
 class EventProcessingUtils():
-
+    """
+    A set of helper methods to help with the processing of event results.
+    """
     @classmethod
     def _get_event_results(cls, event):
         """
@@ -251,7 +263,9 @@ class EventProcessingUtils():
         return shortened
 
 
-class EventCallbackBase(EventProcessingUtils, metaclass=EventCallbackMeta):
+class EventCallbackBase(EventProcessingUtils,
+                        metaclass=EventCallbackAutoRegister):
+    """ Base class used for all event callbacks. """
     # All implementations must set these and event_group must match that used
     # in the handler.
     event_group = None

@@ -50,7 +50,9 @@ class CheckItemsBase(abc.ABC):
 
 
 class PackageCheckItemsBase(CheckItemsBase):
-
+    """
+    Base class for implementations of package check items.
+    """
     @cached_property
     def packages_to_check(self):
         return [item[0] for item in self]
@@ -74,7 +76,11 @@ class PackageCheckItemsBase(CheckItemsBase):
 
 
 class OpsUtils():
+    """ Common methods for processing ops queues.
 
+    Ops queues are lists of operations that are processed sequentially where
+    subsequent items take the output of the previous as input.
+    """
     @staticmethod
     def ops_to_str(ops):
         """
@@ -159,6 +165,7 @@ class OpsUtils():
 
 
 class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
+    """ Base class for all requirement type implementations. """
     _overrride_autoregister = False
 
     @property
@@ -181,7 +188,10 @@ class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
 
 
 class YRequirementTypeWithOpsBase(YRequirementTypeBase):
-
+    """
+    Base class for requirement types that support ops queues and want to use
+    the standard way to process them.
+    """
     @property
     @abc.abstractmethod
     def _result(self):
@@ -203,7 +213,7 @@ class YRequirementTypeWithOpsBase(YRequirementTypeBase):
 
 
 class ServiceCheckItemsBase(CheckItemsBase):
-
+    """ Base class for service manager requirement type checks. """
     @cached_property
     def _started_after_services(self):
         svcs = []

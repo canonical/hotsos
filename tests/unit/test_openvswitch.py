@@ -94,14 +94,14 @@ Mar  3 22:57:24 compute4 kernel: [1381820.499397] openvswitch: ovs-system: defer
 
 
 class TestOpenvswitchBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets openvswitch plugin context. """
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         HotSOSConfig.plugin_name = 'openvswitch'
 
 
 class TestCoreOpenvSwitch(TestOpenvswitchBase):
-
+    """ Unit tests for core ovs plugin code. """
     def test_base_offload_disabled(self):
         enabled = OpenvSwitchBase().offload_enabled
         self.assertFalse(enabled)
@@ -115,7 +115,7 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
 
 
 class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
-
+    """ Unit tests for ovs service code. """
     def test_get_package_checks(self):
         expected = ['libc-bin 2.31-0ubuntu9.2',
                     'openssl 1.1.1f-1ubuntu2.10',
@@ -228,7 +228,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
 
 
 class TestOpenvswitchDB(TestOpenvswitchBase):
-
+    """ Unit tests for ovsdb code. """
     def test_ovsdb_other_config(self):
         expected = {}
         self.assertEqual(OVSDB().Open_vSwitch.other_config, expected)
@@ -259,7 +259,7 @@ class TestOpenvswitchDB(TestOpenvswitchBase):
 
 
 class TestOpenvswitchEvents(TestOpenvswitchBase):
-
+    """ Unit tests for ovs events. """
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs-vswitchd.yaml',
                                         'events/openvswitch'))
@@ -513,7 +513,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
     def test_ovn_northd_running(self, mock_systemd):
 
         class FakeSystemdHelper():
-
+            """ fake systemd helper """
             def __init__(self, svcs):
                 self.processes = {}
                 self.services = {}
@@ -545,6 +545,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):
+            """ fake systemd service """
             @property
             def start_time_secs(self):  # pylint: disable=W0236
                 return mtime + 10
@@ -576,6 +577,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):
+            """ fake systemd service """
             @property
             def start_time_secs(self):  # pylint: disable=W0236
                 return mtime - 10
@@ -611,6 +613,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):
+            """ fake systemd service """
             @property
             def start_time_secs(self):  # pylint: disable=W0236
                 return mtime + 10
@@ -637,6 +640,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                                               'etc/ovn/cert_host'))
 
         class FakeSystemdService(SystemdService):
+            """ fake systemd service """
             @property
             def start_time_secs(self):  # pylint: disable=W0236
                 return mtime - 10

@@ -1,7 +1,7 @@
 checks:
   ssd_ceph_osds_exist:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_devtypes
+      path: hotsos.core.plugins.storage.ceph.CephChecks.local_osds_devtypes
       ops: [[contains, ssd]]
   ceph_discard_not_enabled:
     config:

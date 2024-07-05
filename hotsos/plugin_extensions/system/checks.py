@@ -2,10 +2,14 @@ import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import SYSCtlConfHelper
-from hotsos.core.plugins.system import SystemChecksBase
+from hotsos.core.plugins.system import SystemChecks
 
 
-class SYSCtlChecks(SystemChecksBase):
+class SYSCtlChecks(SystemChecks):
+    """ System sysctl checker.
+
+    Checks system sysctl state.
+    """
     summary_part_index = 1
 
     def __init__(self, *args, **kwargs):

@@ -9,7 +9,12 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
-    """ Provides logic to perform checks on filesystem paths. """
+    """
+    Path requires type property. Provides support for defining checks on a
+    filesystem path.
+
+    Provides logic to perform checks on filesystem paths.
+    """
     _override_keys = ['path']
     _overrride_autoregister = True
 

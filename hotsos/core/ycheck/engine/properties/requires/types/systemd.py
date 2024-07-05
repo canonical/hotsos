@@ -10,14 +10,19 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class SystemdServiceCheckItems(ServiceCheckItemsBase):
-
+    """
+    Provides means to run checks on one or more systemd check item.
+    """
     @property
     def _svcs_info(self):
         return SystemdHelper(self._svcs_all)
 
 
 class YRequirementTypeSystemd(YRequirementTypeBase):
-    """ Provides logic to perform checks on systemd resources. """
+    """
+    Systemd requires type property. Provides support for defining checks on
+    systemd resources.
+    """
     _override_keys = ['systemd']
     _overrride_autoregister = True
 

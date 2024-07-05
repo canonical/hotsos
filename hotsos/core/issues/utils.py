@@ -8,6 +8,7 @@ from hotsos.core.utils import sorted_dict
 
 
 class IssueContext():
+    """ Key value store for machine readable context. """
     def __init__(self, **kwargs):
         self.context = {}
         self.set(**kwargs)
@@ -22,21 +23,14 @@ class IssueContext():
         return self.context
 
 
-class IssueEntryBase(abc.ABC):
+class IssueEntry():
+    """ A single issue object as stored for later use. """
     def __init__(self, ref, message, key, context=None):
         self.key = key
         self.context = context
         self.ref = ref
         self.message = message
         self.origin = f"{HotSOSConfig.plugin_name}.{HotSOSConfig.part_name}"
-
-    @property
-    @abc.abstractmethod
-    def content(self):
-        """ The is the final representation of the object. """
-
-
-class IssueEntry(IssueEntryBase):
 
     @property
     def content(self):
@@ -51,7 +45,7 @@ class IssueEntry(IssueEntryBase):
 
 
 class IssuesStoreBase(abc.ABC):
-
+    """ Base class for issue store backend implementatios. """
     def __init__(self):
         if not os.path.isdir(HotSOSConfig.plugin_tmp_dir):
             raise Exception(f"plugin tmp dir '{HotSOSConfig.plugin_tmp_dir}' "
@@ -72,7 +66,7 @@ class IssuesStoreBase(abc.ABC):
 
 
 class KnownBugsStore(IssuesStoreBase):
-
+    """ Known bug backend store """
     @property
     def store_path(self):
         return os.path.join(HotSOSConfig.plugin_tmp_dir, 'known_bugs.yaml')
@@ -105,7 +99,7 @@ class KnownBugsStore(IssuesStoreBase):
 
 
 class IssuesStore(IssuesStoreBase):
-
+    """ Potential issue backend store """
     @property
     def store_path(self):
         return os.path.join(HotSOSConfig.plugin_tmp_dir, 'issues.yaml')
@@ -142,6 +136,7 @@ class IssuesStore(IssuesStoreBase):
 
 
 class IssuesManager():
+    """ Manager for all issue store backends.  """
     SUMMARY_OUT_ISSUES_ROOT = 'potential-issues'
     SUMMARY_OUT_BUGS_ROOT = 'bugs-detected'
 

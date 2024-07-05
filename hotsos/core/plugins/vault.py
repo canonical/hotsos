@@ -11,7 +11,8 @@ CORE_SNAPS = ['vault']
 SERVICE_EXPRS = [s + '[A-Za-z0-9-]*' for s in CORE_SNAPS]
 
 
-class VaultChecksBase(PluginPartBase):
+class VaultChecks(PluginPartBase):
+    """ Base class for all vault checks. """
     plugin_name = 'vault'
     plugin_root_index = 10
 

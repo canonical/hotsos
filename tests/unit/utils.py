@@ -71,7 +71,12 @@ def load_templated_tests(path):
 
 
 class TemplatedTest():
+    """
+    Helper for working with templated tests i.e. Unit tests written in yaml
+    that are then loaded, converted into unittest tests and run.
 
+    This class implements the functionality to process the test results.
+    """
     def __init__(self, target_path, data_root, mocks, expected_bugs,
                  expected_issues, sub_root):
         self.sub_root = sub_root
@@ -200,7 +205,10 @@ class TemplatedTest():
 
 
 class TemplatedTestGenerator():
-
+    """
+    Helper for working with templated tests i.e. Unit tests written in yaml
+    that are then loaded, converted into unittest tests and run.
+    """
     def __init__(self, test_defs_root, test_def_path):
         """
         @param test_defs_root: path under defs/tests where tests are located
@@ -405,17 +413,8 @@ def create_data_root(files_to_create, copy_from_original=None):
     return create_files_inner1
 
 
-class ContextManagerBase():
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args, **kwargs):
-        return False
-
-
 class BaseTestCase(unittest.TestCase):
-
+    """ Custom TestCase to be used by all tests. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.global_tmp_dir = None

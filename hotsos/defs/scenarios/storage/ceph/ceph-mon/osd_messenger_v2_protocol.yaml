@@ -2,7 +2,7 @@ checks:
   ceph_release_gt_mimic:
     # v2 only available for >= Nautilus
     property:
-      path: hotsos.core.plugins.storage.ceph.CephChecksBase.release_name
+      path: hotsos.core.plugins.storage.ceph.CephChecks.release_name
       ops: [[gt, mimic]]
   cluster_has_v1_only_osds:
     property:

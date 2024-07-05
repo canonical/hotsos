@@ -14,7 +14,7 @@ mock:
     hotsos.core.plugins.system.system.SystemBase.virtualisation_type:
       kwargs:
         new: null
-    hotsos.core.plugins.kubernetes.KubernetesChecksBase.plugin_runnable:
+    hotsos.core.plugins.kubernetes.KubernetesChecks.plugin_runnable:
       kwargs:
         new: true
 raised-issues:

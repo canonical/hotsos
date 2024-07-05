@@ -6,6 +6,10 @@ from hotsos.core.utils import sorted_dict
 
 
 class _BaseProcKeyValue():
+    """
+    Base class for reading out of /proc/... files that have row/column
+    structure that can be extracted into key/value format.
+    """
     # Set to list of keys we expect to find in the file. If these keys are not
     # found their value will be returned as DEFAULT_RETURN_VALUE instead of
     # raising an AttributeError.
@@ -51,6 +55,7 @@ class _BaseProcKeyValue():
 
 
 class VMStat(_BaseProcKeyValue):
+    """ Interface to /proc/vmstat """
     VALID_KEYS = ['compact_fail', 'compact_success']
 
     @property
@@ -71,6 +76,7 @@ class VMStat(_BaseProcKeyValue):
 
 
 class MemInfo(_BaseProcKeyValue):
+    """ Interface to /proc/meminfo """
     VALID_KEYS = ['MemTotal', 'MemAvailable', 'Hugetlb', 'HugePages_Total',
                   'HugePages_Free']
 
@@ -112,7 +118,7 @@ class MemInfo(_BaseProcKeyValue):
 
 
 class SlabInfo():
-
+    """ Interface to /proc/slabinfo """
     def __init__(self, filter_names=None):
         self._filter_names = filter_names or []
         self._slab_info = []
@@ -198,7 +204,7 @@ class SlabInfo():
 
 
 class BuddyInfo():
-
+    """ Interface to /proc/buddyinfo """
     def __init__(self):
         self._numa_nodes = []
 
@@ -233,7 +239,7 @@ class BuddyInfo():
 
 
 class MallocInfo():
-
+    """ Helper to get memory allocation information from the system. """
     def __init__(self, node, zone):
         self.node = node
         self.zone = zone
@@ -285,7 +291,7 @@ class MallocInfo():
 
 
 class MemoryChecks():
-
+    """ Memory checks implementation. """
     @property
     def max_unavailable_block_sizes(self):
         # 0+1+...10 is 55 so threshold is this minus the max order

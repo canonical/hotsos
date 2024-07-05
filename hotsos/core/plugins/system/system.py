@@ -16,6 +16,7 @@ from hotsos.core.search import (
 
 
 class NUMAInfo():
+    """ Interface to host NUMA information. """
     numactl = ""
 
     def __init__(self):
@@ -76,7 +77,7 @@ class NUMAInfo():
 
 
 class SystemBase():
-
+    """ Base class for system checks. """
     @cached_property
     def date(self):
         return CLIHelper().date(no_format=True)
@@ -233,7 +234,7 @@ class SystemBase():
 
 
 class SSSD():
-
+    """ SSSD interface. """
     def __init__(self):
         self.sssd_config = GenericIniConfig(
             os.path.join(HotSOSConfig.data_root,

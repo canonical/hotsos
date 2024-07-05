@@ -1,7 +1,8 @@
-from hotsos.core.plugins.maas import MAASChecksBase
+from hotsos.core.plugins.maas import MAASChecks
 
 
-class MAASSummary(MAASChecksBase):
+class MAASSummary(MAASChecks):
+    """ Implementation of MAAS summary. """
     summary_part_index = 0
 
     def __0_summary_services(self):

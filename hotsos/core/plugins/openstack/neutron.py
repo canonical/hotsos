@@ -17,7 +17,7 @@ VXLAN_HEADER_BYTES = 30
 
 
 class NeutronBase(OSTServiceBase):
-
+    """ Base class for Neutron checks. """
     def __init__(self, *args, **kwargs):
         super().__init__('neutron', *args, **kwargs)
         self.neutron_ovs_config = self.project.config['openvswitch-agent']
@@ -45,7 +45,7 @@ class NeutronBase(OSTServiceBase):
 
 
 class ServiceChecks():
-
+    """ Neutron service specific checks.  """
     @cached_property
     def ovs_cleanup_run_manually(self):
         """ Allow one run on node boot/reboot but not after. """
@@ -68,7 +68,7 @@ class ServiceChecks():
 
 
 class NeutronRouter():
-
+    """ Representation of a Neutron router. """
     def __init__(self, uuid, ha_state):
         self.uuid = uuid
         self.ha_state = ha_state
@@ -76,7 +76,7 @@ class NeutronRouter():
 
 
 class NeutronHAInfo():
-
+    """ Representation of Neutron HA state. """
     def __init__(self):
         self.vr_id = None
 
@@ -129,7 +129,7 @@ class NeutronHAInfo():
 
 
 class Config(FactoryBase):
-
+    """ Neutron config. """
     def __getattr__(self, path):
         path = os.path.join(HotSOSConfig.data_root, 'etc/neutron', path)
         return OpenstackConfig(path)

@@ -1,7 +1,8 @@
-from hotsos.core.plugins.pacemaker import PacemakerChecksBase
+from hotsos.core.plugins.pacemaker import PacemakerChecks
 
 
-class PacemakerSummary(PacemakerChecksBase):
+class PacemakerSummary(PacemakerChecks):
+    """ Implementation of Pacemaker summary. """
     summary_part_index = 0
 
     def __0_summary_services(self):

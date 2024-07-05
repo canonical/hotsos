@@ -10,7 +10,9 @@ log = logging.getLogger('hotsos')
 
 
 class LoggingManager():
-
+    """
+    Context manager to manage logging config during the execution of HotSOS.
+    """
     def __init__(self):
         self.delete_temp_file = True
 

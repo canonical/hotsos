@@ -11,7 +11,7 @@ from . import utils
 
 
 class TestRootManager(utils.BaseTestCase):
-
+    """ Unit tests for RootManager """
     def setUp(self):
         super().setUp()
         self.tmpdir = tempfile.mktemp()

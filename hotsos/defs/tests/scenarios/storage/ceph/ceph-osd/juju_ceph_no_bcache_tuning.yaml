@@ -1,6 +1,6 @@
 mock:
   patch:
-    hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache:
+    hotsos.core.plugins.storage.ceph.CephChecks.local_osds_use_bcache:
       kwargs:
         new: true
 raised-issues:
