@@ -340,7 +340,13 @@ class CephCrushMap():
         return False
 
 
-class CephCluster():
+class CephCluster():  # pylint: disable=too-many-public-methods
+    """
+    Provides an interface to a Ceph cluster.
+
+    NOTE: we disable the too-many-public-methods pylint warning because by
+          nature this is going to have a large number of public methods.
+    """
     OSD_META_LIMIT_PERCENT = 5
     OSD_PG_MAX_LIMIT = 500
     OSD_PG_OPTIMAL_NUM_MAX = 200
@@ -361,11 +367,11 @@ class CephCluster():
         return None
 
     @cached_property
-    def mon_dump(self):
+    def _mon_dump(self):
         return CLIHelper().ceph_mon_dump_json_decoded() or {}
 
     @cached_property
-    def osd_dump(self):
+    def _osd_dump(self):
         return CLIHelper().ceph_osd_dump_json_decoded() or {}
 
     @cached_property
@@ -373,13 +379,13 @@ class CephCluster():
         return CLIHelper().ceph_pg_dump_json_decoded() or {}
 
     @cached_property
-    def ceph_mgr_module_ls(self):
+    def _ceph_mgr_module_ls(self):
         return CLIHelper().ceph_mgr_module_ls() or {}
 
     @cached_property
     def mons(self):
         _mons = []
-        for mon in self.mon_dump.get('mons', {}):
+        for mon in self._mon_dump.get('mons', {}):
             _mons.append(CephMon(mon['name']))
 
         return _mons
@@ -390,13 +396,13 @@ class CephCluster():
         Returns a list of modules that are enabled. This includes both
         the 'always on' as well as modules enabled explicitly.
         """
-        if not self.ceph_mgr_module_ls:
+        if not self._ceph_mgr_module_ls:
             return []
 
         _modules = []
         for category in ['always_on_modules', 'enabled_modules']:
-            if self.ceph_mgr_module_ls[category]:
-                _modules += self.ceph_mgr_module_ls[category]
+            if self._ceph_mgr_module_ls[category]:
+                _modules += self._ceph_mgr_module_ls[category]
 
         return _modules
 
@@ -412,7 +418,7 @@ class CephCluster():
     def osds(self):
         """ Returns a list of CephOSD objects for all osds in the cluster. """
         _osds = []
-        for osd in self.osd_dump.get('osds', {}):
+        for osd in self._osd_dump.get('osds', {}):
             _osds.append(CephOSD(osd['osd'], osd['uuid'], dump=osd))
 
         return _osds
@@ -533,7 +539,7 @@ class CephCluster():
 
     @cached_property
     def require_osd_release(self):
-        return self.osd_dump.get('require_osd_release')
+        return self._osd_dump.get('require_osd_release')
 
     @cached_property
     def osd_daemon_release_names_match_required(self):
@@ -563,10 +569,10 @@ class CephCluster():
         return laggy_pgs
 
     def pool_id_to_name(self, pool_id):
-        if not self.osd_dump:
+        if not self._osd_dump:
             return None
 
-        pools = self.osd_dump.get('pools', [])
+        pools = self._osd_dump.get('pools', [])
         for pool in pools:
             if pool['pool'] == int(pool_id):
                 return pool['pool_name']

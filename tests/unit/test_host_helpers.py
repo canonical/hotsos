@@ -693,7 +693,7 @@ class TestApparmorHelper(utils.BaseTestCase):
         self.assertEqual(profile.mode, 'enforce')
 
 
-class TestDPKGVersion(utils.BaseTestCase):
+class TestDPKGVersion(utils.BaseTestCase):  # noqa, pylint: disable=too-many-public-methods
 
     def test_dpkg_normalize_string_repr(self):
         data = [
