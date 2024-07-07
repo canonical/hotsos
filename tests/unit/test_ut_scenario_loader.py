@@ -108,7 +108,7 @@ class TestScenarioTestLoader(ScenarioTestsBase):
         with tempfile.TemporaryDirectory() as dtmp:
             self.create_tests(dtmp, levels=1)
             self.create_scenarios(dtmp, levels=1)
-            with mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+            with mock.patch.object(utils, 'DEFS_DIR', dtmp), \
                  mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
 
                 @utils.load_templated_tests('scenarios/testplugin')
@@ -225,8 +225,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                     {}, [], [], [], '/')()(self)
 
     def test_scenarios(self):
-        with tempfile.TemporaryDirectory() as dtmp,\
-             mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+        with tempfile.TemporaryDirectory() as dtmp, \
+             mock.patch.object(utils, 'DEFS_DIR', dtmp), \
              mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
             self.create_scenarios(dtmp, levels=5)
             self.create_tests(dtmp, levels=5)
@@ -262,8 +262,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 HotSOSConfig.set(**orig_config)
 
     def test_scenarios_deep(self):
-        with tempfile.TemporaryDirectory() as dtmp,\
-             mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+        with tempfile.TemporaryDirectory() as dtmp, \
+             mock.patch.object(utils, 'DEFS_DIR', dtmp), \
              mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
             self.create_scenarios(dtmp, levels=5)
             self.create_tests(dtmp, levels=5)
@@ -292,8 +292,8 @@ class TestScenarioTestLoader(ScenarioTestsBase):
                 HotSOSConfig.set(**orig_config)
 
     def test_scenarios_no_such_target(self):
-        with tempfile.TemporaryDirectory() as dtmp,\
-             mock.patch.object(utils, 'DEFS_DIR', dtmp),\
+        with tempfile.TemporaryDirectory() as dtmp, \
+             mock.patch.object(utils, 'DEFS_DIR', dtmp), \
              mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
             self.create_tests(dtmp, levels=5)
             # Do not create scenarios intentionally
