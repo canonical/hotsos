@@ -131,7 +131,7 @@ def get_defs_path():
         defs = os.path.join(root, 'etc/hotsos/defs')
 
     if not os.path.exists(defs):
-        raise Exception(f"defs path {defs} not found")
+        raise FileNotFoundError(f"defs path {defs} not found")
 
     return defs
 
@@ -153,7 +153,7 @@ def get_templates_path():
         templates = os.path.join(root, 'etc/hotsos/templates')
 
     if not os.path.exists(templates):
-        raise Exception(f"templates path {templates} not found")
+        raise FileNotFoundError(f"templates path {templates} not found")
 
     return templates
 

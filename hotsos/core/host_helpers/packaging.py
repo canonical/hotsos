@@ -184,8 +184,9 @@ class DPKGVersion():
 
         for version_criterion in version_criteria:
             if not version_criterion.keys() <= ops.keys():
-                raise Exception("Unrecognized comparison operator name(s):"
-                                f"{version_criterion.keys()-ops.keys()}")
+                raise NameError(
+                    "Unrecognized comparison operator name(s):"
+                    f"{version_criterion.keys()-ops.keys()}")
             # Each criterion is evaluated on its own
             # so if any of the criteria is true, then
             # the check is also true.

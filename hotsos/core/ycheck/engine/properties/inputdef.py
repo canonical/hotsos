@@ -45,7 +45,7 @@ class YPropertyInputBase():
 
     @property
     def path(self):
-        raise Exception("do not call this directly")
+        raise AttributeError("do not call this directly")
 
     @cached_property
     def paths(self):

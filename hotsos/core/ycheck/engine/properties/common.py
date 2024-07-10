@@ -10,6 +10,11 @@ from propertree.propertree2 import (
 )
 from hotsos.core.log import log
 from hotsos.core.host_helpers.config import ConfigBase
+from hotsos.core.exceptions import (
+    NotEnoughParametersError,
+    MissingRequiredParameterError,
+    UnexpectedParameterError
+)
 
 
 class ImportPathIsNotAClass(Exception):
@@ -71,14 +76,14 @@ class PropertyCacheRefResolver():
         if not self.is_valid_cache_ref(refstr):
             msg = (f"{refstr} is not a valid property cache reference or "
                    "variable")
-            raise Exception(msg)
+            raise NameError(msg)
 
         self.vars = pcrr_vars
         self.checks = checks
         if self.reftype == 'checks' and checks is None:
             msg = (f"{refstr} is a checks cache reference but checks dict not "
                    "provided")
-            raise Exception(msg)
+            raise NotEnoughParametersError(msg)
 
     @property
     def reftype(self):
@@ -96,7 +101,7 @@ class PropertyCacheRefResolver():
             # This is an implementation of YPropertyChecks
             return "checks"
 
-        raise Exception("unknown ref type")
+        raise NameError(f"unknown ref type {self.refstr}")
 
     @property
     def _ref_body(self):
@@ -129,7 +134,8 @@ class PropertyCacheRefResolver():
     @property
     def check_name(self):
         if self.reftype != 'checks':
-            raise Exception("ref does not have type 'checks'")
+            raise MissingRequiredParameterError(
+                "ref does not have type 'checks'")
 
         return self.refstr.partition('@checks.')[2].partition('.')[0]
 
@@ -146,7 +152,8 @@ class PropertyCacheRefResolver():
         if self.reftype == 'checks':
             _key = self._ref_body.partition('.')[2]
         else:
-            raise Exception("not a check reftype")
+            raise UnexpectedParameterError(
+                f"not a check reftype: {self.reftype}")
 
         # strip func if exists
         return _key.partition(':')[0]

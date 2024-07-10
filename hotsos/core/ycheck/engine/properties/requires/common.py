@@ -4,6 +4,7 @@ from functools import cached_property
 
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import YPropertyOverrideBase
+from hotsos.core.exceptions import UnexpectedParameterError
 
 
 def intercept_exception(f):
@@ -135,7 +136,8 @@ class OpsUtils():
         """
         log.debug("ops=%s, input=%s", ops, opinput)
         if not isinstance(ops, list):
-            raise Exception(f"Expected list of ops but got {ops}")
+            raise UnexpectedParameterError(
+                f"Expected list of ops but got {ops}")
 
         for op in ops:
             expected = None

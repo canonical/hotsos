@@ -11,6 +11,11 @@ from hotsos.core.ycheck.engine import (
 )
 from hotsos.core.ycheck.common import GlobalSearcherPreloaderBase
 from hotsos.core.ycheck.engine.properties import search
+from hotsos.core.exceptions import (
+    NotEnoughParametersError,
+    AlreadyLoadedError,
+    NoCallbacksRegisteredError,
+)
 
 CALLBACKS = {}
 
@@ -102,7 +107,7 @@ class EventProcessingUtils():
             elif len(r) == 0:
                 msg = (f"result (tag={r.tag}) does not have enough groups "
                        "(min 1) to be categorised - aborting")
-                raise Exception(msg)
+                raise NotEnoughParametersError(msg)
             else:
                 if msg_flag and len(r) < 2:
                     msg_flag = False
@@ -301,9 +306,10 @@ class EventsSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
                       items.
         """
         if global_searcher.is_loaded(self.__class__.__name__):
-            raise Exception("event searches have already been loaded into the "
-                            "global searcher. This operation can only be "
-                            "performed once.")
+            raise AlreadyLoadedError(
+                "event searches have already been loaded into the "
+                "global searcher. This operation can only be "
+                "performed once.")
 
         log.debug("started loading (group=%s) searches into searcher "
                   "(%s)", group, global_searcher.searcher)
@@ -449,8 +455,8 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
             return self.final_event_results
 
         if not CALLBACKS:
-            raise Exception("need to register at least one callback for "
-                            "event handler.")
+            raise NoCallbacksRegisteredError(
+                "need to register at least one callback for event handler.")
 
         log.debug("running event(s) for group=%s", self.event_group)
         info = {}

@@ -11,6 +11,7 @@ from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.events import EventsSearchPreloader
 from hotsos.core.ycheck.scenarios import ScenariosSearchPreloader
+from hotsos.core.exceptions import NameNotSetError
 
 PLUGINS = {}
 PLUGIN_RUN_ORDER = []
@@ -90,8 +91,8 @@ class OutputFormatterBase():
         # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
         templates_dir = str(HotSOSConfig.templates_path)
         if not os.path.isdir(templates_dir):
-            raise Exception("jinja templates directory not found: "
-                            f"'{templates_dir}'")
+            raise FileNotFoundError(
+                f"jinja templates directory not found: '{templates_dir}'")
 
         env = Environment(loader=FileSystemLoader(templates_dir))
         template = env.get_template(template)
@@ -344,12 +345,13 @@ class PluginPartBase(ApplicationBase):
         plugin_tmp = HotSOSConfig.plugin_tmp_dir
 
         if self.plugin_name is None:
-            raise Exception(f"{self.__class__.__name__}.plugin_name must be "
-                            "set to a value that represents the name of the "
-                            "plugin")
+            raise NameNotSetError(
+                f"{self.__class__.__name__}.plugin_name must be "
+                "set to a value that represents the name of the plugin")
 
         if not plugin_tmp or not os.path.isdir(plugin_tmp):
-            raise Exception("plugin plugin_tmp_dir not initialised - exiting")
+            raise FileNotFoundError(
+                "plugin plugin_tmp_dir not initialised - exiting")
 
         super().__init__(*args, **kwargs)
 

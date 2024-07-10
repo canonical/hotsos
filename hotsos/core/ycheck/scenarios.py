@@ -9,6 +9,7 @@ from hotsos.core.ycheck.engine import (
 from hotsos.core.ycheck.engine.properties.common import YDefsContext
 from hotsos.core.ycheck.common import GlobalSearcherPreloaderBase
 from hotsos.core.ycheck.engine.properties import checks
+from hotsos.core.exceptions import AlreadyLoadedError
 
 
 class ScenariosSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
@@ -35,9 +36,10 @@ class ScenariosSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
         search into the global searcher.
         """
         if global_searcher.is_loaded(self.__class__.__name__):
-            raise Exception("scenario searches have already been loaded into "
-                            "the global searcher. This operation can only be "
-                            "performed once.")
+            raise AlreadyLoadedError(
+                "scenario searches have already been loaded into "
+                "the global searcher. This operation can only be "
+                "performed once.")
 
         log.debug("started loading scenario searches into searcher "
                   "(%s)", global_searcher.searcher)

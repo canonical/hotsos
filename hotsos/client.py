@@ -13,6 +13,7 @@ from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
 from hotsos.core import plugintools
+from hotsos.core.exceptions import UnsupportedFormatError
 
 
 class HotSOSSummary(plugintools.PluginPartBase):
@@ -126,7 +127,8 @@ class OutputManager():
             filtered = self.minimise(filtered, minimal_mode)
 
         if fmt not in self.SUMMARY_FORMATS:
-            raise Exception(f"unsupported summary format '{fmt}'")
+            raise UnsupportedFormatError(
+                f"unsupported summary format '{fmt}'")
 
         hostname = CLIHelper().hostname() or ""
         log.debug('Saving summary as %s', fmt)

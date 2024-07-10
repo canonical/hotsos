@@ -14,6 +14,7 @@ from hotsos.core.ycheck.engine.properties.common import (
     YDefsSection,
     YDefsContext,
 )
+from hotsos.core.exceptions import NotYetInitializedError
 
 
 class YPropertyPriority(YPropertyOverrideBase):
@@ -267,7 +268,7 @@ class YPropertyConclusions(YPropertyOverrideBase):
     def _conclusions(self):
         log.debug("parsing conclusions section")
         if not self._initialised:
-            raise Exception("conclusions not yet initialised")
+            raise NotYetInitializedError("conclusions not yet initialised")
 
         resolved = []
         for name, content in self.content.items():

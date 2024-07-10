@@ -12,6 +12,9 @@ from hotsos.core.ycheck.engine.properties.common import (
     YPropertyOverrideBase,
     YPropertyMappedOverrideBase,
 )
+from hotsos.core.exceptions import (
+    NotEnoughParametersError
+)
 
 
 class YPropertySearchConstraints(YPropertyOverrideBase):
@@ -73,10 +76,11 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
                 invalid.append(attr)
 
         if invalid:
-            raise Exception("Invalid search constraints attributes found: "
-                            f"{', '.join(invalid)}. "
-                            "Valid options are: "
-                            f"{', '.join(self.valid_attributes)}")
+            raise AttributeError(
+                "Invalid search constraints attributes found: "
+                f"{', '.join(invalid)}. "
+                "Valid options are: "
+                f"{', '.join(self.valid_attributes)}")
         return create_constraint(self.search_result_age_hours,
                                  self.min_hours_since_last_boot)
 
@@ -138,7 +142,8 @@ class YPropertySearchBase(YPropertyOverrideBase):
             # can be supplied as a single string or list of strings
             patterns = self._resolve_exprs(expr)
             if len(patterns) == 0:
-                raise Exception("no search pattern (expr) defined")
+                raise NotEnoughParametersError(
+                    "no search pattern (expr) defined")
 
             for pattern in patterns:
                 if not re.search(r"[^\\]?\(.+\)", pattern):
@@ -290,8 +295,9 @@ class YPropertySearchOpt(YPropertyOverrideBase):
         valid = [k for k in
                  self._get_override_keys_back_compat() if k not in invalid]
         if self._override_name not in valid:
-            raise Exception(f"__str__ only valid for {','.join(valid)} "
-                            f"(not {self._override_name})")
+            raise AttributeError(
+                f"__str__ only valid for {','.join(valid)} "
+                f"(not {self._override_name})")
 
         return self.content
 
