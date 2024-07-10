@@ -1,1 +1,1 @@
-from .common import LXD, LXDChecksBase  # noqa: F403,F401
+from .common import LXD, LXDChecks  # noqa: F403,F401

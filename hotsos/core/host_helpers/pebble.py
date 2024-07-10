@@ -9,7 +9,7 @@ from hotsos.core.utils import sorted_dict
 
 
 class PebbleService():
-
+    """ Representation of a pebble service. """
     def __init__(self, name, state):
         self.name = name
         self.state = state

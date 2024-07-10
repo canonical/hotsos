@@ -20,7 +20,7 @@ class NullCache():
 
 
 class HostHelpersBase(abc.ABC):
-
+    """ Base class for all hosthelpers. """
     def __init__(self, *args, **kwargs):
         if not self.cache_root or not os.path.exists(self.cache_root):
             log.debug("cache root invalid or does not exist so disabling %s "
@@ -63,6 +63,7 @@ class HostHelpersBase(abc.ABC):
 
 
 class ServiceManagerBase(abc.ABC):
+    """ Base class for service manager helper implementations. """
     PS_CMD_EXPR_TEMPLATES = {
         'absolute': r".+\S+bin/({})(?:\s+.+|$)",
         'snap': r".+\S+\d+/({})(?:\s+.+|$)",

@@ -2,6 +2,7 @@ import abc
 
 
 class IssueTypeBase():
+    """ Base class for all implementations for issue type. """
     ISSUE_TYPE = 'issue'
 
     def __init__(self, msg):
@@ -13,6 +14,7 @@ class IssueTypeBase():
 
 
 class BugTypeBase(abc.ABC, IssueTypeBase):
+    """ Base class for issues related to bugs. """
     ISSUE_TYPE = 'bug'
 
     def __init__(self, bug_id, msg):
@@ -31,159 +33,160 @@ class BugTypeBase(abc.ABC, IssueTypeBase):
 
 
 class CVETypeBase(BugTypeBase):
+    """ Base class for issues related to CVE bugs. """
     ISSUE_TYPE = 'cve'
 
 
 class HotSOSScenariosWarning(IssueTypeBase):
-    pass
+    """ Issue raised when one or more scenario failed to run.  """
 
 
 class SystemWarning(IssueTypeBase):
-    pass
+    """ Issue for system level warnings. """
 
 
 class KernelError(IssueTypeBase):
-    pass
+    """ Issue for kernel level errors. """
 
 
 class KernelWarning(IssueTypeBase):
-    pass
+    """ Issue for kernel level warnings. """
 
 
 class MemoryWarning(IssueTypeBase):
-    pass
+    """ Issue for memory warnings. """
 
 
 class CephWarning(IssueTypeBase):
-    pass
+    """ Issue for ceph warnings. """
 
 
 class CephHealthWarning(IssueTypeBase):
-    pass
+    """ Issue for Ceph cluster health warnings. """
 
 
 class CephCrushWarning(IssueTypeBase):
-    pass
+    """ Issue for Ceph cluster CRUSH warnings. """
 
 
 class CephCrushError(IssueTypeBase):
-    pass
+    """ Issue for Ceph cluster CRUSH errors. """
 
 
 class CephOSDError(IssueTypeBase):
-    pass
+    """ Issue for Ceph osd errors. """
 
 
 class CephOSDWarning(IssueTypeBase):
-    pass
+    """ Issue for Ceph osd warnings. """
 
 
 class CephMonWarning(IssueTypeBase):
-    pass
+    """ Issue for Ceph mon warnings. """
 
 
 class CephMapsWarning(IssueTypeBase):
-    pass
+    """ Issue for Ceph maps warnings. """
 
 
 class CephMgrError(IssueTypeBase):
-    pass
+    """ Issue for Ceph mgr errors. """
 
 
 class CephRGWWarning(IssueTypeBase):
-    pass
+    """ Issue for Ceph RGW warnings. """
 
 
 class CephDaemonWarning(IssueTypeBase):
-    pass
+    """ Issue for Ceph daemon warnings. """
 
 
 class CephDaemonVersionsError(IssueTypeBase):
-    pass
+    """ Issue for Ceph daemon versions error. """
 
 
 class JujuWarning(IssueTypeBase):
-    pass
+    """ Issue for Juju warnings. """
 
 
 class BcacheWarning(IssueTypeBase):
-    pass
+    """ Issue for Bcache warnings. """
 
 
 class NeutronL3HAWarning(IssueTypeBase):
-    pass
+    """ Issue for Neutron L3HA warnings. """
 
 
 class NetworkWarning(IssueTypeBase):
-    pass
+    """ Issue for network warnings. """
 
 
 class NFSNameResolutionError(IssueTypeBase):
-    pass
+    """ Issue for NFS name resolution. """
 
 
 class RabbitMQWarning(IssueTypeBase):
-    pass
+    """ Issue for RabbitMQ warnings. """
 
 
 class OpenstackWarning(IssueTypeBase):
-    pass
+    """ Issue for Openstack warnings. """
 
 
 class OVNError(IssueTypeBase):
-    pass
+    """ Issue for OpenvSwitch OVN errors. """
 
 
 class OVNWarning(IssueTypeBase):
-    pass
+    """ Issue for OpenvSwitch OVN warnings. """
 
 
 class OpenvSwitchWarning(IssueTypeBase):
-    pass
+    """ Issue for OpenvSwitch OVN errors. """
 
 
 class SOSReportWarning(IssueTypeBase):
-    pass
+    """ Issue for SOSReport warnings. """
 
 
 class SysCtlWarning(IssueTypeBase):
-    pass
+    """ Issue for SYSCtl warnings. """
 
 
 class OpenstackError(IssueTypeBase):
-    pass
+    """ Issue for Openstack errors. """
 
 
 class KubernetesWarning(IssueTypeBase):
-    pass
+    """ Issue for Kubernetes warnings. """
 
 
 class PacemakerWarning(IssueTypeBase):
-    pass
+    """ Issue for Pacemaker warnings. """
 
 
 class MySQLWarning(IssueTypeBase):
-    pass
+    """ Issue for MYSQL warnings. """
 
 
 class LXDWarning(IssueTypeBase):
-    pass
+    """ Issue for LXD warnings. """
 
 
 class MAASWarning(IssueTypeBase):
-    pass
+    """ Issue for MAAS warnings. """
 
 
 class VaultWarning(IssueTypeBase):
-    pass
+    """ Issue for Vault warnings. """
 
 
 class SSSDWarning(IssueTypeBase):
-    pass
+    """ Issue for SSSD warnings. """
 
 
 class UbuntuCVE(CVETypeBase):
-
+    """ Ubuntu CVE bug type """
     @property
     def base_url(self):
         return 'https://ubuntu.com/security/'
@@ -194,7 +197,7 @@ class UbuntuCVE(CVETypeBase):
 
 
 class MitreCVE(CVETypeBase):
-
+    """ Mitre CVE bug type """
     @property
     def base_url(self):
         return 'https://www.cve.org/CVERecord?id='
@@ -205,7 +208,7 @@ class MitreCVE(CVETypeBase):
 
 
 class LaunchpadBug(BugTypeBase):
-
+    """ Launchpad bug type """
     @property
     def base_url(self):
         return 'https://bugs.launchpad.net/bugs/'
@@ -216,7 +219,7 @@ class LaunchpadBug(BugTypeBase):
 
 
 class Bugzilla(BugTypeBase):
-
+    """ Bugzilla bug type """
     @property
     def base_url(self):
         return 'https://bugzilla.redhat.com/show_bug.cgi?id='
@@ -227,7 +230,7 @@ class Bugzilla(BugTypeBase):
 
 
 class StoryBoardBug(BugTypeBase):
-
+    """ Storyboard bug type """
     @property
     def base_url(self):
         return 'https://storyboard.openstack.org/#!/story/'
@@ -238,7 +241,7 @@ class StoryBoardBug(BugTypeBase):
 
 
 class CephTrackerBug(BugTypeBase):
-
+    """ Ceph tracker bug type """
     @property
     def base_url(self):
         return 'https://tracker.ceph.com/issues/'

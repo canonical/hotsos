@@ -4,7 +4,7 @@ mock:
     # this is needed because we are using sosreport-like data_root for dummy
     # data and the check is disabled for sosreports since they wont contain
     # the cert file.
-    hotsos.core.plugins.sosreport.SOSReportChecksBase.data_root_is_sosreport:
+    hotsos.core.plugins.sosreport.SOSReportChecks.data_root_is_sosreport:
       kwargs:
         new: false
 data-root:

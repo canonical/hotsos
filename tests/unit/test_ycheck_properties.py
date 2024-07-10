@@ -34,6 +34,7 @@ from . import utils
 
 
 class TestProperty(YPropertyBase):
+    """ Test property """
 
     @cached_property
     def myattr(self):
@@ -53,21 +54,21 @@ class TestProperty(YPropertyBase):
 
 
 class TestConfig(IniConfigBase):
-    pass
+    """ Test Config """
 
 
 class FakeServiceObjectManager():
-
+    """ Fake service manager. """
     def __init__(self, start_times):
         self._start_times = start_times
 
     def __call__(self, name, state, has_instances):
-        return FakeServiceObject(name, state, has_instances,
-                                 start_time=self._start_times[name])
+        return FakeService(name, state, has_instances,
+                           start_time=self._start_times[name])
 
 
-class FakeServiceObject():
-
+class FakeService():
+    """ Fake service """
     def __init__(self, name, state, has_instances, start_time):
         self.name = name
         self.state = state
@@ -230,7 +231,8 @@ ii  openssh-server                       1:8.2p1-4ubuntu0.4                     
 
 
 class TempScenarioDefs():
-
+    """ Context manager to load copies of scenario definitions into a temporary
+    location. """
     def __init__(self):
         self.root = None
         self.path = None
@@ -249,6 +251,7 @@ class TempScenarioDefs():
 
 
 class TestYamlRequiresTypeCache(utils.BaseTestCase):
+    """ Tests requires type property caches. """
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': 'ii foo 123 amd64'})
     def test_single_item(self):
@@ -442,6 +445,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
 
 
 class TestYamlRequiresTypeBinary(utils.BaseTestCase):
+    """ Tests requires type binary property. """
 
     def test_binary_check_comparison(self):
         items = binary.BinCheckItems({'juju': [{'min': '3.0', 'max': '3.2'}]},
@@ -474,6 +478,7 @@ class TestYamlRequiresTypeBinary(utils.BaseTestCase):
 
 
 class TestYamlRequiresTypeAPT(utils.BaseTestCase):
+    """ Tests requires type apt property. """
 
     @staticmethod
     def load_apt_requires(yaml_content):
@@ -640,6 +645,7 @@ class TestYamlRequiresTypeAPT(utils.BaseTestCase):
 
 
 class TestYamlRequiresTypeSnap(utils.BaseTestCase):
+    """ Tests requires type snap property. """
 
     def test_snap_revision_within_ranges_no_channel_true(self):
         ci = snap.SnapCheckItems('core20')
@@ -756,6 +762,7 @@ class TestYamlRequiresTypeSnap(utils.BaseTestCase):
 
 
 class TestYamlProperties(utils.BaseTestCase):
+    """ Miscellaneous tests for YAML properties. """
 
     def test_yaml_def_requires_grouped(self):
         mydef = YDefsSection('mydef',
@@ -861,15 +868,15 @@ class TestYamlProperties(utils.BaseTestCase):
         self.assertEqual(YDefsLoader('mytype').plugin_defs,
                          expected)
 
-    @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase')
+    @mock.patch('hotsos.core.plugins.openstack.OpenStackChecks')
     def test_requires_grouped(self, mock_plugin):  # pylint: disable=R0915
         mock_plugin.return_value = mock.MagicMock()
         r1 = {'property':
-              'hotsos.core.plugins.openstack.OpenstackChecksBase.r1'}
+              'hotsos.core.plugins.openstack.OpenStackChecks.r1'}
         r2 = {'property':
-              'hotsos.core.plugins.openstack.OpenstackChecksBase.r2'}
+              'hotsos.core.plugins.openstack.OpenStackChecks.r2'}
         r3 = {'property':
-              'hotsos.core.plugins.openstack.OpenstackChecksBase.r3'}
+              'hotsos.core.plugins.openstack.OpenStackChecks.r3'}
         requires = {'requires': [{'or': [r1, r2]}]}
 
         mock_plugin.return_value.r1 = False

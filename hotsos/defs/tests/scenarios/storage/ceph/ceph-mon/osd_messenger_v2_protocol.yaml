@@ -3,7 +3,7 @@ mock:
     hotsos.core.plugins.storage.ceph.CephCluster.cluster_osds_without_v2_messenger_protocol:
       kwargs:
         new: ['osd.1']
-    hotsos.core.plugins.storage.ceph.CephChecksBase.release_name:
+    hotsos.core.plugins.storage.ceph.CephChecks.release_name:
       kwargs:
         new: nautilus
 raised-issues:

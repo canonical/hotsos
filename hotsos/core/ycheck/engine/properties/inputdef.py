@@ -10,7 +10,7 @@ from hotsos.core.ycheck.engine.properties.common import (
 
 
 class YPropertyInputBase():
-
+    """ Base class for input property implementations. """
     @property
     def options(self):
         defaults = {'disable-all-logs': False,
@@ -87,6 +87,12 @@ class YPropertyInputBase():
 
 
 class YPropertyInput(YPropertyOverrideBase, YPropertyInputBase):
+    """
+    Input property. Provides support for defining input such a file or command
+    output.
+
+    This is typically used in conjunction with the search property.
+    """
     _override_keys = ['input']
     # We want to be able to use this property both on its own and as a member
     # of other mapping properties e.g. Checks. The following setting enables

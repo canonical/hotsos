@@ -16,7 +16,7 @@ checks:
         - min: 17.0.0
           max: 17.0.0
   node_has_osds_using_bcache:
-    property: hotsos.core.plugins.storage.ceph.CephChecksBase.local_osds_use_bcache
+    property: hotsos.core.plugins.storage.ceph.CephChecks.local_osds_use_bcache
   kernel_version_check:
     property:
       path: hotsos.core.plugins.kernel.KernelBase.version

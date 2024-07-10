@@ -7,7 +7,7 @@ from . import utils
 
 
 class VaultTestsBase(utils.BaseTestCase):
-
+    """ Custom test case that sets the vault plugin context. """
     def setUp(self, *args, **kwargs):
         super().setUp(*args, **kwargs)
         HotSOSConfig.plugin_name = 'vault'
@@ -16,7 +16,7 @@ class VaultTestsBase(utils.BaseTestCase):
 
 
 class TestVaultSummary(VaultTestsBase):
-
+    """ Tests Vault summary. """
     def test_snaps(self):
         inst = summary.VaultSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],

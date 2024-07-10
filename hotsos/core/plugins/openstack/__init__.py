@@ -1,6 +1,6 @@
 from .common import (  # noqa: F403,F401
     OpenstackBase,
-    OpenstackChecksBase,
+    OpenStackChecks,
     OpenstackEventHandlerBase,
     OpenstackEventCallbackBase,
 )

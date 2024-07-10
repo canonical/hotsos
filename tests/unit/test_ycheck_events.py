@@ -90,6 +90,7 @@ myplugin:
 
 
 class TestYamlEvents(utils.BaseTestCase):
+    """ Tests for yaml events """
 
     def test_yaml_def_group_input(self):
         plugin_checks = yaml.safe_load(EVENT_DEF_INPUT).get('pluginX')
@@ -141,6 +142,7 @@ class TestYamlEvents(utils.BaseTestCase):
         HotSOSConfig.plugin_name = 'myplugin'
 
         class MyEventCallback(EventCallbackBase):  # noqa, pylint: disable=W0612
+            """ Test Callback """
             event_group = 'mygroup'
             event_names = ['my-sequence-search', 'my-passthrough-search',
                            'my-pass-search', 'my-fail-search1',
@@ -181,7 +183,7 @@ class TestYamlEvents(utils.BaseTestCase):
                 return None
 
         class MyEventHandler(EventHandlerBase):
-
+            """ Test Handler """
             @property
             def event_group(self):
                 return 'mygroup'
@@ -203,7 +205,7 @@ class TestYamlEvents(utils.BaseTestCase):
         HotSOSConfig.plugin_name = 'myplugin'
 
         class MyEventHandler(EventHandlerBase):
-
+            """ Test Handler """
             @property
             def event_group(self):
                 return 'mygroup'
@@ -219,7 +221,7 @@ class TestYamlEvents(utils.BaseTestCase):
         HotSOSConfig.plugin_name = 'myplugin'
 
         class MyEventHandler(EventHandlerBase):
-
+            """ Test Handler """
             @property
             def event_group(self):
                 return 'mygroup'
@@ -245,7 +247,7 @@ class TestYamlEvents(utils.BaseTestCase):
         HotSOSConfig.plugin_name = 'myplugin'
 
         class MyEventHandler(EventHandlerBase):
-
+            """ Test Handler """
             @property
             def event_group(self):
                 return 'mygroup'
@@ -267,7 +269,7 @@ class TestYamlEvents(utils.BaseTestCase):
         HotSOSConfig.plugin_name = 'myplugin'
 
         class MyEventHandler(EventHandlerBase):
-
+            """ Test Handler """
             @property
             def event_group(self):
                 return 'mygroup'

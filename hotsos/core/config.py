@@ -4,11 +4,11 @@ from collections import UserDict
 
 
 class ConfigException(Exception):
-    pass
+    """ Generic exception for config handlers. """
 
 
 class ConfigOpt():
-
+    """ Basic information required to define a config option. """
     def __init__(self, name, description, default_value, value_type):
         self.name = name
         self.description = description
@@ -17,7 +17,7 @@ class ConfigOpt():
 
 
 class ConfigOptGroupBase(UserDict):
-
+    """ Base class for defining groups of config options. """
     def __init__(self):
         super().__init__()
         self.opts = {}
@@ -40,7 +40,7 @@ class ConfigOptGroupBase(UserDict):
 
 
 class HotSOSConfigOpts(ConfigOptGroupBase):
-
+    """ Group of hotsos common options. """
     def __init__(self):
         super().__init__()
         self.add(ConfigOpt(name='data_root',
@@ -134,7 +134,7 @@ class HotSOSConfigOpts(ConfigOptGroupBase):
 
 
 class SearchtoolsConfigOpts(ConfigOptGroupBase):
-
+    """ Group of search options. """
     def __init__(self):
         super().__init__()
         self.add(ConfigOpt(name='max_parallel_tasks',
@@ -154,7 +154,7 @@ class SearchtoolsConfigOpts(ConfigOptGroupBase):
 
 
 class RegisteredOpts(UserDict):
-
+    """ Registers config options. """
     def __init__(self, *optgroups):
         self.optsgroups = []
         data = {}
@@ -183,6 +183,7 @@ class RegisteredOpts(UserDict):
 
 
 class ConfigMeta(abc.ABCMeta):
+    """ Metadata used to register config options. """
     REGISTERED = RegisteredOpts(HotSOSConfigOpts,
                                 SearchtoolsConfigOpts)
     CONFIG = copy.deepcopy(REGISTERED)
@@ -205,6 +206,9 @@ class ConfigMeta(abc.ABCMeta):
 
 
 class HotSOSConfig(metaclass=ConfigMeta):
+    """ The main registry of config options.
+
+    Options are automatically registered on module load."""
 
     @classmethod
     def reset(cls):

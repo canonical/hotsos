@@ -2,7 +2,7 @@ from datetime import datetime
 
 from hotsos.core.analytics import LogEventStats
 from hotsos.core.plugins.openstack.common import (
-    OpenstackChecksBase,
+    OpenStackChecks,
     OpenstackEventHandlerBase,
     OpenstackEventCallbackBase,
 )
@@ -10,7 +10,8 @@ from hotsos.core.plugins.openstack.nova import NovaLibvirt
 from hotsos.core import utils
 
 
-class OpenstackInstanceChecks(OpenstackChecksBase):
+class OpenstackInstanceChecks(OpenStackChecks):
+    """ Implements Openstack Nova instance checks. """
     summary_part_index = 2
 
     def __5_summary_vm_info(self):
@@ -37,6 +38,10 @@ class OpenstackInstanceChecks(OpenstackChecksBase):
 
 
 class SrcMigrationCallback(OpenstackEventCallbackBase):
+    """
+    Implements Openstack Nova live-migration source migration events
+    callback.
+    """
     event_group = 'nova.migrations'
     event_names = ['src-migration']
 
@@ -150,6 +155,10 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
 
 
 class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
+    """
+    Implements Openstack Nova live-migration pre-post migration events
+    callback.
+    """
     event_group = 'nova.migrations'
     event_names = ['src-post-live-migration', 'dst-pre-live-migration']
 
@@ -179,6 +188,7 @@ class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
 
 
 class NovaServerMigrationAnalysis(OpenstackEventHandlerBase):
+    """ Implements Openstack Nova live-migration events handler. """
     event_group = 'nova.migrations'
     summary_part_index = 3
 

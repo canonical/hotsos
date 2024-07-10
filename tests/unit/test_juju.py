@@ -12,14 +12,14 @@ from . import utils
 
 
 class JujuTestsBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets juju plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'juju'
 
 
 class TestJujuResources(JujuTestsBase):
-
+    """ Unit tests for Juju resources. """
     def test_charm(self):
         charms = JujuBase().charms
         self.assertEqual(sorted(list(charms.keys())),
@@ -73,7 +73,7 @@ class TestJujuResources(JujuTestsBase):
 
 
 class TestJujuSummary(JujuTestsBase):
-
+    """ Unit tests for Juju summary. """
     def test_summary_keys(self):
         inst = summary.JujuSummary()
         self.assertEqual(list(inst.output.keys()),

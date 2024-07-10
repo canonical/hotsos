@@ -149,7 +149,7 @@ CEPH_MON_DATA_ROOT = os.path.join(utils.TESTS_DIR,
 
 
 class CephMonTestsBase(utils.BaseTestCase):
-
+    """ Custom test case that sets the storage plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.data_root = CEPH_MON_DATA_ROOT
@@ -178,7 +178,7 @@ class CephMonTestsBase(utils.BaseTestCase):
 
 
 class TestCoreCephCluster(CephMonTestsBase):
-
+    """ Unit tests for ceph cluster code. """
     def test_cluster_mons(self):
         cluster_mons = ceph_core.CephCluster().mons
         self.assertEqual([ceph_core.CephMon],
@@ -285,7 +285,7 @@ class TestCoreCephCluster(CephMonTestsBase):
 
 
 class TestCephMonSummary(CephMonTestsBase):
-
+    """ Unit tests for ceph mon summary. """
     def test_services(self):
         svc_info = {'systemd': {'enabled': [
                                     'ceph-crash',
@@ -394,7 +394,7 @@ class TestCephMonSummary(CephMonTestsBase):
 
 
 class TestCephMonEvents(CephMonTestsBase):
-
+    """ Unit tests for ceph mon event checks. """
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('mon/monlogs.yaml',
                                         'events/storage/ceph'))

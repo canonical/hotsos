@@ -8,14 +8,19 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class PebbleServiceCheckItems(ServiceCheckItemsBase):
-
+    """
+    Implementation for check items on pebble resource properties.
+    """
     @property
     def _svcs_info(self):
         return PebbleHelper(self._svcs_all)
 
 
 class YRequirementTypePebble(YRequirementTypeBase):
-    """ Provides logic to perform checks on pebble resources. """
+    """
+    Pebble requires type property. Provides support for defining checks on
+    pebble service manager resources.
+    """
     _override_keys = ['pebble']
     _overrride_autoregister = True
 

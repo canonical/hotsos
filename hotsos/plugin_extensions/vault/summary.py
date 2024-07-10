@@ -1,7 +1,8 @@
-from hotsos.core.plugins.vault import VaultChecksBase
+from hotsos.core.plugins.vault import VaultChecks
 
 
-class VaultSummary(VaultChecksBase):
+class VaultSummary(VaultChecks):
+    """ Implementation of Vault summary. """
     summary_part_index = 0
 
     def __0_summary_services(self):

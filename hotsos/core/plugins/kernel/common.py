@@ -8,7 +8,7 @@ from hotsos.core.plugins.kernel.config import KernelConfig
 
 
 class KernelBase():
-
+    """ Base class for kernel plugin helpers. """
     @cached_property
     def version(self):
         """Returns string kernel version."""
@@ -46,7 +46,8 @@ class KernelBase():
         return None
 
 
-class KernelChecksBase(KernelBase, plugintools.PluginPartBase):
+class KernelChecks(KernelBase, plugintools.PluginPartBase):
+    """ Base class for all kernel checks. """
     plugin_name = 'kernel'
     plugin_root_index = 14
 

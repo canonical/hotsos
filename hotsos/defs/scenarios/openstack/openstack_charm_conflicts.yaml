@@ -1,5 +1,5 @@
 vars:
-  local_charms: '@hotsos.core.plugins.juju.JujuChecksBase.charms'
+  local_charms: '@hotsos.core.plugins.juju.JujuChecks.charms'
 checks:
   neutron_conflicts:
     - varops: [[$local_charms], [contains, neutron-api]]

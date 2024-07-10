@@ -25,7 +25,7 @@ from hotsos.core.plugins.system.system import (
 
 
 class NovaBase(OSTServiceBase):
-
+    """ Base class for Nova checks. """
     def __init__(self, *args, **kwargs):
         super().__init__('nova', *args, **kwargs)
         self.nova_config = self.project.config['main']
@@ -224,7 +224,7 @@ class NovaLibvirt(NovaBase):
 
 
 class CPUPinning(NovaBase):
-
+    """ Interface to Nova CPU pinning. """
     def __init__(self):
         super().__init__()
         self.numa = NUMAInfo()
@@ -352,6 +352,7 @@ class CPUPinning(NovaBase):
 
 
 class NovaInstance():
+    """ Representation of a Nova instance. """
     def __init__(self, uuid, name):
         self.uuid = uuid
         self.name = name

@@ -87,7 +87,9 @@ class ScenariosSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
 
 
 class Scenario():
-
+    """
+    Representation of a scenario containing all checks and conclusions.
+    """
     def __init__(self, name, _checks, conclusions):
         log.debug("scenario: %s", name)
         self.name = name
@@ -104,7 +106,10 @@ class Scenario():
 
 
 class YScenarioChecker(YHandlerBase):
-
+    """
+    This class handles the loading, execution and processing of all scenarios
+    for the current plugin.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._scenarios = []

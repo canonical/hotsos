@@ -7,7 +7,7 @@ from hotsos.core.plugins.system.system import SystemBase
 
 
 class SYSFSBase():
-
+    """ Base class for sysfs interface implementations. """
     @staticmethod
     def get(relpath):
         """
@@ -24,7 +24,7 @@ class SYSFSBase():
 
 
 class CPU(SYSFSBase):
-
+    """ Helper to get CPU information. """
     @property
     def model(self):
         out = host_helpers.CLIHelper().lscpu()

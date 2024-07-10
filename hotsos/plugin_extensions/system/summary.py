@@ -1,10 +1,11 @@
 import re
 
 from hotsos.core.host_helpers import CLIHelper, UptimeHelper
-from hotsos.core.plugins.system import SystemChecksBase
+from hotsos.core.plugins.system import SystemChecks
 
 
-class SystemSummary(SystemChecksBase):
+class SystemSummary(SystemChecks):
+    """ Implementation of System summary. """
     summary_part_index = 0
 
     def __0_summary_hostname(self):

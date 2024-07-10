@@ -5,14 +5,14 @@ from . import utils
 
 
 class LXDTestsBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets lxd plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'lxd'
 
 
 class TestLXDSummary(LXDTestsBase):
-
+    """ Unit tests for lxd summary """
     def test_summary_keys(self):
         expected = {'dpkg': ['lxd-agent-loader 0.4'],
                     'instances': ['juju-04f1e3-1-lxd-0',

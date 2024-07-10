@@ -1,7 +1,8 @@
-from hotsos.core.plugins.rabbitmq import RabbitMQChecksBase
+from hotsos.core.plugins.rabbitmq import RabbitMQChecks
 
 
-class RabbitMQSummary(RabbitMQChecksBase):
+class RabbitMQSummary(RabbitMQChecks):
+    """ Implementation of RabbitMQ summary. """
     summary_part_index = 0
 
     def __0_summary_services(self):

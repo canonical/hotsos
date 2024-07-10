@@ -17,7 +17,7 @@ from hotsos.core.search import (
     SearchDef,
     create_constraint,
 )
-from hotsos.core.plugins.openvswitch.common import OpenvSwitchGlobalSearch
+from hotsos.core.plugins.openvswitch.common import OpenvSwitchGlobalSearchBase
 
 
 class OVSDBTable():
@@ -26,7 +26,6 @@ class OVSDBTable():
     either 'get' or 'list' command outputs. We try 'get' first and of not found
     we search in output of 'list'.
     """
-
     def __init__(self, name):
         self.name = name
 
@@ -95,7 +94,7 @@ class OVSDB(FactoryBase):
 
 
 class OVSDPLookups():
-
+    """ Interface to OVS datapath lookups. """
     def __init__(self):
         cli = CLIHelper()
         out = cli.ovs_appctl(command='dpctl/show', flags='-s',
@@ -119,7 +118,7 @@ class OVSDPLookups():
 
 
 class OVSBridge():
-
+    """ Representation of an OVS bridge. """
     def __init__(self, name, nethelper):
         self.name = name
         self.cli = CLIHelper()
@@ -142,7 +141,7 @@ class OVSBridge():
 
 
 class OpenvSwitchBase():
-
+    """ Base class for OVS checks. """
     def __init__(self, *args, global_searcher=None, **kwargs):
         self.global_searcher = global_searcher
         super().__init__(*args, **kwargs)
@@ -221,7 +220,13 @@ class OpenvSwitchBase():
         return False
 
 
-class OVSBFDSearch(OpenvSwitchGlobalSearch):
+class OVSBFDSearch(OpenvSwitchGlobalSearchBase):
+    """
+    OVS BFD representation.
+
+    This class processes the results of a search that is run using the global
+    searcher.
+    """
     unique_search_tag = str(uuid.uuid4()) + 'bfd'
 
     @classmethod
@@ -246,7 +251,7 @@ class OVSBFDSearch(OpenvSwitchGlobalSearch):
 
 
 class OVSBFD(OpenvSwitchBase):
-
+    """ OVS BFD representation. """
     @property
     def up_states(self):
         return ['up', 'init']
@@ -299,7 +304,7 @@ class OVSBFD(OpenvSwitchBase):
 
 
 class OVSDPDK(OpenvSwitchBase):
-
+    """ Interface to OVS DPDK. """
     @cached_property
     def config(self):
         return self.ovsdb.Open_vSwitch.other_config or {}

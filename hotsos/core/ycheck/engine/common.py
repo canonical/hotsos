@@ -102,7 +102,9 @@ class YDefsLoader():
 
 
 class YHandlerBase():
-
+    """
+    Base class for all YAML handler types e.g. scenario and event handlers.
+    """
     def __init__(self, global_searcher, *args, **kwargs):
         self.global_searcher = global_searcher
         super().__init__(*args, **kwargs)

@@ -13,7 +13,7 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class SnapCheckItems(PackageCheckItemsBase):
-
+    """ Contains set of checks to run on snap check items. """
     @cached_property
     def packaging_helper(self):
         return SnapPackageHelper(core_snaps=self.packages_to_check)
@@ -82,7 +82,10 @@ class SnapCheckItems(PackageCheckItemsBase):
 
 
 class YRequirementTypeSnap(YRequirementTypeBase):
-    """ Provides logic to perform checks on snap packages. """
+    """
+    Snap requires type property. Provides support for defining checks on
+    Ubuntu snaps.
+    """
     _override_keys = ['snap']
     _overrride_autoregister = True
 

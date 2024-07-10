@@ -39,6 +39,7 @@ class HotSOSSummary(plugintools.PluginPartBase):
 
 
 class OutputManager():
+    """ Handle conversion of plugin output into summary format. """
     FILTER_SCHEMA = [IssuesManager.SUMMARY_OUT_ISSUES_ROOT,
                      IssuesManager.SUMMARY_OUT_BUGS_ROOT]
     SUMMARY_FORMATS = ['yaml', 'json', 'markdown', 'html']
@@ -207,7 +208,9 @@ class OutputManager():
 
 
 class HotSOSClient():
-
+    """
+    Main HotSOS client from which all plugins are run.
+    """
     def __init__(self, plugins=None):
         """
         @param plugins: list of plugin names to run. If no plugins are provided

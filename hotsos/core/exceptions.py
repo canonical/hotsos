@@ -1,3 +1,3 @@
 
 class ScenarioException(Exception):
-    pass
+    """ Generic exception used with Scenarios. """

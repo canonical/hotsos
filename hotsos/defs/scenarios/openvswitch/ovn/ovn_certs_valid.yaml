@@ -1,6 +1,6 @@
 vars:
   ml2_mechanism_driver: '@hotsos.core.plugins.openstack.neutron.Config.mechanism_drivers:plugins/ml2/ml2_conf.ini'
-  data_root_is_sosreport: '@hotsos.core.plugins.sosreport.SOSReportChecksBase.data_root_is_sosreport'
+  data_root_is_sosreport: '@hotsos.core.plugins.sosreport.SOSReportChecks.data_root_is_sosreport'
   ovn_cert_host_exists: '@hotsos.core.host_helpers.filestat.FileFactory.exists:etc/ovn/cert_host'
   ovn_cert_host_days: '@hotsos.core.host_helpers.ssl.SSLCertificatesFactory.days_to_expire:etc/ovn/cert_host'
   neutron_ml2_cert_host_exists:

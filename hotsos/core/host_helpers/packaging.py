@@ -9,11 +9,11 @@ from hotsos.core.utils import sorted_dict
 
 
 class DPKGBadVersionSyntax(Exception):
-    pass
+    """ Exception raised when an invalid version is provided in a check. """
 
 
 class DPKGVersion():
-
+    """ Helper for querying and comparing dpkg packaging versions. """
     def __init__(self, a):
         self.a = str(a)
 
@@ -206,7 +206,7 @@ class DPKGVersion():
 
 
 class PackageHelperBase(abc.ABC):
-
+    """ Base class for packaging helpers. """
     def get_version(self, pkg):
         """
         Return version of package.
@@ -244,7 +244,7 @@ class PackageHelperBase(abc.ABC):
 
 
 class DockerImageHelper(PackageHelperBase):
-
+    """ Helpers for analysing docker images. """
     def __init__(self, core_pkgs, other_pkgs=None):
         """
         @param core_pkgs:
@@ -343,7 +343,7 @@ class DockerImageHelper(PackageHelperBase):
 
 
 class APTPackageHelper(PackageHelperBase):
-
+    """ Helpers for analysing apt packages. """
     def __init__(self, core_pkgs, other_pkgs=None):
         """
         @param core_pkgs: list of python.re expressions used to match
@@ -471,7 +471,7 @@ class APTPackageHelper(PackageHelperBase):
 
 
 class AptPackage():
-
+    """ Representation of an APT package.  """
     def __init__(self, name, version):
         self.name = name
         self.version = version
@@ -495,7 +495,7 @@ class AptFactory(FactoryBase):
 
 
 class SnapPackageHelper(PackageHelperBase):
-
+    """ Helpers for analysing snap packages. """
     def __init__(self, core_snaps, other_snaps=None):
         """
         @param core_snaps: list of python.re expressions used to match

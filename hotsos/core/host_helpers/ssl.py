@@ -10,7 +10,7 @@ from hotsos.core.log import log
 
 
 class SSLCertificate():
-
+    """ Representation of an SSL certificate. """
     def __init__(self, certificate_path):
         self.path = os.path.join(HotSOSConfig.data_root, certificate_path)
         try:
@@ -47,7 +47,7 @@ class SSLCertificate():
 
 
 class SSLCertificatesHelper():
-
+    """ Set of methods to help analyse an SSL cert. """
     def __init__(self, certificate, expire_days):
         """
         @param certificate: SSLCertificate object.

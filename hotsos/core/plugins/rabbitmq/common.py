@@ -16,14 +16,8 @@ RMQ_PACKAGES = [
 ]
 
 
-class RabbitMQBase():
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.report = RabbitMQReport()
-
-
-class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
+class RabbitMQChecks(plugintools.PluginPartBase):
+    """ Rabbitmq checks. """
     plugin_name = 'rabbitmq'
     plugin_root_index = 7
 
@@ -32,6 +26,10 @@ class RabbitMQChecksBase(RabbitMQBase, plugintools.PluginPartBase):
         self.apt = APTPackageHelper(core_pkgs=RMQ_PACKAGES)
         self.pebble = PebbleHelper(service_exprs=RMQ_SERVICES_EXPRS)
         self.systemd = SystemdHelper(service_exprs=RMQ_SERVICES_EXPRS)
+
+    @property
+    def report(self):
+        return RabbitMQReport()
 
     @property
     def plugin_runnable(self):

@@ -12,11 +12,17 @@ from hotsos.core.search import CommonTimestampMatcher
 
 
 class SearchRegistryError(Exception):
+    """ Generic search registry exception. """
     def __init__(self, msg):
         self.msg = msg
 
 
 class SearchRegistryKeyConflict(Exception):
+    """ Search registry key conflict exception.
+
+    This is raised when an attempt is made to register a new item in the
+    registry using a key for which an item has already been registered.
+    """
     def __init__(self, key, all_keys):
         self.key = key
         self.all_keys = all_keys
@@ -28,6 +34,11 @@ class SearchRegistryKeyConflict(Exception):
 
 
 class SearchRegistryKeyNotFound(Exception):
+    """ Search registry key not found exception.
+
+    This is raised when an attempt is made to retrieve an item from the
+    registry using a key for which an item does not exist.
+    """
     def __init__(self, key, all_keys):
         self.key = key
         self.all_keys = all_keys

@@ -19,6 +19,7 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class YConfigAssertionAttrs(YPropertyOverrideBase):
+    """ Logic implementation for config assertion attributes. """
     _override_keys = ['key', 'value', 'section', 'ops', 'allow-unset']
 
     def __bool__(self):
@@ -36,6 +37,8 @@ class YConfigAssertionAttrs(YPropertyOverrideBase):
 
 
 class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
+    """ Assertion property. Implements the config assertion property used to
+    define an assertion on config file contents. """
     _override_keys = ['assertion']
     _override_members = [YConfigAssertionAttrs]
 
@@ -120,6 +123,7 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
 
 
 class AssertionsLogicalGrouping(PTreeLogicalGrouping):
+    """ Logical grouping implementation for assertions. """
     _override_autoregister = False
 
     @classmethod
@@ -144,6 +148,7 @@ class AssertionsLogicalGrouping(PTreeLogicalGrouping):
 
 
 class YConfigAssertions(YPropertyMappedOverrideBase):
+    """ Assertions property. Used to define one more assertion. """
     _override_keys = ['assertions']
     _override_members = [YConfigAssertion]
     _override_logical_grouping_type = AssertionsLogicalGrouping
@@ -175,7 +180,10 @@ class YConfigAssertions(YPropertyMappedOverrideBase):
 
 
 class YRequirementTypeConfig(YRequirementTypeBase):
-    """ Provides logic to perform checks on configuration. """
+    """
+    Config requires type property. Provides support for defining a config type
+    requirement and perform checks on configuration.
+    """
     _override_keys = ['config']
     _overrride_autoregister = True
 

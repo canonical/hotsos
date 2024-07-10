@@ -7,7 +7,7 @@ checks:
         # packages have this issue in the past or future.
         - min: 12.2.0
   linked_with_tcmalloc:
-    property: hotsos.core.plugins.storage.ceph.CephChecksBase.linked_with_tcmalloc
+    property: hotsos.core.plugins.storage.ceph.CephChecks.linked_with_tcmalloc
 conclusions:
   node_affected_by_bug_2016845:
     decision:

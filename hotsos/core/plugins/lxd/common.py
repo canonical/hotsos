@@ -19,7 +19,7 @@ SERVICE_EXPRS = [rf"{s}\S*" for s in CORE_SNAPS]
 
 
 class LXD():
-
+    """ LXD interface. """
     @cached_property
     def instances(self):
         """ Return a list of instance names. """
@@ -41,7 +41,8 @@ class LXD():
         return _instances
 
 
-class LXDChecksBase(PluginPartBase):
+class LXDChecks(PluginPartBase):
+    """ LXD Checks. """
     plugin_name = 'lxd'
     plugin_root_index = 11
 

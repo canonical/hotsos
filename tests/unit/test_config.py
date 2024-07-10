@@ -9,7 +9,7 @@ from . import utils
 
 
 class TestOptGroup(ConfigOptGroupBase):
-
+    """ Unit tests for ConfigOpt groups """
     def __init__(self):
         super().__init__()
         self.add(ConfigOpt('opt1', 'its opt one', None, str))
@@ -22,7 +22,7 @@ class TestOptGroup(ConfigOptGroupBase):
 
 
 class TestHotSOSConfig(utils.BaseTestCase):
-
+    """ Unit tests for HotSOSConfig """
     def test_optgroup(self):
         tog = TestOptGroup()
         self.assertEqual(len(tog), 3)
@@ -32,7 +32,7 @@ class TestHotSOSConfig(utils.BaseTestCase):
     def test_optgroup_conflict_dup(self):
 
         class AltOptGroup(ConfigOptGroupBase):
-
+            """ dummy alt group """
             def __init__(self):
                 super().__init__()
                 self.add(ConfigOpt('opt1', 'its opt one', None, str))
@@ -47,7 +47,7 @@ class TestHotSOSConfig(utils.BaseTestCase):
     def test_optgroup_conflict_case(self):
 
         class AltOptGroup(ConfigOptGroupBase):
-
+            """ dummy alt group """
             def __init__(self):
                 super().__init__()
                 self.add(ConfigOpt('Opt1', 'its opt one', None, str))

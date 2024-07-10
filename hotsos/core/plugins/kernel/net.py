@@ -101,7 +101,7 @@ class ProcNetBase(abc.ABC):
 
 
 class SNMPBase(ProcNetBase):
-
+    """ Base class for /proc/net/snmp interface implementations. """
     def __init__(self):
         super().__init__()
         self._process_file(os.path.join(HotSOSConfig.data_root,
@@ -109,7 +109,7 @@ class SNMPBase(ProcNetBase):
 
 
 class SNMPTcp(SNMPBase):
-
+    """ /proc/net/snmp interface implementation to extract TCP information. """
     def _percent_in_segs(self, field):
         """
         The value of a field can be provided as a percentage of the total rx
@@ -154,7 +154,7 @@ class SNMPTcp(SNMPBase):
 
 
 class SNMPUdp(SNMPBase):
-
+    """ /proc/net/snmp interface implementation to extract UDP information. """
     @property
     def _header(self):
         return 'Udp'
@@ -199,7 +199,7 @@ class SNMPUdp(SNMPBase):
 
 
 class NetStatBase(ProcNetBase):
-
+    """ Base class for /proc/net/netstat implementations.  """
     def __init__(self):
         super().__init__()
         self._process_file(os.path.join(HotSOSConfig.data_root,
@@ -208,7 +208,9 @@ class NetStatBase(ProcNetBase):
 
 
 class NetStatTCP(NetStatBase):
-
+    """
+    /proc/net/netstat interface implementation to extract TCP information.
+    """
     @property
     def _header(self):
         return 'TcpExt'
@@ -286,7 +288,6 @@ class NetStatTCP(NetStatBase):
 
 
 class SockStat(ProcNetBase):
-
     """
     Provides a common way to extract fields from /proc/net/sockstat.
 
@@ -398,7 +399,7 @@ class SockStat(ProcNetBase):
 
 
 class STOVParserBase(UserList):
-
+    """ Base class for implementations of Standard Table of Values. """
     def __init__(self):
         super().__init__()
         self._load()
@@ -436,7 +437,7 @@ class STOVParserBase(UserList):
 
 
 class FieldTranslator():
-
+    """ Field translator. """
     def __init__(self, result, translations):
         self.result = result
         self.translations = translations

@@ -1,10 +1,11 @@
 from hotsos.core.host_helpers import NetworkPort
-from hotsos.core.plugins.openvswitch import OpenvSwitchChecksBase
+from hotsos.core.plugins.openvswitch import OpenvSwitchChecks
 from hotsos.core.plugins.openvswitch.ovn import OVNBase
 from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
 
 
-class OpenvSwitchSummary(OpenvSwitchChecksBase):
+class OpenvSwitchSummary(OpenvSwitchChecks):
+    """ Implementation of OpenvSwitch summary. """
     summary_part_index = 0
 
     def __init__(self, *args, **kwargs):

@@ -271,12 +271,17 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
 
 
 class OpenstackConfig(host_helpers.IniConfigBase):
-
+    """ Openstack config interface. """
     def __getattr__(self, key):
         return self.get(key)
 
 
 class OSTProject():
+    """
+    Representation of an Openstack project/service.
+
+    Provides service state, version, packages etc.
+    """
     SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
@@ -370,6 +375,7 @@ class OSTProject():
 
 
 class OSTProjectCatalog():
+    """ Catalog of Openstack projects tracked by this plugin. """
     # Services that are not actually openstack projects but are used by them
     OST_SERVICES_DEPS = ['dnsmasq',
                          r'(?:nfs-)?ganesha\S*',
@@ -534,7 +540,7 @@ class OSTProjectCatalog():
 
 
 class OSTServiceBase():
-
+    """ Representation of an Openstack service. """
     def __init__(self, name, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.nethelp = host_helpers.HostNetworkingHelper()

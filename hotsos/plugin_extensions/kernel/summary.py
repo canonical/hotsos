@@ -1,12 +1,13 @@
 import re
 
-from hotsos.core.plugins.kernel.common import KernelChecksBase
+from hotsos.core.plugins.kernel.common import KernelChecks
 from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel.memory import MemoryChecks
 from hotsos.core.plugins.kernel.sysfs import CPU
 
 
-class KernelSummary(KernelChecksBase):
+class KernelSummary(KernelChecks):
+    """ Implementation of Kernel summary. """
     summary_part_index = 0
 
     @property

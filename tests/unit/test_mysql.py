@@ -31,7 +31,7 @@ ii  python3-mysqldb                   1.3.10-1build1                            
 
 
 class MySQLTestsBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets mysql plugin context. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'mysql'
@@ -40,7 +40,7 @@ class MySQLTestsBase(utils.BaseTestCase):
 
 
 class TestMySQLSummary(MySQLTestsBase):
-
+    """ Unit tests for mysql summary. """
     @utils.create_data_root({'sos_commands/systemd/systemctl_list-units':
                              SYSTEMD_UNITS,
                              'sos_commands/systemd/systemctl_list-unit-files':

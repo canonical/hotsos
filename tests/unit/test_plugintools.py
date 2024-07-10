@@ -159,7 +159,7 @@ ISSUES_NEW_FORMAT = {
 
 
 class TestPluginTools(utils.BaseTestCase):
-
+    """ Unit tests for plugintools code. """
     def test_summary_empty(self):
         filtered = OutputManager().get()
         self.assertEqual(filtered, '{}')

@@ -3,22 +3,19 @@ from hotsos.core.plugins.kernel.kernlog.common import KernLogBase
 from hotsos.core.search import SearchDef
 
 
-class OverMTUDroppedPacketEvent():
-
-    @property
-    def searchdef(self):
-        return SearchDef(r'.+\] (\S+): dropped over-mtu packet',
-                         hint='dropped', tag='over-mtu-dropped')
-
-
 class KernLogEvents(KernLogBase):
-
+    """ Kern log events info. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for event in [OverMTUDroppedPacketEvent()]:
-            self.searcher.add(event.searchdef, self.path)
+        for event in [self.over_mtu_dropped_packets_search_def]:
+            self.searcher.add(event, self.path)
 
         self.results = self.searcher.run()
+
+    @property
+    def over_mtu_dropped_packets_search_def(self):
+        return SearchDef(r'.+\] (\S+): dropped over-mtu packet',
+                         hint='dropped', tag='over-mtu-dropped')
 
     @property
     def over_mtu_dropped_packets(self):

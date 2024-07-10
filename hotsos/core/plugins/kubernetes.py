@@ -45,7 +45,7 @@ K8S_PACKAGE_DEPS_SNAP = [r'core[0-9]*']
 
 
 class KubernetesBase():
-
+    """ Base class for kuberenetes checks. """
     @cached_property
     def flannel_ports(self):
         ports = []
@@ -87,7 +87,8 @@ class KubernetesBase():
         return sorted(containers)
 
 
-class KubernetesChecksBase(KubernetesBase, plugintools.PluginPartBase):
+class KubernetesChecks(KubernetesBase, plugintools.PluginPartBase):
+    """ Kubernetes checks. """
     plugin_name = 'kubernetes'
     plugin_root_index = 8
 

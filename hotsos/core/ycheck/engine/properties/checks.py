@@ -18,7 +18,7 @@ from hotsos.core.ycheck.engine.properties.inputdef import YPropertyInput
 
 
 class CheckBase():
-
+    """ Base class used with checks implementations. """
     def fetch_item_result(self, item):
         log.debug("%s: fetch_item_result() %s", self.__class__.__name__,
                   item.__class__.__name__)
@@ -44,6 +44,7 @@ class CheckBase():
 
 
 class CheckLogicalGrouping(CheckBase, PTreeLogicalGrouping):
+    """ Logical grouping for check property. """
     _override_autoregister = False
 
     @property
@@ -57,6 +58,7 @@ class CheckLogicalGrouping(CheckBase, PTreeLogicalGrouping):
 
 
 class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
+    """ Check property. Provides support for defining a check. """
     _override_keys = ['check']
     _override_members = [YPropertyRequires, YPropertySearch, YPropertyInput]
     _override_logical_grouping_type = CheckLogicalGrouping
@@ -178,6 +180,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
 
 class YPropertyChecks(YPropertyOverrideBase):
+    """ Checks property. Provides support for defining scenario checks. """
     _override_keys = ['checks']
 
     def __init__(self, *args, **kwargs):

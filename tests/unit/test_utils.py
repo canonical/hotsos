@@ -4,6 +4,7 @@ from . import utils
 
 
 class TestUtils(utils.BaseTestCase):
+    """ Tests core utils. """
 
     def test_sample_set_regressions(self):
         samples = [1, 2, 3]

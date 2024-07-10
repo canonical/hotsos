@@ -55,6 +55,7 @@ def cache_result(cache, item, result, grouped=False):
 
 
 class RequiresLogicalGrouping(PTreeLogicalGrouping):
+    """ Logical grouping support for requires property. """
     _override_autoregister = False
 
     def fetch_item_result(self, item):
@@ -69,6 +70,10 @@ class RequiresLogicalGrouping(PTreeLogicalGrouping):
 
 
 class YPropertyRequires(YPropertyMappedOverrideBase):
+    """
+    Requires property. This is a mapped property that needs one or more of its
+    member properties to be defined.
+    """
     _override_keys = ['requires']
     _override_members = [apt.YRequirementTypeAPT,
                          binary.YRequirementTypeBinary,

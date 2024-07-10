@@ -23,6 +23,7 @@ VRRP_TRANSITION_WARN_THRESHOLD = 8
 
 
 class ApacheEventCallback(OpenstackEventCallbackBase):
+    """ Implements Apache events callback. """
     event_group = 'apache'
     event_names = ['connection-refused']
 
@@ -72,6 +73,7 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
 
 
 class ApacheEventChecks(OpenstackEventHandlerBase):
+    """ Implements Apache events handler. """
     summary_part_index = 8
     event_group = 'apache'
 
@@ -84,6 +86,7 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
 
 
 class APIEventsCallback(OpenstackEventCallbackBase):
+    """ Implements Nova API events callback. """
     event_group = 'http-requests'
     event_names = ['neutron']
 
@@ -98,6 +101,7 @@ class APIEventsCallback(OpenstackEventCallbackBase):
 
 
 class APIEvents(OpenstackEventHandlerBase):
+    """ Implements Nova API events handler. """
     summary_part_index = 9
     event_group = 'http-requests'
 
@@ -110,6 +114,7 @@ class APIEvents(OpenstackEventHandlerBase):
 
 
 class AgentEventsCallback(OpenstackEventCallbackBase):
+    """ Implements agent events callback. """
     event_group = 'neutron.agents'
     ovsdbapp_event_names = ['ovsdbapp-nb-leader-reconnect',
                             'ovsdbapp-sb-leader-reconnect']
@@ -215,6 +220,7 @@ class NeutronAgentEventChecks(OpenstackEventHandlerBase):
 
 
 class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
+    """ Implements OpenStack octavia agent events callback. """
     event_group = 'octavia'
     event_names = ['lb-failover-auto', 'lb-failover-manual',
                    'amp-missed-heartbeats']
@@ -255,6 +261,7 @@ class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
 
 
 class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
+    """ Implements Octavia agent events handler. """
     summary_part_index = 10
     event_group = 'octavia'
 
@@ -267,6 +274,7 @@ class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
 
 
 class PCINotFoundCallback(OpenstackEventCallbackBase):
+    """ Implements Nova PCINotFound error events callback. """
     event_group = 'nova.nova-compute'
     event_names = ['pci-dev-not-found']
 
@@ -279,6 +287,7 @@ class PCINotFoundCallback(OpenstackEventCallbackBase):
 
 
 class NovaComputeEventChecks(OpenstackEventHandlerBase):
+    """ Implements Nova Compute events handler. """
     summary_part_index = 11
     event_group = 'nova.nova-compute'
 
@@ -291,6 +300,7 @@ class NovaComputeEventChecks(OpenstackEventHandlerBase):
 
 
 class ApparmorCallback(OpenstackEventCallbackBase):
+    """ Implements Apparmor events callback. """
     event_group = 'apparmor'
     event_names = ['nova', 'neutron']
 
@@ -309,6 +319,7 @@ class ApparmorCallback(OpenstackEventCallbackBase):
 
 
 class AgentApparmorChecks(OpenstackEventHandlerBase):
+    """ Implements Apparmor events handler. """
     summary_part_index = 12
     event_group = 'apparmor'
 
@@ -321,6 +332,7 @@ class AgentApparmorChecks(OpenstackEventHandlerBase):
 
 
 class L3HACallback(OpenstackEventCallbackBase):
+    """ Implements Neutron L3HA events callback. """
     event_group = 'neutron.ml2-routers'
     event_names = ['vrrp-transitions']
 
@@ -372,7 +384,7 @@ class L3HACallback(OpenstackEventCallbackBase):
 
 
 class NeutronL3HAEventCheckJournalCtl():
-
+    """ Implements Neutron L3HA event check journalctl. """
     @staticmethod
     def args():
         """ Args callback for event cli command """
@@ -385,6 +397,7 @@ class NeutronL3HAEventCheckJournalCtl():
 
 
 class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
+    """ Implements Neutron L3HA events handler. """
     summary_part_index = 13
     event_group = 'neutron.ml2-routers'
 

@@ -17,6 +17,7 @@ EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
 
 
 class ExternalEventsCallback(OpenstackEventCallbackBase):
+    """ Implements Openstack Nova external events callback. """
     event_group = 'nova.external-events'
     event_names = ['network-changed', 'network-vif-plugged']
 
@@ -81,6 +82,7 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
 
 
 class NovaExternalEventChecks(OpenstackEventHandlerBase):
+    """ Implements Openstack Nova external events handler. """
     event_group = 'nova.external-events'
     summary_part_index = 1
 

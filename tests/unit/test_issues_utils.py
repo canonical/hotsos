@@ -13,7 +13,7 @@ from . import utils
 
 
 class TestIssuesUtils(utils.BaseTestCase):
-
+    """ Unit tests for issues utils. """
     def setUp(self):
         super().setUp()
         HotSOSConfig.machine_readable = False
@@ -74,7 +74,7 @@ class TestIssuesUtils(utils.BaseTestCase):
 
 
 class TestKnownBugsUtils(utils.BaseTestCase):
-
+    """ Unit tests for known bugs utils. """
     def test_get_known_bugs(self):
         known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',

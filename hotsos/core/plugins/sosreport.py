@@ -12,7 +12,8 @@ from hotsos.core.search import (
 CORE_APT = ['sosreport']
 
 
-class SOSReportChecksBase(PluginPartBase):
+class SOSReportChecks(PluginPartBase):
+    """ Sosreport checks. """
     plugin_name = 'sosreport'
     plugin_root_index = 2
 

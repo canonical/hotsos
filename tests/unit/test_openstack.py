@@ -312,7 +312,7 @@ OVN_OVSDB_ABORTED_TRANSACTIONS = """
 
 
 class TestOpenstackBase(utils.BaseTestCase):
-
+    """ Custom base testcase that sets openstack plugin context. """
     ip_link_show = None
 
     def fake_ip_link_w_errors_drops(self):
@@ -335,15 +335,15 @@ class TestOpenstackBase(utils.BaseTestCase):
 
 
 class TestOpenstackPluginCore(TestOpenstackBase):
-
+    """ Unit tests for OpenStack plugin core. """
     def test_release_name(self):
-        base = openstack_core.OpenstackChecksBase()
+        base = openstack_core.OpenStackChecks()
         self.assertEqual(base.release_name, 'ussuri')
 
     @utils.create_data_root({'etc/openstack-release':
                              'OPENSTACK_CODENAME=yoga'})
     def test_release_name_from_file(self):
-        base = openstack_core.OpenstackChecksBase()
+        base = openstack_core.OpenStackChecks()
         with mock.patch.object(base, 'installed_pkg_release_names', None):
             self.assertEqual(base.release_name, 'yoga')
 
@@ -352,7 +352,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         # 2030-04-30
         mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
 
-        inst = openstack_core.OpenstackChecksBase()
+        inst = openstack_core.OpenStackChecks()
         self.assertEqual(inst.release_name, 'ussuri')
 
         self.assertLessEqual(inst.days_to_eol, 0)
@@ -362,7 +362,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         # 2030-01-01
         mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
 
-        inst = openstack_core.OpenstackChecksBase()
+        inst = openstack_core.OpenStackChecks()
         self.assertEqual(inst.release_name, 'ussuri')
 
         self.assertGreater(inst.days_to_eol, 0)
@@ -425,7 +425,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         self.assertEqual(sorted(c.packages_dep_exprs), sorted(deps))
 
     def test_project_catalog_packages(self):
-        ost_base = openstack_core.OpenstackChecksBase()
+        ost_base = openstack_core.OpenStackChecks()
         core = {'keystone-common': '2:17.0.1-0ubuntu1',
                 'neutron-common': '2:16.4.1-0ubuntu2',
                 'neutron-dhcp-agent': '2:16.4.1-0ubuntu2',
@@ -496,16 +496,16 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         mock_cli.return_value.dpkg_l.return_value = \
             [f"{line}\n" for line in DPKG_L_CLIENTS_ONLY.split('\n')]
 
-        ost_base = openstack_core.OpenstackChecksBase()
+        ost_base = openstack_core.OpenStackChecks()
         self.assertFalse(ost_base.plugin_runnable)
 
     def test_plugin_runnable(self):
-        ost_base = openstack_core.OpenstackChecksBase()
+        ost_base = openstack_core.OpenStackChecks()
         self.assertTrue(ost_base.plugin_runnable)
 
 
-class TestOpenstackSummary(TestOpenstackBase):
-
+class TestOpenStackSummary(TestOpenstackBase):
+    """ Unit tests for OpenStack summary. """
     def test_get_summary(self):
         expected = {'systemd': {
                         'disabled': ['radvd'],
@@ -530,13 +530,13 @@ class TestOpenstackSummary(TestOpenstackBase):
                         'neutron-openvswitch-agent (1)',
                         'nova-api-metadata (5)',
                         'nova-compute (1)']}
-        inst = summary.OpenstackSummary()
+        inst = summary.OpenStackSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["services"], expected)
 
     @mock.patch('hotsos.core.plugins.openstack.openstack.OSTProject.installed',
                 True)
-    @mock.patch('hotsos.core.plugins.openstack.OpenstackChecksBase.'
+    @mock.patch('hotsos.core.plugins.openstack.OpenStackChecks.'
                 'openstack_installed', True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_get_summary_apache_service(self, mock_helper):
@@ -551,18 +551,18 @@ class TestOpenstackSummary(TestOpenstackBase):
                     'masked': [
                         'octavia-api']
                     }
-        inst = summary.OpenstackSummary()
+        inst = summary.OpenStackSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['services']['systemd'], expected)
 
-    @mock.patch('hotsos.core.plugins.openstack.common.OpenstackChecksBase.'
+    @mock.patch('hotsos.core.plugins.openstack.common.OpenStackChecks.'
                 'days_to_eol', 3000)
     @utils.create_data_root({os.path.join(APT_SOURCE_PATH.format(r)):
                              APT_UCA.format(r) for r in
                              ["stein", "ussuri", "train"]})
     def test_get_release_info(self):
         release_info = {'name': 'ussuri', 'days-to-eol': 3000}
-        inst = summary.OpenstackSummary()
+        inst = summary.OpenStackSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["release"], release_info)
 
@@ -626,7 +626,7 @@ class TestOpenstackSummary(TestOpenstackBase):
             'qemu-kvm 1:4.2-3ubuntu6.19',
             'radvd 1:2.17-2'
         ]
-        inst = summary.OpenstackSummary()
+        inst = summary.OpenStackSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["dpkg"], expected)
 
@@ -659,13 +659,13 @@ class TestOpenstackSummary(TestOpenstackBase):
 
     def test_get_neutronl3ha_info(self):
         expected = {'backup': 1}
-        inst = summary.OpenstackSummary()
+        inst = summary.OpenStackSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['neutron-l3ha'], expected)
 
 
 class TestOpenstackVmInfo(TestOpenstackBase):
-
+    """ Unit tests for OpenStack vm info. """
     def test_get_vm_checks(self):
         expected = {"vm-info": {
                         "running": {
@@ -703,7 +703,7 @@ class TestOpenstackVmInfo(TestOpenstackBase):
 
 
 class TestOpenstackNovaExternalEvents(TestOpenstackBase):
-
+    """ Unit tests for OpenStack Nova external events. """
     def test_get_events(self):
         with GlobalSearcher() as searcher:
             inst = nova_external_events.NovaExternalEventChecks(searcher)
@@ -720,7 +720,7 @@ class TestOpenstackNovaExternalEvents(TestOpenstackBase):
 
 
 class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
-
+    """ Unit tests for OpenStack service network checks. """
     def test_get_ns_info(self):
         ns_info = {'qrouter': 1, 'fip': 1, 'snat': 1}
         inst = service_network_checks.OpenstackNetworkChecks()
@@ -792,7 +792,7 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
 
 
 class TestOpenstackServiceFeatures(TestOpenstackBase):
-
+    """ Unit tests for OpenStack service features. """
     def test_get_service_features(self):
         inst = service_features.ServiceFeatureChecks()
         expected = {'neutron': {'dhcp-agent': {
@@ -830,7 +830,7 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
 
 
 class TestOpenstackCPUPinning(TestOpenstackBase):
-
+    """ Unit tests for OpenStack Nova cpu pinning. """
     def test_cores_to_list(self):
         ret = host_helpers.ConfigBase.expand_value_ranges("0-4,8,9,28-32")
         self.assertEqual(ret, [0, 1, 2, 3, 4, 8, 9, 28, 29, 30, 31, 32])
@@ -867,7 +867,7 @@ class TestOpenstackCPUPinning(TestOpenstackBase):
 
 
 class TestOpenstackAgentEvents(TestOpenstackBase):
-
+    """ Unit tests for OpenStack agent event checks. """
     def test_process_rpc_loop_results(self):
         expected = {'rpc-loop': {
                         'stats': {
@@ -1153,7 +1153,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
 
 
 class TestOpenstackAgentExceptions(TestOpenstackBase):
-
+    """ Unit tests for OpenStack agent exception checks. """
     @utils.create_data_root({'var/log/nova/nova-compute.log': NC_LOGS},
                             copy_from_original=['sos_commands/systemd',
                                                 'sos_commands/dpkg'])
@@ -1312,7 +1312,7 @@ class TestOpenstackScenarios(TestOpenstackBase):
 
 
 class TestOpenstackApache2SSL(TestOpenstackBase):
-
+    """ Unit tests for OpenStack apache ssl configs. """
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF})

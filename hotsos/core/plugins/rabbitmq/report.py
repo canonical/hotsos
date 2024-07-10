@@ -204,6 +204,7 @@ class RabbitMQReport():
 
 
 class RabbitMQVhost():
+    """ Representation of a vhost """
     def __init__(self, name):
         self.name = name
         self._node_queues = {}

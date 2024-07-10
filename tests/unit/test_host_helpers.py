@@ -34,7 +34,7 @@ root        3225  0.0  0.2  80748 65780 ?        R    10:42   0:00 /usr/bin/pyth
 
 
 class TestHostNetworkingHelper(utils.BaseTestCase):
-
+    """ Unit tests for networking helper. """
     def test_get_host_interfaces(self):
         expected = ['lo', 'ens3', 'ens4', 'ens5', 'ens6', 'ens7', 'ens8',
                     'ens9', 'br-ens3', 'ovs-system', 'br-tun', 'br-int',
@@ -342,6 +342,7 @@ class TestCLIHelper(utils.BaseTestCase):
 
 
 class TestSystemdHelper(utils.BaseTestCase):
+    """ Unit tests for systemd helper """
     rsyslog_systemctl_status_template = r"""
 * rsyslog.service - System Logging Service
      Loaded: loaded (/lib/systemd/system/rsyslog.service; enabled;)
@@ -492,7 +493,7 @@ Feb 09 22:38:17 compute4 systemd[1]: Starting System Logging Service...
 
 
 class TestPebbleHelper(utils.BaseTestCase):
-
+    """ Unit tests for pebble helper """
     @utils.create_data_root({'sos_commands/pebble/pebble_services':
                              PEBBLE_SERVICES})
     def test_service_factory(self):
@@ -512,7 +513,7 @@ class TestPebbleHelper(utils.BaseTestCase):
 
 
 class TestFileStatHelper(utils.BaseTestCase):
-
+    """ Unit tests for filesstat helper """
     @utils.create_data_root({'foo': 'bar'})
     def test_filestat_factory(self):
         fpath = os.path.join(HotSOSConfig.data_root, 'foo')
@@ -524,7 +525,7 @@ class TestFileStatHelper(utils.BaseTestCase):
 
 
 class TestUptimeHelper(utils.BaseTestCase):
-
+    """ Unit tests for uptime helper """
     def test_loadavg(self):
         self.assertEqual(host_helpers.UptimeHelper().loadavg,
                          "3.58, 3.27, 2.58")
@@ -557,7 +558,7 @@ class TestUptimeHelper(utils.BaseTestCase):
 
 
 class TestSysctlHelper(utils.BaseTestCase):
-
+    """ Unit tests for sysctl helper """
     def test_sysctlhelper(self):
         self.assertEqual(getattr(host_helpers.SYSCtlFactory(),
                                  'net.core.somaxconn'), '4096')
@@ -580,7 +581,7 @@ class TestSysctlHelper(utils.BaseTestCase):
 
 
 class TestAPTPackageHelper(utils.BaseTestCase):
-
+    """ Unit tests for apt helper """
     def test_core_packages(self):
         expected = {'systemd': '245.4-4ubuntu3.15',
                     'systemd-container': '245.4-4ubuntu3.15',
@@ -612,7 +613,7 @@ class TestAPTPackageHelper(utils.BaseTestCase):
 
 
 class TestSnapPackageHelper(utils.BaseTestCase):
-
+    """ Unit tests for snap helper """
     def test_all(self):
         expected = {'core20': {'channel': 'latest/stable',
                                'version': '20220114'}}
@@ -630,7 +631,7 @@ class TestSnapPackageHelper(utils.BaseTestCase):
 
 
 class TestConfigHelper(utils.BaseTestCase):
-
+    """ Unit tests for config helper """
     @utils.create_data_root({'test.conf': DUMMY_CONFIG})
     def test_iniconfig_base(self):
         conf = os.path.join(HotSOSConfig.data_root, 'test.conf')
@@ -661,7 +662,7 @@ class TestConfigHelper(utils.BaseTestCase):
 
 
 class TestApparmorHelper(utils.BaseTestCase):
-
+    """ Unit tests for apparmor helper """
     def test_aa_status_profiles(self):
         helper = host_helpers.ApparmorHelper()
         profiles = helper.profiles
@@ -694,7 +695,7 @@ class TestApparmorHelper(utils.BaseTestCase):
 
 
 class TestDPKGVersion(utils.BaseTestCase):  # noqa, pylint: disable=too-many-public-methods
-
+    """ Unit tests for dpkg version helper """
     def test_dpkg_normalize_string_repr(self):
         data = [
             {"ge": "8.9"}, {"lt": "4"}, {"ge": "6.3", "lt": "7.2"}

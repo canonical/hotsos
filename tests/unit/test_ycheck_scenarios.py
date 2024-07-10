@@ -18,7 +18,7 @@ from . import utils
 
 
 class TestProperty():
-
+    """ Test Property """
     @property
     def myattr(self):
         return '123'
@@ -45,26 +45,7 @@ def global_search_context(f):
 
 
 class TestConfig(IniConfigBase):
-    pass
-
-
-class FakeServiceObjectManager():
-
-    def __init__(self, start_times):
-        self._start_times = start_times
-
-    def __call__(self, name, state, has_instances):
-        return FakeServiceObject(name, state, has_instances,
-                                 start_time=self._start_times[name])
-
-
-class FakeServiceObject():
-
-    def __init__(self, name, state, has_instances, start_time):
-        self.name = name
-        self.state = state
-        self.start_time = start_time
-        self.has_instances = has_instances
+    """ Test config """
 
 
 def init_test_scenario(yaml_contents, scenario_name=None):
@@ -636,7 +617,9 @@ ii  openssh-server                       1:8.2p1-4ubuntu0.4                     
 
 
 class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-public-methods
-
+    """
+    Tests scenarios functionality.
+    """
     @init_test_scenario(SCENARIO_W_EXPR_LIST.
                         format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': 'hello x\n'})
@@ -1027,6 +1010,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
         called = []
 
         class YPropertyConclusionTest(YPropertyConclusion):
+            """ Test YProperty """
             _override_autoregister = False
 
             def reached(self, *args, **kwargs):
@@ -1049,6 +1033,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
         called = []
 
         class YPropertyConclusionTest(YPropertyConclusion):
+            """ Test YProperty """
             _override_autoregister = False
 
             def reached(self, *args, **kwargs):

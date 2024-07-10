@@ -15,6 +15,9 @@ from hotsos.core.ycheck.engine.properties.common import (
 
 
 class YPropertySearchConstraints(YPropertyOverrideBase):
+    """
+    Search constraints property member of search property.
+    """
     _override_keys = ['constraints']
 
     @property
@@ -79,6 +82,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
 
 
 class YPropertySearchBase(YPropertyOverrideBase):
+    """ Base class for search properties. """
 
     def apply_extra_constraints(self, results):
         """
@@ -266,6 +270,10 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
 
 class YPropertySearchOpt(YPropertyOverrideBase):
+    """
+    Provides search expression option properties that can be provided with each
+    search definition.
+    """
     _override_keys = ['expr', 'hint', 'passthrough-results']
 
     def __bool__(self):
@@ -289,6 +297,10 @@ class YPropertySearchOpt(YPropertyOverrideBase):
 
 
 class SeqPartSearchOptsBase():
+    """
+    Provides implementation of extraction attributes to make it easy to get the
+    value of properties supported by YPropertySearchOpt.
+    """
 
     @property
     def expr(self):
@@ -314,10 +326,14 @@ class SeqPartSearchOptsBase():
 
 class YPropertySequencePart(YPropertySearchBase, SeqPartSearchOptsBase,
                             YPropertyOverrideBase):
+    """
+    Provides the search fields required to perform a sequence search.
+    """
     _override_keys = ['start', 'body', 'end']
 
 
 class YPropertySearch(YPropertySearchBase, YPropertyMappedOverrideBase):
+    """ Search property. """
     _override_keys = ['search']
     _override_members = [YPropertySearchOpt, YPropertySearchConstraints,
                          YPropertySequencePart]

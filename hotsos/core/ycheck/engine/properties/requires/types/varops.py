@@ -6,6 +6,9 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 
 class YPropertyVarOps(YRequirementTypeWithOpsBase):
+    """
+    Varops requires type property. Provides support for defining varops checks.
+    """
     _override_keys = ['varops']
     _overrride_autoregister = True
 

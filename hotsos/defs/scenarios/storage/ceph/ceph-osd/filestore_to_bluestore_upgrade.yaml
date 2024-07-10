@@ -2,7 +2,7 @@
 # This can happen e.g. after an upgrade from Filestore to Bluestore.
 checks:
   bluestore_enabled:
-    property: hotsos.core.plugins.storage.ceph.CephChecksBase.bluestore_enabled
+    property: hotsos.core.plugins.storage.ceph.CephChecks.bluestore_enabled
   ceph_config_has_journal:
     config:
       handler: hotsos.core.plugins.storage.ceph.CephConfig

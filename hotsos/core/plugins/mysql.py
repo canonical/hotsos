@@ -17,7 +17,8 @@ MYSQL_SVC_EXPRS = [rf'mysql{SVC_VALID_SUFFIX}']
 CORE_APT = ['mysql']
 
 
-class MySQLChecksBase(plugintools.PluginPartBase):
+class MySQLChecks(plugintools.PluginPartBase):
+    """ MySQL checks. """
     plugin_name = 'mysql'
     plugin_root_index = 3
 
@@ -33,6 +34,7 @@ class MySQLChecksBase(plugintools.PluginPartBase):
 
 
 class MySQLConfig(host_helpers.IniConfigBase):
+    """ MySQL config interface. """
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root,
                             'etc/mysql/mysql.conf.d/mysqld.cnf')
@@ -40,6 +42,7 @@ class MySQLConfig(host_helpers.IniConfigBase):
 
 
 class MySQLRouterConfig(host_helpers.IniConfigBase):
+    """ MySQL Router config interface. """
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root,
                             'var/lib/mysql/*mysql-router/mysqlrouter.conf')

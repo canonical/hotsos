@@ -2,7 +2,7 @@ import re
 
 from hotsos.core.issues import IssuesManager, CephOSDError
 from hotsos.core.plugins.storage.ceph import (
-    CephChecksBase,
+    CephChecks,
     CephEventCallbackBase,
 )
 from hotsos.core.ycheck.events import EventHandlerBase
@@ -11,6 +11,7 @@ CEPH_ID_FROM_LOG_PATH_EXPR = r'.+ceph-osd\.(\d+)\.log'
 
 
 class EventCallbackMisc(CephEventCallbackBase):
+    """ Events callback for Ceph miscellaneous events """
     event_group = 'ceph'
     event_names = ['heartbeat-no-reply', 'osd-reported-failed',
                    'mon-elections-called', 'superblock-read-error']
@@ -29,6 +30,7 @@ class EventCallbackMisc(CephEventCallbackBase):
 
 
 class EventCallbackSlowRequests(CephEventCallbackBase):
+    """ Events callback for Ceph Slow Requests """
     event_group = 'ceph'
     event_names = ['slow-requests']
 
@@ -46,6 +48,7 @@ class EventCallbackSlowRequests(CephEventCallbackBase):
 
 
 class EventCallbackCRCErrors(CephEventCallbackBase):
+    """ Events callback for Ceph OSD CRC Errors """
     event_group = 'ceph'
     event_names = ['crc-err-bluestore', 'crc-err-rocksdb']
 
@@ -93,6 +96,7 @@ class EventCallbackCRCErrors(CephEventCallbackBase):
 
 
 class EventCallbackHeartbeatPings(CephEventCallbackBase):
+    """ Events callback for Ceph Heartbeat events """
     event_group = 'ceph'
     event_names = ['long-heartbeat-pings']
 
@@ -112,7 +116,8 @@ class EventCallbackHeartbeatPings(CephEventCallbackBase):
                                       squash_if_none_keys=True)
 
 
-class CephEventHandler(CephChecksBase, EventHandlerBase):
+class CephEventHandler(CephChecks, EventHandlerBase):
+    """ Events handler for Ceph events. """
     event_group = 'ceph'
     summary_part_index = 1
 

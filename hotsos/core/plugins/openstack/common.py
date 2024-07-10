@@ -29,7 +29,11 @@ from hotsos.core.ycheck.events import EventHandlerBase, EventCallbackBase
 
 
 class OpenstackBase():
+    """
+    Base class for Openstack checks.
 
+    Contains per-service information such as packages, versions, config etc.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.nova = NovaBase()
@@ -239,7 +243,8 @@ class OpenstackBase():
         return False
 
 
-class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
+class OpenStackChecks(OpenstackBase, plugintools.PluginPartBase):
+    """ OpenStack checks. """
     plugin_name = "openstack"
     plugin_root_index = 4
 
@@ -249,7 +254,7 @@ class OpenstackChecksBase(OpenstackBase, plugintools.PluginPartBase):
 
 
 class OpenstackEventCallbackBase(OpenstackBase, EventCallbackBase):
-
+    """ Base class for Openstack Event Callbacks. """
     @classmethod
     def global_event_tally_time_granularity_override(cls):
         return True
@@ -259,5 +264,5 @@ class OpenstackEventCallbackBase(OpenstackBase, EventCallbackBase):
         """ Callback method. """
 
 
-class OpenstackEventHandlerBase(OpenstackChecksBase, EventHandlerBase):
-    pass
+class OpenstackEventHandlerBase(OpenStackChecks, EventHandlerBase):
+    """ Base class for OpenStack event handlers. """
