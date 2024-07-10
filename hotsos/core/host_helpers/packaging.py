@@ -170,7 +170,12 @@ class DPKGVersion():
             "le": lambda lhs, rhs: lhs <= DPKGVersion(rhs),
             "gt": lambda lhs, rhs: lhs > DPKGVersion(rhs),
             "ge": lambda lhs, rhs: lhs >= DPKGVersion(rhs),
+            # Here, it's necessary to use lambda. It defers the
+            # "ops" access to runtime, so ops["ge"] exists when
+            # this is executed.
+            # pylint: disable-next=unnecessary-lambda
             "min": lambda lhs, rhs: ops["ge"](lhs, rhs),
+            # pylint: disable-next=unnecessary-lambda
             "max": lambda lhs, rhs: ops["le"](lhs, rhs),
         }
 
