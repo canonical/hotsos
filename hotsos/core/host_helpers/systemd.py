@@ -167,7 +167,7 @@ class SystemdService():
             log.warning("service memory info not found at %s", cgroupv2)
             return 0
 
-        with open(cgroupv2) as fd:
+        with open(cgroupv2, encoding='utf-8') as fd:
             total = int(fd.read())
             if total == 0:
                 return total
@@ -341,7 +341,7 @@ class SystemdHelper(ServiceManagerBase):
 
                     _path = _path[0]
 
-                with open(_path) as fd:
+                with open(_path, encoding='utf-8') as fd:
                     for pid in fd:
                         for line in self._ps:
                             if re.match(rf'^\S+\s+{int(pid)}\s+', line):

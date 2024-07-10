@@ -229,7 +229,7 @@ class TestCLIHelper(utils.BaseTestCase):
     @mock.patch.object(host_helpers.cli, 'subprocess')
     def test_ps(self, mock_subprocess):
         path = os.path.join(HotSOSConfig.data_root, "ps")
-        with open(path, 'r') as fd:
+        with open(path, 'r', encoding='utf-8') as fd:
             out = fd.readlines()
 
         self.assertEqual(host_helpers.cli.CLIHelper().ps(), out)

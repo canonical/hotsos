@@ -220,7 +220,7 @@ class TemplatedTestGenerator():
         if not os.path.exists(test_def_path):
             raise Exception(f"{test_def_path} does not exist")
 
-        with open(test_def_path) as fd:
+        with open(test_def_path, encoding='utf-8') as fd:
             self.testdef = yaml.safe_load(fd) or {}
         if not self.testdef or not os.path.exists(test_def_path):
             raise Exception(f"invalid test template at {test_def_path}")
@@ -399,7 +399,7 @@ def create_data_root(files_to_create, copy_from_original=None):
                             [f'{path}: {line}'
                              for line in content.split("\n")]))
 
-                    with open(path, 'w') as fd:
+                    with open(path, 'w', encoding='utf-8') as fd:
                         fd.write(content)
 
                 orig_data_root = HotSOSConfig.data_root

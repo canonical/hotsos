@@ -179,29 +179,29 @@ class TestSYSCtlChecks(SystemTestsBase):
                                          'sos_commands/kernel'),
                             os.path.join(dtmp, 'sos_commands/kernel'))
 
-            with open(etc_sysctl_conf, 'a') as fd:
+            with open(etc_sysctl_conf, 'a', encoding='utf-8') as fd:
                 fd.write('-net.core.rmem_default\n')
 
             # create a config with an unsetter
             with open(os.path.join(dtmp, 'etc/sysctl.d/99-unit-test.conf'),
-                      'w') as fd:
+                      'w', encoding='utf-8') as fd:
                 fd.write("-net.ipv4.conf.all.rp_filter\n")
 
             # create a config that has not been applied
             with open(os.path.join(dtmp, 'etc/sysctl.d/98-unit-test.conf'),
-                      'w') as fd:
+                      'w', encoding='utf-8') as fd:
                 fd.write("kernel.pid_max = 12345678\n")
                 fd.write("net.ipv4.conf.all.rp_filter = 200\n")
 
             # inject an unset value into an invalid file
             with open(os.path.join(dtmp, 'etc/sysctl.d/97-unit-test.conf.bak'),
-                      'w') as fd:
+                      'w', encoding='utf-8') as fd:
                 fd.write("kernel.watchdog = 0\n")
 
             # create a config with an unsetter that wont be applied since it
             # has a lesser priority.
             with open(os.path.join(dtmp, 'etc/sysctl.d/96-unit-test.conf'),
-                      'w') as fd:
+                      'w', encoding='utf-8') as fd:
                 fd.write("-kernel.pid_max\n")
                 fd.write("net.core.rmem_default = 1000000000\n")
 
@@ -219,7 +219,7 @@ class TestUbuntuPro(SystemTestsBase):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
-                    with open(ftmp.name, 'w') as fd:
+                    with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UBUNTU_PRO_ATTACHED))
 
                     return ftmp.name
@@ -266,7 +266,7 @@ class TestUbuntuPro(SystemTestsBase):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
-                    with open(ftmp.name, 'w') as fd:
+                    with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UBUNTU_PRO_NOT_ATTACHED))
 
                     return ftmp.name
@@ -289,7 +289,7 @@ class TestUbuntuPro(SystemTestsBase):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
-                    with open(ftmp.name, 'w') as fd:
+                    with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UA_ATTACHED))
 
                     return ftmp.name
@@ -341,7 +341,7 @@ class TestUbuntuPro(SystemTestsBase):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
-                    with open(ftmp.name, 'w') as fd:
+                    with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UA_ATTACHED_WITH_NOTICE))
 
                     return ftmp.name
@@ -382,7 +382,7 @@ class TestUbuntuPro(SystemTestsBase):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
-                    with open(ftmp.name, 'w') as fd:
+                    with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UA_NOT_ATTACHED))
 
                     return ftmp.name
@@ -405,7 +405,7 @@ class TestUbuntuPro(SystemTestsBase):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
-                    with open(ftmp.name, 'w') as fd:
+                    with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write('M' + ''.join(UBUNTU_PRO_ATTACHED[1:]))
 
                     return ftmp.name

@@ -42,7 +42,7 @@ class ProcNetBase(abc.ABC):
             return
 
         log.debug("start processing %s", fname)
-        with open(fname) as fd:
+        with open(fname, encoding='utf-8') as fd:
             labels = None
             values = None
             for line in fd:
@@ -331,7 +331,7 @@ class SockStat(ProcNetBase):
             return None
 
         log.debug("start processing %s", fname)
-        with open(fname) as fd:
+        with open(fname, encoding='utf-8') as fd:
             for line in fd:
                 psl = line.split(':')
                 if len(psl) != 2:

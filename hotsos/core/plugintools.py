@@ -119,7 +119,7 @@ class HTMLFormatter(OutputFormatterBase):
     @property
     def footer(self):
         with open(os.path.join(HotSOSConfig.templates_path,
-                               'footer.html')) as fd:
+                               'footer.html'), encoding='utf-8') as fd:
             return fd.read()
 
     def _expand_list(self, data, level):
@@ -262,7 +262,7 @@ class PartManager():
 
             part_path = newpath
 
-        with open(part_path, 'w') as fd:
+        with open(part_path, 'w', encoding='utf-8') as fd:
             fd.write(out)
 
         self.add_to_index(index, part_path)
@@ -271,7 +271,7 @@ class PartManager():
     def indexes(self):
         path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
         if os.path.exists(path):
-            with open(path) as fd:
+            with open(path, encoding='utf-8') as fd:
                 return yaml.safe_load(fd.read()) or {}
 
         return {}
@@ -279,7 +279,7 @@ class PartManager():
     def add_to_index(self, index, part):
         indexes = self.indexes
         path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
-        with open(path, 'w') as fd:
+        with open(path, 'w', encoding='utf-8') as fd:
             if index in indexes:
                 indexes[index].append(part)
             else:
@@ -313,7 +313,7 @@ class PartManager():
         parts = {}
         for index in sorted(self.indexes):
             for part in self.indexes[index]:
-                with open(part) as fd:
+                with open(part, encoding='utf-8') as fd:
                     part_yaml = yaml.safe_load(fd)
 
                     # Don't allow root level keys to be clobbered, instead just

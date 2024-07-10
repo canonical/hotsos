@@ -40,7 +40,7 @@ class YDefsLoader():
                     continue
 
                 if self._get_yname(abs_path) == os.path.basename(path):
-                    with open(abs_path) as fd:
+                    with open(abs_path, encoding='utf-8') as fd:
                         log.debug("applying dir globals %s", entry)
                         defs.update(yaml.safe_load(fd.read()) or {})
 
@@ -50,7 +50,7 @@ class YDefsLoader():
                     # directory.
                     continue
 
-                with open(abs_path) as fd:
+                with open(abs_path, encoding='utf-8') as fd:
                     self.stats_num_files_loaded += 1
                     _content = yaml.safe_load(fd.read()) or {}
                     defs[self._get_yname(abs_path)] = _content

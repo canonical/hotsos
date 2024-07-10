@@ -96,7 +96,7 @@ class SystemBase():
         if not os.path.exists(data_source):
             return None
 
-        with open(data_source) as fd:
+        with open(data_source, encoding='utf-8') as fd:
             for line in fd.read().split():
                 ret = re.compile(r"^DISTRIB_CODENAME=(.+)").match(line)
                 if ret:

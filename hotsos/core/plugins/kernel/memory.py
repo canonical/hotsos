@@ -40,7 +40,7 @@ class _BaseProcKeyValue():
         if not os.path.exists(self.path):
             return 0
 
-        with open(self.path) as fd:
+        with open(self.path, encoding='utf-8') as fd:
             for line in fd:
                 if re.split(self.key_val_sep(), line, 1)[0] == key:
                     value = int(re.split(self.key_val_sep(), line)[1])
@@ -146,7 +146,7 @@ class SlabInfo():
         if not os.path.exists(self.path):
             return self._slab_info
 
-        with open(self.path) as fd:
+        with open(self.path, encoding='utf-8') as fd:
             for line in fd:
                 exclude = False
                 for name in self._filter_names:
@@ -220,7 +220,7 @@ class BuddyInfo():
             return self._numa_nodes
 
         nodes = set()
-        with open(self.path) as fd:
+        with open(self.path, encoding='utf-8') as fd:
             for line in fd:
                 nodes.add(int(line.split()[1].strip(',')))
 
@@ -228,7 +228,7 @@ class BuddyInfo():
         return self._numa_nodes
 
     def get_node_zones(self, zones_type, node):
-        with open(self.path) as fd:
+        with open(self.path, encoding='utf-8') as fd:
             for line in fd:
                 if line.split()[3] == zones_type and \
                         line.startswith(f"Node {node},"):

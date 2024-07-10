@@ -148,7 +148,7 @@ class CmdBase():
 
     @classmethod
     def safe_readlines(cls, path):
-        with open(path, 'r', errors="surrogateescape") as fd:
+        with open(path, 'r', encoding='utf-8', errors="surrogateescape") as fd:
             return fd.readlines()
 
     def register_hook(self, name, f):
@@ -265,7 +265,7 @@ class FileCmd(CmdBase):
         # NOTE: any post-exec hooks must be aware that their input will be
         # defined by the following.
         if self.json_decode:
-            with open(self.path) as fd:
+            with open(self.path, encoding='utf-8') as fd:
                 output = json.load(fd)
         else:
             output = []
@@ -582,7 +582,7 @@ class CephJSONFileCmd(FileCmd):
         if not os.path.exists(self.path):
             raise SourceNotFound(self.path)
 
-        with open(self.path) as f:
+        with open(self.path, encoding='utf-8') as f:
             lines = f.readlines()
 
         if self.first_line_filter:
@@ -707,7 +707,7 @@ class SourceRunner():
             if out.source is not None:
                 return out.source
 
-            with open(self.output_file, 'w') as fd:
+            with open(self.output_file, 'w', encoding='utf-8') as fd:
                 if isinstance(out.value, list):
                     fd.write(''.join(out.value))
                 elif isinstance(out.value, dict):

@@ -70,7 +70,8 @@ class TestScenarioTestLoader(utils.BaseTestCase):
 
             for scenario_name_template in scenario_name_templates:
                 scenario_name = scenario_name_template.format(lvl)
-                with open(os.path.join(_path, scenario_name), 'w') as fd:
+                with open(os.path.join(_path, scenario_name),
+                          'w', encoding='utf-8') as fd:
                     fd.write(FAKE_SCENARIO)
 
     @staticmethod
@@ -92,12 +93,14 @@ class TestScenarioTestLoader(utils.BaseTestCase):
 
             for name_template in test_files_without_target:
                 file_name = name_template.format(lvl)
-                with open(os.path.join(_path, file_name), 'w') as fd:
+                with open(os.path.join(_path, file_name),
+                          'w', encoding='utf-8') as fd:
                     fd.write(FAKE_TEST)
 
             for name_template in test_files_with_target:
                 file_name = name_template.format(lvl)
-                with open(os.path.join(_path, file_name), 'w') as fd:
+                with open(os.path.join(_path, file_name),
+                          'w', encoding='utf-8') as fd:
                     fd.write(FAKE_TEST_W_TARGET)
 
     def test_check_test_names(self):
@@ -213,7 +216,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
             self.create_tests(dtmp, levels=3)
 
             with open(os.path.join(dtmp, 'test1.yaml'),
-                      'w') as fd:
+                      'w', encoding='utf-8') as fd:
                 fd.write(FAKE_SCENARIO)
             with mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp):
                 utils.TemplatedTest(
