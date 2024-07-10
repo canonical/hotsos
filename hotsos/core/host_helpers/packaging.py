@@ -338,7 +338,7 @@ class DockerImageHelper(PackageHelperBase):
             return {}
 
         # go fetch
-        self.all
+        _ = self.all
         return self._core_images
 
 
@@ -466,7 +466,7 @@ class APTPackageHelper(PackageHelperBase):
             return self._core_packages
 
         # go fetch
-        self.all
+        _ = self.all
         return self._core_packages
 
 
@@ -650,5 +650,5 @@ class SnapPackageHelper(PackageHelperBase):
             return {}
 
         # go fetch
-        self.all
+        _ = self.all
         return self._core_snaps

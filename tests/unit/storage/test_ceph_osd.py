@@ -83,14 +83,14 @@ class TestCephOSDChecksBase(StorageCephOSDTestsBase):
     def test_daemon_osd_config(self):
         config = ceph_core.CephDaemonConfigShow(osd_id=0)
         with self.assertRaises(AttributeError):
-            config.foo
+            _ = config.foo
 
         self.assertEqual(config.bluefs_buffered_io, 'true')
 
     def test_daemon_osd_config_no_exist(self):
         config = ceph_core.CephDaemonConfigShow(osd_id=100)
         with self.assertRaises(AttributeError):
-            config.bluefs_buffered_io
+            _ = config.bluefs_buffered_io
 
     def test_daemon_osd_all_config(self):
         config = ceph_core.CephDaemonAllOSDsCommand('CephDaemonConfigShow')
