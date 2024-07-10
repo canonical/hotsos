@@ -159,7 +159,7 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
                               allow_global_constraints=True)
 
     def run(self):
-        self.results
+        _ = self.results
 
 
 class GlobalSearcherPreloaderBase():

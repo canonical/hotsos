@@ -112,7 +112,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
 
     def test_get_interfaces_cached(self):
         helper = host_helpers.HostNetworkingHelper()
-        helper.host_interfaces_all
+        _ = helper.host_interfaces_all
         ifaces = helper.cache.get('interfaces')  # pylint: disable=E1111
         expected = ['lo',
                     'ens3',
@@ -164,7 +164,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         addr = '10.0.0.128'
         iface = helper.get_interface_with_addr(addr)
         # do this to cache stats
-        iface.stats
+        _ = iface.stats
         helper = host_helpers.HostNetworkingHelper()
         data = helper.cache_load('interfaces')
         iface_found = False
