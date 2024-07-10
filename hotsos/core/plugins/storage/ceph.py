@@ -711,9 +711,9 @@ class CephCluster():  # pylint: disable=too-many-public-methods
             return True
 
         mon_top = sorted(mon_versions.keys(),
-                         key=lambda v: self.version_as_a_tuple(v))[0]
+                         key=self.version_as_a_tuple)[0]
         for vers in non_mon.values():
-            cl_top = sorted(vers, key=lambda v: self.version_as_a_tuple(v))[0]
+            cl_top = sorted(vers, key=self.version_as_a_tuple)[0]
             if cl_top > mon_top:
                 return False
 

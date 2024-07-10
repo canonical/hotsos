@@ -178,7 +178,7 @@ class PropertyCacheRefResolver():
         extras = {'comma_join': {
                     'requirements': [lambda value: isinstance(value, list),
                                      lambda value: isinstance(value, dict)],
-                    'action': lambda value: ', '.join(value)},
+                    'action': ', '.join},
                   'unique_comma_join': {
                     'requirements': [lambda value: isinstance(value, list),
                                      lambda value: isinstance(value, dict)],

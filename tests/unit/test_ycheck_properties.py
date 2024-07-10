@@ -786,9 +786,13 @@ class TestYamlProperties(utils.BaseTestCase):
 
     def test_get_datetime_from_result(self):
         result = mock.MagicMock()
+        # The lambda is necessary here. _result is changing so
+        # we can't bind result's get() function directly, otherwise
+        # we'd have to update the side effect too.
+        # pylint: disable-next= unnecessary-lambda
         result.get.side_effect = lambda idx: _result.get(idx)
-
         _result = {1: '2022-01-06', 2: '12:34:56.123'}
+
         ts = ExtraSearchConstraints._get_datetime_from_result(result)
         self.assertEqual(ts, datetime.datetime(2022, 1, 6, 12, 34, 56))
 
