@@ -12,6 +12,7 @@ from hotsos.core.issues import (
     IssuesManager,
     OpenstackWarning,
 )
+from hotsos.core.plugintools import summary_entry
 
 
 class OpenstackNetworkChecks(OpenStackChecks):
@@ -82,21 +83,24 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return port_health_info
 
-    def __9_summary_config(self):
+    @summary_entry('config', 9)
+    def summary_config(self):
         config_info = self.get_config_info()
         if config_info:
             return config_info
 
         return None
 
-    def __10_summary_phy_port_health(self):
+    @summary_entry('phy-port-health', 10)
+    def summary_phy_port_health(self):
         port_health_info = self.get_phy_port_health_info()
         if port_health_info:
             return port_health_info
 
         return None
 
-    def __11_summary_namespaces(self):
+    @summary_entry('namespaces', 11)
+    def summary_namespaces(self):
         """Populate namespace information dict."""
         ns_info = {}
         for line in self.cli.ip_netns():
@@ -139,7 +143,8 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return {prefix: list(mtus) for prefix, mtus in router_mtus.items()}
 
-    def __12_summary_router_port_mtus(self):
+    @summary_entry('router-port-mtus', 12)
+    def summary_router_port_mtus(self):
         """ Provide a summary of ml2-ovs router port mtus. """
         phy_mtus = set()
         project = getattr(self, 'neutron')
@@ -174,7 +179,8 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return router_mtus
 
-    def __13_summary_vm_port_health(self):
+    @summary_entry('vm-port-health', 13)
+    def summary_vm_port_health(self):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """
         if not self.nova.instances:

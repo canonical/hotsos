@@ -1,11 +1,13 @@
 from hotsos.core.plugins.rabbitmq import RabbitMQChecks
+from hotsos.core.plugintools import summary_entry
 
 
 class RabbitMQSummary(RabbitMQChecks):
     """ Implementation of RabbitMQ summary. """
     summary_part_index = 0
 
-    def __0_summary_services(self):
+    @summary_entry('services', 0)
+    def summary_services(self):
         if self.systemd.services:
             return self.systemd.summary
         if self.pebble.services:
@@ -13,7 +15,8 @@ class RabbitMQSummary(RabbitMQChecks):
 
         return None
 
-    def __1_summary_dpkg(self):
+    @summary_entry('dpkg', 1)
+    def summary_dpkg(self):
         return self.apt.all_formatted or None
 
     @property
@@ -46,11 +49,13 @@ class RabbitMQSummary(RabbitMQChecks):
 
         return None
 
-    def __2_summary_config(self):
+    @summary_entry('config', 2)
+    def summary_config(self):
         setting = self.report.partition_handling or 'unknown'
         return {'cluster-partition-handling': setting}
 
-    def __3_summary_resources(self):
+    @summary_entry('resources', 3)
+    def summary_resources(self):
         resources = {}
         _queue_info = self.queue_info
         if _queue_info:

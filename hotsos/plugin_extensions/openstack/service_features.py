@@ -1,5 +1,6 @@
 from hotsos.core.log import log
 from hotsos.core.plugins.openstack.common import OpenStackChecks
+from hotsos.core.plugintools import summary_entry
 
 FEATURES = {'neutron': {
                 'main': {
@@ -71,7 +72,8 @@ class ServiceFeatureChecks(OpenStackChecks):
 
         return module_features
 
-    def __7_summary_features(self):
+    @summary_entry('features', 7)
+    def summary_features(self):
         """
         This is used to display whether or not specific features are enabled.
         """

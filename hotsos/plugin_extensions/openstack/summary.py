@@ -1,16 +1,19 @@
 from hotsos.core.plugins.openstack.common import OpenStackChecks
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
+from hotsos.core.plugintools import summary_entry
 
 
 class OpenStackSummary(OpenStackChecks):
     """ Implementation of OpenStack summary. """
     summary_part_index = 0
 
-    def __0_summary_release(self):
+    @summary_entry('release', 0)
+    def summary_release(self):
         return {'name': self.release_name,
                 'days-to-eol': self.days_to_eol}
 
-    def __1_summary_services(self):
+    @summary_entry('services', 1)
+    def summary_services(self):
         """Get string info for running services."""
         if self.systemd.services:
             return self.systemd.summary
@@ -19,7 +22,8 @@ class OpenStackSummary(OpenStackChecks):
 
         return None
 
-    def __2_summary_dpkg(self):
+    @summary_entry('dpkg', 2)
+    def summary_dpkg(self):
         # require at least one core package to be installed to include
         # this in the report.
         if self.apt.core:
@@ -27,7 +31,8 @@ class OpenStackSummary(OpenStackChecks):
 
         return None
 
-    def __3_summary_docker_images(self):
+    @summary_entry('docker-images', 3)
+    def summary_docker_images(self):
         # require at least one core image to be in-use to include
         # this in the report.
         if self.docker.core:
@@ -36,7 +41,8 @@ class OpenStackSummary(OpenStackChecks):
         return None
 
     @staticmethod
-    def __4_summary_neutron_l3ha():
+    @summary_entry('neutron-l3ha', 4)
+    def summary_neutron_l3ha():
         routers = {}
         ha_info = NeutronHAInfo()
         for router in ha_info.ha_routers:

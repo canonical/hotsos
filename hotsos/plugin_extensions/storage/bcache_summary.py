@@ -1,11 +1,13 @@
 from hotsos.core.plugins.storage.bcache import BcacheChecks
+from hotsos.core.plugintools import summary_entry
 
 
 class BcacheSummary(BcacheChecks):
     """ Implementation of Bcache summary. """
     summary_part_index = 2
 
-    def __0_summary_cachesets(self):
+    @summary_entry('cachesets', 0)
+    def summary_cachesets(self):
         _state = {}
         for cset in self.cachesets:
             _cset = {'cache_available_percent':
