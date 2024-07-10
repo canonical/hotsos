@@ -1,9 +1,16 @@
 import abc
+import glob
+import json
 import os
+import pickle
 import re
 
 from searchkit.utils import MPCache
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers.exceptions import (
+    CLIExecError,
+    SourceNotFound,
+)
 from hotsos.core.log import log
 
 
@@ -120,3 +127,182 @@ class ServiceManagerBase(abc.ABC):
         """ Return a dictionary summary of this class i.e. services,
         their state and associated processes.
         """
+
+
+class NullSource():
+    def __call__(self, *args, **kwargs):
+        return CmdOutput([])
+
+
+class CmdOutput():
+    def __init__(self, value, source=None):
+        self.value = value
+        self.source = source
+
+
+class SourceRunner():
+
+    def __init__(self, cmdkey, sources, cache, output_file=None):
+        """
+        @param cmdkey: unique key identifying this command.
+        @param sources: list of command source implementations.
+        @param cache: CLICacheWrapper object.
+        """
+        self.cmdkey = cmdkey
+        self.sources = sources
+        self.cache = cache
+        self.output_file = output_file
+        # Command output can differ between CLIHelper and CLIHelperFile so we
+        # need to cache them separately.
+        if output_file:
+            self.cache_cmdkey = f"{cmdkey}.file"
+        else:
+            self.cache_cmdkey = cmdkey
+
+    def bsource(self, *args, **kwargs):
+        # binary sources only apply if data_root is system root
+        bin_out = None
+        for bsource in [s for s in self.sources if s.TYPE == "BIN"]:
+            cache = False
+            # NOTE: we currently only support caching commands with no
+            #       args.
+            if not any([args, kwargs]):
+                cache = True
+                out = self.cache.load(self.cache_cmdkey)
+                if out is not None:
+                    return out
+
+            try:
+                if self.output_file:
+                    # don't decode if we are going to be saving to a file
+                    kwargs['skip_json_decode'] = True
+
+                bin_out = bsource(*args, **kwargs)
+                if cache and bin_out is not None:
+                    try:
+                        self.cache.save(self.cache_cmdkey, bin_out)
+                    except pickle.PicklingError as exc:
+                        log.info("unable to cache command '%s' output: %s",
+                                 self.cmdkey, exc)
+
+                # if command executed but returned nothing that still counts
+                # as success.
+                break
+            except CLIExecError as exc:
+                bin_out = CmdOutput(exc.return_value)
+
+        return bin_out
+
+    def fsource(self, *args, **kwargs):
+        for fsource in [s for s in self.sources if s.TYPE == "FILE"]:
+            try:
+                skip_load_contents = False
+                if self.output_file:
+                    skip_load_contents = True
+
+                return fsource(*args, **kwargs,
+                               skip_load_contents=skip_load_contents)
+            except CLIExecError as exc:
+                return CmdOutput(exc.return_value)
+            except SourceNotFound:
+                pass
+
+        return None
+
+    def _execute(self, *args, **kwargs):
+        # always try file sources first
+        ret = self.fsource(*args, **kwargs)
+        if ret is not None:
+            return ret
+
+        if HotSOSConfig.data_root != '/':
+            return NullSource()()
+
+        return self.bsource(*args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+        """
+        Execute the command using the appropriate source runner. These can be
+        binary or file-based depending on whether data root points to / or a
+        sosreport. File-based are attempted first.
+
+        A command can have more than one source implementation so we must
+        ensure they all have a chance to run.
+        """
+        out = self._execute(*args, **kwargs)
+        if self.output_file:
+            if out.source is not None:
+                return out.source
+
+            with open(self.output_file, 'w') as fd:
+                if isinstance(out.value, list):
+                    fd.write(''.join(out.value))
+                elif isinstance(out.value, dict):
+                    fd.write(json.dumps(out.value))
+                else:
+                    fd.write(out.value)
+
+                return self.output_file
+
+        return out.value
+
+
+def run_pre_exec_hooks(f):
+    """ pre-exec hooks are run before running __call__ method.
+
+    These hooks are not expected to return anything and are used to manipulate
+    the instance variables used by the main __call__ method.
+    """
+    def run_pre_exec_hooks_inner(self, *args, **kwargs):
+        hook = self.hooks.get("pre-exec")
+        if hook:
+            # no return expected
+            hook(*args, **kwargs)
+
+        return f(self, *args, **kwargs)
+
+    return run_pre_exec_hooks_inner
+
+
+def run_post_exec_hooks(f):
+    """ post-exec hooks are run after running __call__ method and take its
+    output as input.
+    """
+    def run_post_exec_hooks_inner(self, *args, **kwargs):
+        out = f(self, *args, **kwargs)
+        hook = self.hooks.get("post-exec")
+        if hook:
+            out = hook(out, *args, **kwargs)
+
+        return out
+
+    return run_post_exec_hooks_inner
+
+
+def reset_command(f):
+    """
+    This should be run by all commands as their last action after all/any hooks
+    have run.
+    """
+    def reset_command_inner(self, *args, **kwargs):
+        out = f(self, *args, **kwargs)
+        self.reset()
+        return out
+
+    return reset_command_inner
+
+
+def get_ps_axo_flags_available():
+    path = os.path.join(HotSOSConfig.data_root,
+                        "sos_commands/process/ps_axo_flags_state_"
+                        "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
+                        "tty_time_cmd")
+    _paths = []
+    for path in glob.glob(path):
+        _paths.append(path)
+
+    if not _paths:
+        return None
+
+    # strip data_root since it will be prepended later
+    return _paths[0].partition(HotSOSConfig.data_root)[2]

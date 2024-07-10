@@ -4,643 +4,24 @@ from unittest import mock
 
 from propertree.propertree2 import OverrideRegistry
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.config import IniConfigBase
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import ExtraSearchConstraints, FileSearcher, SearchDef
 from hotsos.core.ycheck import scenarios
-from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.engine.properties.conclusions import (
     YPropertyConclusion,
 )
 
 from . import utils
-
-
-class TestProperty():
-
-    @property
-    def myattr(self):
-        return '123'
-
-    @property
-    def myotherattr(self):
-        return '456'
-
-    @property
-    def always_true(self):
-        return True
-
-    @property
-    def always_false(self):
-        return False
-
-
-def global_search_context(f):
-    def global_search_context_inner(inst, *args, **kwargs):
-        with GlobalSearcher() as searcher:
-            return f(inst, searcher, *args, **kwargs)
-
-    return global_search_context_inner
-
-
-class TestConfig(IniConfigBase):
-    pass
-
-
-class FakeServiceObjectManager():
-
-    def __init__(self, start_times):
-        self._start_times = start_times
-
-    def __call__(self, name, state, has_instances):
-        return FakeServiceObject(name, state, has_instances,
-                                 start_time=self._start_times[name])
-
-
-class FakeServiceObject():
-
-    def __init__(self, name, state, has_instances, start_time):
-        self.name = name
-        self.state = state
-        self.start_time = start_time
-        self.has_instances = has_instances
-
-
-def init_test_scenario(yaml_contents, scenario_name=None):
-    """
-    Create a temporary defs path with a scenario yaml under it.
-
-    @param param yaml_contents: yaml contents of scenario def.
-    """
-    def init_test_scenario_inner1(f):
-        def init_test_scenario_inner2(*args, **kwargs):
-            with tempfile.TemporaryDirectory() as dtmp:
-                HotSOSConfig.plugin_yaml_defs = dtmp
-                HotSOSConfig.plugin_name = 'myplugin'
-                yroot = os.path.join(dtmp, 'scenarios', 'myplugin',
-                                     'scenariogroup')
-                sname = scenario_name or 'test'
-                yfile = os.path.join(yroot, f'{sname}.yaml')
-                os.makedirs(os.path.dirname(yfile))
-                with open(yfile, 'w') as fd:
-                    fd.write(yaml_contents)
-                return f(*args, **kwargs)
-
-        return init_test_scenario_inner2
-    return init_test_scenario_inner1
-
-
-YDEF_NESTED_LOGIC = """
-checks:
-  isTrue:
-    requires:
-      and:
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-        - property:
-            path: tests.unit.test_ycheck_scenarios.TestProperty.always_false
-            ops: [[not_]]
-  isalsoTrue:
-    requires:
-      or:
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
-  isstillTrue:
-    requires:
-      and:
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-      or:
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
-  isnotTrue:
-    requires:
-      and:
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-      or:
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
-        - property: tests.unit.test_ycheck_scenarios.TestProperty.always_false
-conclusions:
-  conc1:
-    decision:
-      and:
-        - isTrue
-        - isalsoTrue
-      or:
-        - isstillTrue
-    raises:
-      type: IssueTypeBase
-      message: conc1
-  conc2:
-    decision:
-      and:
-        - isTrue
-        - isnotTrue
-      or:
-        - isalsoTrue
-    raises:
-      type: IssueTypeBase
-      message: conc2
-  conc3:
-    decision:
-      not:
-        - isnotTrue
-      or:
-        - isalsoTrue
-    raises:
-      type: IssueTypeBase
-      message: conc3
-"""
-
-
-CONCLUSION_PRIORITY_1 = """
-checks:
-  testcheck:
-    property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-conclusions:
-  conc1:
-    priority: 1
-    decision:
-      - testcheck
-    raises:
-      type: IssueTypeBase
-      message: conc1
-  conc2:
-    priority: 2
-    decision:
-      - testcheck
-    raises:
-      type: IssueTypeBase
-      message: conc2
-  conc3:
-    priority: 3
-    decision:
-      - testcheck
-    raises:
-      type: IssueTypeBase
-      message: conc3
-"""
-
-CONCLUSION_PRIORITY_2 = """
-checks:
-  testcheck:
-    property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-conclusions:
-  conc1:
-    priority: 1
-    decision:
-      - testcheck
-    raises:
-      type: IssueTypeBase
-      message: conc1
-  conc2:
-    decision:
-      - testcheck
-    raises:
-      type: IssueTypeBase
-      message: conc2
-  conc3:
-    decision:
-      - testcheck
-    raises:
-      type: IssueTypeBase
-      message: conc3
-"""
-
-
-YAML_DEF_REQUIRES_MAPPED = """
-checks:
-  is_exists_mapped:
-    systemd: nova-compute
-  is_exists_unmapped:
-    requires:
-      systemd: nova-compute
-conclusions:
-"""
-
-SCENARIO_W_EXPR_LIST = r"""
-input:
-  path: {path}
-checks:
-  listsearch1:
-    expr: ['hello y', 'hello x']
-  listsearch2:
-    search: ['hello y', 'hello x']
-  listsearch3:
-    search:
-       expr: ['hello y', 'hello x']
-conclusions:
-  listsearch1worked:
-    decision: listsearch1
-    raises:
-      type: SystemWarning
-      message: yay list search
-  listsearch2worked:
-    decision: listsearch2
-    raises:
-      type: SystemWarning
-      message: yay list search
-  listsearch3worked:
-    decision: listsearch3
-    raises:
-      type: SystemWarning
-      message: yay list search
-"""  # noqa
-
-
-SCENARIO_W_SEQ_SEARCH = r"""
-input:
-  path: {path}
-checks:
-  seqsearch1:
-    start: "it's the start"
-    body: ".+"
-    end: "it's the end"
-  seqsearch2:
-    start: "it's the start"
-    end: "it's the end"
-conclusions:
-  seqsearchworked:
-    decision:
-      - seqsearch1
-      - seqsearch2
-    raises:
-      type: SystemWarning
-      message: yay seq searches worked!
-"""  # noqa
-
-
-SCENARIO_W_ERROR = r"""
-scenarioA:
-  checks:
-    property_no_error:
-      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-  conclusions:
-    c1:
-      decision: property_no_error
-      raises:
-        type: SystemWarning
-        message: foo
-scenarioB:
-  checks:
-    property_w_error:
-      property: tests.unit.test_ycheck_scenarios.TestProperty.i_dont_exist
-  conclusions:
-    c1:
-      decision: property_w_error
-      raises:
-        type: SystemWarning
-        message: foo
-"""  # noqa
-
-
-CONCLUSION_W_INVALID_BUG_RAISES = r"""
-scenarioA:
-  checks:
-    property_no_error:
-      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-  conclusions:
-    c1:
-      decision: property_no_error
-      raises:
-        type: SystemWarning
-        bug-id: 1234
-        message: foo
-scenarioB:
-  checks:
-    property_w_error:
-      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-  conclusions:
-    c1:
-      decision: property_no_error
-      raises:
-        type: LaunchpadBug
-        message: foo
-scenarioC:
-  checks:
-    property_w_error:
-      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-  conclusions:
-    c1:
-      decision: property_no_error
-      raises:
-        type: UbuntuCVE
-        message: foo
-scenarioD:
-  checks:
-    property_w_error:
-      property: tests.unit.test_ycheck_scenarios.TestProperty.always_true
-  conclusions:
-    c1:
-      decision: property_no_error
-      raises:
-        cve-id: 123
-"""  # noqa
-
-
-SCENARIO_CHECKS = r"""
-checks:
-  logmatch:
-    input:
-      path: foo.log
-    expr: '(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}\.\d{3}) (\S+) \S+'
-    constraints:
-      min-results: 3
-      search-period-hours: 24
-      search-result-age-hours: 48
-  property_true_shortform:
-    requires:
-      property:
-        path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
-  property_has_value_longform:
-    requires:
-      property:
-        path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
-        ops: [[eq, kvm], [truth], [not_], [not_]]
-  apt_pkg_exists:
-    requires:
-      apt: nova-compute
-  snap_pkg_exists:
-    requires:
-      snap: core20
-  service_exists_short:
-    requires:
-      systemd: nova-compute
-  service_exists_and_enabled:
-    requires:
-      systemd:
-        nova-compute: enabled
-  service_exists_not_enabled:
-    requires:
-      systemd:
-        nova-compute:
-          state: enabled
-          op: ne
-conclusions:
-  justlog:
-    priority: 1
-    decision: logmatch
-    raises:
-      type: SystemWarning
-      message: log matched {num} times ({group})
-      format-dict:
-        num: '@checks.logmatch.search.num_results'
-        group: '@checks.logmatch.search.results_group_2:comma_join'
-  logandsnap:
-    priority: 2
-    decision:
-      and:
-        - logmatch
-        - snap_pkg_exists
-    raises:
-      type: SystemWarning
-      message: log matched {num} times and snap exists
-      format-dict:
-        num: '@checks.logmatch.search.num_results'
-  logandsnapandservice:
-    priority: 3
-    decision:
-      and:
-        - logmatch
-        - snap_pkg_exists
-        - service_exists_short
-        - service_exists_and_enabled
-        - property_true_shortform
-        - property_has_value_longform
-    raises:
-      type: SystemWarning
-      message: log matched {num} times, snap and service exists
-      format-dict:
-        num: '@checks.logmatch.search.num_results'
-"""  # noqa
-
-
-CONFIG_SCENARIO = """
-checks:
-  cfg_is_bad:
-    config:
-      handler: tests.unit.test_ycheck_scenarios.TestConfig
-      path: test.conf
-      assertions:
-        - key: key1
-          section: DEFAULT
-          ops: [[lt, 102]]
-        - key: key1
-          section: DEFAULT
-          ops: [[gt, 100]]
-  cfg_is_bad2:
-    config:
-      handler: tests.unit.test_ycheck_scenarios.TestConfig
-      path: test.conf
-      assertions:
-        not:
-          - key: key1
-            section: DEFAULT
-            ops: [[lt, 103]]
-          - key: key1
-            section: DEFAULT
-            ops: [[gt, 101]]
-conclusions:
-  cfg_is_bad:
-    decision: cfg_is_bad
-    raises:
-      type: SystemWarning
-      message: cfg is bad
-  cfg_is_bad2:
-    decision: cfg_is_bad2
-    raises:
-      type: SystemWarning
-      message: cfg is bad2
-"""
-
-
-VARS = """
-vars:
-  foo: 1000
-  limit: 10
-  bar: "two"
-  frombadprop: '@tests.unit.idontexist'  # add to ensure lazy-loaded
-  fromprop: '@tests.unit.test_ycheck_scenarios.TestProperty.myattr'
-  fromfact: '@hotsos.core.host_helpers.systemd.ServiceFactory.start_time_secs:snapd'
-  fromfact2: '@hotsos.core.host_helpers.filestat.FileFactory.mtime:myfile.txt'
-  fromsysctl: '@hotsos.core.host_helpers.sysctl.SYSCtlFactory:net.core.somaxconn'
-  boolvar: false
-checks:
-  aptcheck:
-    apt: nova-compute
-  is_foo_lt:
-    varops: [[$foo], [lt, $limit]]
-  is_foo_gt:
-    varops: [[$foo], [gt, $limit]]
-  isbar:
-    varops: [[$bar], [ne, ""]]
-  fromprop:
-    varops: [[$fromprop], [eq, "123"]]
-  fromfact:
-    varops: [[$fromfact], [gt, 1644446300]]
-  fromfact2:
-    varops: [[$fromfact2], [eq, 0]]
-  fromsysctl:
-    varops: [[$fromsysctl], [eq, '4096']]
-  boolvar:
-    varops: [[$boolvar], [truth], [not_]]
-conclusions:
-  aptcheck:
-    decision: aptcheck
-    raises:
-      type: SystemWarning
-      message: "{name}={version}"
-      format-dict:
-        name: '@checks.aptcheck.requires.package'
-        version: '@checks.aptcheck.requires.version'
-  is_foo_gt:
-    decision: is_foo_gt
-    raises:
-      type: SystemWarning
-      message: it's foo gt! ({varname}={varval})
-      format-dict:
-        varname: '@checks.is_foo_gt.requires.input_ref'
-        varval: '@checks.is_foo_gt.requires.input_value'
-  is_foo_lt:
-    decision: is_foo_lt
-    raises:
-      type: SystemWarning
-      message: it's foo lt! ({varname}={varval})
-      format-dict:
-        varname: '@checks.is_foo_lt.requires.input_ref'
-        varval: '@checks.is_foo_lt.requires.input_value'
-  isbar:
-    decision: isbar
-    raises:
-      type: SystemWarning
-      message: it's bar! ({varname}={varval})
-      format-dict:
-        varname: '@checks.isbar.requires.input_ref'
-        varval: '@checks.isbar.requires.input_value'
-  fromprop:
-    decision:
-      and: [fromprop, boolvar, fromfact, fromfact2, fromsysctl]
-    raises:
-      type: SystemWarning
-      message: fromprop! ({varname}={varval})
-      format-dict:
-        varname: '@checks.fromprop.requires.input_ref'
-        varval: '@checks.fromprop.requires.input_value'
-"""  # noqa
-
-
-# this set of checks should cover the variations of logical op groupings that
-# will not process items beyond the first that returns False which is the
-# default for any AND operation since a single False makes the group result the
-# same.
-LOGIC_TEST = """
-vars:
-  # this one will resolve as False
-  v1: '@tests.unit.test_ycheck_scenarios.TestProperty.always_false'
-  # this one will raise an ImportError
-  v2: '@tests.unit.test_ycheck_scenarios.TestProperty.doesntexist'
-checks:
-  # the second item in each group must be one that if evaluated will raise an
-  # error.
-  chk_and:
-    and:
-      - varops: [[$v1], [truth]]
-      - varops: [[$v2], [not_]]
-  chk_nand:
-    nand:
-      - varops: [[$v1], [not_]]
-      - varops: [[$v2], [not_]]
-  chk_not:
-    not:
-      - varops: [[$v1], [not_]]
-      - varops: [[$v2], [not_]]
-  chk_default_and:
-    - varops: [[$v2], [not_]]
-    - varops: [[$v1], [truth]]
-conclusions:
-  conc1:
-    decision:
-       or:
-         - chk_and
-         - chk_nand
-         - chk_not
-         - chk_default_and
-    raises:
-      type: SystemWarning
-      message: >-
-        This should never get raised since all checks should be
-        returning False and the first false result in each check's logical
-        group should result in further items not being executed.
-"""
-
-NESTED_LOGIC_TEST_W_ISSUE = """
-vars:
-  bool_true: true
-checks:
-  chk_pass1:
-    and:
-      - varops: [[$bool_true], [truth]]
-      - not:
-          varops: [[$bool_true], [not_]]
-  chk_pass2:
-    or:
-      - and:
-          - varops: [[$bool_true], [truth]]
-          - varops: [[$bool_true], [not_]]
-      - and:
-          - varops: [[$bool_true], [truth]]
-          - varops: [[$bool_true], [truth]]
-      - varops: [[$bool_true], [truth]]
-  chk_pass3:
-    or:
-      - varops: [[$bool_true], [truth]]
-      - varops: [[$bool_true], [truth]]
-conclusions:
-  conc1:
-    decision: [chk_pass1, chk_pass2, chk_pass3]
-    raises:
-      type: SystemWarning
-      message:
-"""
-
-
-NESTED_LOGIC_TEST_NO_ISSUE = """
-vars:
-  bool_true: true
-checks:
-  chk_fail1:
-    and:
-      - varops: [[$bool_true], [truth]]
-      - not:
-          varops: [[$bool_true], [truth]]
-  chk_fail2:
-    or:
-      - and:
-          - varops: [[$bool_true], [not_]]
-          - varops: [[$bool_true], [not_]]
-      - and:
-          - varops: [[$bool_true], [not_]]
-          - varops: [[$bool_true], [not_]]
-      - varops: [[$bool_true], [not_]]
-conclusions:
-  conc1:
-    decision:
-      or: [chk_fail1, chk_fail2]
-    raises:
-      type: SystemWarning
-      message:
-"""
-
-DPKG_L = """
-ii  openssh-server                       1:8.2p1-4ubuntu0.4                                   amd64        secure shell (SSH) server, for secure access from remote machines
-"""  # noqa
+from . import test_ycheck_base
 
 
 class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-public-methods
 
-    @init_test_scenario(SCENARIO_W_EXPR_LIST.
-                        format(path=os.path.basename('data.txt')))
+    @utils.init_test_scenario(test_ycheck_base.SCENARIO_W_EXPR_LIST.
+                              format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': 'hello x\n'})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_expr_list(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -653,11 +34,11 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             msg = "yay list search"
             self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(SCENARIO_W_SEQ_SEARCH.
-                        format(path=os.path.basename('data.txt')))
+    @utils.init_test_scenario(test_ycheck_base.SCENARIO_W_SEQ_SEARCH.
+                              format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': ("blah blah\nit's the start\nblah "
                                           "blah\nit's the end")})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_seq_search(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -668,13 +49,13 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             msg = "yay seq searches worked!"
             self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(SCENARIO_CHECKS)
+    @utils.init_test_scenario(test_ycheck_base.SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n',
                              'uptime': (' 16:19:19 up 17:41,  2 users, '
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
                                  'Thu Feb 10 16:19:17 UTC 2022'})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_scenario_checks_false(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -688,8 +69,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
-    @init_test_scenario(SCENARIO_CHECKS)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.SCENARIO_CHECKS)
+    @utils.global_search_context
     def test_yaml_def_scenario_checks_requires(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -717,7 +98,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
-    @init_test_scenario(SCENARIO_CHECKS)
+    @utils.init_test_scenario(test_ycheck_base.SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log':
                              ('2021-03-29 00:31:00.000 an event\n'
                               '2021-03-30 00:32:00.000 an event\n'
@@ -728,7 +109,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
                                  'Thu Mar 31 16:19:17 UTC 2021'})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_scenario_checks_expr(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -807,16 +188,16 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             result = ExtraSearchConstraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
-    @init_test_scenario(YDEF_NESTED_LOGIC)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.YDEF_NESTED_LOGIC)
+    @utils.global_search_context
     def test_yaml_def_nested_logic(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['message'] for issue in issues]),
                          sorted(['conc1', 'conc3']))
 
-    @init_test_scenario(YAML_DEF_REQUIRES_MAPPED)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.YAML_DEF_REQUIRES_MAPPED)
+    @utils.global_search_context
     def test_yaml_def_mapped_overrides(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -832,8 +213,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.requires.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
-    @init_test_scenario(SCENARIO_W_ERROR)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.SCENARIO_W_ERROR)
+    @utils.global_search_context
     def test_failed_scenario_caught(self, global_searcher, mock_log1,
                                     mock_log2, _mock_log3,
                                     mock_log4, mock_log5, mock_log6):
@@ -841,7 +222,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         # Check caught exception logs
         args = ('failed to import and call property %s',
-                'tests.unit.test_ycheck_scenarios.TestProperty.i_dont_exist')
+                'tests.unit.test_ycheck_base.TestProperty.i_dont_exist')
         mock_log1.exception.assert_called_with(*args)
 
         args = ('requires.%s.result raised the following',
@@ -871,18 +252,18 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                        "detail")
                 self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(CONFIG_SCENARIO)
+    @utils.init_test_scenario(test_ycheck_base.CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
-    @global_search_context
+    @utils.global_search_context
     def test_config_scenario_fail(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['message'] for issue in issues],
                          ['cfg is bad', 'cfg is bad2'])
 
-    @init_test_scenario(CONFIG_SCENARIO)
+    @utils.init_test_scenario(test_ycheck_base.CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 102\n'})
-    @global_search_context
+    @utils.global_search_context
     def test_config_scenario_pass(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -892,8 +273,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.scenarios.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.'
                 'ScenarioException')
-    @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.CONCLUSION_W_INVALID_BUG_RAISES)
+    @utils.global_search_context
     def test_raises_w_invalid_types(self, global_searcher, mock_exc, mock_log,
                                     mock_log2):
         mock_exc.side_effect = Exception
@@ -921,8 +302,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                        "debug mode (--debug) to get more detail")
                 self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(VARS)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.VARS)
+    @utils.global_search_context
     def test_vars(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -944,8 +325,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.requires.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
-    @init_test_scenario(LOGIC_TEST)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.LOGIC_TEST)
+    @utils.global_search_context
     def test_logical_collection_and_with_fail(self, global_searcher, mock_log1,
                                               mock_log2, _mock_log3, mock_log4,
                                               mock_log5, mock_log6,
@@ -954,7 +335,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
         expected = [
             (mock_log1,
              ('failed to import and call property %s',
-              'tests.unit.test_ycheck_scenarios.TestProperty.doesntexist'),
+              'tests.unit.test_ycheck_base.TestProperty.doesntexist'),
              'exception'),
             (mock_log2,
              ('requires.%s.result raised the following', 'YPropertyVarOps'),
@@ -984,45 +365,49 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                        "detail")
                 self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.NESTED_LOGIC_TEST_NO_ISSUE)
+    @utils.global_search_context
     def test_logical_collection_nested_no_issue(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE)
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.NESTED_LOGIC_TEST_W_ISSUE)
+    @utils.global_search_context
     def test_logical_collection_nested_w_issue(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.NESTED_LOGIC_TEST_W_ISSUE,
+                              'myscenario')
+    @utils.global_search_context
     def test_scenarios_filter_none(self, global_searcher):
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.NESTED_LOGIC_TEST_W_ISSUE,
+                              'myscenario')
+    @utils.global_search_context
     def test_scenarios_filter_myscenario(self, global_searcher):
         HotSOSConfig.scenario_filter = 'myplugin.scenariogroup.myscenario'
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.NESTED_LOGIC_TEST_W_ISSUE,
+                              'myscenario')
+    @utils.global_search_context
     def test_scenarios_filter_nonexistent(self, global_searcher):
         HotSOSConfig.scenario_filter = 'blahblah'
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], [])
 
-    @init_test_scenario(CONCLUSION_PRIORITY_1, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.CONCLUSION_PRIORITY_1,
+                              'myscenario')
+    @utils.global_search_context
     def test_conclusion_priority_exec_highest(self, global_searcher):
         called = []
 
@@ -1043,8 +428,9 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         self.assertEqual(called, ['conc3'])
 
-    @init_test_scenario(CONCLUSION_PRIORITY_2, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(test_ycheck_base.CONCLUSION_PRIORITY_2,
+                              'myscenario')
+    @utils.global_search_context
     def test_conclusion_priority_exec_all_same(self, global_searcher):
         called = []
 

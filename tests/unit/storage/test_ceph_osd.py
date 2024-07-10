@@ -4,6 +4,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.plugins.storage import (
     ceph as ceph_core,
+    ceph_base,
 )
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import (
@@ -31,20 +32,20 @@ class StorageCephOSDTestsBase(utils.BaseTestCase):
 
 class TestCephOSDChecksBase(StorageCephOSDTestsBase):
 
-    @mock.patch.object(ceph_core, 'CLIHelper')
+    @mock.patch.object(ceph_base, 'CLIHelper')
     def test_get_date_secs(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.date.return_value = "1234\n"
-        self.assertEqual(ceph_core.CephDaemonBase.get_date_secs(), 1234)
+        self.assertEqual(ceph_base.CephDaemonBase.get_date_secs(), 1234)
 
     def test_get_date_secs_from_timestamp(self):
         date_string = "Thu Mar 25 10:55:05 MDT 2021"
-        self.assertEqual(ceph_core.CephDaemonBase.get_date_secs(date_string),
+        self.assertEqual(ceph_base.CephDaemonBase.get_date_secs(date_string),
                          1616691305)
 
     def test_get_date_secs_from_timestamp_w_tz(self):
         date_string = "Thu Mar 25 10:55:05 UTC 2021"
-        self.assertEqual(ceph_core.CephDaemonBase.get_date_secs(date_string),
+        self.assertEqual(ceph_base.CephDaemonBase.get_date_secs(date_string),
                          1616669705)
 
     def test_release_name(self):

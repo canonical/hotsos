@@ -4,7 +4,7 @@ mock:
     hotsos.core.plugins.sosreport.SOSReportChecksBase.timed_out_plugins:
       kwargs:
         new: ['ceph_mon']
-    hotsos.core.plugins.storage.ceph.CephCluster.osd_df_tree:
+    hotsos.core.plugins.storage.ceph_cluster.CephCluster.osd_df_tree:
       kwargs:
         new: null
     hotsos.core.plugins.sosreport.SOSReportChecksBase.plugin_runnable:

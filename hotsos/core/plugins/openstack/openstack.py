@@ -9,22 +9,36 @@ from hotsos.core.plugins.openstack.exceptions import (
     EXCEPTIONS_COMMON,
     BARBICAN_EXCEPTIONS,
     CASTELLAN_EXCEPTIONS,
-    CINDER_EXCEPTIONS,
     DESIGNATE_EXCEPTIONS,
+    HEAT_EXCEPTIONS,
+    MASAKARI_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_cinder import (
+    CINDER_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_glance import (
     GLANCE_EXCEPTIONS,
     GLANCE_STORE_EXCEPTIONS,
-    HEAT_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_keystone import (
     KEYSTONE_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_manila import (
     MANILA_EXCEPTIONS,
-    PLACEMENT_EXCEPTIONS,
-    PYTHON_LIBVIRT_EXCEPTIONS,
-    NOVA_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_neutron import (
     NEUTRON_EXCEPTIONS,
     NEUTRONCLIENT_EXCEPTIONS,
-    OCTAVIA_EXCEPTIONS,
-    OS_VIF_EXCEPTIONS,
     OVSDBAPP_EXCEPTIONS,
-    MASAKARI_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_nova import (
+    NOVA_EXCEPTIONS,
+    OS_VIF_EXCEPTIONS,
+    PLACEMENT_EXCEPTIONS,
+    PYTHON_LIBVIRT_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_octavia import (
+    OCTAVIA_EXCEPTIONS,
 )
 
 
@@ -262,9 +276,10 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   'keystone': KEYSTONE_EXCEPTIONS,
                   'manila': MANILA_EXCEPTIONS,
                   'masakari': MASAKARI_EXCEPTIONS,
-                  'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS,
+                  'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS +
+                  NEUTRONCLIENT_EXCEPTIONS,
                   'nova': NOVA_EXCEPTIONS + PYTHON_LIBVIRT_EXCEPTIONS +
-                  NEUTRONCLIENT_EXCEPTIONS + OS_VIF_EXCEPTIONS,
+                  OS_VIF_EXCEPTIONS,
                   'octavia': OCTAVIA_EXCEPTIONS,
                   'placement': PLACEMENT_EXCEPTIONS,
                   }

@@ -13,7 +13,7 @@ checks:
           ops: [[contains, civetweb]]
   is_rgw_using_civetweb:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCrushMap.is_rgw_using_civetweb
+      path: hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.is_rgw_using_civetweb
 conclusions:
   rgw_outdated_frontend:
     decision:

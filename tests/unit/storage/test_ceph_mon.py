@@ -4,7 +4,8 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.storage import (
-    ceph as ceph_core,
+    ceph_base,
+    ceph_cluster,
 )
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
@@ -180,49 +181,49 @@ class CephMonTestsBase(utils.BaseTestCase):
 class TestCoreCephCluster(CephMonTestsBase):
 
     def test_cluster_mons(self):
-        cluster_mons = ceph_core.CephCluster().mons
-        self.assertEqual([ceph_core.CephMon],
+        cluster_mons = ceph_cluster.CephCluster().mons
+        self.assertEqual([ceph_base.CephMon],
                          list(set(type(obj) for obj in cluster_mons)))
 
     def test_cluster_osds(self):
-        cluster_osds = ceph_core.CephCluster().osds
-        self.assertEqual([ceph_core.CephOSD],
+        cluster_osds = ceph_cluster.CephCluster().osds
+        self.assertEqual([ceph_base.CephOSD],
                          list(set(type(obj) for obj in cluster_osds)))
 
     def test_health_status(self):
-        health = ceph_core.CephCluster().health_status
+        health = ceph_cluster.CephCluster().health_status
         self.assertEqual(health, 'HEALTH_WARN')
 
     def test_osd_versions(self):
-        versions = ceph_core.CephCluster().daemon_versions('osd')
+        versions = ceph_cluster.CephCluster().daemon_versions('osd')
         self.assertEqual(versions, {'15.2.14': 3})
 
     def test_mon_versions(self):
-        versions = ceph_core.CephCluster().daemon_versions('mon')
+        versions = ceph_cluster.CephCluster().daemon_versions('mon')
         self.assertEqual(versions, {'15.2.14': 3})
 
     def test_mds_versions(self):
-        versions = ceph_core.CephCluster().daemon_versions('mds')
+        versions = ceph_cluster.CephCluster().daemon_versions('mds')
         self.assertEqual(versions, {})
 
     def test_rgw_versions(self):
-        versions = ceph_core.CephCluster().daemon_versions('rgw')
+        versions = ceph_cluster.CephCluster().daemon_versions('rgw')
         self.assertEqual(versions, {})
 
     def test_osd_release_name(self):
-        release_names = ceph_core.CephCluster().daemon_release_names('osd')
+        release_names = ceph_cluster.CephCluster().daemon_release_names('osd')
         self.assertEqual(release_names, {'octopus': 3})
 
     def test_mon_release_name(self):
-        release_names = ceph_core.CephCluster().daemon_release_names('mon')
+        release_names = ceph_cluster.CephCluster().daemon_release_names('mon')
         self.assertEqual(release_names, {'octopus': 3})
 
     def test_cluster_osd_ids(self):
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         self.assertEqual([osd.id for osd in cluster.osds], [0, 1, 2])
 
     def test_crush_rules(self):
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         expected = {'replicated_rule': {'id': 0, 'type': 'replicated',
                     'pools': ['device_health_metrics (1)', 'glance (2)',
                               'cinder-ceph (3)', 'nova (4)']}}
@@ -232,7 +233,7 @@ class TestCoreCephCluster(CephMonTestsBase):
         result = {'mgr': ['15.2.14'],
                   'mon': ['15.2.14'],
                   'osd': ['15.2.14']}
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         self.assertEqual(cluster.ceph_daemon_versions_unique(), result)
         self.assertTrue(cluster.ceph_versions_aligned)
         self.assertTrue(cluster.mon_versions_aligned_with_cluster)
@@ -245,30 +246,30 @@ class TestCoreCephCluster(CephMonTestsBase):
                           '15.2.11'],
                   'osd': ['15.2.11',
                           '15.2.13']}
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         self.assertEqual(cluster.ceph_daemon_versions_unique(), result)
         self.assertFalse(cluster.ceph_versions_aligned)
         self.assertFalse(cluster.mon_versions_aligned_with_cluster)
 
     def test_crushmap_equal_buckets(self):
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         buckets = cluster.crush_map.crushmap_equal_buckets
         self.assertEqual(buckets, [])
 
     @utils.create_data_root({'sos_commands/ceph_mon/ceph_osd_crush_dump':
                              CEPH_OSD_CRUSH_DUMP})
     def test_crushmap_mixed_buckets(self):
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         buckets = cluster.crush_map.crushmap_mixed_buckets
         self.assertEqual(buckets, ['default'])
 
     def test_crushmap_no_mixed_buckets(self):
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         buckets = cluster.crush_map.crushmap_mixed_buckets
         self.assertEqual(buckets, [])
 
     def test_mgr_modules(self):
-        cluster = ceph_core.CephCluster()
+        cluster = ceph_cluster.CephCluster()
         expected = ['balancer',
                     'crash',
                     'devicehealth',
@@ -344,8 +345,9 @@ class TestCephMonSummary(CephMonTestsBase):
         self.assertEqual(actual['crush-rules'], expected['crush-rules'])
         self.assertEqual(actual['versions'], expected['versions'])
 
-    @mock.patch('hotsos.core.plugins.storage.ceph.CephCluster.pool_id_to_name',
-                lambda *args: 'foo')
+    @mock.patch(
+        'hotsos.core.plugins.storage.ceph_cluster.CephCluster.pool_id_to_name',
+        lambda *args: 'foo')
     @utils.create_data_root({'sos_commands/ceph_mon/json_output/'
                              'ceph_pg_dump_--format_json-pretty':
                              json.dumps(PG_DUMP_JSON_DECODED)})
@@ -358,7 +360,7 @@ class TestCephMonSummary(CephMonTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['large-omap-pgs'], expected)
 
-    @mock.patch.object(ceph_core, 'CLIHelper')
+    @mock.patch.object(ceph_cluster, 'CLIHelper')
     def test_ceph_pg_imbalance(self, mock_helper):
         result = self.setup_fake_cli_osds_imbalanced_pgs(mock_helper)
         inst = ceph_summary.CephSummary()
