@@ -2,9 +2,9 @@ import abc
 import copy
 from collections import UserDict
 
-
-class ConfigException(Exception):
-    """ Generic exception for config handlers. """
+from hotsos.core.exceptions import (
+    NameAlreadyRegisteredError,
+)
 
 
 class ConfigOpt():
@@ -164,8 +164,9 @@ class RegisteredOpts(UserDict):
             a = [name.lower() for name in data]
             b = [name.lower() for name in optgroup]
             if set(a).intersection(b):
-                raise Exception(f"optgroup '{optgroup.name}' contains one or "
-                                "more names that have already been registered")
+                raise NameAlreadyRegisteredError(
+                    f"optgroup '{optgroup.name}' contains one or "
+                    "more names that have already been registered")
 
             data.update(optgroup)
 
@@ -177,7 +178,8 @@ class RegisteredOpts(UserDict):
                 item = group.opts[key].value_type(item)
                 break
         else:
-            raise Exception(f"config option '{key}' not found in any optgrpup")
+            raise KeyError(
+                f"config option '{key}' not found in any optgroup")
 
         self.data[key] = item
 
@@ -192,7 +194,7 @@ class ConfigMeta(abc.ABCMeta):
         if key in cls.CONFIG:
             return cls.CONFIG[key]
 
-        raise ConfigException(f"fetching unknown config '{key}'.")
+        raise KeyError(f"fetching unknown config '{key}'.")
 
     def __setattr__(cls, key, val):
         if key in cls.CONFIG:
@@ -200,7 +202,7 @@ class ConfigMeta(abc.ABCMeta):
             return
         if key not in ['__abstractmethods__', '_abc_impl', 'CONFIG',
                        'REGISTERED']:
-            raise ConfigException(f"setting unknown config '{key}'.")
+            raise KeyError(f"setting unknown config '{key}'.")
 
         super().__setattr__(key, val)
 

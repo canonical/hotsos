@@ -14,6 +14,11 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log, logging, LoggingManager
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.exceptions import (
+    NameAlreadyRegisteredError,
+    ExpectationNotMetError,
+    InvalidFileFormatError
+)
 
 # Must be set prior to other imports
 TESTS_DIR = os.environ["TESTS_DIR"]
@@ -55,9 +60,9 @@ def load_templated_tests(path):
         for testdef in find_all_templated_tests(_path):
             tg = TemplatedTestGenerator(path, testdef)
             if hasattr(cls, tg.test_method_name):
-                raise Exception("test name conflict for "
-                                f"'{tg.test_method_name}' - "
-                                "a test with this name already exists")
+                raise NameAlreadyRegisteredError(
+                    f"a test with name '{tg.test_method_name}'"
+                    " already exists")
 
             count += 1
             setattr(cls, tg.test_method_name, tg.test_method)
@@ -109,8 +114,9 @@ class TemplatedTest():
             return
 
         if 'bugs-detected' not in actual:
-            raise Exception("test expects one or more bugs to have "
-                            "been raised did not find any.")
+            raise ExpectationNotMetError(
+                "test expects one or more bugs to have "
+                "been raised but did not find any.")
 
         _actual = {}
         for item in actual['bugs-detected']:
@@ -135,8 +141,9 @@ class TemplatedTest():
             test_inst.assertNotIn('potential-issues', actual)
             return
         if 'potential-issues' not in actual:
-            raise Exception("test expects one or more issues to have "
-                            "been raised did not find any.")
+            raise ExpectationNotMetError(
+                "test expects one or more issues to have "
+                "been raised did not find any.")
         _expected = {}
         for itype, items in expected.items():
             if itype not in _expected:
@@ -218,17 +225,19 @@ class TemplatedTestGenerator():
         self.test_def_path = test_def_path
 
         if not os.path.exists(test_def_path):
-            raise Exception(f"{test_def_path} does not exist")
+            raise FileNotFoundError(f"{test_def_path} does not exist")
 
         with open(test_def_path, encoding='utf-8') as fd:
             self.testdef = yaml.safe_load(fd) or {}
-        if not self.testdef or not os.path.exists(test_def_path):
-            raise Exception(f"invalid test template at {test_def_path}")
+
+        if not self.testdef:
+            raise InvalidFileFormatError(
+                f"invalid test template at {test_def_path}")
 
         _diff = set(self.testdef.keys()).difference(TEST_TEMPLATE_SCHEMA)
         if _diff:
-            raise Exception("invalid keys found in test template "
-                            f"{test_def_path}: {_diff}")
+            raise KeyError("invalid keys found in test template "
+                           f"{test_def_path}: {_diff}")
 
         self.test_method = self._generate()
 

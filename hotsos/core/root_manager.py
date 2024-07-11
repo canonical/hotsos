@@ -8,6 +8,7 @@ from functools import cached_property
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.log import log
+from hotsos.core.exceptions import MismatchError, InvalidPathError
 
 
 class DataRootManager():
@@ -101,7 +102,7 @@ class DataRootManager():
 
             return target
 
-        raise Exception(f"invalid data root '{path}'")
+        raise InvalidPathError(f"invalid data root '{path}'")
 
     def _type(self, path):
         if path == '/':
@@ -126,7 +127,8 @@ class DataRootManager():
         path = self.data_root
         if path == '/':
             if HotSOSConfig.data_root != self.data_root:
-                raise Exception(f"HotSOSConfig.data_root != {self.data_root}")
+                raise MismatchError(
+                    f"HotSOSConfig.data_root != {self.data_root}")
 
             return CLIHelper().hostname()
 

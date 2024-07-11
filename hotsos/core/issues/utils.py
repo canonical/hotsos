@@ -48,8 +48,8 @@ class IssuesStoreBase(abc.ABC):
     """ Base class for issue store backend implementatios. """
     def __init__(self):
         if not os.path.isdir(HotSOSConfig.plugin_tmp_dir):
-            raise Exception(f"plugin tmp dir '{HotSOSConfig.plugin_tmp_dir}' "
-                            "not found")
+            raise FileNotFoundError(
+                f"plugin tmp dir '{HotSOSConfig.plugin_tmp_dir}' not found")
 
     @property
     @abc.abstractmethod

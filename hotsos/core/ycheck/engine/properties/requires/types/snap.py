@@ -44,8 +44,9 @@ class SnapCheckItems(PackageCheckItemsBase):
         for pkg_info in pkg_infos:
             # Check if there are unrecognized keys.
             if not pkg_info.keys() <= valid_keys:
-                raise Exception(f"Unrecognized key name {pkg_info.keys()}."
-                                f"Valid key names are {valid_keys}")
+                raise KeyError(
+                    f"Unrecognized key name {pkg_info.keys()}."
+                    f"Valid key names are {valid_keys}")
 
             if "revision" in pkg_info:
                 sub = pkg_info["revision"]

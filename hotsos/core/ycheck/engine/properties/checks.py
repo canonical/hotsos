@@ -15,6 +15,7 @@ from hotsos.core.ycheck.engine.properties.search import (
     YPropertySearch,
 )
 from hotsos.core.ycheck.engine.properties.inputdef import YPropertyInput
+from hotsos.core.exceptions import NotYetInitializedError, PreconditionError
 
 
 class CheckBase():
@@ -78,8 +79,8 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         """
         global_results = self.context.global_searcher.results
         if global_results is None:
-            raise Exception("no search results provided to check "
-                            f"'{self.check_name}'")
+            raise PreconditionError("no search results provided to check "
+                                    f"'{self.check_name}'")
 
         tag = self.search.unique_search_tag  # pylint: disable=E1101
 
@@ -207,7 +208,7 @@ class YPropertyChecks(YPropertyOverrideBase):
     def _checks(self):
         log.debug("parsing checks section")
         if not self._initialised:
-            raise Exception("checks not yet initialised")
+            raise NotYetInitializedError("checks not yet initialised")
 
         resolved = []
         for name, content in self.content.items():

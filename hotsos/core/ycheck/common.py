@@ -9,6 +9,7 @@ from hotsos.core.search import (
 )
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.search import CommonTimestampMatcher
+from hotsos.core.exceptions import NameNotSetError
 
 
 class SearchRegistryError(Exception):
@@ -272,9 +273,10 @@ class GlobalSearcherAutoRegisterBase(metaclass=GlobalSearcherAutoRegisterMeta):
         search belongs.
         """
         if self.plugin_name is None:
-            raise Exception(f"{self.__class__.__name__}.plugin_name must set "
-                            "to the name of the plugin in which it will run "
-                            f"(currently={self.plugin_name})")
+            raise NameNotSetError(
+                f"{self.__class__.__name__}.plugin_name must be set "
+                "to the name of the plugin in which it will run "
+                f"(currently={self.plugin_name})")
 
         return plugin_name == self.plugin_name
 
