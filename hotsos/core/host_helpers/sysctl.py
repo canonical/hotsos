@@ -68,7 +68,7 @@ class SYSCtlConfHelper():
 
         setters = {}
         unsetters = {}
-        with open(self.path) as fd:
+        with open(self.path, encoding='utf-8') as fd:
             for line in fd.readlines():
                 if line.startswith("#"):
                     continue

@@ -102,14 +102,14 @@ class NeutronHAInfo():
             if not os.path.exists(state_path):
                 continue
 
-            with open(state_path) as fd:
+            with open(state_path, encoding='utf-8') as fd:
                 uuid = os.path.basename(entry)
                 state = fd.read().strip()
                 router = NeutronRouter(uuid, state)
 
             keepalived_conf_path = os.path.join(entry, 'keepalived.conf')
             if os.path.isfile(keepalived_conf_path):
-                with open(keepalived_conf_path) as fd:
+                with open(keepalived_conf_path, encoding='utf-8') as fd:
                     for line in fd:
                         expr = r'.+ virtual_router_id (\d+)'
                         ret = re.compile(expr).search(line)

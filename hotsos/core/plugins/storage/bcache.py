@@ -27,7 +27,7 @@ class BcacheConfig(ConfigBase):
         if not os.path.exists(cfg):
             return None
 
-        with open(cfg) as fd:
+        with open(cfg, encoding='utf-8') as fd:
             return fd.read().strip()
 
 
@@ -63,7 +63,7 @@ class BDev():
     def __getattr__(self, key):
         cfg = os.path.join(self.path, key)
         if os.path.exists(cfg):
-            with open(cfg) as fd:
+            with open(cfg, encoding='utf-8') as fd:
                 return fd.read().strip()
 
         raise AttributeError(f"{key} not found in bdev config")
@@ -86,7 +86,7 @@ class Cacheset():
     def __getattr__(self, key):
         cfg = os.path.join(self.path, key)
         if os.path.exists(cfg):
-            with open(cfg) as fd:
+            with open(cfg, encoding='utf-8') as fd:
                 return fd.read().strip()
 
         raise AttributeError(f"{key} not found in cacheset config")

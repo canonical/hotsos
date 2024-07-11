@@ -29,7 +29,7 @@ class KernelConfig(host_helpers.ConfigBase):
         if not self.exists:
             return
 
-        with open(self.path) as fd:
+        with open(self.path, encoding='utf-8') as fd:
             for line in fd:
                 expr = r'.*\s+isolcpus=([0-9\-,]+)\s*.*'
                 ret = re.compile(expr).match(line)

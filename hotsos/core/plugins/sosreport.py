@@ -38,7 +38,7 @@ class SOSReportChecks(PluginPartBase):
         if not os.path.exists(path):
             return None
 
-        with open(path) as fd:
+        with open(path, encoding='utf-8') as fd:
             for line in fd:
                 if not line.startswith('sosreport:'):
                     continue

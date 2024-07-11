@@ -79,7 +79,7 @@ class KnownBugsStore(IssuesStoreBase):
         if not os.path.exists(self.store_path):
             return {}
 
-        with open(self.store_path) as fd:
+        with open(self.store_path, encoding='utf-8') as fd:
             bugs = yaml.safe_load(fd)
         if bugs and IssuesManager.SUMMARY_OUT_BUGS_ROOT in bugs:
             return bugs
@@ -94,7 +94,7 @@ class KnownBugsStore(IssuesStoreBase):
         else:
             current = {IssuesManager.SUMMARY_OUT_BUGS_ROOT: [entry.content]}
 
-        with open(self.store_path, 'w') as fd:
+        with open(self.store_path, 'w', encoding='utf-8') as fd:
             fd.write(yaml.dump(current))
 
 
@@ -112,7 +112,7 @@ class IssuesStore(IssuesStoreBase):
         if not os.path.exists(self.store_path):
             return {}
 
-        with open(self.store_path) as fd:
+        with open(self.store_path, encoding='utf-8') as fd:
             issues = yaml.safe_load(fd)
         if issues and IssuesManager.SUMMARY_OUT_ISSUES_ROOT in issues:
             return issues
@@ -131,7 +131,7 @@ class IssuesStore(IssuesStoreBase):
         else:
             current = {key: [entry.content]}
 
-        with open(self.store_path, 'w') as fd:
+        with open(self.store_path, 'w', encoding='utf-8') as fd:
             fd.write(yaml.dump(current))
 
 

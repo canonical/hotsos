@@ -285,7 +285,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
                 pkg: '@checks.c1.requires.package'
         """  # noqa
         with TempScenarioDefs() as tmpscenarios:
-            with open(tmpscenarios.path, 'w') as fd:
+            with open(tmpscenarios.path, 'w', encoding='utf-8') as fd:
                 fd.write(scenario)
 
             with GlobalSearcher() as searcher:
@@ -314,7 +314,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
                 pkg: '@checks.c1.requires.package'
         """  # noqa
         with TempScenarioDefs() as tmpscenarios:
-            with open(tmpscenarios.path, 'w') as fd:
+            with open(tmpscenarios.path, 'w', encoding='utf-8') as fd:
                 fd.write(scenario)
 
             with GlobalSearcher() as searcher:
@@ -343,7 +343,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
                 pkg: '@checks.c1.requires.package'
         """  # noqa
         with TempScenarioDefs() as tmpscenarios:
-            with open(tmpscenarios.path, 'w') as fd:
+            with open(tmpscenarios.path, 'w', encoding='utf-8') as fd:
                 fd.write(scenario)
 
             with GlobalSearcher() as searcher:
@@ -371,7 +371,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
                 pkg: '@checks.c1.requires.package'
         """
         with TempScenarioDefs() as tmpscenarios:
-            with open(tmpscenarios.path, 'w') as fd:
+            with open(tmpscenarios.path, 'w', encoding='utf-8') as fd:
                 fd.write(scenario)
 
             with GlobalSearcher() as searcher:
@@ -402,7 +402,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
                 pkg: '@checks.c1.requires.package'
         """
         with TempScenarioDefs() as tmpscenarios:
-            with open(tmpscenarios.path, 'w') as fd:
+            with open(tmpscenarios.path, 'w', encoding='utf-8') as fd:
                 fd.write(scenario)
 
             with GlobalSearcher() as searcher:
@@ -434,7 +434,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
                 pkg: '@checks.c1.requires.package'
         """
         with TempScenarioDefs() as tmpscenarios:
-            with open(tmpscenarios.path, 'w') as fd:
+            with open(tmpscenarios.path, 'w', encoding='utf-8') as fd:
                 fd.write(scenario)
 
             with GlobalSearcher() as searcher:

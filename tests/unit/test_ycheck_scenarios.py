@@ -64,7 +64,7 @@ def init_test_scenario(yaml_contents, scenario_name=None):
                 sname = scenario_name or 'test'
                 yfile = os.path.join(yroot, f'{sname}.yaml')
                 os.makedirs(os.path.dirname(yfile))
-                with open(yfile, 'w') as fd:
+                with open(yfile, 'w', encoding='utf-8') as fd:
                     fd.write(yaml_contents)
                 return f(*args, **kwargs)
 
@@ -732,7 +732,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @staticmethod
     def _create_search_results(path, contents=None):
         if contents:
-            with open(path, 'w') as fd:
+            with open(path, 'w', encoding='utf-8') as fd:
                 for line in contents:
                     fd.write(line)
 

@@ -330,7 +330,7 @@ class TestOpenstackBase(utils.BaseTestCase):
         if self.ip_link_show is None:
             path = os.path.join(HotSOSConfig.data_root,
                                 "sos_commands/networking/ip_-s_-d_link")
-            with open(path) as fd:
+            with open(path, encoding='utf-8') as fd:
                 self.ip_link_show = fd.readlines()
 
 

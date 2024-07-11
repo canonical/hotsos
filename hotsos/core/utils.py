@@ -24,7 +24,7 @@ def mktemp_dump(data, prefix=None):
     else:
         ftmp = tempfile.mktemp(dir=HotSOSConfig.plugin_tmp_dir)
 
-    with open(ftmp, 'w') as fd:
+    with open(ftmp, 'w', encoding='utf-8') as fd:
         fd.write(data)
 
     return ftmp

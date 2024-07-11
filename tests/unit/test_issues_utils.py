@@ -20,7 +20,8 @@ class TestIssuesUtils(utils.BaseTestCase):
 
     def test_get_issues(self):
         raised_issues = {}
-        with open(os.path.join(self.plugin_tmp_dir, 'yaml'), 'w') as fd:
+        with open(os.path.join(self.plugin_tmp_dir, 'yaml'),
+                  'w', encoding='utf-8') as fd:
             fd.write(yaml.dump(raised_issues))
 
         mgr = IssuesManager()
@@ -81,7 +82,8 @@ class TestKnownBugsUtils(utils.BaseTestCase):
                         'message': None,
                         'origin': 'testplugin.testpart'}]}
         with open(os.path.join(self.plugin_tmp_dir,
-                               'known_bugs.yaml'), 'w') as fd:
+                               'known_bugs.yaml'),
+                  'w', encoding='utf-8') as fd:
             fd.write(yaml.dump(known_bugs))
 
         ret = IssuesManager().load_bugs()
@@ -108,7 +110,8 @@ class TestKnownBugsUtils(utils.BaseTestCase):
                         'message': None,
                         'origin': 'testplugin.testpart'}]}
         with open(os.path.join(self.plugin_tmp_dir,
-                               'known_bugs.yaml'), 'w') as fd:
+                               'known_bugs.yaml'),
+                  'w', encoding='utf-8') as fd:
             fd.write(yaml.dump(known_bugs))
 
         mgr = IssuesManager()

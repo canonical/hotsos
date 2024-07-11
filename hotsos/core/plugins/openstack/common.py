@@ -100,7 +100,7 @@ class OpenstackBase():
                                'etc/openstack-release')
         # this exists as of Jammy/Yoga
         if os.path.exists(relpath):
-            with open(relpath) as fd:
+            with open(relpath, encoding='utf-8') as fd:
                 return fd.read().partition('=')[2].strip()
 
         relname = 'unknown'
@@ -199,7 +199,7 @@ class OpenstackBase():
         if not self.ssl_enabled:
             return certificate_paths
 
-        with open(self.apache2_ssl_config_file) as fd:
+        with open(self.apache2_ssl_config_file, encoding='utf-8') as fd:
             for line in fd:
                 ret = re.search(r'SSLCertificateFile /(\S+)', line)
                 if ret:
@@ -232,7 +232,7 @@ class OpenstackBase():
         if not self.ssl_enabled:
             return False
 
-        with open(self.apache2_ssl_config_file) as fd:
+        with open(self.apache2_ssl_config_file, encoding='utf-8') as fd:
             for line in fd:
                 if line.strip().startswith('#'):
                     continue

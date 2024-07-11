@@ -89,7 +89,7 @@ class HotYValidate(TestCase):
         for scenario_file in scenario_files:
             logging.debug("processing scenario file [%s]", scenario_file)
 
-            with open(scenario_file) as sfilestream:
+            with open(scenario_file, encoding='utf-8') as sfilestream:
                 sy = yaml.safe_load(sfilestream)
 
                 # If the YAML file contains "requires" section

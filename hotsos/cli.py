@@ -78,7 +78,7 @@ def get_repo_info():
     """
     repo_info = os.environ.get('REPO_INFO_PATH')
     if repo_info and os.path.exists(repo_info):
-        with open(repo_info) as fd:
+        with open(repo_info, encoding='utf-8') as fd:
             return fd.read().strip()
 
     # pypi
@@ -88,7 +88,7 @@ def get_repo_info():
     # pylint: disable-next=W4902
     with resources.path('hotsos', '.repo-info') as repo_info:
         if repo_info and os.path.exists(repo_info):
-            with open(repo_info) as fd:
+            with open(repo_info, encoding='utf-8') as fd:
                 return fd.read().strip()
 
     try:

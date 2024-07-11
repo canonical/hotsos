@@ -40,14 +40,14 @@ class JujuMachine():
         # filter out 'sanitised' lines since they will not be valid yaml
         ftmp = utils.mktemp_dump("")
         try:
-            with open(ftmp, 'w') as fdtmp:
+            with open(ftmp, 'w', encoding='utf-8') as fdtmp:
                 expr = re.compile(r"\*{9}")
-                with open(path) as fd:
+                with open(path, encoding='utf-8') as fd:
                     for line in fd:
                         if not expr.search(line):
                             fdtmp.write(line)
 
-            with open(ftmp) as fd:
+            with open(ftmp, encoding='utf-8') as fd:
                 cfg = yaml.safe_load(fd)
         finally:
             os.remove(ftmp)
@@ -157,7 +157,7 @@ class JujuUnit():
         if not os.path.exists(path):
             return info
 
-        with open(path) as fd:
+        with open(path, encoding='utf-8') as fd:
             for line in fd:
                 if line.startswith('commit-short:'):
                     sha1_short = line.partition(' ')[2]
