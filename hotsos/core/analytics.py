@@ -1,5 +1,6 @@
 import statistics
 from datetime import datetime
+from dataclasses import dataclass
 
 
 class EventCollection():
@@ -151,24 +152,23 @@ class EventCollection():
                 start_item["end"] = end_ts
 
 
+@dataclass(frozen=True)
 class SearchResultIndices():
     """
     Used to know where to find required information within a SearchResult.
-    """
-    def __init__(self, day_idx=1, secs_idx=2, event_id_idx=3,
-                 metadata_idx=None, metadata_key=None):
-        """
-        The indexes refer to python.re groups.
 
-        The minimum required information that a result must contain is day,
-        secs and event_id. Results will be referred to using whatever event_id
-        is set to.
-        """
-        self.day = day_idx
-        self.secs = secs_idx
-        self.event_id = event_id_idx
-        self.metadata = metadata_idx
-        self.metadata_key = metadata_key
+    The indexes refer to python.re groups.
+
+    The minimum required information that a result must contain is day,
+    secs and event_id. Results will be referred to using whatever event_id
+    is set to.
+    """
+
+    day: int = 1
+    secs: int = 2
+    event_id: int = 3
+    metadata: int = None
+    metadata_key: str = None
 
 
 class LogEventStats():

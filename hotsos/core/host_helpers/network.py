@@ -1,6 +1,7 @@
 import copy
 import os
 import re
+from dataclasses import dataclass
 
 # NOTE: we import direct from searchkit rather than hotsos.core.search to
 #       avoid circular dependency issues.
@@ -27,17 +28,20 @@ IP_IFACE_VXLAN_INFO = r"\s+(vxlan) id (\d+) local (\S+) dev (\S+) .+"
 IP_EOF = r"^$"
 
 
+@dataclass()
 class NetworkPort(HostHelpersBase):
     """ Representation of a network port. """
-    def __init__(self, name, addresses, hwaddr, state, encap_info,
-                 mtu, namespace=None):
-        self.name = name
-        self.addresses = addresses
-        self.hwaddr = hwaddr
-        self.state = state
-        self.encap_info = encap_info
-        self.mtu = mtu
-        self.namespace = namespace
+
+    name: str
+    addresses: list
+    hwaddr: str
+    state: str
+    encap_info: str
+    mtu: str
+    namespace: str = None
+
+    def __post_init__(self):
+        # Required for initializing the self.cache
         super().__init__()
 
     @property

@@ -6,6 +6,7 @@ import sys
 import tempfile
 import unittest
 from unittest import mock
+from dataclasses import dataclass, field
 
 import yaml
 from hotsos.core.config import HotSOSConfig
@@ -75,6 +76,7 @@ def load_templated_tests(path):
     return _inner
 
 
+@dataclass(frozen=True)
 class TemplatedTest():
     """
     Helper for working with templated tests i.e. Unit tests written in yaml
@@ -82,23 +84,27 @@ class TemplatedTest():
 
     This class implements the functionality to process the test results.
     """
-    def __init__(self, target_path, data_root, mocks, expected_bugs,
-                 expected_issues, sub_root):
-        self.sub_root = sub_root
-        self.target_path = target_path
 
+    target_path: str
+    data_root: dict
+    sub_root: str
+    mocks: dict = field(default_factory=lambda: {})
+    expected_bugs: dict = field(default_factory=lambda: {})
+    expected_issues: dict = field(default_factory=lambda: {})
+
+    def __post_init__(self):
         if not os.path.exists(self.target_scenario_path):
             raise FileNotFoundError("Scenario file "
                                     f"{self.target_scenario_path}"
                                     " not found!")
-        self.data_root = data_root
-        self.mocks = mocks
-        self.expected_bugs = expected_bugs
-        self.expected_issues = expected_issues
 
     @property
     def target_scenario_path(self):
-        return os.path.join(DEFS_DIR, self.sub_root, self.target_path)
+        return os.path.join(
+            DEFS_DIR,
+            self.sub_root,
+            self.target_path
+        )
 
     @staticmethod
     def check_raised_bugs(test_inst, expected, actual):
@@ -172,7 +178,8 @@ class TemplatedTest():
         @create_data_root(self.data_root.get('files'),
                           self.data_root.get('copy-from-original'))
         @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                    new=is_def_filter(self.target_path, self.sub_root))
+                    new=is_def_filter(self.target_path,
+                                      self.sub_root))
         def inner(test_inst):
             patch_contexts = []
             if 'patch' in self.mocks:
@@ -184,7 +191,8 @@ class TemplatedTest():
                     c.start()
 
             if 'patch.object' in self.mocks:
-                for target, patch_params in self.mocks['patch.object'].items():
+                for target, patch_params in \
+                        self.mocks['patch.object'].items():
                     mod, _, cls_name = target.rpartition('.')
                     obj = getattr(importlib.import_module(mod), cls_name)
                     patch_args = patch_params.get('args', [])
@@ -204,9 +212,16 @@ class TemplatedTest():
                 for c in patch_contexts:
                     c.stop()
 
-            self.check_raised_bugs(test_inst, self.expected_bugs, raised_bugs)
-            self.check_raised_issues(test_inst, self.expected_issues,
-                                     raised_issues)
+            self.check_raised_bugs(
+                test_inst,
+                self.expected_bugs,
+                raised_bugs
+            )
+            self.check_raised_issues(
+                test_inst,
+                self.expected_issues,
+                raised_issues
+            )
 
         return inner
 
@@ -269,12 +284,14 @@ class TemplatedTestGenerator():
 
     def _generate(self):
         """ Generate a test from a template. """
-        data_root = self.testdef.get('data-root', {})
-        mocks = self.testdef.get('mock', {})
-        bugs = self.testdef.get('raised-bugs')
-        issues = self.testdef.get('raised-issues')
-        return TemplatedTest(self.target_path, data_root, mocks, bugs,
-                             issues, self.test_defs_root)()
+        return TemplatedTest(
+            target_path=self.target_path,
+            sub_root=self.test_defs_root,
+            data_root=self.testdef.get("data-root", {}),
+            mocks=self.testdef.get("mock", {}),
+            expected_bugs=self.testdef.get("raised-bugs"),
+            expected_issues=self.testdef.get("raised-issues"),
+        )()
 
 
 def expand_log_template(template, hours=None, mins=None, secs=None,

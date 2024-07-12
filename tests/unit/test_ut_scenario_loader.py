@@ -220,8 +220,10 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                 fd.write(FAKE_SCENARIO)
             with mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp):
                 utils.TemplatedTest(
-                    os.path.join(dtmp, 'test1.yaml'),
-                    {}, [], [], [], '/')()(self)
+                    target_path=os.path.join(dtmp, "test1.yaml"),
+                    data_root={},
+                    sub_root="/",
+                )()(self)
 
     def test_scenarios(self):
         with tempfile.TemporaryDirectory() as dtmp, \

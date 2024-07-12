@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 from functools import cached_property
+from dataclasses import dataclass, field
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
@@ -300,6 +301,40 @@ class OpenstackConfig(host_helpers.IniConfigBase):
         return self.get(key)
 
 
+@dataclass(frozen=True)
+class OSTProjectParameters:
+    """Parameters for OSTProject class.
+
+        @param name: name of this project
+        @param config: dict of config files keyed by a label used to identify
+                       them. All projects should have a config file labelled
+                       'main'.
+        @param apt_core_alt: optional list of apt packages (regex) that are
+                             used by this project where the name of the project
+                             is not the same as the name used for its packages.
+        @param systemd_masked_services: optional list of services that are
+               expected to be masked in systemd e.g. if they are actually being
+               run by apache.
+        @param systemd_deprecated_services: optional list of services that are
+               deprecated. This can be helpful if e.g. you want to skip checks
+               for resources related to these services.
+        @param systemd_extra_services: optional list of systemd services that
+               are used. This is useful e.g. if components are run under
+               apache or if a package runs components using services whose name
+               don't match the name of the project.
+        @param log_path_overrides: specify log path for a given service that
+                                   overrides the default format i.e.
+                                   /var/log/<project>/<svc>.log.
+    """
+    name: str = None
+    config: dict = None
+    apt_core_alt: list = None
+    systemd_masked_services: list = field(default_factory=lambda: [])
+    systemd_deprecated_services: list = field(default_factory=lambda: [])
+    systemd_extra_services: list = field(default_factory=lambda: [])
+    log_path_overrides: dict = field(default_factory=lambda: {})
+
+
 class OSTProject():
     """
     Representation of an Openstack project/service.
@@ -309,11 +344,7 @@ class OSTProject():
     SVC_VALID_SUFFIX = r'[0-9a-zA-Z-_]*'
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
-    def __init__(self, name, config=None, apt_core_alt=None,
-                 systemd_masked_services=None,
-                 systemd_deprecated_services=None,
-                 log_path_overrides=None,
-                 systemd_extra_services=None):
+    def __init__(self, params: OSTProjectParameters):
         """
         @param name: name of this project
         @param config: dict of config files keyed by a label used to identify
@@ -336,26 +367,34 @@ class OSTProject():
                apache or if a package runs components using services whose name
                don't match the name of the project.
         """
-        self.name = name
-        self.packages_deps = [self.PY_CLIENT_PREFIX.format(name)]
-        self.packages_core = [name]
-        if apt_core_alt:
-            self.packages_core.extend(apt_core_alt)
-            for c in apt_core_alt:
+        self.name = params.name
+        self.packages_deps = [self.PY_CLIENT_PREFIX.format(params.name)]
+        self.packages_core = [params.name]
+        if params.apt_core_alt:
+            self.packages_core.extend(params.apt_core_alt)
+            for c in params.apt_core_alt:
                 self.packages_deps.append(self.PY_CLIENT_PREFIX.format(c))
 
         self.config = {}
-        if config:
-            for label, path in config.items():
-                path = os.path.join(HotSOSConfig.data_root, 'etc', name, path)
+        if params.config:
+            for label, path in params.config.items():
+                path = os.path.join(
+                    HotSOSConfig.data_root,
+                    "etc",
+                    params.name,
+                    path
+                )
                 self.config[label] = OpenstackConfig(path)
 
-        self.systemd_extra_services = systemd_extra_services or []
-        self.systemd_masked_services = systemd_masked_services or []
-        self.systemd_deprecated_services = systemd_deprecated_services or []
-        self.logs_path = os.path.join('var/log', name)
-        self.log_path_overrides = log_path_overrides or {}
-        self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(name, [])
+        self.systemd_extra_services = params.systemd_extra_services
+        self.systemd_masked_services = params.systemd_masked_services
+        self.systemd_deprecated_services = params.systemd_deprecated_services
+        self.logs_path = os.path.join("var/log", params.name)
+        self.log_path_overrides = params.log_path_overrides
+        self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(
+            params.name,
+            []
+        )
 
     @cached_property
     def installed(self):
@@ -544,7 +583,8 @@ class OSTProjectCatalog():
         return sorted(masked)
 
     def add(self, name, *args, **kwargs):
-        self._projects[name] = OSTProject(name, *args, **kwargs)
+        params = OSTProjectParameters(name=name, *args, **kwargs)
+        self._projects[name] = OSTProject(params)
 
     @cached_property
     def packages_core_exprs(self):

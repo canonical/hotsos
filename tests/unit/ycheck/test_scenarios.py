@@ -241,6 +241,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
     @utils.init_test_scenario(test_data.SCENARIO_W_ERROR)
     @utils.global_search_context
+    # pylint: disable-next=too-many-arguments
     def test_failed_scenario_caught(self, global_searcher, mock_log1,
                                     mock_log2, _mock_log3,
                                     mock_log4, mock_log5, mock_log6):
@@ -353,6 +354,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
     @utils.init_test_scenario(test_data.LOGIC_TEST)
     @utils.global_search_context
+    # pylint: disable-next=too-many-arguments
     def test_logical_collection_and_with_fail(self, global_searcher, mock_log1,
                                               mock_log2, _mock_log3, mock_log4,
                                               mock_log5, mock_log6,

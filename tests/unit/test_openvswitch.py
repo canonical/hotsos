@@ -188,10 +188,20 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                              'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
                              'Open_vSwitch': OVS_DB_GENEVE_ENCAP})
     def test_summary_ovn_tunnels_no_remotes(self):
-        with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
-                        'host_interfaces_all',
-                        [NetworkPort('bondX', ['10.3.4.24'], None,
-                                     None, None, None)]):
+        with mock.patch(
+            "hotsos.core.host_helpers.HostNetworkingHelper."
+            "host_interfaces_all",
+            [
+                NetworkPort(
+                    name="bondX",
+                    addresses=["10.3.4.24"],
+                    hwaddr=None,
+                    state=None,
+                    encap_info=None,
+                    mtu=None,
+                )
+            ],
+        ):
             expected = {'geneve': {
                             'iface': {
                                 'bondX': {'addresses': ['10.3.4.24'],
@@ -210,10 +220,20 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                              'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
                              'Open_vSwitch': OVS_DB_GENEVE_ENCAP})
     def test_summary_tunnels_ovn(self):
-        with mock.patch('hotsos.core.host_helpers.HostNetworkingHelper.'
-                        'host_interfaces_all',
-                        [NetworkPort('bondX', ['10.3.4.24'], None,
-                                     None, None, None)]):
+        with mock.patch(
+            "hotsos.core.host_helpers.HostNetworkingHelper."
+            "host_interfaces_all",
+            [
+                NetworkPort(
+                    name="bondX",
+                    addresses=["10.3.4.24"],
+                    hwaddr=None,
+                    state=None,
+                    encap_info=None,
+                    mtu=None,
+                )
+            ],
+        ):
             expected = {'geneve': {
                             'iface': {
                                 'bondX': {'addresses': ['10.3.4.24'],
