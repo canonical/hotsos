@@ -140,9 +140,10 @@ class AssertionsLogicalGrouping(PTreeLogicalGrouping):
         log.debug("%s: fetching assertion items", self.__class__.__name__)
         return super().get_items()
 
-    def fetch_item_result(self, item):
+    @staticmethod
+    def fetch_item_result(item):
         result = item.result
-        log.debug("%s: %s result=%s", self.__class__.__name__,
+        log.debug("%s: %s result=%s", AssertionsLogicalGrouping.__name__,
                   item.__class__.__name__, result)
         return result
 

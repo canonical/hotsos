@@ -58,13 +58,24 @@ class RequiresLogicalGrouping(PTreeLogicalGrouping):
     """ Logical grouping support for requires property. """
     _override_autoregister = False
 
-    def fetch_item_result(self, item):
+    @property
+    def _parent_cache(self):
+        """
+        Get parent cache since we will want to link it to descendants.
+        """
+        return self._override_parent.cache
+
+    def fetch_item_result(self, item):  # pylint: disable=arguments-differ
+        """
+        Override this method but make it an instance method hence the pylint
+        disable.
+        """
         if isinstance(item, RequiresLogicalGrouping):
-            item.cache = self._override_parent.cache
+            item.cache = self._parent_cache
 
         result = super().fetch_item_result(item)
         if isinstance(item, RequiresLogicalGrouping):
-            cache_result(self._override_parent.cache, item, result, True)
+            cache_result(self._parent_cache, item, result, True)
 
         return result
 
