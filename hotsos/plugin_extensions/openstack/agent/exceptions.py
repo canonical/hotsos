@@ -11,6 +11,7 @@ from hotsos.core.search import (
     SearchConstraintSearchSince,
 )
 from hotsos.core.search import CommonTimestampMatcher
+from hotsos.core.plugintools import summary_entry
 
 
 class AgentExceptionCheckResults(UserDict):
@@ -275,7 +276,8 @@ class AgentExceptionChecks(OpenStackChecks):
         self._agent_results = self._run(self.searchobj.run())
         return self._agent_results
 
-    def __200_summary_agent_exceptions(self):
+    @summary_entry('agent-exceptions', 200)
+    def summary_agent_exceptions(self):
         """
         Only ERROR level exceptions
         """
@@ -288,7 +290,8 @@ class AgentExceptionChecks(OpenStackChecks):
 
         return None
 
-    def __201_summary_agent_warnings(self):
+    @summary_entry('agent-warnings', 201)
+    def summary_agent_warnings(self):
         """
         Only WARNING level exceptions
         """

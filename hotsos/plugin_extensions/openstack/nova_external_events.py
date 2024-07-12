@@ -8,6 +8,7 @@ from hotsos.core.search import (
     SearchConstraintSearchSince,
 )
 from hotsos.core.search import CommonTimestampMatcher
+from hotsos.core.plugintools import summary_entry
 
 EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
                                           ['Preparing', 'Received',
@@ -86,5 +87,6 @@ class NovaExternalEventChecks(OpenstackEventHandlerBase):
     event_group = 'nova.external-events'
     summary_part_index = 1
 
-    def __8_summary_os_server_external_events(self):
+    @summary_entry('os-server-external-events', 8)
+    def summary_os_server_external_events(self):
         return self.run()

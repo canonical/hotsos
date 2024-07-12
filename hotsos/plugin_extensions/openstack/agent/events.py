@@ -18,6 +18,7 @@ from hotsos.core.plugins.openstack.common import (
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core import utils
 from hotsos.core.utils import sorted_dict
+from hotsos.core.plugintools import summary_entry
 
 VRRP_TRANSITION_WARN_THRESHOLD = 8
 
@@ -77,7 +78,8 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 8
     event_group = 'apache'
 
-    def __101_summary_agent_checks(self):
+    @summary_entry('agent-checks', 101)
+    def summary_agent_checks(self):
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -105,7 +107,8 @@ class APIEvents(OpenstackEventHandlerBase):
     summary_part_index = 9
     event_group = 'http-requests'
 
-    def __100_summary_api_info(self):
+    @summary_entry('api-info', 100)
+    def summary_api_info(self):
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -212,7 +215,8 @@ class NeutronAgentEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 7
     event_group = 'neutron.agents'
 
-    def __101_summary_agent_checks(self):
+    @summary_entry('agent-checks', 101)
+    def summary_agent_checks(self):
         # NOTE: order is important here
         agents = ['neutron-server', 'neutron-l3-agent', 'neutron-ovs-agent']
         out = self.run() or {}
@@ -265,7 +269,8 @@ class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 10
     event_group = 'octavia'
 
-    def __101_summary_agent_checks(self):
+    @summary_entry('agent-checks', 101)
+    def summary_agent_checks(self):
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -291,7 +296,8 @@ class NovaComputeEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 11
     event_group = 'nova.nova-compute'
 
-    def __101_summary_agent_checks(self):
+    @summary_entry('agent-checks', 101)
+    def summary_agent_checks(self):
         out = self.run()
         if out:
             return {'nova': out}
@@ -323,7 +329,8 @@ class AgentApparmorChecks(OpenstackEventHandlerBase):
     summary_part_index = 12
     event_group = 'apparmor'
 
-    def __101_summary_agent_checks(self):
+    @summary_entry('agent-checks', 101)
+    def summary_agent_checks(self):
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -401,7 +408,8 @@ class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 13
     event_group = 'neutron.ml2-routers'
 
-    def __101_summary_agent_checks(self):
+    @summary_entry('agent-checks', 101)
+    def summary_agent_checks(self):
         out = self.run()
         if out:
             return {'neutron-l3ha': out}

@@ -8,13 +8,15 @@ from hotsos.core.plugins.openstack.common import (
 )
 from hotsos.core.plugins.openstack.nova import NovaLibvirt
 from hotsos.core import utils
+from hotsos.core.plugintools import summary_entry
 
 
 class OpenstackInstanceChecks(OpenStackChecks):
     """ Implements Openstack Nova instance checks. """
     summary_part_index = 2
 
-    def __5_summary_vm_info(self):
+    @summary_entry('vm-info', 5)
+    def summary_vm_info(self):
         _info = {}
 
         instances = self.nova.instances.values()
@@ -192,5 +194,6 @@ class NovaServerMigrationAnalysis(OpenstackEventHandlerBase):
     event_group = 'nova.migrations'
     summary_part_index = 3
 
-    def __6_summary_nova_migrations(self):
+    @summary_entry('nova-migrations', 6)
+    def summary_nova_migrations(self):
         return self.run()

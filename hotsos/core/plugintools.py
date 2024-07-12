@@ -1,5 +1,4 @@
 import os
-import re
 
 import yaml
 from jinja2 import FileSystemLoader, Environment
@@ -325,6 +324,19 @@ class PartManager():
         return {HotSOSConfig.plugin_name: parts}
 
 
+def summary_entry(name, index=0):
+    """Decorate a class member function to indicate that it is a summary
+    function. Summary functions are automatically discovered by the
+    PluginPartBase class and will be part of the summary output."""
+
+    def real_decorator(func):
+        # Store the summary metadata information on the function itself.
+        func.__summary_elem_name = name
+        func.__summary_elem_index = index
+        return func
+    return real_decorator
+
+
 class PluginPartBase(ApplicationBase):
     """ This is the base class used for all plugins.
 
@@ -383,6 +395,29 @@ class PluginPartBase(ApplicationBase):
         """
         return None
 
+    @classmethod
+    def get_summary_entries(cls):
+        """Return a list of summary functions defined in the current class
+        and all the derived classes.
+
+        Summary functions are the functions decorated with @summary_entry
+        decorator.
+        """
+
+        result = {}
+        # Iterate through all attributes of BaseClass
+        for name in dir(cls):
+            # Get the attribute from the current class (cls)
+            attr = getattr(cls, name)
+            # Check if it's a function and has the specified attribute
+            if callable(attr) and hasattr(attr, '__summary_elem_name'):
+                name = getattr(attr, '__summary_elem_name')
+                index = getattr(attr, '__summary_elem_index')
+                log.debug("Found summary entry %s with idx %d",
+                          name, index)
+                result[name] = [attr.__name__, index]
+        return result
+
     @property
     def output(self):
         _output = {}
@@ -390,28 +425,21 @@ class PluginPartBase(ApplicationBase):
             for key, data in self.summary.items():
                 _output[key] = SummaryEntry(data, 0)
 
-        for m in dir(self.__class__):
-            cls = self.__class__.__name__
-            ret = re.match(rf'_{cls}__(\d+)_summary_(\S+)', m)
-            if ret:
-                index = int(ret.group(1))
-                key = ret.group(2)
-            else:
-                ret = re.match(rf'_{cls}__summary_(\S+)', m)
-                if ret:
-                    log.info("summary sub entry with no index: %s", m)
-                    key = ret.group(1)
-                    index = 0
+        # Discover the summary functions
+        implicit_summary_fns = self.get_summary_entries()
 
-            if not ret:
-                continue
-
-            out = getattr(self, m)()
-            if not out:
-                continue
-
-            key = key.replace('_', '-')
-            _output[key] = SummaryEntry(out, index)
+        if implicit_summary_fns:
+            # Sort the functions by their index
+            implicit_summary_fns = dict(
+                sorted(implicit_summary_fns.items(),
+                       key=lambda item: item[1][1])
+            )
+            for name, (attr_name, index) in implicit_summary_fns.items():
+                attr = getattr(self, attr_name)
+                result = attr()
+                if not result:
+                    continue
+                _output[name] = SummaryEntry(result, index)
 
         return _output
 

@@ -1,16 +1,19 @@
 from hotsos.core.plugins.storage.ceph import CephChecks
 from hotsos.core.utils import sorted_dict
+from hotsos.core.plugintools import summary_entry
 
 
 class CephSummary(CephChecks):
     """ Implementation of Ceph summary. """
     summary_part_index = 0
 
-    def __0_summary_release(self):
+    @summary_entry('release', 0)
+    def summary_release(self):
         return {'name': self.release_name,
                 'days-to-eol': self.days_to_eol}
 
-    def __1_summary_services(self):
+    @summary_entry('services', 1)
+    def summary_services(self):
         """Get string info for running services."""
         if self.systemd.services:
             return self.systemd.summary
@@ -20,7 +23,8 @@ class CephSummary(CephChecks):
 
         return None
 
-    def __2_summary_dpkg(self):
+    @summary_entry('dpkg', 2)
+    def summary_dpkg(self):
         # require at least one core package to be installed to include
         # this in the report.
         if self.apt.core:
@@ -28,16 +32,19 @@ class CephSummary(CephChecks):
 
         return None
 
-    def __2_summary_snaps(self):
+    @summary_entry('snaps', 2)
+    def summary_snaps(self):
         if self.snaps.core:
             return self.snaps.all_formatted
 
         return None
 
-    def __3_summary_status(self):
+    @summary_entry('status', 3)
+    def summary_status(self):
         return self.cluster.health_status or None
 
-    def __4_summary_network(self):
+    @summary_entry('network', 4)
+    def summary_network(self):
         """ Identify ports used by Ceph daemons, include them in output
         for informational purposes.
         """
@@ -50,26 +57,31 @@ class CephSummary(CephChecks):
 
         return None
 
-    def __5_summary_osd_pgs_near_limit(self):
+    @summary_entry('osd-pgs-near-limit', 5)
+    def summary_osd_pgs_near_limit(self):
         if self.cluster.osds_pgs_above_max:
             return self.cluster.osds_pgs_above_max
 
         return None
 
-    def __6_summary_osd_pgs_suboptimal(self):
+    @summary_entry('osd-pgs-suboptimal', 6)
+    def summary_osd_pgs_suboptimal(self):
         if self.cluster.osds_pgs_suboptimal:
             return self.cluster.osds_pgs_suboptimal
 
         return None
 
-    def __7_summary_versions(self):
+    @summary_entry('versions', 7)
+    def summary_versions(self):
         versions = self.cluster.ceph_daemon_versions_unique()
         return versions or None
 
-    def __8_summary_mgr_modules(self):
+    @summary_entry('mgr-modules', 8)
+    def summary_mgr_modules(self):
         return self.cluster.mgr_modules or None
 
-    def __9_summary_local_osds(self):
+    @summary_entry('local-osds', 9)
+    def summary_local_osds(self):
         if self.local_osds:
             osds = {}
             for osd in self.local_osds:
@@ -79,8 +91,10 @@ class CephSummary(CephChecks):
 
         return None
 
-    def __10_summary_crush_rules(self):
+    @summary_entry('crush-rules', 10)
+    def summary_crush_rules(self):
         return self.cluster.crush_map.rules or None
 
-    def __11_summary_large_omap_pgs(self):
+    @summary_entry('large-omap-pgs', 11)
+    def summary_large_omap_pgs(self):
         return self.cluster.large_omap_pgs or None

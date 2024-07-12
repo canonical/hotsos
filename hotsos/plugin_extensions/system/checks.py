@@ -3,6 +3,7 @@ import os
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import SYSCtlConfHelper
 from hotsos.core.plugins.system import SystemChecks
+from hotsos.core.plugintools import summary_entry
 
 
 class SYSCtlChecks(SystemChecks):
@@ -131,7 +132,8 @@ class SYSCtlChecks(SystemChecks):
         self._cached_fs_sysctl = sysctl
         return self._cached_fs_sysctl
 
-    def __10_summary_sysctl_mismatch(self):
+    @summary_entry('sysctl-mismatch', 10)
+    def summary_sysctl_mismatch(self):
         """ Compare the values for any key set under sysctl.d and report
         an issue if any mismatches detected.
         """
@@ -155,7 +157,8 @@ class SYSCtlChecks(SystemChecks):
 
         return mismatch or None
 
-    def __11_summary_juju_charm_sysctl_mismatch(self):
+    @summary_entry('juju-charm-sysctl-mismatch', 11)
+    def summary_juju_charm_sysctl_mismatch(self):
         """ Compare the values for any key set under sysctl.d and report
         an issue if any mismatches detected.
         """
