@@ -9,7 +9,6 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import ExtraSearchConstraints, FileSearcher, SearchDef
 from hotsos.core.ycheck import scenarios
-from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.ycheck.engine.properties.conclusions import (
     YPropertyConclusion,
 )
@@ -36,40 +35,8 @@ class TestProperty():
         return False
 
 
-def global_search_context(f):
-    def global_search_context_inner(inst, *args, **kwargs):
-        with GlobalSearcher() as searcher:
-            return f(inst, searcher, *args, **kwargs)
-
-    return global_search_context_inner
-
-
 class TestConfig(IniConfigBase):
     """ Test config """
-
-
-def init_test_scenario(yaml_contents, scenario_name=None):
-    """
-    Create a temporary defs path with a scenario yaml under it.
-
-    @param param yaml_contents: yaml contents of scenario def.
-    """
-    def init_test_scenario_inner1(f):
-        def init_test_scenario_inner2(*args, **kwargs):
-            with tempfile.TemporaryDirectory() as dtmp:
-                HotSOSConfig.plugin_yaml_defs = dtmp
-                HotSOSConfig.plugin_name = 'myplugin'
-                yroot = os.path.join(dtmp, 'scenarios', 'myplugin',
-                                     'scenariogroup')
-                sname = scenario_name or 'test'
-                yfile = os.path.join(yroot, f'{sname}.yaml')
-                os.makedirs(os.path.dirname(yfile))
-                with open(yfile, 'w', encoding='utf-8') as fd:
-                    fd.write(yaml_contents)
-                return f(*args, **kwargs)
-
-        return init_test_scenario_inner2
-    return init_test_scenario_inner1
 
 
 YDEF_NESTED_LOGIC = """
@@ -620,10 +587,10 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     """
     Tests scenarios functionality.
     """
-    @init_test_scenario(SCENARIO_W_EXPR_LIST.
-                        format(path=os.path.basename('data.txt')))
+    @utils.init_test_scenario(SCENARIO_W_EXPR_LIST.
+                              format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': 'hello x\n'})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_expr_list(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -636,11 +603,11 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             msg = "yay list search"
             self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(SCENARIO_W_SEQ_SEARCH.
-                        format(path=os.path.basename('data.txt')))
+    @utils.init_test_scenario(SCENARIO_W_SEQ_SEARCH.
+                              format(path=os.path.basename('data.txt')))
     @utils.create_data_root({'data.txt': ("blah blah\nit's the start\nblah "
                                           "blah\nit's the end")})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_seq_search(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -651,13 +618,13 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             msg = "yay seq searches worked!"
             self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(SCENARIO_CHECKS)
+    @utils.init_test_scenario(SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n',
                              'uptime': (' 16:19:19 up 17:41,  2 users, '
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
                                  'Thu Feb 10 16:19:17 UTC 2022'})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_scenario_checks_false(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -671,8 +638,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
-    @init_test_scenario(SCENARIO_CHECKS)
-    @global_search_context
+    @utils.init_test_scenario(SCENARIO_CHECKS)
+    @utils.global_search_context
     def test_yaml_def_scenario_checks_requires(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -700,7 +667,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         self.assertEqual(IssuesManager().load_issues(), {})
 
-    @init_test_scenario(SCENARIO_CHECKS)
+    @utils.init_test_scenario(SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log':
                              ('2021-03-29 00:31:00.000 an event\n'
                               '2021-03-30 00:32:00.000 an event\n'
@@ -711,7 +678,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
                                  'Thu Mar 31 16:19:17 UTC 2021'})
-    @global_search_context
+    @utils.global_search_context
     def test_yaml_def_scenario_checks_expr(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -790,16 +757,16 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             result = ExtraSearchConstraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
-    @init_test_scenario(YDEF_NESTED_LOGIC)
-    @global_search_context
+    @utils.init_test_scenario(YDEF_NESTED_LOGIC)
+    @utils.global_search_context
     def test_yaml_def_nested_logic(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['message'] for issue in issues]),
                          sorted(['conc1', 'conc3']))
 
-    @init_test_scenario(YAML_DEF_REQUIRES_MAPPED)
-    @global_search_context
+    @utils.init_test_scenario(YAML_DEF_REQUIRES_MAPPED)
+    @utils.global_search_context
     def test_yaml_def_mapped_overrides(self, global_searcher):
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
@@ -815,8 +782,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.requires.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
-    @init_test_scenario(SCENARIO_W_ERROR)
-    @global_search_context
+    @utils.init_test_scenario(SCENARIO_W_ERROR)
+    @utils.global_search_context
     def test_failed_scenario_caught(self, global_searcher, mock_log1,
                                     mock_log2, _mock_log3,
                                     mock_log4, mock_log5, mock_log6):
@@ -854,18 +821,18 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                        "detail")
                 self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(CONFIG_SCENARIO)
+    @utils.init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
-    @global_search_context
+    @utils.global_search_context
     def test_config_scenario_fail(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['message'] for issue in issues],
                          ['cfg is bad', 'cfg is bad2'])
 
-    @init_test_scenario(CONFIG_SCENARIO)
+    @utils.init_test_scenario(CONFIG_SCENARIO)
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 102\n'})
-    @global_search_context
+    @utils.global_search_context
     def test_config_scenario_pass(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -875,8 +842,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.scenarios.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.'
                 'ScenarioException')
-    @init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
-    @global_search_context
+    @utils.init_test_scenario(CONCLUSION_W_INVALID_BUG_RAISES)
+    @utils.global_search_context
     def test_raises_w_invalid_types(self, global_searcher, mock_exc, mock_log,
                                     mock_log2):
         mock_exc.side_effect = Exception
@@ -904,8 +871,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                        "debug mode (--debug) to get more detail")
                 self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(VARS)
-    @global_search_context
+    @utils.init_test_scenario(VARS)
+    @utils.global_search_context
     def test_vars(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
@@ -927,8 +894,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.requires.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.common.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.common.log')
-    @init_test_scenario(LOGIC_TEST)
-    @global_search_context
+    @utils.init_test_scenario(LOGIC_TEST)
+    @utils.global_search_context
     def test_logical_collection_and_with_fail(self, global_searcher, mock_log1,
                                               mock_log2, _mock_log3, mock_log4,
                                               mock_log5, mock_log6,
@@ -967,45 +934,45 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                        "detail")
                 self.assertEqual(issue['message'], msg)
 
-    @init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
-    @global_search_context
+    @utils.init_test_scenario(NESTED_LOGIC_TEST_NO_ISSUE)
+    @utils.global_search_context
     def test_logical_collection_nested_no_issue(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE)
-    @global_search_context
+    @utils.init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE)
+    @utils.global_search_context
     def test_logical_collection_nested_w_issue(self, global_searcher):
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
+    @utils.global_search_context
     def test_scenarios_filter_none(self, global_searcher):
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
+    @utils.global_search_context
     def test_scenarios_filter_myscenario(self, global_searcher):
         HotSOSConfig.scenario_filter = 'myplugin.scenariogroup.myscenario'
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
 
-    @init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(NESTED_LOGIC_TEST_W_ISSUE, 'myscenario')
+    @utils.global_search_context
     def test_scenarios_filter_nonexistent(self, global_searcher):
         HotSOSConfig.scenario_filter = 'blahblah'
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], [])
 
-    @init_test_scenario(CONCLUSION_PRIORITY_1, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(CONCLUSION_PRIORITY_1, 'myscenario')
+    @utils.global_search_context
     def test_conclusion_priority_exec_highest(self, global_searcher):
         called = []
 
@@ -1027,8 +994,8 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         self.assertEqual(called, ['conc3'])
 
-    @init_test_scenario(CONCLUSION_PRIORITY_2, 'myscenario')
-    @global_search_context
+    @utils.init_test_scenario(CONCLUSION_PRIORITY_2, 'myscenario')
+    @utils.global_search_context
     def test_conclusion_priority_exec_all_same(self, global_searcher):
         called = []
 

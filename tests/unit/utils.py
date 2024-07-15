@@ -422,6 +422,38 @@ def create_data_root(files_to_create, copy_from_original=None):
     return create_files_inner1
 
 
+def global_search_context(f):
+    def global_search_context_inner(inst, *args, **kwargs):
+        with GlobalSearcher() as searcher:
+            return f(inst, searcher, *args, **kwargs)
+
+    return global_search_context_inner
+
+
+def init_test_scenario(yaml_contents, scenario_name=None):
+    """
+    Create a temporary defs path with a scenario yaml under it.
+
+    @param param yaml_contents: yaml contents of scenario def.
+    """
+    def init_test_scenario_inner1(f):
+        def init_test_scenario_inner2(*args, **kwargs):
+            with tempfile.TemporaryDirectory() as dtmp:
+                HotSOSConfig.plugin_yaml_defs = dtmp
+                HotSOSConfig.plugin_name = 'myplugin'
+                yroot = os.path.join(dtmp, 'scenarios', 'myplugin',
+                                     'scenariogroup')
+                sname = scenario_name or 'test'
+                yfile = os.path.join(yroot, f'{sname}.yaml')
+                os.makedirs(os.path.dirname(yfile))
+                with open(yfile, 'w', encoding='utf-8') as fd:
+                    fd.write(yaml_contents)
+                return f(*args, **kwargs)
+
+        return init_test_scenario_inner2
+    return init_test_scenario_inner1
+
+
 class BaseTestCase(unittest.TestCase):
     """ Custom TestCase to be used by all tests. """
     def __init__(self, *args, **kwargs):
