@@ -1,11 +1,11 @@
 checks:
   crushmap_has_mixed_type_buckets:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_mixed_buckets
+      path: hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.crushmap_mixed_buckets
       ops: [[length_hint], [gt, 0]]
   crushmap_has_unequal_buckets:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets
+      path: hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.crushmap_equal_buckets
       ops: [[length_hint], [gt, 0]]
 conclusions:
   crushmap-mixed-buckets:
@@ -16,7 +16,7 @@ conclusions:
         Mixed crush bucket types identified in buckets '{buckets}'. This can
         cause data distribution to become skewed - please check crush map.
       format-dict:
-        buckets: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_mixed_buckets_str
+        buckets: hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.crushmap_mixed_buckets_str
   crushmap-unbalanced-buckets:
     decision: crushmap_has_unequal_buckets
     raises:
@@ -28,4 +28,4 @@ conclusions:
         Transient issues such as "out" OSDs, or cluster expansion/maintenance can trigger this warning.
         Affected CRUSH tree(s) and bucket types are {affected}.
       format-dict:
-        affected: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_equal_buckets_pretty
+        affected: hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.crushmap_equal_buckets_pretty
