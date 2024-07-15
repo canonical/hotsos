@@ -146,36 +146,38 @@ class OpenstackNetworkChecks(OpenStackChecks):
     @summary_entry('router-port-mtus', 12)
     def summary_router_port_mtus(self):
         """ Provide a summary of ml2-ovs router port mtus. """
-        phy_mtus = set()
         project = getattr(self, 'neutron')
-        if project and project.bind_interfaces:
-            for port in project.bind_interfaces.values():
-                phy_mtus.add(port.mtu)
+        if not (project and project.bind_interfaces):
+            return None
 
-            tunnels = OpenvSwitchBase().tunnels
-            # ip header
-            overhead = IP_HEADER_BYTES
-            if 'vxlan' in tunnels:
-                overhead += VXLAN_HEADER_BYTES
-            else:
-                # gre
-                overhead += GRE_HEADER_BYTES
+        phy_mtus = set()
+        for port in project.bind_interfaces.values():
+            phy_mtus.add(port.mtu)
 
-            router_mtus = self._get_router_iface_mtus()
-            all_router_mtus = set()
-            for mtus in router_mtus.values():
-                all_router_mtus.update(mtus)
+        tunnels = OpenvSwitchBase().tunnels
+        # ip header
+        overhead = IP_HEADER_BYTES
+        if 'vxlan' in tunnels:
+            overhead += VXLAN_HEADER_BYTES
+        else:
+            # gre
+            overhead += GRE_HEADER_BYTES
 
-            if phy_mtus and all_router_mtus:
-                smallest_allowed = min(phy_mtus) - overhead
-                if max(all_router_mtus) > smallest_allowed:
-                    msg = ("This Neutron L3 agent host has one or more router "
-                           f"ports with mtu={max(all_router_mtus)} which is "
-                           "greater or equal to the smallest allowed "
-                           f"({smallest_allowed}) on the physical network. "
-                           "This will result in dropped packets or "
-                           "unexpected fragmentation in overlay networks.")
-                    IssuesManager().add(OpenstackWarning(msg))
+        router_mtus = self._get_router_iface_mtus()
+        all_router_mtus = set()
+        for mtus in router_mtus.values():
+            all_router_mtus.update(mtus)
+
+        if phy_mtus and all_router_mtus:
+            smallest_allowed = min(phy_mtus) - overhead
+            if max(all_router_mtus) > smallest_allowed:
+                msg = ("This Neutron L3 agent host has one or more router "
+                       f"ports with mtu={max(all_router_mtus)} which is "
+                       "greater or equal to the smallest allowed "
+                       f"({smallest_allowed}) on the physical network. "
+                       "This will result in dropped packets or "
+                       "unexpected fragmentation in overlay networks.")
+                IssuesManager().add(OpenstackWarning(msg))
 
         return router_mtus
 
