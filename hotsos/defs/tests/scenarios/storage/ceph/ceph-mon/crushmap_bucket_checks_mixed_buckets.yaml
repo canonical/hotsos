@@ -87,10 +87,10 @@ data-root:
     - sos_commands/ceph_mon/ceph_report
 mock:
   patch:
-    hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_pools:
+    hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.autoscaler_disabled_pools:
       kwargs:
         new: true
-    hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools:
+    hotsos.core.plugins.storage.ceph_cluster.CephCluster.cluster_has_non_empty_pools:
       kwargs:
         new: true
 raised-issues:
