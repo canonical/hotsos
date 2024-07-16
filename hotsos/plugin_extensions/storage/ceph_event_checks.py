@@ -1,7 +1,7 @@
 import re
 
 from hotsos.core.issues import IssuesManager, CephOSDError
-from hotsos.core.plugins.storage.ceph import (
+from hotsos.core.plugins.storage.ceph.common import (
     CephChecks,
     CephEventCallbackBase,
 )

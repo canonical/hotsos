@@ -8,7 +8,7 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 mock:
   patch:
-    hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.ceph_report:
+    hotsos.core.plugins.storage.ceph.CephCrushMap.ceph_report:
       kwargs:
         new:
           osdmap:

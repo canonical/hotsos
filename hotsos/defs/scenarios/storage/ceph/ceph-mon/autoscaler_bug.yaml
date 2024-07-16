@@ -1,5 +1,5 @@
 vars:
-  autoscaler_enabled_pools: '@hotsos.core.plugins.storage.ceph_cluster.CephCrushMap.autoscaler_enabled_pools'
+  autoscaler_enabled_pools: '@hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_enabled_pools'
   msg_main: >-
     This Ceph cluster is vulnerable to a bug in which OSDs can consume
     considerable amounts of memory and eventually be OOM killed due to

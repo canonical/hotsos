@@ -2,10 +2,7 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
-from hotsos.core.plugins.storage import (
-    ceph as ceph_core,
-    ceph_base,
-)
+from hotsos.core.plugins.storage import ceph
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import (
     ceph_summary,
@@ -32,24 +29,24 @@ class StorageCephOSDTestsBase(utils.BaseTestCase):
 
 class TestCephOSDChecks(StorageCephOSDTestsBase):
     """ Unit tests for Ceph osd checks. """
-    @mock.patch.object(ceph_base, 'CLIHelper')
+    @mock.patch.object(ceph.daemon, 'CLIHelper')
     def test_get_date_secs(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.date.return_value = "1234\n"
-        self.assertEqual(ceph_base.CephDaemonBase.get_date_secs(), 1234)
+        self.assertEqual(ceph.daemon.CephDaemonBase.get_date_secs(), 1234)
 
     def test_get_date_secs_from_timestamp(self):
         date_string = "Thu Mar 25 10:55:05 MDT 2021"
-        self.assertEqual(ceph_base.CephDaemonBase.get_date_secs(date_string),
+        self.assertEqual(ceph.daemon.CephDaemonBase.get_date_secs(date_string),
                          1616691305)
 
     def test_get_date_secs_from_timestamp_w_tz(self):
         date_string = "Thu Mar 25 10:55:05 UTC 2021"
-        self.assertEqual(ceph_base.CephDaemonBase.get_date_secs(date_string),
+        self.assertEqual(ceph.daemon.CephDaemonBase.get_date_secs(date_string),
                          1616669705)
 
     def test_release_name(self):
-        release_name = ceph_core.CephChecks().release_name
+        release_name = ceph.common.CephChecks().release_name
         self.assertEqual(release_name, 'octopus')
 
     @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
@@ -57,7 +54,7 @@ class TestCephOSDChecks(StorageCephOSDTestsBase):
         # 2030-04-30
         mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
 
-        base = ceph_core.CephChecks()
+        base = ceph.common.CephChecks()
 
         self.assertEqual(base.release_name, 'octopus')
         self.assertLessEqual(base.days_to_eol, 0)
@@ -67,34 +64,34 @@ class TestCephOSDChecks(StorageCephOSDTestsBase):
         # 2030-01-01
         mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
 
-        base = ceph_core.CephChecks()
+        base = ceph.common.CephChecks()
 
         self.assertEqual(base.release_name, 'octopus')
         self.assertGreater(base.days_to_eol, 0)
 
     def test_bluestore_enabled(self):
-        enabled = ceph_core.CephChecks().bluestore_enabled
+        enabled = ceph.common.CephChecks().bluestore_enabled
         self.assertTrue(enabled)
 
     @utils.create_data_root({'etc/ceph/ceph.conf': CEPH_CONF_NO_BLUESTORE})
     def test_bluestore_not_enabled(self):
-        enabled = ceph_core.CephChecks().bluestore_enabled
+        enabled = ceph.common.CephChecks().bluestore_enabled
         self.assertFalse(enabled)
 
     def test_daemon_osd_config(self):
-        config = ceph_core.CephDaemonConfigShow(osd_id=0)
+        config = ceph.common.CephDaemonConfigShow(osd_id=0)
         with self.assertRaises(AttributeError):
             _ = config.foo
 
         self.assertEqual(config.bluefs_buffered_io, 'true')
 
     def test_daemon_osd_config_no_exist(self):
-        config = ceph_core.CephDaemonConfigShow(osd_id=100)
+        config = ceph.common.CephDaemonConfigShow(osd_id=100)
         with self.assertRaises(AttributeError):
             _ = config.bluefs_buffered_io
 
     def test_daemon_osd_all_config(self):
-        config = ceph_core.CephDaemonAllOSDsCommand('CephDaemonConfigShow')
+        config = ceph.common.CephDaemonAllOSDsCommand('CephDaemonConfigShow')
         self.assertEqual(config.foo, [])
         self.assertEqual(config.bluefs_buffered_io, ['true'])
 
@@ -183,7 +180,7 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
                     'radosgw 15.2.14-0ubuntu0.20.04.2']
         self.assertEqual(actual["dpkg"], expected)
 
-    def test_ceph_base_interfaces(self):
+    def test_ceph_daemon_interfaces(self):
         expected = {'cluster': {'br-ens3': {'addresses': ['10.0.0.128'],
                                             'hwaddr': '22:c2:7b:1c:12:1b',
                                             'mtu': 1500,
@@ -194,7 +191,7 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
                                            'mtu': 1500,
                                            'state': 'UP',
                                            'speed': 'unknown'}}}
-        ports = ceph_core.CephChecks().bind_interfaces
+        ports = ceph.common.CephChecks().bind_interfaces
         _ports = {}
         for config, port in ports.items():
             _ports.update({config: port.to_dict()})
