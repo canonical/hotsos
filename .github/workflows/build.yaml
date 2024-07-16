@@ -1,41 +1,39 @@
+# This is a templated file and must be kept up-to-date with the original
+# from upstream at https://github.com/canonical/se-tooling-ci-common.
 name: Python package
-
 on:
   push:
   pull_request:
     branches: [main]
   workflow_dispatch:
-
+  # We will include this workflow in the ghcr-build-and-publish.yaml workflow.
+  # https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_call
+  workflow_call:
 jobs:
   build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.10', '3.11', '3.12']
-
+        python-version: ['3.8', '3.10', '3.12']
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-
       - name: Build package
         run: |
           git rev-parse --short HEAD > hotsos/.repo-info
           python -m pip install --upgrade pip
           python -m pip install build
           python -m build
-
       - name: Publish a Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         if: github.event_name == 'push' && github.ref_name == 'main' && matrix.python-version == '3.8'
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
-
       - name: Upload Python package as CI artifact
         uses: actions/upload-artifact@v4
         with:

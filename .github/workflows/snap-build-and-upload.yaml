@@ -1,3 +1,5 @@
+# This is a templated file and must be kept up-to-date with the original
+# from upstream at https://github.com/canonical/se-tooling-ci-common.
 name: Build and publish Snap
 on:
   workflow_run:
