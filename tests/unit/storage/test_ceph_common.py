@@ -30,13 +30,13 @@ class CephCommonTestsBase(utils.BaseTestCase):
 class TestCephPluginDeps(CephCommonTestsBase):
     """ Unit tests for ceph plugin deps. """
     def test_ceph_dep_dpkg(self):
-        self.assertTrue(ceph.CephChecks().plugin_runnable)
+        self.assertTrue(ceph.common.CephChecks().plugin_runnable)
 
     @utils.create_data_root({'sos_commands/snap/snap_list_--all':
                              SNAP_LIST_MICROCEPH})
     def test_ceph_dep_snap(self):
-        self.assertTrue(ceph.CephChecks().plugin_runnable)
-        self.assertEqual(ceph.CephChecks().release_name, 'reef')
+        self.assertTrue(ceph.common.CephChecks().plugin_runnable)
+        self.assertEqual(ceph.common.CephChecks().release_name, 'reef')
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/common')

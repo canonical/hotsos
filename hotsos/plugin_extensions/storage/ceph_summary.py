@@ -1,4 +1,4 @@
-from hotsos.core.plugins.storage.ceph import CephChecks
+from hotsos.core.plugins.storage.ceph.common import CephChecks
 from hotsos.core.utils import sorted_dict
 from hotsos.core.plugintools import summary_entry
 

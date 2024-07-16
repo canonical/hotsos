@@ -10,7 +10,7 @@ from hotsos.core.search import (
     SequenceSearchDef,
     SearchDef
 )
-from hotsos.core.plugins.storage.ceph_base import (
+from hotsos.core.plugins.storage.ceph.daemon import (
     CephMon,
     CephOSD,
 )

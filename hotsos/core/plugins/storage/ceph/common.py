@@ -22,10 +22,8 @@ from hotsos.core.log import log
 from hotsos.core.plugins.kernel.net import Lsof
 from hotsos.core.plugins.storage import StorageBase
 from hotsos.core.plugins.storage.bcache import BcacheBase
-from hotsos.core.plugins.storage.ceph_base import (
-    CephOSD,
-)
-from hotsos.core.plugins.storage.ceph_cluster import CephCluster
+from hotsos.core.plugins.storage.ceph.daemon import CephOSD
+from hotsos.core.plugins.storage.ceph.cluster import CephCluster
 from hotsos.core.search import (
     FileSearcher,
     SequenceSearchDef,
