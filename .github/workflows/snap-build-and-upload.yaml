@@ -3,7 +3,7 @@
 name: Build and publish Snap
 on:
   workflow_run:
-    workflows: [Test]
+    workflows: [Run Tests]
     branches: [main]
     types: [completed]
 
