@@ -23,8 +23,8 @@ class YRequirementTypeSystemd(YRequirementTypeBase):
     Systemd requires type property. Provides support for defining checks on
     systemd resources.
     """
-    _override_keys = ['systemd']
-    _overrride_autoregister = True
+    override_keys = ['systemd']
+    override_autoregister = True
 
     def _check_service(self, svc, ops, started_after=None):
         """

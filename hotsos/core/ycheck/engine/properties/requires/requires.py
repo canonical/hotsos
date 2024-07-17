@@ -56,14 +56,14 @@ def cache_result(cache, item, result, grouped=False):
 
 class RequiresLogicalGrouping(PTreeLogicalGrouping):
     """ Logical grouping support for requires property. """
-    _override_autoregister = False
+    override_autoregister = False
 
     @property
     def _parent_cache(self):
         """
         Get parent cache since we will want to link it to descendants.
         """
-        return self._override_parent.cache
+        return self.override_parent.cache
 
     def fetch_item_result(self, item):  # pylint: disable=arguments-differ
         """
@@ -85,21 +85,21 @@ class YPropertyRequires(YPropertyMappedOverrideBase):
     Requires property. This is a mapped property that needs one or more of its
     member properties to be defined.
     """
-    _override_keys = ['requires']
-    _override_members = [apt.YRequirementTypeAPT,
-                         binary.YRequirementTypeBinary,
-                         snap.YRequirementTypeSnap,
-                         config.YRequirementTypeConfig,
-                         pebble.YRequirementTypePebble,
-                         systemd.YRequirementTypeSystemd,
-                         rproperty.YRequirementTypeProperty,
-                         path.YRequirementTypePath,
-                         varops.YPropertyVarOps]
+    override_keys = ['requires']
+    override_members = [apt.YRequirementTypeAPT,
+                        binary.YRequirementTypeBinary,
+                        snap.YRequirementTypeSnap,
+                        config.YRequirementTypeConfig,
+                        pebble.YRequirementTypePebble,
+                        systemd.YRequirementTypeSystemd,
+                        rproperty.YRequirementTypeProperty,
+                        path.YRequirementTypePath,
+                        varops.YPropertyVarOps]
     # We want to be able to use this property both on its own and as a member
     # of other mapping properties e.g. Checks. The following setting enables
     # this.
-    _override_auto_implicit_member = False
-    _override_logical_grouping_type = RequiresLogicalGrouping
+    override_auto_implicit_member = False
+    override_logical_grouping_type = RequiresLogicalGrouping
 
     @property
     def result(self):

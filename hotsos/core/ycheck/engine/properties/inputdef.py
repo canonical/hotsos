@@ -93,8 +93,8 @@ class YPropertyInput(YPropertyOverrideBase, YPropertyInputBase):
 
     This is typically used in conjunction with the search property.
     """
-    _override_keys = ['input']
+    override_keys = ['input']
     # We want to be able to use this property both on its own and as a member
     # of other mapping properties e.g. Checks. The following setting enables
     # this.
-    _override_auto_implicit_member = False
+    override_auto_implicit_member = False

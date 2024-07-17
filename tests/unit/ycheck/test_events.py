@@ -13,6 +13,9 @@ from hotsos.core.ycheck.events import (
 
 from .. import utils
 
+# It is fine for a test to access a protected member so allow it for all tests
+# pylint: disable=protected-access
+
 EVENT_DEF_INPUT = """
 pluginX:
   myeventgroup:

@@ -25,7 +25,7 @@ class YPropertyPriority(YPropertyOverrideBase):
     conclusions to be given different priorities. One or more conclusion can
     also be given the same priority.
     """
-    _override_keys = ['priority']
+    override_keys = ['priority']
 
     def __int__(self):
         return int(self.content or 1)
@@ -36,7 +36,7 @@ class YPropertyRaises(YPropertyOverrideBase):
     Raises property. Provides support for defining the issue we want to raise
     if the conclusion is matches.
     """
-    _override_keys = ['raises']
+    override_keys = ['raises']
 
     @property
     def cve_id(self):
@@ -137,7 +137,7 @@ class DecisionBase():
 
 class DecisionLogicalGrouping(DecisionBase, PTreeLogicalGrouping):
     """ Logical grouping definition for the decision member property """
-    _override_autoregister = False
+    override_autoregister = False
 
     def get_items(self):
         items = []
@@ -153,10 +153,10 @@ class DecisionLogicalGrouping(DecisionBase, PTreeLogicalGrouping):
 
 class YPropertyDecision(DecisionBase, YPropertyMappedOverrideBase):
     """ Decision property member of conclusions property. """
-    _override_keys = ['decision']
+    override_keys = ['decision']
     # no members, we are using a mapping to get a custom PTreeLogicalGrouping
-    _override_members = []
-    _override_logical_grouping_type = DecisionLogicalGrouping
+    override_members = []
+    override_logical_grouping_type = DecisionLogicalGrouping
 
     @property
     def result(self):
@@ -195,8 +195,8 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
     This property is a mapping and has multiple members that form the
     properties of the conclusion.
     """
-    _override_keys = ['conclusion']
-    _override_members = [YPropertyPriority, YPropertyDecision, YPropertyRaises]
+    override_keys = ['conclusion']
+    override_members = [YPropertyPriority, YPropertyDecision, YPropertyRaises]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -250,7 +250,7 @@ class YPropertyConclusions(YPropertyOverrideBase):
     The property contains one or more conclusion which are loaded by iterating
     over the object.
     """
-    _override_keys = ['conclusions']
+    override_keys = ['conclusions']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -272,10 +272,10 @@ class YPropertyConclusions(YPropertyOverrideBase):
 
         resolved = []
         for name, content in self.content.items():
-            s = YDefsSection(self._override_name,
+            s = YDefsSection(self.override_name,
                              {name: {'conclusion': content}},
                              override_handlers=self.root.override_handlers,
-                             resolve_path=self._override_path,
+                             resolve_path=self.override_path,
                              context=self.conclusion_context)
             for c in s.leaf_sections:
                 c.conclusion.conclusion_name = c.name

@@ -10,8 +10,8 @@ class YRequirementTypeProperty(YRequirementTypeWithOpsBase):
     Property requires type property. Provides support for defining checks on
     python properties.
     """
-    _override_keys = ['property']
-    _overrride_autoregister = True
+    override_keys = ['property']
+    override_autoregister = True
 
     @property
     @intercept_exception

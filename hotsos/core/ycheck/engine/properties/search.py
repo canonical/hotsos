@@ -21,7 +21,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
     """
     Search constraints property member of search property.
     """
-    _override_keys = ['constraints']
+    override_keys = ['constraints']
 
     @property
     def valid_attributes(self):
@@ -112,7 +112,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
     @property
     def unique_search_tag(self):
-        return self._override_path  # pylint: disable=E1101
+        return self.override_path  # pylint: disable=E1101
 
     def _resolve_exprs(self, patterns):
         """
@@ -161,7 +161,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
     @property
     def is_sequence_search(self):
-        seq_keys = YPropertySequencePart._get_override_keys_back_compat()
+        seq_keys = YPropertySequencePart.get_override_keys_back_compat()
         return any(getattr(self, key) for key in seq_keys)
 
     @property
@@ -279,7 +279,7 @@ class YPropertySearchOpt(YPropertyOverrideBase):
     Provides search expression option properties that can be provided with each
     search definition.
     """
-    _override_keys = ['expr', 'hint', 'passthrough-results']
+    override_keys = ['expr', 'hint', 'passthrough-results']
 
     def __bool__(self):
         return bool(self.content)
@@ -293,11 +293,11 @@ class YPropertySearchOpt(YPropertyOverrideBase):
         # should use bool() for passthrough-results
         invalid = ['passthrough-results', 'expr']
         valid = [k for k in
-                 self._get_override_keys_back_compat() if k not in invalid]
-        if self._override_name not in valid:
+                 self.get_override_keys_back_compat() if k not in invalid]
+        if self.override_name not in valid:
             raise AttributeError(
                 f"__str__ only valid for {','.join(valid)} "
-                f"(not {self._override_name})")
+                f"(not {self.override_name})")
 
         return self.content
 
@@ -335,14 +335,14 @@ class YPropertySequencePart(YPropertySearchBase, SeqPartSearchOptsBase,
     """
     Provides the search fields required to perform a sequence search.
     """
-    _override_keys = ['start', 'body', 'end']
+    override_keys = ['start', 'body', 'end']
 
 
 class YPropertySearch(YPropertySearchBase, YPropertyMappedOverrideBase):
     """ Search property. """
-    _override_keys = ['search']
-    _override_members = [YPropertySearchOpt, YPropertySearchConstraints,
-                         YPropertySequencePart]
+    override_keys = ['search']
+    override_members = [YPropertySearchOpt, YPropertySearchConstraints,
+                        YPropertySequencePart]
 
     @property
     def passthrough_results(self):

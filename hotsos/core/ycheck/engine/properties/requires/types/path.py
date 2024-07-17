@@ -15,8 +15,8 @@ class YRequirementTypePath(YPropertyInputBase, YRequirementTypeBase):
 
     Provides logic to perform checks on filesystem paths.
     """
-    _override_keys = ['path']
-    _overrride_autoregister = True
+    override_keys = ['path']
+    override_autoregister = True
 
     @property
     def options(self):

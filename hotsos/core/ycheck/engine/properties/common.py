@@ -213,7 +213,7 @@ class PropertyCacheRefResolver():
         """
         val = []
         group = int(cache_key.partition('results_group_')[2])
-        for result in self.checks[self.check_name]._search_results:
+        for result in self.checks[self.check_name].search_results:
             if len(result) >= group:
                 val.append(result.get(group))
 

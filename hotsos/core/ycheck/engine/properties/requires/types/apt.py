@@ -30,8 +30,8 @@ class YRequirementTypeAPT(YRequirementTypeBase):
     Apt requires type property. Provides support for defining the apt package
     requires type to perform checks on APT packages.
     """
-    _override_keys = ['apt']
-    _overrride_autoregister = True
+    override_keys = ['apt']
+    override_autoregister = True
 
     @property
     @intercept_exception
