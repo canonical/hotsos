@@ -11,7 +11,7 @@ from hotsos.core.ycheck.events import (
     EventProcessingUtils,
 )
 
-from . import utils
+from .. import utils
 
 EVENT_DEF_INPUT = """
 pluginX:
