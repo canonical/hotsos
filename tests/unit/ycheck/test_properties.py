@@ -4,6 +4,7 @@ import shutil
 import tempfile
 from functools import cached_property
 from unittest import mock
+from dataclasses import dataclass
 
 import yaml
 from hotsos.core.config import HotSOSConfig
@@ -53,21 +54,27 @@ class TestConfig(IniConfigBase):
 
 class FakeServiceObjectManager():
     """ Fake service manager. """
+
     def __init__(self, start_times):
         self._start_times = start_times
 
     def __call__(self, name, state, has_instances):
-        return FakeService(name, state, has_instances,
-                           start_time=self._start_times[name])
+        return FakeService(
+            name=name,
+            state=state,
+            has_instances=has_instances,
+            start_time=self._start_times[name],
+        )
 
 
+@dataclass
 class FakeService():
     """ Fake service """
-    def __init__(self, name, state, has_instances, start_time):
-        self.name = name
-        self.state = state
-        self.start_time = start_time
-        self.has_instances = has_instances
+
+    name: str
+    state: str
+    start_time: str
+    has_instances: bool
 
 
 YAML_DEF_REQUIRES_BIN_SHORT = """

@@ -541,7 +541,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovn_central_services.yaml',
                                         'scenarios/openvswitch'))
     def test_ovn_northd_running(self, mock_systemd):
-
+        # pylint: disable-next=too-few-public-methods
         class FakeSystemdHelper():
             """ fake systemd helper """
             def __init__(self, svcs):

@@ -1,5 +1,7 @@
 import abc
 import os
+from dataclasses import dataclass, field
+from typing import Any
 
 import yaml
 from hotsos.core.config import HotSOSConfig
@@ -23,14 +25,21 @@ class IssueContext():
         return self.context
 
 
-class IssueEntry():
+@dataclass(frozen=True)
+class IssueEntry:
     """ A single issue object as stored for later use. """
-    def __init__(self, ref, message, key, context=None):
-        self.key = key
-        self.context = context
-        self.ref = ref
-        self.message = message
-        self.origin = f"{HotSOSConfig.plugin_name}.{HotSOSConfig.part_name}"
+
+    ref: str
+    message: str
+    key: str
+    context: Any = None
+    origin: str = field(
+        # We're using default_factory here to defer the evaluation of
+        # the "default" value to runtime.
+        default_factory=(
+            lambda: f"{HotSOSConfig.plugin_name}.{HotSOSConfig.part_name}"
+        )
+    )
 
     @property
     def content(self):
@@ -87,7 +96,13 @@ class KnownBugsStore(IssuesStoreBase):
         return {}
 
     def add(self, issue, context=None):
-        entry = IssueEntry(issue.url, issue.msg, 'id', context=context)
+        #  def __init__(self, ref, message, key, context=None):
+        entry = IssueEntry(
+            ref=issue.url,
+            message=issue.msg,
+            key='id',
+            context=context
+        )
         current = self.load()
         if current:
             current[IssuesManager.SUMMARY_OUT_BUGS_ROOT].append(entry.content)
@@ -123,7 +138,12 @@ class IssuesStore(IssuesStoreBase):
         """
         Fetch the current plugin issues.yaml if it exists and add new issue.
         """
-        entry = IssueEntry(issue.name, issue.msg, 'type', context=context)
+        entry = IssueEntry(
+            ref=issue.name,
+            message=issue.msg,
+            key='type',
+            context=context
+        )
         current = self.load()
         key = IssuesManager.SUMMARY_OUT_ISSUES_ROOT
         if current:

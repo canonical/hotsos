@@ -1,5 +1,6 @@
 import os
 from enum import IntEnum, auto
+from dataclasses import dataclass
 
 import yaml
 from jinja2 import FileSystemLoader, Environment
@@ -83,23 +84,7 @@ def yaml_dump(data):
                      default_flow_style=False).rstrip("\n")
 
 
-class OutputFormatterBase():
-    """ Base class for output formatters. """
-
-    @staticmethod
-    def render(context, template):
-        # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
-        templates_dir = str(HotSOSConfig.templates_path)
-        if not os.path.isdir(templates_dir):
-            raise FileNotFoundError(
-                f"jinja templates directory not found: '{templates_dir}'")
-
-        env = Environment(loader=FileSystemLoader(templates_dir))
-        template = env.get_template(template)
-        return template.render(context)
-
-
-class HTMLFormatter(OutputFormatterBase):
+class HTMLFormatter:
     """
     Format the summary as html.
 
@@ -112,6 +97,18 @@ class HTMLFormatter(OutputFormatterBase):
         """
         self.hostname = hostname
         self.max_level = max_level
+
+    @staticmethod
+    def render(context, template):
+        # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
+        templates_dir = str(HotSOSConfig.templates_path)
+        if not os.path.isdir(templates_dir):
+            raise FileNotFoundError(
+                f"jinja templates directory not found: '{templates_dir}'")
+
+        env = Environment(loader=FileSystemLoader(templates_dir))
+        template = env.get_template(template)
+        return template.render(context)
 
     @property
     def header(self):
@@ -167,7 +164,7 @@ class HTMLFormatter(OutputFormatterBase):
         return self.header + content + self.footer
 
 
-class MarkdownFormatter(OutputFormatterBase):
+class MarkdownFormatter:
     """
     Formatter to convert output to Markdown.
     """
@@ -245,6 +242,14 @@ class ApplicationBase(metaclass=PluginRegistryMeta):
         Optionally implement this method to return a dictionary of network
         interfaces used by this application.
         """
+
+
+@dataclass
+class SummaryEntry:
+    """ SummaryEntry data type. """
+
+    data: object
+    index: int = 0
 
 
 def summary_entry(name, index=0):
@@ -340,14 +345,6 @@ class SummaryBase(ApplicationBase):
             return self.docker.all_formatted
 
         return None
-
-
-class SummaryEntry():
-    """ Formatter to convert output to Markdown. """
-
-    def __init__(self, data, index):
-        self.data = data
-        self.index = index
 
 
 class PartManager():
@@ -548,7 +545,7 @@ class PluginPartBase(SummaryBase):
         _output = {}
         if self.summary:
             for key, data in self.summary.items():
-                _output[key] = SummaryEntry(data, 0)
+                _output[key] = SummaryEntry(data=data)
 
         # Discover the summary functions
         implicit_summary_fns = self.get_summary_entries()
@@ -564,7 +561,7 @@ class PluginPartBase(SummaryBase):
                 result = attr()
                 if not result:
                     continue
-                _output[name] = SummaryEntry(result, index)
+                _output[name] = SummaryEntry(data=result, index=index)
 
         return _output
 

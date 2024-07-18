@@ -160,7 +160,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
             self.create_tests(dtmp)
             with mock.patch.object(utils, 'DEFS_TESTS_DIR',
                                    os.path.join(dtmp, 'tests')):
-                class FakeTests():
+                class FakeTests():  # pylint: disable=R0903
                     """ dummy tests """
                     @utils.load_templated_tests('scenarios/testplugin/1')
                     @staticmethod
@@ -180,7 +180,8 @@ class TestScenarioTestLoader(utils.BaseTestCase):
             self.create_tests(dtmp, levels=3)
             with mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
                 @utils.load_templated_tests('scenarios/testplugin/1')
-                class FakeTests():  # pylint: disable=W0612
+                # pylint: disable-next=too-few-public-methods, unused-variable
+                class FakeTests():
                     """ dummy tests """
 
                 plugin_path = 'tests/scenarios/testplugin'

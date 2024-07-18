@@ -1,6 +1,7 @@
 import abc
 import re
 import subprocess
+from dataclasses import dataclass
 
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelper
@@ -476,11 +477,11 @@ class APTPackageHelper(PackageHelperBase):
         return self._core_packages
 
 
-class AptPackage():
+@dataclass(frozen=True)
+class AptPackage:
     """ Representation of an APT package.  """
-    def __init__(self, name, version):
-        self.name = name
-        self.version = version
+    name: str
+    version: str
 
 
 class AptFactory(FactoryBase):

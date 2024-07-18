@@ -1,6 +1,7 @@
 import abc
 
 
+# pylint: disable-next= too-few-public-methods
 class FactoryBase(abc.ABC):
     """
     Provide a common way to implement factory objects.
