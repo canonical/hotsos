@@ -1,6 +1,7 @@
 import os
 import re
 from functools import cached_property
+from dataclasses import dataclass
 
 from hotsos.core.plugins.kernel.sysfs import CPU
 from hotsos.core.config import HotSOSConfig
@@ -24,51 +25,80 @@ from hotsos.core.plugins.system.system import (
 )
 
 
+@dataclass
+class NovaQemuProcessIdentifierBase():
+    """
+    Base class for identifiers used to find qemu processes in ps output.
+    """
+    item: str = r'.+qemu.+product=OpenStack Nova.+'
+    uuid: str = r'.+uuid\s+([a-z0-9\-]+)[\s,]+.+'
+    name: str = r'.+\s+-name\s+guest=(instance-\w+)[,]*.*\s+.+'
+    mac: str = r'mac=([a-z0-9:]+)'
+    guest_mem: str = r'.+\s-m\s+(\d+)'
+
+
+@dataclass
+class NovaQemuProcessIdentifierx86(NovaQemuProcessIdentifierBase):
+    """ Identifies qemu entries in ps output on x86 machines. """
+
+
+@dataclass
+class NovaQemuProcessIdentifierARM(NovaQemuProcessIdentifierBase):
+    """ Identifies qemu entries in ps output on ARM machines. """
+    item: str = r'.+qemu.+nova.+'
+
+
 class NovaBase(OSTServiceBase):
     """ Base class for Nova checks. """
     def __init__(self, *args, **kwargs):
         super().__init__('nova', *args, **kwargs)
         self.nova_config = self.project.config['main']
 
-    @cached_property
-    def instances(self):
+    def get_instances(self, identifiers):
+        """
+        Get UUIDs of Nova instances.
+
+        This looks for qemu processes in ps output that look like they were
+        started by Nova.
+        """
         instances = {}
         for line in CLIHelper().ps():
-            ret = re.compile('.+product=OpenStack Nova.+').match(line)
+            ret = re.compile(identifiers.item).match(line)
+            if not ret:
+                continue
+
+            ret = re.compile(identifiers.uuid).match(ret[0])
+            if not ret:
+                continue
+
+            uuid = ret[1]
+            ret = re.compile(identifiers.name).match(ret[0])
+            if not ret:
+                continue
+
+            name = ret[1]
+            guest = NovaInstance(uuid, name)
+            ret = re.compile(identifiers.mac).findall(line)
             if ret:
-                name = None
-                uuid = None
+                for mac in ret:
+                    # convert libvirt to local/native
+                    mac = 'fe' + mac[2:]
+                    _port = self.nethelp.get_interface_with_hwaddr(mac)
+                    if _port:
+                        guest.add_port(_port)
 
-                expr = r'.+uuid\s+([a-z0-9\-]+)[\s,]+.+'
-                ret = re.compile(expr).match(ret[0])
-                if ret:
-                    uuid = ret[1]
+            ret = re.compile(identifiers.guest_mem).search(line)
+            if ret:
+                guest.memory_mbytes = int(ret.group(1))
 
-                expr = r'.+\s+-name\s+guest=(instance-\w+)[,]*.*\s+.+'
-                ret = re.compile(expr).match(ret[0])
-                if ret:
-                    name = ret[1]
-
-                if not all([name, uuid]):
-                    continue
-
-                guest = NovaInstance(uuid, name)
-                ret = re.compile(r'mac=([a-z0-9:]+)').findall(line)
-                if ret:
-                    for mac in ret:
-                        # convert libvirt to local/native
-                        mac = 'fe' + mac[2:]
-                        _port = self.nethelp.get_interface_with_hwaddr(mac)
-                        if _port:
-                            guest.add_port(_port)
-
-                ret = re.compile(r'.+\s-m\s+(\d+)').search(line)
-                if ret:
-                    guest.memory_mbytes = int(ret.group(1))
-
-                instances[uuid] = guest
+            instances[uuid] = guest
 
         return instances
+
+    @cached_property
+    def instances(self):
+        return self.get_instances(NovaQemuProcessIdentifierx86) or \
+                   self.get_instances(NovaQemuProcessIdentifierARM)
 
     def get_nova_config_port(self, cfg_key):
         """
