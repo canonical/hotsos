@@ -16,6 +16,8 @@ from hotsos.core.ycheck.engine.properties.conclusions import (
 from .. import utils
 from . import test_scenarios_data as test_data
 
+# pylint: disable=duplicate-code
+
 
 class TestProperty():
     """ Test Property """

@@ -1,23 +1,19 @@
 from hotsos.core.plugins.rabbitmq import RabbitMQChecks
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 
 class RabbitMQSummary(RabbitMQChecks):
     """ Implementation of RabbitMQ summary. """
     summary_part_index = 0
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        if self.systemd.services:
-            return self.systemd.summary
-        if self.pebble.services:
-            return self.pebble.summary
-
-        return None
-
-    @summary_entry('dpkg', 1)
-    def summary_dpkg(self):
-        return self.apt.all_formatted or None
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.
 
     @property
     def queue_info(self):
@@ -49,12 +45,12 @@ class RabbitMQSummary(RabbitMQChecks):
 
         return None
 
-    @summary_entry('config', 2)
+    @summary_entry('config', get_min_available_entry_index())
     def summary_config(self):
         setting = self.report.partition_handling or 'unknown'
         return {'cluster-partition-handling': setting}
 
-    @summary_entry('resources', 3)
+    @summary_entry('resources', get_min_available_entry_index() + 1)
     def summary_resources(self):
         resources = {}
         _queue_info = self.queue_info

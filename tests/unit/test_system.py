@@ -13,6 +13,8 @@ from hotsos.plugin_extensions.system import (
 
 from . import utils
 
+# pylint: disable=duplicate-code
+
 
 NUMACTL = """
 available: 2 nodes (0-1)

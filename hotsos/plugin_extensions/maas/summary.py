@@ -1,28 +1,14 @@
 from hotsos.core.plugins.maas import MAASChecks
-from hotsos.core.plugintools import summary_entry
 
 
 class MAASSummary(MAASChecks):
     """ Implementation of MAAS summary. """
     summary_part_index = 0
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        if self.systemd.services:
-            return self.systemd.summary
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.
 
-        return None
-
-    @summary_entry('dpkg', 1)
-    def summary_dpkg(self):
-        if self.apt.core:
-            return self.apt.all_formatted
-
-        return None
-
-    @summary_entry('snaps', 2)
-    def summary_snaps(self):
-        if self.snaps.core:
-            return self.snaps.all_formatted
-
-        return None
+    # No custom entries defined here yet so currently relying on the defaults.

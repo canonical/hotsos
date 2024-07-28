@@ -11,6 +11,9 @@ from hotsos.plugin_extensions.storage import (
 
 from .. import utils
 
+# pylint: disable=duplicate-code
+
+
 CEPH_CONF_NO_BLUESTORE = """
 [global]
 [osd]
@@ -152,14 +155,12 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
 
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')
     def test_service_info_unavailable(self, mock_helper):
-        release_info = {'name': 'unknown', 'days-to-eol': None}
-
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.ps.return_value = []
         mock_helper.return_value.dpkg_l.return_value = []
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual['release'], release_info)
+        self.assertFalse('release' in actual)
 
     def test_package_info(self):
         inst = ceph_summary.CephSummary()
@@ -215,7 +216,8 @@ class TestCephOSDEvents(StorageCephOSDTestsBase):
         with GlobalSearcher() as global_searcher:
             inst = ceph_event_checks.CephEventHandler(global_searcher)
             actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual, result)
+            for key, value in result.items():
+                self.assertEqual(actual[key], value)
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-osd')

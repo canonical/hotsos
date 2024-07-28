@@ -12,7 +12,10 @@ from hotsos.core.issues import (
     IssuesManager,
     OpenstackWarning,
 )
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 
 class OpenstackNetworkChecks(OpenStackChecks):
@@ -83,7 +86,7 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return port_health_info
 
-    @summary_entry('config', 9)
+    @summary_entry('config', get_min_available_entry_index() + 5)
     def summary_config(self):
         config_info = self.get_config_info()
         if config_info:
@@ -91,7 +94,7 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return None
 
-    @summary_entry('phy-port-health', 10)
+    @summary_entry('phy-port-health', get_min_available_entry_index() + 6)
     def summary_phy_port_health(self):
         port_health_info = self.get_phy_port_health_info()
         if port_health_info:
@@ -99,7 +102,7 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return None
 
-    @summary_entry('namespaces', 11)
+    @summary_entry('namespaces', get_min_available_entry_index() + 7)
     def summary_namespaces(self):
         """Populate namespace information dict."""
         ns_info = {}
@@ -143,7 +146,7 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return {prefix: list(mtus) for prefix, mtus in router_mtus.items()}
 
-    @summary_entry('router-port-mtus', 12)
+    @summary_entry('router-port-mtus', get_min_available_entry_index() + 8)
     def summary_router_port_mtus(self):
         """ Provide a summary of ml2-ovs router port mtus. """
         project = getattr(self, 'neutron')
@@ -181,7 +184,7 @@ class OpenstackNetworkChecks(OpenStackChecks):
 
         return router_mtus
 
-    @summary_entry('vm-port-health', 13)
+    @summary_entry('vm-port-health', get_min_available_entry_index() + 9)
     def summary_vm_port_health(self):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """

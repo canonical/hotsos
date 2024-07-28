@@ -272,7 +272,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                     '2022-02-10': {'tap6a0486f9-82': 1}}}}
         with GlobalSearcher() as searcher:
             inst = event_checks.OVSEventChecks(searcher)
-            self.assertEqual(self.part_output_to_actual(inst.output), expected)
+            actual = self.part_output_to_actual(inst.output)
+            for key, value in expected.items():
+                self.assertEqual(actual[key], value)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovs-vswitchd.yaml',
@@ -308,7 +310,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                         '2022-02-10': 4}}}}
         with GlobalSearcher() as searcher:
             inst = event_checks.OVSEventChecks(searcher)
-            self.assertEqual(self.part_output_to_actual(inst.output), expected)
+            actual = self.part_output_to_actual(inst.output)
+            for key, value in expected.items():
+                self.assertEqual(actual[key], value)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml',
@@ -371,7 +375,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                     }}
         with GlobalSearcher() as searcher:
             inst = event_checks.OVNEventChecks(searcher)
-            self.assertEqual(self.part_output_to_actual(inst.output), expected)
+            actual = self.part_output_to_actual(inst.output)
+            for key, value in expected.items():
+                self.assertEqual(actual[key], value)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('ovn-controller.yaml',
@@ -390,7 +396,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                              1}}}}
         with GlobalSearcher() as searcher:
             inst = event_checks.OVNEventChecks(searcher)
-            self.assertEqual(self.part_output_to_actual(inst.output), expected)
+            actual = self.part_output_to_actual(inst.output)
+            for key, value in expected.items():
+                self.assertEqual(actual[key], value)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('errors-and-warnings.yaml',
@@ -411,7 +419,9 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                             'WARN': {'2022-02-16': 23, '2022-02-17': 23}}}}
         with GlobalSearcher() as searcher:
             inst = event_checks.OVNEventChecks(searcher)
-            self.assertEqual(self.part_output_to_actual(inst.output), expected)
+            actual = self.part_output_to_actual(inst.output)
+            for key, value in expected.items():
+                self.assertEqual(actual[key], value)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('bfd.yaml',

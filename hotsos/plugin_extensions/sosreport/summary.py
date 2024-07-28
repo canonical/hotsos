@@ -1,26 +1,21 @@
 from hotsos.core.plugins.sosreport import SOSReportChecks
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 
 class SOSReportSummary(SOSReportChecks):
     """ Implementation of SOSReport summary. """
     summary_part_index = 0
 
-    @summary_entry('version', 0)
-    def summary_version(self):
-        if self.version is not None:
-            return self.version
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.
 
-        return None
-
-    @summary_entry('dpkg', 1)
-    def summary_dpkg(self):
-        if self.apt.core:
-            return self.apt.all_formatted
-
-        return None
-
-    @summary_entry('plugin-timeouts', 2)
+    @summary_entry('plugin-timeouts', get_min_available_entry_index())
     def summary_plugin_timeouts(self):
         if self.timed_out_plugins:
             return self.timed_out_plugins

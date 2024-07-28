@@ -1,4 +1,5 @@
 import os
+from enum import IntEnum, auto
 
 import yaml
 from jinja2 import FileSystemLoader, Environment
@@ -215,6 +216,28 @@ class ApplicationBase(metaclass=PluginRegistryMeta):
     """
     Base class for all plugins representing an application.
     """
+    def __init__(self, *args, **kwargs):
+        self.apt = None  # APTPackageHelper
+        self.snaps = None  # SnapPackageHelper
+        self.docker = None  # DockerImageHelper
+        self.pebble = None  # PebbleHelper
+        self.systemd = None  # SystemdHelper
+        super().__init__(*args, **kwargs)
+
+    @property
+    def version(self):
+        """ Optional application version. """
+        return None
+
+    @property
+    def release_name(self):
+        """ Optional application release_name. """
+        return None
+
+    @property
+    def days_to_eol(self):
+        """ Optional application days_to_eol. """
+        return None
 
     @property
     def bind_interfaces(self):
@@ -222,6 +245,101 @@ class ApplicationBase(metaclass=PluginRegistryMeta):
         Optionally implement this method to return a dictionary of network
         interfaces used by this application.
         """
+
+
+def summary_entry(name, index=0):
+    """Decorate a class member function to indicate that it is a summary
+    function. Summary functions are automatically discovered by the
+    PluginPartBase class and will be part of the summary output."""
+
+    def real_decorator(func):
+        # Store the summary metadata information on the function itself.
+        func.__summary_elem_name = name  # pylint: disable=protected-access
+        func.__summary_elem_index = index  # pylint: disable=protected-access
+        return func
+    return real_decorator
+
+
+def get_min_available_entry_index():
+    """ Return first index available after default entries. """
+    return DefaultSummaryEntryIndexes.AVAILABLE
+
+
+class DefaultSummaryEntryIndexes(IntEnum):
+    """ Indexes used for default summary entries. """
+    VERSION = 0
+    RELEASE = auto()
+    SERVICES = auto()
+    SNAPS = auto()
+    DPKG = auto()
+    DOCKER_IMAGES = auto()
+    # The following index represents the first one that is available for
+    # implementations to use and they implement their indexes as an offset from
+    # this value so that if it is increased they are automatically increased.
+    AVAILABLE = auto()
+
+
+class SummaryBase(ApplicationBase):
+    """ Common structure for application summary output.
+
+    Individual application plugins should implement this class and extend to
+    include information specific to their application.
+    """
+    @classmethod
+    def default_summary_entries(cls):
+        return [e for e in dir(SummaryBase) if str(e).startswith('summary_')]
+
+    @summary_entry('version', DefaultSummaryEntryIndexes.VERSION)
+    def summary_version(self):
+        return self.version
+
+    @summary_entry('release', DefaultSummaryEntryIndexes.RELEASE)
+    def summary_release(self):
+        if not all([self.release_name is not None,
+                    self.days_to_eol is not None]):
+            return None
+
+        return {'name': self.release_name,
+                'days-to-eol': self.days_to_eol}
+
+    @summary_entry('services', DefaultSummaryEntryIndexes.SERVICES)
+    def summary_services(self):
+        """Get string info for running services."""
+        if self.systemd is not None and self.systemd.services:
+            return self.systemd.summary
+
+        if self.pebble is not None and self.pebble.services:
+            return self.pebble.summary
+
+        return None
+
+    @summary_entry('snaps', DefaultSummaryEntryIndexes.SNAPS)
+    def summary_snaps(self):
+        if self.snaps is None:
+            return None
+
+        return self.snaps.all_formatted or None
+
+    @summary_entry('dpkg', DefaultSummaryEntryIndexes.DPKG)
+    def summary_dpkg(self):
+        # require at least one core package to be installed to include
+        # this in the report.
+        if self.apt is not None and self.apt.core:
+            return self.apt.all_formatted
+
+        return None
+
+    @summary_entry('docker-images', DefaultSummaryEntryIndexes.DOCKER_IMAGES)
+    def summary_docker_images(self):
+        if self.docker is None:
+            return None
+
+        # require at least one core image to be in-use to include
+        # this in the report.
+        if self.docker.core:
+            return self.docker.all_formatted
+
+        return None
 
 
 class SummaryEntry():
@@ -324,20 +442,7 @@ class PartManager():
         return {HotSOSConfig.plugin_name: parts}
 
 
-def summary_entry(name, index=0):
-    """Decorate a class member function to indicate that it is a summary
-    function. Summary functions are automatically discovered by the
-    PluginPartBase class and will be part of the summary output."""
-
-    def real_decorator(func):
-        # Store the summary metadata information on the function itself.
-        func.__summary_elem_name = name  # pylint: disable=protected-access
-        func.__summary_elem_index = index  # pylint: disable=protected-access
-        return func
-    return real_decorator
-
-
-class PluginPartBase(ApplicationBase):
+class PluginPartBase(SummaryBase):
     """ This is the base class used for all plugins.
 
     Provides a standard set of methods that plugins will need as well as the
@@ -376,11 +481,24 @@ class PluginPartBase(ApplicationBase):
         raise NotImplementedError
 
     @property
+    def summary_subkey_include_default_entries(self):
+        """
+        By default the default/base class summary entries will NOT be included
+        in the output of a summary subkey. To override this behaviour you must
+        override this property to return True.
+        """
+        return False
+
+    @property
     def summary_subkey(self):
         """
         This can be optionally implemented in order to have all output of the
         current part placed under the keyname provided by this property i.e.
         <plugin_name>: <subkey>: ...
+
+        By default the default/base class summary entries will NOT be included
+        in the output of a summary subkey. To override this behaviour you must
+        override summary_subkey_include_default_entries to return True.
         """
         return None
 
@@ -395,8 +513,7 @@ class PluginPartBase(ApplicationBase):
         """
         return None
 
-    @classmethod
-    def get_summary_entries(cls):
+    def get_summary_entries(self):
         """Return a list of summary functions defined in the current class
         and all the derived classes.
 
@@ -406,16 +523,24 @@ class PluginPartBase(ApplicationBase):
 
         result = {}
         # Iterate through all attributes of BaseClass
-        for name in dir(cls):
-            # Get the attribute from the current class (cls)
-            attr = getattr(cls, name)
+        for name in dir(self.__class__):
+            # Get the attribute from the current class (self.__class__)
+            attr = getattr(self.__class__, name)
             # Check if it's a function and has the specified attribute
-            if callable(attr) and hasattr(attr, '__summary_elem_name'):
-                name = getattr(attr, '__summary_elem_name')
-                index = getattr(attr, '__summary_elem_index')
-                log.debug("Found summary entry %s with idx %d",
-                          name, index)
-                result[name] = [attr.__name__, index]
+            if not (callable(attr) and hasattr(attr, '__summary_elem_name')):
+                continue
+
+            if not self.summary_subkey_include_default_entries:
+                # Exclude base class (default) entries from subkey parts
+                if (self.summary_subkey is not None and
+                        attr.__name__ in self.default_summary_entries()):
+                    continue
+
+            name = getattr(attr, '__summary_elem_name')
+            index = getattr(attr, '__summary_elem_index')
+            log.debug("Found summary entry %s with idx %d",
+                      name, index)
+            result[name] = [attr.__name__, index]
         return result
 
     @property

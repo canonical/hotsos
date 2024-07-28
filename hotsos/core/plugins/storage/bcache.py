@@ -272,6 +272,11 @@ class CachesetsInfo(BcacheBase):
 
 class BcacheChecks(BcacheBase):
     """ Bcache checks. """
+
+    @property
+    def summary_subkey_include_default_entries(self):
+        return True
+
     @property
     def summary_subkey(self):
         return 'bcache'

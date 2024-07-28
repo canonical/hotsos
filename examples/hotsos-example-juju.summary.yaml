@@ -24,13 +24,13 @@ system:
         this environment. If maintenance windows are required please consider disabling
         unattended upgrades.
 juju:
+  version: 2.9.22
   services:
     systemd:
       enabled:
         - jujud-machine-1
     ps:
       - jujud (1)
-  version: 2.9.22
   machine: '1'
   units:
     ceph-osd/0:

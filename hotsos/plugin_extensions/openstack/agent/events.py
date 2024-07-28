@@ -18,7 +18,10 @@ from hotsos.core.plugins.openstack.common import (
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core import utils
 from hotsos.core.utils import sorted_dict
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 VRRP_TRANSITION_WARN_THRESHOLD = 8
 
@@ -78,7 +81,7 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 8
     event_group = 'apache'
 
-    @summary_entry('agent-checks', 101)
+    @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
         out = self.run()
         if out:
@@ -107,7 +110,7 @@ class APIEvents(OpenstackEventHandlerBase):
     summary_part_index = 9
     event_group = 'http-requests'
 
-    @summary_entry('api-info', 100)
+    @summary_entry('api-info', get_min_available_entry_index() + 100)
     def summary_api_info(self):
         out = self.run()
         if out:
@@ -215,7 +218,7 @@ class NeutronAgentEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 7
     event_group = 'neutron.agents'
 
-    @summary_entry('agent-checks', 101)
+    @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
         # NOTE: order is important here
         agents = ['neutron-server', 'neutron-l3-agent', 'neutron-ovs-agent']
@@ -269,7 +272,7 @@ class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 10
     event_group = 'octavia'
 
-    @summary_entry('agent-checks', 101)
+    @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
         out = self.run()
         if out:
@@ -296,7 +299,7 @@ class NovaComputeEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 11
     event_group = 'nova.nova-compute'
 
-    @summary_entry('agent-checks', 101)
+    @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
         out = self.run()
         if out:
@@ -329,7 +332,7 @@ class AgentApparmorChecks(OpenstackEventHandlerBase):
     summary_part_index = 12
     event_group = 'apparmor'
 
-    @summary_entry('agent-checks', 101)
+    @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
         out = self.run()
         if out:
@@ -408,7 +411,7 @@ class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
     summary_part_index = 13
     event_group = 'neutron.ml2-routers'
 
-    @summary_entry('agent-checks', 101)
+    @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
         out = self.run()
         if out:

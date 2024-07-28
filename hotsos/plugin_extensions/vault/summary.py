@@ -1,23 +1,12 @@
 from hotsos.core.plugins.vault import VaultChecks
-from hotsos.core.plugintools import summary_entry
 
 
 class VaultSummary(VaultChecks):
     """ Implementation of Vault summary. """
     summary_part_index = 0
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        if self.systemd.services:
-            return self.systemd.summary
-        if self.pebble.services:
-            return self.pebble.summary
-
-        return None
-
-    @summary_entry('snaps', 1)
-    def summary_snaps(self):
-        if self.snaps.core:
-            return self.snaps.all_formatted
-
-        return None
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.

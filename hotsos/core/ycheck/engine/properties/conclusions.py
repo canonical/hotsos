@@ -160,6 +160,7 @@ class YPropertyDecision(DecisionBase, YPropertyMappedOverrideBase):
 
     @property
     def result(self):
+        # pylint: disable=duplicate-code
         results = []
         try:
             stop_executon = False
