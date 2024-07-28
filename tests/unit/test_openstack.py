@@ -227,6 +227,8 @@ JiBFj7+sx/wHgLEaPX1WfgBCaKFhaz90ClEMAJfAQnpjDDWsLloVDwCR1yl3EO+/
 mTTs23LFXXqOTVxoncDqa0IY
 -----END CERTIFICATE-----"""  # noqa
 
+ARM_QEMU_PS_OUT = """libvirt+   23849  6.8  0.0 6083100 1237380 ?     -    Apr29 670:43 /usr/bin/qemu-system-aarch64 -name guest=instance-00037cd9,debug-threads=on -S -object {"qom-type":"secret","id":"masterKey0","format":"raw","file":"/var/lib/libvirt/qemu/domain-1-instance-00037cd9/master-key.aes"} -blockdev {"driver":"file","filename":"/usr/share/AAVMF/AAVMF_CODE.fd","node-name":"libvirt-pflash0-storage","auto-read-only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-pflash0-format","read-only":true,"driver":"raw","file":"libvirt-pflash0-storage"} -blockdev {"driver":"file","filename":"/var/lib/libvirt/qemu/nvram/instance-00037cd9_VARS.fd","node-name":"libvirt-pflash1-storage","auto-read-only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-pflash1-format","read-only":false,"driver":"raw","file":"libvirt-pflash1-storage"} -machine virt-6.2,usb=off,dump-guest-core=off,gic-version=3,pflash0=libvirt-pflash0-format,pflash1=libvirt-pflash1-format,memory-backend=mach-virt.ram -accel kvm -cpu host -m 1024 -object {"qom-type":"memory-backend-ram","id":"mach-virt.ram","size":1073741824} -overcommit mem-lock=off -smp 1,sockets=1,dies=1,cores=1,threads=1 -uuid 66a20f33-f273-49bc-b738-936eebfbd8c5 -no-user-config -nodefaults -chardev socket,id=charmonitor,fd=33,server=on,wait=off -mon chardev=charmonitor,id=monitor,mode=control -rtc base=utc,driftfix=slew -no-shutdown -boot strict=on -device pcie-root-port,port=8,chassis=1,id=pci.1,bus=pcie.0,multifunction=on,addr=0x1 -device pcie-root-port,port=9,chassis=2,id=pci.2,bus=pcie.0,addr=0x1.0x1 -device pcie-root-port,port=10,chassis=3,id=pci.3,bus=pcie.0,addr=0x1.0x2 -device pcie-root-port,port=11,chassis=4,id=pci.4,bus=pcie.0,addr=0x1.0x3 -device pcie-root-port,port=12,chassis=5,id=pci.5,bus=pcie.0,addr=0x1.0x4 -device pcie-root-port,port=13,chassis=6,id=pci.6,bus=pcie.0,addr=0x1.0x5 -device pcie-root-port,port=14,chassis=7,id=pci.7,bus=pcie.0,addr=0x1.0x6 -device pcie-root-port,port=15,chassis=8,id=pci.8,bus=pcie.0,addr=0x1.0x7 -device qemu-xhci,id=usb,bus=pci.2,addr=0x0 -device virtio-serial-pci,id=virtio-serial0,bus=pci.3,addr=0x0 -blockdev {"driver":"file","filename":"/var/lib/nova/instances/_base/5b9f93fbfce101950757660101d52f139dcbdeb1","node-name":"libvirt-2-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-2-format","read-only":true,"discard":"unmap","cache":{"direct":true,"no-flush":false},"driver":"raw","file":"libvirt-2-storage"} -blockdev {"driver":"file","filename":"/var/lib/nova/instances/66a20f33-f273-49bc-b738-936eebfbd8c5/disk","node-name":"libvirt-1-storage","cache":{"direct":true,"no-flush":false},"auto-read-only":true,"discard":"unmap"} -blockdev {"node-name":"libvirt-1-format","read-only":false,"discard":"unmap","cache":{"direct":true,"no-flush":false},"driver":"qcow2","file":"libvirt-1-storage","backing":"libvirt-2-format"} -device virtio-blk-pci,bus=pci.4,addr=0x0,drive=libvirt-1-format,id=virtio-disk0,bootindex=1,write-cache=on -netdev tap,fd=35,id=hostnet0,vhost=on,vhostfd=37 -device virtio-net-pci,host_mtu=1500,netdev=hostnet0,id=net0,mac=fa:16:5d:40:33:0d,bus=pci.1,addr=0x0 -add-fd set=3,fd=34 -chardev pty,id=charserial0,logfile=/dev/fdset/3,logappend=on -serial chardev:charserial0 -chardev spicevmc,id=charchannel0,name=vdagent -device virtserialport,bus=virtio-serial0.0,nr=1,chardev=charchannel0,id=channel0,name=com.redhat.spice.0 -device usb-kbd,id=input0,bus=usb.0,port=1 -audiodev {"id":"audio1","driver":"spice"} -spice port=5900,addr=10.140.52.133,disable-ticketing=on,seamless-migration=on -device virtio-vga,id=video0,max_outputs=1,bus=pci.7,addr=0x0 -device virtio-balloon-pci,id=balloon0,bus=pci.5,addr=0x0 -object {"qom-type":"rng-random","id":"objrng0","filename":"/dev/urandom"} -device virtio-rng-pci,rng=objrng0,id=rng0,bus=pci.6,addr=0x0 -device vmcoreinfo -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny -msg timestamp=on"""  # noqa,pylint: disable=line-too-long
+
 
 class TestOpenstackBase(utils.BaseTestCase):
     """ Custom base testcase that sets openstack plugin context. """
@@ -419,6 +421,20 @@ class TestOpenstackPluginCore(TestOpenstackBase):
     def test_plugin_runnable(self):
         ost_base = openstack_core.OpenStackChecks()
         self.assertTrue(ost_base.plugin_runnable)
+
+
+class TestOpenstackPluginNova(TestOpenstackBase):
+    """
+    Unit tests for Openstack nova plugin.
+    """
+    def test_nova_instances(self):
+        self.assertEqual(list(nova_core.NovaBase().instances.keys()),
+                         ['d1d75e2f-ada4-49bc-a963-528d89dfda25'])
+
+    @utils.create_data_root({'ps': ARM_QEMU_PS_OUT})
+    def test_nova_instances_arm(self):
+        self.assertEqual(list(nova_core.NovaBase().instances.keys()),
+                         ['66a20f33-f273-49bc-b738-936eebfbd8c5'])
 
 
 class TestOpenStackSummary(TestOpenstackBase):
