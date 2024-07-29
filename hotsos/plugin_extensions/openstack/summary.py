@@ -1,4 +1,4 @@
-from hotsos.core.plugins.openstack.common import OpenStackChecks
+from hotsos.core.plugins.openstack.common import OpenstackBase, OpenStackChecks
 from hotsos.core.plugins.openstack.neutron import NeutronHAInfo
 from hotsos.core.plugintools import (
     summary_entry,
@@ -6,7 +6,7 @@ from hotsos.core.plugintools import (
 )
 
 
-class OpenStackSummary(OpenStackChecks):
+class OpenStackSummary(OpenstackBase, OpenStackChecks):
     """ Implementation of OpenStack summary. """
     summary_part_index = 0
 

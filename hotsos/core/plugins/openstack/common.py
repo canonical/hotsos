@@ -243,14 +243,14 @@ class OpenstackBase():
         return False
 
 
-class OpenStackChecks(OpenstackBase, plugintools.PluginPartBase):
+class OpenStackChecks(plugintools.PluginPartBase):
     """ OpenStack checks. """
     plugin_name = "openstack"
     plugin_root_index = 4
 
-    @property
+    @cached_property
     def plugin_runnable(self):
-        return self.openstack_installed
+        return OpenstackBase().openstack_installed
 
 
 class OpenstackEventCallbackBase(OpenstackBase, EventCallbackBase):

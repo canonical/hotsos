@@ -4,7 +4,7 @@ from collections import UserDict
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
-from hotsos.core.plugins.openstack.common import OpenStackChecks
+from hotsos.core.plugins.openstack.common import OpenstackBase, OpenStackChecks
 from hotsos.core.search import (
     FileSearcher,
     SearchDef,
@@ -107,7 +107,7 @@ class AgentExceptionCheckResults(UserDict):
         return files
 
 
-class AgentExceptionChecks(OpenStackChecks):
+class AgentExceptionChecks(OpenstackBase, OpenStackChecks):
     """
     Openstack services/agents will log exceptions using ERROR and
     WARNING log levels depending on who raised them and their
