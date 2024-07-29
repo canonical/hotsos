@@ -24,7 +24,7 @@ from hotsos.core.ycheck.common import GlobalSearcher
 from .. import utils
 
 # It is fine for a test to access a protected member so allow it for all tests
-# pylint: disable=protected-access
+# pylint: disable=protected-access,disable=duplicate-code
 
 
 class TestProperty(YPropertyBase):

@@ -1,9 +1,8 @@
 from hotsos.core.log import log
 from hotsos.core.host_helpers import PebbleHelper
-from hotsos.core.ycheck.engine.properties.requires import (
-    intercept_exception,
-    ServiceCheckItemsBase,
-    YRequirementTypeBase,
+from hotsos.core.ycheck.engine.properties.requires import ServiceCheckItemsBase
+from hotsos.core.ycheck.engine.properties.requires.types import (
+    service_manager_common
 )
 
 
@@ -16,64 +15,40 @@ class PebbleServiceCheckItems(ServiceCheckItemsBase):
         return PebbleHelper(self._svcs_all)
 
 
-class YRequirementTypePebble(YRequirementTypeBase):
+class YRequirementTypePebble(service_manager_common.ServiceManagerTypeBase):
     """
     Pebble requires type property. Provides support for defining checks on
     pebble service manager resources.
     """
     override_keys = ['pebble']
     override_autoregister = True
+    default_op = 'eq'
+
+    def _check_item_settings(self, svc, svc_obj, settings, cache_info,
+                             all_items):
+        processes = None
+        if isinstance(settings, str):
+            state = settings
+            ops = [[self.default_op, state]]
+        else:
+            processes = settings.get('processes')
+            if processes:
+                log.debug("checking systemd service processes: %s", processes)
+
+            op = settings.get('op', self.default_op)
+            if 'state' in settings:
+                ops = [[op, settings.get('state')]]
+            else:
+                ops = []
+
+        if processes and not all_items.processes_running(processes):
+            log.debug("one or more pebble service processes not running "
+                      "- %s", ', '.join(processes))
+            return False
+
+        cache_info[svc]['ops'] = self.ops_to_str(ops)
+        return self.self.apply_ops(ops, input=svc_obj.state)
 
     @property
-    @intercept_exception
-    def _result(self):
-        cache_info = {}
-        default_op = 'eq'
-        _result = True
-
-        items = PebbleServiceCheckItems(self.content)
-        if not items.not_installed:
-            for svc, settings in items:
-                svc_obj = items.installed[svc]
-                cache_info[svc] = {'actual': svc_obj.state}
-                if settings is None:
-                    continue
-
-                processes = None
-                if isinstance(settings, str):
-                    state = settings
-                    ops = [[default_op, state]]
-                else:
-                    processes = settings.get('processes')
-                    if processes:
-                        log.debug("checking service processes: %s", processes)
-
-                    op = settings.get('op', default_op)
-                    if 'state' in settings:
-                        ops = [[op, settings.get('state')]]
-                    else:
-                        ops = []
-
-                if processes and not items.processes_running(processes):
-                    log.debug("one or more processes not running "
-                              "- %s", ', '.join(processes))
-                    _result = False
-                else:
-                    cache_info[svc]['ops'] = self.ops_to_str(ops)
-                    _result = self.self.apply_ops(ops, input=svc_obj.state)
-
-                if not _result:
-                    # bail on first fail
-                    break
-        else:
-            log.debug("one or more services not installed so returning False "
-                      "- %s", ', '.join(items.not_installed))
-            # bail on first fail i.e. if any not installed
-            _result = False
-
-        # this will represent what we have actually checked
-        self.cache.set('services', ', '.join(cache_info))
-        svcs = [f"{svc}={settings}" for svc, settings in items]
-        log.debug('requirement check: %s (result=%s)',
-                  ', '.join(svcs), _result)
-        return _result
+    def items_to_check(self):
+        return PebbleServiceCheckItems(self.content)

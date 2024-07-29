@@ -1,33 +1,21 @@
 from hotsos.core.plugins.lxd import LXD, LXDChecks
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 
 class LXDSummary(LXDChecks):
     """ Implementation of LXD summary. """
     summary_part_index = 0
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        if self.systemd.services:
-            return self.systemd.summary
-
-        return None
-
-    @summary_entry('snaps', 1)
-    def summary_snaps(self):
-        if self.snaps:
-            return self.snaps.all_formatted
-
-        return None
-
-    @summary_entry('dpkg', 2)
-    def summary_dpkg(self):
-        if self.apt:
-            return self.apt.all_formatted
-
-        return None
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.
 
     @staticmethod
-    @summary_entry('instances', 3)
+    @summary_entry('instances', get_min_available_entry_index())
     def summary_instances():
         return LXD().instances or None

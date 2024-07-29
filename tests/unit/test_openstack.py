@@ -17,6 +17,9 @@ from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.core.issues import IssuesManager
 
 
+# pylint: disable=duplicate-code
+
+
 from . import utils
 
 OCTAVIA_UNIT_FILES = """
@@ -600,39 +603,36 @@ class TestOpenStackSummary(TestOpenstackBase):
 class TestOpenstackVmInfo(TestOpenstackBase):
     """ Unit tests for OpenStack vm info. """
     def test_get_vm_checks(self):
-        expected = {"vm-info": {
-                        "running": {
-                            'count': 1,
-                            'uuids': ['d1d75e2f-ada4-49bc-a963-528d89dfda25']},
-                        "cpu-models": {'Skylake-Client-IBRS': 1},
-                        "vcpu-info": {
-                            "available-cores": 2,
-                            "system-cores": 2,
-                            "smt": False,
-                            "used": 1,
-                            "overcommit-factor": 0.5}}
-                    }
+        expected = {"running": {
+                        'count': 1,
+                        'uuids': ['d1d75e2f-ada4-49bc-a963-528d89dfda25']},
+                    "cpu-models": {'Skylake-Client-IBRS': 1},
+                    "vcpu-info": {
+                        "available-cores": 2,
+                        "system-cores": 2,
+                        "smt": False,
+                        "used": 1,
+                        "overcommit-factor": 0.5}}
         inst = vm_info.OpenstackInstanceChecks()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual['vm-info'], expected)
 
     def test_vm_migration_analysis(self):
-        expected = {'nova-migrations': {
-                        'live-migration': {
-                            '359150c9-6f40-416e-b381-185bff09e974': [
-                                {'start': '2022-02-10 16:18:28',
-                                 'end': '2022-02-10 16:18:28',
-                                 'duration': 0.0,
-                                 'regressions': {
-                                     'memory': 0,
-                                     'disk': 0},
-                                 'iterations': 1}]
-                        }}}
+        expected = {'live-migration': {
+                        '359150c9-6f40-416e-b381-185bff09e974': [
+                            {'start': '2022-02-10 16:18:28',
+                             'end': '2022-02-10 16:18:28',
+                             'duration': 0.0,
+                             'regressions': {
+                                 'memory': 0,
+                                 'disk': 0},
+                             'iterations': 1}]
+                    }}
         with GlobalSearcher() as searcher:
             inst = vm_info.NovaServerMigrationAnalysis(searcher)
             actual = self.part_output_to_actual(inst.output)
 
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual['nova-migrations'], expected)
 
 
 class TestOpenstackNovaExternalEvents(TestOpenstackBase):
@@ -703,7 +703,9 @@ class TestOpenstackServiceNetworkChecks(TestOpenstackBase):
         }
         inst = service_network_checks.OpenstackNetworkChecks()
         actual = self.part_output_to_actual(inst.output)
-        self.assertEqual(actual, expected)
+        for key, value in expected.items():
+            self.assertEqual(actual[key], value)
+
         self.assertEqual(IssuesManager().load_issues(), {})
 
     @mock.patch.object(service_network_checks, 'VXLAN_HEADER_BYTES', 31)

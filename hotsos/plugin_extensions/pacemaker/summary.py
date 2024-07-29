@@ -1,23 +1,21 @@
 from hotsos.core.plugins.pacemaker import PacemakerChecks
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 
 class PacemakerSummary(PacemakerChecks):
     """ Implementation of Pacemaker summary. """
     summary_part_index = 0
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        if self.systemd.services:
-            return self.systemd.summary
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.
 
-        return None
-
-    @summary_entry('dpkg', 1)
-    def summary_dpkg(self):
-        return self.apt.all_formatted or None
-
-    @summary_entry('nodes', 2)
+    @summary_entry('nodes', get_min_available_entry_index())
     def summary_nodes(self):
         nodes = {}
         if self.online_nodes:

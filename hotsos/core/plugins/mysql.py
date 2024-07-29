@@ -24,13 +24,13 @@ class MySQLChecks(plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__()
-        self.apt_info = APTPackageHelper(core_pkgs=CORE_APT)
+        self.apt = APTPackageHelper(core_pkgs=CORE_APT)
         self.pebble = PebbleHelper(service_exprs=MYSQL_SVC_EXPRS)
         self.systemd = SystemdHelper(service_exprs=MYSQL_SVC_EXPRS)
 
     @property
     def plugin_runnable(self):
-        return self.apt_info.core is not None
+        return self.apt.core is not None
 
 
 class MySQLConfig(host_helpers.IniConfigBase):

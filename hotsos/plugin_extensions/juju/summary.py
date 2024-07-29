@@ -13,7 +13,10 @@ from hotsos.core.search import (
 )
 from hotsos.core.utils import sorted_dict
 from hotsos.core.search import CommonTimestampMatcher
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 
 class UnitLogInfo():
@@ -101,30 +104,14 @@ class JujuSummary(JujuChecks):
     """ Implementation of Juju summary. """
     summary_part_index = 0
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        if self.systemd.services:
-            return self.systemd.summary
-        if self.pebble.services:
-            return self.pebble.summary
-
-        return None
-
-    @summary_entry('version', 1)
-    def summary_version(self):
-        if self.machine:
-            return self.machine.version
-
-        return "unknown"
-
-    @summary_entry('machine', 2)
+    @summary_entry('machine', get_min_available_entry_index())
     def summary_machine(self):
         if self.machine:
             return self.machine.id
 
         return "unknown"
 
-    @summary_entry('units', 3)
+    @summary_entry('units', get_min_available_entry_index() + 1)
     def summary_units(self):
         if not self.units:
             return None

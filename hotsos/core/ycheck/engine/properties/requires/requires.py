@@ -108,6 +108,7 @@ class YPropertyRequires(YPropertyMappedOverrideBase):
         or list of requirements. List may contain individual requirements or
         groups.
         """
+        # pylint: disable=duplicate-code
         log.debug("running requirement")
         try:
             results = []

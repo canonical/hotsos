@@ -410,7 +410,8 @@ class TestCephMonEvents(CephMonTestsBase):
         with GlobalSearcher() as global_searcher:
             inst = ceph_event_checks.CephEventHandler(global_searcher)
             actual = self.part_output_to_actual(inst.output)
-            self.assertEqual(actual, result)
+            for key, value in result.items():
+                self.assertEqual(actual[key], value)
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-mon')

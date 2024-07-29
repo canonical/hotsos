@@ -1,23 +1,14 @@
 from hotsos.core.plugins.mysql import MySQLChecks
-from hotsos.core.plugintools import summary_entry
 
 
 class MySQLSummary(MySQLChecks):
     """ Implementation of MySQL summary. """
     summary_part_index = 0
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        if self.systemd.services:
-            return self.systemd.summary
-        if self.pebble.services:
-            return self.pebble.summary
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.
 
-        return None
-
-    @summary_entry('dpkg', 1)
-    def summary_dpkg(self):
-        if self.apt_info.core:
-            return self.apt_info.all_formatted
-
-        return None
+    # No custom entries defined here yet so currently relying on the defaults.

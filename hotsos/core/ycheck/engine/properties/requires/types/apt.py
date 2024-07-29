@@ -36,6 +36,7 @@ class YRequirementTypeAPT(YRequirementTypeBase):
     @property
     @intercept_exception
     def _result(self):
+        # pylint: disable=duplicate-code
         _result = True
         items = APTCheckItems(self.content)
 

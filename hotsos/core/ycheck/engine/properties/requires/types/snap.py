@@ -97,6 +97,7 @@ class YRequirementTypeSnap(YRequirementTypeBase):
     @property
     @intercept_exception
     def _result(self):
+        # pylint: disable=duplicate-code
         _result = True
         items = SnapCheckItems(self.content)
         # bail on first fail i.e. if any not installed

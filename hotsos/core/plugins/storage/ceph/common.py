@@ -149,6 +149,10 @@ class CephChecks(StorageBase):
         self.cluster = CephCluster()
 
     @property
+    def summary_subkey_include_default_entries(self):
+        return True
+
+    @property
     def summary_subkey(self):
         return 'ceph'
 

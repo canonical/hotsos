@@ -4,6 +4,7 @@ import json
 import os
 import pickle
 import re
+from functools import cached_property
 
 from searchkit.utils import MPCache
 from hotsos.core.config import HotSOSConfig
@@ -12,6 +13,7 @@ from hotsos.core.host_helpers.exceptions import (
     SourceNotFound,
 )
 from hotsos.core.log import log
+from hotsos.core.utils import sorted_dict
 
 
 class NullCache():
@@ -88,6 +90,12 @@ class ServiceManagerBase(abc.ABC):
         self._ps_allow_relative = ps_allow_relative
         self._service_exprs = set(service_exprs)
 
+    @property
+    @abc.abstractmethod
+    def _service_manager_type(self):
+        """ A string name representing the type of service manager e.g.
+        'systemd' """
+
     def get_cmd_from_ps_line(self, line, expr):
         """
         Match a command in ps output line.
@@ -111,23 +119,73 @@ class ServiceManagerBase(abc.ABC):
 
     @property
     @abc.abstractmethod
+    def _service_filtered_ps(self):
+        """ Return a list ps entries corresponding to services. """
+
+    @cached_property
+    def processes(self):
+        """
+        Identify running processes from ps that are associated with resolved
+        services. The search pattern used to identify a service is also
+        used to match the process binaryc/cmd name.
+
+        Accounts for different types of process cmd path e.g.
+
+        /snap/<name>/1830/<svc>
+        /usr/bin/<svc>
+
+        and filter e.g.
+
+        /var/lib/<svc> and /var/log/<svc>
+
+        Returns a dictionary of process names along with the number of each.
+        """
+        _proc_info = {}
+        for line in self._service_filtered_ps:
+            for expr in self._service_exprs:
+                cmd = self.get_cmd_from_ps_line(line, expr)
+                if not cmd:
+                    continue
+
+                if cmd in _proc_info:
+                    _proc_info[cmd] += 1
+                else:
+                    _proc_info[cmd] = 1
+
+        return _proc_info
+
+    @property
+    @abc.abstractmethod
     def services(self):
         """ Return a dictionary of identified services and their state. """
 
     @property
-    @abc.abstractmethod
-    def processes(self):
-        """
-        Return a dictionary of processes associated with identified
-        services.
-        """
+    def _service_info(self):
+        """Return a dictionary of services grouped by state. """
+        info = {}
+        for svc, obj in sorted_dict(self.services).items():
+            state = obj.state
+            if state not in info:
+                info[state] = []
+
+            info[state].append(svc)
+
+        return info
 
     @property
-    @abc.abstractmethod
+    def _process_info(self):
+        """Return a list of processes associated with services. """
+        return [f"{name} ({count})"
+                for name, count in sorted_dict(self.processes).items()]
+
+    @property
     def summary(self):
-        """ Return a dictionary summary of this class i.e. services,
-        their state and associated processes.
         """
+        Output a dict summary of this class i.e. services, their state and any
+        processes run by them.
+        """
+        return {self._service_manager_type: self._service_info,
+                'ps': self._process_info}
 
 
 class NullSource():

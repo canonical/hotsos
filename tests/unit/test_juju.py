@@ -77,8 +77,8 @@ class TestJujuSummary(JujuTestsBase):
     def test_summary_keys(self):
         inst = summary.JujuSummary()
         self.assertEqual(list(inst.output.keys()),
-                         ['services',
-                          'version',
+                         ['version',
+                          'services',
                           'machine',
                           'units'])
 

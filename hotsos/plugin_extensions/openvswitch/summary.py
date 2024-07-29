@@ -2,33 +2,28 @@ from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.plugins.openvswitch import OpenvSwitchChecks
 from hotsos.core.plugins.openvswitch.ovn import OVNBase
 from hotsos.core.plugins.openvswitch.ovs import OpenvSwitchBase
-from hotsos.core.plugintools import summary_entry
+from hotsos.core.plugintools import (
+    summary_entry,
+    get_min_available_entry_index,
+)
 
 
 class OpenvSwitchSummary(OpenvSwitchChecks):
     """ Implementation of OpenvSwitch summary. """
     summary_part_index = 0
 
+    # REMINDER: common entries are implemented in the SummaryBase base class
+    #           and only application plugin specific customisations are
+    #           implemented here. We use the get_min_available_entry_index() to
+    #           ensure that additional entries don't clobber existing ones but
+    #           conversely can also replace them by re-using their indices.
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ovs = OpenvSwitchBase()
         self.ovn = OVNBase()
 
-    @summary_entry('services', 0)
-    def summary_services(self):
-        """Get string info for running daemons."""
-        if self.systemd.services:
-            return self.systemd.summary
-        if self.pebble.services:
-            return self.pebble.summary
-
-        return None
-
-    @summary_entry('dpkg', 1)
-    def summary_dpkg(self):
-        return self.apt.all_formatted
-
-    @summary_entry('config', 2)
+    @summary_entry('config', get_min_available_entry_index())
     def summary_config(self):
         _config = {}
         if self.ovs.offload_enabled:
@@ -44,7 +39,7 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
 
         return _config or None
 
-    @summary_entry('bridges', 3)
+    @summary_entry('bridges', get_min_available_entry_index() + 1)
     def summary_bridges(self):
         bridges = {}
         for bridge in self.ovs.bridges:
@@ -75,11 +70,11 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
 
         return bridges or None
 
-    @summary_entry('tunnels', 4)
+    @summary_entry('tunnels', get_min_available_entry_index() + 2)
     def summary_tunnels(self):
         return self.ovs.tunnels or None
 
-    @summary_entry('ovn', 5)
+    @summary_entry('ovn', get_min_available_entry_index() + 3)
     def summary_ovn(self):
         info = {}
         if self.ovn.nbdb:

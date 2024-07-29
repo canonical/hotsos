@@ -151,6 +151,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
     @cached_property
     def result(self):
+        # pylint: disable=duplicate-code
         try:
             # Pass this object down to descendants so that they have access to
             # its cache etc. Note this is modifying global context but since

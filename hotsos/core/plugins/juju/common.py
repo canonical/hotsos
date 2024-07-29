@@ -25,5 +25,12 @@ class JujuChecks(plugintools.PluginPartBase, JujuBase):
         self.systemd_processes = self.systemd.processes
 
     @property
+    def version(self):
+        if self.machine:
+            return self.machine.version
+
+        return "unknown"
+
+    @property
     def plugin_runnable(self):
         return os.path.exists(self.juju_lib_path)
