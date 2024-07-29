@@ -168,7 +168,7 @@ class OpsUtils():
 
 class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
     """ Base class for all requirement type implementations. """
-    _overrride_autoregister = False
+    override_autoregister = False
 
     @property
     @abc.abstractmethod

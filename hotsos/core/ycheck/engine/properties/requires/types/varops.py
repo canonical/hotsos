@@ -9,8 +9,8 @@ class YPropertyVarOps(YRequirementTypeWithOpsBase):
     """
     Varops requires type property. Provides support for defining varops checks.
     """
-    _override_keys = ['varops']
-    _overrride_autoregister = True
+    override_keys = ['varops']
+    override_autoregister = True
 
     @property
     def input(self):

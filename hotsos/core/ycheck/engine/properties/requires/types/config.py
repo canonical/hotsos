@@ -20,7 +20,7 @@ from hotsos.core.ycheck.engine.properties.requires import (
 
 class YConfigAssertionAttrs(YPropertyOverrideBase):
     """ Logic implementation for config assertion attributes. """
-    _override_keys = ['key', 'value', 'section', 'ops', 'allow-unset']
+    override_keys = ['key', 'value', 'section', 'ops', 'allow-unset']
 
     def __bool__(self):
         return bool(self.content)
@@ -39,8 +39,8 @@ class YConfigAssertionAttrs(YPropertyOverrideBase):
 class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
     """ Assertion property. Implements the config assertion property used to
     define an assertion on config file contents. """
-    _override_keys = ['assertion']
-    _override_members = [YConfigAssertionAttrs]
+    override_keys = ['assertion']
+    override_members = [YConfigAssertionAttrs]
 
     @cached_property
     def attrs(self):
@@ -124,7 +124,7 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
 
 class AssertionsLogicalGrouping(PTreeLogicalGrouping):
     """ Logical grouping implementation for assertions. """
-    _override_autoregister = False
+    override_autoregister = False
 
     @classmethod
     def and_stop_on_first_false(cls):
@@ -150,9 +150,9 @@ class AssertionsLogicalGrouping(PTreeLogicalGrouping):
 
 class YConfigAssertions(YPropertyMappedOverrideBase):
     """ Assertions property. Used to define one more assertion. """
-    _override_keys = ['assertions']
-    _override_members = [YConfigAssertion]
-    _override_logical_grouping_type = AssertionsLogicalGrouping
+    override_keys = ['assertions']
+    override_members = [YConfigAssertion]
+    override_logical_grouping_type = AssertionsLogicalGrouping
 
     @property
     def passes(self):
@@ -185,8 +185,8 @@ class YRequirementTypeConfig(YRequirementTypeBase):
     Config requires type property. Provides support for defining a config type
     requirement and perform checks on configuration.
     """
-    _override_keys = ['config']
-    _overrride_autoregister = True
+    override_keys = ['config']
+    override_autoregister = True
 
     @property
     def handler(self):
@@ -242,7 +242,7 @@ class YRequirementTypeConfig(YRequirementTypeBase):
         section = YDefsSection('config_assertions',
                                {'assertions': self.content.get('assertions')},
                                override_handlers=self.root.override_handlers,
-                               resolve_path=self._override_path,
+                               resolve_path=self.override_path,
                                context=ctxt)
         for leaf in section.leaf_sections:
             _assertions.append(leaf.assertions.passes)

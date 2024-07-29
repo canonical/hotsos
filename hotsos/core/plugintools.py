@@ -331,8 +331,8 @@ def summary_entry(name, index=0):
 
     def real_decorator(func):
         # Store the summary metadata information on the function itself.
-        func.__summary_elem_name = name
-        func.__summary_elem_index = index
+        func.__summary_elem_name = name  # pylint: disable=protected-access
+        func.__summary_elem_index = index  # pylint: disable=protected-access
         return func
     return real_decorator
 

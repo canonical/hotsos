@@ -87,8 +87,8 @@ class YRequirementTypeSnap(YRequirementTypeBase):
     Snap requires type property. Provides support for defining checks on
     Ubuntu snaps.
     """
-    _override_keys = ['snap']
-    _overrride_autoregister = True
+    override_keys = ['snap']
+    override_autoregister = True
 
     @property
     def channel(self):

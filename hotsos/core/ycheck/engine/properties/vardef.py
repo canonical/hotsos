@@ -12,7 +12,7 @@ class YPropertyVars(YPropertyOverrideBase):
 
     where val1 is a literal and property2 is an import path.
     """
-    _override_keys = ['vars']
+    override_keys = ['vars']
     _allow_subtree = False
 
     @staticmethod

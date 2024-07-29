@@ -39,8 +39,8 @@ class YRequirementTypeBinary(YRequirementTypeBase):
     Binary requires type property. Provides support for defining binary
     checks.
     """
-    _override_keys = ['binary']
-    _overrride_autoregister = True
+    override_keys = ['binary']
+    override_autoregister = True
 
     @property
     def _bin_info(self):

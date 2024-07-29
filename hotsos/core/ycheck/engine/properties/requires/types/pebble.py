@@ -21,8 +21,8 @@ class YRequirementTypePebble(YRequirementTypeBase):
     Pebble requires type property. Provides support for defining checks on
     pebble service manager resources.
     """
-    _override_keys = ['pebble']
-    _overrride_autoregister = True
+    override_keys = ['pebble']
+    override_autoregister = True
 
     @property
     @intercept_exception

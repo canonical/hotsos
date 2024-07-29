@@ -438,7 +438,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         class YPropertyConclusionTest(YPropertyConclusion):
             """ Test YProperty """
-            _override_autoregister = False
+            override_autoregister = False
 
             def reached(self, *args, **kwargs):
                 called.append(self.name)
@@ -461,7 +461,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
         class YPropertyConclusionTest(YPropertyConclusion):
             """ Test YProperty """
-            _override_autoregister = False
+            override_autoregister = False
 
             def reached(self, *args, **kwargs):
                 called.append(self.name)

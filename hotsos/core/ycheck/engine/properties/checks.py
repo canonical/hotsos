@@ -25,8 +25,8 @@ class CheckBase():
                   item.__class__.__name__)
         check = self.context['check']  # pylint: disable=E1101
         if isinstance(item, YPropertySearch):
-            _results = check._search_results
-            check._set_search_cache_info(_results)
+            _results = check.search_results
+            check.set_search_cache_info(_results)
             if not _results:
                 log.debug("check %s search has no matches so result=False",
                           check.name)
@@ -46,7 +46,7 @@ class CheckBase():
 
 class CheckLogicalGrouping(CheckBase, PTreeLogicalGrouping):
     """ Logical grouping for check property. """
-    _override_autoregister = False
+    override_autoregister = False
 
     @property
     def result(self):
@@ -60,9 +60,9 @@ class CheckLogicalGrouping(CheckBase, PTreeLogicalGrouping):
 
 class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
     """ Check property. Provides support for defining a check. """
-    _override_keys = ['check']
-    _override_members = [YPropertyRequires, YPropertySearch, YPropertyInput]
-    _override_logical_grouping_type = CheckLogicalGrouping
+    override_keys = ['check']
+    override_members = [YPropertyRequires, YPropertySearch, YPropertyInput]
+    override_logical_grouping_type = CheckLogicalGrouping
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -71,7 +71,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         self.check_name = None
 
     @property
-    def _search_results(self):
+    def search_results(self):
         """
         Retrieve the global searchkit.SearchResultsCollection from this
         property's context. We filter results using our tag and apply any
@@ -120,7 +120,11 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
         return None
 
-    def _set_search_cache_info(self, results):
+    def initialise(self, name):
+        self._initialised = True
+        self.check_name = name
+
+    def set_search_cache_info(self, results):
         """
         Set information in check cache so that it can be retrieved using
         PropertyCacheRefResolver. This information is typically used
@@ -182,7 +186,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
 class YPropertyChecks(YPropertyOverrideBase):
     """ Checks property. Provides support for defining scenario checks. """
-    _override_keys = ['checks']
+    override_keys = ['checks']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -212,13 +216,12 @@ class YPropertyChecks(YPropertyOverrideBase):
 
         resolved = []
         for name, content in self.content.items():
-            s = YDefsSection(self._override_name, {name: {'check': content}},
+            s = YDefsSection(self.override_name, {name: {'check': content}},
                              override_handlers=self.root.override_handlers,
-                             resolve_path=self._override_path,
+                             resolve_path=self.override_path,
                              context=self.check_context)
             for c in s.leaf_sections:
-                c.check._initialised = True
-                c.check.check_name = c.name
+                c.check.initialise(c.name)
                 resolved.append(c.check)
 
         return resolved

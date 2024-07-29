@@ -829,8 +829,8 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
     def test_ssl_certificate_list(self):
         base = openstack_core.OpenstackBase()
-        self.assertTrue(len(base._apache2_certificates), 1)
-        self.assertEqual(base._apache2_certificates,
+        self.assertTrue(len(base._apache2_certificates), 1)  # noqa,pylint: disable=protected-access
+        self.assertEqual(base._apache2_certificates,  # noqa,pylint: disable=protected-access
                          ['etc/apache2/ssl/keystone/cert_10.5.100.2'])
 
     @utils.create_data_root(

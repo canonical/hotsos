@@ -224,7 +224,7 @@ class GlobalSearcherPreloaderBase():
         for path in search_input.paths:
             log.debug("loading search (tag=%s, input_path=%s, "
                       "resolve_path=%s)", tag, path,
-                      search_property._override_path)
+                      search_property.override_path)
             search_property.load_searcher(global_searcher.searcher, path,
                                           allow_constraints=allow_constraints)
 
