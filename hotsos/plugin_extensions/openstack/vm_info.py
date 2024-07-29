@@ -153,7 +153,7 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
                     migration_info[vm_uuid] = [info]
 
         # section name expected to be live-migration
-        return migration_info, event.section
+        return migration_info, event.section_name
 
 
 class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
@@ -186,7 +186,7 @@ class PrePostLiveMigrationCallback(OpenstackEventCallbackBase):
 
     def __call__(self, event):
         # section name expected to be live-migration
-        return self._migration_stats_info(event), event.section
+        return self._migration_stats_info(event), event.section_name
 
 
 class NovaServerMigrationAnalysis(OpenstackEventHandlerBase):

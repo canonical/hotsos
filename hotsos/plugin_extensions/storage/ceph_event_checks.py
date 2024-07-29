@@ -25,8 +25,10 @@ class EventCallbackMisc(CephEventCallbackBase):
             IssuesManager().add(CephOSDError(msg))
             return None
 
-        key_by_date = event.name == 'heartbeat-no-reply'
-        return self.categorise_events(event, key_by_date=key_by_date)
+        options = self.EventProcessingOptions(
+            key_by_date=event.name == "heartbeat-no-reply"
+        )
+        return self.categorise_events(event, options=options)
 
 
 class EventCallbackSlowRequests(CephEventCallbackBase):
@@ -65,8 +67,8 @@ class EventCallbackCRCErrors(CephEventCallbackBase):
 
             results.append({'date': r.get(1), 'key': key})
 
-        ret = self.categorise_events(event, results=results,
-                                     squash_if_none_keys=True)
+        options = self.EventProcessingOptions(squash_if_none_keys=True)
+        ret = self.categorise_events(event, results=results, options=options)
 
         # If on any particular day there were > 3 crc errors for a
         # particular osd we raise an issue since that indicates they are
@@ -112,8 +114,8 @@ class EventCallbackHeartbeatPings(CephEventCallbackBase):
 
             results.append({'date': r.get(1), 'key': key})
 
-        return self.categorise_events(event, results=results,
-                                      squash_if_none_keys=True)
+        options = self.EventProcessingOptions(squash_if_none_keys=True)
+        return self.categorise_events(event, results=results, options=options)
 
 
 class CephEventHandler(CephChecks, EventHandlerBase):

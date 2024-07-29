@@ -5,6 +5,7 @@ import logging
 import os
 import shutil
 import tempfile
+from typing import Literal
 
 # load all plugins
 import hotsos.plugin_extensions  # noqa: F401, pylint: disable=W0611
@@ -39,19 +40,43 @@ class HotSOSSummary(plugintools.PluginPartBase):
         return out
 
 
-class OutputManager():
-    """ Handle conversion of plugin output into summary format. """
-    FILTER_SCHEMA = [IssuesManager.SUMMARY_OUT_ISSUES_ROOT,
-                     IssuesManager.SUMMARY_OUT_BUGS_ROOT]
-    SUMMARY_FORMATS = ['yaml', 'json', 'markdown', 'html']
+FILTER_SCHEMA = [IssuesManager.SUMMARY_OUT_ISSUES_ROOT,
+                 IssuesManager.SUMMARY_OUT_BUGS_ROOT]
 
-    def __init__(self, initial=None):
-        self._summary = initial or {}
 
-    def _get_short_format(self, summary):
+SUPPORTED_SUMMARY_FORMATS = ['yaml', 'json', 'markdown', 'html']
+SUPPORTED_MINIMAL_MODES = ['full', 'short', 'very-short']
+
+
+class OutputBuilder:
+    """Builder class for generating desired output format from
+    raw dictionary."""
+
+    def __init__(self, content):
+        self.content = content
+
+    @staticmethod
+    def _minimise(summary, mode):
+        """ Converts the master output to include only issues and bugs. """
+
+        log.debug("Minimising output (mode=%s).", mode)
+
+        if not summary:
+            return summary
+
+        if mode == 'short':
+            return OutputBuilder._get_short_format(summary)
+        if mode == 'very-short':
+            return OutputBuilder._get_very_short_format(summary)
+
+        log.warning("Unknown minimalmode '%s'", mode)
+        return summary
+
+    @staticmethod
+    def _get_short_format(summary):
         filtered = {}
         for plugin in summary:
-            for key in self.FILTER_SCHEMA:
+            for key in FILTER_SCHEMA:
                 if key not in summary[plugin]:
                     continue
 
@@ -63,10 +88,11 @@ class OutputManager():
 
         return filtered
 
-    def _get_very_short_format(self, summary):
+    @staticmethod
+    def _get_very_short_format(summary):
         filtered = {}
         for plugin in summary:
-            for key in self.FILTER_SCHEMA:
+            for key in FILTER_SCHEMA:
                 if key not in summary[plugin]:
                     continue
 
@@ -101,61 +127,62 @@ class OutputManager():
 
         return filtered
 
-    def minimise(self, summary, mode):
-        """ Converts the master output to include only issues and bugs. """
+    def filter(self, plugin_name=None):
+        if plugin_name:
+            self.content = {plugin_name: self.content[plugin_name]}
+        return self
 
-        log.debug("Minimising output (mode=%s).", mode)
-        if not summary:
-            return summary
+    def minimal(self, mode=None):
+        if mode:
+            self.content = self._minimise(self.content, mode)
+        return self
 
-        if mode == 'short':
-            return self._get_short_format(summary)
-        if mode == 'very-short':
-            return self._get_very_short_format(summary)
+    def to(self, fmt: Literal[SUPPORTED_SUMMARY_FORMATS],
+           **kwargs):
+        if fmt == "html":
+            return self.to_html(**kwargs)
+        if fmt == "json":
+            return self.to_json()
+        if fmt == "yaml":
+            return self.to_yaml()
+        if fmt == "markdown":
+            return self.to_markdown()
 
-        log.warning("Unknown minimalmode '%s'", mode)
-        return summary
+        raise UnsupportedFormatError(fmt)
 
-    def get(self, fmt='yaml', html_escape=False, minimal_mode=None,
-            plugin=None, max_level=2):
-        if plugin:
-            filtered = {plugin: self._summary[plugin]}
-        else:
-            filtered = self._summary
-
-        if minimal_mode:
-            filtered = self.minimise(filtered, minimal_mode)
-
-        if fmt not in self.SUMMARY_FORMATS:
-            raise UnsupportedFormatError(
-                f"unsupported summary format '{fmt}'")
-
+    def to_html(self, *, max_level=2, html_escape=False):
         hostname = CLIHelper().hostname() or ""
-        log.debug('Saving summary as %s', fmt)
-        if fmt == 'yaml':
-            filtered = plugintools.yaml_dump(filtered)
-        elif fmt == 'json':
-            filtered = json.dumps(filtered, indent=2, sort_keys=True)
-        elif fmt == 'markdown':
-            filtered = plugintools.MarkdownFormatter().dump(filtered)
-        elif fmt == 'html':
-            filtered = plugintools.HTMLFormatter(
-                                            hostname=hostname,
-                                            max_level=max_level).dump(filtered)
+        result = plugintools.HTMLFormatter(
+            hostname=hostname,
+            max_level=max_level
+        ).dump(self.content)
 
-        if html_escape:
-            log.debug('Applying html escaping to summary')
-            filtered = html.escape(filtered)
+        return result if not html_escape else html.escape(result)
 
-        return filtered
+    def to_json(self):
+        return json.dumps(self.content, indent=2, sort_keys=True)
 
-    def _save(self, path, fmt, html_escape=None, minimal_mode=None,
-              plugin=None):
-        content = self.get(fmt=fmt, html_escape=html_escape,
-                           minimal_mode=minimal_mode, plugin=plugin)
-        with open(path, 'w', encoding='utf-8') as fd:
+    def to_yaml(self):
+        return plugintools.yaml_dump(self.content)
+
+    def to_markdown(self):
+        return plugintools.MarkdownFormatter().dump(self.content)
+
+
+class OutputManager():
+    """ Handle conversion of plugin output into summary format. """
+
+    def __init__(self, initial=None):
+        self._summary = initial or {}
+
+    def get_builder(self):
+        return OutputBuilder(self._summary)
+
+    @staticmethod
+    def _save_to_file(path, content):
+        with open(path, "w", encoding="utf-8") as fd:
             fd.write(content)
-            fd.write('\n')
+            fd.write("\n")
 
     def save(self, name, html_escape=False, output_path=None):
         """
@@ -169,9 +196,9 @@ class OutputManager():
         else:
             output_root = f"hotsos-output-{CLIHelper().date(format='+%s')}"
 
-        for minimal_mode in ['full', 'short', 'very-short']:
+        for minimal_mode in SUPPORTED_MINIMAL_MODES:
             _minimal_mode = minimal_mode.replace('-', '_')
-            for fmt in self.SUMMARY_FORMATS:
+            for fmt in SUPPORTED_SUMMARY_FORMATS:
                 output_path = os.path.join(output_root, name, 'summary',
                                            _minimal_mode, fmt)
                 if minimal_mode == 'full':
@@ -180,15 +207,27 @@ class OutputManager():
                 if not os.path.exists(output_path):
                     os.makedirs(output_path)
 
+                # Save per-plugin summary
                 for plugin in self._summary:
                     path = os.path.join(output_path,
                                         f"hotsos-summary.{plugin}.{fmt}")
-                    self._save(path, fmt, html_escape=html_escape,
-                               minimal_mode=minimal_mode, plugin=plugin)
+                    output = self.get_builder()
+                    output.filter(plugin).minimal(minimal_mode)
+                    formatted_output = output.to(
+                        fmt=fmt,
+                        html_escape=html_escape)
+                    log.debug('Saving plugin %s summary as %s',
+                              plugin,
+                              fmt)
+                    self._save_to_file(path, formatted_output)
 
+                # Save all summary
                 path = os.path.join(output_path, f"hotsos-summary.all.{fmt}")
-                self._save(path, fmt, html_escape=html_escape,
-                           minimal_mode=minimal_mode)
+                output = self.get_builder()
+                output.minimal(minimal_mode)
+                formatted_output = output.to(fmt=fmt, html_escape=html_escape)
+                log.debug('Saving all summary as %s', fmt)
+                self._save_to_file(path, formatted_output)
 
                 if not minimal_mode:
                     dst = os.path.join(output_root, f'{name}.summary.{fmt}')

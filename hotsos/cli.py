@@ -5,6 +5,7 @@ import subprocess
 import sys
 import threading
 from importlib import metadata, resources
+from dataclasses import dataclass, fields
 
 import click
 import distro
@@ -15,7 +16,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log, LoggingManager
 from hotsos.client import (
     HotSOSClient,
-    OutputManager,
+    SUPPORTED_SUMMARY_FORMATS
 )
 
 SNAP_ERROR_MSG = """ERROR: hotsos is installed as a snap which only supports
@@ -116,7 +117,7 @@ def set_plugin_options(f):
 
 
 def get_defs_path():
-    """ Get patch to HotSOS defs. """
+    """ Get path to HotSOS defs. """
 
     # source
     defs = os.path.join(get_hotsos_root(), 'defs')
@@ -188,7 +189,53 @@ def progress_spinner(show_spinner, path):
         thread.join()
 
 
-def main():  # pylint: disable=R0915
+@dataclass(frozen=True)
+class CLIArgs:
+    """Command line arguments."""
+
+    data_root: click.Path
+    version: bool
+    defs_path: str
+    templates_path: str
+    all_logs: bool
+    debug: bool
+    quiet: bool
+    save: bool
+    output_format: str
+    html_escape: bool
+    short: bool
+    very_short: bool
+    force: bool
+    event_tally_granularity: str
+    max_logrotate_depth: int
+    max_parallel_tasks: int
+    list_plugins: bool
+    machine_readable: bool
+    output_path: str
+    command_timeout: int
+    sos_unpack_dir: str
+    scenario: str
+    event: str
+
+    @classmethod
+    def filter_kwargs(cls, **kwargs):
+        """Filter the given kwargs by the names present on this
+        class and produce two distinct dict's where the first
+        dictionary is the fields present, the second is the
+        remainder part. Used for filtering the kwargs to separate
+        the arguments needed for this class and the other excess
+        arguments."""
+
+        def_fields = {field.name for field in fields(cls)}
+        cleaned_kwargs = {
+            key: value for key, value in kwargs.items() if key in def_fields
+        }
+        remainder = {k: kwargs[k] for k in set(kwargs) - set(cleaned_kwargs)}
+        return (cleaned_kwargs, remainder)
+
+
+# pylint: disable=R0915
+def main():
     @click.command(name='hotsos')
     @click.option('--event', default='',
                   help=('Filter a particular event name. Useful for '
@@ -248,7 +295,7 @@ def main():  # pylint: disable=R0915
                   help=('Apply html escaping to the output so that it is safe '
                         'to display in html.'))
     @click.option('--format', '--output-format', 'output_format',
-                  type=click.Choice(OutputManager.SUMMARY_FORMATS),
+                  type=click.Choice(SUPPORTED_SUMMARY_FORMATS),
                   default='yaml',
                   show_default=True,
                   help='Summary output format.')
@@ -275,11 +322,7 @@ def main():  # pylint: disable=R0915
                   help='Show the version.')
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
-    def cli(data_root, version, defs_path, templates_path, all_logs, debug,
-            quiet, save, output_format, html_escape, short, very_short,
-            force, event_tally_granularity, max_logrotate_depth,
-            max_parallel_tasks, list_plugins, machine_readable, output_path,
-            command_timeout, sos_unpack_dir, scenario, event, **kwargs):
+    def cli(**kwargs):
         """
         Run this tool on a host or against a sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -303,36 +346,42 @@ def main():  # pylint: disable=R0915
             host.
         """  # noqa
 
+        # Filter the kwargs to separate what should go into the CLIArgs
+        # class and what not.
+        (cli_kwargs, excess_kwargs) = CLIArgs.filter_kwargs(**kwargs)
+        arguments = CLIArgs(**cli_kwargs)
+
         _version = get_version()
-        if version:
+        if arguments.version:
             print(_version)
             return
 
         config = {'repo_info': get_repo_info(),
-                  'force_mode': force,
+                  'force_mode': arguments.force,
                   'hotsos_version': _version,
-                  'command_timeout': command_timeout,
-                  'use_all_logs': all_logs,
-                  'plugin_yaml_defs': defs_path,
-                  'templates_path': templates_path,
-                  'event_tally_granularity': event_tally_granularity,
-                  'max_logrotate_depth': max_logrotate_depth,
-                  'max_parallel_tasks': max_parallel_tasks,
-                  'machine_readable': machine_readable,
-                  'debug_mode': debug,
-                  'scenario_filter': scenario,
-                  'event_filter': event}
+                  'command_timeout': arguments.command_timeout,
+                  'use_all_logs': arguments.all_logs,
+                  'plugin_yaml_defs': arguments.defs_path,
+                  'templates_path': arguments.templates_path,
+                  'event_tally_granularity': arguments.event_tally_granularity,
+                  'max_logrotate_depth': arguments.max_logrotate_depth,
+                  'max_parallel_tasks': arguments.max_parallel_tasks,
+                  'machine_readable': arguments.machine_readable,
+                  'debug_mode': arguments.debug,
+                  'scenario_filter': arguments.scenario,
+                  'event_filter': arguments.event}
         HotSOSConfig.set(**config)
 
         with LoggingManager() as logmanager:
-            with DataRootManager(data_root,
-                                 sos_unpack_dir=sos_unpack_dir) as drm:
+            with DataRootManager(
+                arguments.data_root, sos_unpack_dir=arguments.sos_unpack_dir
+            ) as drm:
                 HotSOSConfig.data_root = drm.data_root
                 if is_snap() and drm.data_root == '/':
                     print(SNAP_ERROR_MSG)
                     sys.exit(1)
 
-                if debug and quiet:
+                if arguments.debug and arguments.quiet:
                     sys.stderr.write('ERROR: cannot use both --debug and '
                                      '--quiet\n')
                     return
@@ -340,14 +389,15 @@ def main():  # pylint: disable=R0915
                 # Set a name so that logs have this until real plugins are run.
                 log.name = 'hotsos.cli'
 
-                if list_plugins:
+                if arguments.list_plugins:
                     sys.stdout.write('\n'.join(plugintools.PLUGINS.keys()))
                     sys.stdout.write('\n')
                     return
 
-                with progress_spinner(not quiet and not debug, drm.name):
+                with progress_spinner(
+                        not arguments.quiet and not arguments.debug, drm.name):
                     plugins = []
-                    for k, v in kwargs.items():
+                    for k, v in excess_kwargs.items():
                         if v is True:
                             plugins.append(k)
 
@@ -371,21 +421,28 @@ def main():  # pylint: disable=R0915
 
                     summary = client.summary
 
-                if save:
-                    path = summary.save(drm.basename, html_escape=html_escape,
-                                        output_path=output_path)
+                if arguments.save:
+                    path = summary.save(
+                        drm.basename,
+                        html_escape=arguments.html_escape,
+                        output_path=arguments.output_path,
+                    )
                     sys.stdout.write(f"INFO: output saved to {path}\n")
                 else:
-                    if short:
+                    if arguments.short:
                         minimal_mode = 'short'
-                    elif very_short:
+                    elif arguments.very_short:
                         minimal_mode = 'very-short'
                     else:
                         minimal_mode = None
 
-                    out = summary.get(fmt=output_format,
-                                      html_escape=html_escape,
-                                      minimal_mode=minimal_mode)
+                    output = summary.get_builder()
+                    output.minimal(minimal_mode)
+                    out = output.to(
+                        fmt=arguments.output_format,
+                        html_escape=arguments.html_escape
+                    )
+
                     if out:
                         sys.stdout.write(f"{out}\n")
 

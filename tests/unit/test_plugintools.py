@@ -1,11 +1,14 @@
 import json
 
-from hotsos.client import OutputManager
+from hotsos.client import OutputManager, OutputBuilder
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.issues import IssuesManager
 from hotsos.core import plugintools
 
 from . import utils
+
+# It is fine for a test to access a protected member so allow it for all tests
+# pylint: disable=protected-access
 
 HTML1 = """<ul class="tree">
 <li>
@@ -161,7 +164,7 @@ ISSUES_NEW_FORMAT = {
 class TestPluginTools(utils.BaseTestCase):
     """ Unit tests for plugintools code. """
     def test_summary_empty(self):
-        filtered = OutputManager().get()
+        filtered = OutputManager().get_builder().to(fmt="json")
         self.assertEqual(filtered, '{}')
 
     def test_summary_mode_short_legacy(self):
@@ -174,8 +177,7 @@ class TestPluginTools(utils.BaseTestCase):
                             'id': '1234',
                             'message': 'a msg'}]}}
 
-        filtered = OutputManager().minimise(ISSUES_LEGACY_FORMAT,
-                                            mode='short')
+        filtered = OutputBuilder._minimise(ISSUES_LEGACY_FORMAT, mode='short')
         self.assertEqual(filtered, expected)
 
     def test_summary_mode_short(self):
@@ -186,7 +188,7 @@ class TestPluginTools(utils.BaseTestCase):
                         'testplugin': [{
                             'id': '1234',
                             'message': 'a msg'}]}}
-        filtered = OutputManager().minimise(ISSUES_NEW_FORMAT, mode='short')
+        filtered = OutputBuilder._minimise(ISSUES_NEW_FORMAT, mode='short')
         self.assertEqual(filtered, expected)
 
     def test_summary_mode_very_short_legacy(self):
@@ -195,8 +197,8 @@ class TestPluginTools(utils.BaseTestCase):
                             'MemoryWarning': 1}},
                     IssuesManager.SUMMARY_OUT_BUGS_ROOT: {
                         'testplugin': ['1234']}}
-        filtered = OutputManager().minimise(ISSUES_LEGACY_FORMAT,
-                                            mode='very-short')
+        filtered = OutputBuilder._minimise(ISSUES_LEGACY_FORMAT,
+                                           mode='very-short')
         self.assertEqual(filtered, expected)
 
     def test_summary_mode_very_short(self):
@@ -206,18 +208,13 @@ class TestPluginTools(utils.BaseTestCase):
                     IssuesManager.SUMMARY_OUT_BUGS_ROOT: {
                         'testplugin': ['1234']}}
 
-        filtered = OutputManager().minimise(ISSUES_NEW_FORMAT,
-                                            mode='very-short')
+        filtered = OutputBuilder._minimise(ISSUES_NEW_FORMAT,
+                                           mode='very-short')
         self.assertEqual(filtered, expected)
-
-    def test_apply_output_formatting_defaults(self):
-        summary = {'opt': 'value'}
-        filtered = OutputManager(summary).get()
-        self.assertEqual(filtered, plugintools.yaml_dump(summary))
 
     def test_apply_output_formatting_json(self):
         summary = {'opt': 'value'}
-        filtered = OutputManager(summary).get(fmt='json')
+        filtered = OutputManager(summary).get_builder().to("json")
         self.assertEqual(filtered, json.dumps(summary, indent=2,
                                               sort_keys=True))
 
@@ -256,7 +253,7 @@ plain value
 - a
 - b
 - c'''
-        filtered = OutputManager(summary).get(fmt='markdown')
+        filtered = OutputManager(summary).get_builder().to(fmt="markdown")
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_html_1(self):
@@ -276,7 +273,7 @@ plain value
                 ['a', 'b', 'c'],
         }
         expected = htmlout.header + HTML1 + htmlout.footer
-        filtered = OutputManager(summary).get(fmt='html')
+        filtered = OutputManager(summary).get_builder().to(fmt="html")
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_html_2(self):
@@ -296,7 +293,7 @@ plain value
                 ['a', 'b', 'c'],
         }
         expected = htmlout.header + HTML2 + htmlout.footer
-        filtered = OutputManager(summary).get(fmt='html')
+        filtered = OutputManager(summary).get_builder().to(fmt="html")
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_html_3(self):
@@ -316,5 +313,5 @@ plain value
                 ['a', 'b', 'c'],
         }
         expected = htmlout.header + HTML3 + htmlout.footer
-        filtered = OutputManager(summary).get(fmt='html')
+        filtered = OutputManager(summary).get_builder().to(fmt="html")
         self.assertEqual(filtered, expected)

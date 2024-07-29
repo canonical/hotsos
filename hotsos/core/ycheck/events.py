@@ -1,5 +1,6 @@
 import abc
 from functools import cached_property
+from dataclasses import dataclass
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.log import log
@@ -54,34 +55,41 @@ class EventCallbackAutoRegister(type):
             CALLBACKS[event] = cls
 
 
-class EventCheckResult():
-    """ This is passed to an event check callback when matches are found """
+@dataclass(frozen=True)
+class EventCheckResult:
+    """ This is passed to an event check callback when matches are found.
 
-    def __init__(self, defs_section, defs_event, search_results, search_tag,
-                 searcher, sequence_def=None):
-        """
-        @param defs_section: section name from yaml
-        @param defs_event: event label/name from yaml
-        @param search_results: searchkit.SearchResultsCollection
+        @param name: event label/name from yaml
+        @param section_name: section name from yaml
+        @param results: searchkit.SearchResultsCollection
         @param search_tag: unique tag used to identify the results
         @param searcher: global FileSearcher object
         @param sequence_def: if set the search results are from a
                             searchkit.SequenceSearchDef and are therefore
                             grouped as sections of results rather than a single
                             set of results.
-        """
-        self.section = defs_section
-        self.name = defs_event
-        self.search_tag = search_tag
-        self.results = search_results
-        self.searcher = searcher
-        self.sequence_def = sequence_def
+    """
+    name: str
+    section_name: str
+    results: object
+    search_tag: str
+    searcher: object
+    sequence_def: object = None
 
 
 class EventProcessingUtils():
     """
     A set of helper methods to help with the processing of event results.
     """
+
+    @dataclass()
+    class EventProcessingOptions:
+        """Common options for EventProcessingUtils functions."""
+        key_by_date: bool = True
+        include_time: bool = False
+        squash_if_none_keys: bool = False
+        max_results_per_date: int = None
+
     @classmethod
     def _get_event_results(cls, event):
         """
@@ -123,10 +131,9 @@ class EventProcessingUtils():
                      "fields",
                      _fail_count, event.name)
 
-    @classmethod
-    def _get_tally(cls, result, info, key_by_date, include_time,
-                   squash_if_none_keys):
-        if key_by_date:
+    @staticmethod
+    def _get_tally(result, info, options: EventProcessingOptions):
+        if options.key_by_date:
             key = result['date']
             value = result['key']
         else:
@@ -136,7 +143,7 @@ class EventProcessingUtils():
         if key not in info:
             info[key] = {}
 
-        if value is None and squash_if_none_keys:
+        if value is None and options.squash_if_none_keys:
             if info[key] == {}:
                 info[key] = 1
             else:
@@ -144,12 +151,12 @@ class EventProcessingUtils():
         else:
             ts_time = result.get('time')
             if value not in info[key]:
-                if ts_time is not None and include_time:
+                if ts_time is not None and options.include_time:
                     info[key][value] = {}
                 else:
                     info[key][value] = 0
 
-            if ts_time is not None and include_time:
+            if ts_time is not None and options.include_time:
                 if ts_time not in info[key][value]:
                     info[key][value][ts_time] = 1
                 else:
@@ -157,21 +164,21 @@ class EventProcessingUtils():
             else:
                 info[key][value] += 1
 
-    @classmethod
-    def _sort_results(cls, categorised_results, key_by_date, include_time):
+    @staticmethod
+    def _sort_results(categorised_results, options: EventProcessingOptions):
         log.debug("sorting categorised results")
-        if all([key_by_date, include_time]):
+        if all([options.key_by_date, options.include_time]):
             return {}
 
         # sort main dict keys
         categorised_results = sorted_dict(categorised_results,
-                                          reverse=not key_by_date)
+                                          reverse=not options.key_by_date)
 
         # Sort values if they are dicts.
         for key, value in categorised_results.items():
             # If not using date as key we need to sort the values so that they
             # will have the same order as if they were sorted by date key.
-            if not key_by_date:
+            if not options.key_by_date:
                 categorised_results[key] = sorted_dict(value)
                 continue
 
@@ -199,9 +206,12 @@ class EventProcessingUtils():
         return False
 
     @classmethod
-    def categorise_events(cls, event, results=None, key_by_date=True,
-                          include_time=False, squash_if_none_keys=False,
-                          max_results_per_date=None):
+    def categorise_events(
+        cls,
+        event,
+        results=None,
+        options: EventProcessingOptions = None,
+    ):
         """
         Provides a generic way to categorise events. The default is to group
         events by key which is typically some kind of resource id or event
@@ -234,36 +244,40 @@ class EventProcessingUtils():
                                      True this will pick the top N entries
                                      with the highest count.
         """
+        if options is None:
+            options = EventProcessingUtils.EventProcessingOptions()
+
         if results is None:
             results = cls._get_event_results(event)
 
         if cls.global_event_tally_time_granularity_override() is True:
-            include_time = HotSOSConfig.event_tally_granularity == 'time'
+            options.include_time = HotSOSConfig.event_tally_granularity == \
+                 "time"
 
         categorised_results = {}
         for r in results:
-            cls._get_tally(r, categorised_results, key_by_date, include_time,
-                           squash_if_none_keys)
+            cls._get_tally(r, categorised_results, options)
 
         if not categorised_results:
             return {}
 
-        categorised_results = cls._sort_results(categorised_results,
-                                                key_by_date, include_time)
-        if not (key_by_date and max_results_per_date):
+        categorised_results = cls._sort_results(categorised_results, options)
+        if not (options.key_by_date and options.max_results_per_date):
             return categorised_results
 
         shortened = {}
         for date, entries in categorised_results.items():
-            if len(entries) <= max_results_per_date:
+            if len(entries) <= options.max_results_per_date:
                 shortened[date] = entries
                 continue
 
             top_n = dict(sorted(entries.items(),
                                 key=lambda e: e[1],
-                                reverse=True)[:max_results_per_date])
-            shortened[date] = {'total': len(entries),
-                               f"top{max_results_per_date}": top_n}
+                                reverse=True)[:options.max_results_per_date])
+            shortened[date] = {
+                "total": len(entries),
+                f"top{options.max_results_per_date}": top_n,
+            }
 
         return shortened
 
@@ -484,14 +498,15 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
                 callback = CALLBACKS[callback_name]
                 event_result = EventCheckResult(
-                                               section_name,
-                                               event,
-                                               search_results,
-                                               search_tag,
-                                               self.global_searcher.searcher,
-                                               sequence_def=seq_def)
+                    name=event,
+                    section_name=section_name,
+                    results=search_results,
+                    search_tag=search_tag,
+                    searcher=self.global_searcher.searcher,
+                    sequence_def=seq_def
+                )
                 log.debug("executing event %s.%s callback '%s'",
-                          event_result.section, event, callback_name)
+                          event_result.section_name, event, callback_name)
                 ret = callback()(event_result)
                 if not ret:
                     continue

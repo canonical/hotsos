@@ -291,15 +291,16 @@ class TestYamlEvents(utils.BaseTestCase):
                    {'date': '2000-01-01', 'key': 'f3'},
                    {'date': '2000-01-02', 'key': 'f2'}]
         for r in results:
-            EventProcessingUtils._get_tally(r, info, key_by_date=True,
-                                            include_time=False,
-                                            squash_if_none_keys=False)
+            EventProcessingUtils._get_tally(
+                r, info, options=EventProcessingUtils.EventProcessingOptions()
+            )
         self.assertEqual(info, {'2000-01-04': {'f4': 1},
                                 '2000-01-01': {'f1': 1,
                                                'f3': 1},
                                 '2000-01-02': {'f2': 1}})
-        ret = EventProcessingUtils._sort_results(info, key_by_date=True,
-                                                 include_time=False,)
+        ret = EventProcessingUtils._sort_results(
+            info, options=EventProcessingUtils.EventProcessingOptions()
+        )
         expected = {'2000-01-01': {'f1': 1,
                                    'f3': 1},
                     '2000-01-02': {'f2': 1},
@@ -316,16 +317,21 @@ class TestYamlEvents(utils.BaseTestCase):
                    {'date': '2000-01-03', 'key': 'f3'},
                    {'date': '2000-01-02', 'key': 'f2'}]
         for r in results:
-            EventProcessingUtils._get_tally(r, info, key_by_date=False,
-                                            include_time=False,
-                                            squash_if_none_keys=False)
+            EventProcessingUtils._get_tally(
+                r,
+                info,
+                options=EventProcessingUtils.EventProcessingOptions(
+                  key_by_date=False),
+            )
         self.assertEqual(info, {'f1': {'2000-01-01': 1},
                                 'f2': {'2000-01-02': 1},
                                 'f3': {'2000-01-01': 1,
                                        '2000-01-03': 1},
                                 'f4': {'2000-01-04': 1}})
-        ret = EventProcessingUtils._sort_results(info, key_by_date=False,
-                                                 include_time=False,)
+        ret = EventProcessingUtils._sort_results(
+            info, options=EventProcessingUtils.EventProcessingOptions(
+              key_by_date=False)
+        )
         expected = {'f4': {'2000-01-04': 1},
                     'f3': {'2000-01-01': 1,
                            '2000-01-03': 1},

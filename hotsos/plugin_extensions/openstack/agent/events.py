@@ -1,7 +1,10 @@
 import datetime
 
 import yaml
-from hotsos.core.analytics import LogEventStats, SearchResultIndices
+from hotsos.core.analytics import (
+    LogEventStats,
+    SearchResultIndices
+)
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.issues import (
@@ -139,7 +142,7 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
                 "stats": stats.get_event_stats()}
 
     def __call__(self, event):
-        agent = event.section
+        agent = event.section_name
         if event.name == 'ovsdb-monitor-router-binding-transitions':
             # The ovsdbmonitor will print bindings which will eventually
             # reflect transitions so we need to filter out contiguous bindings
@@ -174,7 +177,10 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
         elif event.name in self.ovsdbapp_event_names + \
                 self.ovn_mech_driver_events:
             if event.name == 'ovn-resource-revision-bump':
-                ret = self.categorise_events(event, max_results_per_date=5)
+                ret = self.categorise_events(
+                    event,
+                    options=self.EventProcessingOptions(max_results_per_date=5)
+                )
             elif event.name == 'ovsdb-transaction-aborted':
                 ret = {}
                 for result in event.results:
@@ -195,9 +201,9 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
             if ret:
                 return {event.name: ret}, agent
         else:
-            sri = SearchResultIndices(event_id_idx=4,
-                                      metadata_idx=3,
-                                      metadata_key='router')
+            sri = SearchResultIndices(
+                event_id=4, metadata=3, metadata_key="router"
+            )
             ret = self._get_event_stats(event.results, event.search_tag,
                                         custom_idxs=sri)
             if ret:
@@ -241,14 +247,19 @@ class OctaviaAgentEventsCallback(OpenstackEventCallbackBase):
                 results.append({'date': e.get(1), 'time': e.get(2),
                                 'key': lb_id})
 
-            ret = self.categorise_events(event, results=results,
-                                         key_by_date=False)
+            ret = self.categorise_events(
+                event,
+                results=results,
+                options=self.EventProcessingOptions(key_by_date=False)
+            )
             if ret:
                 failover_type = event.name.rpartition('-')[2]
                 return {failover_type: ret}, 'lb-failovers'
         else:
-            missed_heartbeats = self.categorise_events(event,
-                                                       key_by_date=False)
+            missed_heartbeats = self.categorise_events(
+                event,
+                options=self.EventProcessingOptions(key_by_date=False)
+            )
             if not missed_heartbeats:
                 return None
 
@@ -314,12 +325,15 @@ class ApparmorCallback(OpenstackEventCallbackBase):
         results = [{'date': f"{r.get(1)} {r.get(2)}",
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]
-        ret = self.categorise_events(event, results=results,
-                                     key_by_date=False)
+        ret = self.categorise_events(
+            event,
+            results=results,
+            options=self.EventProcessingOptions(key_by_date=False),
+        )
         if ret:
             # event.name must be the service name, event.section is the aa
             # action.
-            return {event.name: ret}, event.section
+            return {event.name: ret}, event.section_name
 
         return None
 
@@ -379,8 +393,11 @@ class L3HACallback(OpenstackEventCallbackBase):
             results.append({'date': r.get(1), 'time': r.get(2),
                             'key': router.uuid})
 
-        transitions = self.categorise_events(event, results=results,
-                                             key_by_date=False)
+        transitions = self.categorise_events(
+            event,
+            results=results,
+            options=self.EventProcessingOptions(key_by_date=False),
+        )
         if transitions:
             # run checks
             self.check_vrrp_transitions(transitions)

@@ -15,7 +15,10 @@ class OVSEventCallbackVSwitchd(OpenvSwitchEventCallbackBase):
     event_names = ['bridge-no-such-device', 'netdev-linux-no-such-device']
 
     def __call__(self, event):
-        ret = self.categorise_events(event, max_results_per_date=5)
+        ret = self.categorise_events(
+            event,
+            options=self.EventProcessingOptions(max_results_per_date=5)
+        )
         if ret:
             return {event.name: ret}, 'ovs-vswitchd'
 
@@ -33,14 +36,14 @@ class OVSEventCallbackLogs(OpenvSwitchEventCallbackBase):
                    'unreasonably-long-poll-interval']
 
     def __call__(self, event):
-        key_by_date = True
-        if event.name in ['ovs-vswitchd', 'ovsdb-server']:
-            key_by_date = False
+        options = self.EventProcessingOptions(squash_if_none_keys=True)
 
-        ret = self.categorise_events(event, key_by_date=key_by_date,
-                                     squash_if_none_keys=True)
+        if event.name in ['ovs-vswitchd', 'ovsdb-server']:
+            options.key_by_date = False
+
+        ret = self.categorise_events(event, options=options)
         if ret:
-            return {event.name: ret}, event.section
+            return {event.name: ret}, event.section_name
 
         return None
 
@@ -54,9 +57,13 @@ class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
         results = [{'date': f"{r.get(1)} {r.get(2)}",
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]
-        ret = self.categorise_events(event, results=results, key_by_date=False)
+        ret = self.categorise_events(
+            event,
+            results=results,
+            options=self.EventProcessingOptions(key_by_date=False)
+        )
         if ret:
-            return {event.name: ret}, event.section
+            return {event.name: ret}, event.section_name
 
         return None
 
@@ -148,7 +155,7 @@ class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
             for k in sorted(stats):
                 stats_sorted[k] = stats[k]
 
-            output_key = f"{event.section}-port-stats"
+            output_key = f"{event.section_name}-port-stats"
             return stats_sorted, output_key
 
         return None
@@ -225,7 +232,7 @@ class OVSEventCallbackInvoluntaryContextSwitches(OpenvSwitchEventCallbackBase):
         for key, value in aggregated.items():
             aggregated[key] = sorted_dict(value)
 
-        return {event.name: aggregated}, event.section
+        return {event.name: aggregated}, event.section_name
 
 
 class OVSEventChecks(OpenvSwitchEventHandlerBase):
@@ -248,15 +255,15 @@ class OVNEventCallbackLogs(OpenvSwitchEventCallbackBase):
                    'leadership-acquired']
 
     def __call__(self, event):
-        key_by_date = True
+        options = self.EventProcessingOptions(squash_if_none_keys=True)
+
         if event.name in ['ovsdb-server-nb', 'ovsdb-server-sb', 'ovn-northd',
                           'ovn-controller']:
-            key_by_date = False
+            options.key_by_date = False
 
-        ret = self.categorise_events(event, key_by_date=key_by_date,
-                                     squash_if_none_keys=True)
+        ret = self.categorise_events(event, options=options)
         if ret:
-            return {event.name: ret}, event.section
+            return {event.name: ret}, event.section_name
 
         return None
 
@@ -283,7 +290,7 @@ class OVNEventCallbackContextSwitches(OpenvSwitchEventCallbackBase):
         for key, value in aggregated.items():
             aggregated[key] = sorted_dict(value)
 
-        return {event.name: sorted_dict(aggregated)}, event.section
+        return {event.name: sorted_dict(aggregated)}, event.section_name
 
 
 class OVNEventChecks(OpenvSwitchEventHandlerBase):
