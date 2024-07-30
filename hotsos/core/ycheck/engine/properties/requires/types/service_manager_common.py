@@ -37,7 +37,7 @@ class ServiceManagerTypeBase(YRequirementTypeBase):
                 if settings is None:
                     continue
 
-                _result = self._check_item_settings(svc, svc_obj, settings,
+                _result = self._check_item_settings(svc_obj, settings,
                                                     cache_info, items)
                 if not _result:
                     # bail on first fail

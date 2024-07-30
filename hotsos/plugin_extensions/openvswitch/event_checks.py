@@ -54,6 +54,7 @@ class OVSEventCallbackDALR(OpenvSwitchEventCallbackBase):
     event_names = ['deferred-action-limit-reached']
 
     def __call__(self, event):
+        # pylint: disable=duplicate-code
         results = [{'date': f"{r.get(1)} {r.get(2)}",
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]

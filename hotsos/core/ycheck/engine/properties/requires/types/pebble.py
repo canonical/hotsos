@@ -24,7 +24,7 @@ class YRequirementTypePebble(service_manager_common.ServiceManagerTypeBase):
     override_autoregister = True
     default_op = 'eq'
 
-    def _check_item_settings(self, svc, svc_obj, settings, cache_info,
+    def _check_item_settings(self, svc_obj, settings, cache_info,
                              all_items):
         processes = None
         if isinstance(settings, str):
@@ -46,8 +46,8 @@ class YRequirementTypePebble(service_manager_common.ServiceManagerTypeBase):
                       "- %s", ', '.join(processes))
             return False
 
-        cache_info[svc]['ops'] = self.ops_to_str(ops)
-        return self.self.apply_ops(ops, input=svc_obj.state)
+        cache_info[svc_obj.name]['ops'] = self.ops_to_str(ops)
+        return self.apply_ops(ops, opinput=svc_obj.state)
 
     @property
     def items_to_check(self):
