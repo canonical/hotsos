@@ -73,7 +73,7 @@ class YRequirementTypeSystemd(service_manager_common.ServiceManagerTypeBase):
 
         return self.apply_ops(ops, opinput=svc.state)
 
-    def _check_item_settings(self, svc, svc_obj, settings, cache_info,
+    def _check_item_settings(self, svc_obj, settings, cache_info,
                              all_items):
         # pylint: disable=duplicate-code
         processes = None
@@ -100,7 +100,7 @@ class YRequirementTypeSystemd(service_manager_common.ServiceManagerTypeBase):
                       "- %s", ', '.join(processes))
             return False
 
-        cache_info[svc]['ops'] = self.ops_to_str(ops)
+        cache_info[svc_obj.name]['ops'] = self.ops_to_str(ops)
         return self._check_service(svc_obj, ops,
                                    started_after=started_after_obj)
 

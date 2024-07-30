@@ -325,6 +325,7 @@ class ApparmorCallback(OpenstackEventCallbackBase):
     event_names = ['nova', 'neutron']
 
     def __call__(self, event):
+        # pylint: disable=duplicate-code
         results = [{'date': f"{r.get(1)} {r.get(2)}",
                     'time': r.get(3),
                     'key': r.get(4)} for r in event.results]
