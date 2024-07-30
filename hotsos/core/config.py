@@ -1,19 +1,21 @@
 import abc
 import copy
 from collections import UserDict
+from dataclasses import dataclass
 
 from hotsos.core.exceptions import (
     NameAlreadyRegisteredError,
 )
 
 
-class ConfigOpt():
+@dataclass
+class ConfigOpt:
     """ Basic information required to define a config option. """
-    def __init__(self, name, description, default_value, value_type):
-        self.name = name
-        self.description = description
-        self.default_value = default_value
-        self.value_type = value_type
+
+    name: str
+    description: str
+    default_value: str
+    value_type: type
 
 
 class ConfigOptGroupBase(UserDict):

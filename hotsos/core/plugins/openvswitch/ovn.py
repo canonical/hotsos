@@ -1,5 +1,6 @@
 import abc
 from functools import cached_property
+from dataclasses import dataclass
 
 from hotsos.core.log import log
 from hotsos.core.search import (
@@ -14,11 +15,12 @@ from hotsos.core.host_helpers import SystemdHelper
 from hotsos.core.plugins.openvswitch.common import OVS_SERVICES_EXPRS
 
 
-class OVNSBDBPort():
+@dataclass
+class OVNSBDBPort:
     """ Representation of OVS SBDB port """
-    def __init__(self, name, port_type):
-        self.name = name
-        self.type = port_type
+
+    name: str
+    port_type: str
 
 
 class OVNSBDBChassis():
@@ -47,7 +49,7 @@ class OVNSBDBChassis():
 
     @cached_property
     def cr_ports(self):
-        return [p for p in self._ports if p.type == 'cr-lrp']
+        return [p for p in self._ports if p.port_type == 'cr-lrp']
 
 
 class OVNDBBase():

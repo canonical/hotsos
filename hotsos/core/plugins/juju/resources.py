@@ -5,6 +5,7 @@ import os
 import re
 import subprocess
 from functools import cached_property
+from dataclasses import dataclass
 
 import yaml
 from hotsos.core.config import HotSOSConfig
@@ -167,11 +168,12 @@ class JujuUnit():
         return info
 
 
-class JujuCharm():
+@dataclass(frozen=True)
+class JujuCharm:
     """ Juju charm interface. """
-    def __init__(self, name, version):
-        self.name = name
-        self.version = int(version)
+
+    name: str
+    version: int
 
 
 class JujuBase():

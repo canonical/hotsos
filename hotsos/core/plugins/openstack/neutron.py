@@ -1,6 +1,7 @@
 import os
 import re
 from functools import cached_property
+from dataclasses import dataclass
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
@@ -67,12 +68,13 @@ class ServiceChecks():
         return run_manually
 
 
-class NeutronRouter():
+@dataclass
+class NeutronRouter:
     """ Representation of a Neutron router. """
-    def __init__(self, uuid, ha_state):
-        self.uuid = uuid
-        self.ha_state = ha_state
-        self.vr_id = None
+
+    uuid: str
+    ha_state: str
+    vr_id: str = None
 
 
 class NeutronHAInfo():

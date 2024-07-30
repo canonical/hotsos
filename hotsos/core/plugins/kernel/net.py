@@ -36,7 +36,7 @@ class ProcNetBase(abc.ABC):
 
         return round((count * 100.0) / total, 2)
 
-    def _process_file(self, fname):
+    def process_file(self, fname):
         if not os.path.exists(fname):
             log.debug("file not found '%s' - skipping load", fname)
             return
@@ -104,8 +104,8 @@ class SNMPBase(ProcNetBase):
     """ Base class for /proc/net/snmp interface implementations. """
     def __init__(self):
         super().__init__()
-        self._process_file(os.path.join(HotSOSConfig.data_root,
-                                        'proc/net/snmp'))
+        self.process_file(os.path.join(HotSOSConfig.data_root,
+                                       'proc/net/snmp'))
 
 
 class SNMPTcp(SNMPBase):
@@ -202,8 +202,8 @@ class NetStatBase(ProcNetBase):
     """ Base class for /proc/net/netstat implementations.  """
     def __init__(self):
         super().__init__()
-        self._process_file(os.path.join(HotSOSConfig.data_root,
-                                        'proc/net/netstat'))
+        self.process_file(os.path.join(HotSOSConfig.data_root,
+                                       'proc/net/netstat'))
         self.net_snmp_tcp = SNMPTcp()
 
 

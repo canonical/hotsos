@@ -23,8 +23,10 @@ score=yes
 disable=
  missing-function-docstring,
  missing-module-docstring,
- too-few-public-methods,
  too-many-ancestors,
  too-many-branches,
  too-many-instance-attributes,
  too-many-locals,
+
+[DESIGN]
+min-public-methods=1

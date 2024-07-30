@@ -1,4 +1,5 @@
 from functools import cached_property
+from dataclasses import dataclass, field
 
 # NOTE: we import direct from searchkit rather than hotsos.core.search to
 #       avoid circular dependency issues.
@@ -11,11 +12,14 @@ from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelperFile
 
 
+@dataclass
 class AAProfile():
     """ Representation of an Apparmor profile. """
-    def __init__(self, name):
-        self.name = name
-        self.mode = ApparmorHelper().get_profile_mode(name)
+    name: str
+    mode: str = field(init=False)
+
+    def __post_init__(self):
+        self.mode = ApparmorHelper().get_profile_mode(self.name)
 
 
 class ApparmorHelper():

@@ -323,13 +323,17 @@ class OVSAppCtlFileCmd(FileCmd):
         return out
 
 
-class OVSOFCtlCmdBase():
-    """ Base class for implementations of ovs-ofctl command. """
-    OFPROTOCOL_VERSIONS = ['OpenFlow15', 'OpenFlow14', 'OpenFlow13',
-                           'OpenFlow12', 'OpenFlow11', 'OpenFlow10']
+OFPROTOCOL_VERSIONS = [
+    "OpenFlow15",
+    "OpenFlow14",
+    "OpenFlow13",
+    "OpenFlow12",
+    "OpenFlow11",
+    "OpenFlow10",
+]
 
 
-class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
+class OVSOFCtlBinCmd(BinCmd):
     """ Implementation of ovs-ofctl binary command. """
     def __call__(self, *args, **kwargs):
         """
@@ -347,7 +351,7 @@ class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
         # catch_exceptions decorator and [] returned. We have no way of knowing
         # if that was the actual return or an exception was raised so we just
         # go ahead and retry with specific OF versions until we get a result.
-        for ver in self.OFPROTOCOL_VERSIONS:
+        for ver in OFPROTOCOL_VERSIONS:
             log.debug("%s: trying again with protocol version %s",
                       self.__class__.__name__, ver)
             self.reset()
@@ -361,14 +365,14 @@ class OVSOFCtlBinCmd(OVSOFCtlCmdBase, BinCmd):
         return CmdOutput([])
 
 
-class OVSOFCtlFileCmd(OVSOFCtlCmdBase, FileCmd):
+class OVSOFCtlFileCmd(FileCmd):
     """ Implementation of ovs-ofctl file-based command. """
     def __call__(self, *args, **kwargs):
         """
         We do this in reverse order to bin command since it won't actually
         raise an error.
         """
-        for ver in self.OFPROTOCOL_VERSIONS:
+        for ver in OFPROTOCOL_VERSIONS:
             log.debug("%s: trying again with protocol version %s",
                       self.__class__.__name__, ver)
             self.reset()

@@ -5,6 +5,7 @@ import os
 import pickle
 import re
 from functools import cached_property
+from dataclasses import dataclass
 
 from searchkit.utils import MPCache
 from hotsos.core.config import HotSOSConfig
@@ -194,15 +195,14 @@ class NullSource():
         return CmdOutput([])
 
 
+@dataclass(frozen=True)
 class CmdOutput():
     """ Representation of the output of a command. """
-    def __init__(self, value, source=None):
-        """
-        @param value: output value.
-        @param source: optional command source path.
-        """
-        self.value = value
-        self.source = source
+
+    # Output value.
+    value: str
+    # Optional command source path.
+    source: str = None
 
 
 class SourceRunner():
