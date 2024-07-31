@@ -43,12 +43,15 @@ class PluginRegistryMeta(type):
         name = members.get('plugin_name')
         if name:
             PLUGINS[name] = []
-            PLUGIN_RUN_ORDER.append((name, members['plugin_root_index']))
+            PLUGIN_RUN_ORDER.append((name, cls.plugin_root_index))
 
         for subcls in cls.__mro__:
             index_key = 'summary_part_index'
             if hasattr(subcls, index_key):
                 index = subcls.summary_part_index
+                if index is None:
+                    continue
+
                 existing = [e[index_key] for e in PLUGINS[cls.plugin_name]]
                 if index in existing:
                     raise SummaryOffsetConflict(f"plugin {name} has index "
@@ -357,6 +360,7 @@ class PartManager():
         Save part output yaml in temporary location. These are collected and
         aggregated at the end of the plugin run.
         """
+        log.debug("saving entry: %s (index=%s)", list(data.keys())[0], index)
         HOTSOSDumper.add_representer(
             dict,
             HOTSOSDumper.represent_dict_preserve_order)
@@ -450,6 +454,7 @@ class PluginPartBase(SummaryBase):
     # Must be set to the name of the plugin context in which we are
     # running and at runtime should match HotSOSConfig.plugin_name.
     plugin_name = None
+    summary_part_index = None
 
     def __init__(self, *args, global_searcher=None, **kwargs):
         """
@@ -527,16 +532,25 @@ class PluginPartBase(SummaryBase):
             if not (callable(attr) and hasattr(attr, '__summary_elem_name')):
                 continue
 
-            if not self.summary_subkey_include_default_entries:
-                # Exclude base class (default) entries from subkey parts
-                if (self.summary_subkey is not None and
-                        attr.__name__ in self.default_summary_entries()):
+            exclude_defaults = (self.summary_subkey is not None or
+                                self.summary_part_index > 0)
+            if (attr.__name__ in self.default_summary_entries() and
+                    exclude_defaults):
+                # Exclude base class (default) entries from subkey parts unless
+                # explicitly requested. Also only add default entries to the
+                # topmost part.
+                if self.summary_subkey_include_default_entries:
+                    if self.summary_subkey is None:
+                        continue
+                elif self.summary_part_index > 0:
                     continue
 
             name = getattr(attr, '__summary_elem_name')
             index = getattr(attr, '__summary_elem_index')
-            log.debug("Found summary entry %s with idx %d",
-                      name, index)
+            log.debug("found summary entry %s (index=%s, part_index=%s, "
+                      "subkey=%s)",
+                      name, index, self.summary_part_index,
+                      self.summary_subkey)
             result[name] = [attr.__name__, index]
         return result
 
