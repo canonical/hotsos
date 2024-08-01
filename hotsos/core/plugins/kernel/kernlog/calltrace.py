@@ -12,6 +12,7 @@ from hotsos.core.plugins.kernel.kernlog.common import (
     TraceTypeBase,
     KernLogBase,
 )
+from hotsos.core.alias import alias
 
 KERNLOG_TS = r'\[\s*\d+\.\d+\]'
 KERNLOG_PREFIX = rf'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{KERNLOG_TS}'
@@ -469,6 +470,7 @@ class HungtaskTraceType(TraceTypeBase):
         yield from self.hungtasks
 
 
+@alias("kernel.calltrace")
 class CallTraceManager(KernLogBase):
     """
     Manager for all call trace analysis types. From here all analysis is run

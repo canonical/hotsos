@@ -10,6 +10,7 @@ from searchkit import (
 )
 from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers.cli import CLIHelperFile
+from hotsos.core.alias import alias
 
 
 @dataclass
@@ -81,6 +82,7 @@ class ApparmorHelper():
         return self.profiles.get('unconfined', {}).get('profiles', [])
 
 
+@alias('apparmor.profile')
 class AAProfileFactory(FactoryBase):
     """
     Dynamically create AAProfile objects using profile name.

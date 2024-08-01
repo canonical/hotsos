@@ -37,3 +37,7 @@ from .apparmor import (  # noqa: F403,F401
     AAProfileFactory,
     ApparmorHelper,
 )
+from .filestat import (  # noqa: F403,F401
+    FileFactory,
+    FileObj
+)

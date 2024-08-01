@@ -1,6 +1,6 @@
 checks:
   is_enabled:
-    property: hotsos.core.plugins.system.system.SystemBase.unattended_upgrades_enabled
+    property: system.unattended_upgrades_enabled
 conclusions:
   unattended-upgrades-enabled:
     decision: is_enabled

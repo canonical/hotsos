@@ -51,6 +51,7 @@ from hotsos.core.plugins.openstack.exceptions_nova import (
 from hotsos.core.plugins.openstack.exceptions_octavia import (
     OCTAVIA_EXCEPTIONS,
 )
+from hotsos.core.alias import alias
 
 
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
@@ -295,6 +296,7 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
                   }
 
 
+@alias('openstack.config')
 class OpenstackConfig(host_helpers.IniConfigBase):
     """ Openstack config interface. """
     def __getattr__(self, key):

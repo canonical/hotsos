@@ -5,7 +5,7 @@ checks:
     expr: '.+ PGs pending on creation'
   health_warning:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      path: ceph.cluster.health_status
       ops: [[ne, HEALTH_OK]]
 conclusions:
   pending_creating_pgs:

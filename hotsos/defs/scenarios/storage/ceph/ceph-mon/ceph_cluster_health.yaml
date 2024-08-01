@@ -1,11 +1,11 @@
 checks:
   cluster_health_available:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      path: ceph.cluster.health_status
       ops: [[ne, null]]
   cluster_unhealthy:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      path: ceph.cluster.health_status
       ops: [[ne, HEALTH_OK]]
 conclusions:
   cluster-health-not-ok:

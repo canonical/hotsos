@@ -6,7 +6,7 @@ checks:
     end: '(\[.+\]+) (octavia.common.exceptions.ProviderNotFound: Provider ''ovn'' was not found\.)'
   ovn_provider_enabled:
     config:
-      handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
+      handler: 'openstack.config'
       path: 'etc/octavia/octavia.conf'
       assertions:
         - section: api_settings

@@ -1,6 +1,6 @@
 vars:
-  clog_size: '@hotsos.core.host_helpers.filestat.FileFactory.size:var/log/ceph/ceph.log'
-  mc_clog_size: '@hotsos.core.host_helpers.filestat.FileFactory.size:var/snap/microceph/common/logs/ceph.log'
+  clog_size: '@file.size:var/log/ceph/ceph.log'
+  mc_clog_size: '@file.size:var/snap/microceph/common/logs/ceph.log'
 checks:
   empty_clog_size:
     or:

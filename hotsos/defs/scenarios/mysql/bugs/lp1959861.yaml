@@ -3,13 +3,13 @@ checks:
     apt: mysql-router
   client_ssl_mode:
     config:
-      handler: hotsos.core.plugins.mysql.MySQLRouterConfig
+      handler: mysql.config.router
       assertions:
         key: client_ssl_mode
         ops: [[eq, PREFERRED]]
   client_ssl_cert:
     config:
-      handler: hotsos.core.plugins.mysql.MySQLRouterConfig
+      handler: mysql.config.router
       assertions:
         key: client_ssl_cert
         ops: [[ne, null]]

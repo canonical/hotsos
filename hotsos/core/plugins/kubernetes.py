@@ -10,6 +10,7 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
 )
 from hotsos.core import plugintools
+from hotsos.core.alias import alias
 
 SERVICES = [r"etcd\S*",
             r"calico\S*",
@@ -87,6 +88,7 @@ class KubernetesBase():
         return sorted(containers)
 
 
+@alias('kubernetes.checks')
 class KubernetesChecks(KubernetesBase, plugintools.PluginPartBase):
     """ Kubernetes checks. """
     plugin_name = 'kubernetes'

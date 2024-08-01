@@ -1,23 +1,23 @@
 checks:
   has_stacktraces:
     property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_anytype
+      path: kernel.calltrace.calltrace_anytype
       ops: [[length_hint]]
   has_oom_killer_invoked:
     property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.oom_killer
+      path: kernel.calltrace.oom_killer
       ops: [[length_hint]]
   has_bcache_deadlock_invoked:
     property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace-bcache
+      path: kernel.calltrace.calltrace-bcache
       ops: [[length_hint]]
   has_hungtasks:
     property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace_hungtask
+      path: kernel.calltrace.calltrace_hungtask
       ops: [[length_hint]]
   has_fanotify_hang:
     property:
-      path: hotsos.core.plugins.kernel.CallTraceManager.calltrace-fanotify
+      path: kernel.calltrace.calltrace-fanotify
       ops: [[length_hint]]
 conclusions:
   stacktraces:
@@ -51,7 +51,7 @@ conclusions:
         See https://www.spinics.net/lists/stable/msg566639.html for full
         detail.
       format-dict:
-        kver: hotsos.core.plugins.kernel.KernelBase.version
+        kver: kernel.version
   hungtasks:
     priority: 2
     decision: has_hungtasks

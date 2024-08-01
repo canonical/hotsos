@@ -5,7 +5,7 @@ checks:
     expr: '.*mon (.+) is using a lot of disk space.*'
   health_warning:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      path: ceph.cluster.health_status
       ops: [[ne, HEALTH_OK]]
 conclusions:
   db_too_large:

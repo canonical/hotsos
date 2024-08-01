@@ -5,7 +5,7 @@ checks:
     expr: '.+"message": "mon is allowing insecure global_id reclaim"'
   health_warning:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      path: ceph.cluster.health_status
       ops: [[eq, HEALTH_WARN]]
 conclusions:
   insecure-auth-allowed:

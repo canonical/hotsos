@@ -18,6 +18,7 @@ Or they can reference a Python property. This is done by prefixing the import st
 
   vars:
     foo: '@path.to.myproperty'
+    bar: '@property.alias'
 
 A :ref:`factory <FactoryClasses>` reference can also be defined using the following form:
 
@@ -45,6 +46,89 @@ Variables are accessed from other properties by prefixing their name with a '$' 
 Variables are accessible from any property within the file in which they are defined.
 
 NOTE: global properties are not yet supported.
+
+Aliases
+=======
+
+Aliasing provides easier access to a class or property. The class or property needs to
+be aliased in order to use this feature.
+
+.. code-block:: python
+
+  class MyHelperClass:
+
+    @property
+    def my_awesome_property(self):
+      return True
+
+
+Normally, if the user wants to retrieve the value of the my_awesome_property in a YAML scenario
+they have to write the whole import path to the class, as follows:
+
+.. code-block:: yaml
+
+  vars:
+    foo: '@hotsos.module.path.MyHelperClass.my_awesome_property'
+  checks:
+    foo_is_true:
+      requires:
+        varops: [[$foo], [eq, true]]
+
+But, with the help of aliasing, we can make it easier to type and remember for the user:
+
+.. code-block:: python
+
+  from hotsos.core.alias import alias
+
+  @alias("helper")
+  class MyHelperClass:
+
+    @property
+    def my_awesome_property(self):
+      return True
+
+... so the previous example can be written as follows:
+
+.. code-block:: yaml
+
+  vars:
+    foo: '@helper.my_awesome_property'
+  checks:
+    foo_is_true:
+      requires:
+        varops: [[$foo], [eq, true]]
+
+Individual properties can be aliased too:
+
+.. code-block:: python
+
+  from hotsos.core.alias import alias
+
+  class MyHelperClass:
+
+    @alias('awesomeness')
+    @property
+    def my_awesome_property(self):
+      return True
+
+.. code-block:: yaml
+
+  vars:
+    awesome: '@awesomeness'
+
+
+Aliasing works for the following constructs:
+
+- Python property names
+- Class names (e.g. Config handler class type name)
+
+Alias Naming
+------------
+
+An alias can be anything. The only limitation is that an alias cannot start with the
+name of the main package (i.e., `hotsos.`). This is to prevent mixing up aliases with
+the real property paths. The alias registration will fail with `AliasForbiddenError(...)`
+in such cases.
 
 Checks
 ======
