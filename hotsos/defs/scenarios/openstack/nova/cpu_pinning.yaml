@@ -3,7 +3,7 @@
 vars:
   isolcpus_enabled: '@hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled'
   cpuaffinity_enabled: '@hotsos.core.plugins.kernel.SystemdConfig.cpuaffinity_enabled'
-  openstack_release: '@hotsos.core.plugins.openstack.OpenStackChecks.release_name'
+  openstack_release: '@hotsos.core.plugins.openstack.OpenstackBase.release_name'
   vcpu_pinset: '@hotsos.core.plugins.openstack.nova.CPUPinning.vcpu_pin_set'
   cpu_dedicated_set: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set'
   cpu_dedicated_set_name: '@hotsos.core.plugins.openstack.nova.CPUPinning.cpu_dedicated_set_name'

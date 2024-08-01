@@ -2,6 +2,7 @@ from datetime import datetime
 
 from hotsos.core.analytics import LogEventStats
 from hotsos.core.plugins.openstack.common import (
+    OpenstackBase,
     OpenStackChecks,
     OpenstackEventHandlerBase,
     OpenstackEventCallbackBase,
@@ -14,7 +15,7 @@ from hotsos.core.plugintools import (
 )
 
 
-class OpenstackInstanceChecks(OpenStackChecks):
+class OpenstackInstanceChecks(OpenstackBase, OpenStackChecks):
     """ Implements Openstack Nova instance checks. """
     summary_part_index = 2
 

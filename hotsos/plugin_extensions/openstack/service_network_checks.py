@@ -1,7 +1,7 @@
 import re
 
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
-from hotsos.core.plugins.openstack.common import OpenStackChecks
+from hotsos.core.plugins.openstack.common import OpenstackBase, OpenStackChecks
 from hotsos.core.plugins.openstack.neutron import (
     IP_HEADER_BYTES,
     GRE_HEADER_BYTES,
@@ -18,7 +18,7 @@ from hotsos.core.plugintools import (
 )
 
 
-class OpenstackNetworkChecks(OpenStackChecks):
+class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
     """ Implements OpenStack network checks. """
     summary_part_index = 4
 

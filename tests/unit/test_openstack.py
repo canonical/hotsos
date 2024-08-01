@@ -259,13 +259,13 @@ class TestOpenstackBase(utils.BaseTestCase):
 class TestOpenstackPluginCore(TestOpenstackBase):
     """ Unit tests for OpenStack plugin core. """
     def test_release_name(self):
-        base = openstack_core.OpenStackChecks()
+        base = openstack_core.OpenstackBase()
         self.assertEqual(base.release_name, 'ussuri')
 
     @utils.create_data_root({'etc/openstack-release':
                              'OPENSTACK_CODENAME=yoga'})
     def test_release_name_from_file(self):
-        base = openstack_core.OpenStackChecks()
+        base = openstack_core.OpenstackBase()
         with mock.patch.object(base, 'installed_pkg_release_names', None):
             self.assertEqual(base.release_name, 'yoga')
 
@@ -274,7 +274,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         # 2030-04-30
         mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
 
-        inst = openstack_core.OpenStackChecks()
+        inst = openstack_core.OpenstackBase()
         self.assertEqual(inst.release_name, 'ussuri')
 
         self.assertLessEqual(inst.days_to_eol, 0)
@@ -284,7 +284,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         # 2030-01-01
         mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
 
-        inst = openstack_core.OpenStackChecks()
+        inst = openstack_core.OpenstackBase()
         self.assertEqual(inst.release_name, 'ussuri')
 
         self.assertGreater(inst.days_to_eol, 0)
@@ -347,7 +347,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         self.assertEqual(sorted(c.packages_dep_exprs), sorted(deps))
 
     def test_project_catalog_packages(self):
-        ost_base = openstack_core.OpenStackChecks()
+        ost_base = openstack_core.OpenstackBase()
         core = {'keystone-common': '2:17.0.1-0ubuntu1',
                 'neutron-common': '2:16.4.1-0ubuntu2',
                 'neutron-dhcp-agent': '2:16.4.1-0ubuntu2',
@@ -472,7 +472,7 @@ class TestOpenStackSummary(TestOpenstackBase):
 
     @mock.patch('hotsos.core.plugins.openstack.openstack.OSTProject.installed',
                 True)
-    @mock.patch('hotsos.core.plugins.openstack.OpenStackChecks.'
+    @mock.patch('hotsos.core.plugins.openstack.OpenstackBase.'
                 'openstack_installed', True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_get_summary_apache_service(self, mock_helper):
@@ -491,7 +491,7 @@ class TestOpenStackSummary(TestOpenstackBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['services']['systemd'], expected)
 
-    @mock.patch('hotsos.core.plugins.openstack.common.OpenStackChecks.'
+    @mock.patch('hotsos.core.plugins.openstack.common.OpenstackBase.'
                 'days_to_eol', 3000)
     @utils.create_data_root({os.path.join(APT_SOURCE_PATH.format(r)):
                              APT_UCA.format(r) for r in

@@ -61,7 +61,7 @@ class PluginRegistryMeta(type):
                                                  'runner': subcls})
 
 
-class HOTSOSDumper(yaml.Dumper):
+class HOTSOSDumper(yaml.Dumper):  # pylint: disable=too-many-ancestors
     """ Custom yaml dumper that preserves order. """
     def increase_indent(self, flow=False, indentless=False):
         return super().increase_indent(flow, False)
@@ -212,41 +212,6 @@ class MarkdownFormatter:
         return markdown.rstrip('\n')
 
 
-class ApplicationBase(metaclass=PluginRegistryMeta):
-    """
-    Base class for all plugins representing an application.
-    """
-    def __init__(self, *args, **kwargs):
-        self.apt = None  # APTPackageHelper
-        self.snaps = None  # SnapPackageHelper
-        self.docker = None  # DockerImageHelper
-        self.pebble = None  # PebbleHelper
-        self.systemd = None  # SystemdHelper
-        super().__init__(*args, **kwargs)
-
-    @property
-    def version(self):
-        """ Optional application version. """
-        return None
-
-    @property
-    def release_name(self):
-        """ Optional application release_name. """
-        return None
-
-    @property
-    def days_to_eol(self):
-        """ Optional application days_to_eol. """
-        return None
-
-    @property
-    def bind_interfaces(self):
-        """
-        Optionally implement this method to return a dictionary of network
-        interfaces used by this application.
-        """
-
-
 @dataclass
 class SummaryEntry:
     """ SummaryEntry data type. """
@@ -287,15 +252,53 @@ class DefaultSummaryEntryIndexes(IntEnum):
     AVAILABLE = auto()
 
 
-class SummaryBase(ApplicationBase):
-    """ Common structure for application summary output.
+class ApplicationSummaryBase(metaclass=PluginRegistryMeta):
+    """ Common structure for application plugin and summary output.
 
     Individual application plugins should implement this class and extend to
-    include information specific to their application.
+    include information specific to their application and the summary output
+    they would like to display.
+
+    A common set of summary entries are provided. These can be overriden with
+    a different entry key by clobbering the entry index. A corresponding set of
+    default attributes is also provided to support these entries and these
+    default to None so produce no output by default.
     """
+
+    def __init__(self, *args, **kwargs):
+        self.apt = None  # APTPackageHelper
+        self.snaps = None  # SnapPackageHelper
+        self.docker = None  # DockerImageHelper
+        self.pebble = None  # PebbleHelper
+        self.systemd = None  # SystemdHelper
+        super().__init__(*args, **kwargs)
+
+    @property
+    def version(self):
+        """ Optional application version. """
+        return None
+
+    @property
+    def release_name(self):
+        """ Optional application release_name. """
+        return None
+
+    @property
+    def days_to_eol(self):
+        """ Optional application days_to_eol. """
+        return None
+
+    @property
+    def bind_interfaces(self):
+        """
+        Optionally implement this method to return a dictionary of network
+        interfaces used by this application.
+        """
+
     @classmethod
     def default_summary_entries(cls):
-        return [e for e in dir(SummaryBase) if str(e).startswith('summary_')]
+        return [e for e in dir(ApplicationSummaryBase)
+                if str(e).startswith('summary_')]
 
     @summary_entry('version', DefaultSummaryEntryIndexes.VERSION)
     def summary_version(self):
@@ -443,7 +446,7 @@ class PartManager():
         return {HotSOSConfig.plugin_name: parts}
 
 
-class PluginPartBase(SummaryBase):
+class PluginPartBase(ApplicationSummaryBase):
     """ This is the base class used for all plugins.
 
     Provides a standard set of methods that plugins will need as well as the
