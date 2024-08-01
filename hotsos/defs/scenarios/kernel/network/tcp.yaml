@@ -1,71 +1,42 @@
-vars:
-  incsumerr: '@hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrors'
-  incsumrate_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrorsPcentInSegs'
-  outsegs: '@hotsos.core.plugins.kernel.net.SNMPTcp.OutSegs'
-  retrans: '@hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegs'
-  outretrans_pcent: '@hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegsPcentOutSegs'
-  spurrtx: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueues'
-  spurrtx_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueuesPcentOutSegs'
-  prunec: '@hotsos.core.plugins.kernel.net.NetStatTCP.PruneCalled'
-  rcvcoll: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvCollapsed'
-  rcvpr: '@hotsos.core.plugins.kernel.net.NetStatTCP.RcvPruned'
-  ofopr: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
-  backlogd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPBacklogDrop'
-  rpfilterd: '@hotsos.core.plugins.kernel.net.NetStatTCP.IPReversePathFilter'
-  ldrop: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenDrops'
-  pfmemd: '@hotsos.core.plugins.kernel.net.NetStatTCP.PFMemallocDrop'
-  minttld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPMinTTLDrop'
-  listenovf: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenOverflows'
-  ofod: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
-  zwind: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPZeroWindowDrop'
-  rcvqd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDrop'
-  rcvqd_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDropPcentInSegs'
-  rqfulld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDrop'
-  rqfullcook: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies'
-  memusage_pages_inuse: '@hotsos.core.plugins.kernel.net.SockStat.GlobTcpSocksTotalMemPages'
-  memusage_pages_max: '@hotsos.core.plugins.kernel.net.SockStat.SysctlTcpMemMax'
-  memusage_pct: '@hotsos.core.plugins.kernel.net.SockStat.TCPMemUsagePct'
 checks:
-  incsumerr_high:
-    or:
-      - varops: [[$incsumerr], [gt, 500]]
-      - varops: [[$incsumrate_pcent], [gt, 1]]
-  retrans_out_rate_gt_1pcent:
-    varops: [[$outretrans_pcent], [gt, 1]]
-  incsumrate_gt_1pcent:
-    varops: [[$incsumrate_pcent], [gt, 1]]
-  mem_pressure_prunec:
-    varops: [[$prunec], [gt, 500]]
-  backlogd:
-    varops: [[$backlogd], [gt, 500]]
-  rpfilterd:
-    varops: [[$rpfilterd], [gt, 500]]
-  ldrop:
-    varops: [[$ldrop], [gt, 500]]
-  spurrtx_gt_1pcent:
-    varops: [[$spurrtx_pcent], [gt, 1]]
-  pfmemd:
-    varops: [[$pfmemd], [gt, 500]]
-  minttld:
-    varops: [[$minttld], [gt, 500]]
-  listenovf:
-    varops: [[$listenovf], [gt, 500]]
-  ofod:
-    varops: [[$ofod], [gt, 500]]
-  zwind:
-    varops: [[$zwind], [gt, 500]]
-  rcvqd:
-    or:
-      - varops: [[$rcvqd], [gt, 500]]
-      - varops: [[$rcvqd_pcent], [gt, 1]]
-  rqfulld:
-    varops: [[$rqfulld], [gt, 500]]
-  rqfullcook:
-    varops: [[$rqfullcook], [gt, 500]]
-  memusage_pct_high:
-    varops: [[$memusage_pct], [gt, 85]]
-  memusage_pct_exhausted:
-    varops: [[$memusage_pct], [ge, 100]]
+  incsumerr_high: |
+    (@hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrors > 500) OR
+    (@hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrorsPcentInSegs > 1)
+  retrans_out_rate_gt_1pcent: |
+    @hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegsPcentOutSegs > 1
+  incsumrate_gt_1pcent: |
+    @hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrorsPcentInSegs > 1
+  mem_pressure_prunec: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.PruneCalled > 500
+  backlogd: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.TCPBacklogDrop > 500
+  rpfilterd: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.IPReversePathFilter > 500
+  ldrop: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.ListenDrops > 500
+  spurrtx_gt_1pcent: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueuesPcentOutSegs > 1
+  pfmemd: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.PFMemallocDrop > 500
+  minttld: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.TCPMinTTLDrop > 500
+  listenovf: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.ListenOverflows > 500
+  ofod: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.TCPOFODrop > 500
+  zwind: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.TCPZeroWindowDrop > 500
+  rcvqd: |
+    (@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDrop > 500) OR
+    (@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDropPcentInSegs > 1)
+  rqfulld: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDrop > 500
+  rqfullcook: |
+    @hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies > 500
+  memusage_pct_high: |
+    @hotsos.core.plugins.kernel.net.SockStat.TCPMemUsagePct > 85
+  memusage_pct_exhausted: |
+    @hotsos.core.plugins.kernel.net.SockStat.TCPMemUsagePct >= 100
 conclusions:
   # retransmissions
   incsumerr_high:
@@ -76,23 +47,23 @@ conclusions:
         tcp ingress checksum errors are at {count}. This could mean that one
         or more interfaces are experiencing hardware errors.
       format-dict:
-        count: $incsumerr
+        count: hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrors
   retrans_out_rate_gt_1pcent:
     decision: retrans_out_rate_gt_1pcent
     raises:
       type: KernelWarning
       message: tcp retransmissions ({retrans}) are at {rate}% of tx segments ({outsegs}).
       format-dict:
-        outsegs: $outsegs
-        retrans: $retrans
-        rate: $outretrans_pcent
+        outsegs: hotsos.core.plugins.kernel.net.SNMPTcp.OutSegs
+        retrans: hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegs
+        rate: hotsos.core.plugins.kernel.net.SNMPTcp.RetransSegsPcentOutSegs
   incsumrate_gt_1pcent:
     decision: incsumrate_gt_1pcent
     raises:
       type: KernelWarning
       message: tcp ingress checksum error rate is at {rate}% of rx segments.
       format-dict:
-        rate: $incsumrate_pcent
+        rate: hotsos.core.plugins.kernel.net.SNMPTcp.InCsumErrorsPcentInSegs
   # mem pressure
   mem_pressure_prunec:
     decision: mem_pressure_prunec
@@ -102,10 +73,10 @@ conclusions:
         tcp pruned {prunec} times: collapsed={rcvcoll} recv={rcvpr}
         ofo={ofopr}.
       format-dict:
-        prunec: $prunec
-        rcvcoll: $rcvcoll
-        rcvpr: $rcvpr
-        ofopr: $ofopr
+        prunec: hotsos.core.plugins.kernel.net.NetStatTCP.PruneCalled
+        rcvcoll: hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvCollapsed
+        rcvpr: hotsos.core.plugins.kernel.net.NetStatTCP.RcvPruned
+        ofopr: hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned
   # misc drops
   backlogd:
     decision: backlogd
@@ -113,64 +84,64 @@ conclusions:
       type: KernelWarning
       message: tcp socket backlog queue full (drops={count}).
       format-dict:
-        count: $backlogd
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.TCPBacklogDrop
   pfmemd:
     decision: pfmemd
     raises:
       type: KernelWarning
       message: PFMEMALLOC skb to non-MEMALLOC socket (drops={count}).
       format-dict:
-        count: $pfmemd
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.PFMemallocDrop
   minttld:
     decision: minttld
     raises:
       type: KernelWarning
       message: IP TTL below minimum (drops={count}).
       format-dict:
-        count: $minttld
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.TCPMinTTLDrop
   rpfilterd:
     decision: rpfilterd
     raises:
       type: KernelWarning
       message: Failed reverse path filter test (drops={count}).
       format-dict:
-        count: $rpfilterd
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.IPReversePathFilter
   listenovf:
     decision: listenovf
     raises:
       type: KernelWarning
       message: tcp accept queue overflow (drops={count}).
       format-dict:
-        count: $listenovf
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.ListenOverflows
   ldrop:
     decision: ldrop
     raises:
       type: KernelWarning
       message: tcp incoming connect request catch-all (drops={count}).
       format-dict:
-        count: $ldrop
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.ListenDrops
   ofod:
     decision: ofod
     raises:
       type: KernelWarning
       message: tcp no rmem adding to OFO recv queue (drops={count}).
       format-dict:
-        count: $ofod
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.TCPOFODrop
   zwind:
     decision: zwind
     raises:
       type: KernelWarning
       message: tcp receive window full (drops={count}).
       format-dict:
-        count: $zwind
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.TCPZeroWindowDrop
   rcvqd:
     decision: rcvqd
     raises:
       type: KernelWarning
       message: tcp no rmem adding to recv queue (drops={count}, {pcent})% of total rx).
       format-dict:
-        count: $rcvqd
-        pcent: $rcvqd_pcent
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDrop
+        pcent: hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDropPcentInSegs
   # synflood
   rqfulld:
     decision: rqfulld
@@ -178,14 +149,14 @@ conclusions:
       type: KernelWarning
       message: tcp request queue full, syncookies off (drops={count}).
       format-dict:
-        count: $rqfulld
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDrop
   rqfullcook:
     decision: rqfullcook
     raises:
       type: KernelWarning
       message: tcp request queue full, syncookies on (cookies={count}).
       format-dict:
-        count: $rqfullcook
+        count: hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies
   # misc
   spurrtx_gt_1pcent:
     decision: spurrtx_gt_1pcent
@@ -194,8 +165,8 @@ conclusions:
       message: >-
         this host has {num} tcp retransmissions ({pcent}% of total) with original still queued.
       format-dict:
-        num: $spurrtx
-        pcent: $spurrtx_pcent
+        num: hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueues
+        pcent: hotsos.core.plugins.kernel.net.NetStatTCP.TCPSpuriousRtxHostQueuesPcentOutSegs
   memusage_pct_high:
     decision:
       - memusage_pct_high
@@ -206,9 +177,9 @@ conclusions:
         TCP memory page usage is high ({pct}%), ({pa} out of {pm} mem pages are in use).
         Kernel will start to drop TCP frames if all pages are exhausted.
       format-dict:
-        pa: $memusage_pages_inuse
-        pm: $memusage_pages_max
-        pct: $memusage_pct
+        pa: hotsos.core.plugins.kernel.net.SockStat.GlobTcpSocksTotalMemPages
+        pm: hotsos.core.plugins.kernel.net.SockStat.SysctlTcpMemMax
+        pct: hotsos.core.plugins.kernel.net.SockStat.TCPMemUsagePct
   memusage_pct_exhausted:
     decision: memusage_pct_exhausted
     raises:
@@ -217,6 +188,6 @@ conclusions:
         All TCP memory pages are exhausted! ({pa} out of {pm} mem pages are in use).
         Kernel will drop TCP packets, expect packet losses on ALL TCP transport!
       format-dict:
-        pa: $memusage_pages_inuse
-        pm: $memusage_pages_max
-        pct: $memusage_pct
+        pa: hotsos.core.plugins.kernel.net.SockStat.GlobTcpSocksTotalMemPages
+        pm: hotsos.core.plugins.kernel.net.SockStat.SysctlTcpMemMax
+        pct: hotsos.core.plugins.kernel.net.SockStat.TCPMemUsagePct
