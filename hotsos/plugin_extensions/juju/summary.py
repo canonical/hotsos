@@ -24,8 +24,31 @@ class UnitLogInfo():
     Create a tally of log errors and warnings for each unit.
     """
 
-    @staticmethod
-    def error_and_warnings():
+    @classmethod
+    def _tally_result(cls, app_name, events, result, tally_key):
+        if app_name not in events:
+            events[app_name] = {}
+
+        tag = result.tag.lower()
+        if tag not in events[app_name]:
+            events[app_name][tag] = {}
+
+        origin = result.get(3)
+        origin_child = origin.rpartition('.')[2]
+        if origin_child not in events[app_name][tag]:
+            events[app_name][tag][origin_child] = {}
+
+        mod = result.get(4)
+        if mod not in events[app_name][tag][origin_child]:
+            events[app_name][tag][origin_child][mod] = {}
+
+        if tally_key not in events[app_name][tag][origin_child][mod]:
+            events[app_name][tag][origin_child][mod][tally_key] = 1
+        else:
+            events[app_name][tag][origin_child][mod][tally_key] += 1
+
+    @classmethod
+    def error_and_warnings(cls):
         log.debug("searching unit logs for errors and warnings")
         c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
         searchobj = FileSearcher(constraint=c)
@@ -68,27 +91,8 @@ class UnitLogInfo():
                     continue
 
                 path = searchobj.resolve_source_id(result.source_id)
-                name = re.search(r".+/unit-(\S+).log.*", path).group(1)
-                if name not in events:
-                    events[name] = {}
-
-                tag = tag.lower()
-                if tag not in events[name]:
-                    events[name][tag] = {}
-
-                origin = result.get(3)
-                origin_child = origin.rpartition('.')[2]
-                if origin_child not in events[name][tag]:
-                    events[name][tag][origin_child] = {}
-
-                mod = result.get(4)
-                if mod not in events[name][tag][origin_child]:
-                    events[name][tag][origin_child][mod] = {}
-
-                if key not in events[name][tag][origin_child][mod]:
-                    events[name][tag][origin_child][mod][key] = 1
-                else:
-                    events[name][tag][origin_child][mod][key] += 1
+                app_name = re.search(r".+/unit-(\S+).log.*", path).group(1)
+                cls._tally_result(app_name, events, result, key)
 
         # ensure consistent ordering of results
         for tag, units in events.items():

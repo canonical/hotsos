@@ -235,6 +235,44 @@ class SystemdHelper(ServiceManagerBase):
         self._cached_unit_files_exprs[svc_name_expr] = re.compile(unit_expr)
         return self._cached_unit_files_exprs[svc_name_expr]
 
+    def _get_service_obj(self, svc_name_expr, line, services_found):
+        # check each matched unit file for instances
+        ret = self._unit_files_expr(svc_name_expr).match(line)
+        if not ret:
+            return
+
+        unit = ret.group(1)
+        state = ret.group(2)
+        has_instances = False
+        units_expr = r"\*?\s+({})\.service\s+(\S+)\s+(\S+)\s+(\S+)"
+        if unit.endswith('@'):
+            # indirect or "template" units can have "instantiated"
+            # units where only the latter represents whether the
+            # unit is in use. If an indirect unit has instantiated
+            # units we use them to represent the state of the
+            # service.
+            units_expr = units_expr.format(unit + r'\S+')
+            unit = unit.partition('@')[0]
+        else:
+            units_expr = units_expr.format(unit)
+
+        if state != 'disabled':
+            if self._has_unit_instances(units_expr):
+                has_instances = True
+        elif unit in services_found:
+            # don't override enabled with disabled
+            return
+
+        if state == 'indirect' and not has_instances:
+            return
+
+        if unit in services_found:
+            if (services_found[unit].state == 'indirect' and
+                    services_found[unit].has_instances):
+                return
+
+        services_found[unit] = SystemdService(unit, state, has_instances)
+
     @cached_property
     def services(self):
         """
@@ -245,53 +283,18 @@ class SystemdHelper(ServiceManagerBase):
         instances. Enabled units are aggregated but masked units are not so
         that they can be identified and reported.
         """
-        _services = {}
+        services_found = {}
         for line in CLIHelper().systemctl_list_unit_files():
             for svc_name_expr in self._service_exprs:
-                # check each matched unit file for instances
-                ret = self._unit_files_expr(svc_name_expr).match(line)
-                if not ret:
-                    continue
-
-                unit = ret.group(1)
-                state = ret.group(2)
-                has_instances = False
-                units_expr = r"\*?\s+({})\.service\s+(\S+)\s+(\S+)\s+(\S+)"
-                if unit.endswith('@'):
-                    # indirect or "template" units can have "instantiated"
-                    # units where only the latter represents whether the
-                    # unit is in use. If an indirect unit has instantiated
-                    # units we use them to represent the state of the
-                    # service.
-                    units_expr = units_expr.format(unit + r'\S+')
-                    unit = unit.partition('@')[0]
-                else:
-                    units_expr = units_expr.format(unit)
-
-                if state != 'disabled':
-                    if self._has_unit_instances(units_expr):
-                        has_instances = True
-                elif unit in _services:
-                    # don't override enabled with disabled
-                    continue
-
-                if state == 'indirect' and not has_instances:
-                    continue
-
-                if unit in _services:
-                    if (_services[unit].state == 'indirect' and
-                            _services[unit].has_instances):
-                        continue
-
-                _services[unit] = SystemdService(unit, state, has_instances)
+                self._get_service_obj(svc_name_expr, line, services_found)
 
         # NOTE: assumes that indirect instances always supersede direct ones
         #       i.e. you can't have both.
-        for info in _services.values():
+        for info in services_found.values():
             if info.state == 'indirect':
                 info.state = 'enabled'
 
-        return _services
+        return services_found
 
     @property
     def masked_services(self):
