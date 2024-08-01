@@ -23,7 +23,7 @@ class OpenstackInstanceChecks(OpenstackBase, OpenStackChecks):
     def summary_vm_info(self):
         _info = {}
 
-        instances = self.nova.instances.values()
+        instances = self.project_helpers.nova.instances.values()
         if instances:
             _info['running'] = {'count': len(instances),
                                 'uuids': [i.uuid for i in instances]}
@@ -135,7 +135,7 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
                 _end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S")
                 duration = round(float((_end - _start).total_seconds()), 2)
                 info = {'start': start, 'end': end, 'duration': duration}
-                instance = self.nova.instances.get(vm_uuid)
+                instance = self.project_helpers.nova.instances.get(vm_uuid)
                 if instance and instance.memory_mbytes is not None:
                     info['resources'] = {'memory_mbytes':
                                          instance.memory_mbytes}

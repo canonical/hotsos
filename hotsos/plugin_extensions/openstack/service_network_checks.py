@@ -1,4 +1,5 @@
 import re
+from dataclasses import fields
 
 from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
 from hotsos.core.plugins.openstack.common import OpenstackBase, OpenStackChecks
@@ -56,9 +57,9 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
 
     def get_config_info(self):
         config_info = {}
-        for project in ['nova', 'neutron', 'octavia']:
-            _project = getattr(self, project)
-            if _project and _project.bind_interfaces:
+        for project in [f.name for f in fields(self.project_helpers)]:
+            _project = getattr(self.project_helpers, project)
+            if _project.bind_interfaces:
                 for name, port in _project.bind_interfaces.items():
                     if project not in config_info:
                         config_info[project] = {}
@@ -73,16 +74,18 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
         etc) for any outliers detected.
         """
         port_health_info = {}
-        for project in ['nova', 'neutron', 'octavia']:
-            _project = getattr(self, project)
-            if _project and _project.bind_interfaces:
-                for port in _project.bind_interfaces.values():
-                    if port.stats:
-                        stats = self._get_port_stat_outliers(port.stats)
-                        if not stats:
-                            continue
+        for project in [f.name for f in fields(self.project_helpers)]:
+            _project = getattr(self.project_helpers, project)
+            if not (_project and _project.bind_interfaces):
+                continue
 
-                        port_health_info[port.name] = stats
+            for port in _project.bind_interfaces.values():
+                if port.stats:
+                    stats = self._get_port_stat_outliers(port.stats)
+                    if not stats:
+                        continue
+
+                    port_health_info[port.name] = stats
 
         return port_health_info
 
@@ -149,12 +152,12 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
     @summary_entry('router-port-mtus', get_min_available_entry_index() + 8)
     def summary_router_port_mtus(self):
         """ Provide a summary of ml2-ovs router port mtus. """
-        project = getattr(self, 'neutron')
-        if not (project and project.bind_interfaces):
+        bind_interfaces = self.project_helpers.neutron.bind_interfaces
+        if not bind_interfaces:
             return None
 
         phy_mtus = set()
-        for port in project.bind_interfaces.values():
+        for port in bind_interfaces.values():
             phy_mtus.add(port.mtu)
 
         tunnels = OpenvSwitchBase().tunnels
@@ -188,11 +191,11 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
     def summary_vm_port_health(self):
         """ For each instance get its ports and check port health, reporting on
         any outliers. """
-        if not self.nova.instances:
+        if not self.project_helpers.nova.instances:
             return None
 
         port_health_info = {}
-        for guest in self.nova.instances.values():
+        for guest in self.project_helpers.nova.instances.values():
             for port in guest.ports:
                 stats = port.stats
                 if stats:
@@ -206,7 +209,8 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
                     port_health_info[guest.uuid][port.hwaddr] = outliers
 
         if port_health_info:
-            health = {'num-vms-checked': len(self.nova.instances),
+            health = {'num-vms-checked':
+                      len(self.project_helpers.nova.instances),
                       'stats': port_health_info}
             return health
 

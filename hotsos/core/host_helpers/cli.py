@@ -6,6 +6,7 @@ import pathlib
 import re
 import subprocess
 import tempfile
+from dataclasses import dataclass, field, fields
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
@@ -28,20 +29,25 @@ from hotsos.core.host_helpers.exceptions import (
 from hotsos.core.log import log
 
 
-class CmdBase():
-    """ Base class for all command source types. """
-    def __init__(self):
+@dataclass
+class CmdBase:
+    """ Base class for all command source types.
+
+    Provides a way to save original state and restore to that state.
+    """
+    def __post_init__(self):
         self.hooks = {}
-        self.reset()
+        # make a copy of field original values.
+        for f in fields(self):
+            setattr(self, 'original_' + f.name, f.type(getattr(self, f.name)))
+
+    def get_original_attr_value(self, name):
+        return getattr(self, 'original_' + name)
 
     def reset(self):
-        """
-        Used to reset an object after it has been called. In other words, each
-        time a command object is called it may alter its initial state e.g. via
-        hooks but this state should not persist to the next call so this is
-        used to restore state.
-        """
-        raise NotImplementedError
+        """ Reset fields to original values. """
+        for f in fields(self):
+            setattr(self, f.name, f.type(getattr(self, 'original_' + f.name)))
 
     @classmethod
     def safe_readlines(cls, path):
@@ -61,25 +67,34 @@ class CmdBase():
         self.hooks[name] = f
 
 
-class BinCmd(CmdBase):
+@dataclass
+class FileCmdBase(CmdBase):
+    """
+    State used to execute a file-based command i.e. a command whose output is
+    already saved in a file.
+    """
+    path: str
+    json_decode: bool = False
+    singleline: bool = False
+    decode_error_handling: str = None
+
+    def __post_init__(self):
+        self.path = os.path.join(HotSOSConfig.data_root, self.path)
+        super().__post_init__()
+
+
+@dataclass
+class BinCmdBase(CmdBase):
+    """ State used to execute a binary command. """
+    cmd: str
+    json_decode: bool = False
+    singleline: bool = False
+    cmd_extras: list = field(default_factory=lambda: [])
+
+
+class BinCmd(BinCmdBase):
     """ Implements binary command execution. """
     TYPE = "BIN"
-
-    def __init__(self, cmd, json_decode=False, singleline=False):
-        """
-        @param cmd: command in string format (not list)
-        """
-        self.cmd = self.original_cmd = cmd
-        self.original_cmd_extras = []
-        self.original_json_decode = json_decode
-        self.original_singleline = singleline
-        super().__init__()
-
-    def reset(self):
-        self.cmd = self.original_cmd
-        self.original_cmd_extras = []
-        self.json_decode = self.original_json_decode
-        self.singleline = self.original_singleline
 
     @catch_exceptions(*CLI_COMMON_EXCEPTIONS)
     @reset_command
@@ -93,7 +108,7 @@ class BinCmd(CmdBase):
         if kwargs:
             cmd = cmd.format(**kwargs)
 
-        _cmd = cmd.split() + self.original_cmd_extras
+        _cmd = cmd.split() + self.cmd_extras
         out = subprocess.run(_cmd, timeout=HotSOSConfig.command_timeout,
                              capture_output=True, check=False)
         output = out.stdout
@@ -119,28 +134,13 @@ class BinCmd(CmdBase):
         return CmdOutput(output.splitlines(keepends=True))
 
 
-class FileCmd(CmdBase):
+class FileCmd(FileCmdBase):
     """ Implements file-based command execution.
 
     This is used e.g. with sosreports where the output of a command is saved
     to disk.
     """
     TYPE = "FILE"
-
-    def __init__(self, path, json_decode=False,
-                 singleline=False, decode_error_handling=None):
-        self.path = self.original_path = os.path.join(HotSOSConfig.data_root,
-                                                      path)
-        self.original_json_decode = json_decode
-        self.original_singleline = singleline
-        self.original_decode_error_handling = decode_error_handling
-        super().__init__()
-
-    def reset(self):
-        self.path = self.original_path
-        self.json_decode = self.original_json_decode
-        self.singleline = self.original_singleline
-        self.decode_error_handling = self.original_decode_error_handling
 
     @catch_exceptions(*CLI_COMMON_EXCEPTIONS)
     @reset_command
@@ -205,8 +205,11 @@ class BinFileCmd(FileCmd):
     @run_post_exec_hooks
     @run_pre_exec_hooks
     def __call__(self, *args, **kwargs):
-        if not os.path.exists(self.original_path):
-            raise SourceNotFound(self.original_path)
+        # NOTE: we check the original path since by this point the 'path'
+        # attribute will have been modified to include a binary and other args
+        # required to execute it.
+        if not os.path.exists(self.get_original_attr_value('path')):
+            raise SourceNotFound(self.get_original_attr_value('path'))
 
         if args:
             self.path = self.path.format(*args)
@@ -412,7 +415,7 @@ class DateBinCmd(BinCmd):
         self.cmd = f'{self.cmd} --utc'
         if fmt:
             # this can't get split() so add to the end of the command list
-            self.original_cmd_extras = [fmt]
+            self.cmd_extras = [fmt]
 
 
 class DateFileCmd(FileCmd):

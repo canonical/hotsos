@@ -2,6 +2,7 @@ import abc
 from datetime import datetime
 import os
 import re
+from dataclasses import dataclass
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
@@ -28,6 +29,14 @@ from hotsos.core import plugintools
 from hotsos.core.ycheck.events import EventHandlerBase, EventCallbackBase
 
 
+@dataclass
+class OSTProjectHelpers:
+    """ OpenStack project helper objects. """
+    nova: NovaBase
+    neutron: NeutronBase
+    octavia: OctaviaBase
+
+
 class OpenstackBase():
     """
     Base class for Openstack checks.
@@ -36,20 +45,20 @@ class OpenstackBase():
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.nova = NovaBase()
-        self.neutron = NeutronBase()
-        self.octavia = OctaviaBase()
         self.certificate_expire_days = 60
-        self.ost_projects = OSTProjectCatalog()
-        service_exprs = self.ost_projects.service_exprs
+        self.project_helpers = OSTProjectHelpers(NovaBase(), NeutronBase(),
+                                                 OctaviaBase())
+        self.project_catalog = OSTProjectCatalog()
+
+        service_exprs = self.project_catalog.service_exprs
         self.pebble = PebbleHelper(service_exprs=service_exprs)
         self.systemd = SystemdHelper(service_exprs=service_exprs)
-        self.apt = APTPackageHelper(
-                       core_pkgs=self.ost_projects.packages_core_exprs,
-                       other_pkgs=self.ost_projects.packages_dep_exprs)
-        self.docker = DockerImageHelper(
-                          core_pkgs=self.ost_projects.packages_core_exprs,
-                          other_pkgs=self.ost_projects.packages_dep_exprs)
+
+        core_pkgs = self.project_catalog.packages_core_exprs
+        other_pkgs = self.project_catalog.packages_dep_exprs
+        self.apt = APTPackageHelper(core_pkgs=core_pkgs, other_pkgs=other_pkgs)
+        self.docker = DockerImageHelper(core_pkgs=core_pkgs,
+                                        other_pkgs=other_pkgs)
 
     @cached_property
     def apt_source_path(self):
@@ -148,15 +157,15 @@ class OpenstackBase():
         """
         interfaces = {}
 
-        ifaces = self.nova.bind_interfaces
+        ifaces = self.project_helpers.nova.bind_interfaces
         if ifaces:
             interfaces.update(ifaces)
 
-        ifaces = self.neutron.bind_interfaces
+        ifaces = self.project_helpers.neutron.bind_interfaces
         if ifaces:
             interfaces.update(ifaces)
 
-        ifaces = self.octavia.bind_interfaces
+        ifaces = self.project_helpers.octavia.bind_interfaces
         if ifaces:
             interfaces.update(ifaces)
 
@@ -172,7 +181,7 @@ class OpenstackBase():
         if not masked:
             return []
 
-        expected_masked = self.ost_projects.default_masked_services
+        expected_masked = self.project_catalog.default_masked_services
         return sorted(list(masked.difference(expected_masked)))
 
     @cached_property

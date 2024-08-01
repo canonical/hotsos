@@ -335,6 +335,21 @@ class OSTProjectParameters:
     log_path_overrides: dict = field(default_factory=lambda: {})
 
 
+@dataclass
+class OSTProjectAptHelperParams:
+    """ APTPackageHelper package matching expression lists. """
+    deps: list
+    core: list
+
+
+@dataclass
+class OSTProjectSystemdHelperParams:
+    """SystemdHelper service matching expression lists. """
+    extra_services: list
+    masked_services: list
+    deprecated_services: list
+
+
 class OSTProject():
     """
     Representation of an Openstack project/service.
@@ -368,12 +383,14 @@ class OSTProject():
                don't match the name of the project.
         """
         self.name = params.name
-        self.packages_deps = [self.PY_CLIENT_PREFIX.format(params.name)]
-        self.packages_core = [params.name]
+
+        self.apt_params = OSTProjectAptHelperParams([self.PY_CLIENT_PREFIX.
+                                                     format(params.name)],
+                                                    [params.name])
         if params.apt_core_alt:
-            self.packages_core.extend(params.apt_core_alt)
+            self.apt_params.core.extend(params.apt_core_alt)
             for c in params.apt_core_alt:
-                self.packages_deps.append(self.PY_CLIENT_PREFIX.format(c))
+                self.apt_params.deps.append(self.PY_CLIENT_PREFIX.format(c))
 
         self.config = {}
         if params.config:
@@ -386,9 +403,11 @@ class OSTProject():
                 )
                 self.config[label] = OpenstackConfig(path)
 
-        self.systemd_extra_services = params.systemd_extra_services
-        self.systemd_masked_services = params.systemd_masked_services
-        self.systemd_deprecated_services = params.systemd_deprecated_services
+        self.systemd_params = OSTProjectSystemdHelperParams(
+                                params.systemd_extra_services,
+                                params.systemd_masked_services,
+                                params.systemd_deprecated_services)
+
         self.logs_path = os.path.join("var/log", params.name)
         self.log_path_overrides = params.log_path_overrides
         self.exceptions = EXCEPTIONS_COMMON + OST_EXCEPTIONS.get(
@@ -400,13 +419,13 @@ class OSTProject():
     def installed(self):
         """ Return True if the openstack service is installed. """
         return bool(host_helpers.APTPackageHelper(
-                                            core_pkgs=self.packages_core).core)
+                        core_pkgs=self.apt_params.core).core)
 
     @cached_property
     def services_expr(self):
         exprs = [f'{self.name}{self.SVC_VALID_SUFFIX}']
-        if self.systemd_extra_services:
-            exprs += self.systemd_extra_services
+        if self.systemd_params.extra_services:
+            exprs += self.systemd_params.extra_services
         return exprs
 
     @cached_property
@@ -429,7 +448,7 @@ class OSTProject():
         yield proj_manage, [path]
         for svc in self.services:
             if (not include_deprecated_services and
-                    svc in self.systemd_deprecated_services):
+                    svc in self.systemd_params.deprecated_services):
                 continue
 
             path = os.path.join('var/log', self.name,
@@ -578,7 +597,7 @@ class OSTProjectCatalog():
         """
         masked = []
         for p in self.all.values():
-            masked += p.systemd_masked_services
+            masked += p.systemd_params.masked_services
 
         return sorted(masked)
 
@@ -590,7 +609,7 @@ class OSTProjectCatalog():
     def packages_core_exprs(self):
         core = set()
         for p in self.all.values():
-            core.update(p.packages_core)
+            core.update(p.apt_params.core)
 
         return list(core)
 
@@ -598,7 +617,7 @@ class OSTProjectCatalog():
     def packages_dep_exprs(self):
         deps = set(self.APT_DEPS_COMMON)
         for p in self.all.values():
-            deps.update(p.packages_deps)
+            deps.update(p.apt_params.deps)
 
         return list(deps)
 
