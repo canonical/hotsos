@@ -79,7 +79,7 @@ class DataRootManager():
                 target = os.path.join(self.tmpdir, rootdir)
                 if not os.path.exists(target):
                     sys.stdout.write(f"INFO: extracting sosreport {path} to "
-                                     "{target}\n")
+                                     f"{target}\n")
                     try:
                         tar.extractall(self.tmpdir)
                     # We really do want to catch all here since we don't care
