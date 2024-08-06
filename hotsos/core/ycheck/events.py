@@ -131,15 +131,20 @@ class EventProcessingUtils():
                      "fields",
                      _fail_count, event.name)
 
-    @staticmethod
-    def _get_tally(result, info, options: EventProcessingOptions):
+    @classmethod
+    def _get_tally_keys(cls, options, result):
+        """
+        By default we tally by 'key' unless options.key_by_date is True in
+        which case we tally by value i.e. the date.
+        """
         if options.key_by_date:
-            key = result['date']
-            value = result['key']
-        else:
-            key = result['key']
-            value = result['date']
+            return (result['date'], result['key'])
 
+        return (result['key'], result['date'])
+
+    @classmethod
+    def _get_tally(cls, result, info, options: EventProcessingOptions):
+        key, value = cls._get_tally_keys(options, result)
         if key not in info:
             info[key] = {}
 
@@ -148,21 +153,22 @@ class EventProcessingUtils():
                 info[key] = 1
             else:
                 info[key] += 1
-        else:
-            ts_time = result.get('time')
-            if value not in info[key]:
-                if ts_time is not None and options.include_time:
-                    info[key][value] = {}
-                else:
-                    info[key][value] = 0
+            return
 
+        ts_time = result.get('time')
+        if value not in info[key]:
             if ts_time is not None and options.include_time:
-                if ts_time not in info[key][value]:
-                    info[key][value][ts_time] = 1
-                else:
-                    info[key][value][ts_time] += 1
+                info[key][value] = {}
             else:
-                info[key][value] += 1
+                info[key][value] = 0
+
+        if ts_time is not None and options.include_time:
+            if ts_time not in info[key][value]:
+                info[key][value][ts_time] = 1
+            else:
+                info[key][value][ts_time] += 1
+        else:
+            info[key][value] += 1
 
     @staticmethod
     def _sort_results(categorised_results, options: EventProcessingOptions):
@@ -458,6 +464,28 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
         return {}
 
+    def _exec_callback(self, event, section_name, search_results,
+                       event_search):
+        # We want this to throw an exception if the callback is not
+        # defined.
+        callback_name = f'{self.event_group}.{event}'
+        if callback_name not in CALLBACKS:
+            msg = f"no callback found for event {callback_name}"
+            raise EventCallbackNotFound(msg)
+
+        callback = CALLBACKS[callback_name]
+        event_result = EventCheckResult(
+            name=event,
+            section_name=section_name,
+            results=search_results,
+            search_tag=event_search['search_tag'],
+            searcher=self.global_searcher.searcher,
+            sequence_def=event_search['sequence_search']
+        )
+        log.debug("executing event %s.%s callback '%s'",
+                  event_result.section_name, event, callback_name)
+        return callback()(event_result)
+
     def run(self):
         """
         Process each event and call respective callback functions when results
@@ -489,25 +517,8 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                               event, event_search['search_tag'])
                     continue
 
-                # We want this to throw an exception if the callback is not
-                # defined.
-                callback_name = f'{self.event_group}.{event}'
-                if callback_name not in CALLBACKS:
-                    msg = f"no callback found for event {callback_name}"
-                    raise EventCallbackNotFound(msg)
-
-                callback = CALLBACKS[callback_name]
-                event_result = EventCheckResult(
-                    name=event,
-                    section_name=section_name,
-                    results=search_results,
-                    search_tag=search_tag,
-                    searcher=self.global_searcher.searcher,
-                    sequence_def=seq_def
-                )
-                log.debug("executing event %s.%s callback '%s'",
-                          event_result.section_name, event, callback_name)
-                ret = callback()(event_result)
+                ret = self._exec_callback(event, section_name, search_results,
+                                          event_search)
                 if not ret:
                     continue
 

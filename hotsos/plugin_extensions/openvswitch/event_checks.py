@@ -1,4 +1,5 @@
 import re
+from functools import cached_property
 
 from hotsos.core.issues import IssuesManager, OpenvSwitchWarning
 from hotsos.core.plugins.openvswitch import OpenvSwitchBase
@@ -74,6 +75,63 @@ class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
     event_group = 'ovs'
     event_names = ['port-stats']
 
+    @cached_property
+    def ovs(self):
+        return OpenvSwitchBase()
+
+    def _get_port_stats(self, section, sequence_def):
+        """
+        Extract stats info from port section.
+
+        @param section: searchkit.SearchResult object that is part of a
+                        sequence section and is expected to have a tag matching
+                        the start or body of a section.
+        @param sequence_def: the searchkit.SequenceSearchDef object used to
+                             define the search used for this event. This object
+                             contains a unique id that is used to identify
+                             results.
+        @return: if successful returns a tuple of (portname, stats) where stats
+                 is a dictionary of key network statistics info about the port.
+        """
+        port = None
+        stats = {}
+        for result in section:
+            if result.tag == sequence_def.start_tag:
+                port = result.get(1)
+                continue
+
+            if result.tag != sequence_def.body_tag:
+                continue
+
+            key = result.get(1)  # this is rx/tx
+            packets = int(result.get(2))
+            errors = int(result.get(3))
+            dropped = int(result.get(4))
+
+            log_stats = errors or dropped
+            if packets:
+                dropped_pcent = int((100 / packets) * dropped)
+                errors_pcent = int((100 / packets) * errors)
+                if max([dropped_pcent, errors_pcent]) <= 1:
+                    log_stats = False
+
+            if log_stats:
+                stats[key] = {"packets": packets}
+                if errors:
+                    stats[key]["errors"] = errors
+                if dropped:
+                    stats[key]["dropped"] = dropped
+
+        if not (port and stats):
+            return None, None
+
+        # Ports to ignore - see docstring for info
+        if (port in [b.name for b in self.ovs.bridges] or
+                re.compile(r"^(q|s)g-\S{11}$").match(port)):
+            return None, None
+
+        return port, stats
+
     def __call__(self, event):
         """
         Report on interfaces that are showing packet drops or errors.
@@ -93,73 +151,45 @@ class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
         this case it is possible to have 100% packet drops on the interface
         if that VR has never been a vrrp MASTER. For this scenario we filter
         interfaces whose name matches e.g. qg-3ca935f4-07.
+
+        @param event: EventCheckResult object
         """
-        stats = {}
-        all_dropped = []  # interfaces where all packets are dropped
-        all_errors = []  # interfaces where all packets are errors
-        ovs = OpenvSwitchBase()
+        port_stats = {}
+        global_stats = {'all_dropped': [],  # all interfaces with 100% dropped
+                        'all_errors': []}  # all interfaces with 100% errors
         for section in event.results:
-            port = None
-            _stats = {}
-            for result in section:
-                if result.tag == event.sequence_def.start_tag:
-                    port = result.get(1)
-                elif result.tag == event.sequence_def.body_tag:
-                    key = result.get(1)
-                    packets = int(result.get(2))
-                    errors = int(result.get(3))
-                    dropped = int(result.get(4))
+            port, _stats = self._get_port_stats(section, event.sequence_def)
+            if not _stats:
+                continue
 
-                    log_stats = False
-                    if packets:
-                        dropped_pcent = int((100 / packets) * dropped)
-                        errors_pcent = int((100 / packets) * errors)
-                        if dropped_pcent > 1 or errors_pcent > 1:
-                            log_stats = True
-                    elif errors or dropped:
-                        log_stats = True
-
-                    if log_stats:
-                        _stats[key] = {"packets": packets}
-                        if errors:
-                            _stats[key]["errors"] = errors
-                        if dropped:
-                            _stats[key]["dropped"] = dropped
-
-            if port and _stats:
-                # Ports to ignore - see docstring for info
-                if (port in [b.name for b in ovs.bridges] or
-                        re.compile(r"^(q|s)g-\S{11}$").match(port)):
-                    continue
-
+            for key in ['dropped', 'errors']:
                 for _, s in _stats.items():
-                    if s.get('dropped') and not s['packets']:
-                        all_dropped.append(port)
+                    if s.get(key) and not s['packets']:
+                        global_stats['all_' + key].append(port)
 
-                    if s.get('errors') and not s['packets']:
-                        all_errors.append(port)
+            port_stats[port] = _stats
 
-                stats[port] = _stats
+        if not port_stats:
+            return None
 
-        if stats:
-            if all_dropped:
-                msg = (f"found {len(all_dropped)} ovs interfaces with 100% "
-                       "dropped packets.")
-                IssuesManager().add(OpenvSwitchWarning(msg))
+        ports = global_stats['all_' + 'dropped']
+        if ports:
+            msg = (f"found {len(ports)} ovs interfaces with 100% "
+                   "dropped packets.")
+            IssuesManager().add(OpenvSwitchWarning(msg))
 
-            if all_errors:
-                msg = (f"found {len(all_errors)} ovs interfaces with 100% "
-                       "packet errors.")
-                IssuesManager().add(OpenvSwitchWarning(msg))
+        ports = global_stats['all_' + 'errors']
+        if ports:
+            msg = (f"found {len(ports)} ovs interfaces with 100% "
+                   "packet errors.")
+            IssuesManager().add(OpenvSwitchWarning(msg))
 
-            stats_sorted = {}
-            for k in sorted(stats):
-                stats_sorted[k] = stats[k]
+        stats_sorted = {}
+        for k in sorted(port_stats):
+            stats_sorted[k] = port_stats[k]
 
-            output_key = f"{event.section_name}-port-stats"
-            return stats_sorted, output_key
-
-        return None
+        output_key = f"{event.section_name}-port-stats"
+        return stats_sorted, output_key
 
 
 class OVSEventCallbackBFD(OpenvSwitchEventCallbackBase):

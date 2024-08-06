@@ -234,6 +234,25 @@ class CLIArgs:
         return (cleaned_kwargs, remainder)
 
 
+def run_client(arguments, plugins_to_run, data_root_name, logmanager):
+    """ Run the hotsos client inside a progress spinner. """
+    with progress_spinner(
+            not arguments.quiet and not arguments.debug, data_root_name):
+        client = HotSOSClient(plugins_to_run)
+        try:
+            client.run()
+        except Exception as exc:
+            log.exception("An exception occurred while running "
+                          "plugins")
+            print('\nException running plugins:', exc)
+            print('See temp log file for possible details:',
+                  logmanager.temp_log_path)
+            logmanager.delete_temp_file = False
+            raise
+
+        return client.summary
+
+
 # pylint: disable=R0915
 def main():
     @click.command(name='hotsos')
@@ -350,6 +369,15 @@ def main():
         # class and what not.
         (cli_kwargs, excess_kwargs) = CLIArgs.filter_kwargs(**kwargs)
         arguments = CLIArgs(**cli_kwargs)
+        # Each plugin has a bool cli opt that defaults to False which if set to
+        # True indicates that plugin should be run. One or more plugin can be
+        # be set to True.
+        plugins_to_run = {k for k, v in excess_kwargs.items()
+                          if v is True}
+        if plugins_to_run:
+            # ensure these are always run
+            plugins_to_run.add('hotsos')
+            plugins_to_run.add('system')
 
         _version = get_version()
         if arguments.version:
@@ -394,33 +422,8 @@ def main():
                     sys.stdout.write('\n')
                     return
 
-                with progress_spinner(
-                        not arguments.quiet and not arguments.debug, drm.name):
-                    plugins = []
-                    for k, v in excess_kwargs.items():
-                        if v is True:
-                            plugins.append(k)
-
-                    if plugins:
-                        # always run these
-                        plugins.append('hotsos')
-                        if 'system' not in plugins:
-                            plugins.append('system')
-
-                    client = HotSOSClient(plugins)
-                    try:
-                        client.run()
-                    except Exception as exc:
-                        log.exception("An exception occurred while running "
-                                      "plugins")
-                        print('\nException running plugins:', exc)
-                        print('See temp log file for possible details:',
-                              logmanager.temp_log_path)
-                        logmanager.delete_temp_file = False
-                        raise
-
-                    summary = client.summary
-
+                summary = run_client(arguments, list(plugins_to_run), drm.name,
+                                     logmanager)
                 if arguments.save:
                     path = summary.save(
                         drm.basename,

@@ -144,66 +144,65 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
         return {"top": top5,
                 "stats": stats.get_event_stats()}
 
+    def _ovsdb_monitor_router_binding_transitions_event(self, event):
+        """
+        The ovsdbmonitor will print bindings which will eventually
+        reflect transitions so we need to filter out contiguous bindings
+        to the same chassis so that we are just left with transitions
+        that we can then count.
+
+        :param event: EventCheckResult
+        """
+        agent = event.section_name
+        results = []
+        for r in event.results:
+            results.append({'date': r.get(1), 'time': r.get(2),
+                            'router': r.get(3), 'key': r.get(4)})
+
+        results = sorted(results,
+                         key=lambda e:
+                         datetime.datetime.strptime(
+                             f"{e['date']} {e['time']}",
+                             '%Y-%m-%d %H:%M:%S'))
+
+        new_results = []
+        last_known = {}
+        host_key = 'key'
+        for item in results:
+            router = item['router']
+            if router not in last_known:
+                last_known[router] = item
+            elif last_known[router][host_key] != item[host_key]:
+                # remember hosts port transitioned from
+                new_results.append(last_known[router])
+                last_known[router] = item
+
+        ret = self.categorise_events(event, results=new_results)
+        if ret:
+            return {event.name: ret}, agent
+
+        return None
+
+    def _ml2_ovs_agent_events(self, event):
+        """
+        :param event: EventCheckResult
+        """
+        agent = event.section_name
+        ret = self._get_event_stats(event.results, event.search_tag)
+        if ret:
+            return {event.name: ret}, agent
+
+        return None
+
     def __call__(self, event):
         agent = event.section_name
         if event.name == 'ovsdb-monitor-router-binding-transitions':
-            # The ovsdbmonitor will print bindings which will eventually
-            # reflect transitions so we need to filter out contiguous bindings
-            # to the same chassis so that we are just left with transitions
-            # that we can then count.
-            results = []
-            for r in event.results:
-                results.append({'date': r.get(1), 'time': r.get(2),
-                                'router': r.get(3), 'key': r.get(4)})
+            return self._ovsdb_monitor_router_binding_transitions_event(event)
 
-            results = sorted(results,
-                             key=lambda e:
-                             datetime.datetime.strptime(
-                                 f"{e['date']} {e['time']}",
-                                 '%Y-%m-%d %H:%M:%S'))
+        if event.name in ['rpc-loop', 'router-spawn-events']:
+            return self._ml2_ovs_agent_events(event)
 
-            new_results = []
-            last_known = {}
-            host_key = 'key'
-            for item in results:
-                router = item['router']
-                if router not in last_known:
-                    last_known[router] = item
-                elif last_known[router][host_key] != item[host_key]:
-                    # remember hosts port transitioned from
-                    new_results.append(last_known[router])
-                    last_known[router] = item
-
-            ret = self.categorise_events(event, results=new_results)
-            if ret:
-                return {event.name: ret}, agent
-        elif event.name in self.ovsdbapp_event_names + \
-                self.ovn_mech_driver_events:
-            if event.name == 'ovn-resource-revision-bump':
-                ret = self.categorise_events(
-                    event,
-                    options=self.EventProcessingOptions(max_results_per_date=5)
-                )
-            elif event.name == 'ovsdb-transaction-aborted':
-                ret = {}
-                for result in event.results:
-                    _date = result.get(1)
-                    if _date in ret:
-                        ret[_date] += 1
-                    else:
-                        ret[_date] = 1
-
-                ret = sorted_dict(ret)
-            else:
-                ret = self.categorise_events(event)
-
-            if ret:
-                return {event.name: ret}, agent
-        elif event.name in ['rpc-loop', 'router-spawn-events']:
-            ret = self._get_event_stats(event.results, event.search_tag)
-            if ret:
-                return {event.name: ret}, agent
-        else:
+        if event.name in ['router-updates']:
             sri = SearchResultIndices(
                 event_id=4, metadata=3, metadata_key="router"
             )
@@ -211,6 +210,30 @@ class AgentEventsCallback(OpenstackEventCallbackBase):
                                         custom_idxs=sri)
             if ret:
                 return {event.name: ret}, agent
+
+            return None
+
+        # All other events should be covered by the following
+        if event.name == 'ovn-resource-revision-bump':
+            ret = self.categorise_events(
+                event,
+                options=self.EventProcessingOptions(max_results_per_date=5)
+            )
+        elif event.name == 'ovsdb-transaction-aborted':
+            ret = {}
+            for result in event.results:
+                _date = result.get(1)
+                if _date in ret:
+                    ret[_date] += 1
+                else:
+                    ret[_date] = 1
+
+            ret = sorted_dict(ret)
+        else:
+            ret = self.categorise_events(event)
+
+        if ret:
+            return {event.name: ret}, agent
 
         return None
 
