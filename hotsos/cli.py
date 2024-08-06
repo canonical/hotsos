@@ -190,7 +190,7 @@ def progress_spinner(show_spinner, path):
 
 
 @dataclass(frozen=True)
-class CLIArgs:
+class CLIArgs:  # pylint: disable=too-many-instance-attributes
     """Command line arguments."""
 
     data_root: click.Path

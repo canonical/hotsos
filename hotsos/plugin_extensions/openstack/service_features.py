@@ -82,7 +82,7 @@ class ServiceFeatureChecks(OpenstackBase, OpenStackChecks):
         """
         features = {}
         for service, modules in FEATURES.items():
-            svc_cfg = self.ost_projects.all[service].config
+            svc_cfg = self.project_catalog.all[service].config
             if not svc_cfg['main'].exists:
                 continue
 

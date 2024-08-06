@@ -190,7 +190,7 @@ class AgentExceptionChecks(OpenstackBase, OpenStackChecks):
         exceptions.
         """
         log.debug("loading exception search defs")
-        for project in self.ost_projects.all.values():
+        for project in self.project_catalog.all.values():
             if not project.installed:
                 log.debug("%s is not installed - excluding from exception "
                           "checks", project.name)
@@ -246,7 +246,7 @@ class AgentExceptionChecks(OpenstackBase, OpenStackChecks):
         """
         log.debug("processing exception search results")
         agent_exceptions = {}
-        for name, project in self.ost_projects.all.items():
+        for name, project in self.project_catalog.all.items():
             if not project.installed:
                 continue
 
