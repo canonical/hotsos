@@ -12,13 +12,9 @@ from tests.unit import utils
 class HotYValidate(TestCase):
     """ Validation for HotSOS YAML definitions i.e. events and scenarios. """
 
-    def scenarios_check_mappings(self):
-        """Check for all YAML tests and scenarios to determine whether
-        every scenario has at least one test.
-        """
-
+    @staticmethod
+    def _discover_tests():
         tests_root_path = os.path.join(utils.DEFS_TESTS_DIR, 'scenarios')
-        scenarios_root_path = os.path.join(utils.DEFS_DIR, 'scenarios')
 
         # This list contains the full paths to all scenario test cases.
         # This information is used for reporting the number of avaliable
@@ -63,6 +59,15 @@ class HotYValidate(TestCase):
                 else:
                     test_scenario_mappings[target_scenario_path] = [testdef]
 
+        return all_tests, test_scenario_mappings
+
+    def scenarios_check_mappings(self):
+        """Check for all YAML tests and scenarios to determine whether
+        every scenario has at least one test.
+        """
+
+        scenarios_root_path = os.path.join(utils.DEFS_DIR, 'scenarios')
+
         # At this point, we have all the names of the scenarios which actually
         # have at least one test for it. Now, we're going to grab a list of all
         # scenario YAML files to compare them. We'll also check for a few
@@ -70,6 +75,8 @@ class HotYValidate(TestCase):
         # `conclusions` sections) as well.
         scenario_files = glob.glob(scenarios_root_path + '/**/*.yaml',
                                    recursive=True)
+
+        all_tests, test_scenario_mappings = self._discover_tests()
 
         # This list will contain the names of the scenarios which does not have
         # a test case.

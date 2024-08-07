@@ -52,8 +52,7 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
     event_names = ['src-migration']
 
     @staticmethod
-    def _migration_seq_info(event, resource_idx, info_idxs,
-                            incl_time_in_date=False):
+    def _migration_seq_info(event):
         """
         Process the results of an event that was defined as a sequence.
 
@@ -63,23 +62,18 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
         search patterns to include this information.
 
         @param event: EventCheckResult object
-        @param resource_idx: int index of the search result group that is used
-                             as the resource identifier.
-        @param info_idxs: dict if info types and indexes for arbitrary
-                          information to be save against each resource.
-        @param incl_time_in_date: include the time in the date string. Defaults
-                                  to False.
         """
         info = {}
+        resource_idx = 3
+        info_idxs = {'memory': 4, 'disk': 5}
         for section in event.results:
             for result in section:
                 if not result.tag.endswith('-body'):
                     continue
 
                 ts_date = result.get(1)
-                if incl_time_in_date:
-                    ts_time = result.get(2)
-                    ts_date = f"{ts_date} {ts_time}"
+                ts_time = result.get(2)
+                ts_date = f"{ts_date} {ts_time}"
 
                 resource = result.get(resource_idx)
                 if resource not in info:
@@ -105,6 +99,30 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
 
         return info
 
+    def _migration_vm_info(self, vm_uuid, start, end, duration):
+        """
+        Process the info from an instance
+
+        @param vm_uuid: UUID of instance
+        @param samples: Samples info of instance
+        @param start: Start time of instance
+        @param end: End time of instance
+        @param duration: Duration time of instance
+        """
+        info = {'start': start, 'end': end, 'duration': duration}
+        instance = self.project_helpers.nova.instances.get(vm_uuid)
+        if instance and instance.memory_mbytes is not None:
+            info['resources'] = {'memory_mbytes':
+                                 instance.memory_mbytes}
+
+        return info
+
+    @staticmethod
+    def _get_duration(start, end):
+        _start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S")
+        _end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S")
+        return round(float((_end - _start).total_seconds()), 2)
+
     def __call__(self, event):
         """
         Source migration is defined as a sequence so that we can capture some
@@ -112,9 +130,7 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
         """
         migration_info = {}
 
-        info_idxs = {'memory': 4, 'disk': 5}
-        results = self._migration_seq_info(event, 3, info_idxs,
-                                           incl_time_in_date=True)
+        results = self._migration_seq_info(event)
         for vm_uuid, sections in results.items():
             for section in sections.values():
                 samples = {}
@@ -131,15 +147,8 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
 
                         samples[rtype] += [int(i) for i in values]
 
-                _start = datetime.strptime(start, "%Y-%m-%d %H:%M:%S")
-                _end = datetime.strptime(end, "%Y-%m-%d %H:%M:%S")
-                duration = round(float((_end - _start).total_seconds()), 2)
-                info = {'start': start, 'end': end, 'duration': duration}
-                instance = self.project_helpers.nova.instances.get(vm_uuid)
-                if instance and instance.memory_mbytes is not None:
-                    info['resources'] = {'memory_mbytes':
-                                         instance.memory_mbytes}
-
+                duration = self._get_duration(start, end)
+                info = self._migration_vm_info(vm_uuid, start, end, duration)
                 if samples:
                     # regressions imply that the progress counter had one or
                     # more decreases before increasing again.
@@ -148,8 +157,8 @@ class SrcMigrationCallback(OpenstackEventCallbackBase):
                         if 'iterations' not in info:
                             info['iterations'] = len(values)
 
-                        loops = utils.sample_set_regressions(values)
-                        info['regressions'][rtype] = loops
+                        info['regressions'][rtype] = (
+                            utils.sample_set_regressions(values))
 
                 if vm_uuid in migration_info:
                     migration_info[vm_uuid].append(info)

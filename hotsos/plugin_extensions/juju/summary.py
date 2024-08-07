@@ -19,89 +19,99 @@ from hotsos.core.plugintools import (
 )
 
 
-class UnitLogInfo():
-    """
-    Create a tally of log errors and warnings for each unit.
-    """
+def _tally_result(app_name, events, result, tally_key):
+    if app_name not in events:
+        events[app_name] = {}
 
-    @classmethod
-    def _tally_result(cls, app_name, events, result, tally_key):
-        if app_name not in events:
-            events[app_name] = {}
+    tag = result.tag.lower()
+    if tag not in events[app_name]:
+        events[app_name][tag] = {}
 
-        tag = result.tag.lower()
-        if tag not in events[app_name]:
-            events[app_name][tag] = {}
+    origin = result.get(3)
+    origin_child = origin.rpartition('.')[2]
+    if origin_child not in events[app_name][tag]:
+        events[app_name][tag][origin_child] = {}
 
-        origin = result.get(3)
-        origin_child = origin.rpartition('.')[2]
-        if origin_child not in events[app_name][tag]:
-            events[app_name][tag][origin_child] = {}
+    mod = result.get(4)
+    if mod not in events[app_name][tag][origin_child]:
+        events[app_name][tag][origin_child][mod] = {}
 
-        mod = result.get(4)
-        if mod not in events[app_name][tag][origin_child]:
-            events[app_name][tag][origin_child][mod] = {}
+    if tally_key not in events[app_name][tag][origin_child][mod]:
+        events[app_name][tag][origin_child][mod][tally_key] = 1
+    else:
+        events[app_name][tag][origin_child][mod][tally_key] += 1
 
-        if tally_key not in events[app_name][tag][origin_child][mod]:
-            events[app_name][tag][origin_child][mod][tally_key] = 1
-        else:
-            events[app_name][tag][origin_child][mod][tally_key] += 1
 
-    @classmethod
-    def error_and_warnings(cls):
-        log.debug("searching unit logs for errors and warnings")
-        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
-        searchobj = FileSearcher(constraint=c)
-        path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
-        ts_expr = r"^([\d-]+)\s+([\d:]+)"
-        for msg in ['ERROR', 'WARNING']:
-            expr = rf'{ts_expr} {msg} (\S+) (\S+):\d+ '
-            tag = msg
-            hint = msg
-            searchobj.add(SearchDef(expr, tag=tag, hint=hint), path)
+def _get_app_name(searchobj, source_id):
+    path = searchobj.resolve_source_id(source_id)
+    app_name = re.search(r".+/unit-(\S+).log.*", path).group(1)
+    return app_name
 
-        results = searchobj.run()
-        log.debug("fetching unit log results")
-        events = {}
-        date_format = CommonTimestampMatcher.DEFAULT_DATETIME_FORMAT
-        now = CLIHelper().date(format=f"+{date_format}")
-        now = datetime.strptime(now, date_format)
 
-        for tag in ['WARNING', 'ERROR']:
-            for result in results.find_by_tag(tag):
-                ts_date = result.get(1)
-                if HotSOSConfig.event_tally_granularity == 'time':
-                    ts_time = result.get(2)
-                    # use hours and minutes only
-                    ts_time = re.compile(r'(\d+:\d+).+').search(ts_time)[1]
-                    key = f"{ts_date}_{ts_time}"
-                else:
-                    ts_time = '00:00:00'
-                    key = ts_date
+def _should_skip_log(now, then):
+    # Since juju logs files don't typically get logrotated they
+    # may contain a large history of logs so we have to do this to
+    # ensure we don't get too much.
+    days = 1
+    if HotSOSConfig.use_all_logs:
+        days = HotSOSConfig.max_logrotate_depth
 
-                # Since juju logs files don't typically get logrotated they
-                # may contain a large history of logs so we have to do this to
-                # ensure we don't get too much.
-                then = datetime.strptime(f"{ts_date} {ts_time}", date_format)
-                days = 1
-                if HotSOSConfig.use_all_logs:
-                    days = HotSOSConfig.max_logrotate_depth
+    return then < now - timedelta(days=days)
 
-                if then < now - timedelta(days=days):
-                    continue
 
-                path = searchobj.resolve_source_id(result.source_id)
-                app_name = re.search(r".+/unit-(\S+).log.*", path).group(1)
-                cls._tally_result(app_name, events, result, key)
+def _init_searchobj():
+    c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
+    searchobj = FileSearcher(constraint=c)
+    path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
+    ts_expr = r"^([\d-]+)\s+([\d:]+)"
+    for msg in ['ERROR', 'WARNING']:
+        expr = rf'{ts_expr} {msg} (\S+) (\S+):\d+ '
+        tag = msg
+        hint = msg
+        searchobj.add(SearchDef(expr, tag=tag, hint=hint), path)
 
-        # ensure consistent ordering of results
-        for tag, units in events.items():
-            for unit, keys in units.items():
-                units[unit] = sorted_dict(keys)
+    return searchobj
 
-            events[tag] = sorted_dict(units)
 
-        return sorted_dict(events)
+def get_error_and_warnings():
+    """ Create a tally of log errors and warnings for each unit. """
+    log.debug("searching unit logs for errors and warnings")
+    searchobj = _init_searchobj()
+
+    results = searchobj.run()
+    log.debug("fetching unit log results")
+    events = {}
+    date_format = CommonTimestampMatcher.DEFAULT_DATETIME_FORMAT
+    now = CLIHelper().date(format=f"+{date_format}")
+    now = datetime.strptime(now, date_format)
+
+    for tag in ['WARNING', 'ERROR']:
+        for result in results.find_by_tag(tag):
+            ts_date = result.get(1)
+            if HotSOSConfig.event_tally_granularity == 'time':
+                ts_time = result.get(2)
+                # use hours and minutes only
+                ts_time = re.compile(r'(\d+:\d+).+').search(ts_time)[1]
+                key = f"{ts_date}_{ts_time}"
+            else:
+                ts_time = '00:00:00'
+                key = ts_date
+
+            then = datetime.strptime(f"{ts_date} {ts_time}", date_format)
+            if _should_skip_log(now, then):
+                continue
+
+            app_name = _get_app_name(searchobj, result.source_id)
+            _tally_result(app_name, events, result, key)
+
+    # ensure consistent ordering of results
+    for tag, units in events.items():
+        for unit, keys in units.items():
+            units[unit] = sorted_dict(keys)
+
+        events[tag] = sorted_dict(units)
+
+    return sorted_dict(events)
 
 
 class JujuSummary(JujuChecks):
@@ -121,7 +131,7 @@ class JujuSummary(JujuChecks):
             return None
 
         unit_info = {}
-        loginfo = UnitLogInfo().error_and_warnings()
+        loginfo = get_error_and_warnings()
         for u in self.units.values():
             name, _, ver = u.name.rpartition('-')
             u_name = f"{name}/{ver}"

@@ -599,6 +599,8 @@ class PluginRunner():
     def __init__(self, plugin):
         self.parts = PLUGINS[plugin]
         self.failed_parts = []
+        self.part_mgr = PartManager()
+        self.issues_mgr = IssuesManager()
 
     def _load_global_searcher(self, global_searcher):
         """ Load event and scenario searches into global searcher. """
@@ -638,13 +640,30 @@ class PluginRunner():
             # for the summary so we wont check for it (they only raise
             # issues and bugs which are handled independently).
 
+    def _save_issues_to_summary(self):
+        """ Save any failures or bugs to the summary. """
+        if self.failed_parts:
+            # always put these at the top
+            self.part_mgr.save({'failed-parts': self.failed_parts}, index=0)
+
+        bugs = self.issues_mgr.load_bugs()
+        raised_issues = self.issues_mgr.load_issues()
+        summary_end_index = PluginPartBase.PLUGIN_PART_INDEX_MAX ** 2
+
+        # Add detected known_bugs and raised issues to end summary.
+        if bugs:
+            self.part_mgr.save(bugs, index=summary_end_index)
+
+        # Add raised issues to summary.
+        if raised_issues:
+            self.part_mgr.save(raised_issues, index=summary_end_index)
+
     def _run_plugin_parts(self, global_searcher):
         """ Execute parts for the current plugin context.
 
         @param global_searcher: GlobalSearcher object
         @return: dictionary summary of output.
         """
-        part_mgr = PartManager()
         for part_info in self.parts:
             # update current env to reflect actual part being run
             runner = part_info['runner']
@@ -667,44 +686,25 @@ class PluginRunner():
                 # NOTE: since all parts are expected to be implementations
                 # of PluginPartBase we expect them to always define an
                 # output property.
-                output = inst.output
-                subkey = inst.summary_subkey
+                for key, entry in inst.output.items():
+                    out = {key: entry.data}
+                    if inst.summary_subkey:
+                        out = {inst.summary_subkey: out}
+
+                    part_max = PluginPartBase.PLUGIN_PART_INDEX_MAX
+                    part_index = part_info['summary_part_index']
+                    index = (part_index * part_max) + entry.index
+                    self.part_mgr.save(out, index=index)
             # We really do want to catch all here since we don't care why
             # it failed but don't want to fail hard if it does.
             except Exception as exc:  # pylint: disable=W0718
                 self.failed_parts.append(name)
                 log.exception("part '%s' raised exception: %s", name, exc)
-                output = None
 
-            if output:
-                for key, entry in output.items():
-                    out = {key: entry.data}
-                    if subkey:
-                        out = {subkey: out}
+        # Add issues to summary.
+        self._save_issues_to_summary()
 
-                    part_max = PluginPartBase.PLUGIN_PART_INDEX_MAX
-                    part_index = part_info['summary_part_index']
-                    index = (part_index * part_max) + entry.index
-                    part_mgr.save(out, index=index)
-
-        if self.failed_parts:
-            # always put these at the top
-            part_mgr.save({'failed-parts': self.failed_parts}, index=0)
-
-        imgr = IssuesManager()
-        bugs = imgr.load_bugs()
-        raised_issues = imgr.load_issues()
-        summary_end_index = PluginPartBase.PLUGIN_PART_INDEX_MAX ** 2
-
-        # Add detected known_bugs and raised issues to end summary.
-        if bugs:
-            part_mgr.save(bugs, index=summary_end_index)
-
-        # Add raised issues to summary.
-        if raised_issues:
-            part_mgr.save(raised_issues, index=summary_end_index)
-
-        return part_mgr.all()
+        return self.part_mgr.all()
 
     def run(self):
         """ Execute all plugin parts. """
