@@ -8,6 +8,10 @@ from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 
+lower_bound_ops = ["gt", "ge", "eq"]  # ops that define a lower bound
+upper_bound_ops = ["lt", "le", "eq"]  # ops that define an upper bound
+equal_compr_ops = ["eq", "ge", "le"]  # ops that compare for equality
+
 
 class DPKGBadVersionSyntax(Exception):
     """ Exception raised when an invalid version is provided in a check. """
@@ -55,50 +59,13 @@ class DPKGVersion():
         return self._compare_impl('ge', str(b))
 
     @staticmethod
-    def normalize_version_criteria(version_criteria):
-        """Normalize all the criterions in a criteria.
+    def add_version_criteria_bounds(version_criteria):
+        """Add upper/lower bounds to criteria, where needed
 
-        Normalization does the following:
-        - removes empty criteria
-        - replaces old ops with the new ones
-        - sorts each criterion(ascending) and criteria(descending)
-        - adds upper/lower bounds to criteria, where needed
-
-        @param version_criteria: List of version ranges to normalize
-        @return: Normalized list of version ranges
+        @param version_criteria: List of version ranges
+        @return: List of version ranges with upper/lower bounds
         """
-
-        # Step 0: Ensure that all version values are DPKGVersion type
-        for idx, version_criterion in enumerate(version_criteria):
-            for k, v in version_criterion.items():
-                version_criterion.update({k: DPKGVersion(v)})
-
-        # Step 1: Remove empty criteria
-        version_criteria = [x for x in version_criteria if len(x) > 0]
-
-        # Step 2: Replace legacy ops with the new ones
-        legacy_ops = {"min": "ge", "max": "le"}
-        for idx, version_criterion in enumerate(version_criteria):
-            for lop, nop in legacy_ops.items():
-                if lop in version_criterion:
-                    version_criterion[nop] = version_criterion[lop]
-                    del version_criterion[lop]
-
-        # Step 3: Sort each criterion in itself, so the smallest version
-        # appears first
-        for idx, version_criterion in enumerate(version_criteria):
-            version_criterion = dict(sorted(version_criterion.items(),
-                                     key=lambda a: a[1]))
-            version_criteria[idx] = version_criterion
-
-        # Step 4: Sort all criteria by the first element in the criterion
-        version_criteria = sorted(version_criteria,
-                                  key=lambda a: list(a.values())[0])
-
         # Step 5: Add the implicit upper/lower bounds where needed
-        lower_bound_ops = ["gt", "ge", "eq"]  # ops that define a lower bound
-        upper_bound_ops = ["lt", "le", "eq"]  # ops that define an upper bound
-        equal_compr_ops = ["eq", "ge", "le"]  # ops that compare for equality
         for idx, version_criterion in enumerate(version_criteria):
             log.debug("\tchecking criterion %s", str(version_criterion))
 
@@ -142,6 +109,50 @@ class DPKGVersion():
             version_criteria[idx] = dict(
                 sorted(version_criterion.items(),
                        key=lambda a: a[1]))
+
+    @staticmethod
+    def normalize_version_criteria(version_criteria):
+        """Normalize all the criterions in a criteria.
+
+        Normalization does the following:
+        - removes empty criteria
+        - replaces old ops with the new ones
+        - sorts each criterion(ascending) and criteria(descending)
+        - adds upper/lower bounds to criteria, where needed
+
+        @param version_criteria: List of version ranges to normalize
+        @return: Normalized list of version ranges
+        """
+
+        # Step 0: Ensure that all version values are DPKGVersion type
+        for idx, version_criterion in enumerate(version_criteria):
+            for k, v in version_criterion.items():
+                version_criterion.update({k: DPKGVersion(v)})
+
+        # Step 1: Remove empty criteria
+        version_criteria = [x for x in version_criteria if len(x) > 0]
+
+        # Step 2: Replace legacy ops with the new ones
+        legacy_ops = {"min": "ge", "max": "le"}
+        for idx, version_criterion in enumerate(version_criteria):
+            for lop, nop in legacy_ops.items():
+                if lop in version_criterion:
+                    version_criterion[nop] = version_criterion[lop]
+                    del version_criterion[lop]
+
+        # Step 3: Sort each criterion in itself, so the smallest version
+        # appears first
+        for idx, version_criterion in enumerate(version_criteria):
+            version_criterion = dict(sorted(version_criterion.items(),
+                                     key=lambda a: a[1]))
+            version_criteria[idx] = version_criterion
+
+        # Step 4: Sort all criteria by the first element in the criterion
+        version_criteria = sorted(version_criteria,
+                                  key=lambda a: list(a.values())[0])
+
+        # Step 5: Add the implicit upper/lower bounds where needed
+        DPKGVersion.add_version_criteria_bounds(version_criteria)
 
         # Step 6: Sort by descending order so the largest version range
         # appears first

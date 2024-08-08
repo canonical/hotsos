@@ -129,16 +129,16 @@ class NetworkPort(HostHelpersBase):
 
         # NOTE: we only expect one match
         for i, line in enumerate(stats_raw):
-            ret = re.compile(r"\s+([RT]X):\s+.+").findall(line)
-            if not ret:
+            result = re.compile(r"\s+([RT]X):\s+.+").findall(line)
+            if not result:
                 continue
 
-            rxtx = ret[0].lower()
-            ret = re.compile(r"\s*([a-z]+)\s*").findall(line)
-            if not ret:
+            rxtx = result[0].lower()
+            result = re.compile(r"\s*([a-z]+)\s*").findall(line)
+            if not result:
                 continue
 
-            for j, column in enumerate(ret):
+            for j, column in enumerate(result):
                 value = int(stats_raw[i + 1].split()[j])
                 if column in ['packets', 'dropped', 'errors',
                               'overrun']:

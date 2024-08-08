@@ -34,10 +34,9 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
     event_group = 'apache'
     event_names = ['connection-refused']
 
-    def __call__(self, event):
-        ports_max = {}
+    @staticmethod
+    def _get_context_and_results(event):
         context = {}
-
         results = []
         for result in event.results:
             # save some context info
@@ -54,6 +53,13 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
             port = result.get(5)
             results.append({'date': f"{year}-{month}-{day}",
                             'key': f"{addr}:{port}"})
+
+        return context, results
+
+    def __call__(self, event):
+        ports_max = {}
+
+        context, results = self._get_context_and_results(event)
 
         conns_refused = self.categorise_events(event, results=results)
         for addrs in conns_refused.values():

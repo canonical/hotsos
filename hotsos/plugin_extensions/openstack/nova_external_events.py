@@ -33,10 +33,43 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
 
         return state
 
-    def __call__(self, event):
+    def _get_output(self, event_name, results, events):
         ext_output = {}
-        events = {}
+        for event_id, event_dict in events.items():
+            instance_id = event_dict['instance_id']
+            data_source = event_dict['data_source']
+            stages = self._get_state_dict(event_name)
+            for stage in stages:
+                tag = f"{instance_id}_{event_id}_{stage}"
+                r = results.find_by_tag(tag, path=data_source)
+                if r:
+                    stages[stage] = True
+
+            if all(values for stage, values in stages.items()):
+                result = 'succeeded'
+            else:
+                result = 'failed'
+
+            if result not in ext_output:
+                ext_output[result] = []
+
+            info = {'port': event_id, 'instance': instance_id}
+            ext_output[result].append(info)
+
+        return ext_output
+
+    def _get_events_found(self, event_name, results, events):
         events_found = {}
+
+        ext_output = self._get_output(event_name, results, events)
+        if ext_output:
+            for result, values in ext_output.items():
+                events_found[result] = list(values)
+
+        return events_found
+
+    def __call__(self, event):
+        events = {}
 
         c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
         s = FileSearcher(constraint=c)
@@ -57,32 +90,8 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
                 s.add(sd, result_path)
 
         results = s.run()
-        for event_id, event_dict in events.items():
-            instance_id = event_dict['instance_id']
-            data_source = event_dict['data_source']
-            stages = self._get_state_dict(event.name)
-            for stage in stages:
-                tag = f"{instance_id}_{event_id}_{stage}"
-                r = results.find_by_tag(tag, path=data_source)
-                if r:
-                    stages[stage] = True
 
-            if all(values for stage, values in stages.items()):
-                result = 'succeeded'
-            else:
-                result = 'failed'
-
-            if result not in ext_output:
-                ext_output[result] = []
-
-            info = {'port': event_id, 'instance': instance_id}
-            ext_output[result].append(info)
-
-        if ext_output:
-            for result, values in ext_output.items():
-                events_found[result] = list(values)
-
-        return events_found
+        return self._get_events_found(event.name, results, events)
 
 
 class NovaExternalEventChecks(OpenstackEventHandlerBase):

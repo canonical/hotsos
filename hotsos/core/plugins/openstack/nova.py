@@ -144,32 +144,10 @@ class NovaLibvirt(NovaBase):
     def xmlpath(self):
         return os.path.join(HotSOSConfig.data_root, 'etc/libvirt/qemu')
 
-    @cached_property
-    def cpu_models(self):
-        """ Fetch cpu models used by all nova instances.
-
-        @return: dictionary of cpu models each with a count of how many
-                 guests are using them.
-        """
+    @staticmethod
+    def _get_cpu_models(guests, seqs, results):
         _cpu_models = {}
-        if not self.instances:
-            return _cpu_models
 
-        guests = []
-        seqs = {}
-        s = FileSearcher()
-        for i in self.instances.values():
-            guests.append(i.name)
-            start = SearchDef(r"\s+<cpu .+>")
-            body = SearchDef(r".+")
-            end = SearchDef(r"\s+</cpu>")
-            tag = f"{i.name}.cpu"
-            seqs[i.name] = SequenceSearchDef(start=start, body=body,
-                                             end=end, tag=tag)
-            path = os.path.join(self.xmlpath, f"{i.name}.xml")
-            s.add(seqs[i.name], path)
-
-        results = s.run()
         for guest in guests:
             sections = results.find_sequence_sections(seqs[guest]).values()
             for section in sections:
@@ -190,31 +168,37 @@ class NovaLibvirt(NovaBase):
 
         return _cpu_models
 
-    @property
-    def vcpu_info(self):
-        """ Fetch vcpu usage info used by all nova instances.
+    @cached_property
+    def cpu_models(self):
+        """ Fetch cpu models used by all nova instances.
 
-        @return: dictionary of cpu resource usage.
+        @return: dictionary of cpu models each with a count of how many
+                 guests are using them.
         """
-        vcpu_info = {}
         if not self.instances:
-            return vcpu_info
+            return {}
 
         guests = []
+        seqs = {}
         s = FileSearcher()
         for i in self.instances.values():
             guests.append(i.name)
-            tag = f"{i.name}.vcpus"
+            start = SearchDef(r"\s+<cpu .+>")
+            body = SearchDef(r".+")
+            end = SearchDef(r"\s+</cpu>")
+            tag = f"{i.name}.cpu"
+            seqs[i.name] = SequenceSearchDef(start=start, body=body,
+                                             end=end, tag=tag)
             path = os.path.join(self.xmlpath, f"{i.name}.xml")
-            s.add(SearchDef(".+vcpus>([0-9]+)<.+", tag=tag), path)
+            s.add(seqs[i.name], path)
 
-        total_vcpus = 0
         results = s.run()
-        for guest in guests:
-            for r in results.find_by_tag(f"{guest}.vcpus"):
-                vcpus = r.get(1)
-                total_vcpus += int(vcpus)
 
+        return self._get_cpu_models(guests, seqs, results)
+
+    @staticmethod
+    def _get_vcpu_info(total_vcpus):
+        vcpu_info = {}
         vcpu_info["used"] = total_vcpus
 
         sysinfo = SystemBase()
@@ -251,6 +235,32 @@ class NovaLibvirt(NovaBase):
         vcpu_info["overcommit-factor"] = round(factor, 2)
 
         return vcpu_info
+
+    @property
+    def vcpu_info(self):
+        """ Fetch vcpu usage info used by all nova instances.
+
+        @return: dictionary of cpu resource usage.
+        """
+        if not self.instances:
+            return {}
+
+        guests = []
+        s = FileSearcher()
+        for i in self.instances.values():
+            guests.append(i.name)
+            tag = f"{i.name}.vcpus"
+            path = os.path.join(self.xmlpath, f"{i.name}.xml")
+            s.add(SearchDef(".+vcpus>([0-9]+)<.+", tag=tag), path)
+
+        total_vcpus = 0
+        results = s.run()
+        for guest in guests:
+            for r in results.find_by_tag(f"{guest}.vcpus"):
+                vcpus = r.get(1)
+                total_vcpus += int(vcpus)
+
+        return self._get_vcpu_info(total_vcpus)
 
 
 class CPUPinning(NovaBase):
