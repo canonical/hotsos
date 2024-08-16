@@ -1,4 +1,6 @@
-# the following are done to allow the decorators to do their thing
+# The following check property modules need to be imported so that the property
+# classes within them get autoregistered. We do not add them to the interface
+# list for this module since they are not accessed that way.
 from hotsos.core.ycheck.engine.properties import (  # noqa: F403,F401
     checks,
     conclusions,
@@ -6,10 +8,9 @@ from hotsos.core.ycheck.engine.properties import (  # noqa: F403,F401
     search,
     vardef,
 )
-import hotsos.core.ycheck.engine.properties.requires.requires  # noqa:F403,F401
-from hotsos.core.ycheck.engine.properties.requires.types import (  \
-    # noqa:F403,F401
-    config,
-)
+from hotsos.core.ycheck.engine.properties.common import YDefsSection
 
-from .common import YDefsSection  # noqa: F403,F401
+
+__all__ = [
+    YDefsSection.__name__,
+    ]

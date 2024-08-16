@@ -1,5 +1,5 @@
-from .common import OpenvSwitchChecks  # noqa: F403,F401
-from .ovs import (  # noqa: F403,F401
+from .common import OpenvSwitchChecks
+from .ovs import (
     OpenvSwitchBase,
     OVSBFD,
     OVSDB,
@@ -7,3 +7,13 @@ from .ovs import (  # noqa: F403,F401
     OVSBridge,
     OVSDPDK,
 )
+
+__all__ = [
+    OpenvSwitchChecks.__name__,
+    OpenvSwitchBase.__name__,
+    OVSBFD.__name__,
+    OVSBridge.__name__,
+    OVSDB.__name__,
+    OVSDPDK.__name__,
+    OVSDPLookups.__name__,
+    ]

@@ -1,1 +1,6 @@
-from .common import LXD, LXDChecks  # noqa: F403,F401
+from .common import LXD, LXDChecks
+
+__all__ = [
+    LXD.__name__,
+    LXDChecks.__name__,
+    ]
