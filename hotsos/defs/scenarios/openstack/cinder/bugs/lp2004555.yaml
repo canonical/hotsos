@@ -19,7 +19,7 @@ checks:
           max: '2:23'
   service_tokens_enabled:
     config:
-      handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
+      handler: 'openstack.config'
       path: 'etc/cinder/cinder.conf'
       assertions:
         - section: service_user

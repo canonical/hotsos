@@ -1,7 +1,7 @@
 checks:
   health_warning:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.health_status
+      path: ceph.cluster.health_status
       ops: [[ne, HEALTH_OK]]
   ceph_osd_withhold_creation:
     input:

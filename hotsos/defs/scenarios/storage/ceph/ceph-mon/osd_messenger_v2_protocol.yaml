@@ -2,11 +2,11 @@ checks:
   ceph_release_gt_mimic:
     # v2 only available for >= Nautilus
     property:
-      path: hotsos.core.plugins.storage.ceph.CephChecks.release_name
+      path: ceph.release_name
       ops: [[gt, mimic]]
   cluster_has_v1_only_osds:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.cluster_osds_without_v2_messenger_protocol
+      path: ceph.cluster.cluster_osds_without_v2_messenger_protocol
       ops: [[length_hint], [gt, 0]]
 conclusions:
   some-osds-not-using-v2:

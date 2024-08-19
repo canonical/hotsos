@@ -1,7 +1,7 @@
 checks:
   has_affected_juju_binary:
     binary:
-      handler: hotsos.core.plugins.juju.JujuBinaryInterface
+      handler: juju.bin
       juju:
         - min: '2.9.0'
           max: '2.9.48'

@@ -13,6 +13,7 @@ from hotsos.core.search import (
     SearchDef
 )
 from hotsos.core.utils import sort_suffixed_integers
+from hotsos.core.alias import alias
 
 
 class BcacheConfig(ConfigBase):
@@ -92,6 +93,7 @@ class Cacheset():
         raise AttributeError(f"{key} not found in cacheset config")
 
 
+@alias('bcache')
 class BcacheBase(StorageBase):
     """ Base class for bcache checks. """
     def __init__(self, *args, **kwargs):
@@ -191,6 +193,7 @@ class BcacheBase(StorageBase):
         return False
 
 
+@alias('bcache.bdevsinfo')
 class BDevsInfo(BcacheBase):
     """ Representation of al bdevs in a host. """
     def _get_parameter(self, key):
@@ -234,6 +237,7 @@ class BDevsInfo(BcacheBase):
         return sorted(list(map(int, ret)))
 
 
+@alias('bcache.cachesetsinfo')
 class CachesetsInfo(BcacheBase):
     """ Representation of all bcache cachsets in a host. """
     def _get_parameter(self, key):
@@ -270,6 +274,7 @@ class CachesetsInfo(BcacheBase):
         return sorted(list(map(int, ret)))
 
 
+@alias('bcache.checks')
 class BcacheChecks(BcacheBase):
     """ Bcache checks. """
 

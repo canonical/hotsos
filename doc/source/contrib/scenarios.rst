@@ -67,7 +67,7 @@ matches and the second is a fallback:
 .. code-block:: yaml
 
     vars:
-      mem_current: '@hotsos.core.host_helpers.systemd.ServiceFactory.memory_current:neverfail'
+      mem_current: '@systemd.service.memory_current:neverfail'
     checks:
       is_enabled:
         systemd:

@@ -1,7 +1,7 @@
 checks:
   is_eol:
     property:
-      path: hotsos.core.plugins.openstack.OpenstackBase.days_to_eol
+      path: openstack.days_to_eol
       ops: [[le, 0]]
 conclusions:
   is-eol:
@@ -14,4 +14,4 @@ conclusions:
         limited support and is likely not receiving updates
         anymore. Please consider upgrading to a newer release.
       format-dict:
-        release: hotsos.core.plugins.openstack.OpenstackBase.release_name
+        release: openstack.release_name

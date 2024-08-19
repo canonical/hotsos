@@ -1,11 +1,11 @@
 checks:
   is_not_a_lxc_container:
     property:
-      path: hotsos.core.plugins.system.SystemBase.virtualisation_type
+      path: system.virtualisation_type
       ops: [[ne, 'lxc']]
   has_lxc_containers:
     property:
-      path: hotsos.core.plugins.lxd.LXD.instances
+      path: lxd.instances
       ops: [[length_hint], [gt, 0]]
   has_lxd_version_5_9:
     snap:

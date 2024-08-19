@@ -30,6 +30,7 @@ from hotsos.core.search import (
     SearchDef
 )
 from hotsos.core.ycheck.events import EventCallbackBase
+from hotsos.core.alias import alias
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+",
@@ -89,6 +90,7 @@ def csv_to_set(f):
     return csv_to_set_inner
 
 
+@alias('ceph.config')
 class CephConfig(IniConfigBase):
     """
     Ceph config.
@@ -137,6 +139,7 @@ class CephConfig(IniConfigBase):
         return self.get('public network')
 
 
+@alias('ceph')
 class CephChecks(StorageBase):
     """ Ceph Checks. """
     def __init__(self, *args, **kwargs):
@@ -425,6 +428,7 @@ class CephDaemonAllOSDsCommand():
         return list(vals)
 
 
+@alias('ceph.daemon.all-osds')
 class CephDaemonAllOSDsFactory(FactoryBase):
     """
     A factory interface to allow dynamic access to ceph daemon commands and

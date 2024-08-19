@@ -1,6 +1,6 @@
 vars:
   dbkey: 'ovn-match-northd-version'
-  external_ids: '@hotsos.core.plugins.openvswitch.OVSDB.external_ids:Open_vSwitch'
+  external_ids: '@openvswitch.db.external_ids:Open_vSwitch'
   message_boilerplate: >-
     The ovn-controller service on this node is reporting northd version
     mismatch errors. This happens when the version of OVN differs between

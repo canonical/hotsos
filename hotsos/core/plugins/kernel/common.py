@@ -5,8 +5,10 @@ from functools import cached_property
 from hotsos.core import host_helpers, plugintools
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.kernel.config import KernelConfig
+from hotsos.core.alias import alias
 
 
+@alias('kernel')
 class KernelBase():
     """ Base class for kernel plugin helpers. """
     @cached_property

@@ -19,6 +19,7 @@ from hotsos.core.factory import FactoryBase
 from hotsos.core.host_helpers import CLIHelper, CLIHelperFile
 from hotsos.core.host_helpers.common import ServiceManagerBase
 from hotsos.core.log import log
+from hotsos.core.alias import alias
 
 
 class SystemdService():
@@ -357,6 +358,7 @@ class SystemdHelper(ServiceManagerBase):
         return ps_filtered
 
 
+@alias("systemd.service")
 class ServiceFactory(FactoryBase):
     """
     Factory to dynamically create SystemdService objects for given services.

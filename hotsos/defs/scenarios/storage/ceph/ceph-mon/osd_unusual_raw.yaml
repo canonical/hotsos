@@ -1,7 +1,7 @@
 checks:
   osds_have_unusual_raw_usage:
     property:
-      path: hotsos.core.plugins.storage.ceph.CephCluster.osd_raw_usage_higher_than_data
+      path: ceph.cluster.osd_raw_usage_higher_than_data
       ops: [[length_hint], [gt, 0]]
 conclusions:
   osds-have-unusual-raw-usage:
@@ -16,4 +16,4 @@ conclusions:
         full or misbehave, please restart them and possibly file a bug in Ceph tracker.
       format-dict:
         bad_osds: '@checks.osds_have_unusual_raw_usage.requires.value_actual:comma_join'
-        limit: hotsos.core.plugins.storage.ceph.CephCluster.OSD_DISCREPANCY_ALLOWED
+        limit: ceph.cluster.OSD_DISCREPANCY_ALLOWED

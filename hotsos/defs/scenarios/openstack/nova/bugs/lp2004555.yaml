@@ -1,5 +1,5 @@
 vars:
-  nova_version: '@hotsos.core.host_helpers.packaging.AptFactory.version:nova-common'
+  nova_version: '@apt.package.version:nova-common'
 checks:
   # only packages for >= yoga are fixed at the time of writing
   pkg_installed_and_ge_yoga:
@@ -36,7 +36,7 @@ checks:
               max: '3:28'
   service_tokens_enabled:
     config:
-      handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
+      handler: 'openstack.config'
       path: 'etc/nova/nova.conf'
       assertions:
         - section: service_user
