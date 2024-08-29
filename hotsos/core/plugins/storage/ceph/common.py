@@ -50,7 +50,7 @@ CEPH_SNAPS_CORE = [r'microceph']
 # https://ubuntu.com/ceph/docs/supported-ceph-versions
 CEPH_EOL_INFO = {
     'squid': datetime(2036, 4, 30),
-    'reef': datetime(2034, 4, 30),
+    'reef': datetime(2024, 7, 30),
     'quincy': datetime(2032, 4, 30),
     'pacific': datetime(2024, 4, 30),
     'octopus': datetime(2030, 4, 30),
