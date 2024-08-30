@@ -1,3 +1,9 @@
-from .common import KernelBase  # noqa: F403,F401
-from .config import SystemdConfig  # noqa: F403,F401
-from .kernlog import CallTraceManager  # noqa: F403,F401
+from .common import KernelBase
+from .config import SystemdConfig
+from .kernlog import CallTraceManager
+
+__all__ = [
+    CallTraceManager.__name__,
+    KernelBase.__name__,
+    SystemdConfig.__name__,
+    ]

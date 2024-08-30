@@ -1,2 +1,7 @@
-from .calltrace import CallTraceManager  # noqa: F403,F401
-from .events import KernLogEvents  # noqa: F403,F401
+from .calltrace import CallTraceManager
+from .events import KernLogEvents
+
+__all__ = [
+    CallTraceManager.__name__,
+    KernLogEvents.__name__,
+    ]

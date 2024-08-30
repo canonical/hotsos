@@ -1,1 +1,5 @@
-from .engine.common import YDefsLoader   # noqa: F403,F401
+from .engine.common import YDefsLoader
+
+__all__ = [
+    YDefsLoader.__name__,
+    ]

@@ -2,7 +2,7 @@ import os
 from datetime import timedelta
 from functools import cached_property
 
-from searchkit import (   # noqa: F403,F401, pylint: disable=W0611
+from searchkit import (
     FileSearcher as _FileSearcher,
     ResultFieldInfo,
     SearchDef,
@@ -15,6 +15,14 @@ from searchkit.constraints import (
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper, UptimeHelper
 from hotsos.core.log import log
+
+
+# This module acts as a proxy to searchkit but with some addons/modifications
+__all__ = [
+    ResultFieldInfo.__name__,
+    SearchDef.__name__,
+    SequenceSearchDef.__name__,
+    ]
 
 
 class FileSearcher(_FileSearcher):
