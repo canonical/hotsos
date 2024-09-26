@@ -1,0 +1,20 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2023-06-18 08:42:58.702 1402787 ERROR oslo.messaging._drivers.impl_rabbit [-] Connection failed: [Errno 101] ENETUNREACH (retrying in 0 seconds): OSError: [Errno 101] ENETUNREACH
+      Traceback (most recent call last):
+        File "/usr/lib/python3/dist-packages/eventlet/hubs/hub.py", line 476, in fire_timers
+          timer()
+        File "/usr/lib/python3/dist-packages/eventlet/hubs/timer.py", line 59, in __call__
+          cb(*args, **kw)
+        File "/usr/lib/python3/dist-packages/eventlet/semaphore.py", line 152, in _do_acquire
+          waiter.switch()
+      greenlet.error: cannot switch to a different thread
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1934937: >-
+   One or more Nova service(s) on this host are affected by this bug which is
+   triggered when a non-wsgi service that uses greenthreads and oslo.messaging
+   with heartbeat_in_pthread=True tries to send a heartbeat message
+   to rabbitmq.
