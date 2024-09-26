@@ -1,0 +1,57 @@
+vars:
+  expr: 'greenlet.error: cannot switch to a different thread'
+  msg_part_common: >-
+    service(s) on this host are affected by this bug which is triggered when
+    a non-wsgi service that uses greenthreads and oslo.messaging with
+    heartbeat_in_pthread=True tries to send a heartbeat message to rabbitmq
+checks:
+  # Include non-wsgi services that use oslo.messaging
+  nova_has_1934937:
+    input: var/log/nova/*.log
+    expr: $expr
+  neutron_has_1934937:
+    input: var/log/neutron/*.log
+    expr: $expr
+  cinder_has_1934937:
+    input: var/log/cinder/*.log
+    expr: $expr
+  gnocchi_has_1934937:
+    input: var/log/gnocchi/*.log
+    expr: $expr
+conclusions:
+  nova_1934937:
+    decision: nova_has_1934937
+    raises:
+      type: LaunchpadBug
+      bug-id: 1934937
+      message: >-
+        One or more Nova {msg_part_common}.
+      format-dict:
+        msg_part_common: $msg_part_common
+  neutron_1934937:
+    decision: neutron_has_1934937
+    raises:
+      type: LaunchpadBug
+      bug-id: 1934937
+      message: >-
+        One or more Neutron {msg_part_common}.
+      format-dict:
+        msg_part_common: $msg_part_common
+  cinder_1934937:
+    decision: cinder_has_1934937
+    raises:
+      type: LaunchpadBug
+      bug-id: 1934937
+      message: >-
+        One or more Cinder {msg_part_common}.
+      format-dict:
+        msg_part_common: $msg_part_common
+  gnocchi_1934937:
+    decision: gnocchi_has_1934937
+    raises:
+      type: LaunchpadBug
+      bug-id: 1934937
+      message: >-
+        One or more Gnocchi {msg_part_common}.
+      format-dict:
+        msg_part_common: $msg_part_common
