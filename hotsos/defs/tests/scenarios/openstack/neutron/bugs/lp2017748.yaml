@@ -1,0 +1,11 @@
+target-name: lp2017748.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-ovn-metadata-agent.log: |
+      2023-04-18 06:56:09.864 353474 DEBUG neutron.agent.ovn.metadata.agent [-] There is no metadata port for network 9029c393-5c40-4bf2-beec-27413417eafa or it has no MAC or IP addresses configured, tearing the namespace down if needed _get_provision_params /usr/lib/python3.9/site-packages/neutron/agent/ovn/metadata/agent.py:495
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2017748: >-
+    neutron-ovn-metadata-agent is impacted by a known bug.

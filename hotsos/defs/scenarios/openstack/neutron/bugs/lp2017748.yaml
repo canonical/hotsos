@@ -1,0 +1,19 @@
+checks:
+  has_2017748:
+    input:
+      path: 'var/log/neutron/neutron-ovn-metadata-agent.log'
+    search:
+      expr: '([\d-]+ [\d:]+.\d{3}) .+neutron.agent.ovn.metadata.agent \[-\] There is no metadata port for network \S+ or it has no MAC or IP addresses configured, tearing the namespace down if needed'
+      constraints:
+        min-results: 1
+        search-period-hours: 24
+        search-result-age-hours: 48
+conclusions:
+  lp2017748:
+    decision:
+      - has_2017748
+    raises:
+      type: LaunchpadBug
+      bug-id: 2017748
+      message: >-
+        neutron-ovn-metadata-agent is impacted by a known bug.
