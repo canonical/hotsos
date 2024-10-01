@@ -1,0 +1,15 @@
+checks:
+  has_2081056:
+    input:
+      path: 'var/log/landscape-server/job-handler.log'
+    expr: ".+The lock file './db/lockfile' already exists. There might be another instance with "
+conclusions:
+  lp2081056:
+    decision: has_2081056
+    raises:
+      type: LaunchpadBug
+      bug-id: 2081056
+      message: >-
+        Known landscape-server issue where sync ops and update package counts
+        suffer a race condition. Please upgrade landscape-server to 24.04.6-0landscape1
+        or newer.
