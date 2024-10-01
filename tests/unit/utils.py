@@ -38,6 +38,10 @@ def find_all_templated_tests(path):
 
     @return: path to test.
     """
+    if not os.path.exists(path):
+        log.info("templated tests dir not found: %s", path)
+        return
+
     for testdef in os.listdir(path):
         if testdef.endswith(('.disabled', '.swp')):
             continue

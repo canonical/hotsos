@@ -49,7 +49,7 @@ class KernelBase():
 class KernelChecks(KernelBase, plugintools.PluginPartBase):
     """ Base class for all kernel checks. """
     plugin_name = 'kernel'
-    plugin_root_index = 14
+    plugin_root_index = 15
 
     @property
     def plugin_runnable(self):

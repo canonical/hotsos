@@ -37,6 +37,10 @@ class PluginRegistryMeta(type):
         * class attribute 'summary_part_index' set to the integer index it
           should appear in the summary entry for that plugin. These indexes
           start at 0 and are unique to a plugin.
+
+    NOTE: at the time of writing these registrations are triggered by importing
+          the plugin in hotsos.plugin_extensions.__init__.py so be sure to add
+          new plugins there.
     """
 
     def __init__(cls, _name, _mro, members):
