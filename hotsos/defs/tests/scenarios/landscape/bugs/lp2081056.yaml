@@ -1,0 +1,15 @@
+data-root:
+  files:
+    var/log/landscape-server/job-handler.log: |
+      Sep 28 22:39:52 job-handler-1 INFO  Starting job None/sync-mirror-pocket/None {'account_id': 1, 'person_id': 1, 'pocket_id': 8, 'activity_id': 535}
+      Sep 28 22:39:52 job-handler-1 CRIT  Unhandled Error\nTraceback (most recent call last):\nFailure: canonical.reprepro.reprepro.RepreproError: reprepro ended with exit code 239 (out='b\"The lock file './db/lockfile' already exists. There might be another instance with the\r\nsame database dir running. To avoid locking overhead, only one process\r\ncan access the database at the same time. Do not delete the lock file unless\r\nyou are sure no other version is still running!\r\nThere have been errors!\r\n\"', err='b''')\n
+      Sep 28 22:39:52 job-handler-1 INFO  Finished job None/sync-mirror-pocket/None {'account_id': 1, 'person_id': 1, 'pocket_id': 8, 'activity_id': 535}
+      Sep 28 23:29:42 job-handler-1 INFO  At revision: 5cbdd97b
+      Sep 28 23:29:42 job-handler-1 INFO  Loading /opt/canonical/landscape/job-handler...
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2081056: >-
+        Known landscape-server issue where sync ops and update package counts
+        suffer a race condition. Please upgrade landscape-server to 24.04.6-0landscape1
+        or newer.
