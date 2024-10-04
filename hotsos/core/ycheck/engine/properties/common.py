@@ -284,44 +284,19 @@ class PropertyCache(UserDict):
         return self.data.get(key)
 
 
-class YPropertyBase(PTreeOverrideBase):
-    """
-    Base class used for all YAML property objects. Implements and extends
-    PTreeOverrideBase to provide frequently used methods and helpers to
-    property implementations.
-    """
-    def __init__(self, *args, **kwargs):
-        self._cache = PropertyCache()
-        super().__init__(*args, **kwargs)
+class PythonEntityResolver:
+    """A class to resolve Python entities (e.g. variable, property)
+    by their import path."""
 
-    def resolve_var(self, name):
-        """
-        Resolve variable with name to value. This can be used speculatively and
-        will return the name as value if it can't be resolved.
-        """
-        if not name.startswith('$'):
-            return name
+    # Class-level cache for Python module imports for future use
 
-        if hasattr(self, 'context'):
-            if self.context.vars:
-                _name = name.partition('$')[2]
-                return self.context.vars.resolve(_name)
+    import_cache = None
 
-        log.warning("could not resolve var '%s' - vars not found in "
-                    "context", name)
-
-        return name
-
-    @property
-    def cache(self):
-        """
-        All properties get their own cache object that they can use as they
-        wish.
-        """
-        return self._cache
+    def __init__(self, context):
+        self.context = context
 
     def _load_from_import_cache(self, key):
-        """ Retrieve from global context if one exists.
+        """ Retrieve from global cache if one exists.
 
         @param key: key to retrieve
         """
@@ -374,16 +349,14 @@ class YPropertyBase(PTreeOverrideBase):
         @param key: key to save
         @param value: value to save
         """
-        if self.context is None:
-            log.info("context not available - cannot save '%s'", key)
+
+        if not self.import_cache:
+            self.import_cache = {key: value}
+            log.debug("import cache initialized with initial key `%s`", key)
             return
 
-        c = getattr(self.context, 'import_cache')
-        if c:
-            c[key] = value
-        else:
-            c = {key: value}
-            setattr(self.context, 'import_cache', c)
+        self.import_cache[key] = value
+        log.debug("import cache updated for key %s", key)
 
     def get_cls(self, import_str):
         """ Import and instantiate Python class.
@@ -533,6 +506,44 @@ class YPropertyBase(PTreeOverrideBase):
             log.debug("get_property failed, trying get_attribute: %s", exc)
 
         return self.get_attribute(import_str)
+
+
+class YPropertyBase(PTreeOverrideBase, PythonEntityResolver):
+    """
+    Base class used for all YAML property objects. Implements and extends
+    PTreeOverrideBase to provide frequently used methods and helpers to
+    property implementations.
+    """
+
+    def __init__(self, *args, **kwargs):
+        self._cache = PropertyCache()
+        super().__init__(*args, **kwargs)
+
+    def resolve_var(self, name):
+        """
+        Resolve variable with name to value. This can be used speculatively and
+        will return the name as value if it can't be resolved.
+        """
+        if not name.startswith('$'):
+            return name
+
+        if hasattr(self, 'context'):
+            if self.context.vars:
+                _name = name.partition('$')[2]
+                return self.context.vars.resolve(_name)
+
+        log.warning("could not resolve var '%s' - vars not found in "
+                    "context", name)
+
+        return name
+
+    @property
+    def cache(self):
+        """
+        All properties get their own cache object that they can use as they
+        wish.
+        """
+        return self._cache
 
 
 class YPropertyOverrideBase(YPropertyBase, PTreeOverrideBase):

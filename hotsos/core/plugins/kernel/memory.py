@@ -106,11 +106,13 @@ class MemInfo(_BaseProcKeyValue):
 
     @property
     def hugetlb_to_mem_total_percentage(self):
-        return round((self.Hugetlb * 100) / self.MemTotal)
+        return (self.MemTotal and round(
+            (self.Hugetlb * 100) / self.MemTotal))
 
     @property
     def mem_avail_to_mem_total_percentage(self):
-        return round((self.MemAvailable * 100) / self.MemTotal)
+        return (self.MemTotal and round(
+            (self.MemAvailable * 100) / self.MemTotal))
 
     @property
     def hugep_used_to_hugep_total_percentage(self):

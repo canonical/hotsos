@@ -1,10 +1,8 @@
 checks:
-  ssl_enabled:
-    property: hotsos.core.plugins.openstack.OpenstackBase.ssl_enabled
-  apache2_certificate_expiring:
-    property:
-      path: hotsos.core.plugins.openstack.OpenstackBase.apache2_certificates_expiring
-      ops: [[ne, []]]
+  ssl_enabled: |
+    @hotsos.core.plugins.openstack.OpenstackBase.ssl_enabled == True
+  apache2_certificate_expiring: |
+    len(@hotsos.core.plugins.openstack.OpenstackBase.apache2_certificates_expiring) > 0
 conclusions:
   need-certificate-renewal:
     decision:
@@ -16,5 +14,5 @@ conclusions:
         The following certificates will expire in less than {apache2-certificates-days-to-expire} days:
         {apache2-certificates-path}
       format-dict:
-        apache2-certificates-path: '@checks.apache2_certificate_expiring.requires.value_actual:comma_join'
-        apache2-certificates-days-to-expire: 'hotsos.core.plugins.openstack.OpenstackBase.certificate_expire_days'
+        apache2-certificates-path: hotsos.core.plugins.openstack.OpenstackBase.apache2_certificates_expiring:comma_join
+        apache2-certificates-days-to-expire: hotsos.core.plugins.openstack.OpenstackBase.certificate_expire_days
