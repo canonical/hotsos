@@ -9,9 +9,9 @@ conclusions:
     raises:
       type: CephOSDWarning
       message: >-
-        Found OSD(s) {bad_osds} with larger raw usage size than data+meta+omap
+        Found OSD(s) {bad_osds} with larger raw usage size than data+meta+omap+bluefs
         combined. While a discrepancy is to be expected due to Ceph using space
-        not accounted by data+meta+omap columns, usage is greater than {limit}%
+        not accounted by data+meta+omap+bluefs columns, usage is greater than {limit}%
         and likely indicates high discard ops sent to disk which is often
         the case for workloads with frequent rewrites.
 

@@ -656,6 +656,25 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
         return sorted(ssd_osds_using_bcache)
 
+    @staticmethod
+    def _get_db_size_of_osd(osd_id):
+        """
+        Returns the bluefs DB size of the given OSD.
+        Returned size is in bytes.
+        """
+
+        report = CLIHelper().ceph_report_json_decoded()
+        if report:
+            for osd in report['osd_metadata']:
+                if osd['id'] == osd_id:
+                    try:
+                        return int(osd['bluefs_db_size'])
+                    except KeyError:
+                        # older versions do not output bluefs_db_size
+                        return 0
+
+        return 0
+
     @cached_property
     def osd_raw_usage_higher_than_data(self):
         _bad_osds = []
@@ -664,10 +683,12 @@ class CephCluster():  # pylint: disable=too-many-public-methods
             return _bad_osds
 
         for osd in self.osd_df_tree['nodes']:
-            if osd['id'] >= 0:
+            osd_id = osd['id']
+            if osd_id >= 0:
                 raw_usage = osd['kb_used']
+                db_size_kb = self._get_db_size_of_osd(osd_id) / 1024.0
                 total_usage = osd['kb_used_data'] + osd['kb_used_omap'] + \
-                    osd['kb_used_meta']
+                    osd['kb_used_meta'] + db_size_kb
                 # There's always some additional space used by OSDs that's not
                 # by data/omap/meta for journaling, internal structures, etc.
                 # Thus we allow 5% discrepancy.

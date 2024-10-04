@@ -115,9 +115,9 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 raised-issues:
   CephOSDWarning: >-
-    Found OSD(s) osd.2 with larger raw usage size than data+meta+omap
+    Found OSD(s) osd.2 with larger raw usage size than data+meta+omap+bluefs
     combined. While a discrepancy is to be expected due to Ceph using space
-    not accounted by data+meta+omap columns, usage is greater than 5%
+    not accounted by data+meta+omap+bluefs columns, usage is greater than 5%
     and likely indicates high discard ops sent to disk which is often
     the case for workloads with frequent rewrites.
 
