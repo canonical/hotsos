@@ -115,8 +115,14 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 raised-issues:
   CephOSDWarning: >-
-    Found OSD(s) osd.2 with larger raw usage size than the combined
-    data+meta+omap usage. While a certain discrepancy is to be expected due to
-    Ceph's using space not accounted by data+meta+omap columns, these are more
-    than 5% and potentially indicate a bug in Ceph. If these OSDs appear
-    full or misbehave, please restart them and possibly file a bug in Ceph tracker.
+    Found OSD(s) osd.2 with larger raw usage size than data+meta+omap
+    combined. While a discrepancy is to be expected due to Ceph using space
+    not accounted by data+meta+omap columns, usage is greater than 5%
+    and likely indicates high discard ops sent to disk which is often
+    the case for workloads with frequent rewrites.
+
+    If these OSDs appear full or misbehave please restart them.
+
+    If the problem persists (i.e. OSD restarts do not help) you should disable
+    bdev_async_discard for OSDs. For charmed Ceph, this option is controlled
+    via the bdev-enable-discard flag which should be set to 'disable'.
