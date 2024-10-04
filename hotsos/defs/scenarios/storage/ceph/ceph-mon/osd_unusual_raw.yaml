@@ -9,11 +9,17 @@ conclusions:
     raises:
       type: CephOSDWarning
       message: >-
-        Found OSD(s) {bad_osds} with larger raw usage size than the combined
-        data+meta+omap usage. While a certain discrepancy is to be expected due to
-        Ceph's using space not accounted by data+meta+omap columns, these are more
-        than {limit}% and potentially indicate a bug in Ceph. If these OSDs appear
-        full or misbehave, please restart them and possibly file a bug in Ceph tracker.
+        Found OSD(s) {bad_osds} with larger raw usage size than data+meta+omap
+        combined. While a discrepancy is to be expected due to Ceph using space
+        not accounted by data+meta+omap columns, usage is greater than {limit}%
+        and likely indicates high discard ops sent to disk which is often
+        the case for workloads with frequent rewrites.
+
+        If these OSDs appear full or misbehave please restart them.
+
+        If the problem persists (i.e. OSD restarts do not help) you should disable
+        bdev_async_discard for OSDs. For charmed Ceph, this option is controlled
+        via the bdev-enable-discard flag which should be set to 'disable'.
       format-dict:
         bad_osds: '@checks.osds_have_unusual_raw_usage.requires.value_actual:comma_join'
         limit: hotsos.core.plugins.storage.ceph.CephCluster.OSD_DISCREPANCY_ALLOWED
