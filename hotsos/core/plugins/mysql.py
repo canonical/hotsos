@@ -1,9 +1,11 @@
 import glob
 import os
+from dataclasses import dataclass, field
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     APTPackageHelper,
+    InstallInfoBase,
     PebbleHelper,
     SystemdHelper,
 )
@@ -17,6 +19,18 @@ MYSQL_SVC_EXPRS = [rf'mysql{SVC_VALID_SUFFIX}']
 CORE_APT = ['mysql']
 
 
+@dataclass
+class MySQLInstallInfo(InstallInfoBase):
+    """ MySQL installation information. """
+    apt: APTPackageHelper = field(default_factory=lambda:
+                                  APTPackageHelper(core_pkgs=CORE_APT))
+    pebble: PebbleHelper = field(default_factory=lambda:
+                                 PebbleHelper(service_exprs=MYSQL_SVC_EXPRS))
+    systemd: SystemdHelper = field(default_factory=lambda:
+                                   SystemdHelper(
+                                                service_exprs=MYSQL_SVC_EXPRS))
+
+
 class MySQLChecks(plugintools.PluginPartBase):
     """ MySQL checks. """
     plugin_name = 'mysql'
@@ -24,13 +38,16 @@ class MySQLChecks(plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__()
-        self.apt = APTPackageHelper(core_pkgs=CORE_APT)
-        self.pebble = PebbleHelper(service_exprs=MYSQL_SVC_EXPRS)
-        self.systemd = SystemdHelper(service_exprs=MYSQL_SVC_EXPRS)
+        MySQLInstallInfo().mixin(self)
 
-    @property
-    def plugin_runnable(self):
-        return self.apt.core is not None
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        return MySQLInstallInfo().apt.core is not None
 
 
 class MySQLConfig(host_helpers.IniConfigBase):

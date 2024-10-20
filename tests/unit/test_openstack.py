@@ -419,11 +419,11 @@ class TestOpenstackPluginCore(TestOpenstackBase):
             [f"{line}\n" for line in DPKG_L_CLIENTS_ONLY.split('\n')]
 
         ost_base = openstack_core.OpenStackChecks()
-        self.assertFalse(ost_base.plugin_runnable)
+        self.assertFalse(ost_base.is_runnable())
 
-    def test_plugin_runnable(self):
+    def test_is_runnable(self):
         ost_base = openstack_core.OpenStackChecks()
-        self.assertTrue(ost_base.plugin_runnable)
+        self.assertTrue(ost_base.is_runnable())
 
 
 class TestOpenstackPluginNova(TestOpenstackBase):
@@ -472,8 +472,8 @@ class TestOpenStackSummary(TestOpenstackBase):
 
     @mock.patch('hotsos.core.plugins.openstack.openstack.OSTProject.installed',
                 True)
-    @mock.patch('hotsos.core.plugins.openstack.OpenstackBase.'
-                'openstack_installed', True)
+    @mock.patch('hotsos.core.plugins.openstack.OpenStackChecks.'
+                'is_runnable', True)
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_get_summary_apache_service(self, mock_helper):
         mock_helper.return_value = mock.MagicMock()

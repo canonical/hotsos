@@ -7,7 +7,12 @@ class SystemChecks(SystemBase, plugintools.PluginPartBase):
     plugin_name = 'system'
     plugin_root_index = 1
 
-    @property
-    def plugin_runnable(self):
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
         # Always run
         return True

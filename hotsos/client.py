@@ -26,8 +26,8 @@ class HotSOSSummary(plugintools.PluginPartBase):
     plugin_root_index = 0
     summary_part_index = 0
 
-    @property
-    def plugin_runnable(self):
+    @classmethod
+    def is_runnable(cls):
         return True
 
     @property

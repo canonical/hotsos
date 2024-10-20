@@ -1,6 +1,0 @@
-# This file is used to define overrides applicable to contents of this
-# directory including subdirectories.
-requires:
-  or:
-    - property: hotsos.core.plugins.storage.ceph.CephChecks.plugin_runnable
-    - property: hotsos.core.plugins.storage.bcache.BcacheChecks.plugin_runnable

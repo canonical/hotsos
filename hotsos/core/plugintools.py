@@ -1,3 +1,4 @@
+import abc
 import os
 from enum import IntEnum, auto
 from dataclasses import dataclass
@@ -357,7 +358,7 @@ class ApplicationSummaryBase(metaclass=PluginRegistryMeta):
         return None
 
 
-class PartManager():
+class PartOutputManager():
     """
     Collects output of all parts from a plugin and saves them in YAML format.
     """
@@ -481,13 +482,13 @@ class PluginPartBase(ApplicationSummaryBase):
 
         super().__init__(*args, **kwargs)
 
-    @property
-    def plugin_runnable(self):
+    @classmethod
+    @abc.abstractmethod
+    def is_runnable(cls):
         """
         Must be implemented by all plugins to define at runtime whether they
         should run.
         """
-        raise NotImplementedError
 
     @property
     def summary_subkey_include_default_entries(self):
@@ -601,9 +602,10 @@ class PluginRunner():
     defaults, providing a global searcher for the runtime of the plugin.
     """
     def __init__(self, plugin):
+        self.plugin = plugin
         self.parts = PLUGINS[plugin]
         self.failed_parts = []
-        self.part_mgr = PartManager()
+        self.part_mgr = PartOutputManager()
         self.issues_mgr = IssuesManager()
 
     def _load_global_searcher(self, global_searcher):
@@ -629,11 +631,11 @@ class PluginRunner():
         @param global_searcher: GlobalSearcher object
         """
         always_run = {'auto_scenario_check': YScenarioChecker}
-        for name, always_parts in always_run.items():
+        for name, always_part in always_run.items():
             # update current env to reflect actual part being run
             HotSOSConfig.part_name = name
             try:
-                always_parts(global_searcher).run()
+                always_part(global_searcher).run()
             # We really do want to catch all here since we don't care why
             # it failed but don't want to fail hard if it does.
             except Exception as exc:  # pylint: disable=W0718
@@ -662,6 +664,16 @@ class PluginRunner():
         if raised_issues:
             self.part_mgr.save(raised_issues, index=summary_end_index)
 
+    def _plugin_is_runnable(self):
+        """
+        Return True if any part of the current plugin is runnable.
+        """
+        for part_info in self.parts:
+            if part_info['runner'].is_runnable():
+                return True
+
+        return False
+
     def _run_plugin_parts(self, global_searcher):
         """ Execute parts for the current plugin context.
 
@@ -679,13 +691,12 @@ class PluginRunner():
                 inst = runner(global_searcher=global_searcher)
 
             # Only run plugin if it declares itself runnable.
-            if not HotSOSConfig.force_mode and not inst.plugin_runnable:
-                log.debug("%s.%s.%s not runnable - skipping",
-                          HotSOSConfig.plugin_name, name, runner.__name__)
+            if not HotSOSConfig.force_mode and not inst.is_runnable():
+                log.debug("%s.%s not runnable - skipping",
+                          HotSOSConfig.plugin_name, name)
                 continue
 
-            log.debug("running %s.%s.%s",
-                      HotSOSConfig.plugin_name, name, runner.__name__)
+            log.debug("running %s.%s", HotSOSConfig.plugin_name, name)
             try:
                 # NOTE: since all parts are expected to be implementations
                 # of PluginPartBase we expect them to always define an
@@ -713,6 +724,10 @@ class PluginRunner():
     def run(self):
         """ Execute all plugin parts. """
         self.failed_parts = []
+        if not self._plugin_is_runnable():
+            log.info("plugin '%s' not runnable - skipping", self.plugin)
+            return {}
+
         with GlobalSearcher() as global_searcher:
             self._load_global_searcher(global_searcher)
 

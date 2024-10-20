@@ -9,7 +9,7 @@ mock:
   patch:
     hotsos.core.plugins.kernel.KernelBase.isolcpus_enabled:
       kwargs:
-        return_value: true
+        new: true
 raised-bugs:
   https://bugs.launchpad.net/bugs/1907686: >-
     Known neutron-ovn bug identified that impacts OVN db connections.

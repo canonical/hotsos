@@ -1,3 +1,4 @@
+from .common import InstallInfoBase
 from .cli import (
     CLIHelper,
     CLIHelperFile,
@@ -43,6 +44,7 @@ __all__ = [
     CLIHelperFile.__name__,
     ConfigBase.__name__,
     IniConfigBase.__name__,
+    InstallInfoBase.__name__,
     NetworkPort.__name__,
     HostNetworkingHelper.__name__,
     DPKGVersion.__name__,

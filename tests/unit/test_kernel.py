@@ -167,7 +167,7 @@ class TestKernelInfo(TestKernelBase):
                             'smt': 'disabled', 'vendor': 'genuineintel'},
                     'systemd': {'CPUAffinity': '0-7,32-39'},
                     'version': '5.4.0-97-generic'}
-        self.assertTrue(inst.plugin_runnable)
+        self.assertTrue(inst.is_runnable())
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, expected)
 

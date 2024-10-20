@@ -1,10 +1,12 @@
 import os
+from dataclasses import dataclass, field
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     HostNetworkingHelper,
+    InstallInfoBase,
     PebbleHelper,
     SnapPackageHelper,
     SystemdHelper,
@@ -42,10 +44,28 @@ K8S_PACKAGE_DEPS = [r'charm[\S]+',
                     ]
 # Snap-only deps
 K8S_PACKAGE_DEPS_SNAP = [r'core[0-9]*']
+K8S_SNAP_DEPS = K8S_PACKAGE_DEPS + K8S_PACKAGE_DEPS_SNAP
+
+
+@dataclass
+class KubernetesInstallInfo(InstallInfoBase):
+    """ Kubernetes installation information. """
+    apt: APTPackageHelper = field(default_factory=lambda:
+                                  APTPackageHelper(
+                                                core_pkgs=K8S_PACKAGES,
+                                                other_pkgs=K8S_PACKAGE_DEPS))
+    pebble: PebbleHelper = field(default_factory=lambda:
+                                 PebbleHelper(service_exprs=SERVICES))
+    snaps: SnapPackageHelper = field(default_factory=lambda:
+                                     SnapPackageHelper(
+                                        core_snaps=K8S_PACKAGES,
+                                        other_snaps=K8S_SNAP_DEPS))
+    systemd: SystemdHelper = field(default_factory=lambda:
+                                   SystemdHelper(service_exprs=SERVICES))
 
 
 class KubernetesBase():
-    """ Base class for kuberenetes checks. """
+    """ Base class for Kubernetes checks. """
     @cached_property
     def flannel_ports(self):
         ports = []
@@ -93,19 +113,18 @@ class KubernetesChecks(KubernetesBase, plugintools.PluginPartBase):
     plugin_root_index = 8
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        deps = K8S_PACKAGE_DEPS
-        # Deployments can use snap or apt versions of packages so we check both
-        self.apt = APTPackageHelper(core_pkgs=K8S_PACKAGES, other_pkgs=deps)
-        snap_deps = deps + K8S_PACKAGE_DEPS_SNAP
-        self.snaps = SnapPackageHelper(core_snaps=K8S_PACKAGES,
-                                       other_snaps=snap_deps)
-        self.pebble = PebbleHelper(service_exprs=SERVICES)
-        self.systemd = SystemdHelper(service_exprs=SERVICES)
+        super().__init__()
+        KubernetesInstallInfo().mixin(self)
 
-    @property
-    def plugin_runnable(self):
-        if self.apt.core or self.snaps.core:
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        k8s = KubernetesInstallInfo()
+        if k8s.apt.core or k8s.snaps.core:
             return True
 
         return False

@@ -5,7 +5,7 @@ import os
 import pickle
 import re
 from functools import cached_property
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 from searchkit.utils import MPCache
 from hotsos.core.config import HotSOSConfig
@@ -374,3 +374,27 @@ def get_ps_axo_flags_available():
 
     # strip data_root since it will be prepended later
     return _paths[0].partition(HotSOSConfig.data_root)[2]
+
+
+@dataclass
+class InstallInfoBase():
+    """
+    Provides a common way to define install information such as packages and
+    runtime services assocated with a plugin.
+
+    To use this class it should be re-implemented as a dataclass that
+    initialises the required attributes. It can then either be inherited or
+    mixed in to avoid issues with excessive inheritance.
+    """
+    apt: None = None
+    pebble: None = None
+    snaps: None = None
+    systemd: None = None
+
+    def mixin(self, _self):
+        for attr in fields(self):
+            val = getattr(self, attr.name)
+            if val is None:
+                continue
+
+            setattr(_self, attr.name, val)

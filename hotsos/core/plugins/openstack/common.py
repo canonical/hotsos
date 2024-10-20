@@ -185,13 +185,6 @@ class OpenstackBase():
         return sorted(list(masked.difference(expected_masked)))
 
     @cached_property
-    def openstack_installed(self):
-        if self.apt.core:
-            return True
-
-        return False
-
-    @cached_property
     def apache2_ssl_config_file(self):
         return os.path.join(HotSOSConfig.data_root,
                             'etc/apache2/sites-enabled',
@@ -257,9 +250,17 @@ class OpenStackChecks(plugintools.PluginPartBase):
     plugin_name = "openstack"
     plugin_root_index = 4
 
-    @cached_property
-    def plugin_runnable(self):
-        return OpenstackBase().openstack_installed
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        if OpenstackBase().apt.core:
+            return True
+
+        return False
 
 
 class OpenstackEventCallbackBase(OpenstackBase, EventCallbackBase):

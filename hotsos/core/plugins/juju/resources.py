@@ -180,13 +180,13 @@ class JujuBase():
     """ Juju checks base class. """
     CHARM_MANIFEST_GLOB = "agents/unit-*/state/deployer/manifests"
 
-    @property
-    def juju_lib_path(self):
+    @staticmethod
+    def get_juju_lib_path():
         return os.path.join(HotSOSConfig.data_root, "var/lib/juju")
 
     @cached_property
     def machine(self):
-        machine = JujuMachine(self.juju_lib_path)
+        machine = JujuMachine(self.get_juju_lib_path())
         if not machine.config:
             log.debug("no juju machine identified")
             return None
@@ -205,13 +205,13 @@ class JujuBase():
         @return: dict of JujuUnit objects keyed by unit name.
         """
         _units = {}
-        if not os.path.exists(self.juju_lib_path):
+        if not os.path.exists(self.get_juju_lib_path()):
             return _units
 
         if self.machine and self.machine.version >= "2.9":
             _units = {u.name: u for u in self.machine.deployed_units}
         else:
-            paths = glob.glob(os.path.join(self.juju_lib_path,
+            paths = glob.glob(os.path.join(self.get_juju_lib_path(),
                                            "agents/unit-*"))
             for unit in paths:
                 base = os.path.basename(unit)
@@ -219,7 +219,8 @@ class JujuBase():
                 if ret:
                     app = ret.group(1)
                     unit_id = ret.group(2)
-                    u = JujuUnit(unit_id, app, self.juju_lib_path, path=unit)
+                    u = JujuUnit(unit_id, app, self.get_juju_lib_path(),
+                                 path=unit)
                     _units[u.name] = u
 
         return _units
@@ -232,10 +233,10 @@ class JujuBase():
         @return: dict of JujuCharm objects keyed by charm name.
         """
         _charms = {}
-        if not os.path.exists(self.juju_lib_path):
+        if not os.path.exists(self.get_juju_lib_path()):
             return _charms
 
-        for entry in glob.glob(os.path.join(self.juju_lib_path,
+        for entry in glob.glob(os.path.join(self.get_juju_lib_path(),
                                             self.CHARM_MANIFEST_GLOB)):
             name = None
             versions = []

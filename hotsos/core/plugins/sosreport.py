@@ -1,8 +1,9 @@
 import os
+from dataclasses import dataclass, field
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import APTPackageHelper
+from hotsos.core.host_helpers import APTPackageHelper, InstallInfoBase
 from hotsos.core.plugintools import PluginPartBase
 from hotsos.core.search import (
     SearchDef,
@@ -12,16 +13,16 @@ from hotsos.core.search import (
 CORE_APT = ['sosreport']
 
 
-class SOSReportChecks(PluginPartBase):
-    """ Sosreport checks. """
-    plugin_name = 'sosreport'
-    plugin_root_index = 2
+@dataclass
+class SOSInstallInfo(InstallInfoBase):
+    """ SOSReport installation information. """
+    apt: APTPackageHelper = field(default_factory=lambda:
+                                  APTPackageHelper(core_pkgs=CORE_APT))
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.apt = APTPackageHelper(core_pkgs=CORE_APT)
 
-    @cached_property
+class SOSReportBase():
+    """ SOSReport check helpers. """
+    @property
     def data_root_is_sosreport(self):
         path = os.path.join(HotSOSConfig.data_root, 'sos_commands')
         if os.path.isdir(path):
@@ -65,6 +66,21 @@ class SOSReportChecks(PluginPartBase):
 
         return timeouts
 
-    @property
-    def plugin_runnable(self):
-        return self.data_root_is_sosreport
+
+class SOSReportChecks(SOSReportBase, PluginPartBase):
+    """ Sosreport checks. """
+    plugin_name = 'sosreport'
+    plugin_root_index = 2
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        SOSInstallInfo().mixin(self)
+
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        return SOSReportBase().data_root_is_sosreport

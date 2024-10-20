@@ -80,7 +80,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
         mock_helper.return_value.snap_list_all.return_value = \
             SNAP_LIST_ALL_NO_K8S.splitlines()
         inst = summary.KubernetesSummary()
-        self.assertFalse(inst.plugin_runnable)
+        self.assertFalse(inst.is_runnable())
         self.assertNotIn('snaps', inst.output)
 
     def test_network_info(self):
@@ -101,7 +101,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
                   'core20 20230308',
                   'core22 20230404',
                   'microk8s v1.26.4']
-        self.assertTrue(inst.plugin_runnable)
+        self.assertTrue(inst.is_runnable())
         self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
                          result)
 

@@ -93,7 +93,7 @@ class TestJujuSummary(JujuTestsBase):
 
     def test_machine_info(self):
         inst = summary.JujuSummary()
-        self.assertTrue(inst.plugin_runnable)
+        self.assertTrue(inst.is_runnable())
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['version'], '2.9.22')
         self.assertEqual(actual['machine'], '1')

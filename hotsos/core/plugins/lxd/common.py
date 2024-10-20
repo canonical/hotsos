@@ -1,8 +1,10 @@
+from dataclasses import dataclass, field
 from functools import cached_property
 
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     CLIHelperFile,
+    InstallInfoBase,
     SnapPackageHelper,
     SystemdHelper,
 )
@@ -41,20 +43,35 @@ class LXD():
         return _instances
 
 
+@dataclass
+class LXDInstallInfo(InstallInfoBase):
+    """ LXD installation information. """
+    apt: APTPackageHelper = field(default_factory=lambda:
+                                  APTPackageHelper(core_pkgs=CORE_APT))
+    snaps: SnapPackageHelper = field(default_factory=lambda:
+                                     SnapPackageHelper(core_snaps=CORE_SNAPS))
+    systemd: SystemdHelper = field(default_factory=lambda:
+                                   SystemdHelper(service_exprs=SERVICE_EXPRS))
+
+
 class LXDChecks(PluginPartBase):
     """ LXD Checks. """
     plugin_name = 'lxd'
     plugin_root_index = 11
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.snaps = SnapPackageHelper(core_snaps=CORE_SNAPS)
-        self.apt = APTPackageHelper(core_pkgs=CORE_APT)
-        self.systemd = SystemdHelper(service_exprs=SERVICE_EXPRS)
+        super().__init__()
+        LXDInstallInfo().mixin(self)
 
-    @property
-    def plugin_runnable(self):
-        if self.apt.core or self.snaps.core:
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        lxd_pkgs = LXDInstallInfo()
+        if lxd_pkgs.apt.core or lxd_pkgs.snaps.core:
             return True
 
         return False

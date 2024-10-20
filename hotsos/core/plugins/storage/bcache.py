@@ -92,7 +92,7 @@ class Cacheset():
         raise AttributeError(f"{key} not found in cacheset config")
 
 
-class BcacheBase(StorageBase):
+class BcacheBase():
     """ Base class for bcache checks. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -118,10 +118,6 @@ class BcacheBase(StorageBase):
                     return True
 
         return False
-
-    @property
-    def plugin_runnable(self):
-        return self.bcache_enabled
 
     @cached_property
     def udev_bcache_devs(self):
@@ -270,8 +266,17 @@ class CachesetsInfo(BcacheBase):
         return sorted(list(map(int, ret)))
 
 
-class BcacheChecks(BcacheBase):
+class BcacheChecks(StorageBase, BcacheBase):
     """ Bcache checks. """
+
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        return BcacheBase().bcache_enabled
 
     @property
     def summary_subkey_include_default_entries(self):

@@ -1,6 +1,12 @@
 import os
+from dataclasses import dataclass, field
+from functools import cached_property
 
-from hotsos.core.host_helpers import PebbleHelper, SystemdHelper
+from hotsos.core.host_helpers import (
+    InstallInfoBase,
+    PebbleHelper,
+    SystemdHelper,
+)
 from hotsos.core.plugins.juju.resources import JujuBase
 from hotsos.core import plugintools
 
@@ -12,6 +18,15 @@ JUJU_SVC_EXPRS = [rf'mongod{SVC_VALID_SUFFIX}',
                   rf'(?:^|[^\s])juju-db{SVC_VALID_SUFFIX}']
 
 
+@dataclass
+class JujuInstallInfo(InstallInfoBase):
+    """ Juju installation information. """
+    pebble: PebbleHelper = field(default_factory=lambda:
+                                 PebbleHelper(service_exprs=JUJU_SVC_EXPRS))
+    systemd: SystemdHelper = field(default_factory=lambda:
+                                   SystemdHelper(service_exprs=JUJU_SVC_EXPRS))
+
+
 class JujuChecks(plugintools.PluginPartBase, JujuBase):
     """ Juju checks. """
     plugin_name = 'juju'
@@ -19,10 +34,15 @@ class JujuChecks(plugintools.PluginPartBase, JujuBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.pebble = PebbleHelper(service_exprs=JUJU_SVC_EXPRS)
-        self.systemd = SystemdHelper(service_exprs=JUJU_SVC_EXPRS)
-        # this is needed for juju scenarios
-        self.systemd_processes = self.systemd.processes
+        JujuInstallInfo().mixin(self)
+
+    @cached_property
+    def systemd_processes(self):
+        """
+        Return a list of running processes related to the Juju service. This
+        is needed for Juju scenarios.
+        """
+        return self.systemd.processes
 
     @property
     def version(self):
@@ -31,6 +51,11 @@ class JujuChecks(plugintools.PluginPartBase, JujuBase):
 
         return "unknown"
 
-    @property
-    def plugin_runnable(self):
-        return os.path.exists(self.juju_lib_path)
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        return os.path.exists(cls.get_juju_lib_path())

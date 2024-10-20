@@ -7,7 +7,7 @@ mock:
     hotsos.core.plugins.storage.ceph.CephCluster.osd_df_tree:
       kwargs:
         new: null
-    hotsos.core.plugins.sosreport.SOSReportChecks.plugin_runnable:
+    hotsos.core.plugins.sosreport.SOSReportChecks.data_root_is_sosreport:
       kwargs:
         new: false
 raised-issues:

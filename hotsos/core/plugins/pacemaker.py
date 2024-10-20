@@ -1,9 +1,11 @@
+from dataclasses import dataclass, field
 import re
 from functools import cached_property
 
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     CLIHelper,
+    InstallInfoBase,
     SystemdHelper,
 )
 from hotsos.core.plugintools import PluginPartBase
@@ -11,6 +13,17 @@ from hotsos.core.plugintools import PluginPartBase
 PACEMAKER_PKGS_CORE = ['pacemaker', r'pacemaker-\S+', 'crmsh', 'corosync']
 PACEMAKER_SVC_EXPR = ['pacemaker[a-zA-Z-]*',
                       'corosync']
+
+
+@dataclass
+class PacemakerInstallInfo(InstallInfoBase):
+    """ Pacemaker installation information. """
+    apt: APTPackageHelper = field(default_factory=lambda:
+                                  APTPackageHelper(
+                                                core_pkgs=PACEMAKER_PKGS_CORE))
+    systemd: SystemdHelper = field(default_factory=lambda:
+                                   SystemdHelper(
+                                            service_exprs=PACEMAKER_SVC_EXPR))
 
 
 class PacemakerBase():
@@ -47,10 +60,13 @@ class PacemakerChecks(PacemakerBase, PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.apt = APTPackageHelper(core_pkgs=PACEMAKER_PKGS_CORE)
-        self.systemd = SystemdHelper(service_exprs=PACEMAKER_SVC_EXPR)
-        self.pacemaker = PacemakerBase()
+        PacemakerInstallInfo().mixin(self)
 
-    @property
-    def plugin_runnable(self):
-        return len(self.apt.core) > 0
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        return len(PacemakerInstallInfo().apt.core) > 0

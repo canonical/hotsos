@@ -3,6 +3,7 @@ import os
 import re
 import sys
 from datetime import datetime
+from dataclasses import dataclass, field
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
@@ -12,6 +13,7 @@ from hotsos.core.host_helpers import (
     CLIHelper,
     CLIHelperFile,
     DPKGVersion,
+    InstallInfoBase,
     HostNetworkingHelper,
     PebbleHelper,
     SnapPackageHelper,
@@ -137,18 +139,32 @@ class CephConfig(IniConfigBase):
         return self.get('public network')
 
 
+@dataclass
+class CephInstallInfo(InstallInfoBase):
+    """ Ceph installation information. """
+    apt: APTPackageHelper = field(default_factory=lambda:
+                                  APTPackageHelper(
+                                                core_pkgs=CEPH_PKGS_CORE,
+                                                other_pkgs=CEPH_PKGS_OTHER))
+    pebble: PebbleHelper = field(default_factory=lambda:
+                                 PebbleHelper(
+                                            service_exprs=CEPH_SERVICES_EXPRS))
+    snaps: SnapPackageHelper = field(default_factory=lambda:
+                                     SnapPackageHelper(
+                                                core_snaps=CEPH_SNAPS_CORE))
+    systemd: SystemdHelper = field(default_factory=lambda:
+                                   SystemdHelper(
+                                            service_exprs=CEPH_SERVICES_EXPRS))
+
+
 class CephChecks(StorageBase):
     """ Ceph Checks. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
         self.bcache = BcacheBase()
-        self.apt = APTPackageHelper(core_pkgs=CEPH_PKGS_CORE,
-                                    other_pkgs=CEPH_PKGS_OTHER)
-        self.snaps = SnapPackageHelper(core_snaps=CEPH_SNAPS_CORE)
-        self.pebble = PebbleHelper(service_exprs=CEPH_SERVICES_EXPRS)
-        self.systemd = SystemdHelper(service_exprs=CEPH_SERVICES_EXPRS)
         self.cluster = CephCluster()
+        CephInstallInfo().mixin(self)
 
     @property
     def summary_subkey_include_default_entries(self):
@@ -158,9 +174,15 @@ class CephChecks(StorageBase):
     def summary_subkey(self):
         return 'ceph'
 
-    @property
-    def plugin_runnable(self):
-        if self.apt.core or self.snaps.core:
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
+        ceph = CephInstallInfo()
+        if ceph.apt.core or ceph.snaps.core:
             return True
 
         return False

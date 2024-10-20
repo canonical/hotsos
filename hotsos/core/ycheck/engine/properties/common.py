@@ -479,6 +479,10 @@ class YPropertyBase(PTreeOverrideBase):
 
                 raise
 
+            if callable(_obj):
+                raise TypeError(f"{_obj} is a not a property (looks like it "
+                                "is a callable method)")
+
         self._add_to_import_cache(import_str, _obj)
         return _obj
 

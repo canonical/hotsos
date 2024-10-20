@@ -2,7 +2,7 @@ checks:
   # In older sosreports, the plugin is called 'ceph' (= mon + mgr + osd) and
   # in the newer ones it's called 'ceph_mon'.
   is_sosreport:
-    property: hotsos.core.plugins.sosreport.SOSReportChecks.plugin_runnable
+    property: hotsos.core.plugins.sosreport.SOSReportChecks.data_root_is_sosreport
   sosreport_hung_ceph_mon_old:
     property:
       path: hotsos.core.plugins.sosreport.SOSReportChecks.timed_out_plugins

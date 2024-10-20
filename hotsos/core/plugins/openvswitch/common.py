@@ -1,8 +1,10 @@
 import abc
+from dataclasses import dataclass, field
 
 from hotsos.core import plugintools
 from hotsos.core.host_helpers import (
     APTPackageHelper,
+    InstallInfoBase,
     PebbleHelper,
     SystemdHelper,
 )
@@ -15,16 +17,20 @@ OVS_SERVICES_EXPRS = [r'ovsdb[a-zA-Z-]*',
                       r'ovn[a-zA-Z-]*',
                       'openvswitch-switch',
                       ]
-OVS_PKGS_CORE = ['openvswitch-switch',
-                 'ovn',
-                 ]
-OVS_PKGS_DEPS = ['libc-bin',
-                 'openvswitch',
-                 'ovsdbapp',
-                 'openssl',
-                 'openvswitch-switch-dpdk',
-                 ]
 PY_CLIENT_PREFIX = r"python3?-{}\S*"
+_OVS_PKGS_CORE = ['openvswitch-switch',
+                  'ovn',
+                  ]
+OVS_PKGS_CORE = _OVS_PKGS_CORE + \
+                [PY_CLIENT_PREFIX.format(p) for p in _OVS_PKGS_CORE]
+_OVS_PKGS_DEPS = ['libc-bin',
+                  'openvswitch',
+                  'ovsdbapp',
+                  'openssl',
+                  'openvswitch-switch-dpdk',
+                  ]
+OVS_PKGS_DEPS = _OVS_PKGS_DEPS + \
+                [PY_CLIENT_PREFIX.format(p) for p in _OVS_PKGS_DEPS]
 
 
 class OpenvSwitchGlobalSearchBase(GlobalSearcherAutoRegisterBase):
@@ -37,6 +43,20 @@ class OpenvSwitchGlobalSearchBase(GlobalSearcherAutoRegisterBase):
         """ Returns a list of one or more paths to search. """
 
 
+@dataclass
+class OpenvSwitchInstallInfo(InstallInfoBase):
+    """ OpenvSwitch installation information. """
+    apt: APTPackageHelper = field(default_factory=lambda:
+                                  APTPackageHelper(core_pkgs=OVS_PKGS_CORE,
+                                                   other_pkgs=OVS_PKGS_DEPS))
+    pebble: PebbleHelper = field(default_factory=lambda:
+                                 PebbleHelper(
+                                            service_exprs=OVS_SERVICES_EXPRS))
+    systemd: SystemdHelper = field(default_factory=lambda:
+                                   SystemdHelper(
+                                            service_exprs=OVS_SERVICES_EXPRS))
+
+
 class OpenvSwitchChecks(plugintools.PluginPartBase):
     """ OpenvSwitch checks. """
     plugin_name = "openvswitch"
@@ -44,18 +64,17 @@ class OpenvSwitchChecks(plugintools.PluginPartBase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        p_core = OVS_PKGS_CORE + [PY_CLIENT_PREFIX.format(p)
-                                  for p in OVS_PKGS_CORE]
-        p_deps = OVS_PKGS_DEPS + [PY_CLIENT_PREFIX.format(p)
-                                  for p in OVS_PKGS_DEPS]
-        self.apt = APTPackageHelper(core_pkgs=p_core, other_pkgs=p_deps)
-        self.pebble = PebbleHelper(service_exprs=OVS_SERVICES_EXPRS)
-        self.systemd = SystemdHelper(service_exprs=OVS_SERVICES_EXPRS)
+        OpenvSwitchInstallInfo().mixin(self)
 
-    @property
-    def plugin_runnable(self):
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
         # require at least one core package to be installed to run this plugin.
-        return len(self.apt.core) > 0
+        return len(OpenvSwitchInstallInfo().apt.core) > 0
 
 
 class OpenvSwitchEventCallbackBase(EventCallbackBase):

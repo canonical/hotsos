@@ -51,7 +51,11 @@ class KernelChecks(KernelBase, plugintools.PluginPartBase):
     plugin_name = 'kernel'
     plugin_root_index = 15
 
-    @property
-    def plugin_runnable(self):
-        # Always run
+    @classmethod
+    def is_runnable(cls):
+        """
+        Determine whether or not this plugin can and should be run.
+
+        @return: True or False
+        """
         return True

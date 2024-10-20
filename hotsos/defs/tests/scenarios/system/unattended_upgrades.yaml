@@ -3,7 +3,7 @@ mock:
     hotsos.core.plugins.system.system.SystemBase.unattended_upgrades_enabled:
       kwargs:
         new: true
-    hotsos.core.plugins.system.SystemChecks.plugin_runnable:
+    hotsos.core.plugins.system.SystemChecks.is_runnable:
       kwargs:
         new: true
 raised-issues:

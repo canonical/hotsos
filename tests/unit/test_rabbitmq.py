@@ -22,7 +22,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
     """ Unit tests for RabbitMQ summary. """
     def test_get_summary(self):
         inst = summary.RabbitMQSummary()
-        self.assertTrue(inst.plugin_runnable)
+        self.assertTrue(inst.is_runnable())
         self.assertEqual(list(inst.output.keys()),
                          ['services',
                           'dpkg',
