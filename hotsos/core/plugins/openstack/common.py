@@ -11,6 +11,7 @@ from hotsos.core.host_helpers import (
     APTPackageHelper,
     DockerImageHelper,
     DPKGVersion,
+    InstallInfoBase,
     PebbleHelper,
     SystemdHelper,
     SSLCertificate,
@@ -37,6 +38,32 @@ class OSTProjectHelpers:
     octavia: OctaviaBase
 
 
+@dataclass
+class OpenStackInstallInfo(InstallInfoBase):
+    """
+    OpenStack installation information.
+    """
+    project_catalog: OSTProjectCatalog = None
+
+    def __post_init__(self):
+        service_exprs = self.project_catalog.service_exprs
+        core_pkgs = self.project_catalog.packages_core_exprs
+        other_pkgs = self.project_catalog.packages_dep_exprs
+
+        self.apt = APTPackageHelper(core_pkgs=core_pkgs,
+                                    other_pkgs=other_pkgs)
+        self.docker = DockerImageHelper(core_pkgs=core_pkgs,
+                                        other_pkgs=other_pkgs)
+        self.pebble = PebbleHelper(service_exprs=service_exprs)
+        self.systemd = SystemdHelper(service_exprs=service_exprs)
+
+    def mixin(self, _self):
+        _self.apt = self.apt
+        _self.docker = self.docker
+        _self.pebble = self.pebble
+        _self.systemd = self.systemd
+
+
 class OpenstackBase():
     """
     Base class for Openstack checks.
@@ -49,16 +76,9 @@ class OpenstackBase():
         self.project_helpers = OSTProjectHelpers(NovaBase(), NeutronBase(),
                                                  OctaviaBase())
         self.project_catalog = OSTProjectCatalog()
-
-        service_exprs = self.project_catalog.service_exprs
-        self.pebble = PebbleHelper(service_exprs=service_exprs)
-        self.systemd = SystemdHelper(service_exprs=service_exprs)
-
-        core_pkgs = self.project_catalog.packages_core_exprs
-        other_pkgs = self.project_catalog.packages_dep_exprs
-        self.apt = APTPackageHelper(core_pkgs=core_pkgs, other_pkgs=other_pkgs)
-        self.docker = DockerImageHelper(core_pkgs=core_pkgs,
-                                        other_pkgs=other_pkgs)
+        # Keep pylint happy
+        self.apt = self.pebble = self.docker = self.systemd = None
+        OpenStackInstallInfo(project_catalog=self.project_catalog).mixin(self)
 
     @cached_property
     def apt_source_path(self):

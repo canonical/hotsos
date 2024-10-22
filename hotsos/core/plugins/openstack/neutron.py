@@ -19,9 +19,11 @@ VXLAN_HEADER_BYTES = 30
 
 class NeutronBase(OSTServiceBase):
     """ Base class for Neutron checks. """
-    def __init__(self, *args, **kwargs):
-        super().__init__('neutron', *args, **kwargs)
-        self.neutron_ovs_config = self.project.config['openvswitch-agent']
+    PROJECT_NAME = 'neutron'
+
+    @cached_property
+    def neutron_ovs_config(self):
+        return self.project.config['openvswitch-agent']
 
     @cached_property
     def bind_interfaces(self):

@@ -47,7 +47,7 @@ class MySQLChecks(plugintools.PluginPartBase):
 
         @return: True or False
         """
-        return MySQLInstallInfo().apt.core is not None
+        return len(MySQLInstallInfo().apt.core) > 0
 
 
 class MySQLConfig(host_helpers.IniConfigBase):

@@ -50,9 +50,11 @@ class NovaQemuProcessIdentifierARM(NovaQemuProcessIdentifierBase):
 
 class NovaBase(OSTServiceBase):
     """ Base class for Nova checks. """
-    def __init__(self, *args, **kwargs):
-        super().__init__('nova', *args, **kwargs)
-        self.nova_config = self.project.config['main']
+    PROJECT_NAME = 'nova'
+
+    @cached_property
+    def nova_config(self):
+        return self.project.config['main']
 
     def get_instances(self, identifiers):
         """

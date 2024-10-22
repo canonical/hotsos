@@ -382,6 +382,7 @@ class OSTProject():
                apache or if a package runs components using services whose name
                don't match the name of the project.
         """
+        self.params = params
         self.name = params.name
 
         self.apt_params = OSTProjectAptHelperParams([self.PY_CLIENT_PREFIX.
@@ -391,17 +392,6 @@ class OSTProject():
             self.apt_params.core.extend(params.apt_core_alt)
             for c in params.apt_core_alt:
                 self.apt_params.deps.append(self.PY_CLIENT_PREFIX.format(c))
-
-        self.config = {}
-        if params.config:
-            for label, path in params.config.items():
-                path = os.path.join(
-                    HotSOSConfig.data_root,
-                    "etc",
-                    params.name,
-                    path
-                )
-                self.config[label] = OpenstackConfig(path)
 
         self.systemd_params = OSTProjectSystemdHelperParams(
                                 params.systemd_extra_services,
@@ -414,6 +404,23 @@ class OSTProject():
             params.name,
             []
         )
+
+    @cached_property
+    def config(self):
+        config = {}
+        if not self.params.config:
+            return config
+
+        for label, path in self.params.config.items():
+            path = os.path.join(
+                HotSOSConfig.data_root,
+                "etc",
+                self.params.name,
+                path
+            )
+            config[label] = OpenstackConfig(path)
+
+        return config
 
     @cached_property
     def installed(self):
@@ -624,10 +631,15 @@ class OSTProjectCatalog():
 
 class OSTServiceBase():
     """ Representation of an Openstack service. """
-    def __init__(self, name, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.nethelp = host_helpers.HostNetworkingHelper()
-        self.project = OSTProjectCatalog()[name]
+    PROJECT_NAME = None
+
+    @cached_property
+    def nethelp(self):
+        return host_helpers.HostNetworkingHelper()
+
+    @cached_property
+    def project(self):
+        return OSTProjectCatalog()[self.PROJECT_NAME]
 
     @cached_property
     def installed(self):
