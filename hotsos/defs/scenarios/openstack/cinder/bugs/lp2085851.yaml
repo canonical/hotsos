@@ -1,0 +1,31 @@
+vars:
+  cinder_version: '@hotsos.core.host_helpers.packaging.AptFactory.version:cinder-common'
+checks:
+  pkg_with_regression:
+    apt:
+      cinder-common:
+        # caracal
+        - eq: '2:24.0.0-0ubuntu1.2'
+        # bobcat
+        - eq: '2:23.0.0-0ubuntu1.4~cloud0'
+        # antelope
+        - min: '2:22.1.1-0ubuntu1.3~cloud0'
+          max: '2:22.1.1-0ubuntu1.3~cloud1'
+        # yoga
+        - eq: '2:20.3.1-0ubuntu1.4'
+        # ussuri
+        - eq: '2:16.4.2-0ubuntu2.8'
+conclusions:
+  pkg_is_vulnerable:
+    decision:
+      - pkg_with_regression
+    raises:
+      type: LaunchpadBug
+      bug-id: 2085851
+      message: >-
+        The version of Openstack Cinder ({version}) running on this host is
+        impacted by regression LP2085851. There is a fix available in the Ubuntu
+        archives and upgrading is recommended. Please check the bug description
+        for more information.
+      format-dict:
+        version: $cinder_version
