@@ -1,0 +1,15 @@
+target-name: lp2085851.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  cinder-api                      2:20.3.1-0ubuntu1.4               all          Cinder storage service - API server
+      ii  cinder-common                   2:20.3.1-0ubuntu1.4               all          Cinder storage service - common files
+      ii  cinder-scheduler                2:20.3.1-0ubuntu1.4               all          Cinder storage service - Scheduler server
+      ii  cinder-volume                   2:20.3.1-0ubuntu1.4               all          Cinder storage service - Volume server
+      ii  python3-cinder                  2:20.3.1-0ubuntu1.4               all          Cinder Python 3 libraries
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2085851: >-
+    The version of Openstack Cinder (2:20.3.1-0ubuntu1.4) running on this host is
+    impacted by regression LP2085851. There is a fix available in the Ubuntu
+    archives and upgrading is recommended. Please check the bug description
+    for more information.
