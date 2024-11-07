@@ -7,6 +7,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
 from hotsos.core.log import log
 from hotsos.core.plugins.openstack.exceptions import (
+    OSLO_MESSAGING_EXCEPTIONS,
     EXCEPTIONS_COMMON,
 )
 from hotsos.core.plugins.openstack.exceptions_barbican import (
@@ -279,19 +280,26 @@ OST_REL_INFO = {
         'stein': '1.0.0'}
 }
 
-OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
-                  'cinder': CINDER_EXCEPTIONS + CASTELLAN_EXCEPTIONS,
-                  'designate': DESIGNATE_EXCEPTIONS,
+OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS +
+                  OSLO_MESSAGING_EXCEPTIONS,
+                  'cinder': CINDER_EXCEPTIONS + CASTELLAN_EXCEPTIONS +
+                  OSLO_MESSAGING_EXCEPTIONS,
+                  'designate': DESIGNATE_EXCEPTIONS +
+                  OSLO_MESSAGING_EXCEPTIONS,
                   'glance': GLANCE_EXCEPTIONS + GLANCE_STORE_EXCEPTIONS,
-                  'heat': HEAT_EXCEPTIONS,
+                  'heat': HEAT_EXCEPTIONS +
+                  OSLO_MESSAGING_EXCEPTIONS,
                   'keystone': KEYSTONE_EXCEPTIONS,
-                  'manila': MANILA_EXCEPTIONS,
-                  'masakari': MASAKARI_EXCEPTIONS,
-                  'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS,
+                  'manila': MANILA_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS,
+                  'masakari': MASAKARI_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS,
+                  'neutron': NEUTRON_EXCEPTIONS + OVSDBAPP_EXCEPTIONS +
+                  OSLO_MESSAGING_EXCEPTIONS,
                   'nova': NOVA_EXCEPTIONS + PYTHON_LIBVIRT_EXCEPTIONS +
-                  NEUTRONCLIENT_EXCEPTIONS + OS_VIF_EXCEPTIONS,
-                  'octavia': OCTAVIA_EXCEPTIONS,
-                  'placement': PLACEMENT_EXCEPTIONS,
+                  NEUTRONCLIENT_EXCEPTIONS + OS_VIF_EXCEPTIONS +
+                  OSLO_MESSAGING_EXCEPTIONS,
+                  'octavia': OCTAVIA_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS,
+                  'placement': PLACEMENT_EXCEPTIONS +
+                  OSLO_MESSAGING_EXCEPTIONS,
                   }
 
 

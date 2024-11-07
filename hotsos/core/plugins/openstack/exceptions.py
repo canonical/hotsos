@@ -98,11 +98,17 @@ OSLO_DB_EXCEPTIONS = [
 
 # https://opendev.org/openstack/oslo.messaging/src/branch/master/oslo_messaging/exceptions.py
 OSLO_MESSAGING_EXCEPTIONS = [
+# oslo_messaging/exceptions.py
     "MessagingException",
     "MessagingTimeout",
     "MessageDeliveryFailure",
     "InvalidTarget",
     "MessageUndeliverable",
+    "ConfigurationError",
+# oslo_messaging/rpc/client.py
+    "RemoteError",
+    "RPCVersionCapError",
+    "ClientSendError",
 ]
 
 # Exceptions common to any project should be defined here
@@ -111,5 +117,4 @@ EXCEPTIONS_COMMON = [
     r'amqp.exceptions.ConnectionForced',
     r'OSError: Server unexpectedly closed connection',
 ] + OSLO_DB_EXCEPTIONS \
-  + OSLO_MESSAGING_EXCEPTIONS \
   + PYTHON_BUILTIN_EXCEPTIONS
