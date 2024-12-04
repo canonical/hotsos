@@ -35,6 +35,10 @@ class NotEnoughParametersError(Exception):
     """Raised when an operation did not get enough parameters to operate."""
 
 
+class TooManyParametersError(Exception):
+    """Raised when an operation did get more parameters than expected."""
+
+
 class MissingRequiredParameterError(Exception):
     """Raised when an operation did not get a parameter required
      for the operation."""
@@ -59,3 +63,7 @@ class PreconditionError(Exception):
 
 class ExpectationNotMetError(Exception):
     """Raised when an operation's expectation is not met."""
+
+
+class NoSuchPropertyError(Exception):
+    """Raised when an object does not have a property where it should."""
