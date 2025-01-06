@@ -45,6 +45,7 @@ K8S_PACKAGE_DEPS = [r'charm[\S]+',
 # Snap-only deps
 K8S_PACKAGE_DEPS_SNAP = [r'core[0-9]*']
 K8S_SNAP_DEPS = K8S_PACKAGE_DEPS + K8S_PACKAGE_DEPS_SNAP
+MICROK8S_COMMON = 'var/snap/microk8s/common'
 
 
 @dataclass
@@ -88,9 +89,12 @@ class KubernetesBase():
         pods = []
         pods_path = os.path.join(HotSOSConfig.data_root,
                                  "var/log/pods")
-        if os.path.exists(pods_path):
-            for pod in os.listdir(pods_path):
-                pods.append(pod)
+        mk8s_pods_path = os.path.join(HotSOSConfig.data_root,
+                                      MICROK8S_COMMON, '/var/log/pods')
+        for path in [pods_path, mk8s_pods_path]:
+            if os.path.exists(path):
+                for pod in os.listdir(path):
+                    pods.append(pod)
 
         return sorted(pods)
 
@@ -99,10 +103,14 @@ class KubernetesBase():
         containers = []
         containers_path = os.path.join(HotSOSConfig.data_root,
                                        "var/log/containers")
-        if os.path.exists(containers_path):
-            for pod in os.listdir(containers_path):
-                pod = pod.partition('.log')[0]
-                containers.append(pod)
+        mk8s_containers_path = os.path.join(HotSOSConfig.data_root,
+                                            MICROK8S_COMMON,
+                                            'var/log/containers')
+        for path in [containers_path, mk8s_containers_path]:
+            if os.path.exists(path):
+                for ctr in os.listdir(path):
+                    ctr = ctr.partition('.log')[0]
+                    containers.append(ctr)
 
         return sorted(containers)
 
