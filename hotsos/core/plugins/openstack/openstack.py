@@ -58,7 +58,7 @@ from hotsos.core.plugins.openstack.exceptions_octavia import (
 # versions page: https://ubuntu.com/openstack/docs/supported-versions
 OST_EOL_INFO = {
     'caracal': datetime(2029, 4, 30),
-    'bobcat': datetime(2024, 7, 30),
+    'bobcat': datetime(2025, 4, 30),
     'antelope': datetime(2026, 4, 30),
     'zed': datetime(2024, 4, 30),
     'yoga': datetime(2027, 4, 30),
