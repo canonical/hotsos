@@ -5,10 +5,11 @@ class LandscapeSummary(LandscapeChecks):
     """ Implementation of Landscape summary. """
     summary_part_index = 0
 
-    # REMINDER: common entries are implemented in the SummaryBase base class
-    #           and only application plugin specific customisations are
-    #           implemented here. We use the get_min_available_entry_index() to
-    #           ensure that additional entries don't clobber existing ones but
-    #           conversely can also replace them by re-using their indices.
+    # REMINDER: Common entries are implemented in
+    #           plugintools.ApplicationSummaryBase. Only customisations are
+    #           implemented here. See
+    #           plugintools.get_min_available_entry_index() for an explanation
+    #           on how entry indices are managed.
 
-    # No custom entries defined here yet so currently relying on the defaults.
+    # NOTE: no custom entries defined here yet so plugin will only use
+    #       defaults.

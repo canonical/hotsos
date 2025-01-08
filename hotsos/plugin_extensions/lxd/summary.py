@@ -9,11 +9,11 @@ class LXDSummary(LXDChecks):
     """ Implementation of LXD summary. """
     summary_part_index = 0
 
-    # REMINDER: common entries are implemented in the SummaryBase base class
-    #           and only application plugin specific customisations are
-    #           implemented here. We use the get_min_available_entry_index() to
-    #           ensure that additional entries don't clobber existing ones but
-    #           conversely can also replace them by re-using their indices.
+    # REMINDER: Common entries are implemented in
+    #           plugintools.ApplicationSummaryBase. Only customisations are
+    #           implemented here. See
+    #           plugintools.get_min_available_entry_index() for an explanation
+    #           on how entry indices are managed.
 
     @staticmethod
     @summary_entry('instances', get_min_available_entry_index())

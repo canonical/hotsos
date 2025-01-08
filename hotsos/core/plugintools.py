@@ -239,7 +239,12 @@ def summary_entry(name, index=0):
 
 
 def get_min_available_entry_index():
-    """ Return first index available after default entries. """
+    """ Return first available offset/index after default entries.
+
+    Default entries provided by ApplicationSummaryBase will use offsets from
+    DefaultSummaryEntryIndexes. This function is used to return the next
+    available offset for custom entry defintions.
+    """
     return DefaultSummaryEntryIndexes.AVAILABLE
 
 
