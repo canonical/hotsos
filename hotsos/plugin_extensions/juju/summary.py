@@ -136,15 +136,17 @@ class JujuSummary(JujuChecks):
             name, _, ver = u.name.rpartition('-')
             u_name = f"{name}/{ver}"
             unit_info[u_name] = {}
-            if u.repo_info:
-                c_name = u.charm_name
-                if c_name:
-                    unit_info[u_name]['charm'] = {'name': c_name}
+            c_name = u.charm_name
+            if c_name:
+                charm = {'name': c_name}
+                unit_info[u_name]['charm'] = charm
+                if u.repo_info:
                     sha1 = u.repo_info.get('commit')
-                    unit_info[u_name]['charm']['repo-info'] = sha1
-                    if c_name in self.charms:
-                        unit_info[u_name]['charm']['version'] = \
-                            self.charms[c_name].version
+                    charm['repo-info'] = sha1
+
+                if c_name in self.charms:
+                    charm['version'] = \
+                        self.charms[c_name].version
 
             if u.name in loginfo:
                 unit_info[u_name]['logs'] = loginfo[u.name]

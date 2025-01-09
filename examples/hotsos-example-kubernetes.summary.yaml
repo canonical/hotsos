@@ -40,15 +40,15 @@ kubernetes:
       - kube-proxy (1)
       - kube-scheduler (1)
   snaps:
-    - cdk-addons 1.23.0
-    - core 16-2.54.2
-    - core18 20211215
-    - core20 20220114
-    - kube-apiserver 1.23.3
-    - kube-controller-manager 1.23.3
-    - kube-proxy 1.23.3
-    - kube-scheduler 1.23.3
-    - kubectl 1.23.3
+    - cdk-addons 1.23.0 (latest/stable)
+    - core 16-2.54.2 (latest/stable)
+    - core18 20211215 (latest/stable)
+    - core20 20220114 (latest/stable)
+    - kube-apiserver 1.23.3 (latest/stable)
+    - kube-controller-manager 1.23.3 (latest/stable)
+    - kube-proxy 1.23.3 (latest/stable)
+    - kube-scheduler 1.23.3 (latest/stable)
+    - kubectl 1.23.3 (latest/stable)
   dpkg:
     - vaultlocker 1.0.6-0ubuntu1
   flannel:

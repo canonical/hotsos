@@ -62,15 +62,15 @@ class TestKubernetesSummary(KubernetesTestsBase):
                          expected)
 
     def test_snaps(self):
-        result = ['cdk-addons 1.23.0',
-                  'core 16-2.54.2',
-                  'core18 20211215',
-                  'core20 20220114',
-                  'kube-apiserver 1.23.3',
-                  'kube-controller-manager 1.23.3',
-                  'kube-proxy 1.23.3',
-                  'kube-scheduler 1.23.3',
-                  'kubectl 1.23.3']
+        result = ['cdk-addons 1.23.0 (latest/stable)',
+                  'core 16-2.54.2 (latest/stable)',
+                  'core18 20211215 (latest/stable)',
+                  'core20 20220114 (latest/stable)',
+                  'kube-apiserver 1.23.3 (latest/stable)',
+                  'kube-controller-manager 1.23.3 (latest/stable)',
+                  'kube-proxy 1.23.3 (latest/stable)',
+                  'kube-scheduler 1.23.3 (latest/stable)',
+                  'kubectl 1.23.3 (latest/stable)']
         inst = summary.KubernetesSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
                          result)
@@ -97,10 +97,10 @@ class TestKubernetesSummary(KubernetesTestsBase):
         mock_helper.return_value.snap_list_all.return_value = \
                 SNAP_LIST_ALL_MICROK8S.splitlines()
         inst = summary.KubernetesSummary()
-        result = ['core18 20230320',
-                  'core20 20230308',
-                  'core22 20230404',
-                  'microk8s v1.26.4']
+        result = ['core18 20230320 (latest/stable)',
+                  'core20 20230308 (latest/stable)',
+                  'core22 20230404 (latest/stable)',
+                  'microk8s v1.26.4 (1.26/stable)']
         self.assertTrue(inst.is_runnable())
         self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
                          result)

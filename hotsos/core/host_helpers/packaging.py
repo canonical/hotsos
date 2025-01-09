@@ -654,7 +654,8 @@ class SnapPackageHelper(PackageHelperBase):
         if not _all:
             return []
 
-        return [f"{name} {info['version']}" for name, info in _all.items()]
+        return [f"{name} {info['version']} ({info['channel']})"
+                for name, info in _all.items()]
 
     @property
     def core(self):

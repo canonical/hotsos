@@ -185,6 +185,17 @@ class TestJujuSummary(JujuTestsBase):
         self.assertEqual(self.part_output_to_actual(inst.output)['units'],
                          expected)
 
+    @utils.create_data_root(
+        {('var/lib/juju/agents/unit-sunbeam-machine-1/'
+          'state/deployer/manifests/'
+          'ch_3a_amd64_2f_jammy_2f_sunbeam-machine-32'): ''})
+    def test_get_unit_info_no_repo_info(self):
+        expected = {'sunbeam-machine/1':
+                    {'charm': {'name': 'sunbeam-machine', 'version': 32}}}
+        inst = summary.JujuSummary()
+        self.assertEqual(self.part_output_to_actual(inst.output)['units'],
+                         expected)
+
 
 @utils.load_templated_tests('scenarios/juju')
 class TestJujuScenarios(JujuTestsBase):

@@ -13,6 +13,7 @@ from hotsos.core.host_helpers import (
     DPKGVersion,
     InstallInfoBase,
     PebbleHelper,
+    SnapPackageHelper,
     SystemdHelper,
     SSLCertificate,
     SSLCertificatesHelper,
@@ -22,6 +23,8 @@ from hotsos.core.plugins.openstack.openstack import (
     OSTProjectCatalog,
     OST_EOL_INFO,
     OST_REL_INFO,
+    OST_SUNBEAM_REL_INFO,
+    OST_SUNBEAM_SNAP_NAMES,
 )
 from hotsos.core.plugins.openstack.neutron import NeutronBase
 from hotsos.core.plugins.openstack.nova import NovaBase
@@ -47,13 +50,15 @@ class OpenStackInstallInfo(InstallInfoBase):
 
     def __post_init__(self):
         service_exprs = self.project_catalog.service_exprs
-        core_pkgs = self.project_catalog.packages_core_exprs
-        other_pkgs = self.project_catalog.packages_dep_exprs
+        snap_core_pkgs = self.project_catalog.snap_core_exprs
+        core_pkgs = self.project_catalog.apt_core_exprs
+        other_pkgs = self.project_catalog.apt_dep_exprs
 
         self.apt = APTPackageHelper(core_pkgs=core_pkgs,
                                     other_pkgs=other_pkgs)
         self.docker = DockerImageHelper(core_pkgs=core_pkgs,
                                         other_pkgs=other_pkgs)
+        self.snaps = SnapPackageHelper(core_snaps=snap_core_pkgs)
         self.pebble = PebbleHelper(service_exprs=service_exprs)
         self.systemd = SystemdHelper(service_exprs=service_exprs)
 
@@ -61,12 +66,13 @@ class OpenStackInstallInfo(InstallInfoBase):
         _self.apt = self.apt
         _self.docker = self.docker
         _self.pebble = self.pebble
+        _self.snaps = self.snaps
         _self.systemd = self.systemd
 
 
-class OpenstackBase():
+class OpenstackBase():  # pylint: disable=too-many-instance-attributes
     """
-    Base class for Openstack checks.
+    Base class for OpenStack checks.
 
     Contains per-service information such as packages, versions, config etc.
     """
@@ -77,19 +83,14 @@ class OpenstackBase():
                                                  OctaviaBase())
         self.project_catalog = OSTProjectCatalog()
         # Keep pylint happy
-        self.apt = self.pebble = self.docker = self.systemd = None
+        self.apt = self.pebble = self.docker = self.snaps = self.systemd = None
         OpenStackInstallInfo(project_catalog=self.project_catalog).mixin(self)
 
     @cached_property
     def apt_source_path(self):
         return os.path.join(HotSOSConfig.data_root, 'etc/apt/sources.list.d')
 
-    @cached_property
-    def installed_pkg_release_names(self):
-        """
-        Get release name for each installed package that we are tracking and
-        return as a list of names. The list should normally have length 1.
-        """
+    def _get_apt_relnames(self):
         relnames = set()
         for pkg, values in OST_REL_INFO.items():
             if pkg in self.apt.core:
@@ -109,6 +110,23 @@ class OpenstackBase():
 
                 if r_lt:
                     relnames.add(r_lt)
+
+        return relnames
+
+    @cached_property
+    def installed_pkg_release_names(self):
+        """
+        Get release name for each installed package that we are tracking and
+        return as a list of names. The list should normally have length 1.
+        """
+        if self.apt.core:
+            relnames = self._get_apt_relnames()
+        else:
+            relnames = set()
+            for pkg in OST_SUNBEAM_SNAP_NAMES:
+                if pkg in self.snaps.core:
+                    ver = self.snaps.get_version(pkg)
+                    relnames.add(OST_SUNBEAM_REL_INFO[ver])
 
         log.debug("release name(s) found: %s", ','.join(relnames))
         return list(relnames)
@@ -277,7 +295,8 @@ class OpenStackChecks(plugintools.PluginPartBase):
 
         @return: True or False
         """
-        if OpenstackBase().apt.core:
+        ost_common = OpenstackBase()
+        if ost_common.apt.core or ost_common.snaps.core:
             return True
 
         return False

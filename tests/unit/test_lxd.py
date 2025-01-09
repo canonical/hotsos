@@ -31,7 +31,7 @@ class TestLXDSummary(LXDTestsBase):
                                                 'snap.lxd.user-daemon'],
                                      'transient': ['snap.lxd.workaround']}},
 
-                    'snaps': ['lxd 4.22']}
+                    'snaps': ['lxd 4.22 (latest/stable)']}
         inst = summary.LXDSummary()
         self.assertEqual(self.part_output_to_actual(inst.output), expected)
 

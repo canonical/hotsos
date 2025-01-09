@@ -20,7 +20,7 @@ class TestVaultSummary(VaultTestsBase):
     def test_snaps(self):
         inst = summary.VaultSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
-                         ['vault 1.5.9'])
+                         ['vault 1.5.9 (1.5/stable)'])
 
     def test_services(self):
         # NOTE: this needs fixing - the pid is not identifiable

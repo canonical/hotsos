@@ -49,7 +49,7 @@ class TestSnapPackageHelper(utils.BaseTestCase):
         self.assertEqual(obj.get_version("lxd"), "4.22")
 
     def test_formatted(self):
-        expected = ['core20 20220114']
+        expected = ['core20 20220114 (latest/stable)']
         obj = host_pack.SnapPackageHelper(["core20"])
         self.assertEqual(obj.all_formatted, expected)
 

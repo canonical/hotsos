@@ -280,6 +280,16 @@ OST_REL_INFO = {
         'stein': '1.0.0'}
 }
 
+OST_SUNBEAM_SNAP_NAMES = ['openstack', 'openstack-hypervisor']
+
+OST_SUNBEAM_REL_INFO = {
+    '2025.1': 'epoxy',
+    '2024.2': 'dalmation',
+    '2024.1': 'caracal',
+    '2023.2': 'bobcat',
+    '2023.1': 'antelope',
+}
+
 OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS +
                   OSLO_MESSAGING_EXCEPTIONS,
                   'cinder': CINDER_EXCEPTIONS + CASTELLAN_EXCEPTIONS +
@@ -496,6 +506,9 @@ class OSTProjectCatalog():
                        'radvd',
                        ]
 
+    # ref: https://github.com/orgs/canonical/repositories?q=%22snap-open%22
+    SNAP_DEPS_SUNBEAM = [r'openstack\S*']
+
     def __init__(self):
         self._projects = {}
         self.add('aodh', config={'main': 'aodh.conf'},
@@ -621,7 +634,11 @@ class OSTProjectCatalog():
         self._projects[name] = OSTProject(params)
 
     @cached_property
-    def packages_core_exprs(self):
+    def snap_core_exprs(self):
+        return self.SNAP_DEPS_SUNBEAM
+
+    @cached_property
+    def apt_core_exprs(self):
         core = set()
         for p in self.all.values():
             core.update(p.apt_params.core)
@@ -629,7 +646,7 @@ class OSTProjectCatalog():
         return list(core)
 
     @cached_property
-    def packages_dep_exprs(self):
+    def apt_dep_exprs(self):
         deps = set(self.APT_DEPS_COMMON)
         for p in self.all.values():
             deps.update(p.apt_params.deps)
