@@ -41,13 +41,15 @@ from hotsos.core.plugins.openstack.exceptions_masakari import (
 from hotsos.core.plugins.openstack.exceptions_neutron import (
     NEUTRON_EXCEPTIONS,
     NEUTRONCLIENT_EXCEPTIONS,
-    OVSDBAPP_EXCEPTIONS,
 )
 from hotsos.core.plugins.openstack.exceptions_nova import (
     NOVA_EXCEPTIONS,
     OS_VIF_EXCEPTIONS,
     PLACEMENT_EXCEPTIONS,
     PYTHON_LIBVIRT_EXCEPTIONS,
+)
+from hotsos.core.plugins.openstack.exceptions_ovsdbapp import (
+    OVSDBAPP_EXCEPTIONS,
 )
 from hotsos.core.plugins.openstack.exceptions_octavia import (
     OCTAVIA_EXCEPTIONS,
@@ -306,7 +308,7 @@ OST_EXCEPTIONS = {'barbican': BARBICAN_EXCEPTIONS + CASTELLAN_EXCEPTIONS +
                   OSLO_MESSAGING_EXCEPTIONS,
                   'nova': NOVA_EXCEPTIONS + PYTHON_LIBVIRT_EXCEPTIONS +
                   NEUTRONCLIENT_EXCEPTIONS + OS_VIF_EXCEPTIONS +
-                  OSLO_MESSAGING_EXCEPTIONS,
+                  OSLO_MESSAGING_EXCEPTIONS + OVSDBAPP_EXCEPTIONS,
                   'octavia': OCTAVIA_EXCEPTIONS + OSLO_MESSAGING_EXCEPTIONS,
                   'placement': PLACEMENT_EXCEPTIONS +
                   OSLO_MESSAGING_EXCEPTIONS,

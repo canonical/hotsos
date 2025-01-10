@@ -441,11 +441,3 @@ _NEUTRONCLIENT_EXCEPTIONS = [
 ]
 NEUTRONCLIENT_EXCEPTIONS = [f"neutronclient.common.exceptions.{exc}"
                             for exc in _NEUTRONCLIENT_EXCEPTIONS]
-
-# Including this as a dep of (at least) Neutron
-# sed -rn 's/^class\s+(\S+)\(.+/    "\1",/p' ovsdbapp/exceptions.py
-OVSDBAPP_EXCEPTIONS = [
-    "OvsdbAppException",
-    "TimeoutException",
-    "OvsdbConnectionUnavailable",
-]
