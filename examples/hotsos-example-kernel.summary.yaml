@@ -31,6 +31,3 @@ kernel:
     model: intel core processor (skylake, ibrs)
     smt: disabled
     cpufreq-scaling-governor: unknown
-  potential-issues:
-    MemoryWarnings:
-      - 1 reports of oom-killer invoked in kern.log - please check.

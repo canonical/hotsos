@@ -1,5 +1,6 @@
 from .common import InstallInfoBase
 from .cli.cli import (
+    CLIExecError,
     CLIHelper,
     CLIHelperFile,
 )
@@ -40,6 +41,7 @@ from .apparmor import (
 )
 
 __all__ = [
+    CLIExecError.__name__,
     CLIHelper.__name__,
     CLIHelperFile.__name__,
     ConfigBase.__name__,
