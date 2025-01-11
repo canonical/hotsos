@@ -484,7 +484,8 @@ class CallTraceManager(KernLogBase):
 
     def run(self):
         for tracetype in self.tracetypes:
-            self.searcher.add(tracetype.searchdef, self.path)
+            self.searcher.add(tracetype.searchdef, self.path[0],
+                              allow_global_constraints=self.path[1])
 
         self.results = self.searcher.run()
         for tracetype in self.tracetypes:

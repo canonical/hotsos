@@ -8,7 +8,8 @@ class KernLogEvents(KernLogBase):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for event in [self.over_mtu_dropped_packets_search_def]:
-            self.searcher.add(event, self.path)
+            self.searcher.add(event, self.path[0],
+                              allow_global_constraints=self.path[1])
 
         self.results = self.searcher.run()
 

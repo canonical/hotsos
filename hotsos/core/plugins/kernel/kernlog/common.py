@@ -92,8 +92,21 @@ class KernLogBase():
 
     @property
     def path(self):
-        path = os.path.join(HotSOSConfig.data_root, 'var/log/kern.log')
-        if HotSOSConfig.use_all_logs:
-            return f"{path}*"
+        """
+        Return path we want to search. By default we search kern.log but that
+        may not exist e.g. if rsyslogd is not running so fallback to dmesg if
+        not.
 
-        return path
+        @return: tuple (path, bool value indicating whether to allow global
+                              search constraints on the path)
+        """
+        path = os.path.join(HotSOSConfig.data_root, 'var/log/kern.log')
+        if os.path.exists(path):
+            if HotSOSConfig.use_all_logs:
+                path = f"{path}*"
+
+            return path, True
+
+        # NOTE: don't allow constraints for dmesg since it doesn't have
+        #       proper timestamps.
+        return os.path.join(HotSOSConfig.data_root, 'var/log/dmesg'), False
