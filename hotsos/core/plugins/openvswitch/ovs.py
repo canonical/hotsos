@@ -239,10 +239,14 @@ class OVSBFDSearch(OpenvSwitchGlobalSearchBase):
         """  # noqa
         pattern = (r'([\d-]+)T([\d:]+)\.\d+Z.+\|bfd\(\S+\)\|INFO\|'
                    r'([a-z0-9-]+): BFD state change: (\S+)')
+        constraints = []
         constraint = create_constraint(search_result_age_hours=24,
                                        min_hours_since_last_boot=0)
+        if constraint:
+            constraints.append(constraint)
+
         return SearchDef(pattern, tag=cls.unique_search_tag,
-                         constraints=[constraint])
+                         constraints=constraints)
 
     @classmethod
     def paths(cls):

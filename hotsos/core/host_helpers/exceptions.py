@@ -10,11 +10,13 @@ CLI_COMMON_EXCEPTIONS = (OSError, subprocess.CalledProcessError,
 
 class CLIExecError(Exception):
     """ Exception raised when execution of a command files. """
-    def __init__(self, return_value=None):
+    def __init__(self, message, return_value=None):
         """
+        @param message: information message about the exception
         @param return_value: default return value that a command
                              should return if execution fails.
         """
+        self.message = message
         self.return_value = return_value
 
 
@@ -31,9 +33,12 @@ def catch_exceptions(*exc_types):
                     log.debug(msg)
 
                 if isinstance(exc, json.JSONDecodeError):
-                    raise CLIExecError(return_value={}) from exc
+                    raise CLIExecError(str(exc), return_value={}) from exc
 
-                raise CLIExecError(return_value=[]) from exc
+                if isinstance(exc, subprocess.CalledProcessError):
+                    raise CLIExecError(exc.output, return_value={}) from exc
+
+                raise CLIExecError(str(exc), return_value=[]) from exc
 
         return catch_exceptions_inner2
 

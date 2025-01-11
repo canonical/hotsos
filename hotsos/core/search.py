@@ -57,9 +57,9 @@ class SearchConstraintSearchSince(_SearchConstraintSearchSince):
 
         current_date = CLIHelper().date(format='+%Y-%m-%d %H:%M:%S')
         if not current_date or not isinstance(current_date, str):
-            log.error("current date '%s' being provided to search "
-                      "constraints is not valid.", current_date)
-            return
+            msg = (f"current date '{current_date}' being provided to search "
+                   "constraints is not valid.")
+            raise ValueError(msg)
 
         super().__init__(*args, current_date=current_date, **kwargs)
 
@@ -241,6 +241,11 @@ def create_constraint(search_result_age_hours=None,
         hours = min(hours,
                     max(uptime_etime_hours - min_hours_since_last_boot, 0))
 
-    return SearchConstraintSearchSince(
-                                     ts_matcher_cls=CommonTimestampMatcher,
-                                     hours=hours)
+        try:
+            return SearchConstraintSearchSince(
+                                        ts_matcher_cls=CommonTimestampMatcher,
+                                        hours=hours)
+        except ValueError as exc:
+            log.warning("failed to create search constraint: %s", exc)
+
+    return None

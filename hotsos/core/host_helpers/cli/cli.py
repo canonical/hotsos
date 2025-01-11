@@ -41,6 +41,11 @@ class JournalctlBase():
         and has the format "YEAR-MONTH-DAY". It does not specify a time.
         """
         current = CLIHelper().date(format="--iso-8601")
+        if not current:
+            log.warning("could not determine since date for journalctl "
+                        "command")
+            return None
+
         ts = datetime.datetime.strptime(current, "%Y-%m-%d")
         if HotSOSConfig.use_all_logs:
             days = HotSOSConfig.max_logrotate_depth
@@ -64,12 +69,16 @@ class JournalctlBinCmd(BinCmd, JournalctlBase):
 
         if kwargs.get("date"):
             self.cmd = f"{self.cmd} --since {kwargs.get('date')}"
-        else:
+        elif self.since_date:
             self.cmd = f"{self.cmd} --since {self.since_date}"
 
 
 class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
-    """ Implements file-based journalctl command. """
+    """ Implements file-based journalctl command.
+
+    NOTE: this may suffer from incompatibility issues if the journal data was
+          created with a different version of systemd-journald.
+    """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.register_hook("pre-exec", self.preformat_sos_journalctl)
@@ -81,7 +90,7 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
 
         if kwargs.get("date"):
             self.path = f"{self.path} --since {kwargs.get('date')}"
-        else:
+        elif self.since_date:
             self.path = f"{self.path} --since {self.since_date}"
 
 

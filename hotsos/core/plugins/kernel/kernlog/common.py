@@ -8,6 +8,7 @@ from hotsos.core.search import (
     FileSearcher,
     SearchConstraintSearchSince,
 )
+from hotsos.core.log import log
 
 KERNLOG_TS = r'\[\s*\d+\.\d+\]'
 KERNLOG_PREFIX = rf'(?:\S+\s+\d+\s+[\d:]+\s+\S+\s+\S+:\s+)?{KERNLOG_TS}'
@@ -85,8 +86,15 @@ class TraceTypeBase(abc.ABC):
 class KernLogBase():
     """ Base class for kernlog analysis implementations. """
     def __init__(self):
-        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
-        self.searcher = FileSearcher(constraint=c)
+        try:
+            constraint = SearchConstraintSearchSince(
+                                         ts_matcher_cls=CommonTimestampMatcher)
+        except ValueError as exc:
+            log.warning("failed to create global search constraint for "
+                        "calltrace checker: %s", exc)
+            constraint = None
+
+        self.searcher = FileSearcher(constraint=constraint)
         self.hostnet_helper = HostNetworkingHelper()
         self.cli_helper = CLIHelper()
 

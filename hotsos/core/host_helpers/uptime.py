@@ -35,8 +35,8 @@ class UptimeHelper():
     def in_minutes(self):
         """ Total uptime in minutes. """
         if not self.subgroups:
-            log.info("uptime not available")
-            return None
+            log.warning("uptime not available")
+            return 0
 
         if self.subgroups['hour']['value']:
             expr = self.subgroups['hour']['expr']

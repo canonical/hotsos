@@ -68,8 +68,13 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
     """
 
     def __init__(self):
-        constraint = SearchConstraintSearchSince(
+        try:
+            constraint = SearchConstraintSearchSince(
                                          ts_matcher_cls=CommonTimestampMatcher)
+        except ValueError as exc:
+            log.warning("failed to create global search constraint: %s", exc)
+            constraint = None
+
         self._loaded_searches = []
         self._results = None
         self._searcher = FileSearcher(constraint=constraint)
