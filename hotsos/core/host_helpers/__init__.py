@@ -1,5 +1,5 @@
 from .common import InstallInfoBase
-from .cli import (
+from .cli.cli import (
     CLIHelper,
     CLIHelperFile,
 )

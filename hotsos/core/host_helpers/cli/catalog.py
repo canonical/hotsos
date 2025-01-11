@@ -1,33 +1,76 @@
-import abc
-import datetime
 import json
 import os
-import pathlib
 import re
 import subprocess
 import tempfile
+from collections import UserDict
 from dataclasses import dataclass, field, fields
-from functools import cached_property
 
 import yaml
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.common import (
-    CmdOutput,
-    get_ps_axo_flags_available,
-    HostHelpersBase,
-    reset_command,
-    run_post_exec_hooks,
-    run_pre_exec_hooks,
-    SourceRunner,
-)
+from hotsos.core.host_helpers.common import get_ps_axo_flags_available
 from hotsos.core.host_helpers.exceptions import (
     catch_exceptions,
     CLI_COMMON_EXCEPTIONS,
     CLIExecError,
-    CommandNotFound,
     SourceNotFound,
 )
 from hotsos.core.log import log
+
+
+@dataclass(frozen=True)
+class CmdOutput():
+    """ Representation of the output of a command. """
+
+    # Output value.
+    value: str
+    # Optional command source path.
+    source: str = None
+
+
+def run_pre_exec_hooks(f):
+    """ pre-exec hooks are run before running __call__ method.
+
+    These hooks are not expected to return anything and are used to manipulate
+    the instance variables used by the main __call__ method.
+    """
+    def run_pre_exec_hooks_inner(self, *args, **kwargs):
+        hook = self.hooks.get("pre-exec")
+        if hook:
+            # no return expected
+            hook(*args, **kwargs)
+
+        return f(self, *args, **kwargs)
+
+    return run_pre_exec_hooks_inner
+
+
+def run_post_exec_hooks(f):
+    """ post-exec hooks are run after running __call__ method and take its
+    output as input.
+    """
+    def run_post_exec_hooks_inner(self, *args, **kwargs):
+        out = f(self, *args, **kwargs)
+        hook = self.hooks.get("post-exec")
+        if hook:
+            out = hook(out, *args, **kwargs)
+
+        return out
+
+    return run_post_exec_hooks_inner
+
+
+def reset_command(f):
+    """
+    This should be run by all commands as their last action after all/any hooks
+    have run.
+    """
+    def reset_command_inner(self, *args, **kwargs):
+        out = f(self, *args, **kwargs)
+        self.reset()
+        return out
+
+    return reset_command_inner
 
 
 @dataclass
@@ -242,62 +285,6 @@ class BinFileCmd(FileCmd):
 
         output = output.decode('UTF-8')
         return CmdOutput(output.splitlines(keepends=True))
-
-
-class JournalctlBase():
-    """ Base class for journalctl command implementations. """
-    @property
-    def since_date(self):
-        """
-        Returns a string datetime to be used with journalctl --since. This time
-        reflects the maximum depth of history we will search in the journal.
-
-        The datetime value returned takes into account config from HotSOSConfig
-        and has the format "YEAR-MONTH-DAY". It does not specify a time.
-        """
-        current = CLIHelper().date(format="--iso-8601")
-        ts = datetime.datetime.strptime(current, "%Y-%m-%d")
-        if HotSOSConfig.use_all_logs:
-            days = HotSOSConfig.max_logrotate_depth
-        else:
-            days = 1
-
-        ts = ts - datetime.timedelta(days=days)
-        return ts.strftime("%Y-%m-%d")
-
-
-class JournalctlBinCmd(BinCmd, JournalctlBase):
-    """ Implements binary journalctl command. """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.register_hook("pre-exec", self.format_journalctl_cmd)
-
-    def format_journalctl_cmd(self, **kwargs):
-        """ Add optional extras to journalctl command. """
-        if kwargs.get("unit"):
-            self.cmd = f"{self.cmd} --unit {kwargs.get('unit')}"
-
-        if kwargs.get("date"):
-            self.cmd = f"{self.cmd} --since {kwargs.get('date')}"
-        else:
-            self.cmd = f"{self.cmd} --since {self.since_date}"
-
-
-class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
-    """ Implements file-based journalctl command. """
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.register_hook("pre-exec", self.preformat_sos_journalctl)
-
-    def preformat_sos_journalctl(self, **kwargs):
-        self.path = f"journalctl -oshort-iso -D {self.path}"
-        if kwargs.get("unit"):
-            self.path = f"{self.path} --unit {kwargs.get('unit')}"
-
-        if kwargs.get("date"):
-            self.path = f"{self.path} --since {kwargs.get('date')}"
-        else:
-            self.path = f"{self.path} --since {self.since_date}"
 
 
 class OVSAppCtlBinCmd(BinCmd):
@@ -531,51 +518,12 @@ class CephJSONFileCmd(FileCmd):
         return output
 
 
-class CLICacheWrapper():
-    """ Wrapper for cli cache. """
-    def __init__(self, cache_load_f, cache_save_f):
-        self.load_f = cache_load_f
-        self.save_f = cache_save_f
+class CommandCatalog(UserDict):
+    """ Catalog of all supported commands. """
 
-    def load(self, key):
-        return self.load_f(key)
-
-    def save(self, key, value):
-        return self.save_f(key, value)
-
-
-class CLIHelperBase(HostHelpersBase):
-    """ Base class for clihelper implementations. """
     def __init__(self):
-        self._command_catalog = None
         super().__init__()
-        self.cli_cache = CLICacheWrapper(self.cache_load, self.cache_save)
-
-    @property
-    def cache_root(self):
-        """ Cache at plugin level rather than globally. """
-        return HotSOSConfig.plugin_tmp_dir
-
-    @property
-    def cache_type(self):
-        return 'cli'
-
-    @property
-    def cache_name(self):
-        return "commands"
-
-    def cache_load(self, key):
-        return self.cache.get(key)
-
-    def cache_save(self, key, value):
-        return self.cache.set(key, value)
-
-    @property
-    def command_catalog(self):
-        if self._command_catalog:
-            return self._command_catalog
-
-        self._command_catalog = {
+        self.data = {
             'apt_config_dump':
                 [BinCmd('apt-config dump'),
                  FileCmd('sos_commands/apt/apt-config_dump')],
@@ -765,9 +713,6 @@ class CLIHelperBase(HostHelpersBase):
             'ip_link':
                 [BinCmd('ip -s -d link'),
                  FileCmd('sos_commands/networking/ip_-s_-d_link')],
-            'journalctl':
-                [JournalctlBinCmd('journalctl -oshort-iso'),
-                 JournalctlBinFileCmd('var/log/journal')],
             'ls_lanR_sys_block':
                 [BinCmd('ls -lanR /sys/block/'),
                  FileCmd('sos_commands/block/ls_-lanR_.sys.block')],
@@ -917,76 +862,3 @@ class CLIHelperBase(HostHelpersBase):
                 [BinCmd('uptime', singleline=True),
                  FileCmd('uptime', singleline=True)],
         }
-        return self._command_catalog
-
-    @abc.abstractmethod
-    def __getattr__(self, cmdname):
-        """ This is how commands are run. The command is looked up in the
-        catalog and it's runner object is returned. The caller is expetced to
-        call() the returned object to execute the command.
-
-        @param cmdname: name of command we want to execute. This must match a
-        name used to register a handler in the catalog.
-        @return: SourceRunner object.
-        """
-
-
-class CLIHelper(CLIHelperBase):
-    """
-    This is used when we want to have command output as the return value when
-    a command is executed.
-    """
-
-    def __getattr__(self, cmdname):
-        try:
-            return SourceRunner(cmdname, self.command_catalog[cmdname],
-                                self.cli_cache)
-        except KeyError as exc:
-            raise CommandNotFound(cmdname, exc) from exc
-
-
-class CLIHelperFile(CLIHelperBase):
-    """
-    This is used when we want the return value of a command to be a path to a
-    file containing the return value of executing that command.
-
-    This will do one of two things; if the command output originates from a
-    file e.g. a sosreport command output file, it will return the path to that
-    file. If the command is executed as a binary, its output is written to a
-    temporary file and the path to that file is returned.
-    """
-
-    def __init__(self, *args, delete_temp=True, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.delete_temp = delete_temp
-        self._tmp_file_mtime = None
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args, **kwargs):
-        do_delete = (self.delete_temp or
-                     self._tmp_file_mtime ==
-                     os.path.getmtime(self.output_file))
-        if do_delete:
-            os.remove(self.output_file)
-
-        # We want exceptions to be raised
-        return False
-
-    @cached_property
-    def output_file(self):
-        path = tempfile.mktemp(dir=HotSOSConfig.plugin_tmp_dir)
-        pathlib.Path(path).touch()
-        self._tmp_file_mtime = os.path.getmtime(path)
-        return path
-
-    def __getattr__(self, cmdname):
-        try:
-            ret = SourceRunner(cmdname, self.command_catalog[cmdname],
-                               self.cli_cache, output_file=self.output_file)
-            return ret
-        except KeyError as exc:
-            raise CommandNotFound(cmdname, exc) from exc
-
-        return None

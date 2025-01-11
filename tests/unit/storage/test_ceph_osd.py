@@ -2,6 +2,7 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
+from hotsos.core.host_helpers.cli.catalog import CmdOutput
 from hotsos.core.plugins.storage import ceph
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import (
@@ -52,20 +53,20 @@ class TestCephOSDChecks(StorageCephOSDTestsBase):
         release_name = ceph.common.CephChecks().release_name
         self.assertEqual(release_name, 'octopus')
 
-    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    @mock.patch('hotsos.core.host_helpers.cli.catalog.DateFileCmd.format_date')
     def test_release_eol(self, mock_date):
         # 2030-04-30
-        mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
+        mock_date.return_value = CmdOutput('1903748400')
 
         base = ceph.common.CephChecks()
 
         self.assertEqual(base.release_name, 'octopus')
         self.assertLessEqual(base.days_to_eol, 0)
 
-    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    @mock.patch('hotsos.core.host_helpers.cli.catalog.DateFileCmd.format_date')
     def test_release_not_eol(self, mock_date):
         # 2030-01-01
-        mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
+        mock_date.return_value = CmdOutput('1893466800')
 
         base = ceph.common.CephChecks()
 

@@ -3,6 +3,7 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
+from hotsos.core.host_helpers.cli.catalog import CmdOutput
 import hotsos.core.plugins.openstack as openstack_core
 import hotsos.core.plugins.openstack.nova as nova_core
 import hotsos.core.plugins.openstack.neutron as neutron_core
@@ -285,20 +286,20 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         with mock.patch.object(base, 'installed_pkg_release_names', None):
             self.assertEqual(base.release_name, 'yoga')
 
-    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    @mock.patch('hotsos.core.host_helpers.cli.catalog.DateFileCmd.format_date')
     def test_get_release_eol(self, mock_date):
         # 2030-04-30
-        mock_date.return_value = host_helpers.cli.CmdOutput('1903748400')
+        mock_date.return_value = CmdOutput('1903748400')
 
         inst = openstack_core.OpenstackBase()
         self.assertEqual(inst.release_name, 'ussuri')
 
         self.assertLessEqual(inst.days_to_eol, 0)
 
-    @mock.patch('hotsos.core.host_helpers.cli.DateFileCmd.format_date')
+    @mock.patch('hotsos.core.host_helpers.cli.catalog.DateFileCmd.format_date')
     def test_get_release_not_eol(self, mock_date):
         # 2030-01-01
-        mock_date.return_value = host_helpers.cli.CmdOutput('1893466800')
+        mock_date.return_value = CmdOutput('1893466800')
 
         inst = openstack_core.OpenstackBase()
         self.assertEqual(inst.release_name, 'ussuri')

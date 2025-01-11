@@ -2,7 +2,7 @@ import re
 import subprocess
 from functools import cached_property
 
-from hotsos.core.host_helpers.cli import get_ps_axo_flags_available
+from hotsos.core.host_helpers.common import get_ps_axo_flags_available
 from hotsos.core.host_helpers import (
     CLIHelper,
     CLIHelperFile,

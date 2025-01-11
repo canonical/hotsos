@@ -3,7 +3,8 @@ import subprocess
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import cli as host_cli
+from hotsos.core.host_helpers.cli import cli as host_cli
+from hotsos.core.host_helpers.cli import catalog
 
 from .. import utils
 
@@ -38,7 +39,7 @@ class TestCLIHelper(utils.BaseTestCase):
         out = host_cli.CLIHelper().udevadm_info_dev(device='/dev/vdb')
         self.assertEqual(out, [])
 
-    @mock.patch.object(host_cli, 'subprocess')
+    @mock.patch.object(catalog, 'subprocess')
     def test_ps(self, mock_subprocess):
         path = os.path.join(HotSOSConfig.data_root, "ps")
         with open(path, 'r', encoding='utf-8') as fd:
@@ -91,7 +92,7 @@ class TestCLIHelper(utils.BaseTestCase):
             raise subprocess.CalledProcessError(1, 'ofctl')
 
         HotSOSConfig.data_root = '/'
-        with mock.patch.object(host_cli.subprocess, 'run') as \
+        with mock.patch.object(catalog.subprocess, 'run') as \
                 mock_run:
             mock_run.side_effect = fake_run
 
