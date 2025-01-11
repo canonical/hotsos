@@ -9,6 +9,7 @@ import tempfile
 from dataclasses import dataclass, field, fields
 from functools import cached_property
 
+import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.common import (
     CmdOutput,
@@ -75,6 +76,7 @@ class FileCmdBase(CmdBase):
     """
     path: str
     json_decode: bool = False
+    yaml_decode: bool = False
     singleline: bool = False
     decode_error_handling: str = None
 
@@ -88,6 +90,7 @@ class BinCmdBase(CmdBase):
     """ State used to execute a binary command. """
     cmd: str
     json_decode: bool = False
+    yaml_decode: bool = False
     singleline: bool = False
     cmd_extras: list = field(default_factory=lambda: [])
 
@@ -128,6 +131,9 @@ class BinCmd(BinCmdBase):
         if self.json_decode and not skip_json_decode:
             return CmdOutput(json.loads(output))
 
+        if self.yaml_decode:
+            return CmdOutput(yaml.safe_load(output))
+
         if self.singleline:
             return CmdOutput(output.strip())
 
@@ -164,6 +170,9 @@ class FileCmd(FileCmdBase):
         if self.json_decode:
             with open(self.path, encoding='utf-8') as fd:
                 output = json.load(fd)
+        elif self.yaml_decode:
+            with open(self.path, encoding='utf-8') as fd:
+                output = yaml.safe_.load(fd)
         else:
             output = []
             ln = 0
@@ -338,12 +347,14 @@ OFPROTOCOL_VERSIONS = [
 
 class OVSOFCtlBinCmd(BinCmd):
     """ Implementation of ovs-ofctl binary command. """
+    BIN_CMD = 'ovs-ofctl'
+
     def __call__(self, *args, **kwargs):
         """
         First try without specifying protocol version. If error is raised
         try with different versions until we get a result.
         """
-        self.cmd = f"ovs-ofctl {self.cmd}"
+        self.cmd = f"{self.BIN_CMD} {self.cmd}"
         try:
             return super().__call__(*args, **kwargs)
         except CLIExecError:
@@ -358,7 +369,7 @@ class OVSOFCtlBinCmd(BinCmd):
             log.debug("%s: trying again with protocol version %s",
                       self.__class__.__name__, ver)
             self.reset()
-            self.cmd = f"ovs-ofctl -O {ver} {self.cmd}"
+            self.cmd = f"{self.BIN_CMD} -O {ver} {self.cmd}"
             try:
                 return super().__call__(*args, **kwargs)
             except CLIExecError:
@@ -366,6 +377,12 @@ class OVSOFCtlBinCmd(BinCmd):
                           self.__class__.__name__, ver)
 
         return CmdOutput([])
+
+
+class SunbeamOVSOFCtlBinCmd(OVSOFCtlBinCmd):
+    """ Implementation of Sunbeam openstack-hypervisor.ovs-ofctl binary
+    command. """
+    BIN_CMD = 'openstack-hypervisor.ovs-ofctl'
 
 
 class OVSOFCtlFileCmd(FileCmd):
@@ -774,35 +791,66 @@ class CLIHelperBase(HostHelpersBase):
                          'ip_netns_exec_{namespace}_ip_-d_address_show')],
             'ovn_nbctl_show':
                 [BinCmd('ovn-nbctl --no-leader-only show'),
+                 BinCmd('openstack-hypervisor.'
+                        'ovn-nbctl --no-leader-only show'),
                  FileCmd('sos_commands/ovn_central/'
+                         'ovn-nbctl_--no-leader-only_show'),
+                 FileCmd('sos_commands/ovn_central/'
+                         'openstack-hypervisor.'
                          'ovn-nbctl_--no-leader-only_show'),
                  # sosreport < 4.5
                  FileCmd('sos_commands/ovn_central/ovn-nbctl_show')],
             'ovn_sbctl_show':
                 [BinCmd('ovn-sbctl --no-leader-only show'),
+                 BinCmd('openstack-hypervisor.'
+                        'ovn-sbctl --no-leader-only show'),
                  FileCmd('sos_commands/ovn_central/'
+                         'ovn-sbctl_--no-leader-only_show'),
+                 FileCmd('sos_commands/ovn_central/'
+                         'openstack-hypervisor.'
                          'ovn-sbctl_--no-leader-only_show'),
                  # sosreport < 4.5
                  FileCmd('sos_commands/ovn_central/ovn-sbctl_show')],
             'ovs_vsctl_get':
                 [BinCmd('ovs-vsctl get {table} {record} {column}',
                         singleline=True),
+                 BinCmd('openstack-hypervisor.'
+                        'ovs-vsctl get {table} {record} {column}',
+                        singleline=True),
                  FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_get_'
+                         '{table}_{record}_{column}', singleline=True),
+                 FileCmd('sos_commands/openvswitch/openstack-hypervisor.'
+                         'ovs-vsctl_-t_5_get_'
                          '{table}_{record}_{column}', singleline=True)],
             'ovs_vsctl_list':
                 [BinCmd('ovs-vsctl list {table}'),
+                 BinCmd('openstack-hypervisor.ovs-vsctl list {table}'),
                  FileCmd('sos_commands/openvswitch/'
-                         'ovs-vsctl_-t_5_list_{table}')],
+                         'ovs-vsctl_-t_5_list_{table}'),
+                 FileCmd('sos_commands/openvswitch/'
+                         'openstack-hypervisor.ovs-vsctl_-t_5_list_{table}')],
             'ovs_vsctl_list_br':
                 [BinCmd('ovs-vsctl list-br'),
-                 FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_list-br')],
+                 BinCmd('openstack-hypervisor.ovs-vsctl list-br'),
+                 FileCmd('sos_commands/openvswitch/ovs-vsctl_-t_5_list-br'),
+                 FileCmd('sos_commands/openvswitch/openstack-hypervisor.'
+                         'ovs-vsctl_-t_5_list-br')],
             'ovs_appctl':
                 [OVSAppCtlBinCmd('ovs-appctl {command} {flags} {args}'),
+                 OVSAppCtlBinCmd('openstack-hypervisor.'
+                                 'ovs-appctl {command} {flags} {args}'),
                  OVSAppCtlFileCmd('sos_commands/openvswitch/ovs-appctl_'
+                                  '{command}{flags}{args}'),
+                 OVSAppCtlFileCmd('sos_commands/openvswitch/'
+                                  'openstack-hypervisor.ovs-appctl_'
                                   '{command}{flags}{args}')],
             'ovs_ofctl':
                 [OVSOFCtlBinCmd('{command} {args}'),
+                 SunbeamOVSOFCtlBinCmd('{command} {args}'),
                  OVSOFCtlFileCmd('sos_commands/openvswitch/'
+                                 'ovs-ofctl{ofversion}_{command}_{args}'),
+                 OVSOFCtlFileCmd('sos_commands/openvswitch/'
+                                 'openstack-hypervisor.'
                                  'ovs-ofctl{ofversion}_{command}_{args}')],
             'pacemaker_crm_status':
                 [BinCmd('crm status'),
@@ -830,6 +878,14 @@ class CLIHelperBase(HostHelpersBase):
             'rabbitmqctl_report':
                 [BinCmd('rabbitmqctl report'),
                  FileCmd('sos_commands/rabbitmq/rabbitmqctl_report')],
+            'sunbeam_cluster_list':
+                [BinCmd('sunbeam cluster list'),
+                 FileCmd('sos_commands/sunbeam/sunbeam_cluster_list')],
+            'sunbeam_cluster_list_yaml_decoded':
+                [BinCmd('sunbeam cluster list --format yaml'),
+                 FileCmd('sos_commands/sunbeam/'
+                         'sunbeam_cluster_list_--format_yaml',
+                         yaml_decode=True)],
             'snap_list_all':
                 [BinCmd('snap list --all'),
                  FileCmd('sos_commands/snap/snap_list_--all'),

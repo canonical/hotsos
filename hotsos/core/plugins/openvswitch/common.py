@@ -6,8 +6,10 @@ from hotsos.core.host_helpers import (
     APTPackageHelper,
     InstallInfoBase,
     PebbleHelper,
+    SnapPackageHelper,
     SystemdHelper,
 )
+from hotsos.core.plugins.openstack.openstack import OST_SUNBEAM_SNAP_NAMES
 from hotsos.core.ycheck.events import EventCallbackBase, EventHandlerBase
 from hotsos.core.ycheck.common import GlobalSearcherAutoRegisterBase
 from hotsos.core.utils import sorted_dict
@@ -55,6 +57,9 @@ class OpenvSwitchInstallInfo(InstallInfoBase):
     systemd: SystemdHelper = field(default_factory=lambda:
                                    SystemdHelper(
                                             service_exprs=OVS_SERVICES_EXPRS))
+    snaps: SnapPackageHelper = field(default_factory=lambda:
+                                     SnapPackageHelper(
+                                            core_snaps=OST_SUNBEAM_SNAP_NAMES))
 
 
 class OpenvSwitchChecks(plugintools.PluginPartBase):
@@ -74,7 +79,11 @@ class OpenvSwitchChecks(plugintools.PluginPartBase):
         @return: True or False
         """
         # require at least one core package to be installed to run this plugin.
-        return len(OpenvSwitchInstallInfo().apt.core) > 0
+        if len(OpenvSwitchInstallInfo().apt.core) > 0:
+            return True
+
+        # This is to account for OpenStack Sunbeam
+        return len(OpenvSwitchInstallInfo().snaps.core) > 0
 
 
 class OpenvSwitchEventCallbackBase(EventCallbackBase):

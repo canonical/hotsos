@@ -32,7 +32,8 @@ K8S_PACKAGES = [r'cdk-addons',
                 r'kubelet',
                 r'kubeadm',
                 r'kubefed',
-                r'microk8s'
+                r'microk8s',
+                r'k8s',
                 ]
 # Packages that are used in a K8s deployment
 K8S_PACKAGE_DEPS = [r'charm[\S]+',
