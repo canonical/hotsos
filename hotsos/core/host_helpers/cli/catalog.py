@@ -372,6 +372,26 @@ class SunbeamOVSOFCtlBinCmd(OVSOFCtlBinCmd):
     BIN_CMD = 'openstack-hypervisor.ovs-ofctl'
 
 
+class KubectlLogsBinCmd(BinCmd):
+    """ Implementation for kubectl commands to allow providing different
+    variants. """
+
+    def __init__(self, cmd, *args, **kwargs):
+        cmd = cmd + ' --namespace {namespace} logs {pod} -c {container}'
+        super().__init__(cmd, *args, **kwargs)
+
+
+class KubectlLogsFileCmd(FileCmd):
+    """ Implementation for kubectl commands to allow providing different
+    variants. """
+
+    def __init__(self, path, *args, **kwargs):
+        path = ('sos_commands/kubernetes/cluster-info/{namespace}/'
+                'podlogs/{pod}/' + path + '_--namespace_{namespace}_'
+                'logs_{pod}_-c_{container}')
+        super().__init__(path, *args, **kwargs)
+
+
 class OVSOFCtlFileCmd(FileCmd):
     """ Implementation of ovs-ofctl file-based command. """
     def __call__(self, *args, **kwargs):
@@ -713,6 +733,18 @@ class CommandCatalog(UserDict):
             'ip_link':
                 [BinCmd('ip -s -d link'),
                  FileCmd('sos_commands/networking/ip_-s_-d_link')],
+            'kubectl_logs':
+                [KubectlLogsBinCmd('kubectl'),
+                 # MicroK8s
+                 KubectlLogsBinCmd('microk8s.kubectl'),
+                 # Canonical K8s
+                 KubectlLogsBinCmd('k8s kubectl'),
+                 # Native
+                 KubectlLogsFileCmd('kubectl'),
+                 # MicroK8s
+                 KubectlLogsFileCmd('microk8s_kubectl'),
+                 # Canonical K8s
+                 KubectlLogsFileCmd('k8s_kubectl')],
             'ls_lanR_sys_block':
                 [BinCmd('ls -lanR /sys/block/'),
                  FileCmd('sos_commands/block/ls_-lanR_.sys.block')],
