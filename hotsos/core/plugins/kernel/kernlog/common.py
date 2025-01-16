@@ -2,7 +2,12 @@ import abc
 import os
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import CLIHelper, HostNetworkingHelper
+from hotsos.core.host_helpers import (
+    CLIExecError,
+    CLIHelper,
+    CLIHelperFile,
+    HostNetworkingHelper,
+)
 from hotsos.core.search import (
     CommonTimestampMatcher,
     FileSearcher,
@@ -83,9 +88,60 @@ class TraceTypeBase(abc.ABC):
         """ Iterate over each call trace found. """
 
 
+class KernLogSource(CLIHelperFile):
+    """
+    We want to try different sources for kern logs. We implement CLIHelperFile
+    so that we can try the systemd journal first and fall back to other paths
+    if not successful.
+    """
+    def __init__(self):
+        super().__init__(catch_exceptions=False)
+        self.path = None
+        self.attempt = 0
+        self.fs_paths = ['var/log/kern.log',
+                         'sos_commands/logs/journalctl_--no-pager']
+        self.fs_paths = [os.path.join(os.path.join(HotSOSConfig.data_root, f))
+                         for f in self.fs_paths]
+
+    def __enter__(self):
+        if os.path.exists(os.path.join(HotSOSConfig.data_root,
+                                       'var/log/journal')):
+            try:
+                self.path = self.journalctl(opts='-k')
+                log.debug("using journal as source of kernlogs")
+            except CLIExecError:
+                log.info("Failed to get kernlogs from systemd journal. "
+                         "Trying fallback sources.")
+        else:
+            log.info("systemd journal not available. Trying fallback kernlog "
+                     "sources.")
+
+        if not self.path:
+            for path in self.fs_paths:
+                if os.path.exists(path):
+                    if path.endswith('kern.log') and HotSOSConfig.use_all_logs:
+                        self.path = f"{path}*"
+                    else:
+                        self.path = path
+
+                    log.debug("using %s as source of kernlogs", self.path)
+                    break
+            else:
+                paths = ', '.join(self.fs_paths)
+                log.warning("no kernlog sources found (tried %s and "
+                            "journal)", paths)
+
+        return self
+
+
 class KernLogBase():
     """ Base class for kernlog analysis implementations. """
     def __init__(self):
+        self.hostnet_helper = HostNetworkingHelper()
+        self.cli_helper = CLIHelper()
+
+    @staticmethod
+    def perform_search(searchdefs):
         try:
             constraint = SearchConstraintSearchSince(
                                          ts_matcher_cls=CommonTimestampMatcher)
@@ -94,14 +150,13 @@ class KernLogBase():
                         "calltrace checker: %s", exc)
             constraint = None
 
-        self.searcher = FileSearcher(constraint=constraint)
-        self.hostnet_helper = HostNetworkingHelper()
-        self.cli_helper = CLIHelper()
+        searcher = FileSearcher(constraint=constraint)
+        with KernLogSource() as kls:
+            if kls.path is None:
+                log.info("no kernlogs found")
+                return None
 
-    @property
-    def path(self):
-        path = os.path.join(HotSOSConfig.data_root, 'var/log/kern.log')
-        if HotSOSConfig.use_all_logs:
-            return f"{path}*"
+            for sd in searchdefs:
+                searcher.add(sd, kls.path)
 
-        return path
+            return searcher.run()

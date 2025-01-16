@@ -7,10 +7,8 @@ class KernLogEvents(KernLogBase):
     """ Kern log events info. """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for event in [self.over_mtu_dropped_packets_search_def]:
-            self.searcher.add(event, self.path)
-
-        self.results = self.searcher.run()
+        self.results = self.perform_search([
+                                     self.over_mtu_dropped_packets_search_def])
 
     @property
     def over_mtu_dropped_packets_search_def(self):
@@ -32,6 +30,9 @@ class KernLogEvents(KernLogBase):
         @return: dict of interfaces and an integer count of associated dropped
                  packet messages.
         """
+        if not self.results:
+            return {}
+
         interfaces = {}
         for r in self.results.find_by_tag('over-mtu-dropped'):
             if r.get(1) in interfaces:

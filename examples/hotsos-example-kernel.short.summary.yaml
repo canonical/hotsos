@@ -4,6 +4,3 @@ potential-issues:
       - Unattended upgrades are enabled which can lead to uncontrolled changes to
         this environment. If maintenance windows are required please consider disabling
         unattended upgrades.
-  kernel:
-    MemoryWarnings:
-      - 1 reports of oom-killer invoked in kern.log - please check.

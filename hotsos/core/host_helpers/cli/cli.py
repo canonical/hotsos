@@ -5,6 +5,7 @@ import os
 import pathlib
 import pickle
 import tempfile
+from dataclasses import dataclass, field
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
@@ -64,6 +65,9 @@ class JournalctlBinCmd(BinCmd, JournalctlBase):
 
     def format_journalctl_cmd(self, **kwargs):
         """ Add optional extras to journalctl command. """
+        if kwargs.get("opts"):
+            self.cmd = f"{self.cmd} {kwargs.get('opts')}"
+
         if kwargs.get("unit"):
             self.cmd = f"{self.cmd} --unit {kwargs.get('unit')}"
 
@@ -84,7 +88,13 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
         self.register_hook("pre-exec", self.preformat_sos_journalctl)
 
     def preformat_sos_journalctl(self, **kwargs):
-        self.path = f"journalctl -oshort-iso -D {self.path}"
+        default_opts = '-oshort-iso'
+        if kwargs.get("opts"):
+            self.path = (f"journalctl {default_opts} {kwargs.get('opts')} "
+                         f"-D {self.path}")
+        else:
+            self.path = f"journalctl {default_opts} -D {self.path}"
+
         if kwargs.get("unit"):
             self.path = f"{self.path} --unit {kwargs.get('unit')}"
 
@@ -94,27 +104,48 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
             self.path = f"{self.path} --since {self.since_date}"
 
 
+class CLICacheWrapper():
+    """ Wrapper for cli cache. """
+    def __init__(self, cache_load_f, cache_save_f):
+        self.load_f = cache_load_f
+        self.save_f = cache_save_f
+
+    def load(self, key):
+        return self.load_f(key)
+
+    def save(self, key, value):
+        return self.save_f(key, value)
+
+
+@dataclass
 class SourceRunner():
     """ Manager to control how we execute commands.
 
     Ensures that we try data sources in a consistent order.
+
+    @param cmdkey: unique key identifying this command.
+    @param sources: list of command source implementations.
+    @param cache: CLICacheWrapper object.
+    @param output_file: If a file path is provided the output of running a
+                        command is saved to that file.
+    @param catch_exceptions: By default we catch binary execution
+                             exceptions and return an exit code rather than
+                             allowing the exception to be raised. If not
+                             required this can be set to False.
     """
-    def __init__(self, cmdkey, sources, cache, output_file=None):
-        """
-        @param cmdkey: unique key identifying this command.
-        @param sources: list of command source implementations.
-        @param cache: CLICacheWrapper object.
-        """
-        self.cmdkey = cmdkey
-        self.sources = sources
-        self.cache = cache
-        self.output_file = output_file
+    cmdkey: str
+    sources: list
+    cache: CLICacheWrapper
+    output_file: str = field(default=None)
+    catch_exceptions: bool = field(default=True)
+
+    def __post_init__(self):
         # Command output can differ between CLIHelper and CLIHelperFile so we
         # need to cache them separately.
-        if output_file:
-            self.cache_cmdkey = f"{cmdkey}.file"
+        if self.output_file:
+            self.cache_cmdkey = f"{self.cmdkey}.file"
         else:
-            self.cache_cmdkey = cmdkey
+            self.cache_cmdkey = self.cmdkey
 
     def bsource(self, *args, **kwargs):
         # binary sources only apply if data_root is system root
@@ -146,6 +177,9 @@ class SourceRunner():
                 # as success.
                 break
             except CLIExecError as exc:
+                if not self.catch_exceptions:
+                    raise
+
                 bin_out = CmdOutput(exc.return_value)
 
         return bin_out
@@ -160,6 +194,9 @@ class SourceRunner():
                 return fsource(*args, **kwargs,
                                skip_load_contents=skip_load_contents)
             except CLIExecError as exc:
+                if not self.catch_exceptions:
+                    raise
+
                 return CmdOutput(exc.return_value)
             except SourceNotFound:
                 pass
@@ -202,19 +239,6 @@ class SourceRunner():
                 return self.output_file
 
         return out.value
-
-
-class CLICacheWrapper():
-    """ Wrapper for cli cache. """
-    def __init__(self, cache_load_f, cache_save_f):
-        self.load_f = cache_load_f
-        self.save_f = cache_save_f
-
-    def load(self, key):
-        return self.load_f(key)
-
-    def save(self, key, value):
-        return self.save_f(key, value)
 
 
 class CLIHelperBase(HostHelpersBase):
@@ -287,10 +311,12 @@ class CLIHelperFile(CLIHelperBase):
     temporary file and the path to that file is returned.
     """
 
-    def __init__(self, *args, delete_temp=True, **kwargs):
+    def __init__(self, *args, catch_exceptions=True, delete_temp=True,
+                 **kwargs):
         super().__init__(*args, **kwargs)
         self.delete_temp = delete_temp
         self._tmp_file_mtime = None
+        self._catch_exceptions = catch_exceptions
 
     def __enter__(self):
         return self
@@ -315,7 +341,8 @@ class CLIHelperFile(CLIHelperBase):
     def __getattr__(self, cmdname):
         try:
             ret = SourceRunner(cmdname, self.command_catalog[cmdname],
-                               self.cli_cache, output_file=self.output_file)
+                               self.cli_cache, output_file=self.output_file,
+                               catch_exceptions=self._catch_exceptions)
             return ret
         except KeyError as exc:
             raise CommandNotFound(cmdname, exc) from exc
