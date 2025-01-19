@@ -91,7 +91,7 @@ class KubernetesBase():
         pods_path = os.path.join(HotSOSConfig.data_root,
                                  "var/log/pods")
         mk8s_pods_path = os.path.join(HotSOSConfig.data_root,
-                                      MICROK8S_COMMON, '/var/log/pods')
+                                      MICROK8S_COMMON, 'var/log/pods')
         for path in [pods_path, mk8s_pods_path]:
             if os.path.exists(path):
                 for pod in os.listdir(path):
