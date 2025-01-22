@@ -1,4 +1,8 @@
+import os
 import json
+import logging
+import tempfile
+from unittest import mock
 
 from hotsos.client import OutputManager, OutputBuilder
 from hotsos.core.host_helpers.cli import CLIHelper
@@ -315,3 +319,24 @@ plain value
         expected = htmlout.header + HTML3 + htmlout.footer
         filtered = OutputManager(summary).get_builder().to(fmt="html")
         self.assertEqual(filtered, expected)
+
+
+class TestOutputManagerLogile(utils.BaseTestCase):
+    """
+    Tests for OutputManager log file handling.
+    """
+
+    def test_compressed_logfile(self):
+        with tempfile.NamedTemporaryFile(delete=False) as ftmp:
+            with mock.patch('hotsos.client.log.handlers',
+                            [logging.FileHandler(ftmp.name)]):
+                summary = {'opt': 'value'}
+                with tempfile.TemporaryDirectory() as dtmp:
+                    path = OutputManager(summary).save('testplugin',
+                                                       output_path=dtmp)
+                    self.assertEqual(path, dtmp)
+                    logpath = os.path.join(dtmp, 'testplugin', 'hotsos.log.gz')
+                    self.assertTrue(os.path.exists(logpath))
+
+            # Will have been deleted by compress()
+            self.assertFalse(os.path.exists(ftmp.name))
