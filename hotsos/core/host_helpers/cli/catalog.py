@@ -804,6 +804,7 @@ class CommandCatalog(UserDict):
                  BinCmd('openstack-hypervisor.ovs-vsctl list {table}'),
                  FileCmd('sos_commands/openvswitch/'
                          'ovs-vsctl_-t_5_list_{table}'),
+                 FileCmd('sos_commands/ovn_host/ovs-vsctl_list_{table}'),
                  FileCmd('sos_commands/openvswitch/'
                          'openstack-hypervisor.ovs-vsctl_-t_5_list_{table}')],
             'ovs_vsctl_list_br':
