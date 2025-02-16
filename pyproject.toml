@@ -1,6 +1,19 @@
+# This is a templated file and must be kept up-to-date with the original
+# from upstream at https://github.com/canonical/se-tooling-ci-common.
 [build-system]
 requires = ["setuptools", "wheel", "setuptools-git-versioning"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "hotsos"
+description = "Software analysis toolkit. Define checks in high-level language and leverage library to perform analysis of common Cloud applications."
+readme = "README.md"
+requires-python = ">=3.8"
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools.packages.find]
+include = ["hotsos*"]
+exclude = ["tests*"]
 
 [tool.setuptools-git-versioning]
 enabled = true
@@ -13,13 +26,6 @@ dev_template = "{tag}.post{ccount}"
 
 # Used if untracked files exist or uncommitted changes have been made.
 dirty_template = "{tag}.post{ccount}+dirty"
-
-[project]
-name = "hotsos"
-description = "Software analysis toolkit. Define checks in high-level language and leverage library to perform analysis of common Cloud applications."
-readme = "README.md"
-requires-python = ">=3.8"
-dynamic = ["version", "dependencies"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
