@@ -11,7 +11,6 @@ from hotsos.core.ycheck.engine import (
     YDefsSection,
 )
 from hotsos.core.ycheck.common import GlobalSearcherPreloaderBase
-from hotsos.core.ycheck.engine.properties import search
 from hotsos.core.exceptions import (
     NotEnoughParametersError,
     AlreadyLoadedError,
@@ -307,61 +306,83 @@ class EventsSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
     object and execute the search before running any event callbacks.
     """
 
-    @staticmethod
-    def skip_filtered(path):
-        e_filter = HotSOSConfig.event_filter
-        if e_filter and path != e_filter:
-            log.info("skipping event %s (filter=%s)", path, e_filter)
-            return True
-
-        return False
-
-    def preload_searches(self, global_searcher, group=None):
+    def __init__(self, *args, group=None, **kwargs):
         """
-        Find all events that have a search property and load their search into
-        the global searcher.
-
-        @param global_searcher: GlobalSearcher object
         @param group: a group path can be provided to filter a subset of
                       items.
         """
-        if global_searcher.is_loaded(self.__class__.__name__):
+        super().__init__(*args, **kwargs)
+        self.event_group = group
+
+    @property
+    def filter(self):
+        return HotSOSConfig.event_filter
+
+    @cached_property
+    def root(self):
+        """ Return the root of all scenarios. """
+        plugin_defs = YDefsLoader('events',
+                                  filter_path=self.event_group).plugin_defs
+        return YDefsSection(HotSOSConfig.plugin_name, plugin_defs or {})
+
+    @property
+    def events(self):
+        """
+        Generator for all events.
+
+        Searches are expected to exist within checks so we extract them from
+        each event and discover their searches.
+
+        @return: event
+        """
+        for event in self.root.leaf_sections:
+            # NOTE: event is not an override object, it is a PTreeSection
+            # that contains the objects i.e. we go looking for the checks etc
+            # within this scenario (sub)section.
+            if self.skip_filtered(self.filter, event.resolve_path):
+                log.info("skipping event %s from pre-search "
+                         "(filter=%s)", event.resolve_path, self.filter)
+                continue
+
+            yield event
+
+    def _preload_searches(self):
+        """
+        Find all events that have a search property and load their search into
+        the global searcher.
+        """
+        if self.global_searcher.is_loaded(self.__class__.__name__):
             raise AlreadyLoadedError(
                 "event searches have already been loaded into the "
                 "global searcher. This operation can only be "
                 "performed once.")
 
-        log.debug("started loading (group=%s) searches into searcher "
-                  "(%s)", group, global_searcher.searcher)
+        log.debug("started loading event (group_filter=%s) searches into "
+                  "searcher (%s)", self.event_group,
+                  self.global_searcher.searcher)
 
-        plugin_defs = YDefsLoader('events', filter_path=group).plugin_defs
-        root = YDefsSection(HotSOSConfig.plugin_name, plugin_defs or {})
         added = 0
-        for prop in root.manager.properties.values():
-            if not issubclass(prop[0]['cls'], search.YPropertySearch):
+        for event in self.events:
+            if self.skip_filtered(self.filter, event.resolve_path):
+                log.info("skipping event %s from pre-search (filter=%s)",
+                         event.resolve_path, self.filter)
                 continue
 
-            for item in prop:
-                parent = self._find_search_prop_parent(root, item['path'])
-                if self.skip_filtered(parent.resolve_path):
-                    log.debug("skipping item %s", parent.resolve_path)
-                    continue
+            added += 1
+            self._load_item_search(self.global_searcher, event.search,
+                                   event.input)
 
-                added += 1
-                self._load_item_search(global_searcher, parent.search,
-                                       parent.input)
-
-        global_searcher.set_loaded(self.__class__.__name__)
+        self.global_searcher.set_loaded(self.__class__.__name__)
         log.debug("identified a total of %s event check searches", added)
         log.debug("finished loading event searches into searcher "
-                  "(registry now has %s items)", len(global_searcher))
+                  "(registry now has %s items)", len(self.global_searcher))
 
-    def run(self, group=None):
+    def run(self):
         log.debug("registered event callbacks:\n%s", '\n'.
                   join(CALLBACKS.keys()))
 
         # Pre-load all event searches into a global searcher
-        self.preload_searches(self.global_searcher, group=group)
+        self._preload_searches()
 
 
 class EventHandlerBase(YHandlerBase, EventProcessingUtils):
@@ -386,10 +407,14 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
                      self.event_group)
             # NOTE: this is not re-entrant safe and is only ever expected
             #       to be done from a unit test.
-            EventsSearchPreloader(self.global_searcher).run(
-                                                        group=self.event_group)
+            EventsSearchPreloader(self.global_searcher,
+                                  group=self.event_group).run()
 
         self._event_results = None
+
+    @property
+    def filter(self):
+        return HotSOSConfig.event_filter
 
     @staticmethod
     def meets_requirements(item):
@@ -423,7 +448,10 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
         _events = {}
         for event in group.leaf_sections:
-            if EventsSearchPreloader.skip_filtered(event.resolve_path):
+            if EventsSearchPreloader.skip_filtered(self.filter,
+                                                   event.resolve_path):
+                log.info("skipping event %s (filter=%s)", event.resolve_path,
+                         HotSOSConfig.event_filter)
                 continue
 
             if not self.meets_requirements(event):

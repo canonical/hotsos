@@ -4,11 +4,15 @@ from unittest import mock
 
 from propertree.propertree2 import OverrideRegistry
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.exceptions import NotYetInitializedError
 from hotsos.core.host_helpers.config import IniConfigBase
 from hotsos.core.issues import IssuesManager
 from hotsos.core.issues.utils import IssuesStore
 from hotsos.core.search import ExtraSearchConstraints, FileSearcher, SearchDef
 from hotsos.core.ycheck import scenarios
+from hotsos.core.ycheck.engine.properties.checks import (
+    YPropertyChecks,
+)
 from hotsos.core.ycheck.engine.properties.conclusions import (
     YPropertyConclusion,
 )
@@ -40,6 +44,30 @@ class TestProperty():
 
 class TestConfig(IniConfigBase):
     """ Test config """
+
+
+class TestYamlScenariosPreLoad(utils.BaseTestCase):
+    """
+    Tests scenarios search pre-load functionality.
+    """
+    @utils.init_test_scenario(test_data.SCENARIO_W_EXPR_LIST.
+                              format(path='data.txt'))
+    @utils.global_search_context
+    def test_scenario_search_preload(self, global_searcher):
+        spl = scenarios.ScenariosSearchPreloader(global_searcher)
+        self.assertEqual(len(list(spl.scenarios)), 1)
+        self.assertEqual([s.name for s in spl.scenarios], ['test'])
+        checks = list(spl.scenarios)[0].checks
+        # raises error because not yet initialised
+        self.assertRaises(NotYetInitializedError, lambda: list(checks))
+        spl.run()
+        # is now initialised so no more error
+        self.assertEqual(len(list(checks)), 3)
+        for scenario in spl.scenarios:
+            self.assertTrue(isinstance(scenario.checks, YPropertyChecks))
+            check_names = [c.name for c in scenario.checks]
+            self.assertListEqual(check_names, ['listsearch1', 'listsearch2',
+                                               'listsearch3'])
 
 
 class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-public-methods
@@ -421,7 +449,17 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                               'myscenario')
     @utils.global_search_context
     def test_scenarios_filter_myscenario(self, global_searcher):
-        HotSOSConfig.scenario_filter = 'myplugin.scenariogroup.myscenario'
+        HotSOSConfig.scenario_filter = ('myplugin.scenariogroup.subgroup.'
+                                        'myscenario')
+        sc = scenarios.YScenarioChecker(global_searcher)
+        sc.load()
+        self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
+
+    @utils.init_test_scenario(test_data.NESTED_LOGIC_TEST_W_ISSUE,
+                              'myscenario')
+    @utils.global_search_context
+    def test_scenarios_filter_myscenario_regex(self, global_searcher):
+        HotSOSConfig.scenario_filter = 'myplugin.scenariogroup.subgroup.*'
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])

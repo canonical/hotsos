@@ -1,3 +1,5 @@
+from functools import cached_property
+
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager, HotSOSScenariosWarning
 from hotsos.core.log import log
@@ -8,7 +10,6 @@ from hotsos.core.ycheck.engine import (
 )
 from hotsos.core.ycheck.engine.properties.common import YDefsContext
 from hotsos.core.ycheck.common import GlobalSearcherPreloaderBase
-from hotsos.core.ycheck.engine.properties import checks
 from hotsos.core.exceptions import AlreadyLoadedError
 
 
@@ -20,72 +21,79 @@ class ScenariosSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
     @param global_searcher: GlobalSearcher object
     """
 
-    @staticmethod
-    def skip_filtered(path):
-        if (HotSOSConfig.scenario_filter and
-                path != HotSOSConfig.scenario_filter):
-            log.info("skipping scenario %s (filter=%s)", path,
-                     HotSOSConfig.scenario_filter)
-            return True
+    @property
+    def filter(self):
+        return HotSOSConfig.scenario_filter
 
-        return False
+    @cached_property
+    def root(self):
+        """ Return the root of all scenarios. """
+        plugin_defs = YDefsLoader('scenarios').plugin_defs
+        return YDefsSection(HotSOSConfig.plugin_name, plugin_defs or {})
 
-    def preload_searches(self, global_searcher):
+    @property
+    def scenarios(self):
+        """
+        Generator for all scenarios.
+
+        Searches are expected to exist within checks so we extract them from
+        each scenario and discover their searches.
+
+        @return: scenario
+        """
+        for scenario in self.root.leaf_sections:
+            # NOTE: scenario is not an override object, it is a PTreeSection
+            # that contains the objects i.e. we go looking for the checks etc
+            # within this scenario (sub)section.
+            if self.skip_filtered(self.filter, scenario.resolve_path):
+                log.info("skipping scenario %s from pre-search "
+                         "(filter=%s)", scenario.resolve_path, self.filter)
+                continue
+
+            yield scenario
+
+    def _preload_searches(self):
         """
         Find all scenario checks that have a search property and load their
         search into the global searcher.
         """
-        if global_searcher.is_loaded(self.__class__.__name__):
+        if self.global_searcher.is_loaded(self.__class__.__name__):
             raise AlreadyLoadedError(
                 "scenario searches have already been loaded into "
                 "the global searcher. This operation can only be "
                 "performed once.")
 
         log.debug("started loading scenario searches into searcher "
-                  "(%s)", global_searcher.searcher)
+                  "(%s)", self.global_searcher.searcher)
         added = 0
-        plugin_defs = YDefsLoader('scenarios').plugin_defs
-        root = YDefsSection(HotSOSConfig.plugin_name, plugin_defs or {})
-        for prop in root.manager.properties.values():
-            if not issubclass(prop[0]['cls'], checks.YPropertyChecks):
-                continue
+        for scenario in self.scenarios:
+            checks = scenario.checks
+            log.debug("looking for searches in %s", checks.override_path)
+            # this is needed to resolve search expression references
+            checks.initialise(scenario.vars)
+            for check in checks:
+                if check.search is None:
+                    continue
 
-            for item in prop:
-                log.debug("looking for searches in %s", item['path'])
+                # Checks can use input outside their scope so we
+                # take that into account here.
+                _input = check.input
+                if _input is None:
+                    _input = scenario.input
 
-                # Walk down to the checks property and keep ref to parent.
-                parent = None
-                _checks = None
-                for branch in item['path'].split('.')[1:]:
-                    parent = _checks or root
-                    _checks = getattr(root if _checks is None else _checks,
-                                      branch)
+                log.debug("loading search for check '%s'", check.name)
+                added += 1
+                self._load_item_search(self.global_searcher, check.search,
+                                       _input)
 
-                # this is needed to resolve search expression references
-                _checks.initialise(parent.vars)
-                for check in _checks:
-                    if check.search is None:
-                        continue
-
-                    # Checks can use input outside their scope so we
-                    # take that into account here.
-                    _input = check.input
-                    if _input is None:
-                        _input = parent.input
-
-                    log.debug("loading search for check '%s'", check.name)
-                    added += 1
-                    self._load_item_search(global_searcher, check.search,
-                                           _input)
-
-        global_searcher.set_loaded(self.__class__.__name__)
+        self.global_searcher.set_loaded(self.__class__.__name__)
         log.debug("identified a total of %s scenario check searches", added)
         log.debug("finished loading scenario searches into searcher "
-                  "(registry now has %s items)", len(global_searcher))
+                  "(registry now has %s items)", len(self.global_searcher))
 
     def run(self):
         # Pre-load all scenario check searches into a global searcher
-        self.preload_searches(self.global_searcher)
+        self._preload_searches()
 
 
 class Scenario():
@@ -132,6 +140,10 @@ class YScenarioChecker(YHandlerBase):
             #       to be done from a unit test.
             ScenariosSearchPreloader(self.global_searcher).run()
 
+    @property
+    def filter(self):
+        return HotSOSConfig.scenario_filter
+
     def load(self):
         plugin_content = YDefsLoader('scenarios').plugin_defs
         if not plugin_content:
@@ -152,9 +164,11 @@ class YScenarioChecker(YHandlerBase):
 
         to_skip = set()
         for scenario in yscenarios.leaf_sections:
-            fullname = (f"{HotSOSConfig.plugin_name}.{scenario.parent.name}."
-                        f"{scenario.name}")
-            if ScenariosSearchPreloader.skip_filtered(fullname):
+            if ScenariosSearchPreloader.skip_filtered(self.filter,
+                                                      scenario.resolve_path):
+                log.info("skipping scenario %s (filter=%s)",
+                         scenario.resolve_path,
+                         HotSOSConfig.scenario_filter)
                 continue
 
             # Only register scenarios if requirements are satisfied.

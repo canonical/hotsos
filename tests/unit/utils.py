@@ -463,10 +463,10 @@ def init_test_scenario(yaml_contents, scenario_name=None):
                 HotSOSConfig.plugin_yaml_defs = dtmp
                 HotSOSConfig.plugin_name = 'myplugin'
                 yroot = os.path.join(dtmp, 'scenarios', 'myplugin',
-                                     'scenariogroup')
+                                     'scenariogroup', 'subgroup')
+                os.makedirs(yroot)
                 sname = scenario_name or 'test'
                 yfile = os.path.join(yroot, f'{sname}.yaml')
-                os.makedirs(os.path.dirname(yfile))
                 with open(yfile, 'w', encoding='utf-8') as fd:
                     fd.write(yaml_contents)
                 return f(*args, **kwargs)

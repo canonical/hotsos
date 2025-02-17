@@ -1,5 +1,6 @@
 import abc
 import contextlib
+import re
 from collections import UserDict
 
 from hotsos.core.log import log
@@ -234,13 +235,15 @@ class GlobalSearcherPreloaderBase():
                                           allow_constraints=allow_constraints)
 
     @staticmethod
-    @abc.abstractmethod
-    def skip_filtered(path):
-        pass
+    def skip_filtered(path_filter, path):
+        if not path_filter:
+            return False
+
+        return re.match(fr"^{path_filter}", path) is None
 
     @abc.abstractmethod
-    def preload_searches(self, global_searcher):
-        pass
+    def _preload_searches(self):
+        """ Discover searches and load them into the global searcher. """
 
 
 class GlobalSearcherAutoRegisterMeta(type):

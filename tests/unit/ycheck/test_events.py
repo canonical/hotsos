@@ -9,6 +9,7 @@ from hotsos.core.ycheck.events import (
     EventCallbackBase,
     EventCallbackNotFound,
     EventProcessingUtils,
+    EventsSearchPreloader,
 )
 
 from .. import utils
@@ -90,6 +91,30 @@ myplugin:
         expr: '^foo'
         hint: '.+'
 """  # noqa
+
+
+class TestYamlEventsPreLoad(utils.BaseTestCase):
+    """
+    Tests events search pre-load functionality.
+    """
+    @utils.create_data_root({'data.txt': 'hello\nbrave\nworld\n',
+                             'events/myplugin/mygroup.yaml':
+                             EVENT_DEF_MULTI_SEARCH.format(path='data.txt')})
+    @utils.global_search_context
+    def test_events_search_preload(self, global_searcher):
+        HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
+        HotSOSConfig.plugin_name = 'myplugin'
+        spl = EventsSearchPreloader(global_searcher)
+        events = list(spl.events)
+        self.assertEqual(len(events), 5)
+        spl.run()
+        self.assertListEqual([e.name for e in spl.events],
+                             ['my-sequence-search', 'my-passthrough-search',
+                              'my-pass-search', 'my-fail-search1',
+                              'my-fail-search2'])
+        for e in spl.events:
+            for path in e.input.paths:
+                self.assertEqual(os.path.basename(path), 'data.txt*')
 
 
 class TestYamlEvents(utils.BaseTestCase):
