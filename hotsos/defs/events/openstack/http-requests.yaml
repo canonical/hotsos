@@ -7,3 +7,11 @@ neutron:
       # the summary so restrict to most recent.
       disable-all-logs: true
   expr: '([\d-]+) [\d:]+\.\d{3} .+ neutron.wsgi .+ "(GET|POST|PUT|DELETE)'
+nova:
+  input:
+    path: 'var/log/apache2/nova-api-os-compute_access.log'
+    options:
+      # If we do this for all logs the output will overwhelm
+      # the summary so restrict to most recent.
+      disable-all-logs: true
+  expr: '.+(\d{2}/\w{3,5}/\d{4}).+ "(GET|POST|PUT|DELETE)'

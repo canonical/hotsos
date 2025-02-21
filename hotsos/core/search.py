@@ -137,6 +137,9 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         # should match plugins.openstack.openstack.OpenstackDateTimeMatcher
         openstack = (r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})+\s+'
                      r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)')
+        apache = (r'^[\d.]+[\s-]+\[(?P<day>\d{2})/(?P<month>\w{3,5})/'
+                  r'(?P<year>\d{4}):(?P<hours>\d{2}):(?P<minutes>\d{2}):'
+                  r'(?P<seconds>\d+)\s+\+\d+\]')
         # since they are identical we wont add but leaving in case we want to.
         # edit later.
         # juju = openstack
@@ -148,7 +151,7 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         # openvswitch = ceph
         kernlog = (r'^(?P<month>\w{3,5})\s+(?P<day>\d{1,2})\s+'
                    r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d{2})')
-        return [openstack, ceph, kernlog]
+        return [openstack, ceph, kernlog, apache]
 
 
 class ExtraSearchConstraints():

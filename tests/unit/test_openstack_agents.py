@@ -91,6 +91,17 @@ OVN_OVSDB_ABORTED_TRANSACTIONS = """
 2023-12-12 23:45:05.716 3607984 INFO neutron.plugins.ml2.drivers.ovn.mech_driver.ovsdb.impl_idl_ovn [req-ec21f612-a85f-4f7b-aef8-4cd81cc372b8 - - - - -] Transaction aborted. Reason: OVN revision number for 28db1807-5fdf-4e9e-9c19-8d3be7be299e (type: ports) is equal or higher than the given resource. Skipping update
 """ # noqa
 
+# NOTE: first log line is intentionally old so that constraint filters it out.
+NOVA_REST_API = """
+127.0.0.1 - - [27/Dec/2021:00:00:10 +0000] "GET /v2.1/servers/detail?name=juju-.%2A HTTP/1.1" 200 40168 "-" "goose (0.1.0)"
+127.0.0.1 - - [25/Dec/2024:00:00:15 +0000] "GET /v2.1/flavors/511b3962-e5fd-4f34-a342-adf51c388d4a/os-flavor-access HTTP/1.1" 200 1100 "-" "HashiCorp Terraform/1.9.5 (+https://www.terraform.io) Terraform Plugin SDK/v2.30.0 Terraform Provider OpenStack/3.0.0 HashiCorp-terraform-exec/0.16.1 gophercloud/v2.1.1"
+127.0.0.1 - - [26/Dec/2024:00:00:11 +0000] "POST /v2.1/os-server-external-events HTTP/1.1" 200 641 "-" "python-novaclient"
+127.0.0.1 - - [27/Dec/2024:00:00:15 +0000] "GET /v2.1/flavors/9af6e698-fd0d-4687-aa47-d53ebf80efc5/os-flavor-access HTTP/1.1" 200 1101 "-" "HashiCorp Terraform/1.9.5 (+https://www.terraform.io) Terraform Plugin SDK/v2.30.0 Terraform Provider OpenStack/3.0.0 HashiCorp-terraform-exec/0.16.1 gophercloud/v2.1.1"
+127.0.0.1 - - [27/Dec/2024:00:00:16 +0000] "GET /v2.1/flavors/a7317d1a-247e-4509-8a53-9a20b9c91be1/os-flavor-access HTTP/1.1" 200 2453 "-" "HashiCorp Terraform/1.9.5 (+https://www.terraform.io) Terraform Plugin SDK/v2.30.0 Terraform Provider OpenStack/3.0.0 HashiCorp-terraform-exec/0.16.1 gophercloud/v2.1.1"
+127.0.0.1 - - [27/Dec/2024:00:00:11 +0000] "GET /v2.1/servers/cd3fb57b-9f28-422f-9a0c-d56dfb89ee94 HTTP/1.1" 200 3984 "-" "python-novaclient"
+127.0.0.1 - - [27/Dec/2024:00:00:12 +0000] "GET /v2.1/os-quota-sets/ebb09221230f4d3eb0969d2755046fe1 HTTP/1.1" 200 829 "-" "HashiCorp Terraform/1.9.5 (+https://www.terraform.io) Terraform Plugin SDK/v2.30.0 Terraform Provider OpenStack/3.0.0 HashiCorp-terraform-exec/0.16.1 gophercloud/v2.1.1"
+""".split('\n')[1:]  # noqa
+
 
 class TestOpenstackAgentEvents(TestOpenstackBase):
     """ Unit tests for OpenStack agent event checks. """
@@ -334,6 +345,34 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                                        'POST': 4,
                                                        'DELETE': 5}}}}
         self.assertEqual(actual['api-info'], expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('http-requests.yaml',
+                                        'events/openstack'))
+    @utils.create_data_root({'var/log/apache2/'
+                             'nova-api-os-compute_access.log.2.gz':
+                             '\n'.join(NOVA_REST_API[:2]),
+                             'var/log/apache2/'
+                             'nova-api-os-compute_access.log.1.gz':
+                             '\n'.join(NOVA_REST_API[2:3]),
+                             'var/log/apache2/nova-api-os-compute_access.log':
+                             '\n'.join(NOVA_REST_API[3:])},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_nova_http_requests(self):
+        expected = {}
+        with GlobalSearcher() as searcher:
+            inst = agent.events.APIEvents(searcher)
+            actual = self.part_output_to_actual(inst.output)
+            expected = {'api-info': {
+                            'http-requests': {
+                                'nova': {
+                                    '2024-12-27': {
+                                        'GET': 4}
+                                    }
+                                }
+                            }
+                        }
+            self.assertEqual(actual, expected)
 
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVSDBAPP_LEADER_CHANGING})

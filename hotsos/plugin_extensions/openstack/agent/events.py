@@ -100,15 +100,23 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
 
 
 class APIEventsCallback(OpenstackEventCallbackBase):
-    """ Implements Nova API events callback. """
+    """ Implements OpenStack REST API events callback. """
     event_group = 'http-requests'
-    event_names = ['neutron']
+    event_names = ['neutron', 'nova']
 
     def __call__(self, event):
         results = [{'date': r.get(1),
                     'key': r.get(2)} for r in event.results]
         ret = self.categorise_events(event, results=results)
         if ret:
+            if event.name == 'nova':
+                newdict = {}
+                for key, value in ret.items():
+                    d = datetime.datetime.strptime(key, '%d/%b/%Y')
+                    newdict[d.strftime("%Y-%m-%d")] = value
+
+                ret = newdict
+
             return ret
 
         return None
