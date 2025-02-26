@@ -6,6 +6,7 @@ from . import (  # noqa: F401
     landscape,
     lxd,
     maas,
+    microcloud,
     mysql,
     openstack,
     openvswitch,

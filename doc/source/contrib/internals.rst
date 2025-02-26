@@ -13,6 +13,7 @@ Hotsos supports the following plugins to cover common cloud applications as well
 * `kubernetes <https://kubernetes.io/>`_
 * `lxd <https://canonical.com/lxd>`_
 * `maas <https://maas.io/>`_
+* `microcloud <https://canonical.com/microcloud>`_
 * `mysql <https://dev.mysql.com/doc/refman/8.0/en/mysql-innodb-cluster-introduction.html>`_
 * `openstack <https://www.openstack.org/>`_
 * `openvswitch <https://www.openvswitch.org/>`_ (includes `ovn <https://www.ovn.org/en/>`_)
