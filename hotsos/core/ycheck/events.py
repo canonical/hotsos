@@ -83,11 +83,30 @@ class EventProcessingUtils():
 
     @dataclass()
     class EventProcessingOptions:
-        """Common options for EventProcessingUtils functions."""
+        """Common options for EventProcessingUtils functions.
+
+        @param key_by_date: by default results are categorised by date but in
+                            situations where a small number of event types
+                            (keys) are spread across many dates/times it might
+                            make sense to categorise by event type.
+        @param include_time: If true events will be categorised by time beneath
+                             date to provide an extra level of granularity.
+        @param squash_if_none_keys: If true and any key is found to be None
+                                    (perhaps because a regex pattern did not
+                                    match properly) the results for each date
+                                    will be squashed to a number/count of
+                                    events.
+        @param max_results_per_date: an integer such that if key_by_date is
+                                     True this will pick the top N entries
+                                     with the highest count.
+        @param tally_value_limit_min: If provided, only tally values greater
+                                      than this will be included.
+        """
         key_by_date: bool = True
         include_time: bool = False
         squash_if_none_keys: bool = False
         max_results_per_date: int = None
+        tally_value_limit_min: int = None
 
     @classmethod
     def _get_event_results(cls, event):
@@ -144,6 +163,10 @@ class EventProcessingUtils():
     @classmethod
     def _get_tally(cls, result, info, options: EventProcessingOptions):
         key, value = cls._get_tally_keys(options, result)
+        if (options.tally_value_limit_min is not None and
+                int(value) <= options.tally_value_limit_min):
+            return
+
         if key not in info:
             info[key] = {}
 
@@ -234,20 +257,6 @@ class EventProcessingUtils():
         @param event: EventCheckResult object
         @param results: optional list of results where each item is a dict with
                         keys 'date', 'key' and optionally 'time'.
-        @param key_by_date: by default results are categorised by date but in
-                            situations where a small number of event types
-                            (keys) are spread across many dates/times it might
-                            make sense to categorise by event type.
-        @param include_time: If true events will be categorised by time beneath
-                             date to provide an extra level of granularity.
-        @param squash_if_none_keys: If true and any key is found to be None
-                                    (perhaps because a regex pattern did not
-                                    match properly) the results for each date
-                                    will be squashed to a number/count of
-                                    events.
-        @param max_results_per_date: an integer such that if key_by_date is
-                                     True this will pick the top N entries
-                                     with the highest count.
         """
         if options is None:
             options = EventProcessingUtils.EventProcessingOptions()

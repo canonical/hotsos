@@ -329,6 +329,26 @@ class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
         return None
 
 
+class NovaVMBuildTimes(OpenstackEventCallbackBase):
+    """ Implements Nova vm build time events callback.
+
+    This will show a tally of the top5 vm build times above 60s.
+    """
+    event_group = 'nova.nova-compute'
+    event_names = ['vm-build-times']
+
+    def __call__(self, event):
+        limit = 60
+        ret = self.categorise_events(event,
+                                     options=self.EventProcessingOptions(
+                                         tally_value_limit_min=limit,
+                                         max_results_per_date=5))
+        if ret:
+            return {f'{event.name}-gt-{limit}s': ret}, 'nova-compute'
+
+        return None
+
+
 class PCINotFoundCallback(OpenstackEventCallbackBase):
     """ Implements Nova PCINotFound error events callback. """
     event_group = 'nova.nova-compute'
