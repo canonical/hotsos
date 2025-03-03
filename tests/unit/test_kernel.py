@@ -686,6 +686,17 @@ class TestKernelNetworkInfo(TestKernelBase):
         self.assertEqual(awd[0].sk_inode_num, 34703)
         self.assertEqual(awd[0].procs, {'ovs-vswit/13936', 'qemu-syst/20986'})
 
+    @utils.create_data_root(
+        {'proc/net/netlink': PROC_NETLINK,
+         'sos_commands/process/lsof_M_-n_-l_-c': LSOF_MNLC}
+    )
+    def test_netlink_parse_with_drops_str(self):
+        uut = NetLink()
+        awd = uut.all_with_drops_str
+        self.assertEqual(awd,
+                         "inode=34703 "
+                         "procs=[ovs-vswit/13936, qemu-syst/20986]")
+
 
 @utils.load_templated_tests('scenarios/kernel')
 class TestKernelScenarios(TestKernelBase):
