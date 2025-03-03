@@ -32,3 +32,4 @@ dependencies = {file = ["requirements.txt"]}
 
 [project.scripts]
 hotsos = "hotsos.cli:main"
+hotsos-view = "hotsos.tools.summary.view:main"
