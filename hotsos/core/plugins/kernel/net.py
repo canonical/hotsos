@@ -622,7 +622,7 @@ class NetLink(STOVParserBase):
             return None
 
         drops_info = [
-            f"\tnlsock inode `{nlsock.sk_inode_num}`: "
-            f"procs[{','.join(nlsock.procs)}]"
+            f"inode={nlsock.sk_inode_num} "
+            f"procs=[{', '.join(nlsock.procs)}]"
             for nlsock in self.all_with_drops]
         return "\n".join(drops_info)

@@ -20,6 +20,9 @@ data-root:
 raised-issues:
   NetworkWarning: >-
     This host is reporting dropped packets for the following netlink sockets:
-    	nlsock inode `112233`: procs[]
-    	nlsock inode `334455`: procs[]
+
+    inode=112233 procs=[]
+
+    inode=334455 procs=[]
+
     This may be a symptom of problems in the associated process(es) and should be investigated further.

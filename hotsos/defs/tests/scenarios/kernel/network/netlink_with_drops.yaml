@@ -69,6 +69,9 @@ data-root:
 raised-issues:
   NetworkWarning: >-
     This host is reporting dropped packets for the following netlink sockets:
-    	nlsock inode `33580`: procs[zabbix_ag/17712]
-    	nlsock inode `34703`: procs[ovs-vswit/13936,qemu-syst/20986]
+
+    inode=33580 procs=[zabbix_ag/17712]
+
+    inode=34703 procs=[ovs-vswit/13936, qemu-syst/20986]
+
     This may be a symptom of problems in the associated process(es) and should be investigated further.
