@@ -103,6 +103,19 @@ NOVA_REST_API = """
 """.split('\n')[1:]  # noqa
 
 
+NOVA_VM_BUILD_TIME = """
+2025-02-06 13:25:34.660 3070789 INFO nova.compute.manager [req-cf1f5fee-ff91-4a23-b832-58dd43ad483d 50bbc907c4114c5fb6eb28fdaf64a477 1d7753cbc6244d25aeccd8addfbb7b0b - default default] [instance: ec16f413-9352-499c-b4e2-989dad016691] Took 323.71 seconds to build instance.
+2025-02-06 13:25:34.866 3070789 INFO nova.compute.manager [req-6b5f44f9-219c-4fca-a94e-6b663b8c5fa8 338da029e0a84bdea68aaf46adbb2b6a ae101b218e8b4baca86c2abf9c8fda6d - default default] [instance: c7bab001-4cd9-459b-a160-b715d5e037e4] Took 210.26 seconds to build instance.
+2025-02-06 13:25:34.922 3070789 INFO nova.compute.manager [req-2b17d390-2287-492d-9ec4-c3501cbd6879 50bbc907c4114c5fb6eb28fdaf64a477 1d7753cbc6244d25aeccd8addfbb7b0b - default default] [instance: bdae3038-89e4-40b3-84ce-1381d3eca7d6] Took 111.96 seconds to build instance.
+2025-02-06 13:26:14.623 3070789 INFO nova.compute.manager [req-5f197892-f9d5-4625-bff9-587ab91744b8 50bbc907c4114c5fb6eb28fdaf64a477 1d7753cbc6244d25aeccd8addfbb7b0b - default default] [instance: 461d206e-993e-4ada-bfc8-adb3910717fc] Took 27.79 seconds to build instance.
+2025-02-06 13:27:17.662 3070789 INFO nova.compute.manager [req-1915e36f-27e1-40e1-9528-70f309be1952 338da029e0a84bdea68aaf46adbb2b6a ae101b218e8b4baca86c2abf9c8fda6d - default default] [instance: dceffed5-c6ae-4eec-8800-9b28aa6cdbbd] Took 78.80 seconds to build instance.
+2025-02-06 13:27:17.662 3070789 INFO nova.compute.manager [req-1915e36f-27e1-40e1-9528-70f309be1952 338da029e0a84bdea68aaf46adbb2b6a ae101b218e8b4baca86c2abf9c8fda6d - default default] [instance: dceffed5-c6ae-4eec-8800-9b28aa6cdbbd] Took 78.60 seconds to build instance.
+2025-02-06 13:28:13.020 3070789 INFO nova.compute.manager [req-3ca74933-c23e-4ccf-a8e0-a7d130e3ad75 39656a4e94d140279666b3398a5d36e3 6804bfca484f4f559c01edaf5615dc5f - default default] [instance: 5da6c1a4-0608-402c-8856-5b38a061bf66] Took 72.22 seconds to build instance.
+2025-02-06 13:28:13.803 3070789 INFO nova.compute.manager [req-872f741a-c886-4464-86ec-efbd7f9a8843 50bbc907c4114c5fb6eb28fdaf64a477 1d7753cbc6244d25aeccd8addfbb7b0b - default default] [instance: 7da734a9-c393-4763-b0a7-dfbaac0aa331] Took 61.66 seconds to build instance.
+2025-02-06 13:28:13.897 3070789 INFO nova.compute.manager [req-a1903088-e68e-4071-a93d-9b1e12525acf 50bbc907c4114c5fb6eb28fdaf64a477 1d7753cbc6244d25aeccd8addfbb7b0b - default default] [instance: d4d18888-5aac-492e-b1ea-3cb590c537d0] Took 10.73 seconds to build instance.
+""".strip('\n')  # noqa
+
+
 class TestOpenstackAgentEvents(TestOpenstackBase):
     """ Unit tests for OpenStack agent event checks. """
     def test_process_rpc_loop_results(self):
@@ -372,6 +385,32 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                 }
                             }
                         }
+            self.assertEqual(actual, expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('nova-compute.yaml',
+                                        'events/openstack'))
+    @utils.create_data_root({'var/log/nova/nova-compute.log':
+                             NOVA_VM_BUILD_TIME},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_nova_vm_builds(self):
+        expected = {}
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NovaComputeEventChecks(searcher)
+            actual = self.part_output_to_actual(inst.output)
+            expected = {'agent-checks': {
+                            'nova': {
+                                'nova-compute': {
+                                    'vm-build-times-gt-60s': {
+                                        '2025-02-06': {
+                                            'top5': {'323': 1,
+                                                     '210': 1,
+                                                     '111': 1,
+                                                     '78': 2,
+                                                     '72': 1,
+                                                     },
+                                            'total': 6}}}}}}
+
             self.assertEqual(actual, expected)
 
     @utils.create_data_root({'var/log/neutron/neutron-server.log':

@@ -5,3 +5,5 @@ warnings:
   pci-dev-not-found:
     expr: '([\d-]+) ([\d:]+)\.\d{3} .+ No net device was found for VF \S+: nova.exception.PciDeviceNotFoundById: PCI device (\S+) not found'
     hint: 'WARNING'
+vm-build-times:
+  expr: '([\d-]+) ([\d:]+)\.\d{3} .+ nova.compute.manager .+ \[instance: \S+\] Took ([0-9]+)(?:.[0-9]+)? seconds to build instance.'
