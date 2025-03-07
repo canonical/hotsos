@@ -329,35 +329,34 @@ class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
         return None
 
 
-class NovaVMBuildTimes(OpenstackEventCallbackBase):
-    """ Implements Nova vm build time events callback.
-
-    This will show a tally of the top5 vm build times above 60s.
-    """
+class NovaComputeEventCallbacks(OpenstackEventCallbackBase):
+    """  Process nova-compute events. """
     event_group = 'nova.nova-compute'
-    event_names = ['vm-build-times']
+    event_names = ['pci-dev-not-found', 'vm-build-times', 'lock-held-times']
 
     def __call__(self, event):
-        limit = 60
-        ret = self.categorise_events(event,
-                                     options=self.EventProcessingOptions(
-                                         tally_value_limit_min=limit,
-                                         max_results_per_date=5))
-        if ret:
-            return {f'{event.name}-gt-{limit}s': ret}, 'nova-compute'
-
-        return None
-
-
-class PCINotFoundCallback(OpenstackEventCallbackBase):
-    """ Implements Nova PCINotFound error events callback. """
-    event_group = 'nova.nova-compute'
-    event_names = ['pci-dev-not-found']
-
-    def __call__(self, event):
-        ret = self.categorise_events(event)
-        if ret:
-            return ret, 'PciDeviceNotFoundById'
+        if event.name == 'pci-dev-not-found':
+            ret = self.categorise_events(event)
+            if ret:
+                return ret, 'PciDeviceNotFoundById'
+        elif event.name == 'vm-build-times':
+            limit = 60
+            ret = self.categorise_events(event,
+                                         options=self.EventProcessingOptions(
+                                             tally_value_limit_min=limit,
+                                             sort_tally_by_value=False,
+                                             max_results_per_date=5))
+            if ret:
+                return {f'{event.name}-gt-{limit}s': ret}, 'nova-compute'
+        else:
+            # ignore times < 1s
+            ret = self.categorise_events(event,
+                                         options=self.EventProcessingOptions(
+                                             tally_value_limit_min=1,
+                                             sort_tally_by_value=False,
+                                             max_results_per_date=5))
+            if ret:
+                return {event.name: ret}, 'nova-compute'
 
         return None
 

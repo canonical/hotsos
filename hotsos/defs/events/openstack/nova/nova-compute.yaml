@@ -7,3 +7,5 @@ warnings:
     hint: 'WARNING'
 vm-build-times:
   expr: '([\d-]+) ([\d:]+)\.\d{3} .+ nova.compute.manager .+ \[instance: \S+\] Took ([0-9]+)(?:.[0-9]+)? seconds to build instance.'
+lock-held-times:
+  expr: '([\d-]+) ([\d:]+)\.\d{3} .+ oslo_concurrency.lockutils .+ Lock .+ :: held ([0-9]+).[0-9]+s'
