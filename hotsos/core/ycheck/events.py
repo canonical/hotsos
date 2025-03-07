@@ -101,12 +101,17 @@ class EventProcessingUtils():
                                      with the highest count.
         @param tally_value_limit_min: If provided, only tally values greater
                                       than this will be included.
+        @param sort_tally_by_value: By default we sort tallied results by value
+                                    so that we prioritise keys with the highest
+                                    tally value. If we want to sort by key we
+                                    need to set this to False.
         """
         key_by_date: bool = True
         include_time: bool = False
         squash_if_none_keys: bool = False
         max_results_per_date: int = None
         tally_value_limit_min: int = None
+        sort_tally_by_value: bool = True
 
     @classmethod
     def _get_event_results(cls, event):
@@ -192,8 +197,18 @@ class EventProcessingUtils():
         else:
             info[key][value] += 1
 
-    @staticmethod
-    def _sort_results(categorised_results, options: EventProcessingOptions):
+    @classmethod
+    def _sort_results(cls, categorised_results,
+                      options: EventProcessingOptions):
+        """
+        Sort results.
+
+        By default we sort result dates in ascending order then per-date
+        results in descending order of value (tally).
+
+        If results are categorised by value (not date) then we sort both in
+        descending order.
+        """
         log.debug("sorting categorised results")
         if all([options.key_by_date, options.include_time]):
             return {}
@@ -216,7 +231,10 @@ class EventProcessingUtils():
                     break
 
                 categorised_results[key] = sorted_dict(value,
-                                                       key=lambda e: e[1],
+                                                       key=lambda e:
+                                                           cls._get_sort_key(
+                                                                   e,
+                                                                   options),
                                                        reverse=True)
 
         return categorised_results
@@ -232,6 +250,19 @@ class EventProcessingUtils():
         want this behaviour.
         """
         return False
+
+    @staticmethod
+    def _get_sort_key(item, options):
+        """
+        Determine whether to use dict item key or value as a sort key.
+
+        Field must be an integer or able to convert to int.
+
+        @param item: a 2-tuple of the form (key, value)
+        @param options: EventProcessingOptions
+        @return: integer key
+        """
+        return int(item[1]) if options.sort_tally_by_value else int(item[0])
 
     @classmethod
     def categorise_events(
@@ -257,6 +288,8 @@ class EventProcessingUtils():
         @param event: EventCheckResult object
         @param results: optional list of results where each item is a dict with
                         keys 'date', 'key' and optionally 'time'.
+        @param options: optional EventProcessingOptions.
+        @return: dictionary of results
         """
         if options is None:
             options = EventProcessingUtils.EventProcessingOptions()
@@ -286,7 +319,7 @@ class EventProcessingUtils():
                 continue
 
             top_n = dict(sorted(entries.items(),
-                                key=lambda e: e[1],
+                                key=lambda e: cls._get_sort_key(e, options),
                                 reverse=True)[:options.max_results_per_date])
             shortened[date] = {
                 "total": len(entries),

@@ -115,6 +115,16 @@ NOVA_VM_BUILD_TIME = """
 2025-02-06 13:28:13.897 3070789 INFO nova.compute.manager [req-a1903088-e68e-4071-a93d-9b1e12525acf 50bbc907c4114c5fb6eb28fdaf64a477 1d7753cbc6244d25aeccd8addfbb7b0b - default default] [instance: d4d18888-5aac-492e-b1ea-3cb590c537d0] Took 10.73 seconds to build instance.
 """.strip('\n')  # noqa
 
+NOVA_LOCK_HELD = """
+2025-02-28 11:00:14.750 1566099 DEBUG oslo_concurrency.lockutils [-] Lock "3726526a-c14d-4ddd-8392-89a47da5c046" "released" by "nova.compute.manager.ComputeManager._sync_power_states.<locals>._sync.<locals>.query_driver_power_state_and_sync" :: held 18.945s inner /usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py:400
+2025-02-28 11:00:14.791 1566099 DEBUG oslo_concurrency.lockutils [-] Lock "bfdb3972-b470-4980-9832-a42d82b92a1c" "released" by "nova.compute.manager.ComputeManager._sync_power_states.<locals>._sync.<locals>.query_driver_power_state_and_sync" :: held 18.985s inner /usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py:400
+2025-02-28 11:00:14.904 1566099 DEBUG oslo_concurrency.lockutils [-] Lock "d201206e-cccf-4fcc-9ddf-fd33249a4cb7" "released" by "nova.compute.manager.ComputeManager._sync_power_states.<locals>._sync.<locals>.query_driver_power_state_and_sync" :: held 19.098s inner /usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py:400
+2025-02-28 11:00:14.924 1566099 DEBUG oslo_concurrency.lockutils [-] Lock "de3b0feb-8d6e-43cf-a380-1267ee5a64f9" "released" by "nova.compute.manager.ComputeManager._sync_power_states.<locals>._sync.<locals>.query_driver_power_state_and_sync" :: held 19.119s inner /usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py:400
+2025-02-28 11:00:15.029 1566099 DEBUG oslo_concurrency.lockutils [req-98e9d691-5eaf-48ef-9bf2-e4fede9c5ae3 - - - - -] Lock "compute_resources" acquired by "nova.compute.resource_tracker.ResourceTracker.clean_compute_node_cache" :: waited 0.000s inner /usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py:386
+2025-02-28 11:00:15.030 1566099 DEBUG oslo_concurrency.lockutils [req-98e9d691-5eaf-48ef-9bf2-e4fede9c5ae3 - - - - -] Lock "compute_resources" "released" by "nova.compute.resource_tracker.ResourceTracker.clean_compute_node_cache" :: held 0.000s inner /usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py:400
+2025-02-28 11:00:15.048 1566099 DEBUG oslo_concurrency.lockutils [-] Lock "b6e6114b-dba8-4065-b213-97f8afb5e91e" "released" by "nova.compute.manager.ComputeManager._sync_power_states.<locals>._sync.<locals>.query_driver_power_state_and_sync" :: held 19.242s inner /usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py:400
+""".strip('\n')  # noqa
+
 
 class TestOpenstackAgentEvents(TestOpenstackBase):
     """ Unit tests for OpenStack agent event checks. """
@@ -386,6 +396,25 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                             }
                         }
             self.assertEqual(actual, expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('nova-compute.yaml',
+                                        'events/openstack'))
+    @utils.create_data_root({'var/log/nova/nova-compute.log':
+                             NOVA_LOCK_HELD},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_nova_lock_held_times(self):
+        expected = {}
+        with GlobalSearcher() as searcher:
+            inst = agent.events.NovaComputeEventChecks(searcher)
+            actual = self.part_output_to_actual(inst.output)
+            expected = {'agent-checks': {
+                            'nova': {
+                                'nova-compute': {
+                                    'lock-held-times': {
+                                        '2025-02-28': {'18': 2,
+                                                       '19': 3}}}}}}
+            self.assertDictEqual(actual, expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('nova-compute.yaml',

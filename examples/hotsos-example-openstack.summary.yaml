@@ -276,6 +276,14 @@ openstack:
           stdev: 0.0
           avg: 0.0
           samples: 2500
+    nova:
+      nova-compute:
+        lock-held-times:
+          '2022-02-10':
+            '61': 1
+            '22': 1
+            '3': 1
+            '2': 2
     neutron-l3ha:
       keepalived:
         transitions:

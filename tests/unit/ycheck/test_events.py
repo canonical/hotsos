@@ -1,4 +1,5 @@
 import os
+from collections import OrderedDict
 
 import yaml
 from hotsos.core.config import HotSOSConfig
@@ -326,11 +327,11 @@ class TestYamlEvents(utils.BaseTestCase):
         ret = EventProcessingUtils._sort_results(
             info, options=EventProcessingUtils.EventProcessingOptions()
         )
-        expected = {'2000-01-01': {'f1': 1,
-                                   'f3': 1},
-                    '2000-01-02': {'f2': 1},
-                    '2000-01-04': {'f4': 1}}
-        self.assertDictEqual(ret, expected)
+        expected = OrderedDict({'2000-01-01': {'f1': 1,
+                                               'f3': 1},
+                                '2000-01-02': {'f2': 1},
+                                '2000-01-04': {'f4': 1}})
+        self.assertEqual(ret, expected)
         # check key order
         self.assertEqual(list(ret), list(expected))
 
@@ -357,11 +358,29 @@ class TestYamlEvents(utils.BaseTestCase):
             info, options=EventProcessingUtils.EventProcessingOptions(
               key_by_date=False)
         )
-        expected = {'f4': {'2000-01-04': 1},
-                    'f3': {'2000-01-01': 1,
-                           '2000-01-03': 1},
-                    'f2': {'2000-01-02': 1},
-                    'f1': {'2000-01-01': 1}}
-        self.assertDictEqual(ret, expected)
+        expected = OrderedDict({'f4': {'2000-01-04': 1},
+                                'f3': {'2000-01-01': 1,
+                                       '2000-01-03': 1},
+                                'f2': {'2000-01-02': 1},
+                                'f1': {'2000-01-01': 1}})
+        self.assertEqual(ret, expected)
+        # check key order
+        self.assertEqual(list(ret), list(expected))
+
+    def test_processing_utils_top5_results(self):
+        results = [{'date': '2000-01-01', 'key': '10'},
+                   {'date': '2000-01-01', 'key': '9'},
+                   {'date': '2000-01-01', 'key': '6'},
+                   {'date': '2000-01-01', 'key': '6'},
+                   {'date': '2000-01-01', 'key': '2'}]
+        options = EventProcessingUtils.EventProcessingOptions(
+                                                        max_results_per_date=3)
+        ret = EventProcessingUtils.categorise_events('testevent', results,
+                                                     options=options)
+        expected = OrderedDict({'2000-01-01': {'top3': {
+                                                   '10': 1,
+                                                   '9': 1,
+                                                   '6': 2}, 'total': 4}})
+        self.assertEqual(ret, expected)
         # check key order
         self.assertEqual(list(ret), list(expected))
