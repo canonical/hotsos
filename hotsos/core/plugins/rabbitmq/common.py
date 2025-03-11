@@ -1,3 +1,4 @@
+import abc
 from dataclasses import dataclass, field
 
 from hotsos.core import plugintools
@@ -8,6 +9,8 @@ from hotsos.core.host_helpers import (
     SystemdHelper,
 )
 from hotsos.core.plugins.rabbitmq.report import RabbitMQReport
+from hotsos.core.utils import sorted_dict
+from hotsos.core.ycheck.events import EventCallbackBase, EventHandlerBase
 
 RMQ_SERVICES_EXPRS = [
     r"beam.smp",
@@ -38,7 +41,7 @@ class RabbitMQChecks(plugintools.PluginPartBase):
     plugin_root_index = 7
 
     def __init__(self, *args, **kwargs):
-        super().__init__()
+        super().__init__(*args, **kwargs)
         RabbitMQInstallInfo().mixin(self)
 
     @property
@@ -56,3 +59,23 @@ class RabbitMQChecks(plugintools.PluginPartBase):
             return True
 
         return False
+
+
+class RabbitMQEventCallbackBase(EventCallbackBase):
+    """ Base class for RabbitMQ events callbacks. """
+
+    @abc.abstractmethod
+    def __call__(self):
+        """ Callback method. """
+
+
+class RabbitMQEventHandlerBase(RabbitMQChecks, EventHandlerBase):
+    """ Base class for RabbitMQ event handlers. """
+    @property
+    def summary(self):
+        # mainline all results into summary root
+        ret = self.run()
+        if ret:
+            return sorted_dict(ret)
+
+        return None

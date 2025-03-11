@@ -1,0 +1,8 @@
+input:
+  path: 'var/log/rabbitmq/rabbit@*.log'
+delivery-ack-timeout:
+  expr: '([\d-]+) ([\d:]+)\.[\d+:]+ \[error\] .+ channel exception precondition_failed: delivery acknowledgement on channel \d+ timed out. Timeout value used: (\d+) ms'
+connection-exception:
+  expr: '([\d-]+) ([\d:]+)\.[\d+:]+ \[error\] .+ connection exception (\S+):'
+mnesia-error-event:
+  expr: '([\d-]+) ([\d:]+)\.[\d+:]+ \[error\] .+ Mnesia\S+ .+ mnesia_event got {(.+)}'
