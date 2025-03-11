@@ -4,9 +4,19 @@ import tempfile
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.plugin_extensions.rabbitmq import summary
+from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.plugin_extensions.rabbitmq import event_checks, summary
 
 from . import utils
+
+
+RABBITMQ_ERROR_LOGS = """
+2025-01-01 01:52:19.909819+00:00 [error] <0.30051.866>  operation queue.declare caused a connection exception internal_error: "Cannot declare a queue 'queue 'notifications.critical' in vhost 'openstack'' on node 'rabbit@host1': {vhost_supervisor_not_running,<<\"openstack\">>}"
+2025-01-01 01:52:19.914542+00:00 [error] <0.29014.862>  operation queue.declare caused a connection exception internal_error: "Cannot declare a queue 'queue 'notifications.debug' in vhost 'openstack'' on node 'rabbit@host1': {vhost_supervisor_not_running,<<\"openstack\">>}"
+2025-01-01 01:52:19.922978+00:00 [error] <0.26024.848>  operation queue.declare caused a connection exception internal_error: "Cannot declare a queue 'queue 'notifications.info' in vhost 'openstack'' on node 'rabbit@host1': {vhost_supervisor_not_running,<<\"openstack\">>}"
+2025-01-01 02:35:35.906159+00:00 [error] <0.20881.847> operation none caused a channel exception precondition_failed: delivery acknowledgement on channel 1 timed out. Timeout value used: 1800000 ms. This timeout value can be configured, see consumers doc guide to learn more
+2025-01-02 13:07:54.866061+00:00 [error] <0.275.0> Mnesia('rabbit@host1'): ** ERROR ** mnesia_event got {inconsistent_database, running_partitioned_network, 'rabbit@host2'}
+"""  # noqa
 
 
 class TestRabbitmqBase(utils.BaseTestCase):
@@ -145,6 +155,26 @@ class TestRabbitmqSummary(TestRabbitmqBase):
             inst = summary.RabbitMQSummary()
             self.assertTrue('resources' not in
                             self.part_output_to_actual(inst.output))
+
+
+class TestRabbitMQEvents(TestRabbitmqBase):
+    """ Unit tests for rmq events. """
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('errors.yaml',
+                                        'events/rabbitmq'))
+    @utils.create_data_root({'var/log/rabbitmq/rabbit@node1.log':
+                             RABBITMQ_ERROR_LOGS})
+    def test_error_checks(self):
+        expected = {'connection-exception': {'2025-01-01': {
+                                                'internal_error': 3}},
+                    'delivery-ack-timeout': {'2025-01-01': {'1800000': 1}},
+                    'mnesia-error-event': {'2025-01-02': {
+                        ("inconsistent_database, running_partitioned_network, "
+                         "'rabbit@host2'"): 1}}}
+        with GlobalSearcher() as searcher:
+            inst = event_checks.RabbitMQEventChecks(searcher)
+            actual = self.part_output_to_actual(inst.output)
+            self.assertEqual(actual, expected)
 
 
 @utils.load_templated_tests('scenarios/rabbitmq')
