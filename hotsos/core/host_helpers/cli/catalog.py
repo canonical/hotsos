@@ -392,6 +392,52 @@ class KubectlLogsFileCmd(FileCmd):
         super().__init__(path, *args, **kwargs)
 
 
+class OVNDBCTLShowBinCmd(BinCmd):
+    """ Implementation for binary ovndb ctl show commands providing support
+        for different variants.
+    """
+
+    def __init__(self, ctl_command, *args, prefix=None, **kwargs):
+        prefix = prefix or ''
+        cmd = f'{prefix}{ctl_command} --no-leader-only show'
+        super().__init__(cmd, *args, **kwargs)
+
+
+class OVNDBCTLShowFileCmd(FileCmd):
+    """ Implementation for file-based ovndb ctl show commands providing support
+        for different variants.
+    """
+
+    def __init__(self, ctl_command, *args, prefix=None, **kwargs):
+        prefix = prefix or ''
+        path = (f'sos_commands/ovn_central/{prefix}{ctl_command}_'
+                '--no-leader-only_show')
+        super().__init__(path, *args, **kwargs)
+
+
+class OVNDBCTLListBinCmd(BinCmd):
+    """ Implementation for binary ovndb ctl list commands providing support
+        for different variants.
+    """
+
+    def __init__(self, ctl_command, *args, prefix=None, **kwargs):
+        prefix = prefix or ''
+        cmd = f'{prefix}{ctl_command} --no-leader-only list' + ' {table}'
+        super().__init__(cmd, *args, **kwargs)
+
+
+class OVNDBCTLListFileCmd(FileCmd):
+    """ Implementation for file-based ovndb ctl list commands providing support
+        for different variants.
+    """
+
+    def __init__(self, ctl_command, *args, prefix=None, **kwargs):
+        prefix = prefix or ''
+        path = (f'sos_commands/ovn_central/{prefix}{ctl_command}_'
+                '--no-leader-only_list_{table}')
+        super().__init__(path, *args, **kwargs)
+
+
 class OVSOFCtlFileCmd(FileCmd):
     """ Implementation of ovs-ofctl file-based command. """
     def __call__(self, *args, **kwargs):
@@ -766,26 +812,68 @@ class CommandCatalog(UserDict):
                          'ip_netns_exec_{namespace}_ip_address_show'),
                  FileCmd('sos_commands/networking/namespaces/{namespace}/'
                          'ip_netns_exec_{namespace}_ip_-d_address_show')],
+            'ovn_nbctl_list':
+                [OVNDBCTLListBinCmd(ctl_command='ovn-nbctl'),
+                 OVNDBCTLListBinCmd(ctl_command='ovn-nbctl',
+                                    prefix='openstack-hypervisor.'),
+                 OVNDBCTLListBinCmd(ctl_command='ovn-nbctl',
+                                    prefix='microovn.'),
+                 # sosreport: noalias
+                 OVNDBCTLListFileCmd(ctl_command='ovn-nbctl'),
+                 # sosreport: sunbeam
+                 OVNDBCTLListFileCmd(ctl_command='ovn-nbctl',
+                                     prefix='openstack-hypervisor.'),
+                 # sosreport: microovn
+                 OVNDBCTLListFileCmd(ctl_command='ovn-nbctl',
+                                     prefix='microovn.'),
+                 # sosreport < 4.5
+                 FileCmd('sos_commands/ovn_central/ovn-nbctl_list')],
+            'ovn_sbctl_list':
+                [OVNDBCTLListBinCmd(ctl_command='ovn-sbctl'),
+                 OVNDBCTLListBinCmd(ctl_command='ovn-sbctl',
+                                    prefix='openstack-hypervisor.'),
+                 OVNDBCTLListBinCmd(ctl_command='ovn-sbctl',
+                                    prefix='microovn.'),
+                 # sosreport: noalias
+                 OVNDBCTLListFileCmd(ctl_command='ovn-sbctl'),
+                 # sosreport: sunbeam
+                 OVNDBCTLListFileCmd(ctl_command='ovn-sbctl',
+                                     prefix='openstack-hypervisor.'),
+                 # sosreport: microovn
+                 OVNDBCTLListFileCmd(ctl_command='ovn-sbctl',
+                                     prefix='microovn.'),
+                 # sosreport < 4.5
+                 FileCmd('sos_commands/ovn_central/ovn-sbctl_list')],
             'ovn_nbctl_show':
-                [BinCmd('ovn-nbctl --no-leader-only show'),
-                 BinCmd('openstack-hypervisor.'
-                        'ovn-nbctl --no-leader-only show'),
-                 FileCmd('sos_commands/ovn_central/'
-                         'ovn-nbctl_--no-leader-only_show'),
-                 FileCmd('sos_commands/ovn_central/'
-                         'openstack-hypervisor.'
-                         'ovn-nbctl_--no-leader-only_show'),
+                [OVNDBCTLShowBinCmd(ctl_command='ovn-nbctl'),
+                 OVNDBCTLShowBinCmd(ctl_command='ovn-nbctl',
+                                    prefix='openstack-hypervisor.'),
+                 OVNDBCTLShowBinCmd(ctl_command='ovn-nbctl',
+                                    prefix='microovn.'),
+                 # sosreport: noalias
+                 OVNDBCTLShowFileCmd(ctl_command='ovn-nbctl'),
+                 # sosreport: sunbeam
+                 OVNDBCTLShowFileCmd(ctl_command='ovn-nbctl',
+                                     prefix='openstack-hypervisor.'),
+                 # sosreport: microovn
+                 OVNDBCTLShowFileCmd(ctl_command='ovn-nbctl',
+                                     prefix='microovn.'),
                  # sosreport < 4.5
                  FileCmd('sos_commands/ovn_central/ovn-nbctl_show')],
             'ovn_sbctl_show':
-                [BinCmd('ovn-sbctl --no-leader-only show'),
-                 BinCmd('openstack-hypervisor.'
-                        'ovn-sbctl --no-leader-only show'),
-                 FileCmd('sos_commands/ovn_central/'
-                         'ovn-sbctl_--no-leader-only_show'),
-                 FileCmd('sos_commands/ovn_central/'
-                         'openstack-hypervisor.'
-                         'ovn-sbctl_--no-leader-only_show'),
+                [OVNDBCTLShowBinCmd(ctl_command='ovn-sbctl'),
+                 OVNDBCTLShowBinCmd(ctl_command='ovn-sbctl',
+                                    prefix='openstack-hypervisor.'),
+                 OVNDBCTLShowBinCmd(ctl_command='ovn-sbctl',
+                                    prefix='microovn.'),
+                 # sosreport: noalias
+                 OVNDBCTLShowFileCmd(ctl_command='ovn-sbctl'),
+                 # sosreport: sunbeam
+                 OVNDBCTLShowFileCmd(ctl_command='ovn-sbctl',
+                                     prefix='openstack-hypervisor.'),
+                 # sosreport: microovn
+                 OVNDBCTLShowFileCmd(ctl_command='ovn-sbctl',
+                                     prefix='microovn.'),
                  # sosreport < 4.5
                  FileCmd('sos_commands/ovn_central/ovn-sbctl_show')],
             'ovs_vsctl_get':

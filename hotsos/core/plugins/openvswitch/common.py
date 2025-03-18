@@ -1,4 +1,5 @@
 import abc
+import re
 from dataclasses import dataclass, field
 
 from hotsos.core import plugintools
@@ -34,6 +35,8 @@ _OVS_PKGS_DEPS = ['libc-bin',
 OVS_PKGS_DEPS = _OVS_PKGS_DEPS + \
                 [PY_CLIENT_PREFIX.format(p) for p in _OVS_PKGS_DEPS]
 
+OVS_SNAPS_CORE = ['microovn'] + OST_SUNBEAM_SNAP_NAMES
+
 
 class OpenvSwitchGlobalSearchBase(GlobalSearcherAutoRegisterBase):
     """ Base class for global searcher registration for OpenvSwitch. """
@@ -59,7 +62,7 @@ class OpenvSwitchInstallInfo(InstallInfoBase):
                                             service_exprs=OVS_SERVICES_EXPRS))
     snaps: SnapPackageHelper = field(default_factory=lambda:
                                      SnapPackageHelper(
-                                            core_snaps=OST_SUNBEAM_SNAP_NAMES))
+                                            core_snaps=OVS_SNAPS_CORE))
 
 
 class OpenvSwitchChecks(plugintools.PluginPartBase):
@@ -107,3 +110,68 @@ class OpenvSwitchEventHandlerBase(OpenvSwitchChecks, EventHandlerBase):
             return sorted_dict(ret)
 
         return None
+
+
+class OVSDBTableBase():
+    """
+    Provides an interface to an OVSDB table. Records can be extracted from
+    either 'get' or 'list' command outputs. We try 'get' first and of not found
+    we search in output of 'list'.
+    """
+    def __init__(self, name):
+        self.name = name
+
+    @staticmethod
+    def _convert_record_to_dict(record):
+        """ Convert the ovsdb record dict format to a python dictionary. """
+        out = {}
+        if not record or record == '{}':
+            return out
+
+        expr = r'(\S+="[^"]+"|\S+=\S+),? ?'
+        for _field in re.compile(expr).findall(record):
+            for char in [',', '}', '{']:
+                _field = _field.strip(char)
+
+            key, _, val = _field.partition('=')
+            out[key] = val.strip('"')
+
+        return out
+
+    @staticmethod
+    def _get_cmd(table):
+        raise NotImplementedError
+
+    @staticmethod
+    def _list_cmd(table):
+        raise NotImplementedError
+
+    def _fallback_query(self, column):
+        """ Find first occurrence of column and return it. """
+        for cmd in [self._list_cmd(self.name),
+                    self._list_cmd(self.name.lower())]:
+            for line in cmd():
+                if not line.startswith(f'{column} '):
+                    continue
+
+                return line.partition(':')[2].strip()
+
+        return None
+
+    def get(self, record, column):
+        """
+        Try to get column using get command and failing that, try getting it
+        from list.
+        """
+        value = self._get_cmd(self.name)(record=record, column=column)
+        if not value:
+            value = self._fallback_query(column=column)
+
+        if not (value and value.startswith('{')):
+            return value
+
+        return self._convert_record_to_dict(value)
+
+    def __getattr__(self, column):
+        """ Get column for special records i.e. with key '.' """
+        return self.get(record='.', column=column)

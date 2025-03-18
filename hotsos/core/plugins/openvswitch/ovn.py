@@ -11,8 +11,31 @@ from hotsos.core.search import (
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelper
 from hotsos.core.utils import mktemp_dump
-from hotsos.core.host_helpers import SystemdHelper
-from hotsos.core.plugins.openvswitch.common import OVS_SERVICES_EXPRS
+from hotsos.core.plugins.openvswitch.common import (
+    OpenvSwitchInstallInfo,
+    OVSDBTableBase
+)
+
+
+class OVNDBTable(OVSDBTableBase):
+    """
+    Provides an interface to an OVNDB table. Records can be extracted from
+    either 'get' or 'list' command outputs. We try 'get' first and of not found
+    we search in output of 'list'.
+    """
+
+    def __init__(self, ovndb_cli_command, *args, **kwargs):
+        self._ovndb_cli_command = ovndb_cli_command
+        super().__init__(*args, **kwargs)
+
+    @staticmethod
+    def _get_cmd(table):
+        return lambda **kwargs: None
+
+    def _list_cmd(self, table):  # pylint: disable=arguments-differ
+        return lambda **kwargs: getattr(CLIHelper(),
+                                        self._ovndb_cli_command)(table=table,
+                                                                 **kwargs)
 
 
 @dataclass
@@ -123,6 +146,9 @@ class OVNNBDB(OVNDBBase):
 
         return _switches
 
+    def __getattr__(self, table):
+        return OVNDBTable('ovn_nbctl_list', table)
+
 
 class OVNSBDB(OVNDBBase):
     """ Represents OVN Southbound DB. """
@@ -141,48 +167,52 @@ class OVNSBDB(OVNDBBase):
 
         return _chassis
 
+    def __getattr__(self, table):
+        return OVNDBTable('ovn_sbctl_list', table)
+
 
 class OVNBase():
     """ Base class for all OVN components. """
-    def __init__(self):
-        self.systemd = SystemdHelper(service_exprs=OVS_SERVICES_EXPRS)
+
+    @staticmethod
+    def _is_host_type(hosttype, check_snap=False):
+        if HotSOSConfig.force_mode:
+            return True
+
+        if check_snap:
+            ret = hosttype in OpenvSwitchInstallInfo().snaps.core
+        else:
+            ret = hosttype in OpenvSwitchInstallInfo().systemd.services
+
+        if ret:
+            log.debug("this host has type={hosttype}")
+        else:
+            log.debug("this does not have type={hosttype}")
+
+        return ret
+
+    @cached_property
+    def is_microovn(self):
+        return self._is_host_type('microovn', check_snap=True)
 
     @cached_property
     def is_ovn_central(self):
-        if HotSOSConfig.force_mode:
-            return True
-
-        ret = 'ovn-central' in self.systemd.services
-        if ret:
-            log.debug("this is an ovn-central")
-        else:
-            log.debug("this is not an ovn-central")
-
-        return ret
+        return self._is_host_type('ovn-central')
 
     @cached_property
     def is_ovn_controller(self):
-        if HotSOSConfig.force_mode:
-            return True
-
-        ret = 'ovn-controller' in self.systemd.services
-        if ret:
-            log.debug("this is an ovn-controller")
-        else:
-            log.debug("this is not an ovn-controller")
-
-        return ret
+        return self._is_host_type('ovn-controller')
 
     @cached_property
     def sbdb(self):
-        if self.is_ovn_central:
+        if self.is_ovn_central or self.is_microovn:
             return OVNSBDB()
 
         return None
 
     @cached_property
     def nbdb(self):
-        if self.is_ovn_central:
+        if self.is_ovn_central or self.is_microovn:
             return OVNNBDB()
 
         return None

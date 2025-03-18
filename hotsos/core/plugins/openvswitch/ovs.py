@@ -17,34 +17,18 @@ from hotsos.core.search import (
     SearchDef,
     create_constraint,
 )
-from hotsos.core.plugins.openvswitch.common import OpenvSwitchGlobalSearchBase
+from hotsos.core.plugins.openvswitch.common import (
+    OpenvSwitchGlobalSearchBase,
+    OVSDBTableBase,
+)
 
 
-class OVSDBTable():
+class OVSDBTable(OVSDBTableBase):
     """
     Provides an interface to an OVSDB table. Records can be extracted from
     either 'get' or 'list' command outputs. We try 'get' first and of not found
     we search in output of 'list'.
     """
-    def __init__(self, name):
-        self.name = name
-
-    @staticmethod
-    def _convert_record_to_dict(record):
-        """ Convert the ovsdb record dict format to a python dictionary. """
-        out = {}
-        if not record or record == '{}':
-            return out
-
-        expr = r'(\S+="[^"]+"|\S+=\S+),? ?'
-        for field in re.compile(expr).findall(record):
-            for char in [',', '}', '{']:
-                field = field.strip(char)
-
-            key, _, val = field.partition('=')
-            out[key] = val.strip('"')
-
-        return out
 
     @staticmethod
     def _get_cmd(table):
@@ -55,33 +39,6 @@ class OVSDBTable():
     def _list_cmd(table):
         return lambda **kwargs: CLIHelper().ovs_vsctl_list(table=table,
                                                            **kwargs)
-
-    def _fallback_query(self, column):
-        """ Find first occurrence of column and return it. """
-        for cmd in [self._list_cmd(self.name),
-                    self._list_cmd(self.name.lower())]:
-            for line in cmd():
-                if not line.startswith(f'{column} '):
-                    continue
-
-                return line.partition(':')[2].strip()
-
-        return None
-
-    def get(self, record, column):
-        """
-        Try to get column using get command and failing that, try getting it
-        from list.
-        """
-        value = self._get_cmd(self.name)(record=record, column=column)
-        if not value:
-            value = self._fallback_query(column=column)
-
-        return self._convert_record_to_dict(value)
-
-    def __getattr__(self, column):
-        """ Get column for special records i.e. with key '.' """
-        return self.get(record='.', column=column)
 
 
 class OVSDB(FactoryBase):
