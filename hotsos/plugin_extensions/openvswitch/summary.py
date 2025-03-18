@@ -24,7 +24,7 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
         self.ovn = OVNBase()
 
     @summary_entry('config', get_min_available_entry_index())
-    def summary_config(self):
+    def summary_ovsdb_config(self):
         _config = {}
         if self.ovs.offload_enabled:
             _config['offload'] = 'enabled'
@@ -36,6 +36,15 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
         _external_ids = self.ovs.ovsdb.Open_vSwitch.external_ids
         if _external_ids:
             _config['external-ids'] = _external_ids
+
+        db_keys = ['inactivity_probe', 'max_backoff']
+        for name, db in {'nbdb': self.ovn.nbdb, 'sbdb': self.ovn.sbdb}.items():
+            if db:
+                _config[name] = {}
+                for key in db_keys:
+                    val = getattr(db.Connection, key)
+                    if val:
+                        _config[name][key] = val
 
         return _config or None
 
@@ -75,7 +84,7 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
         return self.ovs.tunnels or None
 
     @summary_entry('ovn', get_min_available_entry_index() + 3)
-    def summary_ovn(self):
+    def summary_ovn_resources(self):
         info = {}
         if self.ovn.nbdb:
             routers = self.ovn.nbdb.routers

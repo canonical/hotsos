@@ -7,6 +7,9 @@ from .ovs import (
     OVSBridge,
     OVSDPDK,
 )
+from .ovn import (
+    OVNBase,
+)
 
 __all__ = [
     OpenvSwitchChecks.__name__,
@@ -16,4 +19,5 @@ __all__ = [
     OVSDB.__name__,
     OVSDPDK.__name__,
     OVSDPLookups.__name__,
+    OVNBase.__name__,
     ]

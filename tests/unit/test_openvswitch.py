@@ -5,7 +5,7 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.plugins.openvswitch import OpenvSwitchBase, OVSDB
+from hotsos.core.plugins.openvswitch import OpenvSwitchBase, OVSDB, OVNBase
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.openvswitch import (
@@ -55,6 +55,17 @@ Open_vSwitch table
 _uuid               : 35eda39e-ada8-4c2f-b6cb-00e28f336182
 external_ids        : {hostname=compute-1, ovn-bridge-mappings="physnet1:br-data", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.3.4.24", ovn-encap-type=geneve, ovn-remote="ssl:10.3.4.99:6642,ssl:10.3.4.125:6642,ssl:10.3.4.140:6642", rundir="/var/run/openvswitch", system-id=compute-1, ovn-match-northd-version="true"}
 
+"""  # noqa
+
+OVNDB_TABLE_CONNECTION = """
+_uuid               : 0fb85665-7d1a-4730-acac-4498b6649edb
+external_ids        : {}
+inactivity_probe    : []
+is_connected        : false
+max_backoff         : []
+other_config        : {}
+status              : {}
+target              : "pssl:6641:[::]"
 """  # noqa
 
 LEADERSHIP_TRANSFERS = """
@@ -213,6 +224,27 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
             inst = summary.OpenvSwitchSummary()
             actual = self.part_output_to_actual(inst.output)['tunnels']
             self.assertEqual(actual, expected)
+
+    @utils.create_data_root({'sos_commands/ovn_central/microovn.ovn-nbctl_'
+                             '--no-leader-only_list_Connection':
+                             OVNDB_TABLE_CONNECTION,
+                             'sos_commands/ovn_central/microovn.ovn-sbctl_'
+                             '--no-leader-only_list_Connection':
+                             OVNDB_TABLE_CONNECTION})
+    @mock.patch.object(OVNBase, 'is_ovn_central', True)
+    def test_summary_ovn_central_db(self):
+        expected = {'config': {
+                        'nbdb': {'inactivity_probe': '[]',
+                                 'max_backoff': '[]'},
+                        'sbdb': {'inactivity_probe': '[]',
+                                 'max_backoff': '[]'}},
+                    'ovn': {
+                        'nbdb': {'routers': 0, 'switches': 0},
+                        'sbdb': {'chassis': 0, 'ports': 0,
+                                 'router-gateways': 0}}}
+        inst = summary.OpenvSwitchSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertDictEqual(actual, expected)
 
     @utils.create_data_root({'sos_commands/openvswitch/ovs-appctl_ofproto.'
                              'list-tunnels':
