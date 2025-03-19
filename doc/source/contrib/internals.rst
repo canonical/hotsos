@@ -11,7 +11,7 @@ Hotsos supports the following plugins to cover common cloud applications as well
 * `juju <https://juju.is/>`_
 * `kernel <https://ubuntu.com/kernel>`_
 * `kubernetes <https://kubernetes.io/>`_
-* `lxd <https://linuxcontainers.org/lxd/>`_
+* `lxd <https://canonical.com/lxd>`_
 * `maas <https://maas.io/>`_
 * `mysql <https://dev.mysql.com/doc/refman/8.0/en/mysql-innodb-cluster-introduction.html>`_
 * `openstack <https://www.openstack.org/>`_
