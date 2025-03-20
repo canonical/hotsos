@@ -7,8 +7,9 @@ from hotsos.core.host_helpers import (
 )
 from hotsos.core.plugintools import PluginPartBase
 
-SNAP_LIST = ['microceph', 'microovn', 'microcloud', 'lxd']
+SNAP_LIST = ['microceph', 'microovn', 'microcloud']
 CORE_SNAPS = [rf"(?:snap\.)?{p}" for p in SNAP_LIST]
+DEP_SNAPS = ['lxd']
 SERVICE_EXPRS = [rf"{s}\S*" for s in CORE_SNAPS]
 
 
@@ -16,7 +17,8 @@ SERVICE_EXPRS = [rf"{s}\S*" for s in CORE_SNAPS]
 class MicroCloudInstallInfo(InstallInfoBase):
     """ MicroCloud installation information. """
     snaps: SnapPackageHelper = field(default_factory=lambda:
-                                     SnapPackageHelper(core_snaps=CORE_SNAPS))
+                                     SnapPackageHelper(core_snaps=CORE_SNAPS,
+                                                       other_snaps=DEP_SNAPS))
     systemd: SystemdHelper = field(default_factory=lambda:
                                    SystemdHelper(service_exprs=SERVICE_EXPRS))
 
