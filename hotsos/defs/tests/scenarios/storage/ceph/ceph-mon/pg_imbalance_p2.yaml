@@ -1,0 +1,14 @@
+target-name: pg_imbalance.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_osd_df_tree_--format_json-pretty: |
+      # PG counts are outside the recommended range, but cluster util is under 10%
+      {"nodes": [{"id": 0, "pgs": 5, "name": "osd.0"},
+                 {"id": 1, "pgs": 10, "name": "osd.1"},
+                 {"id": 2, "pgs": 15, "name": "osd.2"}],
+       "summary": {"average_utilization": 5.00}}
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
