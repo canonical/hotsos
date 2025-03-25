@@ -1,9 +1,11 @@
+target-name: pg_imbalance.yaml
 data-root:
   files:
     sos_commands/ceph_mon/json_output/ceph_osd_df_tree_--format_json-pretty: |
       {"nodes": [{"id": 0, "pgs": 295, "name": "osd.0"},
                  {"id": 1, "pgs": 501, "name": "osd.1"},
-                 {"id": 2, "pgs": 200, "name": "osd.2"}]}
+                 {"id": 2, "pgs": 200, "name": "osd.2"}],
+       "summary": {"average_utilization": 20.00}}
   copy-from-original:
     - sos_commands/date/date
     - sos_commands/systemd/systemctl_list-units

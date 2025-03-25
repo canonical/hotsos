@@ -165,7 +165,8 @@ class CephMonTestsBase(utils.BaseTestCase):
         mock_cli_helper.return_value = inst
         out = {'nodes': [{'id': 0, 'pgs': 295, 'name': "osd.0"},
                          {'id': 1, 'pgs': 501, 'name': "osd.1"},
-                         {'id': 2, 'pgs': 200, 'name': "osd.2"}]}
+                         {'id': 2, 'pgs': 200, 'name': "osd.2"}],
+               'summary': {'average_utilization': 20.00}}
         inst.ceph_osd_df_tree_json_decoded.return_value = out
 
         return {'osd-pgs-suboptimal': {
