@@ -233,10 +233,12 @@ class CephCluster():  # pylint: disable=too-many-public-methods
     """
     OSD_META_LIMIT_PERCENT = 5
     OSD_PG_MAX_LIMIT = 500
+    # min cluster utilisation required to trigger this warning
+    OSD_PG_OPTIMAL_MIN_UTIL = 10
     OSD_PG_OPTIMAL_NUM_MAX = 200
     OSD_PG_OPTIMAL_NUM_MIN = 50
     OSD_DISCREPANCY_ALLOWED = 5
-    # If a pool's utilisation is below this value, we consider is "empty"
+    # If a pool's utilisation is below this value, we consider it "empty"
     POOL_EMPTY_THRESHOLD = 2
 
     def __init__(self):
@@ -632,6 +634,19 @@ class CephCluster():  # pylint: disable=too-many-public-methods
     @cached_property
     def osds_pgs_suboptimal(self):
         _osds_pgs = {}
+        if not self.osd_df_tree:
+            return _osds_pgs
+
+        total_util = self.osd_df_tree['summary']['average_utilization']
+        # If the overall cluster utilisation is lower than 10%, we
+        # skip this warning as this is likely to be non-issue due to
+        # the cluster being near-empty where the PG count can't be
+        # increased (unless done manually which isn't recommended).
+        # The PG autoscaler will adjust the PGs (split or merge) as
+        # the cluster grows in size.
+        if total_util < self.OSD_PG_OPTIMAL_MIN_UTIL:
+            return _osds_pgs
+
         for osd, num_pgs in self.osds_pgs.items():
             # allow 30% margin from optimal OSD_PG_OPTIMAL_NUM_* values
             margin_high = self.OSD_PG_OPTIMAL_NUM_MAX * 1.3
