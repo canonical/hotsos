@@ -1,5 +1,5 @@
 vars:
-  expr: 'greenlet.error: cannot switch to a different thread'
+  expr: '.*greenlet.error: cannot switch to a different thread'
   msg_part_common: >-
     service(s) on this host are affected by this bug which is triggered when
     a non-wsgi service that uses greenthreads and oslo.messaging with
@@ -18,8 +18,12 @@ checks:
   gnocchi_has_1934937:
     input: var/log/gnocchi/*.log
     expr: $expr
+  syslog_has_1934937:
+    input: var/log/syslog*
+    expr: $expr
 conclusions:
   nova_1934937:
+    priority: 2
     decision: nova_has_1934937
     raises:
       type: LaunchpadBug
@@ -29,6 +33,7 @@ conclusions:
       format-dict:
         msg_part_common: $msg_part_common
   neutron_1934937:
+    priority: 2
     decision: neutron_has_1934937
     raises:
       type: LaunchpadBug
@@ -38,6 +43,7 @@ conclusions:
       format-dict:
         msg_part_common: $msg_part_common
   cinder_1934937:
+    priority: 2
     decision: cinder_has_1934937
     raises:
       type: LaunchpadBug
@@ -47,11 +53,21 @@ conclusions:
       format-dict:
         msg_part_common: $msg_part_common
   gnocchi_1934937:
+    priority: 2
     decision: gnocchi_has_1934937
     raises:
       type: LaunchpadBug
       bug-id: 1934937
       message: >-
         One or more Gnocchi {msg_part_common}.
+      format-dict:
+        msg_part_common: $msg_part_common
+  syslog_1934937:
+    decision: syslog_has_1934937
+    raises:
+      type: LaunchpadBug
+      bug-id: 1934937
+      message: >-
+        One or more {msg_part_common}.
       format-dict:
         msg_part_common: $msg_part_common
