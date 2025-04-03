@@ -5,7 +5,12 @@ from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import NetworkPort
 from hotsos.core.host_helpers.systemd import SystemdService
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.plugins.openvswitch import OpenvSwitchBase, OVSDB, OVNBase
+from hotsos.core.plugins.openvswitch import (
+    OpenvSwitchBase,
+    OVSDB,
+    OVNBase,
+    OVSFDBStats,
+)
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.openvswitch import (
@@ -101,6 +106,18 @@ Mar  3 22:57:22 compute4 kernel: [1381818.448855] openvswitch: ovs-system: defer
 Mar  3 22:57:23 compute4 kernel: [1381819.715713] openvswitch: ovs-system: deferred action limit reached, drop recirc action
 Mar  3 22:57:24 compute4 kernel: [1381820.269384] openvswitch: ovs-system: deferred action limit reached, drop recirc action
 Mar  3 22:57:24 compute4 kernel: [1381820.499397] openvswitch: ovs-system: deferred action limit reached, drop recirc action
+"""  # noqa
+
+FDB_STATS_BR_EX_FULL = """
+Statistics for bridge "br-ex":
+  Current/maximum MAC entries in the table: 8192/8192
+  Current static MAC entries in the table : 0
+"""  # noqa
+
+FDB_STATS_BR_EX_NOT_FULL = """
+Statistics for bridge "br-ex":
+  Current/maximum MAC entries in the table: 8/8192
+  Current static MAC entries in the table : 0
 """  # noqa
 
 
@@ -277,6 +294,27 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
             inst = summary.OpenvSwitchSummary()
             actual = self.part_output_to_actual(inst.output)['tunnels']
             self.assertEqual(actual, expected)
+
+
+class TestOVSFDBStats(TestOpenvswitchBase):
+    """ Unit tests for ovs fdb statistics code. """
+    @utils.create_data_root({('sos_commands/openvswitch/'
+                              'ovs-appctl_fdb.stats-show_br-ex'):
+                             FDB_STATS_BR_EX_FULL,
+                             ('sos_commands/openvswitch/'
+                              'ovs-vsctl_-t_5_list-br'): 'br-ex'})
+    def test_ovs_fdb_full(self):
+        fdbstats = OVSFDBStats()
+        self.assertEqual(fdbstats.bridges_with_fdb_overflow, ['br-ex'])
+
+    @utils.create_data_root({('sos_commands/openvswitch/'
+                              'ovs-appctl_fdb.stats-show_br-ex'):
+                             FDB_STATS_BR_EX_NOT_FULL,
+                             ('sos_commands/openvswitch/'
+                              'ovs-vsctl_-t_5_list-br'): 'br-ex'})
+    def test_ovs_fdb_not_full(self):
+        fdbstats = OVSFDBStats()
+        self.assertEqual(fdbstats.bridges_with_fdb_overflow, [])
 
 
 class TestOpenvswitchDB(TestOpenvswitchBase):

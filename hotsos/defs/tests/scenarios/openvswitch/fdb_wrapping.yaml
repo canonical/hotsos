@@ -1,0 +1,22 @@
+data-root:
+  files:
+    sos_commands/openvswitch/ovs-appctl_fdb.stats-show_br-ex: |
+      Statistics for bridge "br-ex":
+        Current/maximum MAC entries in the table: 8192/8192
+        Current static MAC entries in the table : 0
+        Total number of learned MAC entries     : 404733358
+        Total number of expired MAC entries     : 1
+        Total number of evicted MAC entries     : 404725165
+        Total number of port moved MAC entries  : 3
+  copy-from-original:
+    - sos_commands/openvswitch/ovs-vsctl_-t_5_list-br
+    - sos_commands/openvswitch/ovs-appctl_fdb.stats-show_br-data
+    - sos_commands/openvswitch/ovs-appctl_fdb.stats-show_br-int
+    - sos_commands/openvswitch/ovs-appctl_fdb.stats-show_br-tun
+raised-issues:
+  OpenvSwitchWarning: >-
+    The FDB table for bridge(s) br-ex is full. Usually it is a symptom of the FDB table wrapping which
+    negatively impacts performance of the ovs-vswitchd daemon. Inspect
+    the output of the 'ovs-appctl fdb/stats-show <bridge>' command and
+    check the https://developers.redhat.com/blog/2018/09/19/troubleshooting-fdb-table-wrapping-in-open-vswitch
+    for more details.

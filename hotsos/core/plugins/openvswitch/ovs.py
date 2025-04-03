@@ -177,6 +177,41 @@ class OpenvSwitchBase():
         return False
 
 
+class OVSFDBStats(OpenvSwitchBase):
+    """ Interface to OVS Forwarding DataBase statistics. """
+    @cached_property
+    def bridges_with_fdb_overflow(self):
+        """
+        Check each bridge using 'ovs-appctl fdb/stats-show <br name>' to see if
+        its current MAC entries count is greater than the maximum allowed. If
+        current >= maximum, it means the FDB is full and we return a list of
+        affected bridges.
+
+        @return: list of bridges with full FDB.
+        """
+        expr = r'\s*Current/maximum MAC entries in the table: (\d+)/(\d+)'
+        searcher = FileSearcher()
+        with CLIHelperFile() as cli:
+            for bridge in self.bridges:
+                log.info("Checking FDB for bridge '%s'", bridge.name)
+                searcher.add(SearchDef(expr, tag=bridge.name),
+                             cli.ovs_appctl(command='fdb/stats-show',
+                                            args=bridge.name))
+
+            results = searcher.run().all
+            bridges = []
+            for r in results:
+                bridge = r.tag
+                current, maximum = int(r.get(1)), int(r.get(2))
+                log.debug("Bridge '%s', FDB size: current='%s' max='%s'",
+                          bridge, current, maximum)
+                # Testing for the FDB table full condition
+                if current >= maximum:
+                    bridges.append(bridge)
+
+        return bridges
+
+
 class OVSBFDSearch(OpenvSwitchGlobalSearchBase):
     """
     OVS BFD representation.
