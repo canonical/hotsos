@@ -177,6 +177,40 @@ class OpenvSwitchBase():
         return False
 
 
+class OVSFDBStats(OpenvSwitchBase):
+    """
+    OVS Forwarding DataBase statistics
+
+    """
+    def __init__(self, *args, global_searcher=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields = {'fdbfull': False, 'affected_bridges': ''}
+        _bridges = []
+        for bridge in self.bridges:
+            log.info("Checking FDB for bridge '%s'", bridge.name)
+            out = self.cli.ovs_appctl(command='fdb/stats-show',
+                                      args=bridge.name)
+            cexpr = re.compile(
+                r'\s*Current/maximum MAC entries in the table: (\S+)')
+            for line in out:
+                ret = re.match(cexpr, line)
+                if ret:
+                    current, maximum = ret.group(1).split('/')
+                    log.debug("Bridge '%s', FDB size: current='%s' max='%s'",
+                              bridge.name, current, maximum)
+                    # Testing for the FDB table full condition
+                    if int(current) >= int(maximum):
+                        self.fields['fdbfull'] = True
+                        _bridges.append(bridge.name)
+            if len(_bridges) > 0:
+                self.fields['affected_bridges'] = ', '.join(_bridges)
+
+    def __getattr__(self, key):
+        if key in self.fields:
+            return self.fields[key]
+        return None
+
+
 class OVSBFDSearch(OpenvSwitchGlobalSearchBase):
     """
     OVS BFD representation.
