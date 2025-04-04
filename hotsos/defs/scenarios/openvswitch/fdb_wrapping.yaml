@@ -1,0 +1,25 @@
+vars:
+  is_fdb_full: '@hotsos.core.plugins.openvswitch.OVSFDBStats.fdbfull'
+  fdb_full_bridges: '@hotsos.core.plugins.openvswitch.OVSFDBStats.affected_bridges'
+  fdb_full_msg_part1: >-
+    The FDB table for bridge(s)
+  fdb_full_msg_part2: >-
+    is full. Usually it is a symptom of the FDB table wrapping which
+    negatively impacts performance of the ovs-vswitchd daemon. Inspect
+    the output of the 'ovs-appctl fdb/stats-show <bridge>' command and
+    check the https://developers.redhat.com/blog/2018/09/19/troubleshooting-fdb-table-wrapping-in-open-vswitch
+    for more details.
+checks:
+  fdb_is_full:
+    varops: [[$is_fdb_full], [eq, true]]
+conclusions:
+  fdb_is_wrapping:
+    decision: fdb_is_full
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        {part1} {bridges} {part2}
+      format-dict:
+        part1: $fdb_full_msg_part1
+        part2: $fdb_full_msg_part2
+        bridges: $fdb_full_bridges

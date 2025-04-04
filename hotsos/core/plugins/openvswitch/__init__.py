@@ -6,6 +6,7 @@ from .ovs import (
     OVSDPLookups,
     OVSBridge,
     OVSDPDK,
+    OVSFDBStats,
 )
 from .ovn import (
     OVNBase,
@@ -20,4 +21,5 @@ __all__ = [
     OVSDPDK.__name__,
     OVSDPLookups.__name__,
     OVNBase.__name__,
+    OVSFDBStats.__name__,
     ]
