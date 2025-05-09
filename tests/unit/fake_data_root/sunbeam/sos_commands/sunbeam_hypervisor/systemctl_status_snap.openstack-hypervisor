@@ -1,0 +1,291 @@
+● snap.openstack-hypervisor.ovsdb-server.service - Service for snap application openstack-hypervisor.ovsdb-server
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.ovsdb-server.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:12 UTC; 10h ago
+      Tasks: 1 (limit: 19136)
+     Memory: 15.3M (peak: 43.3M)
+        CPU: 5.504s
+     CGroup: /system.slice/snap.openstack-hypervisor.ovsdb-server.service
+             └─1977 ovsdb-server /var/snap/openstack-hypervisor/common/etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock --private-key=db:Open_vSwitch,SSL,private_key --certificate=db:Open_vSwitch,SSL,certificate --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/openvswitch/ovsdb-server.log --pidfile=/var/snap/openstack-hypervisor/common/run/openvswitch/ovsdb-server.pid --detach
+
+May 14 04:22:03 noble-sunbeam systemd[1]: Starting snap.openstack-hypervisor.ovsdb-server.service - Service for snap application openstack-hypervisor.ovsdb-server...
+May 14 04:22:11 noble-sunbeam openstack-hypervisor.ovsdb-server[1925]:  * Starting ovsdb-server
+May 14 04:22:12 noble-sunbeam ovs-vsctl[1984]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait set Open_vSwitch . ovs-version=3.3.0 "external-ids:system-id=\"noble-sunbeam.lxd\"" "external-ids:rundir=\"/var/snap/openstack-hypervisor/common/run/openvswitch\"" "system-type=\"ubuntu-core\"" "system-version=\"24\""
+May 14 04:22:12 noble-sunbeam openstack-hypervisor.ovsdb-server[1925]:  * Configuring Open vSwitch system IDs
+May 14 04:22:12 noble-sunbeam openstack-hypervisor.ovsdb-server[1925]:  * Enabling remote OVSDB managers
+May 14 04:22:12 noble-sunbeam ovs-vsctl[1991]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=noble-sunbeam.lxd
+May 14 04:22:12 noble-sunbeam systemd[1]: Started snap.openstack-hypervisor.ovsdb-server.service - Service for snap application openstack-hypervisor.ovsdb-server.
+
+● snap.openstack-hypervisor.ceilometer-compute-agent.service - Service for snap application openstack-hypervisor.ceilometer-compute-agent
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.ceilometer-compute-agent.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1012 (python3)
+      Tasks: 3 (limit: 19136)
+     Memory: 95.4M (peak: 157.2M)
+        CPU: 4h 44min 29.333s
+     CGroup: /system.slice/snap.openstack-hypervisor.ceilometer-compute-agent.service
+             ├─1012 python3 /snap/openstack-hypervisor/244/bin/ceilometer-compute-agent-service
+             └─1918 "ceilometer-polling: master process [/snap/openstack-hypervisor/244/usr/bin/ceilometer-polling --config-file /var/snap/openstack-hypervisor/common/etc/ceilometer/ceilometer.conf --polling-namespaces compute]"
+
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/ceilometer/polling/manager.py", line 535, in run
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils     self.polling_manager = PollingManager(self.conf)
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils                            ^^^^^^^^^^^^^^^^^^^^^^^^^
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/ceilometer/polling/manager.py", line 689, in __init__
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils     if 'sources' not in cfg:
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils        ^^^^^^^^^^^^^^^^^^^^
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils TypeError: argument of type 'NoneType' is not iterable
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1958461]: 2025-05-14 14:24:06.273 1958461 ERROR cotyledon._utils 
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1918]: 2025-05-14 14:24:06.280 1918 INFO cotyledon._service_manager [-] Child 1958461 exited with status 2
+May 14 14:24:06 noble-sunbeam openstack-hypervisor.ceilometer-compute-agent[1918]: 2025-05-14 14:24:06.281 1918 INFO cotyledon._service_manager [-] Forking too fast, sleeping
+
+● snap.openstack-hypervisor.ovn-controller.service - Service for snap application openstack-hypervisor.ovn-controller
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.ovn-controller.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:14 UTC; 10h ago
+   Main PID: 2276 (ovn-controller)
+      Tasks: 5 (limit: 19136)
+     Memory: 3.7M (peak: 10.0M)
+        CPU: 7.246s
+     CGroup: /system.slice/snap.openstack-hypervisor.ovn-controller.service
+             └─2276 ovn-controller unix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/ovn/ovn-controller.log --pidfile=/var/snap/openstack-hypervisor/common/run/ovn/ovn-controller.pid --detach
+
+May 14 04:23:55 noble-sunbeam ovn-controller[2276]: ovs|00020|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:24:03 noble-sunbeam ovn-controller[2276]: ovs|00021|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:24:11 noble-sunbeam ovn-controller[2276]: ovs|00022|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:24:19 noble-sunbeam ovn-controller[2276]: ovs|00023|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:24:27 noble-sunbeam ovn-controller[2276]: ovs|00024|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:25:07 noble-sunbeam ovn-controller[2276]: ovs|00025|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:25:15 noble-sunbeam ovn-controller[2276]: ovs|00026|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:25:23 noble-sunbeam ovn-controller[2276]: ovs|00027|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:25:31 noble-sunbeam ovn-controller[2276]: ovs|00028|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+May 14 04:25:39 noble-sunbeam ovn-controller[2276]: ovs|00029|stream_ssl|ERR|ssl:172.16.1.202:6642: connect: Operation not permitted
+
+● snap.openstack-hypervisor.ovs-vswitchd.service - Service for snap application openstack-hypervisor.ovs-vswitchd
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.ovs-vswitchd.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:13 UTC; 10h ago
+      Tasks: 11 (limit: 19136)
+     Memory: 90.9M (peak: 95.0M)
+        CPU: 56.387s
+     CGroup: /system.slice/snap.openstack-hypervisor.ovs-vswitchd.service
+             └─2056 ovs-vswitchd unix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --mlockall --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/openvswitch/ovs-vswitchd.log --pidfile=/var/snap/openstack-hypervisor/common/run/openvswitch/ovs-vswitchd.pid --detach
+
+May 14 04:22:12 noble-sunbeam systemd[1]: Starting snap.openstack-hypervisor.ovs-vswitchd.service - Service for snap application openstack-hypervisor.ovs-vswitchd...
+May 14 04:22:13 noble-sunbeam openstack-hypervisor.ovs-vswitchd[1992]:  * Starting ovs-vswitchd
+May 14 04:22:13 noble-sunbeam openstack-hypervisor.ovs-vswitchd[1992]:  * Enabling remote OVSDB managers
+May 14 04:22:13 noble-sunbeam systemd[1]: Started snap.openstack-hypervisor.ovs-vswitchd.service - Service for snap application openstack-hypervisor.ovs-vswitchd.
+May 14 04:22:13 noble-sunbeam ovs-vsctl[2110]: ovs|00001|vsctl|INFO|Called as ovs-vsctl --no-wait add Open_vSwitch . external-ids hostname=noble-sunbeam.lxd
+
+● snap.openstack-hypervisor.libvirtd.service - Service for snap application openstack-hypervisor.libvirtd
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.libvirtd.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1011 (libvirtd)
+      Tasks: 20 (limit: 19136)
+     Memory: 19.7M (peak: 73.3M)
+        CPU: 2min 15.086s
+     CGroup: /system.slice/snap.openstack-hypervisor.libvirtd.service
+             └─1011 /snap/openstack-hypervisor/244/usr/sbin/libvirtd --pid /var/snap/openstack-hypervisor/244/libvirt.pid --listen
+
+May 14 14:23:43 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:23:43 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:23:48 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:23:49 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:23:54 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:23:54 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:24:00 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:24:00 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:24:05 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+May 14 14:24:06 noble-sunbeam libvirtd[1011]: End of file while reading data: Input/output error
+
+● snap.openstack-hypervisor.nova-compute.service - Service for snap application openstack-hypervisor.nova-compute
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.nova-compute.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1020 (python3)
+      Tasks: 23 (limit: 19136)
+     Memory: 173.2M (peak: 191.7M)
+        CPU: 1min 53.840s
+     CGroup: /system.slice/snap.openstack-hypervisor.nova-compute.service
+             ├─1020 python3 /snap/openstack-hypervisor/244/bin/nova-compute-service
+             └─1920 python3 /snap/openstack-hypervisor/244/usr/bin/nova-compute --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+
+May 14 12:58:24 noble-sunbeam nova-compute[1920]: 2025-05-14 12:58:24.467 1920 ERROR nova.compute.resource_tracker [None req-fe455de1-d7cb-4d6b-a8e6-812fe94d79fb - - - - - -] Skipping removal of allocations for deleted instances: Failed to retrieve allocations for resource provider 50043fd9-0e93-49d9-88f7-d776760bef9b: {"message": "The server is currently unavailable. Please try again at a later time.<br /><br />\nThe Keystone service is temporarily unavailable.\n\n", "code": "503 Service Unavailable", "title": "Service Unavailable"}: nova.exception.ResourceProviderAllocationRetrievalFailed: Failed to retrieve allocations for resource provider 50043fd9-0e93-49d9-88f7-d776760bef9b: {"message": "The server is currently unavailable. Please try again at a later time.<br /><br />\nThe Keystone service is temporarily unavailable.\n\n", "code": "503 Service Unavailable", "title": "Service Unavailable"}
+May 14 12:58:25 noble-sunbeam nova-compute[1920]: 2025-05-14 12:58:25.308 1920 ERROR nova.scheduler.client.report [None req-08e7fa7a-187c-4e17-9fad-a42b5652625b - - - - - -] [req-4e79a98a-cf7f-4b4f-9fa9-413ea463b45a] Failed to retrieve resource provider tree from placement API for UUID 50043fd9-0e93-49d9-88f7-d776760bef9b. Got 500: {"errors": [{"status": 500, "title": "Internal Server Error", "detail": "The server has either erred or is incapable of performing the requested operation.\n\n (pymysql.err.OperationalError) (2003, \"Can't connect to MySQL server on 'placement-mysql-router-service.openstack.svc.cluster.local' ([Errno 1] Operation not permitted)\") (Background on this error at: https://sqlalche.me/e/14/e3q8)  ", "request_id": "req-4e79a98a-cf7f-4b4f-9fa9-413ea463b45a"}]}.
+May 14 12:58:25 noble-sunbeam nova-compute[1920]: 2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager [None req-08e7fa7a-187c-4e17-9fad-a42b5652625b - - - - - -] Error updating resources for node noble-sunbeam.lxd.: nova.exception.ResourceProviderRetrievalFailed: Failed to get resource provider with UUID 50043fd9-0e93-49d9-88f7-d776760bef9b
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager Traceback (most recent call last):
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/manager.py", line 10572, in _update_available_resource_for_node
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     self.rt.update_available_resource(context, nodename,
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 935, in update_available_resource
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     self._update_available_resource(context, resources, startup=startup)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py", line 412, in inner
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     return f(*args, **kwargs)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1066, in _update_available_resource
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     self._update(context, cn, startup=startup)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1375, in _update
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     self._update_to_placement(context, compute_node, startup)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 49, in wrapped_f
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     return Retrying(*dargs, **dkw).call(f, *args, **kw)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 206, in call
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     return attempt.get(self._wrap_exception)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 247, in get
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     six.reraise(self.value[0], self.value[1], self.value[2])
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/six.py", line 719, in reraise
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     raise value
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 200, in call
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     attempt = Attempt(fn(*args, **kwargs), attempt_number, False)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager                       ^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1280, in _update_to_placement
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     prov_tree = self.reportclient.get_provider_tree_and_ensure_root(
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 899, in get_provider_tree_and_ensure_root
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     self._ensure_resource_provider(
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 688, in _ensure_resource_provider
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     rps_to_refresh = self.get_providers_in_tree(context, uuid)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 551, in get_providers_in_tree
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager     raise exception.ResourceProviderRetrievalFailed(uuid=uuid)
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager nova.exception.ResourceProviderRetrievalFailed: Failed to get resource provider with UUID 50043fd9-0e93-49d9-88f7-d776760bef9b
+                                                  2025-05-14 12:58:25.309 1920 ERROR nova.compute.manager 
+May 14 12:59:20 noble-sunbeam nova-compute[1920]: 2025-05-14 12:59:20.041 1920 ERROR nova.compute.resource_tracker [None req-08e7fa7a-187c-4e17-9fad-a42b5652625b - - - - - -] Skipping removal of allocations for deleted instances: Failed to retrieve allocations for resource provider 50043fd9-0e93-49d9-88f7-d776760bef9b: 404 page not found
+                                                  : nova.exception.ResourceProviderAllocationRetrievalFailed: Failed to retrieve allocations for resource provider 50043fd9-0e93-49d9-88f7-d776760bef9b: 404 page not found
+May 14 12:59:20 noble-sunbeam nova-compute[1920]: 2025-05-14 12:59:20.058 1920 ERROR nova.scheduler.client.report [None req-1e7f1fe7-f7af-41ef-b407-e167d53825d3 - - - - - -] [None] Failed to retrieve resource provider tree from placement API for UUID 50043fd9-0e93-49d9-88f7-d776760bef9b. Got 404: 404 page not found
+                                                  .
+May 14 12:59:20 noble-sunbeam nova-compute[1920]: 2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager [None req-1e7f1fe7-f7af-41ef-b407-e167d53825d3 - - - - - -] Error updating resources for node noble-sunbeam.lxd.: nova.exception.ResourceProviderRetrievalFailed: Failed to get resource provider with UUID 50043fd9-0e93-49d9-88f7-d776760bef9b
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager Traceback (most recent call last):
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/manager.py", line 10572, in _update_available_resource_for_node
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     self.rt.update_available_resource(context, nodename,
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 935, in update_available_resource
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     self._update_available_resource(context, resources, startup=startup)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py", line 412, in inner
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     return f(*args, **kwargs)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1066, in _update_available_resource
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     self._update(context, cn, startup=startup)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1375, in _update
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     self._update_to_placement(context, compute_node, startup)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 49, in wrapped_f
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     return Retrying(*dargs, **dkw).call(f, *args, **kw)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 206, in call
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     return attempt.get(self._wrap_exception)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 247, in get
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     six.reraise(self.value[0], self.value[1], self.value[2])
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/six.py", line 719, in reraise
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     raise value
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 200, in call
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     attempt = Attempt(fn(*args, **kwargs), attempt_number, False)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager                       ^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1280, in _update_to_placement
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     prov_tree = self.reportclient.get_provider_tree_and_ensure_root(
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 899, in get_provider_tree_and_ensure_root
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     self._ensure_resource_provider(
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 688, in _ensure_resource_provider
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     rps_to_refresh = self.get_providers_in_tree(context, uuid)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 551, in get_providers_in_tree
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager     raise exception.ResourceProviderRetrievalFailed(uuid=uuid)
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager nova.exception.ResourceProviderRetrievalFailed: Failed to get resource provider with UUID 50043fd9-0e93-49d9-88f7-d776760bef9b
+                                                  2025-05-14 12:59:20.058 1920 ERROR nova.compute.manager 
+May 14 14:07:23 noble-sunbeam nova-compute[1920]: 2025-05-14 14:07:23.791 1920 ERROR oslo.messaging._drivers.impl_rabbit [-] [bc0491df-1015-49af-acef-35749661c2c0] AMQP server on 172.16.1.203:5672 is unreachable: Too many heartbeats missed. Trying again in 1 seconds.: amqp.exceptions.ConnectionForced: Too many heartbeats missed
+May 14 14:07:24 noble-sunbeam nova-compute[1920]: 2025-05-14 14:07:24.958 1920 INFO oslo.messaging._drivers.impl_rabbit [-] [bc0491df-1015-49af-acef-35749661c2c0] Reconnected to AMQP server on 172.16.1.203:5672 via [amqp] client with port 48642.
+May 14 14:07:32 noble-sunbeam nova-compute[1920]: 2025-05-14 14:07:32.462 1920 ERROR nova.scheduler.client.report [None req-56211cb9-5972-4f3f-bb24-dcac52c2977c - - - - - -] [req-b3e26a71-97e1-444c-912a-7b150f72993b] Failed to retrieve resource provider tree from placement API for UUID 50043fd9-0e93-49d9-88f7-d776760bef9b. Got 503: {"message": "The server is currently unavailable. Please try again at a later time.<br /><br />\nThe Keystone service is temporarily unavailable.\n\n", "code": "503 Service Unavailable", "title": "Service Unavailable"}.
+May 14 14:07:32 noble-sunbeam nova-compute[1920]: 2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager [None req-56211cb9-5972-4f3f-bb24-dcac52c2977c - - - - - -] Error updating resources for node noble-sunbeam.lxd.: nova.exception.ResourceProviderRetrievalFailed: Failed to get resource provider with UUID 50043fd9-0e93-49d9-88f7-d776760bef9b
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager Traceback (most recent call last):
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/manager.py", line 10572, in _update_available_resource_for_node
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     self.rt.update_available_resource(context, nodename,
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 935, in update_available_resource
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     self._update_available_resource(context, resources, startup=startup)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/oslo_concurrency/lockutils.py", line 412, in inner
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     return f(*args, **kwargs)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1066, in _update_available_resource
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     self._update(context, cn, startup=startup)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1375, in _update
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     self._update_to_placement(context, compute_node, startup)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 49, in wrapped_f
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     return Retrying(*dargs, **dkw).call(f, *args, **kw)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 206, in call
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     return attempt.get(self._wrap_exception)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 247, in get
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     six.reraise(self.value[0], self.value[1], self.value[2])
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/six.py", line 719, in reraise
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     raise value
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/retrying.py", line 200, in call
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     attempt = Attempt(fn(*args, **kwargs), attempt_number, False)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager                       ^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/compute/resource_tracker.py", line 1280, in _update_to_placement
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     prov_tree = self.reportclient.get_provider_tree_and_ensure_root(
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 899, in get_provider_tree_and_ensure_root
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     self._ensure_resource_provider(
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 688, in _ensure_resource_provider
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     rps_to_refresh = self.get_providers_in_tree(context, uuid)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager   File "/snap/openstack-hypervisor/244/usr/lib/python3/dist-packages/nova/scheduler/client/report.py", line 551, in get_providers_in_tree
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager     raise exception.ResourceProviderRetrievalFailed(uuid=uuid)
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager nova.exception.ResourceProviderRetrievalFailed: Failed to get resource provider with UUID 50043fd9-0e93-49d9-88f7-d776760bef9b
+                                                  2025-05-14 14:07:32.463 1920 ERROR nova.compute.manager 
+
+● snap.openstack-hypervisor.virtlogd.service - Service for snap application openstack-hypervisor.virtlogd
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.virtlogd.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1036 (virtlogd)
+      Tasks: 1 (limit: 19136)
+     Memory: 6.5M (peak: 23.5M)
+        CPU: 1.316s
+     CGroup: /system.slice/snap.openstack-hypervisor.virtlogd.service
+             └─1036 /snap/openstack-hypervisor/244/usr/sbin/virtlogd --pid /var/snap/openstack-hypervisor/244/virtlogd.pid
+
+May 14 04:22:03 noble-sunbeam systemd[1]: Started snap.openstack-hypervisor.virtlogd.service - Service for snap application openstack-hypervisor.virtlogd.
+
+● snap.openstack-hypervisor.nova-api-metadata.service - Service for snap application openstack-hypervisor.nova-api-metadata
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.nova-api-metadata.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1019 (python3)
+      Tasks: 6 (limit: 19136)
+     Memory: 185.4M (peak: 198.3M)
+        CPU: 8min 19.017s
+     CGroup: /system.slice/snap.openstack-hypervisor.nova-api-metadata.service
+             ├─ 1019 python3 /snap/openstack-hypervisor/244/bin/nova-api-metadata-service
+             ├─ 1917 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+             ├─91350 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+             ├─91352 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+             ├─91354 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+             └─91356 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+
+May 14 11:24:46 noble-sunbeam nova-api-metadata[91356]: 2025-05-14 11:24:46.138 91356 ERROR oslo.messaging._drivers.impl_rabbit [-] Connection failed: [Errno 111] ECONNREFUSED (retrying in 23.0 seconds): ConnectionRefusedError: [Errno 111] ECONNREFUSED
+May 14 11:24:46 noble-sunbeam nova-api-metadata[91352]: 2025-05-14 11:24:46.260 91352 ERROR oslo.messaging._drivers.impl_rabbit [-] Connection failed: [Errno 111] ECONNREFUSED (retrying in 23.0 seconds): ConnectionRefusedError: [Errno 111] ECONNREFUSED
+May 14 11:24:54 noble-sunbeam nova-api-metadata[91350]: 2025-05-14 11:24:54.268 91350 ERROR oslo.messaging._drivers.impl_rabbit [-] [c9e79f9d-85e8-47f1-98b8-96144f464308] AMQP server on 172.16.1.203:5672 is unreachable: [Errno 111] ECONNREFUSED. Trying again in 20 seconds.: ConnectionRefusedError: [Errno 111] ECONNREFUSED
+May 14 11:24:54 noble-sunbeam nova-api-metadata[91352]: 2025-05-14 11:24:54.284 91352 ERROR oslo.messaging._drivers.impl_rabbit [-] [a3d53f3c-bdea-465d-a1f3-fbde9fa2e5be] AMQP server on 172.16.1.203:5672 is unreachable: [Errno 111] ECONNREFUSED. Trying again in 20 seconds.: ConnectionRefusedError: [Errno 111] ECONNREFUSED
+May 14 11:24:54 noble-sunbeam nova-api-metadata[91356]: 2025-05-14 11:24:54.362 91356 ERROR oslo.messaging._drivers.impl_rabbit [-] [6ecf651a-f34d-4bcf-86c3-a9cce22ee4ed] AMQP server on 172.16.1.203:5672 is unreachable: [Errno 111] ECONNREFUSED. Trying again in 20 seconds.: ConnectionRefusedError: [Errno 111] ECONNREFUSED
+May 14 11:24:54 noble-sunbeam nova-api-metadata[91354]: 2025-05-14 11:24:54.460 91354 ERROR oslo.messaging._drivers.impl_rabbit [-] [639d79ac-eb6c-4525-a32c-8d8942485738] AMQP server on 172.16.1.203:5672 is unreachable: [Errno 111] ECONNREFUSED. Trying again in 20 seconds.: ConnectionRefusedError: [Errno 111] ECONNREFUSED
+May 14 11:25:14 noble-sunbeam nova-api-metadata[91350]: 2025-05-14 11:25:14.374 91350 INFO oslo.messaging._drivers.impl_rabbit [-] [c9e79f9d-85e8-47f1-98b8-96144f464308] Reconnected to AMQP server on 172.16.1.203:5672 via [amqp] client with port 35862.
+May 14 11:25:14 noble-sunbeam nova-api-metadata[91352]: 2025-05-14 11:25:14.399 91352 INFO oslo.messaging._drivers.impl_rabbit [-] [a3d53f3c-bdea-465d-a1f3-fbde9fa2e5be] Reconnected to AMQP server on 172.16.1.203:5672 via [amqp] client with port 35864.
+May 14 11:25:14 noble-sunbeam nova-api-metadata[91356]: 2025-05-14 11:25:14.437 91356 INFO oslo.messaging._drivers.impl_rabbit [-] [6ecf651a-f34d-4bcf-86c3-a9cce22ee4ed] Reconnected to AMQP server on 172.16.1.203:5672 via [amqp] client with port 35866.
+May 14 11:25:14 noble-sunbeam nova-api-metadata[91354]: 2025-05-14 11:25:14.537 91354 INFO oslo.messaging._drivers.impl_rabbit [-] [639d79ac-eb6c-4525-a32c-8d8942485738] Reconnected to AMQP server on 172.16.1.203:5672 via [amqp] client with port 35880.
+
+● snap.openstack-hypervisor.neutron-ovn-metadata-agent.service - Service for snap application openstack-hypervisor.neutron-ovn-metadata-agent
+     Loaded: loaded (/etc/systemd/system/snap.openstack-hypervisor.neutron-ovn-metadata-agent.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1018 (python3)
+      Tasks: 4 (limit: 19136)
+     Memory: 275.4M (peak: 311.4M)
+        CPU: 28.843s
+     CGroup: /system.slice/snap.openstack-hypervisor.neutron-ovn-metadata-agent.service
+             ├─ 1018 python3 /snap/openstack-hypervisor/244/bin/neutron-ovn-metadata-agent-service
+             ├─ 1916 "neutron-ovn-metadata-agent (python3 /snap/openstack-hypervisor/244/usr/bin/neutron-ovn-metadata-agent --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron_ovn_metadata_agent.ini --config-dir /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf.d)"
+             └─73409 python3 /snap/openstack-hypervisor/244/usr/bin/privsep-helper --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron_ovn_metadata_agent.ini --config-dir /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf.d --privsep_context neutron.privileged.namespace_cmd --privsep_sock_path /tmp/tmpd37qrubr/privsep.sock
+
+May 14 11:23:39 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 11:23:39.981 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connection closed by client
+May 14 11:23:39 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 11:23:39.982 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: waiting 2 seconds before reconnect
+May 14 11:23:41 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 11:23:41.994 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connecting...
+May 14 11:23:42 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 11:23:42.026 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connected
+May 14 12:58:38 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 12:58:38.014 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connection closed by peer
+May 14 12:58:39 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 12:58:39.062 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connecting...
+May 14 12:58:39 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 12:58:39.138 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connected
+May 14 14:07:53 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 14:07:53.843 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connection closed by peer
+May 14 14:07:54 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 14:07:54.858 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connecting...
+May 14 14:07:54 noble-sunbeam neutron-ovn-metadata-agent[1916]: 2025-05-14 14:07:54.883 1916 INFO ovsdbapp.backend.ovs_idl.vlog [-] ssl:172.16.1.202:6642: connected

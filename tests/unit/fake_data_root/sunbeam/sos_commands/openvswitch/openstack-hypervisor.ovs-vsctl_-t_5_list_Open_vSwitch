@@ -1,0 +1,18 @@
+_uuid               : 63033229-b589-4dcf-a6ba-4183c7205c1c
+bridges             : [7bc43510-c985-4452-95bb-ccd1229006bc, a9c3d5b4-f240-4f14-ba99-5c99be4b065c]
+cur_cfg             : 6
+datapath_types      : [netdev, system]
+datapaths           : {system=51aa932b-7442-4554-bdb9-a007a45a26b3}
+db_version          : "8.5.0"
+dpdk_initialized    : false
+dpdk_version        : "DPDK 23.11.0"
+external_ids        : {hostname=noble-sunbeam.lxd, ovn-bridge-mappings="physnet1:br-ex", ovn-cms-options=enable-chassis-as-gw, ovn-encap-ip="10.194.140.193", ovn-encap-type=geneve, ovn-match-northd-version="true", ovn-remote="ssl:172.16.1.202:6642", rundir="/var/snap/openstack-hypervisor/common/run/openvswitch", system-id=noble-sunbeam.lxd}
+iface_types         : [afxdp, afxdp-nonpmd, bareudp, erspan, geneve, gre, gtpu, internal, ip6erspan, ip6gre, lisp, patch, srv6, stt, system, tap, vxlan]
+manager_options     : []
+next_cfg            : 6
+other_config        : {ovn-chassis-idx-noble-sunbeam.lxd="", vlan-limit="0"}
+ovs_version         : "3.3.0"
+ssl                 : ca503f09-f9b5-4b30-9fc3-e119516a2af4
+statistics          : {}
+system_type         : ubuntu-core
+system_version      : "24"

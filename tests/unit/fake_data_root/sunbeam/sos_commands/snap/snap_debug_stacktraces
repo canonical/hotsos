@@ -1,0 +1,175 @@
+goroutine 12729 [running]:
+github.com/snapcore/snapd/daemon.getStacktraces()
+	/build/snapd/parts/snapd/build/daemon/api_debug_stacktrace.go:29 +0x3c
+github.com/snapcore/snapd/daemon.postDebug(0x5cfeedc49a00, 0xc000621040, 0x7e211c344a68?)
+	/build/snapd/parts/snapd/build/daemon/api_debug.go:409 +0x636
+github.com/snapcore/snapd/daemon.(*Command).ServeHTTP(0x5cfeedc49a00, {0x5cfeed49f5d8, 0xc000a1b638}, 0xc000620f00)
+	/build/snapd/parts/snapd/build/daemon/daemon.go:164 +0x3d3
+github.com/gorilla/mux.(*Router).ServeHTTP(0xc000266180, {0x5cfeed49f5d8, 0xc000a1b638}, 0xc00072e000)
+	/build/snapd/parts/snapd/build/vendor/github.com/gorilla/mux/mux.go:210 +0x1e2
+github.com/snapcore/snapd/daemon.(*Daemon).Start.logit.func4({0x5cfeed49f968, 0xc000789500}, 0xc00072e000)
+	/build/snapd/parts/snapd/build/daemon/daemon.go:216 +0xd2
+net/http.HandlerFunc.ServeHTTP(0x5cfeec11a2a5?, {0x5cfeed49f968?, 0xc000789500?}, 0xc000789501?)
+	/snap/go/10863/src/net/http/server.go:2220 +0x29
+net/http.serverHandler.ServeHTTP({0x5cfeed49b858?}, {0x5cfeed49f968?, 0xc000789500?}, 0x6?)
+	/snap/go/10863/src/net/http/server.go:3210 +0x8e
+net/http.(*conn).serve(0xc0007121b0, {0x5cfeed4a20a8, 0xc0008a1bf0})
+	/snap/go/10863/src/net/http/server.go:2092 +0x5d0
+created by net/http.(*Server).Serve in goroutine 74
+	/snap/go/10863/src/net/http/server.go:3360 +0x485
+
+goroutine 1 [select, 436 minutes]:
+main.run(0xc00032d1f0)
+	/build/snapd/parts/snapd/build/cmd/snapd/main.go:169 +0x406
+main.main()
+	/build/snapd/parts/snapd/build/cmd/snapd/main.go:71 +0x14f
+
+goroutine 9 [syscall, 436 minutes]:
+os/signal.signal_recv()
+	/snap/go/10863/src/runtime/sigqueue.go:152 +0x29
+os/signal.loop()
+	/snap/go/10863/src/os/signal/signal_unix.go:23 +0x13
+created by os/signal.Notify.func1.1 in goroutine 1
+	/snap/go/10863/src/os/signal/signal.go:151 +0x1f
+
+goroutine 73 [select, 1 minutes]:
+github.com/snapcore/snapd/overlord.(*Overlord).Loop.func1()
+	/build/snapd/parts/snapd/build/overlord/overlord.go:489 +0x12a
+gopkg.in/tomb%2ev2.(*Tomb).run(0xc0007b40a0, 0x5f0?)
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b
+created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+
+goroutine 74 [IO wait]:
+internal/poll.runtime_pollWait(0x7e20d4035d08, 0x72)
+	/snap/go/10863/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc0001e7080?, 0x7e211c344f18?, 0x0)
+	/snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc0001e7080)
+	/snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295
+net.(*netFD).accept(0xc0001e7080)
+	/snap/go/10863/src/net/fd_unix.go:172 +0x29
+net.(*UnixListener).accept(0xc0004d3d88?)
+	/snap/go/10863/src/net/unixsock_posix.go:172 +0x16
+net.(*UnixListener).Accept(0xc000139380)
+	/snap/go/10863/src/net/unixsock.go:260 +0x30
+github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x5cfeec42f345?)
+	/build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f
+net/http.(*Server).Serve(0xc0003f21e0, {0x5cfeed49f6c8, 0xc0001393e0})
+	/snap/go/10863/src/net/http/server.go:3330 +0x30c
+github.com/snapcore/snapd/daemon.(*Daemon).Start.func3()
+	/build/snapd/parts/snapd/build/daemon/daemon.go:402 +0x7f
+gopkg.in/tomb%2ev2.(*Tomb).run(0xc0003f2140, 0xc000383ff8?)
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b
+created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+
+goroutine 72 [select, 1 minutes]:
+github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start.func1()
+	/build/snapd/parts/snapd/build/overlord/standby/standby.go:105 +0xea
+created by github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start in goroutine 1
+	/build/snapd/parts/snapd/build/overlord/standby/standby.go:96 +0x96
+
+goroutine 75 [select, 1 minutes]:
+main.runWatchdog.func1()
+	/build/snapd/parts/snapd/build/cmd/snapd/main.go:107 +0x99
+created by main.runWatchdog in goroutine 1
+	/build/snapd/parts/snapd/build/cmd/snapd/main.go:105 +0x107
+
+goroutine 76 [IO wait]:
+internal/poll.runtime_pollWait(0x7e20d4035e20, 0x72)
+	/snap/go/10863/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc0001e7180?, 0x7e211c344108?, 0x0)
+	/snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).Accept(0xc0001e7180)
+	/snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295
+net.(*netFD).accept(0xc0001e7180)
+	/snap/go/10863/src/net/fd_unix.go:172 +0x29
+net.(*UnixListener).accept(0xc00007bd88?)
+	/snap/go/10863/src/net/unixsock_posix.go:172 +0x16
+net.(*UnixListener).Accept(0xc0001393b0)
+	/snap/go/10863/src/net/unixsock.go:260 +0x30
+github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x5cfeec42f345?)
+	/build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f
+net/http.(*Server).Serve(0xc0003f21e0, {0x5cfeed49f6c8, 0xc000139410})
+	/snap/go/10863/src/net/http/server.go:3330 +0x30c
+github.com/snapcore/snapd/daemon.(*Daemon).Start.func3.1()
+	/build/snapd/parts/snapd/build/daemon/daemon.go:394 +0x2c
+gopkg.in/tomb%2ev2.(*Tomb).run(0xc0003f2140, 0x0?)
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b
+created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 74
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+
+goroutine 114 [IO wait, 436 minutes]:
+internal/poll.runtime_pollWait(0x7e20d40358a8, 0x72)
+	/snap/go/10863/src/runtime/netpoll.go:351 +0x85
+internal/poll.(*pollDesc).wait(0xc000126080?, 0xc00022ef10?, 0x0)
+	/snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27
+internal/poll.(*pollDesc).waitRead(...)
+	/snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+internal/poll.(*FD).ReadMsg(0xc000126080, {0xc00022ef10, 0x10, 0x10}, {0xc000483928, 0x1000, 0x1000}, 0x40000000)
+	/snap/go/10863/src/internal/poll/fd_unix.go:302 +0x385
+net.(*netFD).readMsg(0xc000126080, {0xc00022ef10?, 0x8?, 0x2f07000000?}, {0xc000483928?, 0x5cfeed4a6870?, 0x0?}, 0x1?)
+	/snap/go/10863/src/net/fd_posix.go:78 +0x31
+net.(*UnixConn).readMsg(0xc00092a018, {0xc00022ef10?, 0x5cfeec11ea4b?, 0x7e20d402d1e8?}, {0xc000483928?, 0xc00022e698?, 0x5cfeed2a6920?})
+	/snap/go/10863/src/net/unixsock_posix.go:115 +0x45
+net.(*UnixConn).ReadMsgUnix(0xc00092a018, {0xc00022ef10?, 0xc000ae1dc8?, 0x5cfeec1bbcc6?}, {0xc000483928?, 0x7e20d402d1e8?, 0x18?})
+	/snap/go/10863/src/net/unixsock.go:143 +0x36
+github.com/godbus/dbus.(*oobReader).Read(0xc000483908, {0xc00022ef10?, 0xc000ae1e30?, 0x5cfeec11a2a5?})
+	/build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:21 +0x3c
+io.ReadAtLeast({0x5cfeed499960, 0xc000483908}, {0xc00022ef10, 0x10, 0x10}, 0x10)
+	/snap/go/10863/src/io/io.go:335 +0x90
+io.ReadFull(...)
+	/snap/go/10863/src/io/io.go:354
+github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc00039c528)
+	/build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:91 +0xfe
+github.com/godbus/dbus.(*Conn).inWorker(0xc0003fc360)
+	/build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/conn.go:294 +0x35
+created by github.com/godbus/dbus.(*Conn).Auth in goroutine 73
+	/build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/auth.go:118 +0x8ee
+
+goroutine 181 [syscall]:
+syscall.Syscall6(0x17, 0xe, 0xc000075e10, 0x0, 0x0, 0x0, 0x0)
+	/snap/go/10863/src/syscall/syscall_linux.go:95 +0x39
+syscall.Select(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+	/snap/go/10863/src/syscall/zsyscall_linux_amd64.go:1298 +0x4a
+github.com/snapcore/snapd/osutil/udev/netlink.stopperSelectReadable(0xc0007aca80?, 0xd)
+	/build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:57 +0x191
+github.com/snapcore/snapd/osutil/udev/netlink.RawSockStopper.func1()
+	/build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:31 +0x58
+github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor.func4()
+	/build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:139 +0x77
+created by github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor in goroutine 73
+	/build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:136 +0x2a8
+
+goroutine 170 [select, 435 minutes]:
+github.com/snapcore/snapd/overlord/ifacestate/udevmonitor.(*Monitor).Run.func1()
+	/build/snapd/parts/snapd/build/overlord/ifacestate/udevmonitor/udevmon.go:147 +0x292
+gopkg.in/tomb%2ev2.(*Tomb).run(0xc000752120, 0xc0008a1cb0?)
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b
+created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 73
+	/build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+
+goroutine 12808 [runnable]:
+syscall.Syscall(0x0, 0x3, 0xc000658671, 0x1)
+	/snap/go/10863/src/syscall/syscall_linux.go:73 +0x25
+syscall.read(0xc00087c400?, {0xc000658671?, 0x5cfeec179000?, 0xc00092a270?})
+	/snap/go/10863/src/syscall/zsyscall_linux_amd64.go:736 +0x38
+syscall.Read(...)
+	/snap/go/10863/src/syscall/syscall_unix.go:183
+internal/poll.ignoringEINTRIO(...)
+	/snap/go/10863/src/internal/poll/fd_unix.go:745
+internal/poll.(*FD).Read(0xc00087c400, {0xc000658671, 0x1, 0x1})
+	/snap/go/10863/src/internal/poll/fd_unix.go:161 +0x2ae
+net.(*netFD).Read(0xc00087c400, {0xc000658671?, 0xc00038f718?, 0x5cfeec15abf0?})
+	/snap/go/10863/src/net/fd_posix.go:55 +0x25
+net.(*conn).Read(0xc000902128, {0xc000658671?, 0x0?, 0x0?})
+	/snap/go/10863/src/net/net.go:189 +0x45
+net/http.(*connReader).backgroundRead(0xc000658660)
+	/snap/go/10863/src/net/http/server.go:690 +0x37
+created by net/http.(*connReader).startBackgroundRead in goroutine 12729
+	/snap/go/10863/src/net/http/server.go:686 +0xb6

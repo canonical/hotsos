@@ -1,0 +1,6 @@
+_uuid               : 51aa932b-7442-4554-bdb9-a007a45a26b3
+capabilities        : {add_mpls="true", check_pkt_len="true", clone="true", ct_clear="true", ct_eventmask="true", ct_flush="true", ct_label="true", ct_mark="true", ct_orig_tuple="true", ct_orig_tuple6="true", ct_state="true", ct_state_nat="true", ct_timeout="true", ct_zero_snat="true", ct_zone="true", explicit_drop_action="false", lb_output_action="false", masked_set_action="true", max_hash_alg="1", max_mpls_depth="3", max_vlan_headers="2", nd_ext="false", recirc="true", sample_nesting="true", tnl_push_pop="false", trunc="true", ufid="true"}
+ct_zone_default_limit: []
+ct_zones            : {}
+datapath_version    : ""
+external_ids        : {}

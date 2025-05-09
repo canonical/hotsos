@@ -1,0 +1,23 @@
+Name:          ovn-central-databases-6e1cd209-ovn-central-0
+Namespace:     openstack
+StorageClass:  csi-rawfile-default
+Status:        Bound
+Volume:        pvc-d3080134-2020-4fe9-8905-5c68b093dbd0
+Labels:        app.kubernetes.io/managed-by=juju
+               app.kubernetes.io/name=ovn-central
+               storage.juju.is/name=databases
+Annotations:   controller.juju.is/id: f6bcbd57-f5dd-48be-820d-5da61700b5c2
+               juju-storage-owner: ovn-central
+               model.juju.is/id: ee070cdf-4b8b-49ac-80cb-918841540fbe
+               pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+               storage.juju.is/name: databases
+               volume.beta.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+               volume.kubernetes.io/selected-node: noble-sunbeam
+               volume.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      100Mi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       ovn-central-0
+Events:        <none>

@@ -1,0 +1,575 @@
+2025-05-14T04:24:51.436Z [pebble] HTTP API server listening on ":38812".
+2025-05-14T04:24:51.436Z [pebble] Started daemon.
+2025-05-14T04:24:51.517Z [pebble] POST /v1/services 67.897711ms 202
+2025-05-14T04:24:51.545Z [pebble] Service "container-agent" starting: /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env "PATH=$PATH:/charm/bin" --show-log --charm-modified-version 0
+2025-05-14T04:24:51.647Z [container-agent] 2025-05-14 04:24:51 INFO juju.cmd supercommand.go:56 running containerAgent [3.6.5 33b026f4ab2a4fe371764b9c41993d3e1e90ddef gc go1.24.1]
+2025-05-14T04:24:51.648Z [container-agent] starting containeragent unit command
+2025-05-14T04:24:51.648Z [container-agent] containeragent unit "unit-certificate-authority-0" start (3.6.5 [gc])
+2025-05-14T04:24:51.649Z [container-agent] 2025-05-14 04:24:51 INFO juju.cmd.containeragent.unit runner.go:592 start "unit"
+2025-05-14T04:24:51.650Z [container-agent] 2025-05-14 04:24:51 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 3.6.5 have already been run.
+2025-05-14T04:24:51.660Z [container-agent] 2025-05-14 04:24:51 INFO juju.worker.probehttpserver server.go:157 starting http server on 127.0.0.1:65301
+2025-05-14T04:24:51.859Z [container-agent] 2025-05-14 04:24:51 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:24:52.473Z [container-agent] 2025-05-14 04:24:52 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:24:52.473Z [container-agent] 2025-05-14 04:24:52 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-certificate-authority-0" cannot open api: cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:24:52.573Z [pebble] GET /v1/changes/55/wait 1.053796827s 200
+2025-05-14T04:24:52.574Z [pebble] Started default services with change 55.
+2025-05-14T04:24:56.304Z [container-agent] 2025-05-14 04:24:56 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:24:56.304Z [container-agent] 2025-05-14 04:24:56 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-certificate-authority-0" cannot open api: cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:25:00.235Z [container-agent] 2025-05-14 04:25:00 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:25:00.636Z [container-agent] 2025-05-14 04:25:00 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-certificate-authority-0" cannot open api: cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:25:01.508Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T04:25:01.521Z [pebble] Check "liveness" failure 1/3: non-2xx status code 418
+2025-05-14T04:25:05.965Z [container-agent] 2025-05-14 04:25:05 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T04:25:06.013Z [container-agent] 2025-05-14 04:25:06 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-certificate-authority-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T04:25:06.115Z [container-agent] 2025-05-14 04:25:06 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T04:25:06.115Z [container-agent] 2025-05-14 04:25:06 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T04:25:06.186Z [container-agent] 2025-05-14 04:25:06 INFO juju.worker.leadership tracker.go:244 certificate-authority/0 promoted to leadership of certificate-authority
+2025-05-14T04:25:06.196Z [container-agent] 2025-05-14 04:25:06 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T04:25:06.196Z [container-agent] 2025-05-14 04:25:06 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T04:25:06.263Z [container-agent] 2025-05-14 04:25:06 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T04:25:06.329Z [container-agent] 2025-05-14 04:25:06 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-certificate-authority-0
+2025-05-14T04:25:07.680Z [container-agent] 2025-05-14 04:25:07 INFO juju.worker.uniter uniter.go:365 unit "certificate-authority/0" started
+2025-05-14T04:25:07.778Z [container-agent] 2025-05-14 04:25:07 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T04:25:08.355Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T04:25:11.670Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T04:25:17.788Z [container-agent] 2025-05-14 04:25:17 INFO juju-log Running legacy hooks/start.
+2025-05-14T04:25:21.587Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T04:25:21.587Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T04:25:21.587Z [pebble] Change 54 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T04:25:21.972Z [container-agent] 2025-05-14 04:25:21 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:25:22.359Z [container-agent] 2025-05-14 04:25:22 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:25:23.372Z [container-agent] 2025-05-14 04:25:23 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T04:29:48.997Z [container-agent] 2025-05-14 04:29:48 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:29:49.442Z [container-agent] 2025-05-14 04:29:49 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T04:29:49.516Z [container-agent] 2025-05-14 04:29:49 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:29:49.878Z [container-agent] 2025-05-14 04:29:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:33:55.162Z [container-agent] 2025-05-14 04:33:55 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:33:55.547Z [container-agent] 2025-05-14 04:33:55 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T04:33:55.622Z [container-agent] 2025-05-14 04:33:55 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:33:55.962Z [container-agent] 2025-05-14 04:33:55 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:38:08.959Z [container-agent] 2025-05-14 04:38:08 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:38:09.626Z [container-agent] 2025-05-14 04:38:09 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T04:38:09.746Z [container-agent] 2025-05-14 04:38:09 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:38:10.134Z [container-agent] 2025-05-14 04:38:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:42:27.779Z [container-agent] 2025-05-14 04:42:27 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:42:28.193Z [container-agent] 2025-05-14 04:42:28 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T04:42:28.287Z [container-agent] 2025-05-14 04:42:28 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:42:28.640Z [container-agent] 2025-05-14 04:42:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:48:14.114Z [container-agent] 2025-05-14 04:48:14 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:48:14.720Z [container-agent] 2025-05-14 04:48:14 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T04:48:14.798Z [container-agent] 2025-05-14 04:48:14 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:48:15.132Z [container-agent] 2025-05-14 04:48:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:53:54.930Z [container-agent] 2025-05-14 04:53:54 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:53:55.464Z [container-agent] 2025-05-14 04:53:55 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T04:53:55.549Z [container-agent] 2025-05-14 04:53:55 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:53:55.888Z [container-agent] 2025-05-14 04:53:55 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:59:47.900Z [container-agent] 2025-05-14 04:59:47 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T04:59:48.399Z [container-agent] 2025-05-14 04:59:48 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T04:59:48.492Z [container-agent] 2025-05-14 04:59:48 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T04:59:48.846Z [container-agent] 2025-05-14 04:59:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:04:39.695Z [container-agent] 2025-05-14 05:04:39 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T05:04:40.078Z [container-agent] 2025-05-14 05:04:40 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T05:04:40.161Z [container-agent] 2025-05-14 05:04:40 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T05:04:40.496Z [container-agent] 2025-05-14 05:04:40 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:10:28.667Z [container-agent] 2025-05-14 05:10:28 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T05:10:29.118Z [container-agent] 2025-05-14 05:10:29 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T05:10:29.210Z [container-agent] 2025-05-14 05:10:29 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T05:10:29.644Z [container-agent] 2025-05-14 05:10:29 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:15:26.106Z [container-agent] 2025-05-14 05:15:26 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T05:15:26.708Z [container-agent] 2025-05-14 05:15:26 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T05:15:26.846Z [container-agent] 2025-05-14 05:15:26 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T05:15:27.210Z [container-agent] 2025-05-14 05:15:27 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:20:45.597Z [container-agent] 2025-05-14 05:20:45 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T05:20:46.050Z [container-agent] 2025-05-14 05:20:46 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T05:20:46.127Z [container-agent] 2025-05-14 05:20:46 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T05:20:46.470Z [container-agent] 2025-05-14 05:20:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:25:08.645Z [container-agent] 2025-05-14 05:25:08 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T05:25:09.140Z [container-agent] 2025-05-14 05:25:09 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T05:25:09.219Z [container-agent] 2025-05-14 05:25:09 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T05:25:09.565Z [container-agent] 2025-05-14 05:25:09 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:07:14.813Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.814Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.844Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.844Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.905Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.929Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.988Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.988Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:14.988Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:14 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:15 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.105Z [container-agent] 2025-05-14 07:07:15 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.188Z [container-agent] 2025-05-14 07:07:15 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T07:07:15.188Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T07:07:15.214Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.dependency engine.go:695 "not-dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T07:07:15.253Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for certificate-authority/0: getting unit payloads: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.259Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T07:07:15.259Z [container-agent] 2025-05-14 07:07:15 INFO juju.worker.uniter uniter.go:349 unit "certificate-authority/0" shutting down: preparing operation "run update-status hook" for certificate-authority/0: getting unit payloads: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:15.286Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.dependency engine.go:695 "api-address-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T07:07:15.309Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:34554->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T07:07:20.211Z [container-agent] 2025-05-14 07:07:20 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T07:07:21.203Z [container-agent] 2025-05-14 07:07:21 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-certificate-authority-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T07:07:22.442Z [container-agent] 2025-05-14 07:07:22 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T07:07:23.614Z [container-agent] 2025-05-14 07:07:23 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T07:07:24.621Z [container-agent] 2025-05-14 07:07:24 INFO juju.worker.leadership tracker.go:244 certificate-authority/0 promoted to leadership of certificate-authority
+2025-05-14T07:07:24.629Z [container-agent] 2025-05-14 07:07:24 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T07:07:25.177Z [container-agent] 2025-05-14 07:07:25 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T07:07:25.180Z [container-agent] 2025-05-14 07:07:25 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T07:07:25.590Z [container-agent] 2025-05-14 07:07:25 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-certificate-authority-0
+2025-05-14T07:07:29.611Z [container-agent] 2025-05-14 07:07:29 INFO juju.worker.uniter uniter.go:365 unit "certificate-authority/0" started
+2025-05-14T07:07:30.035Z [container-agent] 2025-05-14 07:07:30 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T07:07:32.043Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T07:07:32.938Z [container-agent] 2025-05-14 07:07:32 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T07:07:42.147Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T07:07:46.688Z [container-agent] 2025-05-14 07:07:46 INFO juju-log Running legacy hooks/start.
+2025-05-14T07:07:52.151Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T07:07:52.151Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T07:07:52.207Z [pebble] Change 57 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T07:07:56.650Z [container-agent] 2025-05-14 07:07:56 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:07:57.172Z [container-agent] 2025-05-14 07:07:57 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:07:59.517Z [container-agent] 2025-05-14 07:07:59 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T07:12:52.264Z [container-agent] 2025-05-14 07:12:52 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:12:52.814Z [container-agent] 2025-05-14 07:12:52 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:12:52.956Z [container-agent] 2025-05-14 07:12:52 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:12:53.404Z [container-agent] 2025-05-14 07:12:53 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:16:58.888Z [container-agent] 2025-05-14 07:16:58 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:16:59.308Z [container-agent] 2025-05-14 07:16:59 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:16:59.382Z [container-agent] 2025-05-14 07:16:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:16:59.720Z [container-agent] 2025-05-14 07:16:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:21:08.852Z [container-agent] 2025-05-14 07:21:08 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:21:09.314Z [container-agent] 2025-05-14 07:21:09 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:21:09.388Z [container-agent] 2025-05-14 07:21:09 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:21:09.737Z [container-agent] 2025-05-14 07:21:09 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:25:13.625Z [container-agent] 2025-05-14 07:25:13 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:25:14.047Z [container-agent] 2025-05-14 07:25:14 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:25:14.142Z [container-agent] 2025-05-14 07:25:14 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:25:14.502Z [container-agent] 2025-05-14 07:25:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:29:36.745Z [container-agent] 2025-05-14 07:29:36 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:29:37.121Z [container-agent] 2025-05-14 07:29:37 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:29:37.202Z [container-agent] 2025-05-14 07:29:37 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:29:37.535Z [container-agent] 2025-05-14 07:29:37 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:34:11.574Z [container-agent] 2025-05-14 07:34:11 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:34:12.166Z [container-agent] 2025-05-14 07:34:12 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:34:12.273Z [container-agent] 2025-05-14 07:34:12 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:34:12.621Z [container-agent] 2025-05-14 07:34:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:38:37.928Z [container-agent] 2025-05-14 07:38:37 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:38:38.395Z [container-agent] 2025-05-14 07:38:38 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:38:38.494Z [container-agent] 2025-05-14 07:38:38 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:38:38.854Z [container-agent] 2025-05-14 07:38:38 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:44:28.688Z [container-agent] 2025-05-14 07:44:28 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:44:29.183Z [container-agent] 2025-05-14 07:44:29 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:44:29.268Z [container-agent] 2025-05-14 07:44:29 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:44:29.631Z [container-agent] 2025-05-14 07:44:29 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:48:56.992Z [container-agent] 2025-05-14 07:48:56 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:48:57.541Z [container-agent] 2025-05-14 07:48:57 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:48:57.621Z [container-agent] 2025-05-14 07:48:57 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:48:57.968Z [container-agent] 2025-05-14 07:48:57 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:53:05.312Z [container-agent] 2025-05-14 07:53:05 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:53:05.829Z [container-agent] 2025-05-14 07:53:05 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:53:05.910Z [container-agent] 2025-05-14 07:53:05 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:53:06.272Z [container-agent] 2025-05-14 07:53:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:57:44.776Z [container-agent] 2025-05-14 07:57:44 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T07:57:45.268Z [container-agent] 2025-05-14 07:57:45 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T07:57:45.350Z [container-agent] 2025-05-14 07:57:45 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T07:57:45.710Z [container-agent] 2025-05-14 07:57:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:01:57.897Z [container-agent] 2025-05-14 08:01:57 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:01:58.458Z [container-agent] 2025-05-14 08:01:58 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:01:58.592Z [container-agent] 2025-05-14 08:01:58 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:01:58.975Z [container-agent] 2025-05-14 08:01:58 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:07:09.276Z [container-agent] 2025-05-14 08:07:09 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:07:09.952Z [container-agent] 2025-05-14 08:07:09 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:07:10.061Z [container-agent] 2025-05-14 08:07:10 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:07:10.451Z [container-agent] 2025-05-14 08:07:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:11:24.225Z [container-agent] 2025-05-14 08:11:24 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:11:24.691Z [container-agent] 2025-05-14 08:11:24 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:11:24.782Z [container-agent] 2025-05-14 08:11:24 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:11:25.153Z [container-agent] 2025-05-14 08:11:25 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:15:55.578Z [container-agent] 2025-05-14 08:15:55 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:15:56.046Z [container-agent] 2025-05-14 08:15:56 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:15:56.138Z [container-agent] 2025-05-14 08:15:56 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:15:56.533Z [container-agent] 2025-05-14 08:15:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:20:11.530Z [container-agent] 2025-05-14 08:20:11 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:20:11.939Z [container-agent] 2025-05-14 08:20:11 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:20:12.013Z [container-agent] 2025-05-14 08:20:12 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:20:12.380Z [container-agent] 2025-05-14 08:20:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:24:59.332Z [container-agent] 2025-05-14 08:24:59 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:24:59.717Z [container-agent] 2025-05-14 08:24:59 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:24:59.796Z [container-agent] 2025-05-14 08:24:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:25:00.144Z [container-agent] 2025-05-14 08:25:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:30:26.262Z [container-agent] 2025-05-14 08:30:26 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:30:26.718Z [container-agent] 2025-05-14 08:30:26 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:30:26.787Z [container-agent] 2025-05-14 08:30:26 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:30:27.143Z [container-agent] 2025-05-14 08:30:27 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:34:46.075Z [container-agent] 2025-05-14 08:34:46 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:34:46.530Z [container-agent] 2025-05-14 08:34:46 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:34:46.605Z [container-agent] 2025-05-14 08:34:46 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:34:46.955Z [container-agent] 2025-05-14 08:34:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:39:46.937Z [container-agent] 2025-05-14 08:39:46 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:39:47.326Z [container-agent] 2025-05-14 08:39:47 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:39:47.412Z [container-agent] 2025-05-14 08:39:47 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:39:47.747Z [container-agent] 2025-05-14 08:39:47 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:45:39.493Z [container-agent] 2025-05-14 08:45:39 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:45:39.881Z [container-agent] 2025-05-14 08:45:39 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:45:39.964Z [container-agent] 2025-05-14 08:45:39 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:45:40.352Z [container-agent] 2025-05-14 08:45:40 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:50:23.666Z [container-agent] 2025-05-14 08:50:23 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:50:24.067Z [container-agent] 2025-05-14 08:50:24 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:50:24.135Z [container-agent] 2025-05-14 08:50:24 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:50:24.469Z [container-agent] 2025-05-14 08:50:24 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:55:25.148Z [container-agent] 2025-05-14 08:55:25 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T08:55:25.560Z [container-agent] 2025-05-14 08:55:25 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T08:55:25.633Z [container-agent] 2025-05-14 08:55:25 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T08:55:25.984Z [container-agent] 2025-05-14 08:55:25 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:01:05.533Z [container-agent] 2025-05-14 09:01:05 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:01:05.943Z [container-agent] 2025-05-14 09:01:05 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:01:06.014Z [container-agent] 2025-05-14 09:01:06 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:01:06.347Z [container-agent] 2025-05-14 09:01:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:05:33.220Z [container-agent] 2025-05-14 09:05:33 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:05:33.679Z [container-agent] 2025-05-14 09:05:33 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:05:33.759Z [container-agent] 2025-05-14 09:05:33 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:05:34.121Z [container-agent] 2025-05-14 09:05:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:10:56.590Z [container-agent] 2025-05-14 09:10:56 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:10:56.988Z [container-agent] 2025-05-14 09:10:56 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:10:57.079Z [container-agent] 2025-05-14 09:10:57 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:10:57.389Z [container-agent] 2025-05-14 09:10:57 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:15:52.800Z [container-agent] 2025-05-14 09:15:52 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:15:54.743Z [container-agent] 2025-05-14 09:15:54 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:15:54.994Z [container-agent] 2025-05-14 09:15:54 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:15:55.888Z [container-agent] 2025-05-14 09:15:55 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:20:25.869Z [container-agent] 2025-05-14 09:20:25 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:20:26.307Z [container-agent] 2025-05-14 09:20:26 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:20:26.379Z [container-agent] 2025-05-14 09:20:26 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:20:26.720Z [container-agent] 2025-05-14 09:20:26 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:24:47.644Z [container-agent] 2025-05-14 09:24:47 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:24:48.050Z [container-agent] 2025-05-14 09:24:48 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:24:48.050Z [container-agent] 2025-05-14 09:24:48 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T09:24:48.129Z [container-agent] 2025-05-14 09:24:48 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:24:48.458Z [container-agent] 2025-05-14 09:24:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:29:24.967Z [container-agent] 2025-05-14 09:29:24 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:29:25.545Z [container-agent] 2025-05-14 09:29:25 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:29:25.636Z [container-agent] 2025-05-14 09:29:25 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:29:26.004Z [container-agent] 2025-05-14 09:29:26 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:35:14.857Z [container-agent] 2025-05-14 09:35:14 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:35:15.316Z [container-agent] 2025-05-14 09:35:15 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:35:15.403Z [container-agent] 2025-05-14 09:35:15 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:35:15.755Z [container-agent] 2025-05-14 09:35:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:39:33.243Z [container-agent] 2025-05-14 09:39:33 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:39:33.688Z [container-agent] 2025-05-14 09:39:33 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:39:33.759Z [container-agent] 2025-05-14 09:39:33 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:39:34.072Z [container-agent] 2025-05-14 09:39:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:45:21.801Z [container-agent] 2025-05-14 09:45:21 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:45:22.222Z [container-agent] 2025-05-14 09:45:22 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:45:22.298Z [container-agent] 2025-05-14 09:45:22 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:45:22.643Z [container-agent] 2025-05-14 09:45:22 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:49:32.568Z [container-agent] 2025-05-14 09:49:32 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:49:33.000Z [container-agent] 2025-05-14 09:49:32 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:49:33.071Z [container-agent] 2025-05-14 09:49:33 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:49:33.414Z [container-agent] 2025-05-14 09:49:33 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:54:35.897Z [container-agent] 2025-05-14 09:54:35 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T09:54:36.340Z [container-agent] 2025-05-14 09:54:36 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T09:54:36.417Z [container-agent] 2025-05-14 09:54:36 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T09:54:36.780Z [container-agent] 2025-05-14 09:54:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:00:12.984Z [container-agent] 2025-05-14 10:00:12 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T10:00:13.386Z [container-agent] 2025-05-14 10:00:13 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T10:00:13.462Z [container-agent] 2025-05-14 10:00:13 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T10:00:13.802Z [container-agent] 2025-05-14 10:00:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:05:31.213Z [container-agent] 2025-05-14 10:05:31 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T10:05:31.595Z [container-agent] 2025-05-14 10:05:31 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T10:05:31.664Z [container-agent] 2025-05-14 10:05:31 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T10:05:32.010Z [container-agent] 2025-05-14 10:05:32 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:11:03.630Z [container-agent] 2025-05-14 10:11:03 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T10:11:04.050Z [container-agent] 2025-05-14 10:11:04 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T10:11:04.131Z [container-agent] 2025-05-14 10:11:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T10:11:04.455Z [container-agent] 2025-05-14 10:11:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:15:48.371Z [container-agent] 2025-05-14 10:15:48 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T10:15:49.027Z [container-agent] 2025-05-14 10:15:49 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T10:15:49.108Z [container-agent] 2025-05-14 10:15:49 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T10:15:49.463Z [container-agent] 2025-05-14 10:15:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:20:21.595Z [container-agent] 2025-05-14 10:20:21 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T10:20:22.026Z [container-agent] 2025-05-14 10:20:22 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T10:20:22.113Z [container-agent] 2025-05-14 10:20:22 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T10:20:22.461Z [container-agent] 2025-05-14 10:20:22 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:24:59.491Z [container-agent] 2025-05-14 10:24:59 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T10:24:59.916Z [container-agent] 2025-05-14 10:24:59 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T10:24:59.985Z [container-agent] 2025-05-14 10:24:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T10:25:00.338Z [container-agent] 2025-05-14 10:25:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:30:30.692Z [container-agent] 2025-05-14 10:30:30 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T10:30:31.133Z [container-agent] 2025-05-14 10:30:31 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T10:30:31.208Z [container-agent] 2025-05-14 10:30:31 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T10:30:31.548Z [container-agent] 2025-05-14 10:30:31 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:22:24.721Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:24.721Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: write tcp 10.1.0.179:44200->10.152.183.59:17070: write: broken pipe: write tcp 10.1.0.179:44200->10.152.183.59:17070: write: broken pipe
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "upgrader" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "secret-drain-worker" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "logging-config-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "not-dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "api-address-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.002Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "hook-retry-strategy" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.470Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for certificate-authority/0: getting unit payloads: connection is shut down
+2025-05-14T11:22:25.470Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T11:22:25.470Z [container-agent] 2025-05-14 11:22:25 INFO juju.worker.uniter uniter.go:349 unit "certificate-authority/0" shutting down: preparing operation "run update-status hook" for certificate-authority/0: getting unit payloads: connection is shut down
+2025-05-14T11:22:25.470Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "proxy-config-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.470Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2025-05-14T11:22:28.214Z [container-agent] 2025-05-14 11:22:28 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T11:22:28.215Z [container-agent] 2025-05-14 11:22:28 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T11:22:28.271Z [container-agent] 2025-05-14 11:22:28 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-certificate-authority-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T11:22:28.369Z [container-agent] 2025-05-14 11:22:28 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T11:22:28.369Z [container-agent] 2025-05-14 11:22:28 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T11:22:29.242Z [container-agent] 2025-05-14 11:22:29 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T11:22:29.314Z [container-agent] 2025-05-14 11:22:29 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T11:22:29.314Z [container-agent] 2025-05-14 11:22:29 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T11:22:29.314Z [container-agent] 2025-05-14 11:22:29 INFO juju.worker.leadership tracker.go:244 certificate-authority/0 promoted to leadership of certificate-authority
+2025-05-14T11:22:30.192Z [container-agent] 2025-05-14 11:22:30 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-certificate-authority-0
+2025-05-14T11:22:33.036Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T11:22:40.863Z [container-agent] 2025-05-14 11:22:40 INFO juju.worker.uniter uniter.go:365 unit "certificate-authority/0" started
+2025-05-14T11:22:41.265Z [container-agent] 2025-05-14 11:22:41 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T11:22:42.940Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T11:22:43.804Z [container-agent] 2025-05-14 11:22:43 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T11:22:52.903Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T11:22:52.903Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T11:22:52.903Z [pebble] Change 59 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T11:22:55.961Z [container-agent] 2025-05-14 11:22:55 INFO juju-log Running legacy hooks/start.
+2025-05-14T11:23:03.347Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T11:23:05.143Z [container-agent] 2025-05-14 11:23:05 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:23:05.978Z [container-agent] 2025-05-14 11:23:05 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:23:07.762Z [container-agent] 2025-05-14 11:23:07 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T11:28:27.670Z [container-agent] 2025-05-14 11:28:27 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:28:28.065Z [container-agent] 2025-05-14 11:28:28 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T11:28:28.147Z [container-agent] 2025-05-14 11:28:28 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:28:28.479Z [container-agent] 2025-05-14 11:28:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:33:58.425Z [container-agent] 2025-05-14 11:33:58 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:33:59.483Z [container-agent] 2025-05-14 11:33:59 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T11:33:59.602Z [container-agent] 2025-05-14 11:33:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:34:00.161Z [container-agent] 2025-05-14 11:34:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:39:04.896Z [container-agent] 2025-05-14 11:39:04 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:39:05.558Z [container-agent] 2025-05-14 11:39:05 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T11:39:05.643Z [container-agent] 2025-05-14 11:39:05 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:39:06.055Z [container-agent] 2025-05-14 11:39:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:43:05.114Z [container-agent] 2025-05-14 11:43:05 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:43:05.779Z [container-agent] 2025-05-14 11:43:05 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T11:43:05.927Z [container-agent] 2025-05-14 11:43:05 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:43:06.376Z [container-agent] 2025-05-14 11:43:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:48:06.333Z [container-agent] 2025-05-14 11:48:06 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:48:06.953Z [container-agent] 2025-05-14 11:48:06 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T11:48:07.041Z [container-agent] 2025-05-14 11:48:07 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:48:07.384Z [container-agent] 2025-05-14 11:48:07 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:53:50.796Z [container-agent] 2025-05-14 11:53:50 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:53:51.561Z [container-agent] 2025-05-14 11:53:51 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T11:53:51.691Z [container-agent] 2025-05-14 11:53:51 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:53:52.111Z [container-agent] 2025-05-14 11:53:52 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:59:28.591Z [container-agent] 2025-05-14 11:59:28 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:59:29.057Z [container-agent] 2025-05-14 11:59:29 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T11:59:29.147Z [container-agent] 2025-05-14 11:59:29 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:59:29.528Z [container-agent] 2025-05-14 11:59:29 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:03:45.830Z [container-agent] 2025-05-14 12:03:45 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:03:46.263Z [container-agent] 2025-05-14 12:03:46 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:03:46.338Z [container-agent] 2025-05-14 12:03:46 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:03:46.715Z [container-agent] 2025-05-14 12:03:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:09:04.166Z [container-agent] 2025-05-14 12:09:04 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:09:04.862Z [container-agent] 2025-05-14 12:09:04 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:09:04.965Z [container-agent] 2025-05-14 12:09:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:09:05.301Z [container-agent] 2025-05-14 12:09:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:14:17.226Z [container-agent] 2025-05-14 12:14:17 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:14:17.739Z [container-agent] 2025-05-14 12:14:17 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:14:17.824Z [container-agent] 2025-05-14 12:14:17 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:14:18.199Z [container-agent] 2025-05-14 12:14:18 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:19:40.454Z [container-agent] 2025-05-14 12:19:40 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:19:41.244Z [container-agent] 2025-05-14 12:19:41 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:19:41.383Z [container-agent] 2025-05-14 12:19:41 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:19:41.781Z [container-agent] 2025-05-14 12:19:41 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:25:04.114Z [container-agent] 2025-05-14 12:25:04 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:25:04.698Z [container-agent] 2025-05-14 12:25:04 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:25:04.778Z [container-agent] 2025-05-14 12:25:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:25:05.155Z [container-agent] 2025-05-14 12:25:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:30:09.257Z [container-agent] 2025-05-14 12:30:09 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:30:09.823Z [container-agent] 2025-05-14 12:30:09 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:30:09.918Z [container-agent] 2025-05-14 12:30:09 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:30:10.288Z [container-agent] 2025-05-14 12:30:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:35:45.420Z [container-agent] 2025-05-14 12:35:45 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:35:46.025Z [container-agent] 2025-05-14 12:35:46 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:35:46.115Z [container-agent] 2025-05-14 12:35:46 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:35:46.479Z [container-agent] 2025-05-14 12:35:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:40:12.868Z [container-agent] 2025-05-14 12:40:12 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:40:13.330Z [container-agent] 2025-05-14 12:40:13 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:40:13.408Z [container-agent] 2025-05-14 12:40:13 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:40:13.770Z [container-agent] 2025-05-14 12:40:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:44:27.069Z [container-agent] 2025-05-14 12:44:27 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:44:27.593Z [container-agent] 2025-05-14 12:44:27 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:44:27.717Z [container-agent] 2025-05-14 12:44:27 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:44:28.104Z [container-agent] 2025-05-14 12:44:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:49:39.907Z [container-agent] 2025-05-14 12:49:39 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:49:40.402Z [container-agent] 2025-05-14 12:49:40 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:49:40.483Z [container-agent] 2025-05-14 12:49:40 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:49:40.901Z [container-agent] 2025-05-14 12:49:40 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:54:39.740Z [container-agent] 2025-05-14 12:54:39 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:54:40.235Z [container-agent] 2025-05-14 12:54:40 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T12:54:40.303Z [container-agent] 2025-05-14 12:54:40 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:54:40.668Z [container-agent] 2025-05-14 12:54:40 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:57:31.732Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.743Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.743Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1006 (abnormal closure): unexpected EOF: set tcp 10.1.0.179:53240: use of closed network connection
+2025-05-14T12:57:31.743Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "upgrader" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.743Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "dead-flag" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 INFO juju.worker.uniter uniter.go:349 unit "certificate-authority/0" shutting down: catacomb 0xc0001f1b08 is dying
+2025-05-14T12:57:31.792Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.179:53226->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:35.849Z [container-agent] 2025-05-14 12:57:35 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T12:57:36.934Z [container-agent] 2025-05-14 12:57:36 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-certificate-authority-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T12:57:36.975Z [container-agent] 2025-05-14 12:57:36 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T12:57:37.202Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T12:57:37.630Z [container-agent] 2025-05-14 12:57:37 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T12:57:37.767Z [container-agent] 2025-05-14 12:57:37 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-certificate-authority-0
+2025-05-14T12:57:37.921Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T12:57:37.925Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T12:57:37.929Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.leadership tracker.go:244 certificate-authority/0 promoted to leadership of certificate-authority
+2025-05-14T12:57:42.965Z [container-agent] 2025-05-14 12:57:42 INFO juju.worker.uniter uniter.go:365 unit "certificate-authority/0" started
+2025-05-14T12:57:43.163Z [container-agent] 2025-05-14 12:57:43 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T12:57:43.541Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T12:57:45.753Z [container-agent] 2025-05-14 12:57:45 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T12:57:53.389Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T12:57:54.486Z [container-agent] 2025-05-14 12:57:54 INFO juju-log Running legacy hooks/start.
+2025-05-14T12:58:03.536Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T12:58:03.536Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T12:58:03.553Z [pebble] Change 61 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T12:58:04.426Z [container-agent] 2025-05-14 12:58:04 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:58:04.992Z [container-agent] 2025-05-14 12:58:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:07.160Z [container-agent] 2025-05-14 12:58:07 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T13:01:58.542Z [container-agent] 2025-05-14 13:01:58 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:01:58.782Z [container-agent] 2025-05-14 13:01:58 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:01:58.821Z [container-agent] 2025-05-14 13:01:58 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:01:59.097Z [container-agent] 2025-05-14 13:01:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:06:59.067Z [container-agent] 2025-05-14 13:06:59 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:06:59.449Z [container-agent] 2025-05-14 13:06:59 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:06:59.500Z [container-agent] 2025-05-14 13:06:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:06:59.805Z [container-agent] 2025-05-14 13:06:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:12:34.289Z [container-agent] 2025-05-14 13:12:34 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:12:34.696Z [container-agent] 2025-05-14 13:12:34 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:12:34.786Z [container-agent] 2025-05-14 13:12:34 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:12:35.118Z [container-agent] 2025-05-14 13:12:35 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:17:57.177Z [container-agent] 2025-05-14 13:17:57 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:17:57.670Z [container-agent] 2025-05-14 13:17:57 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:17:57.758Z [container-agent] 2025-05-14 13:17:57 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:17:58.139Z [container-agent] 2025-05-14 13:17:58 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:22:57.680Z [container-agent] 2025-05-14 13:22:57 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:22:58.120Z [container-agent] 2025-05-14 13:22:58 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:22:58.203Z [container-agent] 2025-05-14 13:22:58 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:22:58.524Z [container-agent] 2025-05-14 13:22:58 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:27:04.011Z [container-agent] 2025-05-14 13:27:04 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:27:04.223Z [container-agent] 2025-05-14 13:27:04 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:27:04.265Z [container-agent] 2025-05-14 13:27:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:27:04.533Z [container-agent] 2025-05-14 13:27:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:31:59.031Z [container-agent] 2025-05-14 13:31:59 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:31:59.249Z [container-agent] 2025-05-14 13:31:59 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:31:59.288Z [container-agent] 2025-05-14 13:31:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:31:59.557Z [container-agent] 2025-05-14 13:31:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:37:54.799Z [container-agent] 2025-05-14 13:37:54 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:37:55.151Z [container-agent] 2025-05-14 13:37:55 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:37:55.223Z [container-agent] 2025-05-14 13:37:55 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:37:55.603Z [container-agent] 2025-05-14 13:37:55 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:42:04.707Z [container-agent] 2025-05-14 13:42:04 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:42:04.959Z [container-agent] 2025-05-14 13:42:04 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T13:42:05.008Z [container-agent] 2025-05-14 13:42:05 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:42:05.280Z [container-agent] 2025-05-14 13:42:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:24.346Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2025-05-14T14:07:24.406Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T14:07:24.466Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for certificate-authority/0: getting unit payloads: connection is shut down
+2025-05-14T14:07:24.466Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T14:07:24.466Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.uniter uniter.go:349 unit "certificate-authority/0" shutting down: preparing operation "run update-status hook" for certificate-authority/0: getting unit payloads: connection is shut down
+2025-05-14T14:07:27.411Z [container-agent] 2025-05-14 14:07:27 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:27.451Z [container-agent] 2025-05-14 14:07:27 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-certificate-authority-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T14:07:27.473Z [container-agent] 2025-05-14 14:07:27 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T14:07:27.498Z [container-agent] 2025-05-14 14:07:27 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T14:07:27.557Z [container-agent] 2025-05-14 14:07:27 INFO juju.worker.leadership tracker.go:244 certificate-authority/0 promoted to leadership of certificate-authority
+2025-05-14T14:07:27.576Z [container-agent] 2025-05-14 14:07:27 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T14:07:27.811Z [container-agent] 2025-05-14 14:07:27 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T14:07:27.811Z [container-agent] 2025-05-14 14:07:27 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T14:07:27.902Z [container-agent] 2025-05-14 14:07:27 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-certificate-authority-0
+2025-05-14T14:07:28.753Z [container-agent] 2025-05-14 14:07:28 INFO juju.worker.uniter uniter.go:365 unit "certificate-authority/0" started
+2025-05-14T14:07:28.791Z [container-agent] 2025-05-14 14:07:28 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T14:07:29.113Z [container-agent] 2025-05-14 14:07:29 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T14:07:30.618Z [container-agent] 2025-05-14 14:07:30 INFO juju-log Running legacy hooks/start.
+2025-05-14T14:07:34.250Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T14:07:34.413Z [container-agent] 2025-05-14 14:07:34 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:07:35.087Z [container-agent] 2025-05-14 14:07:35 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:07:35.492Z [container-agent] 2025-05-14 14:07:35 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T14:11:42.589Z [container-agent] 2025-05-14 14:11:42 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:11:43.136Z [container-agent] 2025-05-14 14:11:43 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:11:43.205Z [container-agent] 2025-05-14 14:11:43 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:11:43.570Z [container-agent] 2025-05-14 14:11:43 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:17:28.290Z [container-agent] 2025-05-14 14:17:28 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:17:28.730Z [container-agent] 2025-05-14 14:17:28 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:17:28.793Z [container-agent] 2025-05-14 14:17:28 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:17:29.138Z [container-agent] 2025-05-14 14:17:29 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:22:55.162Z [container-agent] 2025-05-14 14:22:55 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:22:55.685Z [container-agent] 2025-05-14 14:22:55 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:22:55.764Z [container-agent] 2025-05-14 14:22:55 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:22:56.161Z [container-agent] 2025-05-14 14:22:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:27:19.546Z [container-agent] 2025-05-14 14:27:19 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:27:19.790Z [container-agent] 2025-05-14 14:27:19 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:27:19.874Z [container-agent] 2025-05-14 14:27:19 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:27:20.191Z [container-agent] 2025-05-14 14:27:20 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:32:03.717Z [container-agent] 2025-05-14 14:32:03 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:32:04.228Z [container-agent] 2025-05-14 14:32:04 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:32:04.336Z [container-agent] 2025-05-14 14:32:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:32:04.708Z [container-agent] 2025-05-14 14:32:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:36:33.882Z [container-agent] 2025-05-14 14:36:33 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:36:34.073Z [container-agent] 2025-05-14 14:36:34 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:36:34.109Z [container-agent] 2025-05-14 14:36:34 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:36:34.397Z [container-agent] 2025-05-14 14:36:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:41:39.647Z [container-agent] 2025-05-14 14:41:39 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:41:39.786Z [container-agent] 2025-05-14 14:41:39 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:41:39.811Z [container-agent] 2025-05-14 14:41:39 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:41:40.073Z [container-agent] 2025-05-14 14:41:40 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:45:42.183Z [container-agent] 2025-05-14 14:45:42 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:45:42.353Z [container-agent] 2025-05-14 14:45:42 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:45:42.390Z [container-agent] 2025-05-14 14:45:42 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:45:42.654Z [container-agent] 2025-05-14 14:45:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:51:24.196Z [container-agent] 2025-05-14 14:51:24 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:51:24.357Z [container-agent] 2025-05-14 14:51:24 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:51:24.394Z [container-agent] 2025-05-14 14:51:24 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:51:24.665Z [container-agent] 2025-05-14 14:51:24 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:56:26.993Z [container-agent] 2025-05-14 14:56:26 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:56:27.375Z [container-agent] 2025-05-14 14:56:27 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T14:56:27.432Z [container-agent] 2025-05-14 14:56:27 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:56:27.763Z [container-agent] 2025-05-14 14:56:27 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T15:02:17.241Z [container-agent] 2025-05-14 15:02:17 WARNING juju-log <class '__main__.SelfSignedCertificatesCharm'>._tracing_server_cert is None; sending traces over INSECURE connection.
+2025-05-14T15:02:17.605Z [container-agent] 2025-05-14 15:02:17 ERROR juju-log At least 1 matching relation ID not found with the relation name 'send-ca-cert'
+2025-05-14T15:02:17.681Z [container-agent] 2025-05-14 15:02:17 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T15:02:18.008Z [container-agent] 2025-05-14 15:02:18 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)

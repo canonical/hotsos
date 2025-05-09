@@ -1,0 +1,32 @@
+    84377      0 lrwxrwxrwx   1 root     root            4 May  3 12:52 /var/run -> /run
+    84378      0 lrwxrwxrwx   1 root     root            9 May  3 12:52 /var/lock -> /run/lock
+     1731      0 lrwxrwxrwx   1 root     root            7 Apr 22  2024 /lib -> usr/lib
+     1743      0 lrwxrwxrwx   1 root     root            8 Apr 22  2024 /sbin -> usr/sbin
+       17      0 lrwxrwxrwx   1 root     root           27 May  3 12:54 /boot/initrd.img -> initrd.img-6.8.0-59-generic
+       22      0 lrwxrwxrwx   1 root     root           24 May  3 12:54 /boot/vmlinuz.old -> vmlinuz-6.8.0-59-generic
+       20      0 lrwxrwxrwx   1 root     root           24 May  3 12:54 /boot/vmlinuz -> vmlinuz-6.8.0-59-generic
+       19      0 lrwxrwxrwx   1 root     root           27 May  3 12:54 /boot/initrd.img.old -> initrd.img-6.8.0-59-generic
+4026531845      0 lrwxrwxrwx   1 root     root            8 May 14 04:21 /proc/net -> self/net
+4026531844      0 lrwxrwxrwx   1 root     root           11 May 14 04:21 /proc/mounts -> self/mounts
+4026531842      0 lrwxrwxrwx   1 root     root            0 May 14 04:21 /proc/self -> 1922768
+4026531843      0 lrwxrwxrwx   1 root     root            0 May 14 04:21 /proc/thread-self -> 1922768/task/1922768
+find: ‘/proc/1922774’: No such file or directory
+find: ‘/proc/1922776’: No such file or directory
+        12      0 lrwxrwxrwx   1 root     root            7 Apr 22  2024 /bin -> usr/bin
+      1287      0 lrwxrwxrwx   1 root     root            8 May 14 04:21 /run/shm -> /dev/shm
+      1733      0 lrwxrwxrwx   1 root     root            9 Apr 22  2024 /lib64 -> usr/lib64
+       640      0 lrwxrwxrwx   1 root     root           19 May  3 12:52 /etc/mtab -> ../proc/self/mounts
+       596      0 lrwxrwxrwx   1 root     root           21 Feb  5 16:08 /etc/os-release -> ../usr/lib/os-release
+       641      0 lrwxrwxrwx   1 root     root           16 May  3 12:52 /etc/vconsole.conf -> default/keyboard
+      1377      0 lrwxrwxrwx   1 root     root           39 May  3 12:52 /etc/resolv.conf -> ../run/systemd/resolve/stub-resolv.conf
+      1380      0 lrwxrwxrwx   1 root     root           23 Feb 26  2024 /etc/vtrgb -> /etc/alternatives/vtrgb
+      1365      0 lrwxrwxrwx   1 root     root           27 May  3 12:52 /etc/localtime -> /usr/share/zoneinfo/Etc/UTC
+       524      0 lrwxrwxrwx   1 root     root           13 Apr  8  2024 /etc/rmt -> /usr/sbin/rmt
+       165      0 lrwxrwxrwx   1 root     root           13 May 14 04:21 /dev/fd -> /proc/self/fd
+       166      0 lrwxrwxrwx   1 root     root           15 May 14 04:21 /dev/stdin -> /proc/self/fd/0
+       167      0 lrwxrwxrwx   1 root     root           15 May 14 04:21 /dev/stdout -> /proc/self/fd/1
+       168      0 lrwxrwxrwx   1 root     root           15 May 14 04:21 /dev/stderr -> /proc/self/fd/2
+       211      0 lrwxrwxrwx   1 root     root            4 May 14 04:21 /dev/rtc -> rtc0
+       411      0 lrwxrwxrwx   1 root     root           11 May 14 04:21 /dev/core -> /proc/kcore
+       412      0 lrwxrwxrwx   1 root     root           12 May 14 04:21 /dev/initctl -> /run/initctl
+       413      0 lrwxrwxrwx   1 root     root           28 May 14 04:21 /dev/log -> /run/systemd/journal/dev-log

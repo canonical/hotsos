@@ -1,0 +1,262 @@
+May 09 15:07:02 noble-sunbeam systemd[1]: Started snap.lxd.daemon.service - Service for snap application lxd.daemon.
+May 09 15:07:02 noble-sunbeam lxd.daemon[4963]: => Preparing the system (33110)
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Loading snap configuration
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Creating /var/snap/lxd/common/lxd/logs
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Creating /var/snap/lxd/common/global-conf
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Setting up mntns symlink (mnt:[4026532622])
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/storage-pools
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/devices
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Setting up persistent shmounts path
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ====> Making LXD shmounts use the persistent path
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ====> Making LXCFS use the persistent path
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Setting up kmod wrapper
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Preparing /boot
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Preparing a clean copy of /run
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Preparing /run/bin
+May 09 15:07:03 noble-sunbeam lxd.daemon[4963]: ==> Preparing a clean copy of /etc
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Preparing a clean copy of /usr/share/misc
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Setting up ceph configuration
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Setting up LVM configuration
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Setting up OVN configuration
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Rotating logs
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Setting up ZFS (2.2)
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Escaping the systemd cgroups
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ====> Detected cgroup V2
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Escaping the systemd process resource limits
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Increasing the number of inotify user instances
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Increasing the number of inotify user watches
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Increasing the number of keys for a nonroot user
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Increasing the number of bytes for a nonroot user
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Disabling Apparmor unprivileged userns mediation
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Enabling LXD UI
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: ==> Exposing LXD documentation
+May 09 15:07:05 noble-sunbeam lxd.daemon[4963]: => Starting LXCFS
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: Starting LXCFS at lxcfs
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: Using runtime path /run
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: Running lxcfslib_init to reload liblxcfs
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: mount namespace: 7
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: hierarchies:
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]:   0: fd:   8: cpuset,cpu,io,memory,hugetlb,pids,rdma,misc
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: Kernel supports pidfds
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: Kernel does not support swap accounting
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: api_extensions:
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - cgroups
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - sys_cpu_online
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_cpuinfo
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_diskstats
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_loadavg
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_meminfo
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_stat
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_swaps
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_uptime
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - proc_slabinfo
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - shared_pidns
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - cpuview_daemon
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - loadavg_daemon
+May 09 15:07:05 noble-sunbeam lxd.daemon[5184]: - pidfds
+May 09 15:07:06 noble-sunbeam lxd.daemon[4963]: => Starting LXD
+May 09 15:07:10 noble-sunbeam lxd.daemon[5194]: time="2025-05-09T15:07:10Z" level=warning msg=" - Couldn't find the CGroup network priority controller, per-instance network priority will be ignored. Please use per-device limits.priority instead"
+May 09 15:07:19 noble-sunbeam lxd.daemon[4963]: => First LXD execution on this system
+May 09 15:07:19 noble-sunbeam lxd.daemon[4963]: => LXD is ready
+May 09 19:05:26 noble-sunbeam systemd[1]: Stopping snap.lxd.daemon.service - Service for snap application lxd.daemon...
+May 09 19:05:29 noble-sunbeam lxd.daemon[993111]: => Stop reason is: host shutdown
+May 09 19:05:29 noble-sunbeam lxd.daemon[993111]: => Stopping LXD (with instance shutdown)
+May 09 19:05:41 noble-sunbeam lxd.daemon[5194]: time="2025-05-09T19:05:41Z" level=warning msg="Dqlite last entry" index=0 term=0
+May 09 19:05:41 noble-sunbeam lxd.daemon[4963]: => LXD exited cleanly
+May 09 19:05:42 noble-sunbeam lxd.daemon[993111]: ==> Stopped LXD
+May 09 19:05:42 noble-sunbeam lxd.daemon[993111]: => Stopping LXCFS
+May 09 19:05:42 noble-sunbeam lxd.daemon[5184]: Running destructor lxcfs_exit
+May 09 19:05:43 noble-sunbeam lxd.daemon[993111]: ==> Stopped LXCFS
+May 09 19:05:43 noble-sunbeam lxd.daemon[993111]: => Cleaning up PID files
+May 09 19:05:43 noble-sunbeam lxd.daemon[993111]: => Cleaning up namespaces
+May 09 19:05:43 noble-sunbeam lxd.daemon[993111]: => All done
+May 09 19:05:43 noble-sunbeam systemd[1]: snap.lxd.daemon.service: Deactivated successfully.
+May 09 19:05:43 noble-sunbeam systemd[1]: Stopped snap.lxd.daemon.service - Service for snap application lxd.daemon.
+May 09 19:05:43 noble-sunbeam systemd[1]: snap.lxd.daemon.service: Consumed 4.299s CPU time, 56.1M memory peak, 0B memory swap peak.
+-- Boot a6ecd1c73ddf4d3c88139c9052132c32 --
+May 13 08:13:46 noble-sunbeam systemd[1]: Started snap.lxd.daemon.service - Service for snap application lxd.daemon.
+May 13 08:13:46 noble-sunbeam lxd.daemon[2110]: => Preparing the system (33110)
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Loading snap configuration
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Setting up mntns symlink (mnt:[4026532694])
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/storage-pools
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/devices
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Setting up persistent shmounts path
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ====> Making LXD shmounts use the persistent path
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ====> Making LXCFS use the persistent path
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Setting up kmod wrapper
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Preparing /boot
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Preparing a clean copy of /run
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Preparing /run/bin
+May 13 08:13:47 noble-sunbeam lxd.daemon[2110]: ==> Preparing a clean copy of /etc
+May 13 08:13:49 noble-sunbeam lxd.daemon[2110]: ==> Preparing a clean copy of /usr/share/misc
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Setting up ceph configuration
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Setting up LVM configuration
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Setting up OVN configuration
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Rotating logs
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Setting up ZFS (2.2)
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Escaping the systemd cgroups
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ====> Detected cgroup V2
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Escaping the systemd process resource limits
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Increasing the number of inotify user watches
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Increasing the number of keys for a nonroot user
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Increasing the number of bytes for a nonroot user
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Disabling Apparmor unprivileged userns mediation
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Enabling LXD UI
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: ==> Exposing LXD documentation
+May 13 08:13:50 noble-sunbeam lxd.daemon[2110]: => Starting LXCFS
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: Starting LXCFS at lxcfs
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: Using runtime path /run
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: Running lxcfslib_init to reload liblxcfs
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: mount namespace: 7
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: hierarchies:
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]:   0: fd:   8: cpuset,cpu,io,memory,hugetlb,pids,rdma,misc
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: Kernel supports pidfds
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: Kernel does not support swap accounting
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: api_extensions:
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - cgroups
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - sys_cpu_online
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_cpuinfo
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_diskstats
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_loadavg
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_meminfo
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_stat
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_swaps
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_uptime
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - proc_slabinfo
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - shared_pidns
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - cpuview_daemon
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - loadavg_daemon
+May 13 08:13:50 noble-sunbeam lxd.daemon[2452]: - pidfds
+May 13 08:13:51 noble-sunbeam lxd.daemon[2110]: => Starting LXD
+May 13 08:13:51 noble-sunbeam lxd.daemon[2467]: time="2025-05-13T08:13:51Z" level=warning msg=" - Couldn't find the CGroup network priority controller, per-instance network priority will be ignored. Please use per-device limits.priority instead"
+May 13 08:14:03 noble-sunbeam lxd.daemon[2110]: => LXD is ready
+May 13 20:50:09 noble-sunbeam lxd.daemon[2467]: time="2025-05-13T20:50:08Z" level=warning msg="Transaction timed out. Retrying once" err="Failed to begin transaction: context deadline exceeded" member=1
+-- Boot 691e7410f61e47a0a6691a883fd965f3 --
+May 13 20:52:01 noble-sunbeam systemd[1]: Started snap.lxd.daemon.service - Service for snap application lxd.daemon.
+May 13 20:52:01 noble-sunbeam lxd.daemon[2017]: => Preparing the system (33110)
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Loading snap configuration
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Setting up mntns symlink (mnt:[4026532627])
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/storage-pools
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/devices
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Setting up persistent shmounts path
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ====> Making LXD shmounts use the persistent path
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ====> Making LXCFS use the persistent path
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Setting up kmod wrapper
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Preparing /boot
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Preparing a clean copy of /run
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Preparing /run/bin
+May 13 20:52:02 noble-sunbeam lxd.daemon[2017]: ==> Preparing a clean copy of /etc
+May 13 20:52:03 noble-sunbeam lxd.daemon[2017]: ==> Preparing a clean copy of /usr/share/misc
+May 13 20:52:03 noble-sunbeam lxd.daemon[2017]: ==> Setting up ceph configuration
+May 13 20:52:03 noble-sunbeam lxd.daemon[2017]: ==> Setting up LVM configuration
+May 13 20:52:03 noble-sunbeam lxd.daemon[2017]: ==> Setting up OVN configuration
+May 13 20:52:03 noble-sunbeam lxd.daemon[2017]: ==> Rotating logs
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Setting up ZFS (2.2)
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Escaping the systemd cgroups
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ====> Detected cgroup V2
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Escaping the systemd process resource limits
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Increasing the number of inotify user watches
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Increasing the number of keys for a nonroot user
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Increasing the number of bytes for a nonroot user
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Disabling Apparmor unprivileged userns mediation
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Enabling LXD UI
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: ==> Exposing LXD documentation
+May 13 20:52:04 noble-sunbeam lxd.daemon[2017]: => Starting LXCFS
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: Starting LXCFS at lxcfs
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: Using runtime path /run
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: Running lxcfslib_init to reload liblxcfs
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: mount namespace: 7
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: hierarchies:
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]:   0: fd:   8: cpuset,cpu,io,memory,hugetlb,pids,rdma,misc
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: Kernel supports pidfds
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: Kernel does not support swap accounting
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: api_extensions:
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - cgroups
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - sys_cpu_online
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_cpuinfo
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_diskstats
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_loadavg
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_meminfo
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_stat
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_swaps
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_uptime
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - proc_slabinfo
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - shared_pidns
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - cpuview_daemon
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - loadavg_daemon
+May 13 20:52:04 noble-sunbeam lxd.daemon[2355]: - pidfds
+May 13 20:52:05 noble-sunbeam lxd.daemon[2017]: => Starting LXD
+May 13 20:52:05 noble-sunbeam lxd.daemon[2374]: time="2025-05-13T20:52:05Z" level=warning msg=" - Couldn't find the CGroup network priority controller, per-instance network priority will be ignored. Please use per-device limits.priority instead"
+May 13 20:52:13 noble-sunbeam lxd.daemon[2017]: => LXD is ready
+May 13 21:22:19 noble-sunbeam systemd[1]: Stopping snap.lxd.daemon.service - Service for snap application lxd.daemon...
+May 13 21:22:23 noble-sunbeam lxd.daemon[159191]: => Stop reason is: host shutdown
+May 13 21:22:23 noble-sunbeam lxd.daemon[159191]: => Stopping LXD (with instance shutdown)
+May 13 21:22:29 noble-sunbeam lxd.daemon[2374]: time="2025-05-13T21:22:29Z" level=warning msg="Dqlite last entry" index=0 term=0
+May 13 21:22:29 noble-sunbeam lxd.daemon[2017]: => LXD exited cleanly
+May 13 21:22:29 noble-sunbeam lxd.daemon[159191]: ==> Stopped LXD
+May 13 21:22:29 noble-sunbeam lxd.daemon[159191]: => Stopping LXCFS
+May 13 21:22:29 noble-sunbeam lxd.daemon[2355]: Running destructor lxcfs_exit
+May 13 21:22:30 noble-sunbeam lxd.daemon[159191]: ==> Stopped LXCFS
+May 13 21:22:30 noble-sunbeam lxd.daemon[159191]: => Cleaning up PID files
+May 13 21:22:30 noble-sunbeam lxd.daemon[159191]: => Cleaning up namespaces
+May 13 21:22:30 noble-sunbeam lxd.daemon[159191]: => All done
+May 13 21:22:30 noble-sunbeam systemd[1]: snap.lxd.daemon.service: Deactivated successfully.
+May 13 21:22:30 noble-sunbeam systemd[1]: Stopped snap.lxd.daemon.service - Service for snap application lxd.daemon.
+May 13 21:22:30 noble-sunbeam systemd[1]: snap.lxd.daemon.service: Consumed 2.587s CPU time, 60.8M memory peak, 0B memory swap peak.
+-- Boot 905f6768aa044bbc8dd624b916eddd9a --
+May 14 04:22:13 noble-sunbeam systemd[1]: Started snap.lxd.daemon.service - Service for snap application lxd.daemon.
+May 14 04:22:13 noble-sunbeam lxd.daemon[2083]: => Preparing the system (33110)
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Loading snap configuration
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Setting up mntns symlink (mnt:[4026532691])
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/storage-pools
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Setting up mount propagation on /var/snap/lxd/common/lxd/devices
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Setting up persistent shmounts path
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ====> Making LXD shmounts use the persistent path
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ====> Making LXCFS use the persistent path
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Setting up kmod wrapper
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Preparing /boot
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Preparing a clean copy of /run
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Preparing /run/bin
+May 14 04:22:14 noble-sunbeam lxd.daemon[2083]: ==> Preparing a clean copy of /etc
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Preparing a clean copy of /usr/share/misc
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Setting up ceph configuration
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Setting up LVM configuration
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Setting up OVN configuration
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Rotating logs
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Setting up ZFS (2.2)
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Escaping the systemd cgroups
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ====> Detected cgroup V2
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Escaping the systemd process resource limits
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Increasing the number of inotify user watches
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Increasing the number of keys for a nonroot user
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Increasing the number of bytes for a nonroot user
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Disabling Apparmor unprivileged userns mediation
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Enabling LXD UI
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: ==> Exposing LXD documentation
+May 14 04:22:17 noble-sunbeam lxd.daemon[2083]: => Starting LXCFS
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: Starting LXCFS at lxcfs
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: Using runtime path /run
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: Running lxcfslib_init to reload liblxcfs
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: mount namespace: 7
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: hierarchies:
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]:   0: fd:   8: cpuset,cpu,io,memory,hugetlb,pids,rdma,misc
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: Kernel supports pidfds
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: Kernel does not support swap accounting
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: api_extensions:
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - cgroups
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - sys_cpu_online
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_cpuinfo
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_diskstats
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_loadavg
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_meminfo
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_stat
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_swaps
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_uptime
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_slabinfo
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - shared_pidns
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - cpuview_daemon
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - loadavg_daemon
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - pidfds
+May 14 04:22:18 noble-sunbeam lxd.daemon[2083]: => Starting LXD
+May 14 04:22:18 noble-sunbeam lxd.daemon[2432]: time="2025-05-14T04:22:18Z" level=warning msg=" - Couldn't find the CGroup network priority controller, per-instance network priority will be ignored. Please use per-device limits.priority instead"
+May 14 04:22:31 noble-sunbeam lxd.daemon[2083]: => LXD is ready

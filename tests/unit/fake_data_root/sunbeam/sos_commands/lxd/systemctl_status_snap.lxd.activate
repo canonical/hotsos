@@ -1,0 +1,16 @@
+○ snap.lxd.activate.service - Service for snap application lxd.activate
+     Loaded: loaded (/etc/systemd/system/snap.lxd.activate.service; enabled; preset: enabled)
+     Active: inactive (dead) since Wed 2025-05-14 04:22:30 UTC; 10h ago
+   Main PID: 1000 (code=exited, status=0/SUCCESS)
+        CPU: 4.550s
+
+May 14 04:22:03 noble-sunbeam systemd[1]: Starting snap.lxd.activate.service - Service for snap application lxd.activate...
+May 14 04:22:07 noble-sunbeam lxd.activate[1000]: => Starting LXD activation
+May 14 04:22:07 noble-sunbeam lxd.activate[1000]: ==> Loading snap configuration
+May 14 04:22:07 noble-sunbeam lxd.activate[1000]: ==> Checking for socket activation support
+May 14 04:22:08 noble-sunbeam lxd.activate[1000]: ==> Setting LXD socket ownership
+May 14 04:22:08 noble-sunbeam lxd.activate[1000]: ==> Setting LXD user socket ownership
+May 14 04:22:08 noble-sunbeam lxd.activate[1000]: ==> Checking if LXD needs to be activated
+May 14 04:22:30 noble-sunbeam systemd[1]: snap.lxd.activate.service: Deactivated successfully.
+May 14 04:22:30 noble-sunbeam systemd[1]: Finished snap.lxd.activate.service - Service for snap application lxd.activate.
+May 14 04:22:30 noble-sunbeam systemd[1]: snap.lxd.activate.service: Consumed 4.550s CPU time, 113.9M memory peak, 0B memory swap peak.

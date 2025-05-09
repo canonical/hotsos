@@ -1,0 +1,73 @@
+_uuid               : d4e7c409-35e5-4d2e-a086-8508cbf8e50a
+admin_state         : down
+bfd                 : {}
+bfd_status          : {}
+cfm_fault           : []
+cfm_fault_status    : []
+cfm_flap_count      : []
+cfm_health          : []
+cfm_mpid            : []
+cfm_remote_mpids    : []
+cfm_remote_opstate  : []
+duplex              : []
+error               : []
+external_ids        : {}
+ifindex             : 4
+ingress_policing_burst: 0
+ingress_policing_kpkts_burst: 0
+ingress_policing_kpkts_rate: 0
+ingress_policing_rate: 0
+lacp_current        : []
+link_resets         : 0
+link_speed          : []
+link_state          : down
+lldp                : {}
+mac                 : []
+mac_in_use          : "12:35:c4:7b:52:44"
+mtu                 : 1500
+mtu_request         : []
+name                : br-ex
+ofport              : 65534
+ofport_request      : []
+options             : {}
+other_config        : {}
+statistics          : {collisions=0, rx_bytes=0, rx_crc_err=0, rx_dropped=0, rx_errors=0, rx_frame_err=0, rx_missed_errors=0, rx_multicast_packets=0, rx_over_err=0, rx_packets=0, tx_bytes=0, tx_dropped=0, tx_errors=0, tx_packets=0, upcall_errors=0, upcall_packets=0}
+status              : {driver_name=openvswitch}
+type                : internal
+
+_uuid               : dcb85fd2-f2ec-4502-ba37-51ac4220ebec
+admin_state         : down
+bfd                 : {}
+bfd_status          : {}
+cfm_fault           : []
+cfm_fault_status    : []
+cfm_flap_count      : []
+cfm_health          : []
+cfm_mpid            : []
+cfm_remote_mpids    : []
+cfm_remote_opstate  : []
+duplex              : []
+error               : []
+external_ids        : {}
+ifindex             : 5
+ingress_policing_burst: 0
+ingress_policing_kpkts_burst: 0
+ingress_policing_kpkts_rate: 0
+ingress_policing_rate: 0
+lacp_current        : []
+link_resets         : 0
+link_speed          : []
+link_state          : down
+lldp                : {}
+mac                 : []
+mac_in_use          : "5e:c1:79:5d:36:6d"
+mtu                 : 1500
+mtu_request         : []
+name                : br-int
+ofport              : 65534
+ofport_request      : []
+options             : {}
+other_config        : {}
+statistics          : {collisions=0, rx_bytes=0, rx_crc_err=0, rx_dropped=0, rx_errors=0, rx_frame_err=0, rx_missed_errors=0, rx_multicast_packets=0, rx_over_err=0, rx_packets=0, tx_bytes=0, tx_dropped=0, tx_errors=0, tx_packets=0, upcall_errors=0, upcall_packets=0}
+status              : {driver_name=openvswitch}
+type                : internal

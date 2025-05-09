@@ -1,0 +1,23 @@
+● snap.lxd.daemon.service - Service for snap application lxd.daemon
+     Loaded: loaded (/etc/systemd/system/snap.lxd.daemon.service; static)
+    Drop-In: /run/systemd/system/snap.lxd.daemon.service.d
+             └─lxd-shutdown.conf
+     Active: active (running) since Wed 2025-05-14 04:22:13 UTC; 10h ago
+TriggeredBy: ● snap.lxd.daemon.unix.socket
+   Main PID: 2083 (daemon.start)
+      Tasks: 0 (limit: 19136)
+     Memory: 816.0K (peak: 60.8M)
+        CPU: 2.195s
+     CGroup: /system.slice/snap.lxd.daemon.service
+             ‣ 2083 /bin/sh /snap/lxd/33110/commands/daemon.start
+
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_swaps
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_uptime
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - proc_slabinfo
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - shared_pidns
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - cpuview_daemon
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - loadavg_daemon
+May 14 04:22:17 noble-sunbeam lxd.daemon[2418]: - pidfds
+May 14 04:22:18 noble-sunbeam lxd.daemon[2083]: => Starting LXD
+May 14 04:22:18 noble-sunbeam lxd.daemon[2432]: time="2025-05-14T04:22:18Z" level=warning msg=" - Couldn't find the CGroup network priority controller, per-instance network priority will be ignored. Please use per-device limits.priority instead"
+May 14 04:22:31 noble-sunbeam lxd.daemon[2083]: => LXD is ready

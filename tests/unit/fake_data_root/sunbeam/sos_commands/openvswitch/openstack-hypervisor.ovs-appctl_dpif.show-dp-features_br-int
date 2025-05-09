@@ -1,0 +1,26 @@
+Masked set action: Yes
+Tunnel push pop: No
+Ufid: Yes
+Truncate action: Yes
+Clone action: Yes
+Sample nesting: 10
+Conntrack eventmask: Yes
+Conntrack clear: Yes
+Max dp_hash algorithm: 1
+Check pkt length action: Yes
+Conntrack timeout policy: Yes
+Explicit Drop action: No
+Optimized Balance TCP mode: No
+Conntrack all-zero IP SNAT: Yes
+MPLS Label add: Yes
+Max VLAN headers: 2
+Max MPLS depth: 3
+Recirc: Yes
+CT state: Yes
+CT zone: Yes
+CT mark: Yes
+CT label: Yes
+CT state NAT: Yes
+CT orig tuple: Yes
+CT orig tuple for IPv6: Yes
+IPv6 ND Extension: No

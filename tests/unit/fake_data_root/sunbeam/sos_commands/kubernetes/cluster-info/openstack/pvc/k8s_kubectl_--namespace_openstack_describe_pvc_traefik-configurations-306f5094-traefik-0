@@ -1,0 +1,23 @@
+Name:          traefik-configurations-306f5094-traefik-0
+Namespace:     openstack
+StorageClass:  csi-rawfile-default
+Status:        Bound
+Volume:        pvc-ffb95b67-d50c-40dc-9f2d-e73c13bab67c
+Labels:        app.kubernetes.io/managed-by=juju
+               app.kubernetes.io/name=traefik
+               storage.juju.is/name=configurations
+Annotations:   controller.juju.is/id: f6bcbd57-f5dd-48be-820d-5da61700b5c2
+               juju-storage-owner: traefik
+               model.juju.is/id: ee070cdf-4b8b-49ac-80cb-918841540fbe
+               pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+               storage.juju.is/name: configurations
+               volume.beta.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+               volume.kubernetes.io/selected-node: noble-sunbeam
+               volume.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      1Gi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       traefik-0
+Events:        <none>

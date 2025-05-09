@@ -11,6 +11,18 @@ from hotsos.core.host_helpers.cli import (
 from .. import utils
 
 
+KUBECTL_GET_OUT = """
+{
+    "apiVersion": "v1",
+    "items": [                            
+        {
+            "apiVersion": "v1",
+            "kind": "Service"
+        }]
+}
+"""  # noqa
+
+
 class TestCLIHelper(utils.BaseTestCase):
     """
     NOTE: remember that a data_root is configured so helpers will always
@@ -157,6 +169,17 @@ class TestCLIHelper(utils.BaseTestCase):
 
     @staticmethod
     @mock.patch.object(cli_common, 'subprocess')
+    def test_kubectl_get_bincmd(mock_subprocess):
+        HotSOSConfig.data_root = '/'
+        host_cli.CLIHelper().kubectl_get(namespace='openstack',
+                                         opt='pods', subopts='')
+        cmd = ['kubectl', 'get', '--namespace', 'openstack', 'pods']
+        mock_subprocess.run.assert_called_with(cmd, timeout=300,
+                                               capture_output=True,
+                                               check=False)
+
+    @staticmethod
+    @mock.patch.object(cli_common, 'subprocess')
     def test_kubectl_logs_bincmd(mock_subprocess):
         HotSOSConfig.data_root = '/'
         host_cli.CLIHelper().kubectl_logs(namespace='openstack',
@@ -187,3 +210,15 @@ class TestCLIHelper(utils.BaseTestCase):
                                                 opt='neutron-0',
                                                 subopts='-c_neutron-server')
         self.assertEqual(out, ['SUCCESS!'])
+
+    @utils.create_data_root({'sos_commands/kubernetes/services/kubectl_'
+                             '--kubeconfig_.etc.kubernetes.admin.conf_get_'
+                             '-o_json_--namespace_'
+                             'kubernetes-dashboard_services': KUBECTL_GET_OUT})
+    def test_kubectl_get_filecmd(self):
+        out = host_cli.CLIHelper().kubectl_get(
+                                     namespace='kubernetes-dashboard',
+                                     opt='services')
+        expected = {'apiVersion': 'v1', 'items': [{'apiVersion': 'v1',
+                                                   'kind': 'Service'}]}
+        self.assertEqual(out, expected)

@@ -1,0 +1,13 @@
+63033229-b589-4dcf-a6ba-4183c7205c1c
+    Bridge br-ex
+        datapath_type: system
+        Port br-ex
+            Interface br-ex
+                type: internal
+    Bridge br-int
+        fail_mode: secure
+        datapath_type: system
+        Port br-int
+            Interface br-int
+                type: internal
+    ovs_version: "3.3.0"

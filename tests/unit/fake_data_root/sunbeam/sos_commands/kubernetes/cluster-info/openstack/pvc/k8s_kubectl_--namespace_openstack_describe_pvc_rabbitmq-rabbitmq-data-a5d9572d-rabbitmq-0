@@ -1,0 +1,23 @@
+Name:          rabbitmq-rabbitmq-data-a5d9572d-rabbitmq-0
+Namespace:     openstack
+StorageClass:  csi-rawfile-default
+Status:        Bound
+Volume:        pvc-99ffd364-8793-43f2-8d1f-8e6960669286
+Labels:        app.kubernetes.io/managed-by=juju
+               app.kubernetes.io/name=rabbitmq
+               storage.juju.is/name=rabbitmq-data
+Annotations:   controller.juju.is/id: f6bcbd57-f5dd-48be-820d-5da61700b5c2
+               juju-storage-owner: rabbitmq
+               model.juju.is/id: ee070cdf-4b8b-49ac-80cb-918841540fbe
+               pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+               storage.juju.is/name: rabbitmq-data
+               volume.beta.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+               volume.kubernetes.io/selected-node: noble-sunbeam
+               volume.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      1Gi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       rabbitmq-0
+Events:        <none>

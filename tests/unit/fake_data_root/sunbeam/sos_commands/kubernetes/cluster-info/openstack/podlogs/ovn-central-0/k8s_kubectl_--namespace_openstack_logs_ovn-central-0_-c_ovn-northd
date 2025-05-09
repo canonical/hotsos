@@ -1,0 +1,1532 @@
+2025-05-14T07:08:13.716Z [pebble] HTTP API server listening on ":38814".
+2025-05-14T07:08:13.716Z [pebble] Started daemon.
+2025-05-14T07:08:14.069Z [pebble] GET /v1/notices?timeout=30s 94.815763ms 200
+2025-05-14T07:08:44.256Z [pebble] GET /v1/notices?after=2025-05-14T07%3A07%3A58.737705915Z&timeout=30s 30.014204303s 200
+2025-05-14T07:09:14.263Z [pebble] GET /v1/notices?after=2025-05-14T07%3A07%3A58.737705915Z&timeout=30s 30.000609692s 200
+2025-05-14T07:09:21.962Z [pebble] POST /v1/files 814.504µs 200
+2025-05-14T07:09:22.044Z [pebble] POST /v1/files 19.320387ms 200
+2025-05-14T07:09:22.138Z [pebble] POST /v1/files 294.909µs 200
+2025-05-14T07:09:22.313Z [pebble] POST /v1/files 426.237µs 200
+2025-05-14T07:09:22.329Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 251.719µs 200
+2025-05-14T07:09:22.431Z [pebble] GET /v1/files?action=list&path=%2Froot&itself=true 1.541111ms 200
+2025-05-14T07:09:22.460Z [pebble] POST /v1/files 21.986921ms 200
+2025-05-14T07:09:22.627Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 468.954µs 200
+2025-05-14T07:09:22.662Z [pebble] GET /v1/files?action=list&path=%2Fetc%2Fovn&itself=true 199.058µs 200
+2025-05-14T07:09:22.713Z [pebble] POST /v1/files 42.230131ms 200
+2025-05-14T07:09:22.925Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 233.73µs 200
+2025-05-14T07:09:22.946Z [pebble] GET /v1/files?action=list&path=%2Fetc%2Fovn&itself=true 2.32808ms 200
+2025-05-14T07:09:22.974Z [pebble] POST /v1/files 18.321224ms 200
+2025-05-14T07:09:23.062Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 1.157044ms 200
+2025-05-14T07:09:23.076Z [pebble] GET /v1/files?action=list&path=%2Fetc%2Fovn&itself=true 287.6µs 200
+2025-05-14T07:09:23.090Z [pebble] POST /v1/files 11.044074ms 200
+2025-05-14T07:09:23.210Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 213.325µs 200
+2025-05-14T07:09:23.244Z [pebble] GET /v1/files?action=list&path=%2Fetc%2Fovn&itself=true 528.183µs 200
+2025-05-14T07:09:23.263Z [pebble] POST /v1/files 12.652799ms 200
+2025-05-14T07:09:44.314Z [pebble] GET /v1/notices?after=2025-05-14T07%3A07%3A58.737705915Z&timeout=30s 30.001858523s 200
+2025-05-14T07:09:51.069Z [pebble] GET /v1/services 449.614µs 200
+2025-05-14T07:09:51.101Z [pebble] POST /v1/layers 738.889µs 200
+2025-05-14T07:09:51.125Z [pebble] GET /v1/services 124.61µs 200
+2025-05-14T07:09:51.295Z [pebble] POST /v1/services 97.176099ms 202
+2025-05-14T07:09:51.295Z [pebble] GET /v1/notices?after=2025-05-14T07%3A07%3A58.737705915Z&timeout=30s 6.980165062s 200
+2025-05-14T07:09:51.349Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T07:09:51.351Z [pebble] GET /v1/notices?after=2025-05-14T07%3A09%3A51.208321964Z&timeout=30s 50.317089ms 200
+2025-05-14T07:09:51.427Z [ovn-northd] Wed May 14 07:09:51 UTC 2025 [wrapper]: Starting
+2025-05-14T07:09:51.602Z [ovn-northd] 2025-05-14T07:09:51Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T07:09:51.684Z [ovn-northd] 2025-05-14T07:09:51Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T07:09:51.690Z [ovn-northd] 2025-05-14T07:09:51Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T07:09:51.696Z [ovn-northd] 2025-05-14T07:09:51Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T07:09:51.701Z [ovn-northd] 2025-05-14T07:09:51Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T07:09:51.726Z [ovn-northd] 2025-05-14T07:09:51Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T07:09:51.733Z [ovn-northd] 2025-05-14T07:09:51Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T07:09:51.754Z [ovn-northd] 2025-05-14T07:09:51Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T07:09:52.395Z [pebble] GET /v1/changes/43/wait?timeout=4.000s 1.080565747s 200
+2025-05-14T07:09:52.399Z [pebble] GET /v1/notices?after=2025-05-14T07%3A09%3A51.295659997Z&timeout=30s 1.038024708s 200
+2025-05-14T07:09:52.417Z [pebble] GET /v1/services 200.531µs 200
+2025-05-14T07:09:52.463Z [pebble] GET /v1/plan?format=yaml 8.247892ms 200
+2025-05-14T07:09:52.602Z [pebble] POST /v1/layers 22.743702ms 200
+2025-05-14T07:09:52.622Z [pebble] GET /v1/notices?after=2025-05-14T07%3A09%3A52.378435518Z&timeout=30s 218.54586ms 200
+2025-05-14T07:10:01.783Z [ovn-northd] 2025-05-14T07:10:01Z|00009|memory|INFO|11404 kB peak resident set size after 10.2 seconds
+2025-05-14T07:10:01.787Z [ovn-northd] 2025-05-14T07:10:01Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T07:10:03.439Z [pebble] POST /v1/layers 6.508584ms 200
+2025-05-14T07:10:03.998Z [pebble] POST /v1/files 261.613µs 200
+2025-05-14T07:10:04.037Z [pebble] POST /v1/files 228.509µs 200
+2025-05-14T07:10:04.088Z [pebble] POST /v1/files 412.744µs 200
+2025-05-14T07:10:04.129Z [pebble] POST /v1/files 247.492µs 200
+2025-05-14T07:10:04.166Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 287.354µs 200
+2025-05-14T07:10:04.367Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 261.186µs 200
+2025-05-14T07:10:04.521Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 271.645µs 200
+2025-05-14T07:10:04.626Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 2.10809ms 200
+2025-05-14T07:10:04.867Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 267.492µs 200
+2025-05-14T07:10:07.858Z [ovn-northd] 2025-05-14T07:10:07Z|00011|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T07:10:07.858Z [ovn-northd] 2025-05-14T07:10:07Z|00012|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T07:10:08.929Z [ovn-northd] 2025-05-14T07:10:08Z|00013|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T07:10:08.930Z [ovn-northd] 2025-05-14T07:10:08Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection attempt failed (Connection refused)
+2025-05-14T07:10:08.930Z [ovn-northd] 2025-05-14T07:10:08Z|00015|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: waiting 2 seconds before reconnect
+2025-05-14T07:10:10.095Z [ovn-northd] 2025-05-14T07:10:10Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T07:10:10.986Z [ovn-northd] 2025-05-14T07:10:10Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T07:10:11.113Z [ovn-northd] 2025-05-14T07:10:11Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T07:10:11.131Z [ovn-northd] 2025-05-14T07:10:11Z|00019|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T07:10:11.135Z [ovn-northd] 2025-05-14T07:10:11Z|00020|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection attempt failed (Connection refused)
+2025-05-14T07:10:11.135Z [ovn-northd] 2025-05-14T07:10:11Z|00021|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: waiting 2 seconds before reconnect
+2025-05-14T07:10:11.142Z [ovn-northd] 2025-05-14T07:10:11Z|00022|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T07:10:13.143Z [ovn-northd] 2025-05-14T07:10:13Z|00023|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T07:10:13.188Z [ovn-northd] 2025-05-14T07:10:13Z|00024|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T07:10:22.631Z [pebble] GET /v1/notices?after=2025-05-14T07%3A09%3A52.602333388Z&timeout=30s 30.003535471s 200
+2025-05-14T07:10:26.999Z [pebble] GET /v1/services 204.899µs 200
+2025-05-14T07:10:27.010Z [pebble] GET /v1/services 192.307µs 200
+2025-05-14T07:10:27.053Z [pebble] GET /v1/notices?after=2025-05-14T07%3A09%3A52.602333388Z&timeout=30s 4.407143095s 200
+2025-05-14T07:10:27.054Z [pebble] POST /v1/services 15.515781ms 202
+2025-05-14T07:10:27.072Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A27.038889859Z&timeout=30s 10.440013ms 200
+2025-05-14T07:10:27.075Z [ovn-northd] 2025-05-14T07:10:27Z|00025|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T07:10:27.085Z [ovn-northd] Wed May 14 07:10:27 UTC 2025 [wrapper]: Stopping
+2025-05-14T07:10:27.144Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T07:10:27.145Z [ovn-northd] Terminated
+2025-05-14T07:10:27.148Z [pebble] Service "ovn-northd" stopped
+2025-05-14T07:10:27.171Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T07:10:27.187Z [ovn-northd] Wed May 14 07:10:27 UTC 2025 [wrapper]: Starting
+2025-05-14T07:10:27.196Z [ovn-northd] 2025-05-14T07:10:27Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T07:10:27.216Z [ovn-northd] 2025-05-14T07:10:27Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T07:10:27.218Z [ovn-northd] 2025-05-14T07:10:27Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T07:10:27.224Z [ovn-northd] 2025-05-14T07:10:27Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T07:10:27.230Z [ovn-northd] 2025-05-14T07:10:27Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T07:10:27.246Z [ovn-northd] 2025-05-14T07:10:27Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T07:10:27.248Z [ovn-northd] 2025-05-14T07:10:27Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T07:10:27.252Z [ovn-northd] 2025-05-14T07:10:27Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T07:10:28.210Z [pebble] GET /v1/changes/45/wait?timeout=4.000s 1.147844198s 200
+2025-05-14T07:10:28.210Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A27.053986152Z&timeout=30s 1.130646474s 200
+2025-05-14T07:10:28.216Z [pebble] GET /v1/services 94.659µs 200
+2025-05-14T07:10:28.246Z [pebble] GET /v1/plan?format=yaml 456.409µs 200
+2025-05-14T07:10:32.451Z [pebble] POST /v1/files 567.781µs 200
+2025-05-14T07:10:32.465Z [pebble] POST /v1/files 348.107µs 200
+2025-05-14T07:10:32.480Z [pebble] POST /v1/files 407.433µs 200
+2025-05-14T07:10:32.499Z [pebble] POST /v1/files 284.263µs 200
+2025-05-14T07:10:32.504Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 230.241µs 200
+2025-05-14T07:10:32.556Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 517.445µs 200
+2025-05-14T07:10:32.604Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 320.661µs 200
+2025-05-14T07:10:32.649Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 993.328µs 200
+2025-05-14T07:10:32.691Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 3.44242ms 200
+2025-05-14T07:10:33.755Z [ovn-northd] 2025-05-14T07:10:33Z|00009|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T07:10:33.759Z [ovn-northd] 2025-05-14T07:10:33Z|00010|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T07:10:34.759Z [ovn-northd] 2025-05-14T07:10:34Z|00011|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T07:10:34.774Z [ovn-northd] 2025-05-14T07:10:34Z|00012|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T07:10:34.780Z [ovn-northd] 2025-05-14T07:10:34Z|00013|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T07:10:35.012Z [ovn-northd] 2025-05-14T07:10:35Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T07:10:35.014Z [ovn-northd] 2025-05-14T07:10:35Z|00015|ovn_northd|INFO|OVNNB commit failed, force recompute next time.
+2025-05-14T07:10:36.015Z [ovn-northd] 2025-05-14T07:10:36Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T07:10:36.030Z [ovn-northd] 2025-05-14T07:10:36Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T07:10:39.117Z [pebble] GET /v1/services 107.696µs 200
+2025-05-14T07:10:39.148Z [pebble] GET /v1/services 124.969µs 200
+2025-05-14T07:10:39.194Z [pebble] POST /v1/services 10.574984ms 202
+2025-05-14T07:10:39.195Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A28.178038922Z&timeout=30s 10.984132096s 200
+2025-05-14T07:10:39.232Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A39.184323266Z&timeout=30s 29.804795ms 200
+2025-05-14T07:10:39.244Z [ovn-northd] 2025-05-14T07:10:39Z|00018|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T07:10:39.249Z [ovn-northd] Wed May 14 07:10:39 UTC 2025 [wrapper]: Stopping
+2025-05-14T07:10:39.277Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T07:10:39.278Z [ovn-northd] Terminated
+2025-05-14T07:10:39.285Z [pebble] Service "ovn-northd" stopped
+2025-05-14T07:10:39.308Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T07:10:39.350Z [ovn-northd] Wed May 14 07:10:39 UTC 2025 [wrapper]: Starting
+2025-05-14T07:10:39.397Z [ovn-northd] 2025-05-14T07:10:39Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T07:10:39.409Z [ovn-northd] 2025-05-14T07:10:39Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T07:10:39.409Z [ovn-northd] 2025-05-14T07:10:39Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T07:10:39.415Z [ovn-northd] 2025-05-14T07:10:39Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T07:10:39.415Z [ovn-northd] 2025-05-14T07:10:39Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T07:10:39.422Z [ovn-northd] 2025-05-14T07:10:39Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T07:10:39.442Z [ovn-northd] 2025-05-14T07:10:39Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T07:10:39.442Z [ovn-northd] 2025-05-14T07:10:39Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T07:10:40.333Z [pebble] GET /v1/changes/46/wait?timeout=4.000s 1.135295989s 200
+2025-05-14T07:10:40.333Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A39.195331903Z&timeout=30s 1.089077675s 200
+2025-05-14T07:10:40.336Z [pebble] GET /v1/services 72.63µs 200
+2025-05-14T07:10:40.343Z [pebble] GET /v1/plan?format=yaml 250.902µs 200
+2025-05-14T07:10:49.449Z [ovn-northd] 2025-05-14T07:10:49Z|00009|memory|INFO|11300 kB peak resident set size after 10.1 seconds
+2025-05-14T07:10:49.449Z [ovn-northd] 2025-05-14T07:10:49Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T07:11:09.448Z [ovn-northd] 2025-05-14T07:11:09Z|00011|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-05-14T07:11:10.336Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000958557s 200
+2025-05-14T07:11:40.337Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000322868s 200
+2025-05-14T07:12:10.339Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000842248s 200
+2025-05-14T07:12:40.341Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000776604s 200
+2025-05-14T07:13:10.342Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000348322s 200
+2025-05-14T07:13:40.343Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000325269s 200
+2025-05-14T07:13:40.827Z [pebble] GET /v1/services 70.06µs 200
+2025-05-14T07:13:40.829Z [pebble] GET /v1/checks?level=ready 286.775µs 200
+2025-05-14T07:14:10.350Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001239126s 200
+2025-05-14T07:14:40.351Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000561108s 200
+2025-05-14T07:15:10.354Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001459209s 200
+2025-05-14T07:15:40.356Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001227538s 200
+2025-05-14T07:16:10.357Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00036317s 200
+2025-05-14T07:16:40.359Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001009095s 200
+2025-05-14T07:17:10.361Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000787193s 200
+2025-05-14T07:17:40.363Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000655295s 200
+2025-05-14T07:18:10.364Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000227326s 200
+2025-05-14T07:18:40.364Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000289424s 200
+2025-05-14T07:18:55.845Z [pebble] GET /v1/services 88.895µs 200
+2025-05-14T07:18:55.846Z [pebble] GET /v1/checks?level=ready 73.554µs 200
+2025-05-14T07:19:10.366Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000610427s 200
+2025-05-14T07:19:40.368Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001143907s 200
+2025-05-14T07:20:10.370Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00073459s 200
+2025-05-14T07:20:40.371Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000507105s 200
+2025-05-14T07:21:10.373Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000947927s 200
+2025-05-14T07:21:40.376Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001341098s 200
+2025-05-14T07:22:10.378Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000908989s 200
+2025-05-14T07:22:40.380Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000299893s 200
+2025-05-14T07:23:10.381Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000348396s 200
+2025-05-14T07:23:40.384Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001517971s 200
+2025-05-14T07:23:46.266Z [pebble] GET /v1/services 113.054µs 200
+2025-05-14T07:23:46.268Z [pebble] GET /v1/checks?level=ready 136.652µs 200
+2025-05-14T07:24:10.387Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000430617s 200
+2025-05-14T07:24:40.389Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000216894s 200
+2025-05-14T07:25:10.391Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000744964s 200
+2025-05-14T07:25:40.392Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000757337s 200
+2025-05-14T07:26:10.393Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000240214s 200
+2025-05-14T07:26:40.395Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001283484s 200
+2025-05-14T07:27:10.398Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000640388s 200
+2025-05-14T07:27:40.399Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000526524s 200
+2025-05-14T07:28:10.401Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000922654s 200
+2025-05-14T07:28:11.179Z [pebble] GET /v1/services 94.544µs 200
+2025-05-14T07:28:11.181Z [pebble] GET /v1/checks?level=ready 77.589µs 200
+2025-05-14T07:28:40.405Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001434955s 200
+2025-05-14T07:29:10.406Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000770077s 200
+2025-05-14T07:29:40.408Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000899999s 200
+2025-05-14T07:30:10.410Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00074524s 200
+2025-05-14T07:30:40.412Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00110557s 200
+2025-05-14T07:31:10.414Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001300318s 200
+2025-05-14T07:31:40.416Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000424292s 200
+2025-05-14T07:32:10.417Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000282648s 200
+2025-05-14T07:32:40.419Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001157357s 200
+2025-05-14T07:33:10.420Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000323358s 200
+2025-05-14T07:33:13.108Z [pebble] GET /v1/services 87.93µs 200
+2025-05-14T07:33:13.110Z [pebble] GET /v1/checks?level=ready 83.683µs 200
+2025-05-14T07:33:40.421Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000475565s 200
+2025-05-14T07:34:10.423Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001061805s 200
+2025-05-14T07:34:40.425Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000994431s 200
+2025-05-14T07:35:10.427Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000513488s 200
+2025-05-14T07:35:40.429Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000490211s 200
+2025-05-14T07:36:10.430Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000575073s 200
+2025-05-14T07:36:40.432Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001006965s 200
+2025-05-14T07:37:10.434Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000868954s 200
+2025-05-14T07:37:38.431Z [pebble] GET /v1/services 95.954µs 200
+2025-05-14T07:37:38.434Z [pebble] GET /v1/checks?level=ready 194.87µs 200
+2025-05-14T07:37:40.439Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002690933s 200
+2025-05-14T07:38:10.444Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000986083s 200
+2025-05-14T07:38:40.445Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000542885s 200
+2025-05-14T07:39:10.447Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.0008942s 200
+2025-05-14T07:39:40.449Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000606598s 200
+2025-05-14T07:40:10.450Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000881512s 200
+2025-05-14T07:40:40.453Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00104796s 200
+2025-05-14T07:41:10.455Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000942105s 200
+2025-05-14T07:41:40.456Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000380802s 200
+2025-05-14T07:42:10.458Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001183973s 200
+2025-05-14T07:42:40.460Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000597383s 200
+2025-05-14T07:43:07.408Z [pebble] GET /v1/services 91.138µs 200
+2025-05-14T07:43:07.409Z [pebble] GET /v1/checks?level=ready 80.813µs 200
+2025-05-14T07:43:10.461Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000631708s 200
+2025-05-14T07:43:40.464Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001396072s 200
+2025-05-14T07:44:10.466Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00110386s 200
+2025-05-14T07:44:40.468Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000917204s 200
+2025-05-14T07:45:10.470Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000715823s 200
+2025-05-14T07:45:40.472Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000874612s 200
+2025-05-14T07:46:10.474Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000829984s 200
+2025-05-14T07:46:40.475Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000411096s 200
+2025-05-14T07:47:10.496Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.020411771s 200
+2025-05-14T07:47:21.408Z [pebble] GET /v1/services 181.296µs 200
+2025-05-14T07:47:21.411Z [pebble] GET /v1/checks?level=ready 167.915µs 200
+2025-05-14T07:47:40.500Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001401406s 200
+2025-05-14T07:48:10.502Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001113838s 200
+2025-05-14T07:48:40.504Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000584478s 200
+2025-05-14T07:49:10.507Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001465679s 200
+2025-05-14T07:49:40.511Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001373435s 200
+2025-05-14T07:50:10.513Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000612741s 200
+2025-05-14T07:50:40.516Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001303543s 200
+2025-05-14T07:51:10.518Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001159111s 200
+2025-05-14T07:51:35.960Z [pebble] GET /v1/services 103.729µs 200
+2025-05-14T07:51:35.963Z [pebble] GET /v1/checks?level=ready 128.122µs 200
+2025-05-14T07:51:40.524Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00394125s 200
+2025-05-14T07:52:10.532Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000311914s 200
+2025-05-14T07:52:40.534Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000624482s 200
+2025-05-14T07:53:10.536Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001144995s 200
+2025-05-14T07:53:40.538Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00061484s 200
+2025-05-14T07:54:10.540Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000894475s 200
+2025-05-14T07:54:40.548Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.007067362s 200
+2025-05-14T07:55:10.549Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000425012s 200
+2025-05-14T07:55:40.551Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001123153s 200
+2025-05-14T07:56:10.553Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000477589s 200
+2025-05-14T07:56:37.635Z [pebble] GET /v1/services 184.949µs 200
+2025-05-14T07:56:37.637Z [pebble] GET /v1/checks?level=ready 200.262µs 200
+2025-05-14T07:56:40.556Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001039929s 200
+2025-05-14T07:57:10.558Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000653265s 200
+2025-05-14T07:57:40.562Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003344023s 200
+2025-05-14T07:58:10.565Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000919326s 200
+2025-05-14T07:58:40.567Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000756594s 200
+2025-05-14T07:59:10.568Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000544671s 200
+2025-05-14T07:59:40.570Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00100869s 200
+2025-05-14T08:00:10.572Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000973098s 200
+2025-05-14T08:00:40.574Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000871511s 200
+2025-05-14T08:01:10.576Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000776547s 200
+2025-05-14T08:01:40.578Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00041078s 200
+2025-05-14T08:02:10.582Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002761252s 200
+2025-05-14T08:02:11.543Z [pebble] GET /v1/services 84.597µs 200
+2025-05-14T08:02:11.551Z [pebble] GET /v1/checks?level=ready 120.61µs 200
+2025-05-14T08:02:40.590Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001708038s 200
+2025-05-14T08:03:10.594Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001205289s 200
+2025-05-14T08:03:40.597Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001601585s 200
+2025-05-14T08:04:10.602Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000711467s 200
+2025-05-14T08:04:40.603Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000348797s 200
+2025-05-14T08:05:10.605Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001275139s 200
+2025-05-14T08:05:40.607Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000604044s 200
+2025-05-14T08:06:10.611Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001377608s 200
+2025-05-14T08:06:40.612Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000286631s 200
+2025-05-14T08:06:58.105Z [pebble] GET /v1/services 142.942µs 200
+2025-05-14T08:06:58.108Z [pebble] GET /v1/checks?level=ready 202.563µs 200
+2025-05-14T08:07:10.615Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001942763s 200
+2025-05-14T08:07:40.620Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003487474s 200
+2025-05-14T08:08:10.622Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00101591s 200
+2025-05-14T08:08:40.624Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001088426s 200
+2025-05-14T08:09:10.627Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000392073s 200
+2025-05-14T08:09:40.628Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000399092s 200
+2025-05-14T08:10:10.630Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000971854s 200
+2025-05-14T08:10:40.634Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001261812s 200
+2025-05-14T08:11:08.258Z [pebble] GET /v1/services 154.634µs 200
+2025-05-14T08:11:08.259Z [pebble] GET /v1/checks?level=ready 93.252µs 200
+2025-05-14T08:11:10.635Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000509448s 200
+2025-05-14T08:11:40.638Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001190992s 200
+2025-05-14T08:12:10.645Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001309967s 200
+2025-05-14T08:12:40.649Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002704037s 200
+2025-05-14T08:13:10.654Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001566161s 200
+2025-05-14T08:13:40.655Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000525905s 200
+2025-05-14T08:14:10.657Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00039072s 200
+2025-05-14T08:14:40.659Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001243338s 200
+2025-05-14T08:15:10.660Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00080594s 200
+2025-05-14T08:15:40.663Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001258009s 200
+2025-05-14T08:16:10.664Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000424255s 200
+2025-05-14T08:16:12.318Z [pebble] GET /v1/services 358.317µs 200
+2025-05-14T08:16:12.320Z [pebble] GET /v1/checks?level=ready 172.631µs 200
+2025-05-14T08:16:40.670Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002933199s 200
+2025-05-14T08:17:10.694Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000633501s 200
+2025-05-14T08:17:40.695Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000881619s 200
+2025-05-14T08:18:10.699Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000909995s 200
+2025-05-14T08:18:40.701Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001250796s 200
+2025-05-14T08:19:10.703Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001308358s 200
+2025-05-14T08:19:40.705Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001228217s 200
+2025-05-14T08:20:10.708Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001398319s 200
+2025-05-14T08:20:40.710Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000935996s 200
+2025-05-14T08:21:10.711Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000316448s 200
+2025-05-14T08:21:40.712Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000988461s 200
+2025-05-14T08:21:53.633Z [pebble] GET /v1/services 114.612µs 200
+2025-05-14T08:21:53.636Z [pebble] GET /v1/checks?level=ready 240.204µs 200
+2025-05-14T08:22:10.714Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000565468s 200
+2025-05-14T08:22:40.715Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000688285s 200
+2025-05-14T08:23:10.717Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000949732s 200
+2025-05-14T08:23:40.719Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001026836s 200
+2025-05-14T08:24:10.720Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000958331s 200
+2025-05-14T08:24:40.722Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000590437s 200
+2025-05-14T08:25:10.726Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000271328s 200
+2025-05-14T08:25:40.736Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000998611s 200
+2025-05-14T08:26:10.738Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000745404s 200
+2025-05-14T08:26:40.740Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000706456s 200
+2025-05-14T08:27:10.741Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001248053s 200
+2025-05-14T08:27:28.165Z [pebble] GET /v1/services 778.281µs 200
+2025-05-14T08:27:28.168Z [pebble] GET /v1/checks?level=ready 172.94µs 200
+2025-05-14T08:27:40.743Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000833277s 200
+2025-05-14T08:28:10.744Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00022374s 200
+2025-05-14T08:28:40.748Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000564936s 200
+2025-05-14T08:29:10.750Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001323809s 200
+2025-05-14T08:29:40.752Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00074707s 200
+2025-05-14T08:30:10.754Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001298684s 200
+2025-05-14T08:30:40.757Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001969968s 200
+2025-05-14T08:31:10.763Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000962184s 200
+2025-05-14T08:31:40.764Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000841595s 200
+2025-05-14T08:32:10.767Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001734231s 200
+2025-05-14T08:32:40.769Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00076953s 200
+2025-05-14T08:33:10.770Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000476013s 200
+2025-05-14T08:33:22.186Z [pebble] GET /v1/services 106.056µs 200
+2025-05-14T08:33:22.189Z [pebble] GET /v1/checks?level=ready 83.401µs 200
+2025-05-14T08:33:40.771Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000232321s 200
+2025-05-14T08:34:10.772Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00043228s 200
+2025-05-14T08:34:40.773Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000472671s 200
+2025-05-14T08:35:10.775Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000676605s 200
+2025-05-14T08:35:40.776Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000480212s 200
+2025-05-14T08:36:10.778Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001406848s 200
+2025-05-14T08:36:40.781Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001235834s 200
+2025-05-14T08:37:10.782Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000586893s 200
+2025-05-14T08:37:40.785Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001173477s 200
+2025-05-14T08:38:10.789Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002669826s 200
+2025-05-14T08:38:12.261Z [pebble] GET /v1/services 104.994µs 200
+2025-05-14T08:38:12.263Z [pebble] GET /v1/checks?level=ready 116.988µs 200
+2025-05-14T08:38:40.792Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001321235s 200
+2025-05-14T08:39:10.793Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000276325s 200
+2025-05-14T08:39:40.795Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000667903s 200
+2025-05-14T08:40:10.797Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001253406s 200
+2025-05-14T08:40:40.800Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001267931s 200
+2025-05-14T08:41:10.801Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00082246s 200
+2025-05-14T08:41:40.803Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000593046s 200
+2025-05-14T08:42:10.804Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000680652s 200
+2025-05-14T08:42:40.806Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001057438s 200
+2025-05-14T08:43:10.807Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000690941s 200
+2025-05-14T08:43:30.477Z [pebble] GET /v1/services 95.636µs 200
+2025-05-14T08:43:30.479Z [pebble] GET /v1/checks?level=ready 78.237µs 200
+2025-05-14T08:43:40.808Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000331832s 200
+2025-05-14T08:44:10.810Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000805402s 200
+2025-05-14T08:44:40.812Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000835364s 200
+2025-05-14T08:45:10.814Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000780719s 200
+2025-05-14T08:45:40.819Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003857008s 200
+2025-05-14T08:46:10.820Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00061369s 200
+2025-05-14T08:46:40.822Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000842173s 200
+2025-05-14T08:47:10.825Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001537413s 200
+2025-05-14T08:47:40.828Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001659368s 200
+2025-05-14T08:48:10.829Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000392318s 200
+2025-05-14T08:48:15.073Z [pebble] GET /v1/services 212.767µs 200
+2025-05-14T08:48:15.080Z [pebble] GET /v1/checks?level=ready 308.852µs 200
+2025-05-14T08:48:40.831Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000991953s 200
+2025-05-14T08:49:10.832Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000426854s 200
+2025-05-14T08:49:40.833Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000565593s 200
+2025-05-14T08:50:10.835Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001015768s 200
+2025-05-14T08:50:40.836Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000455323s 200
+2025-05-14T08:51:10.839Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001664805s 200
+2025-05-14T08:51:40.840Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000813016s 200
+2025-05-14T08:52:10.841Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000318606s 200
+2025-05-14T08:52:40.843Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000410697s 200
+2025-05-14T08:53:10.845Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001198218s 200
+2025-05-14T08:53:40.847Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001225783s 200
+2025-05-14T08:54:06.765Z [pebble] GET /v1/services 105.838µs 200
+2025-05-14T08:54:06.766Z [pebble] GET /v1/checks?level=ready 108.884µs 200
+2025-05-14T08:54:10.848Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000431747s 200
+2025-05-14T08:54:40.853Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002096059s 200
+2025-05-14T08:55:10.855Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00104409s 200
+2025-05-14T08:55:40.857Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001049116s 200
+2025-05-14T08:56:10.859Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001233683s 200
+2025-05-14T08:56:40.860Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000617284s 200
+2025-05-14T08:57:10.862Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00053074s 200
+2025-05-14T08:57:40.863Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000461921s 200
+2025-05-14T08:58:10.866Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000681129s 200
+2025-05-14T08:58:40.868Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001173421s 200
+2025-05-14T08:59:10.870Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001292702s 200
+2025-05-14T08:59:17.987Z [pebble] GET /v1/services 147.666µs 200
+2025-05-14T08:59:17.990Z [pebble] GET /v1/checks?level=ready 977.883µs 200
+2025-05-14T08:59:40.871Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001263941s 200
+2025-05-14T09:00:10.873Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001180753s 200
+2025-05-14T09:00:40.875Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000421682s 200
+2025-05-14T09:01:10.877Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001265766s 200
+2025-05-14T09:01:40.878Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000247388s 200
+2025-05-14T09:02:10.881Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001408899s 200
+2025-05-14T09:02:40.883Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000965694s 200
+2025-05-14T09:03:10.885Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001023503s 200
+2025-05-14T09:03:40.886Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00114902s 200
+2025-05-14T09:04:10.890Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002493779s 200
+2025-05-14T09:04:11.216Z [pebble] GET /v1/services 107.342µs 200
+2025-05-14T09:04:11.217Z [pebble] GET /v1/checks?level=ready 152.599µs 200
+2025-05-14T09:04:40.906Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001198415s 200
+2025-05-14T09:05:10.908Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001612739s 200
+2025-05-14T09:05:40.911Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002010712s 200
+2025-05-14T09:06:10.913Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000712005s 200
+2025-05-14T09:06:40.915Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001176665s 200
+2025-05-14T09:07:10.917Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000773768s 200
+2025-05-14T09:07:40.919Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001559505s 200
+2025-05-14T09:08:10.921Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000745367s 200
+2025-05-14T09:08:37.033Z [pebble] GET /v1/services 207.732µs 200
+2025-05-14T09:08:37.035Z [pebble] GET /v1/checks?level=ready 147.206µs 200
+2025-05-14T09:08:40.923Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000666509s 200
+2025-05-14T09:09:10.925Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001055659s 200
+2025-05-14T09:09:40.926Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000969151s 200
+2025-05-14T09:10:10.928Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001253692s 200
+2025-05-14T09:10:40.930Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001273865s 200
+2025-05-14T09:11:10.932Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001100455s 200
+2025-05-14T09:11:40.934Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000287117s 200
+2025-05-14T09:12:10.936Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000877269s 200
+2025-05-14T09:12:40.941Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000966451s 200
+2025-05-14T09:13:05.370Z [pebble] GET /v1/services 191.806µs 200
+2025-05-14T09:13:05.372Z [pebble] GET /v1/checks?level=ready 102.078µs 200
+2025-05-14T09:13:10.943Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001393577s 200
+2025-05-14T09:13:40.944Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000526207s 200
+2025-05-14T09:14:10.946Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001259267s 200
+2025-05-14T09:14:40.948Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000921518s 200
+2025-05-14T09:15:10.951Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001850147s 200
+2025-05-14T09:15:40.953Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00122797s 200
+2025-05-14T09:16:10.955Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001141737s 200
+2025-05-14T09:16:40.957Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001124497s 200
+2025-05-14T09:17:10.958Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000368499s 200
+2025-05-14T09:17:24.289Z [pebble] GET /v1/services 77.277µs 200
+2025-05-14T09:17:24.290Z [pebble] GET /v1/checks?level=ready 86.628µs 200
+2025-05-14T09:17:40.959Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00087834s 200
+2025-05-14T09:18:10.962Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00166974s 200
+2025-05-14T09:18:40.963Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000296842s 200
+2025-05-14T09:19:10.965Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000812699s 200
+2025-05-14T09:19:40.968Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001428843s 200
+2025-05-14T09:20:10.971Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001765324s 200
+2025-05-14T09:20:40.972Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000361318s 200
+2025-05-14T09:21:10.974Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001316462s 200
+2025-05-14T09:21:30.592Z [pebble] GET /v1/services 158.568µs 200
+2025-05-14T09:21:30.595Z [pebble] GET /v1/checks?level=ready 387.241µs 200
+2025-05-14T09:21:40.977Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001750165s 200
+2025-05-14T09:22:10.978Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000379627s 200
+2025-05-14T09:22:40.981Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001426164s 200
+2025-05-14T09:23:10.983Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001079005s 200
+2025-05-14T09:23:40.985Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001210121s 200
+2025-05-14T09:24:10.987Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001570674s 200
+2025-05-14T09:24:41.010Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001309137s 200
+2025-05-14T09:25:11.013Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002207117s 200
+2025-05-14T09:25:41.014Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001001135s 200
+2025-05-14T09:26:11.017Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001678634s 200
+2025-05-14T09:26:21.489Z [pebble] GET /v1/services 79.897µs 200
+2025-05-14T09:26:21.493Z [pebble] GET /v1/checks?level=ready 80.744µs 200
+2025-05-14T09:26:41.020Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002723766s 200
+2025-05-14T09:27:11.023Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000907618s 200
+2025-05-14T09:27:41.024Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000295943s 200
+2025-05-14T09:28:11.026Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001123993s 200
+2025-05-14T09:28:41.027Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000541126s 200
+2025-05-14T09:29:11.029Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000367214s 200
+2025-05-14T09:29:41.031Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001392142s 200
+2025-05-14T09:30:11.033Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001326384s 200
+2025-05-14T09:30:41.035Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001240136s 200
+2025-05-14T09:31:11.038Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001812392s 200
+2025-05-14T09:31:35.572Z [pebble] GET /v1/services 136.406µs 200
+2025-05-14T09:31:35.574Z [pebble] GET /v1/checks?level=ready 160.076µs 200
+2025-05-14T09:31:41.039Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000448899s 200
+2025-05-14T09:32:11.041Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000803519s 200
+2025-05-14T09:32:41.043Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001167974s 200
+2025-05-14T09:33:11.046Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001813262s 200
+2025-05-14T09:33:41.047Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000548414s 200
+2025-05-14T09:34:11.049Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001184778s 200
+2025-05-14T09:34:41.051Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000948709s 200
+2025-05-14T09:35:11.052Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000501666s 200
+2025-05-14T09:35:41.054Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001114451s 200
+2025-05-14T09:36:11.056Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000879576s 200
+2025-05-14T09:36:41.058Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000959461s 200
+2025-05-14T09:37:11.062Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001846921s 200
+2025-05-14T09:37:18.128Z [pebble] GET /v1/services 107.208µs 200
+2025-05-14T09:37:18.137Z [pebble] GET /v1/checks?level=ready 86.904µs 200
+2025-05-14T09:37:41.064Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001113562s 200
+2025-05-14T09:38:11.066Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000737301s 200
+2025-05-14T09:38:41.068Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000726297s 200
+2025-05-14T09:39:11.069Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000451885s 200
+2025-05-14T09:39:41.072Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001819196s 200
+2025-05-14T09:40:11.074Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001634742s 200
+2025-05-14T09:40:41.076Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000540117s 200
+2025-05-14T09:41:11.077Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00033267s 200
+2025-05-14T09:41:41.079Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001099522s 200
+2025-05-14T09:42:11.080Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000280483s 200
+2025-05-14T09:42:41.082Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000995566s 200
+2025-05-14T09:43:06.841Z [pebble] GET /v1/services 108.511µs 200
+2025-05-14T09:43:06.845Z [pebble] GET /v1/checks?level=ready 107.609µs 200
+2025-05-14T09:43:11.083Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000588564s 200
+2025-05-14T09:43:41.084Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000499651s 200
+2025-05-14T09:44:11.087Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001381182s 200
+2025-05-14T09:44:41.089Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001993178s 200
+2025-05-14T09:45:11.091Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001142479s 200
+2025-05-14T09:45:41.093Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001258437s 200
+2025-05-14T09:46:11.096Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001397363s 200
+2025-05-14T09:46:41.097Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000552541s 200
+2025-05-14T09:47:11.099Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000546794s 200
+2025-05-14T09:47:41.101Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001091442s 200
+2025-05-14T09:48:03.587Z [pebble] GET /v1/services 103.295µs 200
+2025-05-14T09:48:03.593Z [pebble] GET /v1/checks?level=ready 122.873µs 200
+2025-05-14T09:48:11.103Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001871162s 200
+2025-05-14T09:48:41.108Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003486574s 200
+2025-05-14T09:49:11.110Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001309708s 200
+2025-05-14T09:49:41.111Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001120606s 200
+2025-05-14T09:50:11.114Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001493478s 200
+2025-05-14T09:50:41.115Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000657435s 200
+2025-05-14T09:51:11.117Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000516301s 200
+2025-05-14T09:51:41.119Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000609544s 200
+2025-05-14T09:52:11.122Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001808033s 200
+2025-05-14T09:52:41.124Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001407705s 200
+2025-05-14T09:53:11.126Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001157554s 200
+2025-05-14T09:53:19.651Z [pebble] GET /v1/services 97.542µs 200
+2025-05-14T09:53:19.653Z [pebble] GET /v1/checks?level=ready 85.195µs 200
+2025-05-14T09:53:41.128Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00134983s 200
+2025-05-14T09:54:11.130Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000850214s 200
+2025-05-14T09:54:41.133Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001782739s 200
+2025-05-14T09:55:11.135Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000748003s 200
+2025-05-14T09:55:41.138Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001623637s 200
+2025-05-14T09:56:11.140Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001595547s 200
+2025-05-14T09:56:41.143Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001645429s 200
+2025-05-14T09:57:11.144Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000375937s 200
+2025-05-14T09:57:29.478Z [pebble] GET /v1/services 101.466µs 200
+2025-05-14T09:57:29.479Z [pebble] GET /v1/checks?level=ready 73.71µs 200
+2025-05-14T09:57:41.147Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001903331s 200
+2025-05-14T09:58:11.149Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000931346s 200
+2025-05-14T09:58:41.151Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001275952s 200
+2025-05-14T09:59:11.153Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00051868s 200
+2025-05-14T09:59:41.155Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00107164s 200
+2025-05-14T10:00:11.157Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001117439s 200
+2025-05-14T10:00:41.159Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001171138s 200
+2025-05-14T10:01:11.161Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001252429s 200
+2025-05-14T10:01:33.920Z [pebble] GET /v1/services 83.542µs 200
+2025-05-14T10:01:33.922Z [pebble] GET /v1/checks?level=ready 322.17µs 200
+2025-05-14T10:01:41.162Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000713916s 200
+2025-05-14T10:02:11.166Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001829645s 200
+2025-05-14T10:02:41.167Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000502936s 200
+2025-05-14T10:03:11.169Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000679804s 200
+2025-05-14T10:03:41.171Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001035047s 200
+2025-05-14T10:04:11.173Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001326841s 200
+2025-05-14T10:04:41.177Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001949726s 200
+2025-05-14T10:05:11.178Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.0003575s 200
+2025-05-14T10:05:41.180Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001618294s 200
+2025-05-14T10:06:11.183Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001053848s 200
+2025-05-14T10:06:31.488Z [pebble] GET /v1/services 85.201µs 200
+2025-05-14T10:06:31.489Z [pebble] GET /v1/checks?level=ready 68.724µs 200
+2025-05-14T10:06:41.185Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001272821s 200
+2025-05-14T10:07:11.190Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001429042s 200
+2025-05-14T10:07:41.191Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000853765s 200
+2025-05-14T10:08:11.193Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000733015s 200
+2025-05-14T10:08:41.197Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003382705s 200
+2025-05-14T10:09:11.199Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001335359s 200
+2025-05-14T10:09:41.200Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000713378s 200
+2025-05-14T10:10:11.204Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.002121621s 200
+2025-05-14T10:10:41.205Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000339546s 200
+2025-05-14T10:11:11.207Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001540575s 200
+2025-05-14T10:11:41.209Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001029479s 200
+2025-05-14T10:11:41.576Z [pebble] GET /v1/services 269.682µs 200
+2025-05-14T10:11:41.578Z [pebble] GET /v1/checks?level=ready 422.164µs 200
+2025-05-14T10:12:11.222Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001101378s 200
+2025-05-14T10:12:41.224Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001304928s 200
+2025-05-14T10:13:11.225Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000387409s 200
+2025-05-14T10:13:41.228Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001787566s 200
+2025-05-14T10:14:11.230Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001240571s 200
+2025-05-14T10:14:41.233Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000943656s 200
+2025-05-14T10:15:11.236Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001734094s 200
+2025-05-14T10:15:41.238Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.0014361s 200
+2025-05-14T10:15:46.046Z [pebble] GET /v1/services 216.107µs 200
+2025-05-14T10:15:46.048Z [pebble] GET /v1/checks?level=ready 294.867µs 200
+2025-05-14T10:16:11.243Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003108108s 200
+2025-05-14T10:16:41.251Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000734078s 200
+2025-05-14T10:17:11.253Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00140107s 200
+2025-05-14T10:17:41.255Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000969472s 200
+2025-05-14T10:18:11.260Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.0041931s 200
+2025-05-14T10:18:41.267Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003034674s 200
+2025-05-14T10:19:11.268Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000440292s 200
+2025-05-14T10:19:41.269Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000701338s 200
+2025-05-14T10:20:11.272Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001512703s 200
+2025-05-14T10:20:41.273Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00039687s 200
+2025-05-14T10:21:11.275Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000716126s 200
+2025-05-14T10:21:13.559Z [pebble] GET /v1/services 86.918µs 200
+2025-05-14T10:21:13.561Z [pebble] GET /v1/checks?level=ready 116.977µs 200
+2025-05-14T10:21:41.277Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001676294s 200
+2025-05-14T10:22:11.279Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00144292s 200
+2025-05-14T10:22:41.281Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000678593s 200
+2025-05-14T10:23:11.282Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000463092s 200
+2025-05-14T10:23:41.283Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000277524s 200
+2025-05-14T10:24:11.285Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001247657s 200
+2025-05-14T10:24:41.287Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001039665s 200
+2025-05-14T10:25:11.289Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00163966s 200
+2025-05-14T10:25:41.292Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001998987s 200
+2025-05-14T10:26:08.120Z [pebble] GET /v1/services 113.137µs 200
+2025-05-14T10:26:08.122Z [pebble] GET /v1/checks?level=ready 87.294µs 200
+2025-05-14T10:26:11.294Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001059816s 200
+2025-05-14T10:26:41.296Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00040356s 200
+2025-05-14T10:27:11.298Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001446422s 200
+2025-05-14T10:27:41.300Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001235386s 200
+2025-05-14T10:28:11.303Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001518109s 200
+2025-05-14T10:28:41.304Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000923184s 200
+2025-05-14T10:29:11.307Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001468365s 200
+2025-05-14T10:29:41.310Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001656246s 200
+2025-05-14T10:30:11.313Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001076829s 200
+2025-05-14T10:30:41.315Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001499334s 200
+2025-05-14T10:31:11.317Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00175191s 200
+2025-05-14T10:31:19.345Z [pebble] GET /v1/services 114.774µs 200
+2025-05-14T10:31:19.347Z [pebble] GET /v1/checks?level=ready 114.669µs 200
+2025-05-14T10:31:41.319Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.00158229s 200
+2025-05-14T10:32:11.321Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.001324306s 200
+2025-05-14T10:32:41.323Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000501802s 200
+2025-05-14T11:22:24.088Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 49m42.764615223s 200
+2025-05-14T11:22:42.203Z [pebble] GET /v1/notices?timeout=30s 88.920696ms 200
+2025-05-14T11:23:12.530Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.003112793s 200
+2025-05-14T11:23:30.627Z [pebble] POST /v1/files 21.322426ms 200
+2025-05-14T11:23:30.841Z [pebble] POST /v1/files 530.854µs 200
+2025-05-14T11:23:31.123Z [pebble] POST /v1/files 14.031829ms 200
+2025-05-14T11:23:31.200Z [pebble] POST /v1/files 254.497µs 200
+2025-05-14T11:23:31.237Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 4.388988ms 200
+2025-05-14T11:23:31.581Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 16.803399ms 200
+2025-05-14T11:23:31.743Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 240.229µs 200
+2025-05-14T11:23:32.299Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 294.183µs 200
+2025-05-14T11:23:32.383Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 621.319µs 200
+2025-05-14T11:23:37.313Z [ovn-northd] 2025-05-14T11:23:37Z|00012|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T11:23:37.313Z [ovn-northd] 2025-05-14T11:23:37Z|00013|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T11:23:38.321Z [ovn-northd] 2025-05-14T11:23:38Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:23:38.321Z [ovn-northd] 2025-05-14T11:23:38Z|00015|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection attempt failed (Connection refused)
+2025-05-14T11:23:38.321Z [ovn-northd] 2025-05-14T11:23:38Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: waiting 2 seconds before reconnect
+2025-05-14T11:23:40.417Z [ovn-northd] 2025-05-14T11:23:40Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:23:40.489Z [ovn-northd] 2025-05-14T11:23:40Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T11:23:40.559Z [ovn-northd] 2025-05-14T11:23:40Z|00019|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T11:23:40.670Z [ovn-northd] 2025-05-14T11:23:40Z|00020|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T11:23:41.480Z [ovn-northd] 2025-05-14T11:23:41Z|00021|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:23:41.480Z [ovn-northd] 2025-05-14T11:23:41Z|00022|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection attempt failed (Connection refused)
+2025-05-14T11:23:41.480Z [ovn-northd] 2025-05-14T11:23:41Z|00023|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: waiting 2 seconds before reconnect
+2025-05-14T11:23:42.533Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 30.000305417s 200
+2025-05-14T11:23:43.498Z [ovn-northd] 2025-05-14T11:23:43Z|00024|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:23:43.567Z [ovn-northd] 2025-05-14T11:23:43Z|00025|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T11:24:01.259Z [pebble] GET /v1/services 176.04µs 200
+2025-05-14T11:24:01.277Z [pebble] GET /v1/services 177.042µs 200
+2025-05-14T11:24:01.456Z [pebble] POST /v1/services 61.383766ms 202
+2025-05-14T11:24:01.462Z [pebble] GET /v1/notices?after=2025-05-14T07%3A10%3A40.316234367Z&timeout=30s 18.926201656s 200
+2025-05-14T11:24:01.485Z [pebble] GET /v1/notices?after=2025-05-14T11%3A24%3A01.395570137Z&timeout=30s 18.376091ms 200
+2025-05-14T11:24:01.487Z [ovn-northd] 2025-05-14T11:24:01Z|00026|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T11:24:01.519Z [ovn-northd] Wed May 14 11:24:01 UTC 2025 [wrapper]: Stopping
+2025-05-14T11:24:01.675Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T11:24:01.678Z [ovn-northd] Terminated
+2025-05-14T11:24:01.680Z [pebble] Service "ovn-northd" stopped
+2025-05-14T11:24:01.773Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T11:24:01.863Z [ovn-northd] Wed May 14 11:24:01 UTC 2025 [wrapper]: Starting
+2025-05-14T11:24:01.898Z [ovn-northd] 2025-05-14T11:24:01Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T11:24:01.987Z [ovn-northd] 2025-05-14T11:24:01Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:24:01.993Z [ovn-northd] 2025-05-14T11:24:01Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T11:24:02.004Z [ovn-northd] 2025-05-14T11:24:02Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:24:02.011Z [ovn-northd] 2025-05-14T11:24:02Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T11:24:02.053Z [ovn-northd] 2025-05-14T11:24:02Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T11:24:02.057Z [ovn-northd] 2025-05-14T11:24:02Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T11:24:02.081Z [ovn-northd] 2025-05-14T11:24:02Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T11:24:02.802Z [pebble] GET /v1/changes/47/wait?timeout=4.000s 1.336900325s 200
+2025-05-14T11:24:02.802Z [pebble] GET /v1/notices?after=2025-05-14T11%3A24%3A01.460318312Z&timeout=30s 1.315665071s 200
+2025-05-14T11:24:02.829Z [pebble] GET /v1/services 104.05µs 200
+2025-05-14T11:24:02.857Z [pebble] GET /v1/plan?format=yaml 299.627µs 200
+2025-05-14T11:24:12.129Z [ovn-northd] 2025-05-14T11:24:12Z|00009|memory|INFO|11444 kB peak resident set size after 10.2 seconds
+2025-05-14T11:24:12.129Z [ovn-northd] 2025-05-14T11:24:12Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T11:24:17.900Z [pebble] POST /v1/files 256.372µs 200
+2025-05-14T11:24:17.992Z [pebble] POST /v1/files 218.993µs 200
+2025-05-14T11:24:18.189Z [pebble] POST /v1/files 246.912µs 200
+2025-05-14T11:24:18.305Z [pebble] POST /v1/files 252.125µs 200
+2025-05-14T11:24:18.325Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 240.836µs 200
+2025-05-14T11:24:18.975Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 312µs 200
+2025-05-14T11:24:19.211Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 240.232µs 200
+2025-05-14T11:24:19.815Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 10.26476ms 200
+2025-05-14T11:24:20.084Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 9.667469ms 200
+2025-05-14T11:24:24.093Z [ovn-northd] 2025-05-14T11:24:24Z|00011|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T11:24:24.107Z [ovn-northd] 2025-05-14T11:24:24Z|00012|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T11:24:25.095Z [ovn-northd] 2025-05-14T11:24:25Z|00013|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:24:25.095Z [ovn-northd] 2025-05-14T11:24:25Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection attempt failed (Connection refused)
+2025-05-14T11:24:25.095Z [ovn-northd] 2025-05-14T11:24:25Z|00015|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: waiting 2 seconds before reconnect
+2025-05-14T11:24:27.126Z [ovn-northd] 2025-05-14T11:24:27Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:24:27.134Z [ovn-northd] 2025-05-14T11:24:27Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T11:24:27.334Z [ovn-northd] 2025-05-14T11:24:27Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T11:24:27.394Z [ovn-northd] 2025-05-14T11:24:27Z|00019|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T11:24:28.138Z [ovn-northd] 2025-05-14T11:24:28Z|00020|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:24:28.138Z [ovn-northd] 2025-05-14T11:24:28Z|00021|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection attempt failed (Connection refused)
+2025-05-14T11:24:28.139Z [ovn-northd] 2025-05-14T11:24:28Z|00022|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: waiting 2 seconds before reconnect
+2025-05-14T11:24:30.195Z [ovn-northd] 2025-05-14T11:24:30Z|00023|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:24:30.275Z [ovn-northd] 2025-05-14T11:24:30Z|00024|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T11:24:32.808Z [pebble] GET /v1/notices?after=2025-05-14T11%3A24%3A02.778530649Z&timeout=30s 30.001093885s 200
+2025-05-14T11:24:49.561Z [pebble] GET /v1/services 112.117µs 200
+2025-05-14T11:24:49.607Z [pebble] GET /v1/services 2.86729ms 200
+2025-05-14T11:24:49.755Z [pebble] POST /v1/services 100.814133ms 202
+2025-05-14T11:24:49.771Z [pebble] GET /v1/notices?after=2025-05-14T11%3A24%3A02.778530649Z&timeout=30s 16.95140224s 200
+2025-05-14T11:24:49.803Z [ovn-northd] 2025-05-14T11:24:49Z|00025|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T11:24:49.828Z [ovn-northd] Wed May 14 11:24:49 UTC 2025 [wrapper]: Stopping
+2025-05-14T11:24:49.892Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T11:24:49.895Z [ovn-northd] Terminated
+2025-05-14T11:24:49.898Z [pebble] Service "ovn-northd" stopped
+2025-05-14T11:24:49.975Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T11:24:50.056Z [ovn-northd] Wed May 14 11:24:50 UTC 2025 [wrapper]: Starting
+2025-05-14T11:24:50.126Z [ovn-northd] 2025-05-14T11:24:50Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T11:24:50.277Z [ovn-northd] 2025-05-14T11:24:50Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:24:50.283Z [ovn-northd] 2025-05-14T11:24:50Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T11:24:50.287Z [ovn-northd] 2025-05-14T11:24:50Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:24:50.290Z [ovn-northd] 2025-05-14T11:24:50Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T11:24:50.350Z [ovn-northd] 2025-05-14T11:24:50Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T11:24:50.388Z [ovn-northd] 2025-05-14T11:24:50Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T11:24:50.450Z [ovn-northd] 2025-05-14T11:24:50Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T11:24:51.019Z [pebble] GET /v1/changes/48/wait?timeout=4.000s 1.231541914s 200
+2025-05-14T11:24:51.020Z [pebble] GET /v1/notices?after=2025-05-14T11%3A24%3A49.756736461Z&timeout=30s 1.229226354s 200
+2025-05-14T11:24:51.027Z [pebble] GET /v1/services 235.236µs 200
+2025-05-14T11:24:51.080Z [pebble] GET /v1/plan?format=yaml 5.395072ms 200
+2025-05-14T11:24:58.813Z [pebble] POST /v1/layers 773.191µs 200
+2025-05-14T11:24:59.219Z [pebble] POST /v1/files 264.466µs 200
+2025-05-14T11:24:59.317Z [pebble] POST /v1/files 297.465µs 200
+2025-05-14T11:24:59.372Z [pebble] POST /v1/files 213.147µs 200
+2025-05-14T11:24:59.402Z [pebble] POST /v1/files 239.166µs 200
+2025-05-14T11:24:59.406Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 231.004µs 200
+2025-05-14T11:24:59.536Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 1.963481ms 200
+2025-05-14T11:24:59.685Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 250.435µs 200
+2025-05-14T11:24:59.793Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 2.242417ms 200
+2025-05-14T11:25:00.041Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 217.938µs 200
+2025-05-14T11:25:00.547Z [ovn-northd] 2025-05-14T11:25:00Z|00009|memory|INFO|11432 kB peak resident set size after 10.4 seconds
+2025-05-14T11:25:00.547Z [ovn-northd] 2025-05-14T11:25:00Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T11:25:02.707Z [ovn-northd] 2025-05-14T11:25:02Z|00011|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T11:25:02.707Z [ovn-northd] 2025-05-14T11:25:02Z|00012|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T11:25:03.715Z [ovn-northd] 2025-05-14T11:25:03Z|00013|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:25:03.752Z [ovn-northd] 2025-05-14T11:25:03Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T11:25:03.768Z [ovn-northd] 2025-05-14T11:25:03Z|00015|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T11:25:04.234Z [ovn-northd] 2025-05-14T11:25:04Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T11:25:04.234Z [ovn-northd] 2025-05-14T11:25:04Z|00017|ovn_northd|INFO|OVNNB commit failed, force recompute next time.
+2025-05-14T11:25:05.239Z [ovn-northd] 2025-05-14T11:25:05Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:25:05.272Z [ovn-northd] 2025-05-14T11:25:05Z|00019|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T11:25:13.951Z [pebble] GET /v1/services 108.75µs 200
+2025-05-14T11:25:13.956Z [pebble] GET /v1/services 243.266µs 200
+2025-05-14T11:25:14.010Z [pebble] POST /v1/services 21.369344ms 202
+2025-05-14T11:25:14.010Z [pebble] GET /v1/notices?after=2025-05-14T11%3A24%3A50.990160182Z&timeout=30s 22.983527267s 200
+2025-05-14T11:25:14.029Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A13.989323762Z&timeout=30s 11.814182ms 200
+2025-05-14T11:25:14.034Z [ovn-northd] 2025-05-14T11:25:14Z|00020|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T11:25:14.045Z [ovn-northd] Wed May 14 11:25:14 UTC 2025 [wrapper]: Stopping
+2025-05-14T11:25:14.112Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T11:25:14.113Z [ovn-northd] Terminated
+2025-05-14T11:25:14.115Z [pebble] Service "ovn-northd" stopped
+2025-05-14T11:25:14.152Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T11:25:14.177Z [ovn-northd] Wed May 14 11:25:14 UTC 2025 [wrapper]: Starting
+2025-05-14T11:25:14.210Z [ovn-northd] 2025-05-14T11:25:14Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T11:25:14.253Z [ovn-northd] 2025-05-14T11:25:14Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T11:25:14.254Z [ovn-northd] 2025-05-14T11:25:14Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T11:25:14.257Z [ovn-northd] 2025-05-14T11:25:14Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T11:25:14.261Z [ovn-northd] 2025-05-14T11:25:14Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T11:25:14.282Z [ovn-northd] 2025-05-14T11:25:14Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T11:25:14.283Z [ovn-northd] 2025-05-14T11:25:14Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T11:25:14.290Z [ovn-northd] 2025-05-14T11:25:14Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T11:25:15.192Z [pebble] GET /v1/changes/49/wait?timeout=4.000s 1.174946499s 200
+2025-05-14T11:25:15.192Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A14.011991146Z&timeout=30s 1.160432571s 200
+2025-05-14T11:25:15.196Z [pebble] GET /v1/services 154.006µs 200
+2025-05-14T11:25:15.236Z [pebble] GET /v1/plan?format=yaml 491.342µs 200
+2025-05-14T11:25:24.315Z [ovn-northd] 2025-05-14T11:25:24Z|00009|memory|INFO|11392 kB peak resident set size after 10.1 seconds
+2025-05-14T11:25:24.316Z [ovn-northd] 2025-05-14T11:25:24Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T11:25:44.312Z [ovn-northd] 2025-05-14T11:25:44Z|00011|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-05-14T11:25:45.195Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000790297s 200
+2025-05-14T11:26:15.196Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000493407s 200
+2025-05-14T11:26:45.198Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001017578s 200
+2025-05-14T11:27:06.343Z [pebble] GET /v1/services 416.976µs 200
+2025-05-14T11:27:06.347Z [pebble] GET /v1/checks?level=ready 80.823µs 200
+2025-05-14T11:27:15.201Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.002052938s 200
+2025-05-14T11:27:45.202Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00061679s 200
+2025-05-14T11:28:15.205Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000889689s 200
+2025-05-14T11:28:45.207Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000641978s 200
+2025-05-14T11:29:15.208Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000510345s 200
+2025-05-14T11:29:45.210Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001443964s 200
+2025-05-14T11:30:15.212Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000544645s 200
+2025-05-14T11:30:45.213Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00077105s 200
+2025-05-14T11:31:15.215Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000761569s 200
+2025-05-14T11:31:15.547Z [pebble] GET /v1/services 99.086µs 200
+2025-05-14T11:31:15.548Z [pebble] GET /v1/checks?level=ready 93.912µs 200
+2025-05-14T11:31:45.217Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001243361s 200
+2025-05-14T11:32:15.220Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.002302958s 200
+2025-05-14T11:32:45.226Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000293734s 200
+2025-05-14T11:33:15.227Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000360142s 200
+2025-05-14T11:33:45.229Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000857257s 200
+2025-05-14T11:34:15.231Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000369474s 200
+2025-05-14T11:34:45.233Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000435189s 200
+2025-05-14T11:35:15.235Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000992922s 200
+2025-05-14T11:35:45.239Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001039865s 200
+2025-05-14T11:36:15.241Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000361558s 200
+2025-05-14T11:36:45.242Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00024055s 200
+2025-05-14T11:37:10.040Z [pebble] GET /v1/services 183.078µs 200
+2025-05-14T11:37:10.043Z [pebble] GET /v1/checks?level=ready 425.84µs 200
+2025-05-14T11:37:15.243Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000826752s 200
+2025-05-14T11:37:45.247Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00098531s 200
+2025-05-14T11:38:15.250Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000394306s 200
+2025-05-14T11:38:45.251Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000642386s 200
+2025-05-14T11:39:15.253Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000389391s 200
+2025-05-14T11:39:45.254Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000442702s 200
+2025-05-14T11:40:15.257Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001317113s 200
+2025-05-14T11:40:45.258Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000295447s 200
+2025-05-14T11:41:15.259Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000424893s 200
+2025-05-14T11:41:45.261Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000818179s 200
+2025-05-14T11:42:15.263Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000750294s 200
+2025-05-14T11:42:31.985Z [pebble] GET /v1/services 117.066µs 200
+2025-05-14T11:42:31.988Z [pebble] GET /v1/checks?level=ready 191.608µs 200
+2025-05-14T11:42:45.265Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000883808s 200
+2025-05-14T11:43:15.268Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000655645s 200
+2025-05-14T11:43:45.273Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001266797s 200
+2025-05-14T11:44:15.275Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001152332s 200
+2025-05-14T11:44:45.276Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00072171s 200
+2025-05-14T11:45:15.280Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000946775s 200
+2025-05-14T11:45:45.282Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000624879s 200
+2025-05-14T11:46:15.283Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000505537s 200
+2025-05-14T11:46:45.285Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000691374s 200
+2025-05-14T11:47:15.286Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000760743s 200
+2025-05-14T11:47:45.287Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000427983s 200
+2025-05-14T11:48:11.405Z [pebble] GET /v1/services 232.339µs 200
+2025-05-14T11:48:11.406Z [pebble] GET /v1/checks?level=ready 152.026µs 200
+2025-05-14T11:48:15.289Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000309542s 200
+2025-05-14T11:48:45.291Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000285887s 200
+2025-05-14T11:49:15.296Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001251211s 200
+2025-05-14T11:49:45.298Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000619287s 200
+2025-05-14T11:50:15.300Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001339032s 200
+2025-05-14T11:50:45.301Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000438389s 200
+2025-05-14T11:51:15.303Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000924807s 200
+2025-05-14T11:51:45.304Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000168632s 200
+2025-05-14T11:52:15.306Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000457671s 200
+2025-05-14T11:52:16.517Z [pebble] GET /v1/services 89.089µs 200
+2025-05-14T11:52:16.519Z [pebble] GET /v1/checks?level=ready 109.565µs 200
+2025-05-14T11:52:45.312Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001388398s 200
+2025-05-14T11:53:15.314Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001046705s 200
+2025-05-14T11:53:45.317Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000835386s 200
+2025-05-14T11:54:15.319Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000941569s 200
+2025-05-14T11:54:45.321Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000398391s 200
+2025-05-14T11:55:15.322Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000238412s 200
+2025-05-14T11:55:45.323Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000535239s 200
+2025-05-14T11:56:15.325Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000446092s 200
+2025-05-14T11:56:45.326Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000365384s 200
+2025-05-14T11:57:05.741Z [pebble] GET /v1/services 1.347633ms 200
+2025-05-14T11:57:05.746Z [pebble] GET /v1/checks?level=ready 142.583µs 200
+2025-05-14T11:57:15.328Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000963494s 200
+2025-05-14T11:57:45.329Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000536037s 200
+2025-05-14T11:58:15.332Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001010457s 200
+2025-05-14T11:58:45.333Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000442327s 200
+2025-05-14T11:59:15.335Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00027011s 200
+2025-05-14T11:59:45.336Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000395847s 200
+2025-05-14T12:00:15.337Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00032072s 200
+2025-05-14T12:00:45.339Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000496811s 200
+2025-05-14T12:01:15.341Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001778452s 200
+2025-05-14T12:01:45.344Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001390052s 200
+2025-05-14T12:02:06.572Z [pebble] GET /v1/services 597.206µs 200
+2025-05-14T12:02:06.577Z [pebble] GET /v1/checks?level=ready 246.066µs 200
+2025-05-14T12:02:15.346Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000525018s 200
+2025-05-14T12:02:45.352Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00240087s 200
+2025-05-14T12:03:15.355Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000720719s 200
+2025-05-14T12:03:45.356Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000310827s 200
+2025-05-14T12:04:15.359Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000287453s 200
+2025-05-14T12:04:45.361Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00145629s 200
+2025-05-14T12:05:15.363Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000436366s 200
+2025-05-14T12:05:45.365Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00122195s 200
+2025-05-14T12:06:15.366Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000367084s 200
+2025-05-14T12:06:24.942Z [pebble] GET /v1/services 135.504µs 200
+2025-05-14T12:06:24.946Z [pebble] GET /v1/checks?level=ready 83.447µs 200
+2025-05-14T12:06:45.368Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000400325s 200
+2025-05-14T12:07:15.370Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001231613s 200
+2025-05-14T12:07:45.371Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000471982s 200
+2025-05-14T12:08:15.373Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000588529s 200
+2025-05-14T12:08:45.375Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001021377s 200
+2025-05-14T12:09:15.377Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001118606s 200
+2025-05-14T12:09:45.379Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001155809s 200
+2025-05-14T12:10:15.381Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000680146s 200
+2025-05-14T12:10:45.383Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000683244s 200
+2025-05-14T12:10:53.494Z [pebble] GET /v1/services 158.275µs 200
+2025-05-14T12:10:53.498Z [pebble] GET /v1/checks?level=ready 94.733µs 200
+2025-05-14T12:11:15.384Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000240779s 200
+2025-05-14T12:11:45.386Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000188562s 200
+2025-05-14T12:12:15.387Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000321575s 200
+2025-05-14T12:12:45.389Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000997745s 200
+2025-05-14T12:13:15.391Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00112953s 200
+2025-05-14T12:13:45.396Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000341938s 200
+2025-05-14T12:14:15.397Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000276075s 200
+2025-05-14T12:14:45.399Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00113964s 200
+2025-05-14T12:15:11.892Z [pebble] GET /v1/services 118.225µs 200
+2025-05-14T12:15:11.898Z [pebble] GET /v1/checks?level=ready 257.578µs 200
+2025-05-14T12:15:15.401Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000751414s 200
+2025-05-14T12:15:45.404Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001250529s 200
+2025-05-14T12:16:15.405Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000491268s 200
+2025-05-14T12:16:45.407Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000460905s 200
+2025-05-14T12:17:15.421Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.012781673s 200
+2025-05-14T12:17:45.423Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000662546s 200
+2025-05-14T12:18:15.424Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000323574s 200
+2025-05-14T12:18:45.426Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001019864s 200
+2025-05-14T12:19:15.428Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001094689s 200
+2025-05-14T12:19:45.430Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001672881s 200
+2025-05-14T12:19:56.709Z [pebble] GET /v1/services 555.632µs 200
+2025-05-14T12:19:56.710Z [pebble] GET /v1/checks?level=ready 86.523µs 200
+2025-05-14T12:20:15.432Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000276519s 200
+2025-05-14T12:20:45.433Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00048292s 200
+2025-05-14T12:21:15.435Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001595222s 200
+2025-05-14T12:21:45.437Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00102708s 200
+2025-05-14T12:22:15.439Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000866897s 200
+2025-05-14T12:22:45.440Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000449298s 200
+2025-05-14T12:23:15.442Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001803935s 200
+2025-05-14T12:23:45.446Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.002374738s 200
+2025-05-14T12:24:15.448Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001633972s 200
+2025-05-14T12:24:40.560Z [pebble] GET /v1/services 114.667µs 200
+2025-05-14T12:24:40.579Z [pebble] GET /v1/checks?level=ready 586.159µs 200
+2025-05-14T12:24:45.450Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000432842s 200
+2025-05-14T12:25:15.452Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001721166s 200
+2025-05-14T12:25:45.454Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000719796s 200
+2025-05-14T12:26:15.455Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00029938s 200
+2025-05-14T12:26:45.457Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001175832s 200
+2025-05-14T12:27:15.458Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000294589s 200
+2025-05-14T12:27:45.463Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001191606s 200
+2025-05-14T12:28:15.464Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000598395s 200
+2025-05-14T12:28:45.467Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000658531s 200
+2025-05-14T12:28:48.926Z [pebble] GET /v1/services 97.441µs 200
+2025-05-14T12:28:48.930Z [pebble] GET /v1/checks?level=ready 154.984µs 200
+2025-05-14T12:29:15.471Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001004565s 200
+2025-05-14T12:29:45.473Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000824165s 200
+2025-05-14T12:30:15.475Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000381189s 200
+2025-05-14T12:30:45.476Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00060649s 200
+2025-05-14T12:31:15.478Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000536245s 200
+2025-05-14T12:31:45.480Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000790388s 200
+2025-05-14T12:32:15.484Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000784039s 200
+2025-05-14T12:32:45.485Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000528393s 200
+2025-05-14T12:32:55.655Z [pebble] GET /v1/services 98.433µs 200
+2025-05-14T12:32:55.658Z [pebble] GET /v1/checks?level=ready 120.199µs 200
+2025-05-14T12:33:15.489Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000722169s 200
+2025-05-14T12:33:45.491Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000932504s 200
+2025-05-14T12:34:15.492Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000350319s 200
+2025-05-14T12:34:45.499Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00391875s 200
+2025-05-14T12:35:15.509Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001476498s 200
+2025-05-14T12:35:45.511Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001122907s 200
+2025-05-14T12:36:15.514Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000495798s 200
+2025-05-14T12:36:45.516Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00117961s 200
+2025-05-14T12:37:15.517Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000884699s 200
+2025-05-14T12:37:45.519Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001268636s 200
+2025-05-14T12:38:15.522Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001130906s 200
+2025-05-14T12:38:20.128Z [pebble] GET /v1/services 179.447µs 200
+2025-05-14T12:38:20.132Z [pebble] GET /v1/checks?level=ready 111.999µs 200
+2025-05-14T12:38:45.523Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000396951s 200
+2025-05-14T12:39:15.524Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00034003s 200
+2025-05-14T12:39:45.526Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000338991s 200
+2025-05-14T12:40:15.528Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001182672s 200
+2025-05-14T12:40:45.529Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000667189s 200
+2025-05-14T12:41:15.531Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000504839s 200
+2025-05-14T12:41:45.532Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000652764s 200
+2025-05-14T12:42:15.534Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000522644s 200
+2025-05-14T12:42:32.072Z [pebble] GET /v1/services 121.77µs 200
+2025-05-14T12:42:32.077Z [pebble] GET /v1/checks?level=ready 97.847µs 200
+2025-05-14T12:42:45.535Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000447004s 200
+2025-05-14T12:43:15.538Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00049914s 200
+2025-05-14T12:43:45.539Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000501744s 200
+2025-05-14T12:44:15.541Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000812714s 200
+2025-05-14T12:44:45.547Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.005033352s 200
+2025-05-14T12:45:15.557Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.002875909s 200
+2025-05-14T12:45:45.558Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000700318s 200
+2025-05-14T12:46:15.561Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000892983s 200
+2025-05-14T12:46:45.563Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000883595s 200
+2025-05-14T12:47:15.565Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001333882s 200
+2025-05-14T12:47:45.567Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000705057s 200
+2025-05-14T12:48:15.569Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00119441s 200
+2025-05-14T12:48:23.762Z [pebble] GET /v1/services 111.675µs 200
+2025-05-14T12:48:23.763Z [pebble] GET /v1/checks?level=ready 84.199µs 200
+2025-05-14T12:48:45.570Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000548177s 200
+2025-05-14T12:49:15.572Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000530255s 200
+2025-05-14T12:49:45.573Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000712398s 200
+2025-05-14T12:50:15.575Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000997652s 200
+2025-05-14T12:50:45.577Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000958058s 200
+2025-05-14T12:51:15.578Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000339201s 200
+2025-05-14T12:51:45.579Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000665842s 200
+2025-05-14T12:52:15.582Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001360678s 200
+2025-05-14T12:52:27.491Z [pebble] GET /v1/services 107.482µs 200
+2025-05-14T12:52:27.493Z [pebble] GET /v1/checks?level=ready 123.679µs 200
+2025-05-14T12:52:45.583Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00061139s 200
+2025-05-14T12:53:15.585Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000515272s 200
+2025-05-14T12:53:45.587Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000392169s 200
+2025-05-14T12:54:15.589Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.001069399s 200
+2025-05-14T12:54:45.591Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000725615s 200
+2025-05-14T12:55:15.592Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.000452695s 200
+2025-05-14T12:55:45.594Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.00054741s 200
+2025-05-14T12:57:27.000Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 1m41.405143711s 200
+2025-05-14T12:57:31.961Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 4.325511438s 400
+2025-05-14T12:57:47.702Z [pebble] GET /v1/notices?timeout=30s 15.208051ms 200
+2025-05-14T12:58:10.072Z [pebble] GET /v1/services 245.489µs 200
+2025-05-14T12:58:10.080Z [pebble] GET /v1/checks?level=ready 559.223µs 200
+2025-05-14T12:58:18.842Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.003968217s 200
+2025-05-14T12:58:43.380Z [pebble] POST /v1/files 1.309267ms 200
+2025-05-14T12:58:43.513Z [pebble] POST /v1/files 12.101061ms 200
+2025-05-14T12:58:43.661Z [pebble] POST /v1/files 17.008943ms 200
+2025-05-14T12:58:43.751Z [pebble] POST /v1/files 926.332µs 200
+2025-05-14T12:58:43.759Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 3.531952ms 200
+2025-05-14T12:58:43.901Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 4.836022ms 200
+2025-05-14T12:58:44.098Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 11.836929ms 200
+2025-05-14T12:58:44.214Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 12.516748ms 200
+2025-05-14T12:58:44.525Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 7.555468ms 200
+2025-05-14T12:58:47.125Z [ovn-northd] 2025-05-14T12:58:47Z|00012|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T12:58:47.128Z [ovn-northd] 2025-05-14T12:58:47Z|00013|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T12:58:48.142Z [ovn-northd] 2025-05-14T12:58:48Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T12:58:48.142Z [ovn-northd] 2025-05-14T12:58:48Z|00015|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection attempt failed (Connection refused)
+2025-05-14T12:58:48.142Z [ovn-northd] 2025-05-14T12:58:48Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: waiting 2 seconds before reconnect
+2025-05-14T12:58:48.873Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 30.002602567s 200
+2025-05-14T12:58:48.929Z [ovn-northd] 2025-05-14T12:58:48Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T12:58:49.929Z [ovn-northd] 2025-05-14T12:58:49Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T12:58:49.982Z [ovn-northd] 2025-05-14T12:58:49Z|00019|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T12:58:50.144Z [ovn-northd] 2025-05-14T12:58:50Z|00020|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T12:58:50.190Z [ovn-northd] 2025-05-14T12:58:50Z|00021|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T12:58:50.204Z [ovn-northd] 2025-05-14T12:58:50Z|00022|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T12:58:56.043Z [pebble] GET /v1/services 77.714µs 200
+2025-05-14T12:58:56.052Z [pebble] GET /v1/services 69.772µs 200
+2025-05-14T12:58:56.167Z [pebble] POST /v1/services 35.204856ms 202
+2025-05-14T12:58:56.167Z [pebble] GET /v1/notices?after=2025-05-14T11%3A25%3A15.166920949Z&timeout=30s 7.284537226s 200
+2025-05-14T12:58:56.205Z [ovn-northd] Wed May 14 12:58:56 UTC 2025 [wrapper]: Stopping
+2025-05-14T12:58:56.205Z [pebble] GET /v1/notices?after=2025-05-14T12%3A58%3A56.132060117Z&timeout=30s 24.06726ms 200
+2025-05-14T12:58:56.208Z [ovn-northd] 2025-05-14T12:58:56Z|00023|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T12:58:56.278Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T12:58:56.279Z [ovn-northd] Terminated
+2025-05-14T12:58:56.285Z [pebble] Service "ovn-northd" stopped
+2025-05-14T12:58:56.303Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T12:58:56.328Z [ovn-northd] Wed May 14 12:58:56 UTC 2025 [wrapper]: Starting
+2025-05-14T12:58:56.367Z [ovn-northd] 2025-05-14T12:58:56Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T12:58:56.420Z [ovn-northd] 2025-05-14T12:58:56Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T12:58:56.422Z [ovn-northd] 2025-05-14T12:58:56Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T12:58:56.428Z [ovn-northd] 2025-05-14T12:58:56Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T12:58:56.430Z [ovn-northd] 2025-05-14T12:58:56Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T12:58:56.450Z [ovn-northd] 2025-05-14T12:58:56Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T12:58:56.452Z [ovn-northd] 2025-05-14T12:58:56Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T12:58:56.455Z [ovn-northd] 2025-05-14T12:58:56Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T12:58:57.332Z [pebble] GET /v1/notices?after=2025-05-14T12%3A58%3A56.167482319Z&timeout=30s 1.121950205s 200
+2025-05-14T12:58:57.333Z [pebble] GET /v1/changes/50/wait?timeout=4.000s 1.152003235s 200
+2025-05-14T12:58:57.349Z [pebble] GET /v1/services 189.14µs 200
+2025-05-14T12:58:57.411Z [pebble] GET /v1/plan?format=yaml 4.408417ms 200
+2025-05-14T12:59:03.125Z [pebble] POST /v1/files 133.7µs 200
+2025-05-14T12:59:03.183Z [pebble] POST /v1/files 169.97µs 200
+2025-05-14T12:59:03.248Z [pebble] POST /v1/files 174.109µs 200
+2025-05-14T12:59:03.293Z [pebble] POST /v1/files 241.453µs 200
+2025-05-14T12:59:03.300Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 119.653µs 200
+2025-05-14T12:59:03.442Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 151.368µs 200
+2025-05-14T12:59:03.503Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 143.046µs 200
+2025-05-14T12:59:03.588Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 3.088446ms 200
+2025-05-14T12:59:03.740Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 182.748µs 200
+2025-05-14T12:59:05.569Z [ovn-northd] 2025-05-14T12:59:05Z|00009|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T12:59:05.572Z [ovn-northd] 2025-05-14T12:59:05Z|00010|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T12:59:06.477Z [ovn-northd] 2025-05-14T12:59:06Z|00011|memory|INFO|11396 kB peak resident set size after 10.1 seconds
+2025-05-14T12:59:06.477Z [ovn-northd] 2025-05-14T12:59:06Z|00012|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T12:59:06.582Z [ovn-northd] 2025-05-14T12:59:06Z|00013|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T12:59:06.622Z [ovn-northd] 2025-05-14T12:59:06Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T12:59:06.633Z [ovn-northd] 2025-05-14T12:59:06Z|00015|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T12:59:07.220Z [ovn-northd] 2025-05-14T12:59:07Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T12:59:07.220Z [ovn-northd] 2025-05-14T12:59:07Z|00017|ovn_northd|INFO|OVNNB commit failed, force recompute next time.
+2025-05-14T12:59:08.223Z [ovn-northd] 2025-05-14T12:59:08Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T12:59:08.247Z [ovn-northd] 2025-05-14T12:59:08Z|00019|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T12:59:14.109Z [pebble] GET /v1/services 78.12µs 200
+2025-05-14T12:59:14.114Z [pebble] GET /v1/services 55.013µs 200
+2025-05-14T12:59:14.197Z [pebble] POST /v1/services 25.240097ms 202
+2025-05-14T12:59:14.209Z [pebble] GET /v1/notices?after=2025-05-14T12%3A58%3A57.316327378Z&timeout=30s 16.87160317s 200
+2025-05-14T12:59:14.210Z [ovn-northd] 2025-05-14T12:59:14Z|00020|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T12:59:14.214Z [ovn-northd] Wed May 14 12:59:14 UTC 2025 [wrapper]: Stopping
+2025-05-14T12:59:14.269Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T12:59:14.270Z [ovn-northd] Terminated
+2025-05-14T12:59:14.276Z [pebble] Service "ovn-northd" stopped
+2025-05-14T12:59:14.330Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T12:59:14.346Z [ovn-northd] Wed May 14 12:59:14 UTC 2025 [wrapper]: Starting
+2025-05-14T12:59:14.362Z [ovn-northd] 2025-05-14T12:59:14Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T12:59:14.430Z [ovn-northd] 2025-05-14T12:59:14Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T12:59:14.432Z [ovn-northd] 2025-05-14T12:59:14Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T12:59:14.443Z [ovn-northd] 2025-05-14T12:59:14Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T12:59:14.444Z [ovn-northd] 2025-05-14T12:59:14Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T12:59:14.469Z [ovn-northd] 2025-05-14T12:59:14Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T12:59:14.470Z [ovn-northd] 2025-05-14T12:59:14Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T12:59:14.475Z [ovn-northd] 2025-05-14T12:59:14Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T12:59:15.346Z [pebble] GET /v1/changes/51/wait?timeout=4.000s 1.146009773s 200
+2025-05-14T12:59:15.347Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A14.191973207Z&timeout=30s 1.133658466s 200
+2025-05-14T12:59:15.353Z [pebble] GET /v1/services 37.264µs 200
+2025-05-14T12:59:15.369Z [pebble] GET /v1/plan?format=yaml 174.562µs 200
+2025-05-14T12:59:19.218Z [pebble] POST /v1/layers 815.892µs 200
+2025-05-14T12:59:19.447Z [pebble] POST /v1/files 160.418µs 200
+2025-05-14T12:59:19.463Z [pebble] POST /v1/files 1.171831ms 200
+2025-05-14T12:59:19.471Z [pebble] POST /v1/files 217.532µs 200
+2025-05-14T12:59:19.484Z [pebble] POST /v1/files 143.894µs 200
+2025-05-14T12:59:19.486Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 171.169µs 200
+2025-05-14T12:59:19.524Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 208.162µs 200
+2025-05-14T12:59:19.552Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 165.374µs 200
+2025-05-14T12:59:19.620Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 194.548µs 200
+2025-05-14T12:59:19.699Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 149.354µs 200
+2025-05-14T12:59:20.471Z [ovn-northd] 2025-05-14T12:59:20Z|00009|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T12:59:20.471Z [ovn-northd] 2025-05-14T12:59:20Z|00010|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T12:59:21.477Z [ovn-northd] 2025-05-14T12:59:21Z|00011|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T12:59:21.498Z [ovn-northd] 2025-05-14T12:59:21Z|00012|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T12:59:21.503Z [ovn-northd] 2025-05-14T12:59:21Z|00013|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T12:59:21.751Z [ovn-northd] 2025-05-14T12:59:21Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T12:59:21.751Z [ovn-northd] 2025-05-14T12:59:21Z|00015|ovn_northd|INFO|OVNNB commit failed, force recompute next time.
+2025-05-14T12:59:22.756Z [ovn-northd] 2025-05-14T12:59:22Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T12:59:22.767Z [ovn-northd] 2025-05-14T12:59:22Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T12:59:25.192Z [pebble] GET /v1/services 109.447µs 200
+2025-05-14T12:59:25.195Z [pebble] GET /v1/services 46.549µs 200
+2025-05-14T12:59:25.221Z [pebble] POST /v1/services 11.911996ms 202
+2025-05-14T12:59:25.221Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A15.335038779Z&timeout=30s 9.867804329s 200
+2025-05-14T12:59:25.232Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A25.209223972Z&timeout=30s 9.198078ms 200
+2025-05-14T12:59:25.233Z [ovn-northd] 2025-05-14T12:59:25Z|00001|fatal_signal(stopwatch0)|WARN|terminating with signal 15 (Terminated)
+2025-05-14T12:59:25.236Z [ovn-northd] Wed May 14 12:59:25 UTC 2025 [wrapper]: Stopping
+2025-05-14T12:59:25.245Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T12:59:25.245Z [ovn-northd] Terminated
+2025-05-14T12:59:25.247Z [pebble] Service "ovn-northd" stopped
+2025-05-14T12:59:25.269Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T12:59:25.278Z [ovn-northd] Wed May 14 12:59:25 UTC 2025 [wrapper]: Starting
+2025-05-14T12:59:25.283Z [ovn-northd] 2025-05-14T12:59:25Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T12:59:25.296Z [ovn-northd] 2025-05-14T12:59:25Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T12:59:25.298Z [ovn-northd] 2025-05-14T12:59:25Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T12:59:25.301Z [ovn-northd] 2025-05-14T12:59:25Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T12:59:25.303Z [ovn-northd] 2025-05-14T12:59:25Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T12:59:25.316Z [ovn-northd] 2025-05-14T12:59:25Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T12:59:25.316Z [ovn-northd] 2025-05-14T12:59:25Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T12:59:25.319Z [ovn-northd] 2025-05-14T12:59:25Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T12:59:26.282Z [pebble] GET /v1/changes/52/wait?timeout=4.000s 1.058442503s 200
+2025-05-14T12:59:26.282Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A25.221262311Z&timeout=30s 1.048670834s 200
+2025-05-14T12:59:26.283Z [pebble] GET /v1/services 47.519µs 200
+2025-05-14T12:59:26.287Z [pebble] GET /v1/plan?format=yaml 154.209µs 200
+2025-05-14T12:59:35.335Z [ovn-northd] 2025-05-14T12:59:35Z|00009|memory|INFO|11352 kB peak resident set size after 10.1 seconds
+2025-05-14T12:59:35.335Z [ovn-northd] 2025-05-14T12:59:35Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T12:59:55.327Z [ovn-northd] 2025-05-14T12:59:55Z|00011|memory_trim|INFO|Detected inactivity (last active 30001 ms ago): trimming memory
+2025-05-14T12:59:56.283Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.00043807s 200
+2025-05-14T13:00:26.284Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000738818s 200
+2025-05-14T13:00:56.286Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001140281s 200
+2025-05-14T13:01:26.288Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001679606s 200
+2025-05-14T13:01:51.292Z [pebble] GET /v1/services 52.987µs 200
+2025-05-14T13:01:51.292Z [pebble] GET /v1/checks?level=ready 40.023µs 200
+2025-05-14T13:01:56.289Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000313753s 200
+2025-05-14T13:02:26.292Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001304189s 200
+2025-05-14T13:02:56.292Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000252331s 200
+2025-05-14T13:03:26.295Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001169521s 200
+2025-05-14T13:03:56.295Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000195631s 200
+2025-05-14T13:04:26.297Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.00105084s 200
+2025-05-14T13:04:56.299Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001163191s 200
+2025-05-14T13:05:26.299Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000435226s 200
+2025-05-14T13:05:56.300Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000335393s 200
+2025-05-14T13:06:26.302Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000613285s 200
+2025-05-14T13:06:29.971Z [pebble] GET /v1/services 62.709µs 200
+2025-05-14T13:06:29.972Z [pebble] GET /v1/checks?level=ready 44.106µs 200
+2025-05-14T13:06:56.303Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000424431s 200
+2025-05-14T13:07:26.306Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.002248945s 200
+2025-05-14T13:07:56.308Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001326933s 200
+2025-05-14T13:08:26.309Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000451209s 200
+2025-05-14T13:08:56.311Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001243229s 200
+2025-05-14T13:09:26.314Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.002269868s 200
+2025-05-14T13:09:56.317Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001643824s 200
+2025-05-14T13:10:26.318Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000385344s 200
+2025-05-14T13:10:56.320Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000888s 200
+2025-05-14T13:11:14.462Z [pebble] GET /v1/services 1.388109ms 200
+2025-05-14T13:11:14.468Z [pebble] GET /v1/checks?level=ready 203.393µs 200
+2025-05-14T13:11:26.322Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001183605s 200
+2025-05-14T13:11:56.324Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.00124489s 200
+2025-05-14T13:12:26.326Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001138461s 200
+2025-05-14T13:12:56.328Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001047909s 200
+2025-05-14T13:13:26.329Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000664346s 200
+2025-05-14T13:13:56.333Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001802331s 200
+2025-05-14T13:14:26.339Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.004430143s 200
+2025-05-14T13:14:56.342Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001988755s 200
+2025-05-14T13:15:26.345Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001235896s 200
+2025-05-14T13:15:56.348Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.002127815s 200
+2025-05-14T13:16:10.455Z [pebble] GET /v1/services 189.613µs 200
+2025-05-14T13:16:10.458Z [pebble] GET /v1/checks?level=ready 105.952µs 200
+2025-05-14T13:16:26.351Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.00169992s 200
+2025-05-14T13:16:56.356Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.004567704s 200
+2025-05-14T13:17:26.360Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001372942s 200
+2025-05-14T13:17:56.362Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001685192s 200
+2025-05-14T13:18:26.365Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001005652s 200
+2025-05-14T13:18:56.366Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000491733s 200
+2025-05-14T13:19:26.369Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001982999s 200
+2025-05-14T13:19:56.373Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.003401668s 200
+2025-05-14T13:20:26.374Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000440932s 200
+2025-05-14T13:20:56.377Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001731397s 200
+2025-05-14T13:21:26.378Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000217543s 200
+2025-05-14T13:21:54.719Z [pebble] GET /v1/services 84.224µs 200
+2025-05-14T13:21:54.720Z [pebble] GET /v1/checks?level=ready 116.151µs 200
+2025-05-14T13:21:56.380Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001275859s 200
+2025-05-14T13:22:26.382Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001348879s 200
+2025-05-14T13:22:56.385Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001521256s 200
+2025-05-14T13:23:26.387Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000463574s 200
+2025-05-14T13:23:56.388Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000531149s 200
+2025-05-14T13:24:26.389Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000190367s 200
+2025-05-14T13:24:56.390Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000345934s 200
+2025-05-14T13:25:26.391Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.00099449s 200
+2025-05-14T13:25:56.392Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000337534s 200
+2025-05-14T13:26:26.393Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000705517s 200
+2025-05-14T13:26:56.396Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001955875s 200
+2025-05-14T13:27:08.014Z [pebble] GET /v1/services 51.036µs 200
+2025-05-14T13:27:08.015Z [pebble] GET /v1/checks?level=ready 57.357µs 200
+2025-05-14T13:27:26.398Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001208219s 200
+2025-05-14T13:27:56.400Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001452635s 200
+2025-05-14T13:28:26.401Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000450905s 200
+2025-05-14T13:28:56.402Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001018042s 200
+2025-05-14T13:29:26.404Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000630203s 200
+2025-05-14T13:29:56.406Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001462904s 200
+2025-05-14T13:30:26.409Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.002020631s 200
+2025-05-14T13:30:56.409Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000324074s 200
+2025-05-14T13:31:26.411Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001140886s 200
+2025-05-14T13:31:39.512Z [pebble] GET /v1/services 54.978µs 200
+2025-05-14T13:31:39.513Z [pebble] GET /v1/checks?level=ready 43.889µs 200
+2025-05-14T13:31:56.414Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001685832s 200
+2025-05-14T13:32:26.415Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000703099s 200
+2025-05-14T13:32:56.416Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001003604s 200
+2025-05-14T13:33:26.418Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.00087723s 200
+2025-05-14T13:33:56.419Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000918969s 200
+2025-05-14T13:34:26.420Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000200202s 200
+2025-05-14T13:34:56.421Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000584529s 200
+2025-05-14T13:35:26.423Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001573143s 200
+2025-05-14T13:35:56.425Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.002003572s 200
+2025-05-14T13:36:26.428Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.002055347s 200
+2025-05-14T13:36:56.430Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001504766s 200
+2025-05-14T13:37:07.091Z [pebble] GET /v1/services 54.131µs 200
+2025-05-14T13:37:07.092Z [pebble] GET /v1/checks?level=ready 44.283µs 200
+2025-05-14T13:37:26.432Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001735734s 200
+2025-05-14T13:37:56.434Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001188864s 200
+2025-05-14T13:38:26.434Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000450623s 200
+2025-05-14T13:38:56.437Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001341778s 200
+2025-05-14T13:39:26.439Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001584512s 200
+2025-05-14T13:39:56.442Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001700594s 200
+2025-05-14T13:40:26.444Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001638404s 200
+2025-05-14T13:40:56.446Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001571733s 200
+2025-05-14T13:41:26.451Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.002956667s 200
+2025-05-14T13:41:56.454Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001346801s 200
+2025-05-14T13:42:03.352Z [pebble] GET /v1/services 39.024µs 200
+2025-05-14T13:42:03.352Z [pebble] GET /v1/checks?level=ready 29.122µs 200
+2025-05-14T13:42:26.455Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000471501s 200
+2025-05-14T13:42:56.457Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001593299s 200
+2025-05-14T13:43:26.458Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000176916s 200
+2025-05-14T13:43:56.460Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001477665s 200
+2025-05-14T13:44:26.461Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001138609s 200
+2025-05-14T13:44:56.463Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000919725s 200
+2025-05-14T13:45:26.464Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000340594s 200
+2025-05-14T13:45:56.464Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000180867s 200
+2025-05-14T13:46:26.466Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000956799s 200
+2025-05-14T13:46:56.468Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001784688s 200
+2025-05-14T13:47:26.468Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.000516372s 200
+2025-05-14T14:07:23.858Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 19m57.389576975s 200
+2025-05-14T14:07:24.547Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 89.247723ms 400
+2025-05-14T14:07:28.875Z [pebble] GET /v1/notices?timeout=30s 1.244254ms 200
+2025-05-14T14:07:49.025Z [pebble] POST /v1/files 146.692µs 200
+2025-05-14T14:07:49.084Z [pebble] POST /v1/files 1.903098ms 200
+2025-05-14T14:07:49.171Z [pebble] POST /v1/files 3.069293ms 200
+2025-05-14T14:07:49.197Z [pebble] POST /v1/files 1.632615ms 200
+2025-05-14T14:07:49.203Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 994.982µs 200
+2025-05-14T14:07:49.296Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 207.269µs 200
+2025-05-14T14:07:49.375Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 155.473µs 200
+2025-05-14T14:07:49.498Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 167.632µs 200
+2025-05-14T14:07:49.665Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 157.349µs 200
+2025-05-14T14:07:51.840Z [ovn-northd] 2025-05-14T14:07:51Z|00012|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T14:07:51.842Z [ovn-northd] 2025-05-14T14:07:51Z|00013|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T14:07:52.861Z [ovn-northd] 2025-05-14T14:07:52Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T14:07:52.861Z [ovn-northd] 2025-05-14T14:07:52Z|00015|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection attempt failed (Connection refused)
+2025-05-14T14:07:52.861Z [ovn-northd] 2025-05-14T14:07:52Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: waiting 2 seconds before reconnect
+2025-05-14T14:07:53.581Z [ovn-northd] 2025-05-14T14:07:53Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T14:07:54.586Z [ovn-northd] 2025-05-14T14:07:54Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T14:07:54.587Z [ovn-northd] 2025-05-14T14:07:54Z|00019|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection attempt failed (Connection refused)
+2025-05-14T14:07:54.587Z [ovn-northd] 2025-05-14T14:07:54Z|00020|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: waiting 2 seconds before reconnect
+2025-05-14T14:07:54.874Z [ovn-northd] 2025-05-14T14:07:54Z|00021|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T14:07:54.921Z [ovn-northd] 2025-05-14T14:07:54Z|00022|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T14:07:54.939Z [ovn-northd] 2025-05-14T14:07:54Z|00023|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T14:07:56.595Z [ovn-northd] 2025-05-14T14:07:56Z|00024|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T14:07:56.641Z [ovn-northd] 2025-05-14T14:07:56Z|00025|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T14:07:58.913Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 30.001535763s 200
+2025-05-14T14:08:04.154Z [pebble] GET /v1/services 81.95µs 200
+2025-05-14T14:08:04.157Z [pebble] GET /v1/services 44.261µs 200
+2025-05-14T14:08:04.213Z [pebble] POST /v1/services 39.802508ms 202
+2025-05-14T14:08:04.217Z [pebble] GET /v1/notices?after=2025-05-14T12%3A59%3A26.272031209Z&timeout=30s 5.298961882s 200
+2025-05-14T14:08:04.251Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A04.173697088Z&timeout=30s 28.50768ms 200
+2025-05-14T14:08:04.255Z [ovn-northd] 2025-05-14T14:08:04Z|00026|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T14:08:04.285Z [ovn-northd] Wed May 14 14:08:04 UTC 2025 [wrapper]: Stopping
+2025-05-14T14:08:04.314Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T14:08:04.315Z [ovn-northd] Terminated
+2025-05-14T14:08:04.316Z [pebble] Service "ovn-northd" stopped
+2025-05-14T14:08:04.345Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T14:08:04.364Z [ovn-northd] Wed May 14 14:08:04 UTC 2025 [wrapper]: Starting
+2025-05-14T14:08:04.366Z [ovn-northd] 2025-05-14T14:08:04Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T14:08:04.378Z [ovn-northd] 2025-05-14T14:08:04Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T14:08:04.379Z [ovn-northd] 2025-05-14T14:08:04Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T14:08:04.382Z [ovn-northd] 2025-05-14T14:08:04Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T14:08:04.382Z [ovn-northd] 2025-05-14T14:08:04Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T14:08:04.390Z [ovn-northd] 2025-05-14T14:08:04Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T14:08:04.392Z [ovn-northd] 2025-05-14T14:08:04Z|00007|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T14:08:04.544Z [ovn-northd] 2025-05-14T14:08:04Z|00008|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T14:08:05.399Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A04.202493252Z&timeout=30s 1.144457157s 200
+2025-05-14T14:08:05.400Z [pebble] GET /v1/changes/53/wait?timeout=4.000s 1.183191144s 200
+2025-05-14T14:08:05.412Z [pebble] GET /v1/services 68.714µs 200
+2025-05-14T14:08:05.437Z [pebble] GET /v1/plan?format=yaml 1.045143ms 200
+2025-05-14T14:08:13.296Z [pebble] POST /v1/layers 540.803µs 200
+2025-05-14T14:08:13.692Z [pebble] POST /v1/files 137.154µs 200
+2025-05-14T14:08:13.779Z [pebble] POST /v1/files 263.177µs 200
+2025-05-14T14:08:13.798Z [pebble] POST /v1/files 133.335µs 200
+2025-05-14T14:08:13.813Z [pebble] POST /v1/files 293.738µs 200
+2025-05-14T14:08:13.815Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 134.646µs 200
+2025-05-14T14:08:13.929Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 787.52µs 200
+2025-05-14T14:08:14.045Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 156.082µs 200
+2025-05-14T14:08:14.114Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 178.965µs 200
+2025-05-14T14:08:14.187Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 853.494µs 200
+2025-05-14T14:08:14.410Z [ovn-northd] 2025-05-14T14:08:14Z|00009|memory|INFO|11424 kB peak resident set size after 10.0 seconds
+2025-05-14T14:08:14.410Z [ovn-northd] 2025-05-14T14:08:14Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T14:08:16.168Z [ovn-northd] 2025-05-14T14:08:16Z|00011|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T14:08:16.168Z [ovn-northd] 2025-05-14T14:08:16Z|00012|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T14:08:17.170Z [ovn-northd] 2025-05-14T14:08:17Z|00013|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T14:08:17.212Z [ovn-northd] 2025-05-14T14:08:17Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T14:08:17.217Z [ovn-northd] 2025-05-14T14:08:17Z|00015|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T14:08:17.424Z [ovn-northd] 2025-05-14T14:08:17Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T14:08:17.429Z [ovn-northd] 2025-05-14T14:08:17Z|00017|ovn_northd|INFO|OVNNB commit failed, force recompute next time.
+2025-05-14T14:08:18.433Z [ovn-northd] 2025-05-14T14:08:18Z|00018|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T14:08:18.488Z [ovn-northd] 2025-05-14T14:08:18Z|00019|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T14:08:23.494Z [pebble] GET /v1/services 554.303µs 200
+2025-05-14T14:08:23.500Z [pebble] GET /v1/services 110.634µs 200
+2025-05-14T14:08:23.533Z [pebble] POST /v1/services 13.236408ms 202
+2025-05-14T14:08:23.547Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A05.353043053Z&timeout=30s 18.145666741s 200
+2025-05-14T14:08:23.549Z [ovn-northd] 2025-05-14T14:08:23Z|00020|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T14:08:23.558Z [ovn-northd] Wed May 14 14:08:23 UTC 2025 [wrapper]: Stopping
+2025-05-14T14:08:23.573Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T14:08:23.573Z [ovn-northd] Terminated
+2025-05-14T14:08:23.574Z [pebble] Service "ovn-northd" stopped
+2025-05-14T14:08:23.602Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T14:08:23.623Z [ovn-northd] Wed May 14 14:08:23 UTC 2025 [wrapper]: Starting
+2025-05-14T14:08:23.631Z [ovn-northd] 2025-05-14T14:08:23Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T14:08:23.653Z [ovn-northd] 2025-05-14T14:08:23Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T14:08:23.655Z [ovn-northd] 2025-05-14T14:08:23Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T14:08:23.663Z [ovn-northd] 2025-05-14T14:08:23Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T14:08:23.667Z [ovn-northd] 2025-05-14T14:08:23Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T14:08:23.682Z [ovn-northd] 2025-05-14T14:08:23Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T14:08:23.692Z [ovn-northd] 2025-05-14T14:08:23Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T14:08:23.693Z [ovn-northd] 2025-05-14T14:08:23Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T14:08:24.614Z [pebble] GET /v1/changes/54/wait?timeout=4.000s 1.076168367s 200
+2025-05-14T14:08:24.615Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A23.531444026Z&timeout=30s 1.065109876s 200
+2025-05-14T14:08:24.618Z [pebble] GET /v1/services 65.254µs 200
+2025-05-14T14:08:24.623Z [pebble] GET /v1/plan?format=yaml 174.874µs 200
+2025-05-14T14:08:27.736Z [pebble] POST /v1/files 3.287977ms 200
+2025-05-14T14:08:27.753Z [pebble] POST /v1/files 1.627702ms 200
+2025-05-14T14:08:27.775Z [pebble] POST /v1/files 136.306µs 200
+2025-05-14T14:08:27.802Z [pebble] POST /v1/files 3.174835ms 200
+2025-05-14T14:08:27.803Z [pebble] GET /v1/files?action=read&path=%2Froot%2Fovn-northd-wrapper.sh 367.789µs 200
+2025-05-14T14:08:27.912Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fkey_host 7.660858ms 200
+2025-05-14T14:08:28.002Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fcert_host 645.543µs 200
+2025-05-14T14:08:28.037Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-central.crt 172.327µs 200
+2025-05-14T14:08:28.079Z [pebble] GET /v1/files?action=read&path=%2Fetc%2Fovn%2Fovn-northd-db-params.conf 985.493µs 200
+2025-05-14T14:08:29.020Z [ovn-northd] 2025-05-14T14:08:29Z|00009|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connection closed by peer
+2025-05-14T14:08:29.020Z [ovn-northd] 2025-05-14T14:08:29Z|00010|ovn_northd|INFO|ovn-northd lock lost. This ovn-northd instance is now on standby.
+2025-05-14T14:08:30.027Z [ovn-northd] 2025-05-14T14:08:30Z|00011|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T14:08:30.035Z [ovn-northd] 2025-05-14T14:08:30Z|00012|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T14:08:30.039Z [ovn-northd] 2025-05-14T14:08:30Z|00013|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T14:08:30.185Z [ovn-northd] 2025-05-14T14:08:30Z|00014|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connection closed by peer
+2025-05-14T14:08:30.185Z [ovn-northd] 2025-05-14T14:08:30Z|00015|ovn_northd|INFO|OVNNB commit failed, force recompute next time.
+2025-05-14T14:08:31.193Z [ovn-northd] 2025-05-14T14:08:31Z|00016|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T14:08:31.205Z [ovn-northd] 2025-05-14T14:08:31Z|00017|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T14:08:32.946Z [pebble] GET /v1/services 71.904µs 200
+2025-05-14T14:08:32.948Z [pebble] GET /v1/services 38.085µs 200
+2025-05-14T14:08:32.960Z [pebble] POST /v1/services 6.510296ms 202
+2025-05-14T14:08:32.960Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A24.606739868Z&timeout=30s 8.344056379s 200
+2025-05-14T14:08:32.968Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A32.954229098Z&timeout=30s 4.879055ms 200
+2025-05-14T14:08:32.969Z [ovn-northd] 2025-05-14T14:08:32Z|00018|fatal_signal|WARN|terminating with signal 15 (Terminated)
+2025-05-14T14:08:32.973Z [ovn-northd] Wed May 14 14:08:32 UTC 2025 [wrapper]: Stopping
+2025-05-14T14:08:32.990Z [ovn-northd]  * ovn-northd is not running
+2025-05-14T14:08:32.990Z [ovn-northd] Terminated
+2025-05-14T14:08:32.991Z [pebble] Service "ovn-northd" stopped
+2025-05-14T14:08:33.006Z [pebble] Service "ovn-northd" starting: bash /root/ovn-northd-wrapper.sh
+2025-05-14T14:08:33.013Z [ovn-northd] Wed May 14 14:08:33 UTC 2025 [wrapper]: Starting
+2025-05-14T14:08:33.020Z [ovn-northd] 2025-05-14T14:08:33Z|00001|ovn_northd|INFO|OVN internal version is : [24.03.2-20.33.0-72.6]
+2025-05-14T14:08:33.026Z [ovn-northd] 2025-05-14T14:08:33Z|00002|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connecting...
+2025-05-14T14:08:33.028Z [ovn-northd] 2025-05-14T14:08:33Z|00003|ovn_northd|INFO|OVN NB IDL reconnected, force recompute.
+2025-05-14T14:08:33.030Z [ovn-northd] 2025-05-14T14:08:33Z|00004|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connecting...
+2025-05-14T14:08:33.030Z [ovn-northd] 2025-05-14T14:08:33Z|00005|ovn_northd|INFO|OVN SB IDL reconnected, force recompute.
+2025-05-14T14:08:33.038Z [ovn-northd] 2025-05-14T14:08:33Z|00006|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641: connected
+2025-05-14T14:08:33.038Z [ovn-northd] 2025-05-14T14:08:33Z|00007|reconnect|INFO|ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642: connected
+2025-05-14T14:08:33.041Z [ovn-northd] 2025-05-14T14:08:33Z|00008|ovn_northd|INFO|ovn-northd lock acquired. This ovn-northd instance is now active.
+2025-05-14T14:08:34.021Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A32.960846516Z&timeout=30s 1.052392695s 200
+2025-05-14T14:08:34.022Z [pebble] GET /v1/changes/55/wait?timeout=4.000s 1.058953619s 200
+2025-05-14T14:08:34.024Z [pebble] GET /v1/services 44.012µs 200
+2025-05-14T14:08:34.029Z [pebble] GET /v1/plan?format=yaml 245.933µs 200
+2025-05-14T14:08:43.051Z [ovn-northd] 2025-05-14T14:08:43Z|00009|memory|INFO|11432 kB peak resident set size after 10.0 seconds
+2025-05-14T14:08:43.051Z [ovn-northd] 2025-05-14T14:08:43Z|00010|memory|INFO|idl-cells-OVN_Northbound:47 idl-cells-OVN_Southbound:224
+2025-05-14T14:09:03.048Z [ovn-northd] 2025-05-14T14:09:03Z|00011|memory_trim|INFO|Detected inactivity (last active 30005 ms ago): trimming memory
+2025-05-14T14:09:04.024Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000293842s 200
+2025-05-14T14:09:34.025Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001129973s 200
+2025-05-14T14:10:04.027Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000679478s 200
+2025-05-14T14:10:34.028Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000952483s 200
+2025-05-14T14:11:04.030Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001531728s 200
+2025-05-14T14:11:34.031Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000833014s 200
+2025-05-14T14:11:43.814Z [pebble] GET /v1/services 74.932µs 200
+2025-05-14T14:11:43.816Z [pebble] GET /v1/checks?level=ready 79.666µs 200
+2025-05-14T14:12:04.033Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000389373s 200
+2025-05-14T14:12:34.036Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.002401711s 200
+2025-05-14T14:13:04.037Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000433123s 200
+2025-05-14T14:13:34.038Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000235163s 200
+2025-05-14T14:14:04.041Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00232773s 200
+2025-05-14T14:14:34.043Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001200285s 200
+2025-05-14T14:15:04.044Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000680827s 200
+2025-05-14T14:15:34.046Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000914937s 200
+2025-05-14T14:16:04.049Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001188429s 200
+2025-05-14T14:16:34.052Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001259538s 200
+2025-05-14T14:17:04.054Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001159197s 200
+2025-05-14T14:17:29.271Z [pebble] GET /v1/services 59.984µs 200
+2025-05-14T14:17:29.272Z [pebble] GET /v1/checks?level=ready 45.357µs 200
+2025-05-14T14:17:34.056Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000703626s 200
+2025-05-14T14:18:04.057Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000386295s 200
+2025-05-14T14:18:34.060Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000632193s 200
+2025-05-14T14:19:04.064Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.003835954s 200
+2025-05-14T14:19:34.066Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000696884s 200
+2025-05-14T14:20:04.069Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001167898s 200
+2025-05-14T14:20:34.070Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000632047s 200
+2025-05-14T14:21:04.072Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001574656s 200
+2025-05-14T14:21:34.073Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000958261s 200
+2025-05-14T14:22:04.074Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000968323s 200
+2025-05-14T14:22:34.075Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000336083s 200
+2025-05-14T14:22:56.545Z [pebble] GET /v1/services 63.367µs 200
+2025-05-14T14:22:56.547Z [pebble] GET /v1/checks?level=ready 38.91µs 200
+2025-05-14T14:23:04.077Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001194466s 200
+2025-05-14T14:23:34.079Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00025241s 200
+2025-05-14T14:24:04.080Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000872075s 200
+2025-05-14T14:24:34.082Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000645572s 200
+2025-05-14T14:25:04.084Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001091248s 200
+2025-05-14T14:25:34.085Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000274807s 200
+2025-05-14T14:26:04.086Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001409857s 200
+2025-05-14T14:26:34.087Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000338975s 200
+2025-05-14T14:27:04.089Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001489042s 200
+2025-05-14T14:27:20.565Z [pebble] GET /v1/services 55.349µs 200
+2025-05-14T14:27:20.566Z [pebble] GET /v1/checks?level=ready 45.481µs 200
+2025-05-14T14:27:34.091Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000175914s 200
+2025-05-14T14:28:04.092Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000179147s 200
+2025-05-14T14:28:34.092Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000128952s 200
+2025-05-14T14:29:04.093Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000911295s 200
+2025-05-14T14:29:34.096Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001585715s 200
+2025-05-14T14:30:04.096Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000524749s 200
+2025-05-14T14:30:34.097Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000488636s 200
+2025-05-14T14:31:04.098Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000637013s 200
+2025-05-14T14:31:34.099Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000666644s 200
+2025-05-14T14:32:04.101Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001236612s 200
+2025-05-14T14:32:04.879Z [pebble] GET /v1/services 44.836µs 200
+2025-05-14T14:32:04.880Z [pebble] GET /v1/checks?level=ready 39.15µs 200
+2025-05-14T14:32:34.101Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000223866s 200
+2025-05-14T14:33:04.102Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000883119s 200
+2025-05-14T14:33:34.104Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000735191s 200
+2025-05-14T14:34:04.105Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000770623s 200
+2025-05-14T14:34:34.105Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000569602s 200
+2025-05-14T14:35:04.107Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000661287s 200
+2025-05-14T14:35:34.108Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000961847s 200
+2025-05-14T14:36:04.109Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000764323s 200
+2025-05-14T14:36:34.110Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000618046s 200
+2025-05-14T14:36:34.695Z [pebble] GET /v1/services 41.189µs 200
+2025-05-14T14:36:34.696Z [pebble] GET /v1/checks?level=ready 46.258µs 200
+2025-05-14T14:37:04.111Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000743708s 200
+2025-05-14T14:37:34.112Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000471911s 200
+2025-05-14T14:38:04.112Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000432932s 200
+2025-05-14T14:38:34.113Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000682199s 200
+2025-05-14T14:39:04.115Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000961942s 200
+2025-05-14T14:39:34.116Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001455984s 200
+2025-05-14T14:40:04.117Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00032607s 200
+2025-05-14T14:40:34.118Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000612008s 200
+2025-05-14T14:41:04.120Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001172422s 200
+2025-05-14T14:41:34.121Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001119124s 200
+2025-05-14T14:41:40.357Z [pebble] GET /v1/services 44.698µs 200
+2025-05-14T14:41:40.358Z [pebble] GET /v1/checks?level=ready 29.368µs 200
+2025-05-14T14:42:04.122Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000664736s 200
+2025-05-14T14:42:34.124Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00081229s 200
+2025-05-14T14:43:04.125Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001202439s 200
+2025-05-14T14:43:34.128Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001463451s 200
+2025-05-14T14:44:04.128Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000457935s 200
+2025-05-14T14:44:34.130Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001272526s 200
+2025-05-14T14:45:04.131Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001028869s 200
+2025-05-14T14:45:34.132Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000675201s 200
+2025-05-14T14:45:42.970Z [pebble] GET /v1/services 194.385µs 200
+2025-05-14T14:45:42.972Z [pebble] GET /v1/checks?level=ready 582.076µs 200
+2025-05-14T14:46:04.133Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000538573s 200
+2025-05-14T14:46:34.135Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001229355s 200
+2025-05-14T14:47:04.136Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000250151s 200
+2025-05-14T14:47:34.136Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00052821s 200
+2025-05-14T14:48:04.138Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001158428s 200
+2025-05-14T14:48:34.139Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001289283s 200
+2025-05-14T14:49:04.141Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000926967s 200
+2025-05-14T14:49:34.142Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000556165s 200
+2025-05-14T14:50:04.142Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000281736s 200
+2025-05-14T14:50:34.143Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00095968s 200
+2025-05-14T14:51:04.144Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000609234s 200
+2025-05-14T14:51:24.905Z [pebble] GET /v1/services 35.255µs 200
+2025-05-14T14:51:24.905Z [pebble] GET /v1/checks?level=ready 35.816µs 200
+2025-05-14T14:51:34.146Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001124297s 200
+2025-05-14T14:52:04.147Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000769448s 200
+2025-05-14T14:52:34.148Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001145311s 200
+2025-05-14T14:53:04.150Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000916329s 200
+2025-05-14T14:53:34.151Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000715131s 200
+2025-05-14T14:54:04.153Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001448045s 200
+2025-05-14T14:54:34.155Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001134547s 200
+2025-05-14T14:55:04.157Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001096213s 200
+2025-05-14T14:55:34.159Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001100096s 200
+2025-05-14T14:56:04.160Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000370412s 200
+2025-05-14T14:56:28.038Z [pebble] GET /v1/services 95.713µs 200
+2025-05-14T14:56:28.039Z [pebble] GET /v1/checks?level=ready 51.073µs 200
+2025-05-14T14:56:34.162Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001175081s 200
+2025-05-14T14:57:04.163Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000363378s 200
+2025-05-14T14:57:34.165Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000624871s 200
+2025-05-14T14:58:04.166Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000822886s 200
+2025-05-14T14:58:34.168Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000789941s 200
+2025-05-14T14:59:04.170Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001797715s 200
+2025-05-14T14:59:34.172Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001294594s 200
+2025-05-14T15:00:04.174Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000473346s 200
+2025-05-14T15:00:34.177Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000912756s 200
+2025-05-14T15:01:04.180Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.002071548s 200
+2025-05-14T15:01:34.182Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000649455s 200
+2025-05-14T15:02:04.183Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000888029s 200
+2025-05-14T15:02:18.213Z [pebble] GET /v1/services 59.028µs 200
+2025-05-14T15:02:18.214Z [pebble] GET /v1/checks?level=ready 58.425µs 200
+2025-05-14T15:02:34.185Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00128054s 200
+2025-05-14T15:03:04.187Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000767762s 200
+2025-05-14T15:03:34.189Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001369146s 200
+2025-05-14T15:04:04.190Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000348432s 200
+2025-05-14T15:04:34.192Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001329648s 200
+2025-05-14T15:05:04.193Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.001047749s 200
+2025-05-14T15:05:34.195Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00081734s 200
+2025-05-14T15:06:04.196Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000655348s 200
+2025-05-14T15:06:34.198Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00149212s 200
+2025-05-14T15:07:04.201Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.00187595s 200
+2025-05-14T15:07:30.523Z [pebble] GET /v1/services 166.679µs 200
+2025-05-14T15:07:30.524Z [pebble] GET /v1/checks?level=ready 61.93µs 200
+2025-05-14T15:07:34.202Z [pebble] GET /v1/notices?after=2025-05-14T14%3A08%3A34.008084051Z&timeout=30s 30.000288168s 200

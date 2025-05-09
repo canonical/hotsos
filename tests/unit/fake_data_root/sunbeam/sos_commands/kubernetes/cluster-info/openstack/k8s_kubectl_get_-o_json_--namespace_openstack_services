@@ -1,0 +1,3246 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:25:12Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "certificate-authority"
+                },
+                "name": "certificate-authority",
+                "namespace": "openstack",
+                "resourceVersion": "2564",
+                "uid": "7e00656f-5a5f-41d3-a819-19ca78b82cb2"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.43",
+                "clusterIPs": [
+                    "10.152.183.43"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "certificate-authority"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:25:12Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "certificate-authority"
+                },
+                "name": "certificate-authority-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "2568",
+                "uid": "237e717e-84d2-401d-955d-f1e5dd95d3ab"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "certificate-authority"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:14Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder"
+                },
+                "name": "cinder",
+                "namespace": "openstack",
+                "resourceVersion": "38965",
+                "uid": "d3cee6a1-948c-41a5-8cba-66a59e08fbb2"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.48",
+                "clusterIPs": [
+                    "10.152.183.48"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-8776-tcp",
+                        "port": 8776,
+                        "protocol": "TCP",
+                        "targetPort": 8776
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "cinder"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:23Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder"
+                },
+                "name": "cinder-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3481",
+                "uid": "2e16652f-ee5c-4892-ac3b-df524a8176cd"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "cinder"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:08Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "name": "cinder-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "38823",
+                "uid": "0e710a0e-8223-44f3-88f1-0f0d9c3116ef"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.46",
+                "clusterIPs": [
+                    "10.152.183.46"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:17Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "name": "cinder-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3433",
+                "uid": "79f07ea3-de2d-4049-9bcc-a683093dbfdd"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:46:53Z",
+                "labels": {
+                    "app.juju.is/created-by": "cinder-mysql-router",
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "name": "cinder-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "cinder-mysql-router",
+                        "uid": "11278655-0ad0-41b5-b9cf-de19b703f42c"
+                    }
+                ],
+                "resourceVersion": "7631",
+                "uid": "12774737-d2d0-40ef-bc5b-fe2c7e3c208c"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.40",
+                "clusterIPs": [
+                    "10.152.183.40"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:24Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance"
+                },
+                "name": "glance",
+                "namespace": "openstack",
+                "resourceVersion": "39062",
+                "uid": "9cf4cb03-a7d2-44ba-8d7f-e6199e9d797d"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.155",
+                "clusterIPs": [
+                    "10.152.183.155"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-9292-tcp",
+                        "port": 9292,
+                        "protocol": "TCP",
+                        "targetPort": 9292
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "glance"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:33Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance"
+                },
+                "name": "glance-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3547",
+                "uid": "b39e9d56-7c2a-4ccf-bafd-b4e5d11183d5"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "glance"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:16Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "name": "glance-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "38903",
+                "uid": "605fc443-d7cc-4887-ad03-5dc1abd804cc"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.86",
+                "clusterIPs": [
+                    "10.152.183.86"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:25Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "name": "glance-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3499",
+                "uid": "05f91f79-6be7-40ac-b0a4-b02065b55003"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:38:24Z",
+                "labels": {
+                    "app.juju.is/created-by": "glance-mysql-router",
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "name": "glance-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "glance-mysql-router",
+                        "uid": "9304b5d7-55c3-4dee-91d8-bbf0768bbc53"
+                    }
+                ],
+                "resourceVersion": "6409",
+                "uid": "7b9d0c63-8e41-4157-8d41-08547f1095ce"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.233",
+                "clusterIPs": [
+                    "10.152.183.233"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:36Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon"
+                },
+                "name": "horizon",
+                "namespace": "openstack",
+                "resourceVersion": "3579",
+                "uid": "7a5b1e7f-4dda-4abc-8807-47bd127ba0d4"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.99",
+                "clusterIPs": [
+                    "10.152.183.99"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "horizon"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:45Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon"
+                },
+                "name": "horizon-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3637",
+                "uid": "b23a850d-0561-480b-8c84-a794b0a2c8cd"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "horizon"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:12Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "name": "horizon-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "38813",
+                "uid": "52e4f350-5959-4b8c-855c-5cebe42ff49b"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.47",
+                "clusterIPs": [
+                    "10.152.183.47"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:19Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "name": "horizon-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3458",
+                "uid": "8bc4a87c-4579-4010-97ba-f813b61bf682"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:42:56Z",
+                "labels": {
+                    "app.juju.is/created-by": "horizon-mysql-router",
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "name": "horizon-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "horizon-mysql-router",
+                        "uid": "fedcfe0f-bdcd-4545-87dc-98f721439093"
+                    }
+                ],
+                "resourceVersion": "7070",
+                "uid": "6b089b9e-9676-4212-8ff5-a4bc84d81244"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.118",
+                "clusterIPs": [
+                    "10.152.183.118"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:26:59Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone"
+                },
+                "name": "keystone",
+                "namespace": "openstack",
+                "resourceVersion": "39014",
+                "uid": "3de45c68-8708-4033-a5ee-3bd1bf1eeb30"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.76",
+                "clusterIPs": [
+                    "10.152.183.76"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-5000-tcp",
+                        "port": 5000,
+                        "protocol": "TCP",
+                        "targetPort": 5000
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "keystone"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:08Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone"
+                },
+                "name": "keystone-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3369",
+                "uid": "17d80f80-8b42-4fae-a890-2b68a655a3c1"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "keystone"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:04Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "name": "keystone-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "38920",
+                "uid": "1af57ed4-edf6-4a72-a569-57085e0fa662"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.55",
+                "clusterIPs": [
+                    "10.152.183.55"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:13Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "name": "keystone-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3404",
+                "uid": "0facc49b-4788-4d19-aa84-581f91864b2f"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:40:24Z",
+                "labels": {
+                    "app.juju.is/created-by": "keystone-mysql-router",
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "name": "keystone-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "keystone-mysql-router",
+                        "uid": "e9175021-832d-415c-9653-5ab088ce639a"
+                    }
+                ],
+                "resourceVersion": "6706",
+                "uid": "975b669a-dd3d-40c2-a5c1-b929bce13c57"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.66",
+                "clusterIPs": [
+                    "10.152.183.66"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:05Z",
+                "labels": {
+                    "juju-modeloperator": "modeloperator"
+                },
+                "name": "modeloperator",
+                "namespace": "openstack",
+                "resourceVersion": "2520",
+                "uid": "d42c4e99-51b7-414b-9ad4-5874fd02f5fa"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.87",
+                "clusterIPs": [
+                    "10.152.183.87"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "port": 17071,
+                        "protocol": "TCP",
+                        "targetPort": "api"
+                    }
+                ],
+                "selector": {
+                    "juju-modeloperator": "modeloperator"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:25:29Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "mysql"
+                },
+                "name": "mysql",
+                "namespace": "openstack",
+                "resourceVersion": "38974",
+                "uid": "7235b4dd-2d67-4c79-9dbe-5615e5f64e35"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.202",
+                "clusterIPs": [
+                    "10.152.183.202"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-3306-tcp",
+                        "port": 3306,
+                        "protocol": "TCP",
+                        "targetPort": 3306
+                    },
+                    {
+                        "name": "juju-33060-tcp",
+                        "port": 33060,
+                        "protocol": "TCP",
+                        "targetPort": 33060
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "mysql"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:25:31Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "mysql"
+                },
+                "name": "mysql-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "2735",
+                "uid": "b9bb7f0f-0ee1-4cb6-9574-540a79301061"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "mysql"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:37:37Z",
+                "labels": {
+                    "app.juju.is/created-by": "mysql"
+                },
+                "name": "mysql-primary",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "mysql",
+                        "uid": "cb45036f-bf6e-443d-b520-21e27b72927c"
+                    }
+                ],
+                "resourceVersion": "6287",
+                "uid": "05a300a8-7edb-417f-9ea2-611e9fc757d9"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.226",
+                "clusterIPs": [
+                    "10.152.183.226"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "port": 3306,
+                        "protocol": "TCP",
+                        "targetPort": 3306
+                    }
+                ],
+                "selector": {
+                    "application-name": "mysql",
+                    "cluster-name": "cluster-9d302a8d7b67cfe7b8e7c2c02bcca699",
+                    "role": "primary"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:37:38Z",
+                "labels": {
+                    "app.juju.is/created-by": "mysql"
+                },
+                "name": "mysql-replicas",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "mysql",
+                        "uid": "cb45036f-bf6e-443d-b520-21e27b72927c"
+                    }
+                ],
+                "resourceVersion": "6293",
+                "uid": "8ee50e79-4c68-4070-8f7b-7b54f53fd016"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.19",
+                "clusterIPs": [
+                    "10.152.183.19"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "port": 3306,
+                        "protocol": "TCP",
+                        "targetPort": 3306
+                    }
+                ],
+                "selector": {
+                    "application-name": "mysql",
+                    "cluster-name": "cluster-9d302a8d7b67cfe7b8e7c2c02bcca699",
+                    "role": "replicas"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:26:54Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron"
+                },
+                "name": "neutron",
+                "namespace": "openstack",
+                "resourceVersion": "38940",
+                "uid": "4c1810c2-e80c-4e6f-a308-0e193f6f19e6"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.128",
+                "clusterIPs": [
+                    "10.152.183.128"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-9696-tcp",
+                        "port": 9696,
+                        "protocol": "TCP",
+                        "targetPort": 9696
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "neutron"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:02Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron"
+                },
+                "name": "neutron-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3339",
+                "uid": "f3725be7-d2fc-4550-9eb6-339b5cbae8db"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "neutron"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:01Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "name": "neutron-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "39050",
+                "uid": "70ed2af0-dd0a-4460-889b-0ee93cc1740c"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.181",
+                "clusterIPs": [
+                    "10.152.183.181"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:10Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "name": "neutron-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3387",
+                "uid": "febbe033-44ab-4b87-9e86-bca8e359da7c"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:41:28Z",
+                "labels": {
+                    "app.juju.is/created-by": "neutron-mysql-router",
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "name": "neutron-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "neutron-mysql-router",
+                        "uid": "a804aa27-d748-4805-91a8-226504d25b48"
+                    }
+                ],
+                "resourceVersion": "6858",
+                "uid": "f1a91c24-41f4-471d-984a-c681f0eefd52"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.115",
+                "clusterIPs": [
+                    "10.152.183.115"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:21Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova"
+                },
+                "name": "nova",
+                "namespace": "openstack",
+                "resourceVersion": "38783",
+                "uid": "28b51f50-f5c4-4336-b23d-c4deaa299723"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.188",
+                "clusterIPs": [
+                    "10.152.183.188"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-8774-tcp",
+                        "port": 8774,
+                        "protocol": "TCP",
+                        "targetPort": 8774
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "nova"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:03Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "name": "nova-api-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "38955",
+                "uid": "0beac6e8-d400-4e63-a75e-1b5a7075a851"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.208",
+                "clusterIPs": [
+                    "10.152.183.208"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:12Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "name": "nova-api-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3397",
+                "uid": "97757a2f-2709-4955-a40b-09351fd39a61"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:39:28Z",
+                "labels": {
+                    "app.juju.is/created-by": "nova-api-mysql-router",
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "name": "nova-api-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "nova-api-mysql-router",
+                        "uid": "3bed3caf-1d0e-4fd5-af08-3dae935d185d"
+                    }
+                ],
+                "resourceVersion": "6570",
+                "uid": "7b0e8eee-bd2b-4442-b1dc-0b053ac0f9ba"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.174",
+                "clusterIPs": [
+                    "10.152.183.174"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:13Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "name": "nova-cell-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "38969",
+                "uid": "27a26136-ae16-42f0-bbdb-b928943d65cb"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.152",
+                "clusterIPs": [
+                    "10.152.183.152"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:21Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "name": "nova-cell-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3467",
+                "uid": "88a6a65b-eda9-427f-a2f1-972a18191f37"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:43:40Z",
+                "labels": {
+                    "app.juju.is/created-by": "nova-cell-mysql-router",
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "name": "nova-cell-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "nova-cell-mysql-router",
+                        "uid": "b377b117-26be-4251-87c1-e355149b7ecc"
+                    }
+                ],
+                "resourceVersion": "7174",
+                "uid": "9cdae129-118b-4d0c-8bc6-9f8e6fcdc4bc"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.105",
+                "clusterIPs": [
+                    "10.152.183.105"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:30Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova"
+                },
+                "name": "nova-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3529",
+                "uid": "f724ac6a-d989-4140-9d71-063cff2ae186"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "nova"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:17Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "name": "nova-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "39108",
+                "uid": "b21b432e-87ed-4074-870e-beec38470c56"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.77",
+                "clusterIPs": [
+                    "10.152.183.77"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:25Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "name": "nova-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3504",
+                "uid": "ca05dd86-0fd7-4717-99f8-d6928b80d481"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:44:38Z",
+                "labels": {
+                    "app.juju.is/created-by": "nova-mysql-router",
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "name": "nova-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "nova-mysql-router",
+                        "uid": "f462b14c-eb4e-43d9-ae8f-b75121e70b7e"
+                    }
+                ],
+                "resourceVersion": "7312",
+                "uid": "bc708fa8-df23-4012-a032-96d6d7431d51"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.120",
+                "clusterIPs": [
+                    "10.152.183.120"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:25:33Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-central"
+                },
+                "name": "ovn-central",
+                "namespace": "openstack",
+                "resourceVersion": "38946",
+                "uid": "2b1c94fd-afe3-4d76-b338-b3b0f52aa55e"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.187",
+                "clusterIPs": [
+                    "10.152.183.187"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6641-tcp",
+                        "port": 6641,
+                        "protocol": "TCP",
+                        "targetPort": 6641
+                    },
+                    {
+                        "name": "juju-6642-tcp",
+                        "port": 6642,
+                        "protocol": "TCP",
+                        "targetPort": 6642
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "ovn-central"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:25:36Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-central"
+                },
+                "name": "ovn-central-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "2789",
+                "uid": "e245bc83-7121-455f-b7e1-6f5f288ffa06"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "ovn-central"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:25:15Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-relay"
+                },
+                "name": "ovn-relay",
+                "namespace": "openstack",
+                "resourceVersion": "38982",
+                "uid": "0f6fa6ed-48b1-4f8e-bb7f-daf377df514d"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.252",
+                "clusterIPs": [
+                    "10.152.183.252"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6642-tcp",
+                        "port": 6642,
+                        "protocol": "TCP",
+                        "targetPort": 6642
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "ovn-relay"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:25:15Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-relay"
+                },
+                "name": "ovn-relay-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "2590",
+                "uid": "276c4b9d-a234-474c-9364-a3d127dd6f30"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "ovn-relay"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "metallb.universe.tf/ip-allocated-from-pool": "metallb-loadbalancer-ck-loadbalancer",
+                    "metallb.universe.tf/loadBalancerIPs": "172.16.1.202"
+                },
+                "creationTimestamp": "2025-05-09T15:26:23Z",
+                "labels": {
+                    "app.juju.is/created-by": "ovn-relay",
+                    "app.kubernetes.io/instance": "ovn-relay-openstack",
+                    "app.kubernetes.io/name": "ovn-relay",
+                    "kubernetes-resource-handler-scope": "ovn-relay-lb"
+                },
+                "name": "ovn-relay-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8807",
+                "uid": "e247ab7e-d970-4006-805f-0a0f75cda67e"
+            },
+            "spec": {
+                "allocateLoadBalancerNodePorts": true,
+                "clusterIP": "10.152.183.254",
+                "clusterIPs": [
+                    "10.152.183.254"
+                ],
+                "externalTrafficPolicy": "Cluster",
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "southbound",
+                        "nodePort": 30357,
+                        "port": 6642,
+                        "protocol": "TCP",
+                        "targetPort": 6642
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "ovn-relay"
+                },
+                "sessionAffinity": "None",
+                "type": "LoadBalancer"
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "172.16.1.202",
+                            "ipMode": "VIP"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:26:57Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement"
+                },
+                "name": "placement",
+                "namespace": "openstack",
+                "resourceVersion": "39110",
+                "uid": "4b61410c-7aba-4446-a7ad-1a7c0eab6da6"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.104",
+                "clusterIPs": [
+                    "10.152.183.104"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-8778-tcp",
+                        "port": 8778,
+                        "protocol": "TCP",
+                        "targetPort": 8778
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "placement"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:05Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement"
+                },
+                "name": "placement-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3358",
+                "uid": "7e1cea50-fee2-4cbc-b57b-d5e5a4ff3ddb"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "placement"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:27:24Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "name": "placement-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "38932",
+                "uid": "477c41a3-a6d6-4b5f-8e93-5014c172e538"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.20",
+                "clusterIPs": [
+                    "10.152.183.20"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-6446-tcp",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "juju-6447-tcp",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    },
+                    {
+                        "name": "juju-6448-tcp",
+                        "port": 6448,
+                        "protocol": "TCP",
+                        "targetPort": 6448
+                    },
+                    {
+                        "name": "juju-6449-tcp",
+                        "port": 6449,
+                        "protocol": "TCP",
+                        "targetPort": 6449
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:27:32Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "name": "placement-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "3544",
+                "uid": "6daf2b24-a6a1-41f4-9b53-da49e3e18050"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:45:04Z",
+                "labels": {
+                    "app.juju.is/created-by": "placement-mysql-router",
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "name": "placement-mysql-router-service",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "StatefulSet",
+                        "name": "placement-mysql-router",
+                        "uid": "1a8dd446-b230-4e3d-9a3a-5d035edd8e37"
+                    }
+                ],
+                "resourceVersion": "7378",
+                "uid": "03a08fda-4772-46c5-b881-1b4d59f9019b"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.84",
+                "clusterIPs": [
+                    "10.152.183.84"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "mysql-rw",
+                        "port": 6446,
+                        "protocol": "TCP",
+                        "targetPort": 6446
+                    },
+                    {
+                        "name": "mysql-ro",
+                        "port": 6447,
+                        "protocol": "TCP",
+                        "targetPort": 6447
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:25:24Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "rabbitmq"
+                },
+                "name": "rabbitmq",
+                "namespace": "openstack",
+                "resourceVersion": "39003",
+                "uid": "9edd6ff2-525b-49aa-aa97-272124404e66"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.160",
+                "clusterIPs": [
+                    "10.152.183.160"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    },
+                    {
+                        "name": "juju-5672-tcp",
+                        "port": 5672,
+                        "protocol": "TCP",
+                        "targetPort": 5672
+                    },
+                    {
+                        "name": "juju-15672-tcp",
+                        "port": 15672,
+                        "protocol": "TCP",
+                        "targetPort": 15672
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "rabbitmq"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:25:26Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "rabbitmq"
+                },
+                "name": "rabbitmq-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "2691",
+                "uid": "eec236b7-6122-426d-af13-3155a4083290"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "rabbitmq"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "metallb.universe.tf/ip-allocated-from-pool": "metallb-loadbalancer-ck-loadbalancer",
+                    "metallb.universe.tf/loadBalancerIPs": "172.16.1.203"
+                },
+                "creationTimestamp": "2025-05-09T15:26:47Z",
+                "labels": {
+                    "app.juju.is/created-by": "rabbitmq",
+                    "app.kubernetes.io/instance": "rabbitmq-openstack",
+                    "app.kubernetes.io/name": "rabbitmq",
+                    "kubernetes-resource-handler-scope": "rabbitmq-loadbalancer"
+                },
+                "name": "rabbitmq-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8805",
+                "uid": "8e551b93-e394-4d12-b096-f945192e6cfb"
+            },
+            "spec": {
+                "allocateLoadBalancerNodePorts": true,
+                "clusterIP": "10.152.183.75",
+                "clusterIPs": [
+                    "10.152.183.75"
+                ],
+                "externalTrafficPolicy": "Cluster",
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "amqp",
+                        "nodePort": 31780,
+                        "port": 5672,
+                        "protocol": "TCP",
+                        "targetPort": 5672
+                    },
+                    {
+                        "name": "management",
+                        "nodePort": 31678,
+                        "port": 15672,
+                        "protocol": "TCP",
+                        "targetPort": 15672
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "rabbitmq"
+                },
+                "sessionAffinity": "None",
+                "type": "LoadBalancer"
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "172.16.1.203",
+                            "ipMode": "VIP"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:25:19Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik"
+                },
+                "name": "traefik",
+                "namespace": "openstack",
+                "resourceVersion": "2630",
+                "uid": "90b57d94-f852-46b5-b5d9-8c375893abe4"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.165",
+                "clusterIPs": [
+                    "10.152.183.165"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "traefik"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:25:21Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik"
+                },
+                "name": "traefik-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "2653",
+                "uid": "6b87251a-ba06-4347-ad20-8e94f8b1e535"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "traefik"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "metallb.universe.tf/ip-allocated-from-pool": "metallb-loadbalancer-ck-loadbalancer",
+                    "metallb.universe.tf/loadBalancerIPs": "172.16.1.205"
+                },
+                "creationTimestamp": "2025-05-09T15:27:54Z",
+                "labels": {
+                    "app.juju.is/created-by": "traefik",
+                    "app.kubernetes.io/instance": "traefik-openstack",
+                    "app.kubernetes.io/name": "traefik",
+                    "kubernetes-resource-handler-scope": "traefik-loadbalancer"
+                },
+                "name": "traefik-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8801",
+                "uid": "3fa92914-63f7-401d-b5da-fce74f43b85c"
+            },
+            "spec": {
+                "allocateLoadBalancerNodePorts": true,
+                "clusterIP": "10.152.183.112",
+                "clusterIPs": [
+                    "10.152.183.112"
+                ],
+                "externalTrafficPolicy": "Cluster",
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "traefik",
+                        "nodePort": 32579,
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 80
+                    },
+                    {
+                        "name": "traefik-tls",
+                        "nodePort": 30470,
+                        "port": 443,
+                        "protocol": "TCP",
+                        "targetPort": 443
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "traefik"
+                },
+                "sessionAffinity": "None",
+                "type": "LoadBalancer"
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "172.16.1.205",
+                            "ipMode": "VIP"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe"
+                },
+                "creationTimestamp": "2025-05-09T15:25:19Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik-public"
+                },
+                "name": "traefik-public",
+                "namespace": "openstack",
+                "resourceVersion": "2621",
+                "uid": "1b08568f-32e5-4175-9240-dc2e6195ba16"
+            },
+            "spec": {
+                "clusterIP": "10.152.183.31",
+                "clusterIPs": [
+                    "10.152.183.31"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "placeholder",
+                        "port": 65535,
+                        "protocol": "TCP",
+                        "targetPort": 65535
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "traefik-public"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju.is/version": "3.6.5",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "service.alpha.kubernetes.io/tolerate-unready-endpoints": "true"
+                },
+                "creationTimestamp": "2025-05-09T15:25:21Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik-public"
+                },
+                "name": "traefik-public-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "2644",
+                "uid": "efbee76f-0024-48f0-a35e-34106cc1f409"
+            },
+            "spec": {
+                "clusterIP": "None",
+                "clusterIPs": [
+                    "None"
+                ],
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "publishNotReadyAddresses": true,
+                "selector": {
+                    "app.kubernetes.io/name": "traefik-public"
+                },
+                "sessionAffinity": "None",
+                "type": "ClusterIP"
+            },
+            "status": {
+                "loadBalancer": {}
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Service",
+            "metadata": {
+                "annotations": {
+                    "metallb.universe.tf/ip-allocated-from-pool": "metallb-loadbalancer-ck-loadbalancer",
+                    "metallb.universe.tf/loadBalancerIPs": "172.16.1.204"
+                },
+                "creationTimestamp": "2025-05-09T15:27:53Z",
+                "labels": {
+                    "app.juju.is/created-by": "traefik-public",
+                    "app.kubernetes.io/instance": "traefik-public-openstack",
+                    "app.kubernetes.io/name": "traefik-public",
+                    "kubernetes-resource-handler-scope": "traefik-loadbalancer"
+                },
+                "name": "traefik-public-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8803",
+                "uid": "6227fc84-8047-4b7e-9886-00db1219ca85"
+            },
+            "spec": {
+                "allocateLoadBalancerNodePorts": true,
+                "clusterIP": "10.152.183.157",
+                "clusterIPs": [
+                    "10.152.183.157"
+                ],
+                "externalTrafficPolicy": "Cluster",
+                "internalTrafficPolicy": "Cluster",
+                "ipFamilies": [
+                    "IPv4"
+                ],
+                "ipFamilyPolicy": "SingleStack",
+                "ports": [
+                    {
+                        "name": "traefik",
+                        "nodePort": 30754,
+                        "port": 80,
+                        "protocol": "TCP",
+                        "targetPort": 80
+                    },
+                    {
+                        "name": "traefik-tls",
+                        "nodePort": 31295,
+                        "port": 443,
+                        "protocol": "TCP",
+                        "targetPort": 443
+                    }
+                ],
+                "selector": {
+                    "app.kubernetes.io/name": "traefik-public"
+                },
+                "sessionAffinity": "None",
+                "type": "LoadBalancer"
+            },
+            "status": {
+                "loadBalancer": {
+                    "ingress": [
+                        {
+                            "ip": "172.16.1.204",
+                            "ipMode": "VIP"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

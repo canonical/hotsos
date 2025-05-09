@@ -1,0 +1,12 @@
+● jujud-machine-0.service - juju agent for machine-0
+     Loaded: loaded (/etc/systemd/system/jujud-machine-0.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1114 (bash)
+      Tasks: 17 (limit: 19136)
+     Memory: 131.0M (peak: 302.6M)
+        CPU: 12min 7.913s
+     CGroup: /system.slice/jujud-machine-0.service
+             ├─1114 bash /etc/systemd/system/jujud-machine-0-exec-start.sh
+             └─1163 /var/lib/juju/tools/machine-0/jujud machine --data-dir /var/lib/juju --machine-id 0 --debug
+
+May 14 04:22:03 noble-sunbeam systemd[1]: Started jujud-machine-0.service - juju agent for machine-0.

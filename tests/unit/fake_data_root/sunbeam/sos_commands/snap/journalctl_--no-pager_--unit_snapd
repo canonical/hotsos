@@ -1,0 +1,1358 @@
+May 09 15:05:40 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 09 15:05:40 noble-sunbeam snapd[921]: overlord.go:274: Acquiring state lock file
+May 09 15:05:40 noble-sunbeam snapd[921]: overlord.go:279: Acquired state lock file
+May 09 15:05:40 noble-sunbeam snapd[921]: daemon.go:250: started snapd/2.67.1+24.04 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 09 15:05:41 noble-sunbeam snapd[921]: daemon.go:353: adjusting startup timeout by 30s (pessimistic estimate of 30s plus 5s per snap)
+May 09 15:05:41 noble-sunbeam snapd[921]: backends.go:58: AppArmor status: apparmor is enabled and all features are available
+May 09 15:05:41 noble-sunbeam snapd[921]: helpers.go:159: error trying to compare the snap system key: system-key missing on disk
+May 09 15:05:41 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 09 15:05:44 noble-sunbeam snapd[921]: api_snaps.go:467: Installing snap "openstack" revision unset
+May 09 15:05:44 noble-sunbeam snapd[921]: store_download.go:142: no host system xdelta3 available to use deltas
+May 09 15:05:44 noble-sunbeam groupadd[1196]: group added to /etc/group: name=snapd-range-524288-root, GID=524288
+May 09 15:05:44 noble-sunbeam groupadd[1196]: group added to /etc/gshadow: name=snapd-range-524288-root
+May 09 15:05:44 noble-sunbeam groupadd[1196]: new group: name=snapd-range-524288-root, GID=524288
+May 09 15:05:44 noble-sunbeam useradd[1202]: new user: name=snapd-range-524288-root, UID=524288, GID=524288, home=/nonexistent, shell=/usr/bin/false, from=none
+May 09 15:05:44 noble-sunbeam groupadd[1209]: group added to /etc/group: name=snap_daemon, GID=584788
+May 09 15:05:44 noble-sunbeam groupadd[1209]: group added to /etc/gshadow: name=snap_daemon
+May 09 15:05:44 noble-sunbeam groupadd[1209]: new group: name=snap_daemon, GID=584788
+May 09 15:05:44 noble-sunbeam useradd[1215]: new user: name=snap_daemon, UID=584788, GID=584788, home=/nonexistent, shell=/usr/bin/false, from=none
+May 09 15:05:52 noble-sunbeam snapd[921]: daemon.go:548: gracefully waiting for running hooks
+May 09 15:05:52 noble-sunbeam snapd[921]: daemon.go:550: done waiting for running hooks
+May 09 15:05:55 noble-sunbeam snapd[921]: overlord.go:518: Released state lock file
+May 09 15:05:55 noble-sunbeam systemd[1]: snapd.service: Deactivated successfully.
+May 09 15:05:55 noble-sunbeam systemd[1]: snapd.service: Scheduled restart job, restart counter is at 1.
+May 09 15:05:55 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 09 15:05:57 noble-sunbeam snapd[1431]: overlord.go:284: Acquiring state lock file
+May 09 15:05:57 noble-sunbeam snapd[1431]: overlord.go:289: Acquired state lock file
+May 09 15:05:57 noble-sunbeam snapd[1431]: patch.go:64: Patching system state level 6 to sublevel 1...
+May 09 15:05:57 noble-sunbeam snapd[1431]: patch.go:64: Patching system state level 6 to sublevel 2...
+May 09 15:05:57 noble-sunbeam snapd[1431]: patch.go:64: Patching system state level 6 to sublevel 3...
+May 09 15:05:57 noble-sunbeam snapd[1431]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 09 15:05:57 noble-sunbeam snapd[1431]: daemon.go:353: adjusting startup timeout by 35s (pessimistic estimate of 30s plus 5s per snap)
+May 09 15:05:57 noble-sunbeam snapd[1431]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 09 15:05:58 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 09 15:06:28 noble-sunbeam snapd[1431]: api_snaps.go:467: Installing snap "juju" revision unset
+May 09 15:06:39 noble-sunbeam snapd[1431]: api_snaps.go:467: Installing snap "lxd" revision unset
+May 09 15:15:34 noble-sunbeam snapd[1431]: api_snaps.go:467: Installing snap "k8s" revision 2500
+May 09 15:56:21 noble-sunbeam snapd[1431]: api_snaps.go:467: Installing snap "openstack-hypervisor" revision unset
+May 09 15:57:10 noble-sunbeam modprobe[378729]: FATAL: Module pci-stub not found in directory /lib/modules/6.8.0-59-generic
+May 09 18:10:59 noble-sunbeam snapd[1431]: storehelpers.go:916: cannot refresh:
+May 09 18:10:59 noble-sunbeam snapd[1431]: snap has no updates available: "core20", "core22", "core24", "juju", "lxd", "openstack", "openstack-hypervisor", "snapd"
+May 09 18:10:59 noble-sunbeam snapd[1431]: no snap revision available as specified: "k8s"
+May 09 19:05:26 noble-sunbeam snapd[1431]: main.go:171: Exiting on terminated signal.
+May 09 19:05:26 noble-sunbeam systemd[1]: Stopping snapd.service - Snap Daemon...
+May 09 19:05:29 noble-sunbeam snapd[1431]: overlord.go:528: Released state lock file
+May 09 19:05:29 noble-sunbeam systemd[1]: snapd.service: Deactivated successfully.
+May 09 19:05:29 noble-sunbeam systemd[1]: Stopped snapd.service - Snap Daemon.
+May 09 19:05:29 noble-sunbeam systemd[1]: snapd.service: Consumed 3min 23.941s CPU time, 818.8M memory peak, 0B memory swap peak.
+-- Boot a6ecd1c73ddf4d3c88139c9052132c32 --
+May 13 08:13:36 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 13 08:13:40 noble-sunbeam snapd[1083]: overlord.go:284: Acquiring state lock file
+May 13 08:13:40 noble-sunbeam snapd[1083]: overlord.go:289: Acquired state lock file
+May 13 08:13:40 noble-sunbeam snapd[1083]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 13 08:13:40 noble-sunbeam snapd[1083]: daemon.go:353: adjusting startup timeout by 1m15s (pessimistic estimate of 30s plus 5s per snap)
+May 13 08:13:41 noble-sunbeam snapd[1083]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 13 08:13:41 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 13 08:18:48 noble-sunbeam snapd[1083]: storehelpers.go:916: cannot refresh:
+May 13 08:18:48 noble-sunbeam snapd[1083]: snap has no updates available: "core20", "core22", "core24", "juju", "lxd", "openstack", "openstack-hypervisor", "snapd"
+May 13 08:18:48 noble-sunbeam snapd[1083]: no snap revision available as specified: "k8s"
+May 13 11:37:38 noble-sunbeam snapd[1083]: SIGABRT: abort
+May 13 11:37:38 noble-sunbeam snapd[1083]: PC=0x58af120087e1 m=0 sigcode=0
+May 13 11:37:38 noble-sunbeam snapd[1083]: goroutine 0 gp=0x58af13adaae0 m=0 mp=0x58af13adbb60 [idle]:
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.futex(0x58af13adbca0, 0x80, 0x0, 0x0, 0x0, 0x0)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/sys_linux_amd64.s:557 +0x21 fp=0x7ffddd9bbae0 sp=0x7ffddd9bbad8 pc=0x58af120087e1
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.futexsleep(0x7ffddd9bbb58?, 0x13adaae0?, 0x7ffddd9bbb58?)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/os_linux.go:69 +0x30 fp=0x7ffddd9bbb30 sp=0x7ffddd9bbae0 pc=0x58af11fc0e90
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.notesleep(0x58af13adbca0)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/lock_futex.go:170 +0x87 fp=0x7ffddd9bbb68 sp=0x7ffddd9bbb30 pc=0x58af11f98ee7
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.mPark(...)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:1866
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.stoplockedm()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:3141 +0x73 fp=0x7ffddd9bbbc0 sp=0x7ffddd9bbb68 pc=0x58af11fccd13
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.schedule()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:3975 +0x3a fp=0x7ffddd9bbbf8 sp=0x7ffddd9bbbc0 pc=0x58af11fcf05a
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.park_m(0xc00050c700)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:4103 +0x1eb fp=0x7ffddd9bbc50 sp=0x7ffddd9bbbf8 pc=0x58af11fcf4eb
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.mcall()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:459 +0x50 fp=0x7ffddd9bbc68 sp=0x7ffddd9bbc50 pc=0x58af12004990
+May 13 11:37:38 noble-sunbeam snapd[1083]: goroutine 1 gp=0xc0000061c0 m=nil [select, 203 minutes]:
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.gopark(0xc000047e48?, 0x3?, 0xd8?, 0x7c?, 0xc000047dea?)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00068dc88 sp=0xc00068dc68 pc=0x58af11ffe50e
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.selectgo(0xc00068de48, 0xc000047de4, 0xc000047e98?, 0x0, 0xedfb4f634?, 0x1)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc00068ddb0 sp=0xc00068dc88 pc=0x58af11fd9de5
+May 13 11:37:38 noble-sunbeam snapd[1083]: main.run(0xc000220540)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:169 +0x406 fp=0xc00068dec0 sp=0xc00068ddb0 pc=0x58af12b2c166
+May 13 11:37:38 noble-sunbeam snapd[1083]: main.main()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:71 +0x14f fp=0xc00068df50 sp=0xc00068dec0 pc=0x58af12b2b98f
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.main()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:272 +0x29d fp=0xc00068dfe0 sp=0xc00068df50 pc=0x58af11fc77dd
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00068dfe8 sp=0xc00068dfe0 pc=0x58af120069e1
+May 13 11:37:38 noble-sunbeam snapd[1083]: goroutine 18 gp=0xc00009c380 m=nil [force gc (idle)]:
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.gopark(0xb24c129d453?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005e7a8 sp=0xc00005e788 pc=0x58af11ffe50e
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.goparkunlock(...)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:430
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.forcegchelper()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:337 +0xb8 fp=0xc00005e7e0 sp=0xc00005e7a8 pc=0x58af11fc7b18
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005e7e8 sp=0xc00005e7e0 pc=0x58af120069e1
+May 13 11:37:38 noble-sunbeam snapd[1083]: created by runtime.init.7 in goroutine 1
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:325 +0x1a
+May 13 11:37:38 noble-sunbeam snapd[1083]: goroutine 19 gp=0xc00009c540 m=nil [GC sweep wait]:
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.gopark(0x58af13ad9601?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005ef80 sp=0xc00005ef60 pc=0x58af11ffe50e
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.goparkunlock(...)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:430
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.bgsweep(0xc0000ac000)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgcsweep.go:317 +0xdf fp=0xc00005efc8 sp=0xc00005ef80 pc=0x58af11faf73f
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.gcenable.gowrap1()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:204 +0x25 fp=0xc00005efe0 sp=0xc00005efc8 pc=0x58af11fa3da5
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005efe8 sp=0xc00005efe0 pc=0x58af120069e1
+May 13 11:37:38 noble-sunbeam snapd[1083]: created by runtime.gcenable in goroutine 1
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:204 +0x66
+May 13 11:37:38 noble-sunbeam snapd[1083]: goroutine 20 gp=0xc00009c700 m=nil [runnable]:
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.gopark(0x12cabfd?, 0x1287fb4?, 0x0?, 0x0?, 0x0?)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005f778 sp=0xc00005f758 pc=0x58af11ffe50e
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.goparkunlock(...)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:430
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.(*scavengerState).park(0x58af13ada1a0)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgcscavenge.go:425 +0x49 fp=0xc00005f7a8 sp=0xc00005f778 pc=0x58af11fad129
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.bgscavenge(0xc0000ac000)
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgcscavenge.go:658 +0x59 fp=0xc00005f7c8 sp=0xc00005f7a8 pc=0x58af11fad6b9
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.gcenable.gowrap2()
+May 13 11:37:38 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:205 +0x25 fp=0xc00005f7e0 sp=0xc00005f7c8 pc=0x58af11fa3d45
+May 13 11:37:38 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:38 noble-sunbeam systemd[1]: snapd.service: Watchdog timeout (limit 5min)!
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005f7e8 sp=0xc00005f7e0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.gcenable in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:205 +0xa5
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 34 gp=0xc000106380 m=nil [finalizer wait, 84 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x0?, 0x58af1330e8d8?, 0xe0?, 0xc0?, 0x2000000020?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000079e20 sp=0xc000079e00 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.runfinq()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mfinal.go:193 +0x107 fp=0xc000079fe0 sp=0xc000079e20 pc=0x58af11fa2e27
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000079fe8 sp=0xc000079fe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.createfing in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mfinal.go:163 +0x3d
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 35 gp=0xc000106700 m=nil [runnable]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0xc00014ef60?, 0x58af12152025?, 0x80?, 0x4a?, 0x58af13334e00?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00014ef18 sp=0xc00014eef8 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.chanrecv(0xc000100460, 0x0, 0x1)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/chan.go:639 +0x41c fp=0xc00014ef90 sp=0xc00014ef18 pc=0x58af11f9371c
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.chanrecv1(0x0?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/chan.go:489 +0x12 fp=0xc00014efb8 sp=0xc00014ef90 pc=0x58af11f932d2
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.unique_runtime_registerUniqueMapCleanup.func1(...)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1781
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.unique_runtime_registerUniqueMapCleanup.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1784 +0x2f fp=0xc00014efe0 sp=0xc00014efb8 pc=0x58af11fa6e0f
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00014efe8 sp=0xc00014efe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by unique.runtime_registerUniqueMapCleanup in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1779 +0x96
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 2 gp=0xc0004a6000 m=nil [GC worker (idle), 83 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x6972a928fe5?, 0x3?, 0x36?, 0x49?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000062f38 sp=0xc000062f18 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkWorker(0xc00003a690)
+May 13 11:37:38 noble-sunbeam systemd[1]: snapd.service: Killing process 1083 (snapd) with signal SIGABRT.
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc000062fc8 sp=0xc000062f38 pc=0x58af11fa6109
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc000062fe0 sp=0xc000062fc8 pc=0x58af11fa5fe5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000062fe8 sp=0xc000062fe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 21 gp=0xc00009ca80 m=nil [GC worker (idle)]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x6c5bbb2ab0a?, 0x1?, 0xee?, 0xc5?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000062738 sp=0xc000062718 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkWorker(0xc00003a690)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0000627c8 sp=0xc000062738 pc=0x58af11fa6109
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0000627e0 sp=0xc0000627c8 pc=0x58af11fa5fe5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000627e8 sp=0xc0000627e0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 22 gp=0xc00009cc40 m=nil [GC worker (idle)]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x58af13afd280?, 0x1?, 0xae?, 0x7a?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005ff38 sp=0xc00005ff18 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkWorker(0xc00003a690)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc00005ffc8 sp=0xc00005ff38 pc=0x58af11fa6109
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc00005ffe0 sp=0xc00005ffc8 pc=0x58af11fa5fe5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005ffe8 sp=0xc00005ffe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 23 gp=0xc00009ce00 m=nil [GC worker (idle)]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x6c5bbb2aeee?, 0x2?, 0x5?, 0x71?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000060738 sp=0xc000060718 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkWorker(0xc00003a690)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0000607c8 sp=0xc000060738 pc=0x58af11fa6109
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0000607e0 sp=0xc0000607c8 pc=0x58af11fa5fe5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000607e8 sp=0xc0000607e0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 24 gp=0xc00009cfc0 m=nil [GC worker (idle), 80 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x6c5bbb64a23?, 0x3?, 0x3d?, 0x9a?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000060f38 sp=0xc000060f18 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkWorker(0xc00003a690)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc000060fc8 sp=0xc000060f38 pc=0x58af11fa6109
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc000060fe0 sp=0xc000060fc8 pc=0x58af11fa5fe5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000060fe8 sp=0xc000060fe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 25 gp=0xc00009d180 m=nil [GC worker (idle)]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x6c5bbb2af99?, 0x3?, 0x32?, 0x4?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000061738 sp=0xc000061718 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkWorker(0xc00003a690)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0000617c8 sp=0xc000061738 pc=0x58af11fa6109
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0000617e0 sp=0xc0000617c8 pc=0x58af11fa5fe5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000617e8 sp=0xc0000617e0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 50 gp=0xc00050c700 m=nil [select, 203 minutes, locked to thread]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0xc000150fa8?, 0x2?, 0xa8?, 0xe?, 0xc000150f94?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000150e30 sp=0xc000150e10 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.selectgo(0xc000150fa8, 0xc000150f90, 0x0?, 0x0, 0x0?, 0x1)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000150f58 sp=0xc000150e30 pc=0x58af11fd9de5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.ensureSigM.func1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/signal_unix.go:1077 +0x1a5 fp=0xc000150fe0 sp=0xc000150f58 pc=0x58af11ff58e5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000150fe8 sp=0xc000150fe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by runtime.ensureSigM in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/signal_unix.go:1060 +0xc8
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 51 gp=0xc00050ca80 m=5 mp=0xc000098008 [syscall, 203 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.notetsleepg(0x58af13afc7a0, 0xffffffffffffffff)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/lock_futex.go:246 +0x29 fp=0xc0001517a0 sp=0xc000151778 pc=0x58af11f991c9
+May 13 11:37:39 noble-sunbeam snapd[1083]: os/signal.signal_recv()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/sigqueue.go:152 +0x29 fp=0xc0001517c0 sp=0xc0001517a0 pc=0x58af12000569
+May 13 11:37:39 noble-sunbeam snapd[1083]: os/signal.loop()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/os/signal/signal_unix.go:23 +0x13 fp=0xc0001517e0 sp=0xc0001517c0 pc=0x58af120abb73
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0001517e8 sp=0xc0001517e0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by os/signal.Notify.func1.1 in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/os/signal/signal.go:151 +0x1f
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 99 gp=0xc0004a6c40 m=nil [select, 81 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0xc00007bfa8?, 0x2?, 0x0?, 0x0?, 0xc00007bf94?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00007be38 sp=0xc00007be18 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.selectgo(0xc00007bfa8, 0xc00007bf90, 0x0?, 0x0, 0xc000270b60?, 0x1)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc00007bf60 sp=0xc00007be38 pc=0x58af11fd9de5
+May 13 11:37:39 noble-sunbeam snapd[1083]: main.runWatchdog.func1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:107 +0x99 fp=0xc00007bfe0 sp=0xc00007bf60 pc=0x58af12b2bd39
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00007bfe8 sp=0xc00007bfe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by main.runWatchdog in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:105 +0x107
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 98 gp=0xc0004a7180 m=nil [IO wait, 84 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000075b30 sp=0xc000075b10 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.netpollblock(0x58af11fd8f89?, 0x11f90ba6?, 0xaf?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc000075b68 sp=0xc000075b30 pc=0x58af11fc0137
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.runtime_pollWait(0x7009f16c4d08, 0x72)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc000075b88 sp=0xc000075b68 pc=0x58af11ffd805
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*pollDesc).wait(0xc000347c00?, 0x700a3a1eaa68?, 0x0)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000075bb0 sp=0xc000075b88 pc=0x58af120824c7
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*pollDesc).waitRead(...)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*FD).Accept(0xc000347c00)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295 fp=0xc000075c58 sp=0xc000075bb0 pc=0x58af12087895
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*netFD).accept(0xc000347c00)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/fd_unix.go:172 +0x29 fp=0xc000075d10 sp=0xc000075c58 pc=0x58af1216e1c9
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*UnixListener).accept(0xc000075d88?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/unixsock_posix.go:172 +0x16 fp=0xc000075d38 sp=0xc000075d10 pc=0x58af12188fd6
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*UnixListener).Accept(0xc0000e4300)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/unixsock.go:260 +0x30 fp=0xc000075d68 sp=0xc000075d38 pc=0x58af121877f0
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x58af122af345?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f fp=0xc000075de0 sp=0xc000075d68 pc=0x58af12b25c7f
+May 13 11:37:39 noble-sunbeam snapd[1083]: net/http.(*onceCloseListener).Accept(0xc0006c8d80?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         <autogenerated>:1 +0x24 fp=0xc000075df8 sp=0xc000075de0 pc=0x58af122d7304
+May 13 11:37:39 noble-sunbeam snapd[1083]: net/http.(*Server).Serve(0xc0001ce1e0, {0x58af1331f6c8, 0xc0000e43c0})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/http/server.go:3330 +0x30c fp=0xc000075f28 sp=0xc000075df8 pc=0x58af122af1cc
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/daemon.(*Daemon).Start.func3()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/daemon/daemon.go:402 +0x7f fp=0xc000075f68 sp=0xc000075f28 pc=0x58af12b1ca1f
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0001ce050, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc000075fc0 sp=0xc000075f68 pc=0x58af123858eb
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc000075fe0 sp=0xc000075fc0 pc=0x58af12385825
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000075fe8 sp=0xc000075fe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 36 gp=0xc0004a7500 m=nil [IO wait]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00068fb30 sp=0xc00068fb10 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.netpollblock(0x58af11fd8f89?, 0x11f90ba6?, 0xaf?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc00068fb68 sp=0xc00068fb30 pc=0x58af11fc0137
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.runtime_pollWait(0x7009f16c4ad8, 0x72)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc00068fb88 sp=0xc00068fb68 pc=0x58af11ffd805
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*pollDesc).wait(0xc000347d80?, 0x700a3a1ea108?, 0x0)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00068fbb0 sp=0xc00068fb88 pc=0x58af120824c7
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*pollDesc).waitRead(...)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*FD).Accept(0xc000347d80)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295 fp=0xc00068fc58 sp=0xc00068fbb0 pc=0x58af12087895
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*netFD).accept(0xc000347d80)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/fd_unix.go:172 +0x29 fp=0xc00068fd10 sp=0xc00068fc58 pc=0x58af1216e1c9
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*UnixListener).accept(0xc00068fd88?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/unixsock_posix.go:172 +0x16 fp=0xc00068fd38 sp=0xc00068fd10 pc=0x58af12188fd6
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*UnixListener).Accept(0xc0000e4360)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/unixsock.go:260 +0x30 fp=0xc00068fd68 sp=0xc00068fd38 pc=0x58af121877f0
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x58af122af345?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f fp=0xc00068fde0 sp=0xc00068fd68 pc=0x58af12b25c7f
+May 13 11:37:39 noble-sunbeam snapd[1083]: net/http.(*onceCloseListener).Accept(0xc000bb63f0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         <autogenerated>:1 +0x24 fp=0xc00068fdf8 sp=0xc00068fde0 pc=0x58af122d7304
+May 13 11:37:39 noble-sunbeam snapd[1083]: net/http.(*Server).Serve(0xc0001ce1e0, {0x58af1331f6c8, 0xc0000e4420})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/http/server.go:3330 +0x30c fp=0xc00068ff28 sp=0xc00068fdf8 pc=0x58af122af1cc
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/daemon.(*Daemon).Start.func3.1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/daemon/daemon.go:394 +0x2c fp=0xc00068ff68 sp=0xc00068ff28 pc=0x58af12b1caec
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0001ce050, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc00068ffc0 sp=0xc00068ff68 pc=0x58af123858eb
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc00068ffe0 sp=0xc00068ffc0 pc=0x58af12385825
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00068ffe8 sp=0xc00068ffe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 98
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 16 gp=0xc0004a7c00 m=nil [select, 84 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0xc000029f28?, 0x3?, 0x20?, 0x6f?, 0xc000029ef2?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00085bd88 sp=0xc00085bd68 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.selectgo(0xc00085bf28, 0xc000029eec, 0x0?, 0x0, 0x4e94914f0000?, 0x1)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc00085beb0 sp=0xc00085bd88 pc=0x58af11fd9de5
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/overlord.(*Overlord).Loop.func1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/overlord/overlord.go:489 +0x12a fp=0xc00085bf68 sp=0xc00085beb0 pc=0x58af12ace62a
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0009ee230, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc00085bfc0 sp=0xc00085bf68 pc=0x58af123858eb
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc00085bfe0 sp=0xc00085bfc0 pc=0x58af12385825
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00085bfe8 sp=0xc00085bfe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 15 gp=0xc000106fc0 m=nil [select]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0xc000688fb0?, 0x2?, 0xd?, 0x54?, 0xc000688f94?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000688e38 sp=0xc000688e18 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.selectgo(0xc000688fb0, 0xc000688f90, 0x0?, 0x0, 0xc0000ceee0?, 0x1)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000688f60 sp=0xc000688e38 pc=0x58af11fd9de5
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start.func1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/overlord/standby/standby.go:105 +0xea fp=0xc000688fe0 sp=0xc000688f60 pc=0x58af12ad0faa
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000688fe8 sp=0xc000688fe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start in goroutine 1
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/overlord/standby/standby.go:96 +0x96
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 89 gp=0xc00050dc00 m=nil [IO wait, 199 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00061fa88 sp=0xc00061fa68 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.netpollblock(0x0?, 0x11f90ba6?, 0xaf?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc00061fac0 sp=0xc00061fa88 pc=0x58af11fc0137
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.runtime_pollWait(0x7009f16c4e20, 0x72)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc00061fae0 sp=0xc00061fac0 pc=0x58af11ffd805
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*pollDesc).wait(0xc000778080?, 0xc000b807e0?, 0x0)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00061fb08 sp=0xc00061fae0 pc=0x58af120824c7
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*pollDesc).waitRead(...)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 13 11:37:39 noble-sunbeam snapd[1083]: internal/poll.(*FD).ReadMsg(0xc000778080, {0xc000b807e0, 0x10, 0x10}, {0xc00040d928, 0x1000, 0x1000}, 0x40000000)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/internal/poll/fd_unix.go:302 +0x385 fp=0xc00061fbf0 sp=0xc00061fb08 pc=0x58af12084985
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*netFD).readMsg(0xc000778080, {0xc000b807e0?, 0x8?, 0x2f07000000?}, {0xc00040d928?, 0x58af13326870?, 0x0?}, 0x1?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/fd_posix.go:78 +0x31 fp=0xc00061fc78 sp=0xc00061fbf0 pc=0x58af1216c611
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*UnixConn).readMsg(0xc000066ed8, {0xc000b807e0?, 0x58af11f9ea4b?, 0x7009f16f96e8?}, {0xc00040d928?, 0xc000b806f0?, 0x58af13126920?})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/unixsock_posix.go:115 +0x45 fp=0xc00061fd08 sp=0xc00061fc78 pc=0x58af121888a5
+May 13 11:37:39 noble-sunbeam snapd[1083]: net.(*UnixConn).ReadMsgUnix(0xc000066ed8, {0xc000b807e0?, 0xc00061fdc8?, 0x58af1203bcc6?}, {0xc00040d928?, 0x7009f16f96e8?, 0x18?})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/net/unixsock.go:143 +0x36 fp=0xc00061fd80 sp=0xc00061fd08 pc=0x58af12186b16
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/godbus/dbus.(*oobReader).Read(0xc00040d908, {0xc000b807e0?, 0xc00061fe30?, 0x58af11f9a2a5?})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:21 +0x3c fp=0xc00061fdf8 sp=0xc00061fd80 pc=0x58af1247645c
+May 13 11:37:39 noble-sunbeam snapd[1083]: io.ReadAtLeast({0x58af13319960, 0xc00040d908}, {0xc000b807e0, 0x10, 0x10}, 0x10)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/io/io.go:335 +0x90 fp=0xc00061fe40 sp=0xc00061fdf8 pc=0x58af12077f70
+May 13 11:37:39 noble-sunbeam snapd[1083]: io.ReadFull(...)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/io/io.go:354
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc000618390)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:91 +0xfe fp=0xc00061ff68 sp=0xc00061fe40 pc=0x58af12476a1e
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/godbus/dbus.(*Conn).inWorker(0xc0006c82d0)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/conn.go:294 +0x35 fp=0xc00061ffc8 sp=0xc00061ff68 pc=0x58af12461115
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/godbus/dbus.(*Conn).Auth.gowrap1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/auth.go:118 +0x25 fp=0xc00061ffe0 sp=0xc00061ffc8 pc=0x58af1245e5c5
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00061ffe8 sp=0xc00061ffe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by github.com/godbus/dbus.(*Conn).Auth in goroutine 16
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/auth.go:118 +0x8ee
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 40 gp=0xc00098a380 m=nil [select, 197 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.gopark(0xc00055fef0?, 0x3?, 0x30?, 0x80?, 0xc00055fe62?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000880d00 sp=0xc000880ce0 pc=0x58af11ffe50e
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.selectgo(0xc000880ef0, 0xc00055fe5c, 0xc000d24e10?, 0x0, 0x58af1319bea0?, 0x1)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000880e28 sp=0xc000880d00 pc=0x58af11fd9de5
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/overlord/ifacestate/udevmonitor.(*Monitor).Run.func1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/overlord/ifacestate/udevmonitor/udevmon.go:147 +0x292 fp=0xc000880f68 sp=0xc000880e28 pc=0x58af1291b872
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc000bb7680, 0xc0000fa330?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc000880fc0 sp=0xc000880f68 pc=0x58af123858eb
+May 13 11:37:39 noble-sunbeam snapd[1083]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc000880fe0 sp=0xc000880fc0 pc=0x58af12385825
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000880fe8 sp=0xc000880fe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 16
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 11:37:39 noble-sunbeam snapd[1083]: goroutine 130 gp=0xc00098a540 m=11 mp=0xc000900008 [syscall, 197 minutes]:
+May 13 11:37:39 noble-sunbeam snapd[1083]: syscall.Syscall6(0x17, 0xc, 0xc00068ee10, 0x0, 0x0, 0x0, 0x0)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/syscall/syscall_linux.go:95 +0x39 fp=0xc00068ed70 sp=0xc00068ed10 pc=0x58af120248b9
+May 13 11:37:39 noble-sunbeam snapd[1083]: syscall.Select(0x58af1329b8a0?, 0xc00098a540?, 0xc00068ee08?, 0x0?, 0x0?)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/syscall/zsyscall_linux_amd64.go:1298 +0x4a fp=0xc00068ede0 sp=0xc00068ed70 pc=0x58af120232ca
+May 13 11:37:39 noble-sunbeam systemd[1]: snapd.service: Main process exited, code=exited, status=2/INVALIDARGUMENT
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/osutil/udev/netlink.stopperSelectReadable(0xc0003dfb20?, 0xb)
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:57 +0x191 fp=0xc00068eed0 sp=0xc00068ede0 pc=0x58af12919431
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/osutil/udev/netlink.RawSockStopper.func1()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:31 +0x58 fp=0xc00068ef00 sp=0xc00068eed0 pc=0x58af12919278
+May 13 11:37:39 noble-sunbeam snapd[1083]: github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor.func4()
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:139 +0x77 fp=0xc00068efe0 sp=0xc00068ef00 pc=0x58af12918097
+May 13 11:37:39 noble-sunbeam snapd[1083]: runtime.goexit({})
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00068efe8 sp=0xc00068efe0 pc=0x58af120069e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: created by github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor in goroutine 16
+May 13 11:37:39 noble-sunbeam snapd[1083]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:136 +0x2a8
+May 13 11:37:39 noble-sunbeam snapd[1083]: rax    0xca
+May 13 11:37:39 noble-sunbeam snapd[1083]: rbx    0x0
+May 13 11:37:39 noble-sunbeam snapd[1083]: rcx    0x58af120087e3
+May 13 11:37:39 noble-sunbeam snapd[1083]: rdx    0x0
+May 13 11:37:39 noble-sunbeam snapd[1083]: rdi    0x58af13adbca0
+May 13 11:37:39 noble-sunbeam snapd[1083]: rsi    0x80
+May 13 11:37:39 noble-sunbeam snapd[1083]: rbp    0x7ffddd9bbb20
+May 13 11:37:39 noble-sunbeam snapd[1083]: rsp    0x7ffddd9bbad8
+May 13 11:37:39 noble-sunbeam snapd[1083]: r8     0x0
+May 13 11:37:39 noble-sunbeam snapd[1083]: r9     0x0
+May 13 11:37:39 noble-sunbeam snapd[1083]: r10    0x0
+May 13 11:37:39 noble-sunbeam snapd[1083]: r11    0x286
+May 13 11:37:39 noble-sunbeam snapd[1083]: r12    0x7ffddd9bbb00
+May 13 11:37:39 noble-sunbeam snapd[1083]: r13    0xc000150f94
+May 13 11:37:39 noble-sunbeam snapd[1083]: r14    0x58af13adaae0
+May 13 11:37:39 noble-sunbeam snapd[1083]: r15    0x0
+May 13 11:37:39 noble-sunbeam snapd[1083]: rip    0x58af120087e1
+May 13 11:37:39 noble-sunbeam snapd[1083]: rflags 0x286
+May 13 11:37:39 noble-sunbeam snapd[1083]: cs     0x33
+May 13 11:37:39 noble-sunbeam snapd[1083]: fs     0x0
+May 13 11:37:39 noble-sunbeam snapd[1083]: gs     0x0
+May 13 11:37:39 noble-sunbeam systemd[1]: snapd.service: Failed with result 'watchdog'.
+May 13 11:37:39 noble-sunbeam systemd[1]: snapd.service: Scheduled restart job, restart counter is at 1.
+May 13 11:37:39 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 13 11:37:42 noble-sunbeam snapd[321722]: overlord.go:284: Acquiring state lock file
+May 13 11:37:42 noble-sunbeam snapd[321722]: overlord.go:289: Acquired state lock file
+May 13 11:37:42 noble-sunbeam snapd[321722]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 13 11:37:42 noble-sunbeam snapd[321722]: daemon.go:353: adjusting startup timeout by 1m15s (pessimistic estimate of 30s plus 5s per snap)
+May 13 11:37:43 noble-sunbeam snapd[321722]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 13 11:37:45 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 13 20:50:09 noble-sunbeam snapd[321722]: SIGABRT: abort
+May 13 20:50:09 noble-sunbeam snapd[321722]: PC=0x5620b91be1f7 m=2 sigcode=0
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 0 gp=0xc000006a80 m=2 mp=0xc000068708 [idle]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.usleep(0x2710)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/sys_linux_amd64.s:135 +0x37 fp=0x7d9ae91fed40 sp=0x7d9ae91fed20 pc=0x5620b91be1f7
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.sysmon()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:6063 +0xa5 fp=0x7d9ae91feda8 sp=0x7d9ae91fed40 pc=0x5620b918a205
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.mstart1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:1834 +0x95 fp=0x7d9ae91fedd0 sp=0x7d9ae91feda8 pc=0x5620b9180cf5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.mstart0()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:1791 +0x76 fp=0x7d9ae91fee00 sp=0x7d9ae91fedd0 pc=0x5620b9180c36
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.mstart()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:395 +0x5 fp=0x7d9ae91fee08 sp=0x7d9ae91fee00 pc=0x5620b91ba905
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 1 gp=0xc0000061c0 m=nil [select, 552 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0xc000805e48?, 0x3?, 0xd8?, 0x5c?, 0xc000805dea?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000075c88 sp=0xc000075c68 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.selectgo(0xc000075e48, 0xc000805de4, 0xc000805e98?, 0x0, 0xedfb52604?, 0x1)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000075db0 sp=0xc000075c88 pc=0x5620b918fde5
+May 13 20:50:09 noble-sunbeam snapd[321722]: main.run(0xc00029a1c0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:169 +0x406 fp=0xc000075ec0 sp=0xc000075db0 pc=0x5620b9ce2166
+May 13 20:50:09 noble-sunbeam snapd[321722]: main.main()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:71 +0x14f fp=0xc000075f50 sp=0xc000075ec0 pc=0x5620b9ce198f
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.main()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:272 +0x29d fp=0xc000075fe0 sp=0xc000075f50 pc=0x5620b917d7dd
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000075fe8 sp=0xc000075fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 2 gp=0xc000006c40 m=nil [runnable]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.semrelease1(0x5620bac91398?, 0x0, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/sema.go:193 +0x219 fp=0xc000062ed8 sp=0xc000062ed0 pc=0x5620b91911f9
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.semrelease(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/sema.go:190
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcStart({0x294b214607de?, 0x0?, 0x0?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:813 +0x556 fp=0xc000062fa8 sp=0xc000062ed8 pc=0x5620b915a6f6
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.forcegchelper()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:343 +0x6a fp=0xc000062fe0 sp=0xc000062fa8 pc=0x5620b917daca
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000062fe8 sp=0xc000062fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.init.7 in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:325 +0x1a
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 18 gp=0xc000104380 m=nil [GC sweep wait, 407 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x5620bac8f601?, 0x5620bac8f600?, 0xc?, 0x9?, 0x1?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005e780 sp=0xc00005e760 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goparkunlock(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:430
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.bgsweep(0xc000112000)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgcsweep.go:317 +0xdf fp=0xc00005e7c8 sp=0xc00005e780 pc=0x5620b916573f
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcenable.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:204 +0x25 fp=0xc00005e7e0 sp=0xc00005e7c8 pc=0x5620b9159da5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005e7e8 sp=0xc00005e7e0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcenable in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:204 +0x66
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 19 gp=0xc000104540 m=nil [runnable]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x2defdd?, 0xeabd69?, 0x0?, 0x0?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005ef78 sp=0xc00005ef58 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goparkunlock(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:430
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.(*scavengerState).park(0x5620bac901a0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgcscavenge.go:425 +0x49 fp=0xc00005efa8 sp=0xc00005ef78 pc=0x5620b9163129
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.bgscavenge(0xc000112000)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgcscavenge.go:658 +0x59 fp=0xc00005efc8 sp=0xc00005efa8 pc=0x5620b91636b9
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcenable.gowrap2()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:205 +0x25 fp=0xc00005efe0 sp=0xc00005efc8 pc=0x5620b9159d45
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005efe8 sp=0xc00005efe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcenable in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:205 +0xa5
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 20 gp=0xc000104a80 m=nil [finalizer wait, 408 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x0?, 0x5620ba4c48d8?, 0x20?, 0xc0?, 0x2000000020?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000812e20 sp=0xc000812e00 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.runfinq()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mfinal.go:193 +0x107 fp=0xc000812fe0 sp=0xc000812e20 pc=0x5620b9158e27
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000812fe8 sp=0xc000812fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.createfing in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mfinal.go:163 +0x3d
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 21 gp=0xc000104fc0 m=nil [runnable]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0xc00005f760?, 0x5620b9308025?, 0x50?, 0x53?, 0x5620ba4eae00?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005f718 sp=0xc00005f6f8 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.chanrecv(0xc00011a460, 0x0, 0x1)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/chan.go:639 +0x41c fp=0xc00005f790 sp=0xc00005f718 pc=0x5620b914971c
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.chanrecv1(0x0?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/chan.go:489 +0x12 fp=0xc00005f7b8 sp=0xc00005f790 pc=0x5620b91492d2
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.unique_runtime_registerUniqueMapCleanup.func1(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1781
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.unique_runtime_registerUniqueMapCleanup.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1784 +0x2f fp=0xc00005f7e0 sp=0xc00005f7b8 pc=0x5620b915ce0f
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005f7e8 sp=0xc00005f7e0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by unique.runtime_registerUniqueMapCleanup in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1779 +0x96
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 22 gp=0xc000105340 m=nil [GC worker (idle), 407 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x1313ee8f1008?, 0x2?, 0x1d?, 0xea?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005ff38 sp=0xc00005ff18 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkWorker(0xc00011a7e0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc00005ffc8 sp=0xc00005ff38 pc=0x5620b915c109
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc00005ffe0 sp=0xc00005ffc8 pc=0x5620b915bfe5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005ffe8 sp=0xc00005ffe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 23 gp=0xc000105500 m=nil [GC worker (idle)]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x5620bacb3280?, 0x2?, 0x8e?, 0x5e?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000060738 sp=0xc000060718 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkWorker(0xc00011a7e0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0000607c8 sp=0xc000060738 pc=0x5620b915c109
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0000607e0 sp=0xc0000607c8 pc=0x5620b915bfe5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000607e8 sp=0xc0000607e0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 24 gp=0xc0001056c0 m=nil [runnable]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcMarkDone()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:858 +0x37a fp=0xc000060f38 sp=0xc000060f30 pc=0x5620b915ac1a
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkWorker(0xc00011a7e0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1548 +0x345 fp=0xc000060fc8 sp=0xc000060f38 pc=0x5620b915c365
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc000060fe0 sp=0xc000060fc8 pc=0x5620b915bfe5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000060fe8 sp=0xc000060fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 25 gp=0xc000105880 m=nil [GC worker (idle)]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x294b29a3428c?, 0x3?, 0xae?, 0xa5?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000061738 sp=0xc000061718 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkWorker(0xc00011a7e0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0000617c8 sp=0xc000061738 pc=0x5620b915c109
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0000617e0 sp=0xc0000617c8 pc=0x5620b915bfe5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000617e8 sp=0xc0000617e0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 26 gp=0xc000105a40 m=nil [GC worker (idle), 407 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x5620bacb3280?, 0x1?, 0xd7?, 0xb5?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000061f38 sp=0xc000061f18 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkWorker(0xc00011a7e0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc000061fc8 sp=0xc000061f38 pc=0x5620b915c109
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc000061fe0 sp=0xc000061fc8 pc=0x5620b915bfe5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000061fe8 sp=0xc000061fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 27 gp=0xc000105c00 m=nil [GC worker (idle), 411 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x12d765f3a051?, 0x3?, 0xc0?, 0x37?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc0004ac738 sp=0xc0004ac718 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkWorker(0xc00011a7e0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0004ac7c8 sp=0xc0004ac738 pc=0x5620b915c109
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0004ac7e0 sp=0xc0004ac7c8 pc=0x5620b915bfe5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0004ac7e8 sp=0xc0004ac7e0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 30 gp=0xc000105dc0 m=8 mp=0xc000386e08 [syscall, 552 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.notetsleepg(0x5620bacb27a0, 0xffffffffffffffff)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/lock_futex.go:246 +0x29 fp=0xc0004ab7a0 sp=0xc0004ab778 pc=0x5620b914f1c9
+May 13 20:50:09 noble-sunbeam snapd[321722]: os/signal.signal_recv()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/sigqueue.go:152 +0x29 fp=0xc0004ab7c0 sp=0xc0004ab7a0 pc=0x5620b91b6569
+May 13 20:50:09 noble-sunbeam snapd[321722]: os/signal.loop()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/signal/signal_unix.go:23 +0x13 fp=0xc0004ab7e0 sp=0xc0004ab7c0 pc=0x5620b9261b73
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0004ab7e8 sp=0xc0004ab7e0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by os/signal.Notify.func1.1 in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/signal/signal.go:151 +0x1f
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 36 gp=0xc0002ea380 m=nil [select, 552 minutes, locked to thread]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0xc0004abfa8?, 0x2?, 0xa8?, 0xbe?, 0xc0004abf94?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc0004abe30 sp=0xc0004abe10 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.selectgo(0xc0004abfa8, 0xc0004abf90, 0x0?, 0x0, 0x0?, 0x1)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc0004abf58 sp=0xc0004abe30 pc=0x5620b918fde5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.ensureSigM.func1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/signal_unix.go:1077 +0x1a5 fp=0xc0004abfe0 sp=0xc0004abf58 pc=0x5620b91ab8e5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0004abfe8 sp=0xc0004abfe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by runtime.ensureSigM in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/signal_unix.go:1060 +0xc8
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 5 gp=0xc000007c00 m=nil [runnable]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0xc000074fb0?, 0x2?, 0xa1?, 0x20?, 0xc000074f94?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000074e38 sp=0xc000074e18 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.selectgo(0xc000074fb0, 0xc000074f90, 0x0?, 0x0, 0xc0000df030?, 0x1)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000074f60 sp=0xc000074e38 pc=0x5620b918fde5
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start.func1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/standby/standby.go:105 +0xea fp=0xc000074fe0 sp=0xc000074f60 pc=0x5620b9c86faa
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000074fe8 sp=0xc000074fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/standby/standby.go:96 +0x96
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 6 gp=0xc000007dc0 m=nil [IO wait, 552 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000801a88 sp=0xc000801a68 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.netpollblock(0x0?, 0xb9146ba6?, 0x20?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc000801ac0 sp=0xc000801a88 pc=0x5620b9176137
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.runtime_pollWait(0x7d9b2fa181f0, 0x72)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc000801ae0 sp=0xc000801ac0 pc=0x5620b91b3805
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*pollDesc).wait(0xc00009a600?, 0xc0008ad770?, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000801b08 sp=0xc000801ae0 pc=0x5620b92384c7
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*pollDesc).waitRead(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*FD).ReadMsg(0xc00009a600, {0xc0008ad770, 0x10, 0x10}, {0xc0006e9328, 0x1000, 0x1000}, 0x40000000)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_unix.go:302 +0x385 fp=0xc000801bf0 sp=0xc000801b08 pc=0x5620b923a985
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*netFD).readMsg(0xc00009a600, {0xc0008ad770?, 0x8?, 0x2f07000000?}, {0xc0006e9328?, 0x5620ba4dc870?, 0x0?}, 0x1?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/fd_posix.go:78 +0x31 fp=0xc000801c78 sp=0xc000801bf0 pc=0x5620b9322611
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*UnixConn).readMsg(0xc0000e4108, {0xc0008ad770?, 0x5620b9154a4b?, 0x7d9ae6834338?}, {0xc0006e9328?, 0xc0008ad688?, 0x5620ba2dc920?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/unixsock_posix.go:115 +0x45 fp=0xc000801d08 sp=0xc000801c78 pc=0x5620b933e8a5
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*UnixConn).ReadMsgUnix(0xc0000e4108, {0xc0008ad770?, 0xc000801dc8?, 0x5620b91f1cc6?}, {0xc0006e9328?, 0x7d9ae6834338?, 0x18?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/unixsock.go:143 +0x36 fp=0xc000801d80 sp=0xc000801d08 pc=0x5620b933cb16
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/godbus/dbus.(*oobReader).Read(0xc0006e9308, {0xc0008ad770?, 0xc000801e30?, 0x5620b91502a5?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:21 +0x3c fp=0xc000801df8 sp=0xc000801d80 pc=0x5620b962c45c
+May 13 20:50:09 noble-sunbeam snapd[321722]: io.ReadAtLeast({0x5620ba4cf960, 0xc0006e9308}, {0xc0008ad770, 0x10, 0x10}, 0x10)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/io/io.go:335 +0x90 fp=0xc000801e40 sp=0xc000801df8 pc=0x5620b922df70
+May 13 20:50:09 noble-sunbeam snapd[321722]: io.ReadFull(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/io/io.go:354
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc0006d2a38)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:91 +0xfe fp=0xc000801f68 sp=0xc000801e40 pc=0x5620b962ca1e
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/godbus/dbus.(*Conn).inWorker(0xc000980b40)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/conn.go:294 +0x35 fp=0xc000801fc8 sp=0xc000801f68 pc=0x5620b9617115
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/godbus/dbus.(*Conn).Auth.gowrap1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/auth.go:118 +0x25 fp=0xc000801fe0 sp=0xc000801fc8 pc=0x5620b96145c5
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000801fe8 sp=0xc000801fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by github.com/godbus/dbus.(*Conn).Auth in goroutine 78
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/auth.go:118 +0x8ee
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 79 gp=0xc000502540 m=nil [IO wait, 409 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000079b30 sp=0xc000079b10 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.netpollblock(0x5620b918ef89?, 0xb9146ba6?, 0x20?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc000079b68 sp=0xc000079b30 pc=0x5620b9176137
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.runtime_pollWait(0x7d9b2fa18308, 0x72)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc000079b88 sp=0xc000079b68 pc=0x5620b91b3805
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*pollDesc).wait(0xc00019cb80?, 0x7d9b2fcdf108?, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000079bb0 sp=0xc000079b88 pc=0x5620b92384c7
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*pollDesc).waitRead(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*FD).Accept(0xc00019cb80)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295 fp=0xc000079c58 sp=0xc000079bb0 pc=0x5620b923d895
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*netFD).accept(0xc00019cb80)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/fd_unix.go:172 +0x29 fp=0xc000079d10 sp=0xc000079c58 pc=0x5620b93241c9
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*UnixListener).accept(0xc000079d88?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/unixsock_posix.go:172 +0x16 fp=0xc000079d38 sp=0xc000079d10 pc=0x5620b933efd6
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*UnixListener).Accept(0xc00044e480)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/unixsock.go:260 +0x30 fp=0xc000079d68 sp=0xc000079d38 pc=0x5620b933d7f0
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x5620b9465345?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f fp=0xc000079de0 sp=0xc000079d68 pc=0x5620b9cdbc7f
+May 13 20:50:09 noble-sunbeam snapd[321722]: net/http.(*onceCloseListener).Accept(0xc0007327e0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         <autogenerated>:1 +0x24 fp=0xc000079df8 sp=0xc000079de0 pc=0x5620b948d304
+May 13 20:50:09 noble-sunbeam snapd[321722]: net/http.(*Server).Serve(0xc0000b40f0, {0x5620ba4d56c8, 0xc00044e4e0})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/http/server.go:3330 +0x30c fp=0xc000079f28 sp=0xc000079df8 pc=0x5620b94651cc
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/daemon.(*Daemon).Start.func3()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/daemon/daemon.go:402 +0x7f fp=0xc000079f68 sp=0xc000079f28 pc=0x5620b9cd2a1f
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0000b4050, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc000079fc0 sp=0xc000079f68 pc=0x5620b953b8eb
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc000079fe0 sp=0xc000079fc0 pc=0x5620b953b825
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000079fe8 sp=0xc000079fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 146 gp=0xc000502a80 m=nil [select, 552 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0xc0009e3ef0?, 0x3?, 0xc0?, 0x12?, 0xc0009e3e62?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000813d00 sp=0xc000813ce0 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.selectgo(0xc000813ef0, 0xc0009e3e5c, 0xc000741530?, 0x0, 0x50?, 0x1)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000813e28 sp=0xc000813d00 pc=0x5620b918fde5
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord/ifacestate/udevmonitor.(*Monitor).Run.func1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/ifacestate/udevmonitor/udevmon.go:147 +0x292 fp=0xc000813f68 sp=0xc000813e28 pc=0x5620b9ad1872
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0008a4360, 0xc0001abb90?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc000813fc0 sp=0xc000813f68 pc=0x5620b953b8eb
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 20:50:08 noble-sunbeam systemd[1]: snapd.service: Watchdog timeout (limit 5min)!
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc000813fe0 sp=0xc000813fc0 pc=0x5620b953b825
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000813fe8 sp=0xc000813fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 78
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 59 gp=0xc000502fc0 m=nil [IO wait, 407 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc0004bfb30 sp=0xc0004bfb10 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.netpollblock(0x5620b918ef89?, 0xb9146ba6?, 0x20?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc0004bfb68 sp=0xc0004bfb30 pc=0x5620b9176137
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.runtime_pollWait(0x7d9b2fa18420, 0x72)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc0004bfb88 sp=0xc0004bfb68 pc=0x5620b91b3805
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*pollDesc).wait(0xc00019cc80?, 0x7d9b2fcdfa68?, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc0004bfbb0 sp=0xc0004bfb88 pc=0x5620b92384c7
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*pollDesc).waitRead(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 13 20:50:09 noble-sunbeam snapd[321722]: internal/poll.(*FD).Accept(0xc00019cc80)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295 fp=0xc0004bfc58 sp=0xc0004bfbb0 pc=0x5620b923d895
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*netFD).accept(0xc00019cc80)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/fd_unix.go:172 +0x29 fp=0xc0004bfd10 sp=0xc0004bfc58 pc=0x5620b93241c9
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*UnixListener).accept(0xc0004bfd88?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/unixsock_posix.go:172 +0x16 fp=0xc0004bfd38 sp=0xc0004bfd10 pc=0x5620b933efd6
+May 13 20:50:09 noble-sunbeam snapd[321722]: net.(*UnixListener).Accept(0xc00044e4b0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/unixsock.go:260 +0x30 fp=0xc0004bfd68 sp=0xc0004bfd38 pc=0x5620b933d7f0
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x5620b9465345?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f fp=0xc0004bfde0 sp=0xc0004bfd68 pc=0x5620b9cdbc7f
+May 13 20:50:09 noble-sunbeam snapd[321722]: net/http.(*onceCloseListener).Accept(0xc0008a4480?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         <autogenerated>:1 +0x24 fp=0xc0004bfdf8 sp=0xc0004bfde0 pc=0x5620b948d304
+May 13 20:50:08 noble-sunbeam systemd[1]: snapd.service: Killing process 321722 (snapd) with signal SIGABRT.
+May 13 20:50:09 noble-sunbeam snapd[321722]: net/http.(*Server).Serve(0xc0000b40f0, {0x5620ba4d56c8, 0xc00044e510})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/net/http/server.go:3330 +0x30c fp=0xc0004bff28 sp=0xc0004bfdf8 pc=0x5620b94651cc
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/daemon.(*Daemon).Start.func3.1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/daemon/daemon.go:394 +0x2c fp=0xc0004bff68 sp=0xc0004bff28 pc=0x5620b9cd2aec
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0000b4050, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc0004bffc0 sp=0xc0004bff68 pc=0x5620b953b8eb
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc0004bffe0 sp=0xc0004bffc0 pc=0x5620b953b825
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0004bffe8 sp=0xc0004bffe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 79
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 78 gp=0xc000503180 m=nil [runnable]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.makeslicecopy(0x5620ba30dc60?, 0x4d?, 0x4c?, 0xc0005080f0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/slice.go:38 +0x157 fp=0xc00032abe8 sp=0xc00032abe0 pc=0x5620b9194b37
+May 13 20:50:09 noble-sunbeam snapd[321722]: syscall.ByteSliceFromString({0xc0005080f0, 0x4c})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/syscall/syscall.go:52 +0x86 fp=0xc00032ac20 sp=0xc00032abe8 pc=0x5620b91d38c6
+May 13 20:50:09 noble-sunbeam snapd[321722]: syscall.BytePtrFromString(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/syscall/syscall.go:68
+May 13 20:50:09 noble-sunbeam snapd[321722]: syscall.openat(0xffffffffffffff9c, {0xc0005080f0?, 0xb?}, 0x80000, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/syscall/zsyscall_linux_amd64.go:94 +0x36 fp=0xc00032ac88 sp=0xc00032ac20 pc=0x5620b91d6976
+May 13 20:50:09 noble-sunbeam snapd[321722]: syscall.Open(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/syscall/syscall_linux.go:284
+May 13 20:50:09 noble-sunbeam snapd[321722]: os.open({0xc0005080f0?, 0x50?}, 0x16?, 0x2fcdff18?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/file_open_unix.go:15 +0x2b fp=0xc00032acc0 sp=0xc00032ac88 pc=0x5620b9246eab
+May 13 20:50:09 noble-sunbeam snapd[321722]: os.openFileNolog.func1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/file_unix.go:279 +0x92 fp=0xc00032ad08 sp=0xc00032acc0 pc=0x5620b9248352
+May 13 20:50:09 noble-sunbeam snapd[321722]: os.ignoringEINTR(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/file_posix.go:251
+May 13 20:50:09 noble-sunbeam snapd[321722]: os.openFileNolog({0xc0005080f0, 0x4c}, 0x0, 0xb9298977?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/file_unix.go:278 +0xae fp=0xc00032ada0 sp=0xc00032ad08 pc=0x5620b924816e
+May 13 20:50:09 noble-sunbeam snapd[321722]: os.OpenFile({0xc0005080f0, 0x4c}, 0x0, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/file.go:385 +0x3e fp=0xc00032add0 sp=0xc00032ada0 pc=0x5620b92463fe
+May 13 20:50:09 noble-sunbeam snapd[321722]: os.Open(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/file.go:365
+May 13 20:50:09 noble-sunbeam snapd[321722]: os.ReadFile({0xc0005080f0?, 0x6?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/os/file.go:784 +0x56 fp=0xc00032aea0 sp=0xc00032add0 pc=0x5620b9246a56
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.readEntry({0xc00014c4e0, 0x24}, {0xc00032af58?, 0x20?, 0x4?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/fsentryutils.go:68 +0x6c fp=0xc00032aee8 sp=0xc00032aea0 pc=0x5620b95c162c
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).readAssertion(0xc000508096?, 0x5620bac7de00, {0xc00050807b?, 0x1?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:57 +0x79 fp=0xc00032af88 sp=0xc00032aee8 pc=0x5620b95be859
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).pickLatestAssertion(0xc0001aa0f0, 0x5620bac7de00, {0xc00045e020?, 0x1?, 0x0?}, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:88 +0x12d fp=0xc00032b030 sp=0xc00032af88 pc=0x5620b95beb6d
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).currentAssertion.func1({0xc00045e020?, 0x2a?, 0xc000508050?})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:136 +0x45 fp=0xc00032b088 sp=0xc00032b030 pc=0x5620b95bf345
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.findWildcardBottom({0xc00089be60, 0x2a}, {0xc000718640, 0x45}, {0x5620b9ce67ee, 0x7}, {0xc00045e000?, 0x5620b9293c30?, 0xc00032b248?}, 0xc00032b740)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:84 +0x3cc fp=0xc00032b180 sp=0xc00032b088 pc=0x5620b95bd6ec
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc00089be60, 0x2a}, {0xc000718640, 0x45}, {0xc0000ac770, 0x1, 0x1}, 0x0, 0xc00032b740)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:114 +0x2f9 fp=0xc00032b2c8 sp=0xc00032b180 pc=0x5620b95bda59
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc00089be60, 0x2a}, {0xc000a9c9c0, 0x35}, {0xc0000ac760, 0x2, 0x2}, 0x0, 0xc00032b740)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:96 +0x45e fp=0xc00032b410 sp=0xc00032b2c8 pc=0x5620b95bdbbe
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc00089be60, 0x2a}, {0xc00089be90, 0x2d}, {0xc0000ac750, 0x3, 0x3}, 0x0, 0xc00032b740)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:96 +0x45e fp=0xc00032b558 sp=0xc00032b410 pc=0x5620b95bdbbe
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc00089be60, 0x2a}, {0xc00089be60, 0x2a}, {0xc0000ac740, 0x4, 0x4}, 0x0, 0xc00032b740)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:96 +0x45e fp=0xc00032b6a0 sp=0xc00032b558 pc=0x5620b95bdbbe
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.findWildcard(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:51
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).currentAssertion(0xc0001aa0f0, 0x5620bac7de00, {0xc000831f50?, 0x5620b91c7199?, 0x4?}, 0x5620ba4cc6e0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:145 +0x125 fp=0xc00032b798 sp=0xc00032b6a0 pc=0x5620b95bf1c5
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).Get(0x5620ba4cc6e0?, 0x5620bac7de00, {0xc000831f50, 0x3, 0x3}, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:195 +0xef fp=0xc00032b858 sp=0xc00032b798 pc=0x5620b95bf9af
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.find({0xc0001aa5a0, 0x3, 0x5620b9ce4316?}, 0x5620bac7de00, 0xc000831f20, 0xffffffffffffffff)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/database.go:567 +0x23d fp=0xc00032b9a0 sp=0xc00032b858 pc=0x5620b95baa5d
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/asserts.(*Database).Find(...)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/asserts/database.go:590
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord/devicestate.findModel(0xc00042c1a0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/devicestate/devicestate.go:85 +0x210 fp=0xc00032ba38 sp=0xc00032b9a0 pc=0x5620b9b51a30
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord/devicestate.canAutoRefresh(0xc00042c1a0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/devicestate/devicestate.go:172 +0x165 fp=0xc00032ba98 sp=0xc00032ba38 pc=0x5620b9b52345
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord/snapstate.(*autoRefresh).Ensure(0xc0000e6230)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/snapstate/autorefresh.go:312 +0x182 fp=0xc00032bc50 sp=0xc00032ba98 pc=0x5620b995d6a2
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord/snapstate.(*SnapManager).Ensure(0xc000116280)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/snapstate/snapmgr.go:1523 +0xa6 fp=0xc00032bdd8 sp=0xc00032bc50 pc=0x5620b99b1466
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord.(*StateEngine).Ensure(0xc000347e10?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/stateengine.go:159 +0x1a5 fp=0xc00032beb0 sp=0xc00032bdd8 pc=0x5620b9c85de5
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/overlord.(*Overlord).Loop.func1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/overlord/overlord.go:478 +0x45 fp=0xc00032bf68 sp=0xc00032beb0 pc=0x5620b9c84545
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0000e62d0, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc00032bfc0 sp=0xc00032bf68 pc=0x5620b953b8eb
+May 13 20:50:09 noble-sunbeam snapd[321722]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc00032bfe0 sp=0xc00032bfc0 pc=0x5620b953b825
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00032bfe8 sp=0xc00032bfe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 80 gp=0xc000503340 m=nil [runnable]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.gopark(0xc000811fa8?, 0x2?, 0x0?, 0x0?, 0xc000811f94?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000811e38 sp=0xc000811e18 pc=0x5620b91b450e
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.selectgo(0xc000811fa8, 0xc000811f90, 0x0?, 0x0, 0x0?, 0x1)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000811f60 sp=0xc000811e38 pc=0x5620b918fde5
+May 13 20:50:09 noble-sunbeam snapd[321722]: main.runWatchdog.func1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:107 +0x99 fp=0xc000811fe0 sp=0xc000811f60 pc=0x5620b9ce1d39
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000811fe8 sp=0xc000811fe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by main.runWatchdog in goroutine 1
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:105 +0x107
+May 13 20:50:09 noble-sunbeam snapd[321722]: goroutine 101 gp=0xc0003cea80 m=7 mp=0xc000101508 [syscall, 491 minutes]:
+May 13 20:50:09 noble-sunbeam snapd[321722]: syscall.Syscall6(0x17, 0xc, 0xc0004bee10, 0x0, 0x0, 0x0, 0x0)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/syscall/syscall_linux.go:95 +0x39 fp=0xc0004bed70 sp=0xc0004bed10 pc=0x5620b91da8b9
+May 13 20:50:09 noble-sunbeam snapd[321722]: syscall.Select(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/syscall/zsyscall_linux_amd64.go:1298 +0x4a fp=0xc0004bede0 sp=0xc0004bed70 pc=0x5620b91d92ca
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/osutil/udev/netlink.stopperSelectReadable(0xc0007ee420?, 0xb)
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:57 +0x191 fp=0xc0004beed0 sp=0xc0004bede0 pc=0x5620b9acf431
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/osutil/udev/netlink.RawSockStopper.func1()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:31 +0x58 fp=0xc0004bef00 sp=0xc0004beed0 pc=0x5620b9acf278
+May 13 20:50:09 noble-sunbeam snapd[321722]: github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor.func4()
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:139 +0x77 fp=0xc0004befe0 sp=0xc0004bef00 pc=0x5620b9ace097
+May 13 20:50:09 noble-sunbeam snapd[321722]: runtime.goexit({})
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0004befe8 sp=0xc0004befe0 pc=0x5620b91bc9e1
+May 13 20:50:09 noble-sunbeam snapd[321722]: created by github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor in goroutine 78
+May 13 20:50:09 noble-sunbeam snapd[321722]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:136 +0x2a8
+May 13 20:50:09 noble-sunbeam snapd[321722]: rax    0x0
+May 13 20:50:09 noble-sunbeam snapd[321722]: rbx    0x2710
+May 13 20:50:09 noble-sunbeam snapd[321722]: rcx    0x5620b91be1f7
+May 13 20:50:09 noble-sunbeam snapd[321722]: rdx    0x0
+May 13 20:50:09 noble-sunbeam snapd[321722]: rdi    0x7d9ae91fed20
+May 13 20:50:09 noble-sunbeam snapd[321722]: rsi    0x0
+May 13 20:50:09 noble-sunbeam snapd[321722]: rbp    0x7d9ae91fed30
+May 13 20:50:09 noble-sunbeam snapd[321722]: rsp    0x7d9ae91fed20
+May 13 20:50:09 noble-sunbeam snapd[321722]: r8     0xa15
+May 13 20:50:09 noble-sunbeam snapd[321722]: r9     0x0
+May 13 20:50:09 noble-sunbeam snapd[321722]: r10    0x0
+May 13 20:50:09 noble-sunbeam snapd[321722]: r11    0x202
+May 13 20:50:09 noble-sunbeam snapd[321722]: r12    0x7d9ae91fe738
+May 13 20:50:09 noble-sunbeam snapd[321722]: r13    0x133202004
+May 13 20:50:09 noble-sunbeam snapd[321722]: r14    0xc000006a80
+May 13 20:50:09 noble-sunbeam snapd[321722]: r15    0x1fffffffffffffff
+May 13 20:50:09 noble-sunbeam snapd[321722]: rip    0x5620b91be1f7
+May 13 20:50:09 noble-sunbeam snapd[321722]: rflags 0x202
+May 13 20:50:09 noble-sunbeam snapd[321722]: cs     0x33
+May 13 20:50:09 noble-sunbeam snapd[321722]: fs     0x0
+May 13 20:50:09 noble-sunbeam snapd[321722]: gs     0x0
+May 13 20:50:09 noble-sunbeam systemd[1]: snapd.service: Main process exited, code=exited, status=2/INVALIDARGUMENT
+May 13 20:50:09 noble-sunbeam systemd[1]: snapd.service: Failed with result 'watchdog'.
+May 13 20:50:09 noble-sunbeam systemd[1]: snapd.service: Scheduled restart job, restart counter is at 2.
+May 13 20:50:09 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 13 20:50:17 noble-sunbeam snapd[808905]: overlord.go:284: Acquiring state lock file
+May 13 20:50:17 noble-sunbeam snapd[808905]: overlord.go:289: Acquired state lock file
+May 13 20:50:17 noble-sunbeam snapd[808905]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 13 20:50:18 noble-sunbeam snapd[808905]: daemon.go:353: adjusting startup timeout by 1m15s (pessimistic estimate of 30s plus 5s per snap)
+May 13 20:50:19 noble-sunbeam snapd[808905]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 13 20:50:22 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+-- Boot 691e7410f61e47a0a6691a883fd965f3 --
+May 13 20:51:56 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 13 20:51:58 noble-sunbeam snapd[1048]: overlord.go:284: Acquiring state lock file
+May 13 20:51:58 noble-sunbeam snapd[1048]: overlord.go:289: Acquired state lock file
+May 13 20:51:58 noble-sunbeam snapd[1048]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 13 20:51:58 noble-sunbeam snapd[1048]: daemon.go:353: adjusting startup timeout by 1m15s (pessimistic estimate of 30s plus 5s per snap)
+May 13 20:51:59 noble-sunbeam snapd[1048]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 13 20:51:59 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 13 21:22:19 noble-sunbeam snapd[1048]: main.go:171: Exiting on terminated signal.
+May 13 21:22:19 noble-sunbeam systemd[1]: Stopping snapd.service - Snap Daemon...
+May 13 21:22:22 noble-sunbeam snapd[1048]: overlord.go:528: Released state lock file
+May 13 21:22:22 noble-sunbeam systemd[1]: snapd.service: Deactivated successfully.
+May 13 21:22:22 noble-sunbeam systemd[1]: Stopped snapd.service - Snap Daemon.
+May 13 21:22:22 noble-sunbeam systemd[1]: snapd.service: Consumed 8.459s CPU time, 75.7M memory peak, 0B memory swap peak.
+-- Boot 905f6768aa044bbc8dd624b916eddd9a --
+May 14 04:22:03 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 14 04:22:07 noble-sunbeam snapd[1046]: overlord.go:284: Acquiring state lock file
+May 14 04:22:07 noble-sunbeam snapd[1046]: overlord.go:289: Acquired state lock file
+May 14 04:22:07 noble-sunbeam snapd[1046]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 14 04:22:07 noble-sunbeam snapd[1046]: daemon.go:353: adjusting startup timeout by 1m15s (pessimistic estimate of 30s plus 5s per snap)
+May 14 04:22:08 noble-sunbeam snapd[1046]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 14 04:22:08 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 14 04:25:09 noble-sunbeam snapd[1046]: storehelpers.go:916: cannot refresh:
+May 14 04:25:09 noble-sunbeam snapd[1046]: snap has no updates available: "core20", "core22", "core24", "juju", "lxd", "openstack", "openstack-hypervisor", "snapd"
+May 14 04:25:09 noble-sunbeam snapd[1046]: no snap revision available as specified: "k8s"
+May 14 07:07:13 noble-sunbeam snapd[1046]: SIGABRT: abort
+May 14 07:07:13 noble-sunbeam snapd[1046]: PC=0x5870e1c4f7e1 m=0 sigcode=0
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 0 gp=0x5870e3721ae0 m=0 mp=0x5870e3722b60 [idle]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.futex(0x5870e3722ca0, 0x80, 0x0, 0x0, 0x0, 0x0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/sys_linux_amd64.s:557 +0x21 fp=0x7ffc14415d60 sp=0x7ffc14415d58 pc=0x5870e1c4f7e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.futexsleep(0x7ffc14415dd8?, 0xe3721ae0?, 0x7ffc14415dd8?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/os_linux.go:69 +0x30 fp=0x7ffc14415db0 sp=0x7ffc14415d60 pc=0x5870e1c07e90
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.notesleep(0x5870e3722ca0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/lock_futex.go:170 +0x87 fp=0x7ffc14415de8 sp=0x7ffc14415db0 pc=0x5870e1bdfee7
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.mPark(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:1866
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.stoplockedm()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:3141 +0x73 fp=0x7ffc14415e40 sp=0x7ffc14415de8 pc=0x5870e1c13d13
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.schedule()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:3975 +0x3a fp=0x7ffc14415e78 sp=0x7ffc14415e40 pc=0x5870e1c1605a
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.park_m(0xc0001921c0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:4103 +0x1eb fp=0x7ffc14415ed0 sp=0x7ffc14415e78 pc=0x5870e1c164eb
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.mcall()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:459 +0x50 fp=0x7ffc14415ee8 sp=0x7ffc14415ed0 pc=0x5870e1c4b990
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 1 gp=0xc0000061c0 m=nil [select, 165 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0xc000047e48?, 0x3?, 0xd8?, 0x7c?, 0xc000047dea?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00058ec88 sp=0xc00058ec68 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.selectgo(0xc00058ee48, 0xc000047de4, 0xc000047e98?, 0x0, 0xedfb6116f?, 0x1)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc00058edb0 sp=0xc00058ec88 pc=0x5870e1c20de5
+May 14 07:07:13 noble-sunbeam snapd[1046]: main.run(0xc0001488c0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:169 +0x406 fp=0xc00058eec0 sp=0xc00058edb0 pc=0x5870e2773166
+May 14 07:07:13 noble-sunbeam snapd[1046]: main.main()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:71 +0x14f fp=0xc00058ef50 sp=0xc00058eec0 pc=0x5870e277298f
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.main()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:272 +0x29d fp=0xc00058efe0 sp=0xc00058ef50 pc=0x5870e1c0e7dd
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00058efe8 sp=0xc00058efe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 2 gp=0xc000007340 m=nil [force gc (idle), 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x905f0be35e8?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000062fa8 sp=0xc000062f88 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goparkunlock(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:430
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.forcegchelper()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:337 +0xb8 fp=0xc000062fe0 sp=0xc000062fa8 pc=0x5870e1c0eb18
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000062fe8 sp=0xc000062fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.init.7 in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:325 +0x1a
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 3 gp=0xc000007500 m=nil [GC sweep wait, 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x5870e3720601?, 0x5870e3720600?, 0xc?, 0x9?, 0x1?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000063780 sp=0xc000063760 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goparkunlock(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:430
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.bgsweep(0xc000098000)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgcsweep.go:317 +0xdf fp=0xc0000637c8 sp=0xc000063780 pc=0x5870e1bf673f
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcenable.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:204 +0x25 fp=0xc0000637e0 sp=0xc0000637c8 pc=0x5870e1beada5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000637e8 sp=0xc0000637e0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcenable in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:204 +0x66
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 4 gp=0xc0000076c0 m=nil [runnable]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x1634b7c?, 0x15dc7cc?, 0x0?, 0x0?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000063f78 sp=0xc000063f58 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goparkunlock(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:430
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.(*scavengerState).park(0x5870e37211a0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgcscavenge.go:425 +0x49 fp=0xc000063fa8 sp=0xc000063f78 pc=0x5870e1bf4129
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.bgscavenge(0xc000098000)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgcscavenge.go:658 +0x59 fp=0xc000063fc8 sp=0xc000063fa8 pc=0x5870e1bf46b9
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcenable.gowrap2()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:205 +0x25 fp=0xc000063fe0 sp=0xc000063fc8 pc=0x5870e1bead45
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000063fe8 sp=0xc000063fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcenable in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:205 +0xa5
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 18 gp=0xc000192000 m=nil [finalizer wait, 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x0?, 0x5870e2f558d8?, 0x20?, 0x0?, 0x2000000020?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000079e20 sp=0xc000079e00 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.runfinq()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mfinal.go:193 +0x107 fp=0xc000079fe0 sp=0xc000079e20 pc=0x5870e1be9e27
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000079fe8 sp=0xc000079fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.createfing in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mfinal.go:163 +0x3d
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 19 gp=0xc000192380 m=nil [runnable]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0xc00005ef60?, 0x5870e1d99025?, 0xe0?, 0x27?, 0x5870e2f7be00?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00005ef18 sp=0xc00005eef8 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.chanrecv(0xc000186230, 0x0, 0x1)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/chan.go:639 +0x41c fp=0xc00005ef90 sp=0xc00005ef18 pc=0x5870e1bda71c
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.chanrecv1(0x0?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/chan.go:489 +0x12 fp=0xc00005efb8 sp=0xc00005ef90 pc=0x5870e1bda2d2
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.unique_runtime_registerUniqueMapCleanup.func1(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1781
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.unique_runtime_registerUniqueMapCleanup.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1784 +0x2f fp=0xc00005efe0 sp=0xc00005efb8 pc=0x5870e1bede0f
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00005efe8 sp=0xc00005efe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by unique.runtime_registerUniqueMapCleanup in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1779 +0x96
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 34 gp=0xc000105180 m=nil [GC worker (idle), 103 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x36184cd985f?, 0x2?, 0x88?, 0x78?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000062738 sp=0xc000062718 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkWorker(0xc000366620)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0000627c8 sp=0xc000062738 pc=0x5870e1bed109
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0000627e0 sp=0xc0000627c8 pc=0x5870e1becfe5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000627e8 sp=0xc0000627e0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 35 gp=0xc000105340 m=nil [runnable]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcMarkDone()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:858 +0x37a fp=0xc00048a738 sp=0xc00048a730 pc=0x5870e1bebc1a
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkWorker(0xc000366620)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1548 +0x345 fp=0xc00048a7c8 sp=0xc00048a738 pc=0x5870e1bed365
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc00048a7e0 sp=0xc00048a7c8 pc=0x5870e1becfe5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00048a7e8 sp=0xc00048a7e0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 36 gp=0xc000105500 m=nil [GC worker (idle), 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x5870e3744280?, 0x2?, 0x85?, 0x47?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00048af38 sp=0xc00048af18 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkWorker(0xc000366620)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc00048afc8 sp=0xc00048af38 pc=0x5870e1bed109
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc00048afe0 sp=0xc00048afc8 pc=0x5870e1becfe5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00048afe8 sp=0xc00048afe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 5 gp=0xc00040a700 m=nil [GC worker (idle), 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x5870e3744280?, 0x2?, 0x1f?, 0x86?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000064738 sp=0xc000064718 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam systemd[1]: snapd.service: Watchdog timeout (limit 5min)!
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkWorker(0xc000366620)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc0000647c8 sp=0xc000064738 pc=0x5870e1bed109
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc0000647e0 sp=0xc0000647c8 pc=0x5870e1becfe5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000647e8 sp=0xc0000647e0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 6 gp=0xc00040a8c0 m=nil [GC worker (idle)]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x905fa1e87f7?, 0x3?, 0xff?, 0x99?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000064f38 sp=0xc000064f18 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkWorker(0xc000366620)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc000064fc8 sp=0xc000064f38 pc=0x5870e1bed109
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc000064fe0 sp=0xc000064fc8 pc=0x5870e1becfe5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000064fe8 sp=0xc000064fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 37 gp=0xc000105a40 m=nil [GC worker (idle)]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x5870e3744280?, 0x2?, 0x43?, 0x5d?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00048b738 sp=0xc00048b718 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkWorker(0xc000366620)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1412 +0xe9 fp=0xc00048b7c8 sp=0xc00048b738 pc=0x5870e1bed109
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gcBgMarkStartWorkers.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x25 fp=0xc00048b7e0 sp=0xc00048b7c8 pc=0x5870e1becfe5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00048b7e8 sp=0xc00048b7e0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.gcBgMarkStartWorkers in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/mgc.go:1328 +0x105
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 71 gp=0xc000105c00 m=nil [runnable]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.asyncPreempt2()
+May 14 07:07:13 noble-sunbeam systemd[1]: snapd.service: Killing process 1046 (snapd) with signal SIGABRT.
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/preempt.go:308 +0x39 fp=0xc00070ebd0 sp=0xc00070ebb0 pc=0x5870e1c0d359
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.asyncPreempt()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/preempt_amd64.s:53 +0xdb fp=0xc00070ed58 sp=0xc00070ebd0 pc=0x5870e1c4ef5b
+May 14 07:07:13 noble-sunbeam snapd[1046]: unicode/utf8.Valid({0x5870e2de2ea0, 0xc0007ca180, 0x0})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/unicode/utf8/utf8.go:477 fp=0xc00070ed60 sp=0xc00070ed58 pc=0x5870e1c87380
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.parseHeaders({0xc0000c0c00, 0xd9, 0x3bd?})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/headers.go:40 +0x2f fp=0xc00070ee38 sp=0xc00070ed60 pc=0x5870e20554cf
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.Decode({0xc0000c0400, 0x3bd, 0x5870e2f5d0c8?})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/asserts.go:760 +0x1b7 fp=0xc00070eee8 sp=0xc00070ee38 pc=0x5870e203d837
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).readAssertion(0xc0006dc0e6?, 0x5870e370ee00, {0xc0006dc0cb?, 0x1?})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:64 +0x12c fp=0xc00070ef88 sp=0xc00070eee8 pc=0x5870e204f90c
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).pickLatestAssertion(0xc00040cf60, 0x5870e370ee00, {0xc0003bc1a0?, 0x1?, 0x0?}, 0x0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:88 +0x12d fp=0xc00070f030 sp=0xc00070ef88 pc=0x5870e204fb6d
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).currentAssertion.func1({0xc0003bc1a0?, 0x2a?, 0xc0006dc0a0?})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:136 +0x45 fp=0xc00070f088 sp=0xc00070f030 pc=0x5870e2050345
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.findWildcardBottom({0xc000180270, 0x2a}, {0xc0006dc000, 0x45}, {0x5870e27777ee, 0x7}, {0xc0003bc190?, 0x5870e1d24c30?, 0xc00070f248?}, 0xc00070f740)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:84 +0x3cc fp=0xc00070f180 sp=0xc00070f088 pc=0x5870e204e6ec
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc000180270, 0x2a}, {0xc0006dc000, 0x45}, {0xc000764130, 0x1, 0x1}, 0x0, 0xc00070f740)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:114 +0x2f9 fp=0xc00070f2c8 sp=0xc00070f180 pc=0x5870e204ea59
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc000180270, 0x2a}, {0xc00056e280, 0x35}, {0xc000764120, 0x2, 0x2}, 0x0, 0xc00070f740)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:96 +0x45e fp=0xc00070f410 sp=0xc00070f2c8 pc=0x5870e204ebbe
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc000180270, 0x2a}, {0xc0001802a0, 0x2d}, {0xc000764110, 0x3, 0x3}, 0x0, 0xc00070f740)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:96 +0x45e fp=0xc00070f558 sp=0xc00070f410 pc=0x5870e204ebbe
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.findWildcardDescend({0xc000180270, 0x2a}, {0xc000180270, 0x2a}, {0xc000764100, 0x4, 0x4}, 0x0, 0xc00070f740)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:96 +0x45e fp=0xc00070f6a0 sp=0xc00070f558 pc=0x5870e204ebbe
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.findWildcard(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/findwildcard.go:51
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).currentAssertion(0xc00040cf60, 0x5870e370ee00, {0xc000b00060?, 0x5870e1c58199?, 0x4?}, 0x5870e2f5d6e0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:145 +0x125 fp=0xc00070f798 sp=0xc00070f6a0 pc=0x5870e20501c5
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.(*filesystemBackstore).Get(0x5870e2f5d6e0?, 0x5870e370ee00, {0xc000b00060, 0x3, 0x3}, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/fsbackstore.go:195 +0xef fp=0xc00070f858 sp=0xc00070f798 pc=0x5870e20509af
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.find({0xc00040d1a0, 0x3, 0x5870e2775316?}, 0x5870e370ee00, 0xc000b00030, 0xffffffffffffffff)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/database.go:567 +0x23d fp=0xc00070f9a0 sp=0xc00070f858 pc=0x5870e204ba5d
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/asserts.(*Database).Find(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/asserts/database.go:590
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/devicestate.findModel(0xc000438340)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/devicestate/devicestate.go:85 +0x210 fp=0xc00070fa38 sp=0xc00070f9a0 pc=0x5870e25e2a30
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/devicestate.canAutoRefresh(0xc000438340)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/devicestate/devicestate.go:172 +0x165 fp=0xc00070fa98 sp=0xc00070fa38 pc=0x5870e25e3345
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/snapstate.(*autoRefresh).Ensure(0xc0001564b0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/snapstate/autorefresh.go:312 +0x182 fp=0xc00070fc50 sp=0xc00070fa98 pc=0x5870e23ee6a2
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/snapstate.(*SnapManager).Ensure(0xc00018e280)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/snapstate/snapmgr.go:1523 +0xa6 fp=0xc00070fdd8 sp=0xc00070fc50 pc=0x5870e2442466
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord.(*StateEngine).Ensure(0xc0004380d0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/stateengine.go:159 +0x1a5 fp=0xc00070feb0 sp=0xc00070fdd8 pc=0x5870e2716de5
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord.(*Overlord).Loop.func1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/overlord.go:478 +0x45 fp=0xc00070ff68 sp=0xc00070feb0 pc=0x5870e2715545
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0005ec0a0, 0x6?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc00070ffc0 sp=0xc00070ff68 pc=0x5870e1fcc8eb
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc00070ffe0 sp=0xc00070ffc0 pc=0x5870e1fcc825
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00070ffe8 sp=0xc00070ffe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 70 gp=0xc000105dc0 m=nil [sync.Mutex.Lock, 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x5870e1f20259?, 0xc000592d40?, 0x0?, 0xe0?, 0xc000066ee8?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000592d20 sp=0xc000592d00 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goparkunlock(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:430
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.semacquire1(0xc000438344, 0x0, 0x3, 0x1, 0x15)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/sema.go:178 +0x22c fp=0xc000592d88 sp=0xc000592d20 pc=0x5870e1c21eac
+May 14 07:07:13 noble-sunbeam snapd[1046]: sync.runtime_SemacquireMutex(0xc000438340?, 0x0?, 0x5870e2775366?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/sema.go:95 +0x25 fp=0xc000592dc0 sp=0xc000592d88 pc=0x5870e1c46ae5
+May 14 07:07:13 noble-sunbeam snapd[1046]: sync.(*Mutex).lockSlow(0xc000438340)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/sync/mutex.go:173 +0x15d fp=0xc000592e10 sp=0xc000592dc0 pc=0x5870e1c5a43d
+May 14 07:07:13 noble-sunbeam snapd[1046]: sync.(*Mutex).Lock(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/sync/mutex.go:92
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/state.(*State).Lock(0x5870e1c21352?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/state/state.go:146 +0x31 fp=0xc000592e30 sp=0xc000592e10 pc=0x5870e21941b1
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).CanStandby(0xc0005ec050)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/standby/standby.go:54 +0x49 fp=0xc000592f60 sp=0xc000592e30 pc=0x5870e27178c9
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start.func1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/standby/standby.go:100 +0x6e fp=0xc000592fe0 sp=0xc000592f60 pc=0x5870e2717f2e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000592fe8 sp=0xc000592fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by github.com/snapcore/snapd/overlord/standby.(*StandbyOpinions).Start in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/standby/standby.go:96 +0x96
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 9 gp=0xc0001921c0 m=nil [select, 165 minutes, locked to thread]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0xc0000617a8?, 0x2?, 0xa8?, 0x16?, 0xc000061794?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000061630 sp=0xc000061610 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.selectgo(0xc0000617a8, 0xc000061790, 0x0?, 0x0, 0x0?, 0x1)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000061758 sp=0xc000061630 pc=0x5870e1c20de5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.ensureSigM.func1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/signal_unix.go:1077 +0x1a5 fp=0xc0000617e0 sp=0xc000061758 pc=0x5870e1c3c8e5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc0000617e8 sp=0xc0000617e0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by runtime.ensureSigM in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/signal_unix.go:1060 +0xc8
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 10 gp=0xc000192700 m=3 mp=0xc000068e08 [syscall, 165 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.notetsleepg(0x5870e37437a0, 0xffffffffffffffff)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/lock_futex.go:246 +0x29 fp=0xc000061fa0 sp=0xc000061f78 pc=0x5870e1be01c9
+May 14 07:07:13 noble-sunbeam snapd[1046]: os/signal.signal_recv()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/sigqueue.go:152 +0x29 fp=0xc000061fc0 sp=0xc000061fa0 pc=0x5870e1c47569
+May 14 07:07:13 noble-sunbeam snapd[1046]: os/signal.loop()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/os/signal/signal_unix.go:23 +0x13 fp=0xc000061fe0 sp=0xc000061fc0 pc=0x5870e1cf2b73
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000061fe8 sp=0xc000061fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by os/signal.Notify.func1.1 in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/os/signal/signal.go:151 +0x1f
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 31 gp=0xc00040aa80 m=nil [IO wait, 162 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc00070da88 sp=0xc00070da68 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.netpollblock(0x0?, 0xe1bd7ba6?, 0x70?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc00070dac0 sp=0xc00070da88 pc=0x5870e1c07137
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.runtime_pollWait(0x7c21593c1348, 0x72)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc00070dae0 sp=0xc00070dac0 pc=0x5870e1c44805
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*pollDesc).wait(0xc00075e080?, 0xc000778c30?, 0x0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc00070db08 sp=0xc00070dae0 pc=0x5870e1cc94c7
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*pollDesc).waitRead(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*FD).ReadMsg(0xc00075e080, {0xc000778c30, 0x10, 0x10}, {0xc0002df928, 0x1000, 0x1000}, 0x40000000)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_unix.go:302 +0x385 fp=0xc00070dbf0 sp=0xc00070db08 pc=0x5870e1ccb985
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*netFD).readMsg(0xc00075e080, {0xc000778c30?, 0x8?, 0x2f07000000?}, {0xc0002df928?, 0x5870e2f6d870?, 0x0?}, 0x1?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/fd_posix.go:78 +0x31 fp=0xc00070dc78 sp=0xc00070dbf0 pc=0x5870e1db3611
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*UnixConn).readMsg(0xc000066060, {0xc000778c30?, 0x5870e1be5a4b?, 0x7c21497bdba0?}, {0xc0002df928?, 0xc000778b30?, 0x5870e2d6d920?})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/unixsock_posix.go:115 +0x45 fp=0xc00070dd08 sp=0xc00070dc78 pc=0x5870e1dcf8a5
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*UnixConn).ReadMsgUnix(0xc000066060, {0xc000778c30?, 0xc00070ddc8?, 0x5870e1c82cc6?}, {0xc0002df928?, 0x7c21497bdba0?, 0x18?})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/unixsock.go:143 +0x36 fp=0xc00070dd80 sp=0xc00070dd08 pc=0x5870e1dcdb16
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/godbus/dbus.(*oobReader).Read(0xc0002df908, {0xc000778c30?, 0xc00070de30?, 0x5870e1be12a5?})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:21 +0x3c fp=0xc00070ddf8 sp=0xc00070dd80 pc=0x5870e20bd45c
+May 14 07:07:13 noble-sunbeam snapd[1046]: io.ReadAtLeast({0x5870e2f60960, 0xc0002df908}, {0xc000778c30, 0x10, 0x10}, 0x10)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/io/io.go:335 +0x90 fp=0xc00070de40 sp=0xc00070ddf8 pc=0x5870e1cbef70
+May 14 07:07:13 noble-sunbeam snapd[1046]: io.ReadFull(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/io/io.go:354
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/godbus/dbus.(*unixTransport).ReadMessage(0xc0007222e8)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/transport_unix.go:91 +0xfe fp=0xc00070df68 sp=0xc00070de40 pc=0x5870e20bda1e
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/godbus/dbus.(*Conn).inWorker(0xc0007301b0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/conn.go:294 +0x35 fp=0xc00070dfc8 sp=0xc00070df68 pc=0x5870e20a8115
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/godbus/dbus.(*Conn).Auth.gowrap1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/auth.go:118 +0x25 fp=0xc00070dfe0 sp=0xc00070dfc8 pc=0x5870e20a55c5
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00070dfe8 sp=0xc00070dfe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by github.com/godbus/dbus.(*Conn).Auth in goroutine 71
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/github.com/godbus/dbus/auth.go:118 +0x8ee
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 72 gp=0xc000434380 m=nil [IO wait, 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000074b30 sp=0xc000074b10 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.netpollblock(0x5870e1c1ff89?, 0xe1bd7ba6?, 0x70?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc000074b68 sp=0xc000074b30 pc=0x5870e1c07137
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.runtime_pollWait(0x7c21593c1578, 0x72)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc000074b88 sp=0xc000074b68 pc=0x5870e1c44805
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*pollDesc).wait(0xc0003e9000?, 0x7c21a0678f18?, 0x0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000074bb0 sp=0xc000074b88 pc=0x5870e1cc94c7
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*pollDesc).waitRead(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*FD).Accept(0xc0003e9000)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295 fp=0xc000074c58 sp=0xc000074bb0 pc=0x5870e1cce895
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*netFD).accept(0xc0003e9000)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/fd_unix.go:172 +0x29 fp=0xc000074d10 sp=0xc000074c58 pc=0x5870e1db51c9
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*UnixListener).accept(0xc000074d88?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/unixsock_posix.go:172 +0x16 fp=0xc000074d38 sp=0xc000074d10 pc=0x5870e1dcffd6
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*UnixListener).Accept(0xc0005865d0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/unixsock.go:260 +0x30 fp=0xc000074d68 sp=0xc000074d38 pc=0x5870e1dce7f0
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x5870e1ef6345?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f fp=0xc000074de0 sp=0xc000074d68 pc=0x5870e276cc7f
+May 14 07:07:13 noble-sunbeam snapd[1046]: net/http.(*onceCloseListener).Accept(0xc0006b4c60?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         <autogenerated>:1 +0x24 fp=0xc000074df8 sp=0xc000074de0 pc=0x5870e1f1e304
+May 14 07:07:13 noble-sunbeam snapd[1046]: net/http.(*Server).Serve(0xc00049e1e0, {0x5870e2f666c8, 0xc000586630})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/http/server.go:3330 +0x30c fp=0xc000074f28 sp=0xc000074df8 pc=0x5870e1ef61cc
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/daemon.(*Daemon).Start.func3()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/daemon/daemon.go:402 +0x7f fp=0xc000074f68 sp=0xc000074f28 pc=0x5870e2763a1f
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc00049e140, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc000074fc0 sp=0xc000074f68 pc=0x5870e1fcc8eb
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc000074fe0 sp=0xc000074fc0 pc=0x5870e1fcc825
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000074fe8 sp=0xc000074fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 73 gp=0xc000434540 m=nil [runnable]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0xc000590fa8?, 0x2?, 0x0?, 0x0?, 0xc000590f94?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000590e38 sp=0xc000590e18 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.selectgo(0xc000590fa8, 0xc000590f90, 0x0?, 0x0, 0xc0001487e0?, 0x1)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000590f60 sp=0xc000590e38 pc=0x5870e1c20de5
+May 14 07:07:13 noble-sunbeam snapd[1046]: main.runWatchdog.func1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:107 +0x99 fp=0xc000590fe0 sp=0xc000590f60 pc=0x5870e2772d39
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000590fe8 sp=0xc000590fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by main.runWatchdog in goroutine 1
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/cmd/snapd/main.go:105 +0x107
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 74 gp=0xc000434700 m=nil [IO wait, 99 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000075b30 sp=0xc000075b10 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.netpollblock(0x5870e1c1ff89?, 0xe1bd7ba6?, 0x70?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/netpoll.go:575 +0xf7 fp=0xc000075b68 sp=0xc000075b30 pc=0x5870e1c07137
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.runtime_pollWait(0x7c21593c1460, 0x72)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/netpoll.go:351 +0x85 fp=0xc000075b88 sp=0xc000075b68 pc=0x5870e1c44805
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*pollDesc).wait(0xc0003e9100?, 0x7c21a06785b8?, 0x0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:84 +0x27 fp=0xc000075bb0 sp=0xc000075b88 pc=0x5870e1cc94c7
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*pollDesc).waitRead(...)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_poll_runtime.go:89
+May 14 07:07:13 noble-sunbeam snapd[1046]: internal/poll.(*FD).Accept(0xc0003e9100)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/internal/poll/fd_unix.go:620 +0x295 fp=0xc000075c58 sp=0xc000075bb0 pc=0x5870e1cce895
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*netFD).accept(0xc0003e9100)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/fd_unix.go:172 +0x29 fp=0xc000075d10 sp=0xc000075c58 pc=0x5870e1db51c9
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*UnixListener).accept(0xc000075d88?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/unixsock_posix.go:172 +0x16 fp=0xc000075d38 sp=0xc000075d10 pc=0x5870e1dcffd6
+May 14 07:07:13 noble-sunbeam snapd[1046]: net.(*UnixListener).Accept(0xc000586600)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/unixsock.go:260 +0x30 fp=0xc000075d68 sp=0xc000075d38 pc=0x5870e1dce7f0
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/daemon.(*ucrednetListener).Accept(0x5870e1ef6345?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/daemon/ucrednet.go:150 +0x1f fp=0xc000075de0 sp=0xc000075d68 pc=0x5870e276cc7f
+May 14 07:07:13 noble-sunbeam snapd[1046]: net/http.(*onceCloseListener).Accept(0xc000730360?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         <autogenerated>:1 +0x24 fp=0xc000075df8 sp=0xc000075de0 pc=0x5870e1f1e304
+May 14 07:07:13 noble-sunbeam snapd[1046]: net/http.(*Server).Serve(0xc00049e1e0, {0x5870e2f666c8, 0xc000586660})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/net/http/server.go:3330 +0x30c fp=0xc000075f28 sp=0xc000075df8 pc=0x5870e1ef61cc
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/daemon.(*Daemon).Start.func3.1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/daemon/daemon.go:394 +0x2c fp=0xc000075f68 sp=0xc000075f28 pc=0x5870e2763aec
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc00049e140, 0x6?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc000075fc0 sp=0xc000075f68 pc=0x5870e1fcc8eb
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc000075fe0 sp=0xc000075fc0 pc=0x5870e1fcc825
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000075fe8 sp=0xc000075fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 72
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 114 gp=0xc000434c40 m=11 mp=0xc00077a708 [syscall, 142 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: syscall.Syscall6(0x17, 0xd, 0xc00058de10, 0x0, 0x0, 0x0, 0x0)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/syscall/syscall_linux.go:95 +0x39 fp=0xc00058dd70 sp=0xc00058dd10 pc=0x5870e1c6b8b9
+May 14 07:07:13 noble-sunbeam snapd[1046]: syscall.Select(0x0?, 0x0?, 0x0?, 0x0?, 0x0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/syscall/zsyscall_linux_amd64.go:1298 +0x4a fp=0xc00058dde0 sp=0xc00058dd70 pc=0x5870e1c6a2ca
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/osutil/udev/netlink.stopperSelectReadable(0xc0001e2c60?, 0xc)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:57 +0x191 fp=0xc00058ded0 sp=0xc00058dde0 pc=0x5870e2560431
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/osutil/udev/netlink.RawSockStopper.func1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/rawsockstop.go:31 +0x58 fp=0xc00058df00 sp=0xc00058ded0 pc=0x5870e2560278
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor.func4()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:139 +0x77 fp=0xc00058dfe0 sp=0xc00058df00 pc=0x5870e255f097
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc00058dfe8 sp=0xc00058dfe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by github.com/snapcore/snapd/osutil/udev/netlink.(*UEventConn).Monitor in goroutine 71
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/osutil/udev/netlink/conn.go:136 +0x2a8
+May 14 07:07:13 noble-sunbeam snapd[1046]: goroutine 131 gp=0xc00040ba40 m=nil [select, 160 minutes]:
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.gopark(0xc00070fef0?, 0x3?, 0x0?, 0x8f?, 0xc00070fe62?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/proc.go:424 +0xce fp=0xc000077d00 sp=0xc000077ce0 pc=0x5870e1c4550e
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.selectgo(0xc000077ef0, 0xc00070fe5c, 0xc00081f290?, 0x0, 0x5870e2de2ea0?, 0x1)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/select.go:335 +0x7a5 fp=0xc000077e28 sp=0xc000077d00 pc=0x5870e1c20de5
+May 14 07:07:13 noble-sunbeam snapd[1046]: github.com/snapcore/snapd/overlord/ifacestate/udevmonitor.(*Monitor).Run.func1()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/overlord/ifacestate/udevmonitor/udevmon.go:147 +0x292 fp=0xc000077f68 sp=0xc000077e28 pc=0x5870e2562872
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).run(0xc0005d6000, 0xc0005dbdd0?)
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:163 +0x2b fp=0xc000077fc0 sp=0xc000077f68 pc=0x5870e1fcc8eb
+May 14 07:07:13 noble-sunbeam snapd[1046]: gopkg.in/tomb%2ev2.(*Tomb).Go.gowrap2()
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0x25 fp=0xc000077fe0 sp=0xc000077fc0 pc=0x5870e1fcc825
+May 14 07:07:13 noble-sunbeam snapd[1046]: runtime.goexit({})
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /snap/go/10863/src/runtime/asm_amd64.s:1700 +0x1 fp=0xc000077fe8 sp=0xc000077fe0 pc=0x5870e1c4d9e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: created by gopkg.in/tomb%2ev2.(*Tomb).Go in goroutine 71
+May 14 07:07:13 noble-sunbeam snapd[1046]:         /build/snapd/parts/snapd/build/vendor/gopkg.in/tomb.v2/tomb.go:159 +0xdb
+May 14 07:07:13 noble-sunbeam snapd[1046]: rax    0xca
+May 14 07:07:13 noble-sunbeam snapd[1046]: rbx    0x0
+May 14 07:07:13 noble-sunbeam snapd[1046]: rcx    0x5870e1c4f7e3
+May 14 07:07:13 noble-sunbeam snapd[1046]: rdx    0x0
+May 14 07:07:13 noble-sunbeam snapd[1046]: rdi    0x5870e3722ca0
+May 14 07:07:13 noble-sunbeam snapd[1046]: rsi    0x80
+May 14 07:07:13 noble-sunbeam snapd[1046]: rbp    0x7ffc14415da0
+May 14 07:07:13 noble-sunbeam snapd[1046]: rsp    0x7ffc14415d58
+May 14 07:07:13 noble-sunbeam snapd[1046]: r8     0x0
+May 14 07:07:13 noble-sunbeam snapd[1046]: r9     0x0
+May 14 07:07:13 noble-sunbeam snapd[1046]: r10    0x0
+May 14 07:07:13 noble-sunbeam snapd[1046]: r11    0x286
+May 14 07:07:13 noble-sunbeam snapd[1046]: r12    0x7ffc14415d80
+May 14 07:07:13 noble-sunbeam snapd[1046]: r13    0xc000061794
+May 14 07:07:13 noble-sunbeam snapd[1046]: r14    0x5870e3721ae0
+May 14 07:07:13 noble-sunbeam snapd[1046]: r15    0x3ffffff
+May 14 07:07:13 noble-sunbeam snapd[1046]: rip    0x5870e1c4f7e1
+May 14 07:07:13 noble-sunbeam snapd[1046]: rflags 0x286
+May 14 07:07:13 noble-sunbeam snapd[1046]: cs     0x33
+May 14 07:07:13 noble-sunbeam snapd[1046]: fs     0x0
+May 14 07:07:13 noble-sunbeam snapd[1046]: gs     0x0
+May 14 07:07:13 noble-sunbeam systemd[1]: snapd.service: Main process exited, code=exited, status=2/INVALIDARGUMENT
+May 14 07:07:13 noble-sunbeam systemd[1]: snapd.service: Failed with result 'watchdog'.
+May 14 07:07:14 noble-sunbeam systemd[1]: snapd.service: Scheduled restart job, restart counter is at 1.
+May 14 07:07:14 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 14 07:07:28 noble-sunbeam snapd[297703]: overlord.go:284: Acquiring state lock file
+May 14 07:07:28 noble-sunbeam snapd[297703]: overlord.go:289: Acquired state lock file
+May 14 07:07:28 noble-sunbeam snapd[297703]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 14 07:07:28 noble-sunbeam snapd[297703]: daemon.go:353: adjusting startup timeout by 1m15s (pessimistic estimate of 30s plus 5s per snap)
+May 14 07:07:28 noble-sunbeam snapd[297703]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 14 07:07:30 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 14 07:07:47 noble-sunbeam snapd[297703]: storehelpers.go:916: cannot refresh:
+May 14 07:07:47 noble-sunbeam snapd[297703]: snap has no updates available: "core20", "core22", "core24", "juju", "lxd", "openstack", "openstack-hypervisor", "snapd"
+May 14 07:07:47 noble-sunbeam snapd[297703]: no snap revision available as specified: "k8s"

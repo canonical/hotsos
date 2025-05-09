@@ -1,0 +1,138 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "apps/v1",
+            "kind": "ReplicaSet",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/desired-replicas": "1",
+                    "deployment.kubernetes.io/max-replicas": "2",
+                    "deployment.kubernetes.io/revision": "1"
+                },
+                "creationTimestamp": "2025-05-09T15:25:06Z",
+                "generation": 1,
+                "labels": {
+                    "juju-modeloperator": "modeloperator",
+                    "model.juju.is/disable-webhook": "true",
+                    "pod-template-hash": "6f8f4577b4"
+                },
+                "name": "modeloperator-6f8f4577b4",
+                "namespace": "openstack",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "apps/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "Deployment",
+                        "name": "modeloperator",
+                        "uid": "15f48b6a-1da0-4dd2-a048-d6f080d39085"
+                    }
+                ],
+                "resourceVersion": "124975",
+                "uid": "0495563b-fecb-4bd4-8fbb-f6e94bcf018c"
+            },
+            "spec": {
+                "replicas": 1,
+                "selector": {
+                    "matchLabels": {
+                        "juju-modeloperator": "modeloperator",
+                        "pod-template-hash": "6f8f4577b4"
+                    }
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "juju-modeloperator": "modeloperator",
+                            "model.juju.is/disable-webhook": "true",
+                            "pod-template-hash": "6f8f4577b4"
+                        }
+                    },
+                    "spec": {
+                        "automountServiceAccountToken": true,
+                        "containers": [
+                            {
+                                "args": [
+                                    "-c",
+                                    "export JUJU_DATA_DIR=/var/lib/juju\nexport JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools\n\nmkdir -p $JUJU_TOOLS_DIR\ncp /opt/jujud $JUJU_TOOLS_DIR/jujud\n\nexec $JUJU_TOOLS_DIR/jujud model --model-uuid=ee070cdf-4b8b-49ac-80cb-918841540fbe\n"
+                                ],
+                                "command": [
+                                    "/bin/sh"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "HTTP_PORT",
+                                        "value": "17071"
+                                    },
+                                    {
+                                        "name": "SERVICE_NAME",
+                                        "value": "modeloperator"
+                                    },
+                                    {
+                                        "name": "SERVICE_NAMESPACE",
+                                        "value": "openstack"
+                                    }
+                                ],
+                                "image": "docker.io/jujusolutions/jujud-operator:3.6.5",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "juju-operator",
+                                "ports": [
+                                    {
+                                        "containerPort": 17071,
+                                        "name": "api",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/lib/juju/agents/model-ee070cdf-4b8b-49ac-80cb-918841540fbe/template-agent.conf",
+                                        "name": "modeloperator",
+                                        "subPath": "template-agent.conf"
+                                    }
+                                ],
+                                "workingDir": "/var/lib/juju"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "modeloperator",
+                        "serviceAccountName": "modeloperator",
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "items": [
+                                        {
+                                            "key": "modeloperator-agent.conf",
+                                            "path": "template-agent.conf"
+                                        }
+                                    ],
+                                    "name": "modeloperator"
+                                },
+                                "name": "modeloperator"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "fullyLabeledReplicas": 1,
+                "observedGeneration": 1,
+                "readyReplicas": 1,
+                "replicas": 1
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

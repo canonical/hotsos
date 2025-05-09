@@ -1,0 +1,47 @@
+_uuid               : 7bc43510-c985-4452-95bb-ccd1229006bc
+auto_attach         : []
+controller          : []
+datapath_id         : "00001235c47b5244"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {}
+fail_mode           : []
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-ex
+netflow             : []
+other_config        : {}
+ports               : [bce490e3-da04-4de8-be91-44e9aa622cb1]
+protocols           : [OpenFlow13, OpenFlow15]
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false
+
+_uuid               : a9c3d5b4-f240-4f14-ba99-5c99be4b065c
+auto_attach         : []
+controller          : []
+datapath_id         : "00005ec1795d366d"
+datapath_type       : system
+datapath_version    : "<unknown>"
+external_ids        : {ovn-startup-ts="1747196534143"}
+fail_mode           : secure
+flood_vlans         : []
+flow_tables         : {}
+ipfix               : []
+mcast_snooping_enable: false
+mirrors             : []
+name                : br-int
+netflow             : []
+other_config        : {disable-in-band="true", hwaddr="5e:c1:79:5d:36:6d"}
+ports               : [18a5254f-5611-4489-aefd-934c49fb1bd4]
+protocols           : []
+rstp_enable         : false
+rstp_status         : {}
+sflow               : []
+status              : {}
+stp_enable          : false

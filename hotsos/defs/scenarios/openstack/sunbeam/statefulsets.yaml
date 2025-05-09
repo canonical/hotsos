@@ -1,0 +1,17 @@
+vars:
+  statefulsets: '@hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.statefulsets'
+checks:
+  is_sunbeam_controller:
+    property: hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.is_controller
+  not_all_statefulsets_complete:
+    varops: [[$statefulsets], [getitem, incomplete], [length_hint]]
+conclusions:
+  incomplete_statefulsets:
+    decision:
+      - is_sunbeam_controller
+      - not_all_statefulsets_complete
+    raises:
+      type: OpenstackError
+      message: >-
+        Identified one or more incomplete Sunbeam OpenStack statefulsets.
+        Please see OpenStack plugin summary for more details.

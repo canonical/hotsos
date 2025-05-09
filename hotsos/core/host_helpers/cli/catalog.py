@@ -106,6 +106,8 @@ class CommandCatalog(UserDict):
             'ip_link':
                 [BinCmd('ip -s -d link'),
                  FileCmd('sos_commands/networking/ip_-s_-d_link')],
+            'kubectl_get':
+                kubectl.KubectlGetCmds(),
             'kubectl_logs':
                 kubectl.KubectlLogsCmds(),
             'ls_lanR_sys_block':

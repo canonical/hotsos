@@ -1,0 +1,24 @@
+system@ovs-system:
+  lookups: hit:0 missed:0 lost:0
+  flows: 0
+  masks: hit:0 total:0 hit/pkt:0.00
+  caches:
+    masks-cache: size:256
+  port 0: ovs-system (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+    UPCALL packets:0 errors:0
+  port 1: br-ex (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+    UPCALL packets:0 errors:0
+  port 2: br-int (internal)
+    RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+    TX packets:0 errors:0 dropped:0 aborted:0 carrier:0
+    collisions:0
+    RX bytes:0  TX bytes:0
+    UPCALL packets:0 errors:0

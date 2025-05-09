@@ -1,0 +1,390 @@
+2025-05-14T11:23:12.021Z [pebble] HTTP API server listening on ":38812".
+2025-05-14T11:23:12.021Z [pebble] Started daemon.
+2025-05-14T11:23:12.293Z [pebble] POST /v1/services 218.820661ms 202
+2025-05-14T11:23:12.320Z [pebble] Service "container-agent" starting: /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env "PATH=$PATH:/charm/bin" --show-log --charm-modified-version 0
+2025-05-14T11:23:12.961Z [container-agent] 2025-05-14 11:23:12 INFO juju.cmd supercommand.go:56 running containerAgent [3.6.5 33b026f4ab2a4fe371764b9c41993d3e1e90ddef gc go1.24.1]
+2025-05-14T11:23:12.964Z [container-agent] starting containeragent unit command
+2025-05-14T11:23:12.965Z [container-agent] containeragent unit "unit-traefik-public-0" start (3.6.5 [gc])
+2025-05-14T11:23:12.968Z [container-agent] 2025-05-14 11:23:12 INFO juju.cmd.containeragent.unit runner.go:592 start "unit"
+2025-05-14T11:23:12.968Z [container-agent] 2025-05-14 11:23:12 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 3.6.5 have already been run.
+2025-05-14T11:23:13.038Z [container-agent] 2025-05-14 11:23:12 INFO juju.worker.probehttpserver server.go:157 starting http server on 127.0.0.1:65301
+2025-05-14T11:23:13.247Z [container-agent] 2025-05-14 11:23:13 INFO juju.api apiclient.go:601 connection established to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T11:23:13.257Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-traefik-public-0" successfully connected to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070"
+2025-05-14T11:23:13.295Z [container-agent] 2025-05-14 11:23:13 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T11:23:13.304Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-traefik-public-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T11:23:13.354Z [pebble] GET /v1/changes/56/wait 1.056408238s 200
+2025-05-14T11:23:13.355Z [pebble] Started default services with change 56.
+2025-05-14T11:23:13.428Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T11:23:13.433Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T11:23:13.587Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.leadership tracker.go:244 traefik-public/0 promoted to leadership of traefik-public
+2025-05-14T11:23:13.606Z [container-agent] 2025-05-14 11:23:13 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T11:23:13.742Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T11:23:13.759Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T11:23:13.759Z [container-agent] 2025-05-14 11:23:13 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-traefik-public-0
+2025-05-14T11:23:15.054Z [container-agent] 2025-05-14 11:23:15 INFO juju.worker.uniter uniter.go:365 unit "traefik-public/0" started
+2025-05-14T11:23:15.132Z [container-agent] 2025-05-14 11:23:15 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T11:23:15.777Z [container-agent] 2025-05-14 11:23:15 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T11:23:20.058Z [container-agent] 2025-05-14 11:23:20 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T11:23:20.801Z [container-agent] 2025-05-14 11:23:20 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T11:23:22.484Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T11:23:29.092Z [container-agent] 2025-05-14 11:23:29 INFO juju-log Running legacy hooks/start.
+2025-05-14T11:23:32.406Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T11:23:42.306Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T11:23:42.306Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T11:23:42.314Z [pebble] Change 55 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T11:23:43.360Z [container-agent] 2025-05-14 11:23:43 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:23:45.136Z [container-agent] 2025-05-14 11:23:45 INFO juju-log Applying resources
+2025-05-14T11:23:48.747Z [container-agent] 2025-05-14 11:23:48 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:23:52.617Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T11:23:53.480Z [container-agent] 2025-05-14 11:23:53 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:23:58.823Z [container-agent] 2025-05-14 11:23:58 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:02.570Z [pebble] Check "readiness" failure 5/3: non-2xx status code 418
+2025-05-14T11:24:03.553Z [container-agent] 2025-05-14 11:24:03 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:08.786Z [container-agent] 2025-05-14 11:24:08 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:12.563Z [pebble] Check "readiness" failure 6/3: non-2xx status code 418
+2025-05-14T11:24:12.930Z [container-agent] 2025-05-14 11:24:12 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:14.098Z [container-agent] 2025-05-14 11:24:14 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T11:24:14.151Z [container-agent] 2025-05-14 11:24:14 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T11:24:21.048Z [container-agent] 2025-05-14 11:24:21 INFO juju-log Running legacy hooks/start.
+2025-05-14T11:24:32.024Z [container-agent] 2025-05-14 11:24:32 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:24:33.798Z [container-agent] 2025-05-14 11:24:33 INFO juju-log Applying resources
+2025-05-14T11:24:37.418Z [container-agent] 2025-05-14 11:24:37 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:42.351Z [container-agent] 2025-05-14 11:24:42 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:47.344Z [container-agent] 2025-05-14 11:24:47 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:52.300Z [container-agent] 2025-05-14 11:24:52 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:57.329Z [container-agent] 2025-05-14 11:24:57 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:59.154Z [container-agent] 2025-05-14 11:24:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:24:59.913Z [container-agent] 2025-05-14 11:24:59 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T11:25:05.073Z [container-agent] 2025-05-14 11:25:05 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:25:09.924Z [container-agent] 2025-05-14 11:25:09 INFO juju-log Applying resources
+2025-05-14T11:25:10.171Z [container-agent] 2025-05-14 11:25:10 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:25:15.137Z [container-agent] 2025-05-14 11:25:15 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:25:20.195Z [container-agent] 2025-05-14 11:25:20 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:25:27.556Z [container-agent] 2025-05-14 11:25:27 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:25:28.064Z [container-agent] 2025-05-14 11:25:28 INFO juju.worker.uniter.operation runhook.go:186 ran "traefik-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T11:28:46.280Z [container-agent] 2025-05-14 11:28:46 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:28:46.625Z [container-agent] 2025-05-14 11:28:46 INFO juju-log Applying resources
+2025-05-14T11:28:50.635Z [container-agent] 2025-05-14 11:28:50 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:28:51.055Z [container-agent] 2025-05-14 11:28:51 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:34:11.692Z [container-agent] 2025-05-14 11:34:11 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:34:12.469Z [container-agent] 2025-05-14 11:34:12 INFO juju-log Applying resources
+2025-05-14T11:34:16.872Z [container-agent] 2025-05-14 11:34:16 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:34:19.945Z [container-agent] 2025-05-14 11:34:19 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:34:20.438Z [container-agent] 2025-05-14 11:34:20 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:40:01.757Z [container-agent] 2025-05-14 11:40:01 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:40:02.446Z [container-agent] 2025-05-14 11:40:02 INFO juju-log Applying resources
+2025-05-14T11:40:06.823Z [container-agent] 2025-05-14 11:40:06 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:40:08.221Z [container-agent] 2025-05-14 11:40:08 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:40:08.713Z [container-agent] 2025-05-14 11:40:08 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:44:43.401Z [container-agent] 2025-05-14 11:44:43 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:44:43.864Z [container-agent] 2025-05-14 11:44:43 INFO juju-log Applying resources
+2025-05-14T11:44:48.493Z [container-agent] 2025-05-14 11:44:48 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:44:49.148Z [container-agent] 2025-05-14 11:44:49 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:44:49.647Z [container-agent] 2025-05-14 11:44:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:49:51.863Z [container-agent] 2025-05-14 11:49:51 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:49:52.266Z [container-agent] 2025-05-14 11:49:52 INFO juju-log Applying resources
+2025-05-14T11:49:56.495Z [container-agent] 2025-05-14 11:49:56 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:49:56.947Z [container-agent] 2025-05-14 11:49:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:55:13.589Z [container-agent] 2025-05-14 11:55:13 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T11:55:14.013Z [container-agent] 2025-05-14 11:55:14 INFO juju-log Applying resources
+2025-05-14T11:55:18.088Z [container-agent] 2025-05-14 11:55:18 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T11:55:18.548Z [container-agent] 2025-05-14 11:55:18 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:00:34.171Z [container-agent] 2025-05-14 12:00:34 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:00:34.567Z [container-agent] 2025-05-14 12:00:34 INFO juju-log Applying resources
+2025-05-14T12:00:38.856Z [container-agent] 2025-05-14 12:00:38 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:00:39.491Z [container-agent] 2025-05-14 12:00:39 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:04:46.280Z [container-agent] 2025-05-14 12:04:46 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:04:46.707Z [container-agent] 2025-05-14 12:04:46 INFO juju-log Applying resources
+2025-05-14T12:04:51.107Z [container-agent] 2025-05-14 12:04:51 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:04:51.527Z [container-agent] 2025-05-14 12:04:51 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:10:44.000Z [container-agent] 2025-05-14 12:10:44 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:10:44.379Z [container-agent] 2025-05-14 12:10:44 INFO juju-log Applying resources
+2025-05-14T12:10:48.461Z [container-agent] 2025-05-14 12:10:48 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:10:48.936Z [container-agent] 2025-05-14 12:10:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:14:45.815Z [container-agent] 2025-05-14 12:14:45 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:14:46.307Z [container-agent] 2025-05-14 12:14:46 INFO juju-log Applying resources
+2025-05-14T12:14:50.930Z [container-agent] 2025-05-14 12:14:50 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:14:51.534Z [container-agent] 2025-05-14 12:14:51 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:14:51.966Z [container-agent] 2025-05-14 12:14:51 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:20:31.581Z [container-agent] 2025-05-14 12:20:31 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:20:31.917Z [container-agent] 2025-05-14 12:20:31 INFO juju-log Applying resources
+2025-05-14T12:20:35.946Z [container-agent] 2025-05-14 12:20:35 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:20:36.356Z [container-agent] 2025-05-14 12:20:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:25:02.219Z [container-agent] 2025-05-14 12:25:02 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:25:02.651Z [container-agent] 2025-05-14 12:25:02 INFO juju-log Applying resources
+2025-05-14T12:25:07.277Z [container-agent] 2025-05-14 12:25:07 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:25:07.403Z [container-agent] 2025-05-14 12:25:07 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:25:07.835Z [container-agent] 2025-05-14 12:25:07 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:30:41.435Z [container-agent] 2025-05-14 12:30:41 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:30:41.832Z [container-agent] 2025-05-14 12:30:41 INFO juju-log Applying resources
+2025-05-14T12:30:46.501Z [container-agent] 2025-05-14 12:30:46 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:30:46.952Z [container-agent] 2025-05-14 12:30:46 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:30:47.402Z [container-agent] 2025-05-14 12:30:47 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:35:18.427Z [container-agent] 2025-05-14 12:35:18 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:35:18.976Z [container-agent] 2025-05-14 12:35:18 INFO juju-log Applying resources
+2025-05-14T12:35:23.522Z [container-agent] 2025-05-14 12:35:23 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:35:23.711Z [container-agent] 2025-05-14 12:35:23 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:35:24.163Z [container-agent] 2025-05-14 12:35:24 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:40:51.229Z [container-agent] 2025-05-14 12:40:51 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:40:51.655Z [container-agent] 2025-05-14 12:40:51 INFO juju-log Applying resources
+2025-05-14T12:40:56.039Z [container-agent] 2025-05-14 12:40:56 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:40:56.505Z [container-agent] 2025-05-14 12:40:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:46:31.979Z [container-agent] 2025-05-14 12:46:31 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:46:32.467Z [container-agent] 2025-05-14 12:46:32 INFO juju-log Applying resources
+2025-05-14T12:46:37.048Z [container-agent] 2025-05-14 12:46:37 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:46:37.627Z [container-agent] 2025-05-14 12:46:37 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:46:38.117Z [container-agent] 2025-05-14 12:46:38 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:51:29.674Z [container-agent] 2025-05-14 12:51:29 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:51:30.083Z [container-agent] 2025-05-14 12:51:30 INFO juju-log Applying resources
+2025-05-14T12:51:34.758Z [container-agent] 2025-05-14 12:51:34 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:51:35.585Z [container-agent] 2025-05-14 12:51:35 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:51:36.166Z [container-agent] 2025-05-14 12:51:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:57:31.617Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.617Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T12:57:31.699Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.699Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.699Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.699Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.699Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.699Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.699Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.706Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.706Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.706Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.706Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.706Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "proxy-config-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "hook-retry-strategy" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.750Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "not-dead-flag" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.774Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:36230->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:35.398Z [container-agent] 2025-05-14 12:57:35 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T12:57:35.633Z [container-agent] 2025-05-14 12:57:35 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-traefik-public-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T12:57:35.860Z [container-agent] 2025-05-14 12:57:35 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T12:57:36.927Z [container-agent] 2025-05-14 12:57:36 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T12:57:36.967Z [container-agent] 2025-05-14 12:57:36 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T12:57:37.158Z [container-agent] 2025-05-14 12:57:36 INFO juju.worker.leadership tracker.go:244 traefik-public/0 promoted to leadership of traefik-public
+2025-05-14T12:57:37.717Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T12:57:37.766Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T12:57:45.062Z [container-agent] 2025-05-14 12:57:45 WARNING update-status ERROR loading unit state from database: connection is shut down
+2025-05-14T12:57:45.472Z [container-agent] 2025-05-14 12:57:45 ERROR juju-log Uncaught exception while in charm code:
+2025-05-14T12:57:45.482Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:57:45.482Z [container-agent]   File "./src/charm.py", line 1403, in <module>
+2025-05-14T12:57:45.485Z [container-agent]     main(TraefikIngressCharm, use_juju_for_storage=True)
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/__init__.py", line 343, in __call__
+2025-05-14T12:57:45.549Z [container-agent]     return _main.main(charm_class=charm_class, use_juju_for_storage=use_juju_for_storage)
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/_main.py", line 556, in main
+2025-05-14T12:57:45.549Z [container-agent]     manager = _Manager(charm_class, use_juju_for_storage=use_juju_for_storage)
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/_main.py", line 404, in __init__
+2025-05-14T12:57:45.549Z [container-agent]     self.framework = self._make_framework(self.dispatcher)
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/_main.py", line 478, in _make_framework
+2025-05-14T12:57:45.549Z [container-agent]     framework = ops.framework.Framework(
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/framework.py", line 651, in __init__
+2025-05-14T12:57:45.549Z [container-agent]     self._stored = typing.cast(StoredStateData, self.load_snapshot(stored_handle))
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/framework.py", line 758, in load_snapshot
+2025-05-14T12:57:45.549Z [container-agent]     data = self._storage.load_snapshot(handle.path)
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/storage.py", line 262, in load_snapshot
+2025-05-14T12:57:45.549Z [container-agent]     content = self._backend.get(handle_path)
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/storage.py", line 401, in get
+2025-05-14T12:57:45.549Z [container-agent]     p = _run(['state-get', key], stdout=subprocess.PIPE, check=True)
+2025-05-14T12:57:45.549Z [container-agent]   File "/var/lib/juju/agents/unit-traefik-public-0/charm/venv/ops/storage.py", line 48, in _run
+2025-05-14T12:57:45.549Z [container-agent]     return subprocess.run([cmd, *args[1:]], encoding='utf-8', **kw)
+2025-05-14T12:57:45.549Z [container-agent]   File "/usr/lib/python3.8/subprocess.py", line 516, in run
+2025-05-14T12:57:45.549Z [container-agent]     raise CalledProcessError(retcode, process.args,
+2025-05-14T12:57:45.549Z [container-agent] subprocess.CalledProcessError: Command '['/var/lib/juju/tools/unit-traefik-public-0/state-get', 'StoredStateData[_stored]']' returned non-zero exit status 1.
+2025-05-14T12:57:46.260Z [container-agent] 2025-05-14 12:57:46 ERROR juju.worker.uniter.operation runhook.go:180 hook "update-status" (via hook dispatching script: dispatch) failed: exit status 1
+2025-05-14T12:57:46.286Z [container-agent] 2025-05-14 12:57:46 INFO juju.worker.uniter uniter.go:349 unit "traefik-public/0" shutting down: (re)starting watcher: connection is shut down
+2025-05-14T12:57:46.519Z [container-agent] 2025-05-14 12:57:46 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-traefik-public-0
+2025-05-14T12:57:50.869Z [container-agent] 2025-05-14 12:57:50 INFO juju.worker.uniter uniter.go:365 unit "traefik-public/0" started
+2025-05-14T12:57:51.063Z [container-agent] 2025-05-14 12:57:51 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T12:57:52.087Z [container-agent] 2025-05-14 12:57:52 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:57:52.938Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T12:57:55.890Z [container-agent] 2025-05-14 12:57:55 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:57:57.166Z [container-agent] 2025-05-14 12:57:57 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:58:03.277Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T12:58:12.276Z [container-agent] 2025-05-14 12:58:12 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:58:13.093Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T12:58:13.098Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T12:58:13.106Z [pebble] Change 58 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T12:58:16.487Z [container-agent] 2025-05-14 12:58:16 INFO juju-log Applying resources
+2025-05-14T12:58:17.681Z [container-agent] 2025-05-14 12:58:17 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:22.687Z [container-agent] 2025-05-14 12:58:22 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:23.594Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T12:58:27.550Z [container-agent] 2025-05-14 12:58:27 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:32.667Z [container-agent] 2025-05-14 12:58:32 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:33.580Z [pebble] Check "readiness" failure 5/3: non-2xx status code 418
+2025-05-14T12:58:37.615Z [container-agent] 2025-05-14 12:58:37 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:42.674Z [container-agent] 2025-05-14 12:58:42 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:43.487Z [pebble] Check "readiness" failure 6/3: non-2xx status code 418
+2025-05-14T12:58:47.443Z [container-agent] 2025-05-14 12:58:47 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:58:48.179Z [container-agent] 2025-05-14 12:58:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:58:48.206Z [container-agent] 2025-05-14 12:58:48 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T12:58:50.862Z [container-agent] 2025-05-14 12:58:50 INFO juju-log Running legacy hooks/start.
+2025-05-14T12:58:53.476Z [pebble] Check "readiness" failure 7/3: non-2xx status code 418
+2025-05-14T12:58:54.410Z [container-agent] 2025-05-14 12:58:54 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:58:54.977Z [container-agent] 2025-05-14 12:58:54 INFO juju-log Applying resources
+2025-05-14T12:58:59.557Z [container-agent] 2025-05-14 12:58:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:59:03.517Z [pebble] Check "readiness" failure 8/3: non-2xx status code 418
+2025-05-14T12:59:04.501Z [container-agent] 2025-05-14 12:59:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:59:08.332Z [container-agent] 2025-05-14 12:59:08 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:59:09.227Z [container-agent] 2025-05-14 12:59:09 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T12:59:12.448Z [container-agent] 2025-05-14 12:59:12 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T12:59:15.907Z [container-agent] 2025-05-14 12:59:15 INFO juju-log Applying resources
+2025-05-14T12:59:17.560Z [container-agent] 2025-05-14 12:59:17 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:59:22.511Z [container-agent] 2025-05-14 12:59:22 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:59:27.481Z [container-agent] 2025-05-14 12:59:27 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:59:27.539Z [container-agent] 2025-05-14 12:59:27 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T12:59:27.887Z [container-agent] 2025-05-14 12:59:27 INFO juju.worker.uniter.operation runhook.go:186 ran "traefik-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T13:02:02.164Z [container-agent] 2025-05-14 13:02:02 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:02:02.395Z [container-agent] 2025-05-14 13:02:02 INFO juju-log Applying resources
+2025-05-14T13:02:04.590Z [container-agent] 2025-05-14 13:02:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:02:04.901Z [container-agent] 2025-05-14 13:02:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:06:34.495Z [container-agent] 2025-05-14 13:06:34 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:06:34.851Z [container-agent] 2025-05-14 13:06:34 INFO juju-log Applying resources
+2025-05-14T13:06:38.225Z [container-agent] 2025-05-14 13:06:38 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:06:38.610Z [container-agent] 2025-05-14 13:06:38 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:12:11.565Z [container-agent] 2025-05-14 13:12:11 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:12:11.965Z [container-agent] 2025-05-14 13:12:11 INFO juju-log Applying resources
+2025-05-14T13:12:16.099Z [container-agent] 2025-05-14 13:12:16 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:12:16.498Z [container-agent] 2025-05-14 13:12:16 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:16:37.467Z [container-agent] 2025-05-14 13:16:37 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:16:37.863Z [container-agent] 2025-05-14 13:16:37 INFO juju-log Applying resources
+2025-05-14T13:16:42.236Z [container-agent] 2025-05-14 13:16:42 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:16:42.706Z [container-agent] 2025-05-14 13:16:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:21:41.836Z [container-agent] 2025-05-14 13:21:41 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:21:42.253Z [container-agent] 2025-05-14 13:21:42 INFO juju-log Applying resources
+2025-05-14T13:21:46.230Z [container-agent] 2025-05-14 13:21:46 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:21:46.665Z [container-agent] 2025-05-14 13:21:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:27:30.027Z [container-agent] 2025-05-14 13:27:30 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:27:30.225Z [container-agent] 2025-05-14 13:27:30 INFO juju-log Applying resources
+2025-05-14T13:27:32.491Z [container-agent] 2025-05-14 13:27:32 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:27:32.829Z [container-agent] 2025-05-14 13:27:32 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:33:18.338Z [container-agent] 2025-05-14 13:33:18 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:33:18.552Z [container-agent] 2025-05-14 13:33:18 INFO juju-log Applying resources
+2025-05-14T13:33:20.626Z [container-agent] 2025-05-14 13:33:20 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:33:20.935Z [container-agent] 2025-05-14 13:33:20 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:39:09.371Z [container-agent] 2025-05-14 13:39:09 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:39:09.641Z [container-agent] 2025-05-14 13:39:09 INFO juju-log Applying resources
+2025-05-14T13:39:12.316Z [container-agent] 2025-05-14 13:39:12 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:39:12.650Z [container-agent] 2025-05-14 13:39:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:44:16.782Z [container-agent] 2025-05-14 13:44:16 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T13:44:17.000Z [container-agent] 2025-05-14 13:44:17 INFO juju-log Applying resources
+2025-05-14T13:44:19.484Z [container-agent] 2025-05-14 13:44:19 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T13:44:19.806Z [container-agent] 2025-05-14 13:44:19 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:24.903Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T14:07:24.952Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for traefik-public/0: getting unit payloads: write tcp 10.1.0.50:51678->172.16.1.201:17070: write: broken pipe
+2025-05-14T14:07:24.953Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T14:07:24.953Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.uniter uniter.go:349 unit "traefik-public/0" shutting down: preparing operation "run update-status hook" for traefik-public/0: getting unit payloads: write tcp 10.1.0.50:51678->172.16.1.201:17070: write: broken pipe
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "leadership-tracker" manifold worker returned unexpected error: leadership failure: error making a leadership claim: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:51678->172.16.1.201:17070: write: broken pipe
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "upgrader" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "api-address-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "proxy-config-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "migration-inactive-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "not-dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.966Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.971Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.972Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.50:51678->172.16.1.201:17070: write: broken pipe
+2025-05-14T14:07:28.148Z [container-agent] 2025-05-14 14:07:28 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T14:07:28.152Z [container-agent] 2025-05-14 14:07:28 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:28.155Z [container-agent] 2025-05-14 14:07:28 INFO juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-traefik-public-0" cannot open api: try again (try again)
+2025-05-14T14:07:31.543Z [container-agent] 2025-05-14 14:07:31 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T14:07:31.543Z [container-agent] 2025-05-14 14:07:31 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:31.614Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-traefik-public-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T14:07:31.676Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T14:07:31.690Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T14:07:31.780Z [container-agent] 2025-05-14 14:07:31 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T14:07:31.792Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.leadership tracker.go:244 traefik-public/0 promoted to leadership of traefik-public
+2025-05-14T14:07:31.877Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T14:07:31.878Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T14:07:31.906Z [container-agent] 2025-05-14 14:07:31 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-traefik-public-0
+2025-05-14T14:07:33.579Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter uniter.go:365 unit "traefik-public/0" started
+2025-05-14T14:07:33.676Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T14:07:33.752Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T14:07:34.149Z [container-agent] 2025-05-14 14:07:34 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T14:07:37.441Z [container-agent] 2025-05-14 14:07:37 INFO juju-log Running legacy hooks/start.
+2025-05-14T14:07:43.739Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T14:07:44.260Z [container-agent] 2025-05-14 14:07:44 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:07:45.207Z [container-agent] 2025-05-14 14:07:45 INFO juju-log Applying resources
+2025-05-14T14:07:49.412Z [container-agent] 2025-05-14 14:07:49 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:07:53.851Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T14:07:53.852Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T14:07:53.864Z [pebble] Change 60 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T14:07:54.342Z [container-agent] 2025-05-14 14:07:54 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:07:59.506Z [container-agent] 2025-05-14 14:07:59 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:08:02.944Z [container-agent] 2025-05-14 14:08:02 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:08:04.040Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T14:08:04.212Z [container-agent] 2025-05-14 14:08:04 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T14:08:08.110Z [container-agent] 2025-05-14 14:08:08 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:08:12.738Z [container-agent] 2025-05-14 14:08:12 INFO juju-log Applying resources
+2025-05-14T14:08:13.311Z [container-agent] 2025-05-14 14:08:13 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:08:18.206Z [container-agent] 2025-05-14 14:08:18 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:08:23.181Z [container-agent] 2025-05-14 14:08:23 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:08:31.004Z [container-agent] 2025-05-14 14:08:31 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:08:31.428Z [container-agent] 2025-05-14 14:08:31 INFO juju.worker.uniter.operation runhook.go:186 ran "traefik-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T14:12:35.971Z [container-agent] 2025-05-14 14:12:35 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:12:36.430Z [container-agent] 2025-05-14 14:12:36 INFO juju-log Applying resources
+2025-05-14T14:12:39.483Z [container-agent] 2025-05-14 14:12:39 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:12:39.874Z [container-agent] 2025-05-14 14:12:39 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:17:33.777Z [container-agent] 2025-05-14 14:17:33 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:17:34.247Z [container-agent] 2025-05-14 14:17:34 INFO juju-log Applying resources
+2025-05-14T14:17:37.141Z [container-agent] 2025-05-14 14:17:37 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:17:37.476Z [container-agent] 2025-05-14 14:17:37 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:22:10.462Z [container-agent] 2025-05-14 14:22:10 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:22:11.080Z [container-agent] 2025-05-14 14:22:11 INFO juju-log Applying resources
+2025-05-14T14:22:14.765Z [container-agent] 2025-05-14 14:22:14 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:22:15.110Z [container-agent] 2025-05-14 14:22:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:27:05.627Z [container-agent] 2025-05-14 14:27:05 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:27:06.230Z [container-agent] 2025-05-14 14:27:06 INFO juju-log Applying resources
+2025-05-14T14:27:09.390Z [container-agent] 2025-05-14 14:27:09 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:27:09.701Z [container-agent] 2025-05-14 14:27:09 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:32:59.510Z [container-agent] 2025-05-14 14:32:59 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:32:59.847Z [container-agent] 2025-05-14 14:32:59 INFO juju-log Applying resources
+2025-05-14T14:33:01.887Z [container-agent] 2025-05-14 14:33:01 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:33:02.172Z [container-agent] 2025-05-14 14:33:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:37:45.281Z [container-agent] 2025-05-14 14:37:45 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:37:45.539Z [container-agent] 2025-05-14 14:37:45 INFO juju-log Applying resources
+2025-05-14T14:37:47.572Z [container-agent] 2025-05-14 14:37:47 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:37:47.870Z [container-agent] 2025-05-14 14:37:47 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:43:01.476Z [container-agent] 2025-05-14 14:43:01 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:43:01.774Z [container-agent] 2025-05-14 14:43:01 INFO juju-log Applying resources
+2025-05-14T14:43:04.359Z [container-agent] 2025-05-14 14:43:04 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:43:04.650Z [container-agent] 2025-05-14 14:43:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:48:07.938Z [container-agent] 2025-05-14 14:48:07 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:48:08.199Z [container-agent] 2025-05-14 14:48:08 INFO juju-log Applying resources
+2025-05-14T14:48:10.329Z [container-agent] 2025-05-14 14:48:10 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:48:10.619Z [container-agent] 2025-05-14 14:48:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:53:11.615Z [container-agent] 2025-05-14 14:53:11 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:53:11.858Z [container-agent] 2025-05-14 14:53:11 INFO juju-log Applying resources
+2025-05-14T14:53:13.962Z [container-agent] 2025-05-14 14:53:13 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:53:14.244Z [container-agent] 2025-05-14 14:53:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:57:49.920Z [container-agent] 2025-05-14 14:57:49 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T14:57:50.148Z [container-agent] 2025-05-14 14:57:50 INFO juju-log Applying resources
+2025-05-14T14:57:52.644Z [container-agent] 2025-05-14 14:57:52 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T14:57:52.980Z [container-agent] 2025-05-14 14:57:52 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T15:03:49.284Z [container-agent] 2025-05-14 15:03:49 WARNING juju-log <class '__main__.TraefikIngressCharm'>.server_cert is None; sending traces over INSECURE connection.
+2025-05-14T15:03:49.555Z [container-agent] 2025-05-14 15:03:49 INFO juju-log Applying resources
+2025-05-14T15:03:52.202Z [container-agent] 2025-05-14 15:03:52 WARNING juju-log charm tracing buffer exceeds max history length (100 events)
+2025-05-14T15:03:52.545Z [container-agent] 2025-05-14 15:03:52 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)

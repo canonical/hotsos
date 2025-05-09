@@ -1,0 +1,30 @@
+Model               Controller          Cloud/Region           Version  SLA          Timestamp
+openstack-machines  sunbeam-controller  guided-raptor/default  3.6.5    unsupported  14:24:08Z
+
+SAAS                   Status  Store  URL
+cert-distributor       active  local  noble-sunbeam.lxd/openstack.cert-distributor
+certificate-authority  active  local  noble-sunbeam.lxd/openstack.certificate-authority
+keystone-credentials   active  local  noble-sunbeam.lxd/openstack.keystone-credentials
+nova                   active  local  noble-sunbeam.lxd/openstack.nova
+ovn-relay              active  local  noble-sunbeam.lxd/openstack.ovn-relay
+rabbitmq               active  local  noble-sunbeam.lxd/openstack.rabbitmq
+
+App                   Version  Status   Scale  Charm                 Channel          Rev  Exposed  Message
+cinder-volume                  unknown      0  cinder-volume         2024.1/stable     13  no       
+cinder-volume-ceph             unknown      0  cinder-volume-ceph    2024.1/stable     13  no       
+k8s                   1.32.2   active       1  k8s                   1.32/stable      458  no       Ready
+microceph                      unknown      0  microceph             squid/candidate  138  no       
+openstack-hypervisor           active       1  openstack-hypervisor  2024.1/stable    247  no       
+sunbeam-machine                active       1  sunbeam-machine       2024.1/stable     66  no       
+
+Unit                     Workload  Agent  Machine  Public address  Ports     Message
+k8s/0*                   active    idle   0        10.174.10.1     6443/tcp  Ready
+openstack-hypervisor/0*  active    idle   0        10.174.10.1               
+sunbeam-machine/0*       active    idle   0        10.174.10.1               
+
+Machine  State    Address      Inst id                Base          AZ  Message
+0        started  10.174.10.1  manual:10.194.140.193  ubuntu@24.04      Manually provisioned machine
+
+Offer          Application    Charm          Rev  Connected  Endpoint         Interface       Role
+cinder-volume  cinder-volume  cinder-volume  13   0/0        storage-backend  cinder-backend  provider
+microceph      microceph      microceph      138  0/0        ceph             ceph-client     provider

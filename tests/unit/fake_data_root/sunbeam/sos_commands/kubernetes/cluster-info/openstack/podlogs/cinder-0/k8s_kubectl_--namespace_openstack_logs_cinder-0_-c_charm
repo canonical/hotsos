@@ -1,0 +1,351 @@
+2025-05-14T04:25:07.957Z [pebble] HTTP API server listening on ":38812".
+2025-05-14T04:25:07.960Z [pebble] Started daemon.
+2025-05-14T04:25:08.056Z [pebble] POST /v1/services 92.327714ms 202
+2025-05-14T04:25:08.115Z [pebble] Service "container-agent" starting: /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env "PATH=$PATH:/charm/bin" --show-log --charm-modified-version 0
+2025-05-14T04:25:08.547Z [container-agent] 2025-05-14 04:25:08 INFO juju.cmd supercommand.go:56 running containerAgent [3.6.5 33b026f4ab2a4fe371764b9c41993d3e1e90ddef gc go1.24.1]
+2025-05-14T04:25:08.547Z [container-agent] starting containeragent unit command
+2025-05-14T04:25:08.547Z [container-agent] containeragent unit "unit-cinder-0" start (3.6.5 [gc])
+2025-05-14T04:25:08.550Z [container-agent] 2025-05-14 04:25:08 INFO juju.cmd.containeragent.unit runner.go:592 start "unit"
+2025-05-14T04:25:08.564Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 3.6.5 have already been run.
+2025-05-14T04:25:08.609Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.probehttpserver server.go:157 starting http server on 127.0.0.1:65301
+2025-05-14T04:25:08.651Z [container-agent] 2025-05-14 04:25:08 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T04:25:08.692Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-cinder-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T04:25:08.711Z [container-agent] 2025-05-14 04:25:08 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:25:08.781Z [container-agent] 2025-05-14 04:25:08 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T04:25:08.798Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-cinder-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T04:25:08.853Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T04:25:08.884Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T04:25:09.056Z [container-agent] 2025-05-14 04:25:08 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T04:25:09.072Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.leadership tracker.go:244 cinder/0 promoted to leadership of cinder
+2025-05-14T04:25:09.088Z [container-agent] 2025-05-14 04:25:09 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T04:25:09.088Z [container-agent] 2025-05-14 04:25:09 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T04:25:09.089Z [container-agent] 2025-05-14 04:25:09 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-cinder-0
+2025-05-14T04:25:09.145Z [pebble] GET /v1/changes/53/wait 1.08656986s 200
+2025-05-14T04:25:09.145Z [pebble] Started default services with change 53.
+2025-05-14T04:25:10.025Z [container-agent] 2025-05-14 04:25:10 INFO juju.worker.uniter uniter.go:365 unit "cinder/0" started
+2025-05-14T04:25:10.132Z [container-agent] 2025-05-14 04:25:10 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T04:25:10.925Z [container-agent] 2025-05-14 04:25:10 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T04:25:15.053Z [container-agent] 2025-05-14 04:25:15 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T04:25:15.056Z [container-agent] 2025-05-14 04:25:15 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T04:25:16.003Z [container-agent] 2025-05-14 04:25:15 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T04:25:18.241Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T04:25:21.694Z [container-agent] 2025-05-14 04:25:21 INFO juju-log Running legacy hooks/start.
+2025-05-14T04:25:28.089Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T04:25:30.572Z [container-agent] 2025-05-14 04:25:30 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T04:25:30.616Z [container-agent] 2025-05-14 04:25:30 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T04:25:35.501Z [container-agent] 2025-05-14 04:25:35 INFO juju-log Running legacy hooks/start.
+2025-05-14T04:25:47.498Z [container-agent] 2025-05-14 04:25:47 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T04:26:00.517Z [container-agent] 2025-05-14 04:26:00 WARNING juju-log No Loki endpoints available
+2025-05-14T04:26:00.581Z [container-agent] 2025-05-14 04:26:00 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T04:26:04.498Z [container-agent] 2025-05-14 04:26:04 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T04:26:11.820Z [container-agent] 2025-05-14 04:26:11 INFO juju-log Setting active status
+2025-05-14T04:26:12.093Z [container-agent] 2025-05-14 04:26:12 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T04:26:13.988Z [container-agent] 2025-05-14 04:26:13 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-api-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T04:26:29.016Z [container-agent] 2025-05-14 04:26:28 WARNING juju-log No Loki endpoints available
+2025-05-14T04:26:29.128Z [container-agent] 2025-05-14 04:26:29 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T04:26:34.619Z [container-agent] 2025-05-14 04:26:34 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T04:26:49.708Z [container-agent] 2025-05-14 04:26:49 INFO juju-log Setting active status
+2025-05-14T04:26:49.789Z [container-agent] 2025-05-14 04:26:49 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T04:26:50.727Z [container-agent] 2025-05-14 04:26:50 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-scheduler-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T04:30:00.173Z [container-agent] 2025-05-14 04:30:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:34:28.161Z [container-agent] 2025-05-14 04:34:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:39:06.450Z [container-agent] 2025-05-14 04:39:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:44:06.080Z [container-agent] 2025-05-14 04:44:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:48:32.612Z [container-agent] 2025-05-14 04:48:32 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:54:05.348Z [container-agent] 2025-05-14 04:54:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:00:04.561Z [container-agent] 2025-05-14 05:00:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:05:01.326Z [container-agent] 2025-05-14 05:05:01 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:10:48.448Z [container-agent] 2025-05-14 05:10:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:15:18.534Z [container-agent] 2025-05-14 05:15:18 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:20:04.359Z [container-agent] 2025-05-14 05:20:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:24:19.053Z [container-agent] 2025-05-14 05:24:19 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:07:16.067Z [container-agent] 2025-05-14 07:07:16 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T07:07:16.220Z [container-agent] 2025-05-14 07:07:16 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:53406->172.16.1.201:17070: write: broken pipe
+2025-05-14T07:07:16.220Z [container-agent] 2025-05-14 07:07:16 ERROR juju.worker.dependency engine.go:695 "migration-inactive-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T07:07:16.239Z [container-agent] 2025-05-14 07:07:16 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T07:07:16.242Z [container-agent] 2025-05-14 07:07:16 ERROR juju.worker.dependency engine.go:695 "dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T07:07:16.247Z [container-agent] 2025-05-14 07:07:16 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for cinder/0: getting unit payloads: connection is shut down
+2025-05-14T07:07:16.247Z [container-agent] 2025-05-14 07:07:16 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T07:07:16.248Z [container-agent] 2025-05-14 07:07:16 INFO juju.worker.uniter uniter.go:349 unit "cinder/0" shutting down: preparing operation "run update-status hook" for cinder/0: getting unit payloads: connection is shut down
+2025-05-14T07:07:16.249Z [container-agent] 2025-05-14 07:07:16 ERROR juju.worker.dependency engine.go:695 "upgrader" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T07:07:16.249Z [container-agent] 2025-05-14 07:07:16 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2025-05-14T07:07:23.328Z [container-agent] 2025-05-14 07:07:23 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T07:07:24.715Z [container-agent] 2025-05-14 07:07:24 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-cinder-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T07:07:24.966Z [container-agent] 2025-05-14 07:07:24 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T07:07:25.793Z [container-agent] 2025-05-14 07:07:25 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T07:07:26.025Z [container-agent] 2025-05-14 07:07:25 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T07:07:26.407Z [container-agent] 2025-05-14 07:07:26 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T07:07:26.481Z [container-agent] 2025-05-14 07:07:26 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T07:07:26.503Z [container-agent] 2025-05-14 07:07:26 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-cinder-0
+2025-05-14T07:07:27.053Z [container-agent] 2025-05-14 07:07:27 INFO juju.worker.leadership tracker.go:244 cinder/0 promoted to leadership of cinder
+2025-05-14T07:07:28.038Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T07:07:34.731Z [container-agent] 2025-05-14 07:07:34 INFO juju.worker.uniter uniter.go:365 unit "cinder/0" started
+2025-05-14T07:07:35.170Z [container-agent] 2025-05-14 07:07:35 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T07:07:37.227Z [container-agent] 2025-05-14 07:07:37 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T07:07:38.159Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T07:07:47.199Z [container-agent] 2025-05-14 07:07:47 INFO juju-log Running legacy hooks/start.
+2025-05-14T07:07:48.267Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T07:07:48.267Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T07:07:48.267Z [pebble] Change 51 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T07:07:58.409Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T07:08:08.450Z [pebble] Check "readiness" failure 5/3: non-2xx status code 418
+2025-05-14T07:08:09.452Z [container-agent] 2025-05-14 07:08:09 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T07:08:29.401Z [container-agent] 2025-05-14 07:08:29 WARNING juju-log No Loki endpoints available
+2025-05-14T07:08:29.591Z [container-agent] 2025-05-14 07:08:29 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T07:08:35.850Z [container-agent] 2025-05-14 07:08:35 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T07:08:45.324Z [container-agent] 2025-05-14 07:08:45 INFO juju-log Setting active status
+2025-05-14T07:08:45.686Z [container-agent] 2025-05-14 07:08:45 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T07:08:48.380Z [container-agent] 2025-05-14 07:08:48 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-scheduler-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T07:09:14.234Z [container-agent] 2025-05-14 07:09:14 WARNING juju-log No Loki endpoints available
+2025-05-14T07:09:14.608Z [container-agent] 2025-05-14 07:09:14 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T07:09:22.293Z [container-agent] 2025-05-14 07:09:22 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T07:09:37.158Z [container-agent] 2025-05-14 07:09:37 INFO juju-log Setting active status
+2025-05-14T07:09:37.439Z [container-agent] 2025-05-14 07:09:37 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T07:09:38.761Z [container-agent] 2025-05-14 07:09:38 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-api-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T07:12:04.789Z [container-agent] 2025-05-14 07:12:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:16:50.341Z [container-agent] 2025-05-14 07:16:50 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:22:23.286Z [container-agent] 2025-05-14 07:22:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:27:41.814Z [container-agent] 2025-05-14 07:27:41 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:33:03.563Z [container-agent] 2025-05-14 07:33:03 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:37:16.892Z [container-agent] 2025-05-14 07:37:16 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:41:59.166Z [container-agent] 2025-05-14 07:41:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:46:51.827Z [container-agent] 2025-05-14 07:46:51 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:52:48.401Z [container-agent] 2025-05-14 07:52:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:58:15.201Z [container-agent] 2025-05-14 07:58:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:03:40.669Z [container-agent] 2025-05-14 08:03:40 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:08:44.081Z [container-agent] 2025-05-14 08:08:44 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:12:55.106Z [container-agent] 2025-05-14 08:12:55 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:16:56.726Z [container-agent] 2025-05-14 08:16:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:21:36.383Z [container-agent] 2025-05-14 08:21:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:26:58.729Z [container-agent] 2025-05-14 08:26:58 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:31:32.182Z [container-agent] 2025-05-14 08:31:32 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:36:00.992Z [container-agent] 2025-05-14 08:36:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:41:09.193Z [container-agent] 2025-05-14 08:41:09 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:45:42.924Z [container-agent] 2025-05-14 08:45:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:51:13.580Z [container-agent] 2025-05-14 08:51:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:56:35.426Z [container-agent] 2025-05-14 08:56:35 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:01:59.288Z [container-agent] 2025-05-14 09:01:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:07:23.314Z [container-agent] 2025-05-14 09:07:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:12:14.304Z [container-agent] 2025-05-14 09:12:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:17:15.508Z [container-agent] 2025-05-14 09:17:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:21:54.969Z [container-agent] 2025-05-14 09:21:54 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:27:05.782Z [container-agent] 2025-05-14 09:27:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:27:05.783Z [container-agent] 2025-05-14 09:27:05 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T09:31:18.561Z [container-agent] 2025-05-14 09:31:18 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:35:36.850Z [container-agent] 2025-05-14 09:35:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:40:34.304Z [container-agent] 2025-05-14 09:40:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:46:13.036Z [container-agent] 2025-05-14 09:46:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:51:31.476Z [container-agent] 2025-05-14 09:51:31 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:55:52.882Z [container-agent] 2025-05-14 09:55:52 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:00:51.064Z [container-agent] 2025-05-14 10:00:51 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:05:28.752Z [container-agent] 2025-05-14 10:05:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:11:14.420Z [container-agent] 2025-05-14 10:11:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:16:27.187Z [container-agent] 2025-05-14 10:16:27 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:21:10.566Z [container-agent] 2025-05-14 10:21:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:26:31.459Z [container-agent] 2025-05-14 10:26:31 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:30:56.026Z [container-agent] 2025-05-14 10:30:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:22:25.433Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.433Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.433Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: write tcp 10.1.0.70:46764->172.16.1.201:17070: write: connection reset by peer: write tcp 10.1.0.70:46764->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.433Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.520Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.549Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.549Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.564Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.590Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.648Z [container-agent] 2025-05-14 11:22:24 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.648Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for cinder/0: getting unit payloads: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.648Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T11:22:25.648Z [container-agent] 2025-05-14 11:22:25 INFO juju.worker.uniter uniter.go:349 unit "cinder/0" shutting down: preparing operation "run update-status hook" for cinder/0: getting unit payloads: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:25.649Z [container-agent] 2025-05-14 11:22:25 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T11:22:25.649Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:33862->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T11:22:30.101Z [container-agent] 2025-05-14 11:22:30 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T11:22:31.257Z [container-agent] 2025-05-14 11:22:31 INFO juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-cinder-0" cannot open api: try again (try again)
+2025-05-14T11:22:36.410Z [container-agent] 2025-05-14 11:22:36 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T11:22:37.082Z [container-agent] 2025-05-14 11:22:36 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-cinder-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T11:22:37.130Z [container-agent] 2025-05-14 11:22:37 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T11:22:37.287Z [container-agent] 2025-05-14 11:22:37 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T11:22:37.378Z [container-agent] 2025-05-14 11:22:37 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T11:22:37.593Z [container-agent] 2025-05-14 11:22:37 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T11:22:37.593Z [container-agent] 2025-05-14 11:22:37 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T11:22:37.706Z [container-agent] 2025-05-14 11:22:37 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-cinder-0
+2025-05-14T11:22:37.902Z [container-agent] 2025-05-14 11:22:37 INFO juju.worker.leadership tracker.go:244 cinder/0 promoted to leadership of cinder
+2025-05-14T11:22:38.553Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T11:22:44.596Z [container-agent] 2025-05-14 11:22:44 INFO juju.worker.uniter uniter.go:365 unit "cinder/0" started
+2025-05-14T11:22:45.046Z [container-agent] 2025-05-14 11:22:45 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T11:22:46.570Z [container-agent] 2025-05-14 11:22:46 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T11:22:48.810Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T11:22:53.793Z [container-agent] 2025-05-14 11:22:53 INFO juju-log Running legacy hooks/start.
+2025-05-14T11:22:58.680Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T11:22:58.682Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T11:22:58.687Z [pebble] Change 55 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T11:23:09.191Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T11:23:13.161Z [container-agent] 2025-05-14 11:23:13 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T11:23:40.412Z [container-agent] 2025-05-14 11:23:40 WARNING juju-log No Loki endpoints available
+2025-05-14T11:23:40.966Z [container-agent] 2025-05-14 11:23:40 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T11:23:49.438Z [container-agent] 2025-05-14 11:23:49 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T11:24:04.261Z [container-agent] 2025-05-14 11:24:04 INFO juju-log Setting active status
+2025-05-14T11:24:04.376Z [container-agent] 2025-05-14 11:24:04 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T11:24:05.839Z [container-agent] 2025-05-14 11:24:05 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-api-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T11:24:22.830Z [container-agent] 2025-05-14 11:24:22 WARNING juju-log No Loki endpoints available
+2025-05-14T11:24:23.054Z [container-agent] 2025-05-14 11:24:23 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T11:24:31.053Z [container-agent] 2025-05-14 11:24:31 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T11:24:46.959Z [container-agent] 2025-05-14 11:24:46 INFO juju-log Setting active status
+2025-05-14T11:24:47.018Z [container-agent] 2025-05-14 11:24:47 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T11:24:49.202Z [container-agent] 2025-05-14 11:24:49 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-scheduler-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T11:28:14.846Z [container-agent] 2025-05-14 11:28:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:33:23.647Z [container-agent] 2025-05-14 11:33:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:37:37.443Z [container-agent] 2025-05-14 11:37:37 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:43:03.555Z [container-agent] 2025-05-14 11:43:03 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:48:44.987Z [container-agent] 2025-05-14 11:48:44 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:54:30.919Z [container-agent] 2025-05-14 11:54:30 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:59:02.913Z [container-agent] 2025-05-14 11:59:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:03:26.223Z [container-agent] 2025-05-14 12:03:26 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:08:05.288Z [container-agent] 2025-05-14 12:08:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:13:23.444Z [container-agent] 2025-05-14 12:13:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:17:57.310Z [container-agent] 2025-05-14 12:17:57 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:22:30.221Z [container-agent] 2025-05-14 12:22:30 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:28:04.359Z [container-agent] 2025-05-14 12:28:04 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:32:06.280Z [container-agent] 2025-05-14 12:32:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:37:46.045Z [container-agent] 2025-05-14 12:37:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:42:57.191Z [container-agent] 2025-05-14 12:42:57 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:47:44.882Z [container-agent] 2025-05-14 12:47:44 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:52:59.901Z [container-agent] 2025-05-14 12:52:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:57:31.653Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.655Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.716Z [container-agent] 2025-05-14 12:57:31 INFO juju.worker.uniter uniter.go:349 unit "cinder/0" shutting down: catacomb 0xc000a15208 is dying
+2025-05-14T12:57:31.758Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.769Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.785Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.785Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.785Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.785Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.793Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.796Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.852Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.852Z [container-agent] 2025-05-14 12:57:31 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T12:57:31.852Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.852Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.70:47336->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:35.396Z [container-agent] 2025-05-14 12:57:35 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-cinder-0" cannot open api: unable to connect to API: dial tcp 172.16.1.201:17070: connect: connection refused
+2025-05-14T12:57:39.124Z [container-agent] 2025-05-14 12:57:39 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T12:57:39.195Z [container-agent] 2025-05-14 12:57:39 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T12:57:39.681Z [container-agent] 2025-05-14 12:57:39 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-cinder-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T12:57:39.869Z [container-agent] 2025-05-14 12:57:39 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T12:57:39.978Z [container-agent] 2025-05-14 12:57:39 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T12:57:40.206Z [container-agent] 2025-05-14 12:57:40 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T12:57:40.304Z [container-agent] 2025-05-14 12:57:40 INFO juju.worker.leadership tracker.go:244 cinder/0 promoted to leadership of cinder
+2025-05-14T12:57:40.317Z [container-agent] 2025-05-14 12:57:40 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T12:57:40.317Z [container-agent] 2025-05-14 12:57:40 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T12:57:40.932Z [container-agent] 2025-05-14 12:57:40 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-cinder-0
+2025-05-14T12:57:47.168Z [container-agent] 2025-05-14 12:57:47 INFO juju.worker.uniter uniter.go:365 unit "cinder/0" started
+2025-05-14T12:57:47.345Z [container-agent] 2025-05-14 12:57:47 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T12:57:49.582Z [container-agent] 2025-05-14 12:57:49 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T12:57:49.780Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T12:57:59.566Z [container-agent] 2025-05-14 12:57:59 INFO juju-log Running legacy hooks/start.
+2025-05-14T12:57:59.736Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T12:58:09.711Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T12:58:09.711Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T12:58:09.712Z [pebble] Change 57 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T12:58:14.707Z [container-agent] 2025-05-14 12:58:14 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T12:58:29.982Z [container-agent] 2025-05-14 12:58:29 WARNING juju-log No Loki endpoints available
+2025-05-14T12:58:30.105Z [container-agent] 2025-05-14 12:58:30 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T12:58:34.150Z [container-agent] 2025-05-14 12:58:34 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T12:58:45.773Z [container-agent] 2025-05-14 12:58:45 INFO juju-log Setting active status
+2025-05-14T12:58:45.856Z [container-agent] 2025-05-14 12:58:45 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T12:58:46.997Z [container-agent] 2025-05-14 12:58:46 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-scheduler-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T12:58:52.084Z [container-agent] 2025-05-14 12:58:52 WARNING juju-log No Loki endpoints available
+2025-05-14T12:58:52.119Z [container-agent] 2025-05-14 12:58:52 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T12:58:54.117Z [container-agent] 2025-05-14 12:58:54 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T12:58:58.061Z [container-agent] 2025-05-14 12:58:58 INFO juju-log Setting active status
+2025-05-14T12:58:58.196Z [container-agent] 2025-05-14 12:58:58 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T12:58:59.095Z [container-agent] 2025-05-14 12:58:59 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-api-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T13:02:29.182Z [container-agent] 2025-05-14 13:02:29 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:07:30.492Z [container-agent] 2025-05-14 13:07:30 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:12:12.117Z [container-agent] 2025-05-14 13:12:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:16:13.976Z [container-agent] 2025-05-14 13:16:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:21:39.753Z [container-agent] 2025-05-14 13:21:39 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:27:17.357Z [container-agent] 2025-05-14 13:27:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:33:07.821Z [container-agent] 2025-05-14 13:33:07 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:38:25.851Z [container-agent] 2025-05-14 13:38:25 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:44:15.815Z [container-agent] 2025-05-14 13:44:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:24.611Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "migration-inactive-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T14:07:24.876Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T14:07:24.876Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2025-05-14T14:07:24.876Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T14:07:24.924Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for cinder/0: getting unit payloads: connection is shut down
+2025-05-14T14:07:24.925Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T14:07:24.925Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.uniter uniter.go:349 unit "cinder/0" shutting down: preparing operation "run update-status hook" for cinder/0: getting unit payloads: connection is shut down
+2025-05-14T14:07:27.994Z [container-agent] 2025-05-14 14:07:27 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T14:07:27.995Z [container-agent] 2025-05-14 14:07:27 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:28.048Z [container-agent] 2025-05-14 14:07:28 INFO juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-cinder-0" cannot open api: try again (try again)
+2025-05-14T14:07:31.461Z [container-agent] 2025-05-14 14:07:31 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T14:07:31.461Z [container-agent] 2025-05-14 14:07:31 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:31.518Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-cinder-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T14:07:31.609Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T14:07:31.626Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T14:07:31.735Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T14:07:31.742Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T14:07:31.781Z [container-agent] 2025-05-14 14:07:31 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T14:07:31.866Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.leadership tracker.go:244 cinder/0 promoted to leadership of cinder
+2025-05-14T14:07:31.891Z [container-agent] 2025-05-14 14:07:31 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-cinder-0
+2025-05-14T14:07:33.264Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter uniter.go:365 unit "cinder/0" started
+2025-05-14T14:07:33.372Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T14:07:33.831Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T14:07:38.098Z [container-agent] 2025-05-14 14:07:38 INFO juju-log Running legacy hooks/start.
+2025-05-14T14:07:40.481Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T14:07:50.004Z [container-agent] 2025-05-14 14:07:50 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:57.203Z [container-agent] 2025-05-14 14:07:57 WARNING juju-log No Loki endpoints available
+2025-05-14T14:07:57.239Z [container-agent] 2025-05-14 14:07:57 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T14:07:59.737Z [container-agent] 2025-05-14 14:07:59 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T14:08:08.397Z [container-agent] 2025-05-14 14:08:08 INFO juju-log Setting active status
+2025-05-14T14:08:08.523Z [container-agent] 2025-05-14 14:08:08 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T14:08:09.284Z [container-agent] 2025-05-14 14:08:09 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-scheduler-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T14:08:14.468Z [container-agent] 2025-05-14 14:08:14 WARNING juju-log No Loki endpoints available
+2025-05-14T14:08:14.547Z [container-agent] 2025-05-14 14:08:14 INFO juju-log Entering guarded section: 'Bootstrapping'
+2025-05-14T14:08:16.388Z [container-agent] 2025-05-14 14:08:16 WARNING juju-log Not running db-sync, it has run previously for this unit
+2025-05-14T14:08:20.350Z [container-agent] 2025-05-14 14:08:20 INFO juju-log Setting active status
+2025-05-14T14:08:20.490Z [container-agent] 2025-05-14 14:08:20 INFO juju-log Completed guarded section fully: 'Bootstrapping'
+2025-05-14T14:08:21.599Z [container-agent] 2025-05-14 14:08:21 INFO juju.worker.uniter.operation runhook.go:186 ran "cinder-api-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T14:12:36.484Z [container-agent] 2025-05-14 14:12:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:17:34.668Z [container-agent] 2025-05-14 14:17:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:22:11.598Z [container-agent] 2025-05-14 14:22:11 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:27:06.980Z [container-agent] 2025-05-14 14:27:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:33:00.090Z [container-agent] 2025-05-14 14:33:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:37:45.969Z [container-agent] 2025-05-14 14:37:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:43:02.100Z [container-agent] 2025-05-14 14:43:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:48:08.396Z [container-agent] 2025-05-14 14:48:08 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:53:12.110Z [container-agent] 2025-05-14 14:53:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:57:45.029Z [container-agent] 2025-05-14 14:57:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T15:03:44.007Z [container-agent] 2025-05-14 15:03:44 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)

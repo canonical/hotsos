@@ -4,6 +4,7 @@ from . import (
     service_network_checks,
     vm_info,
     nova_external_events,
+    sunbeam,
 )
 from .agent import (
     events,
@@ -17,5 +18,6 @@ __all__ = [
     summary,
     service_features,
     service_network_checks,
+    sunbeam,
     vm_info,
     ]
