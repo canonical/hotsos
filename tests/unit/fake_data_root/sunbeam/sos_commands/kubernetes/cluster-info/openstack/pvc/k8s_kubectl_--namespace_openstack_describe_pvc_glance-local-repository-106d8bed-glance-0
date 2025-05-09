@@ -1,0 +1,23 @@
+Name:          glance-local-repository-106d8bed-glance-0
+Namespace:     openstack
+StorageClass:  csi-rawfile-default
+Status:        Bound
+Volume:        pvc-a1e62018-b5f2-4781-ad8a-75628bcd3166
+Labels:        app.kubernetes.io/managed-by=juju
+               app.kubernetes.io/name=glance
+               storage.juju.is/name=local-repository
+Annotations:   controller.juju.is/id: f6bcbd57-f5dd-48be-820d-5da61700b5c2
+               juju-storage-owner: glance
+               model.juju.is/id: ee070cdf-4b8b-49ac-80cb-918841540fbe
+               pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+               storage.juju.is/name: local-repository
+               volume.beta.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+               volume.kubernetes.io/selected-node: noble-sunbeam
+               volume.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      1Gi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       glance-0
+Events:        <none>

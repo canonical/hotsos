@@ -1,0 +1,15 @@
+duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=37, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=resubmit(,39)
+table_id=38, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=10,reg10=0x1/0x1,actions=resubmit(,40)
+table_id=38, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=resubmit(,39)
+table_id=39, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=150,reg10=0x10/0x10,actions=resubmit(,40)
+table_id=39, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=150,reg10=0x2/0x3,actions=resubmit(,40)
+table_id=39, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=resubmit(,40)
+table_id=40, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=41, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=set_field:0->reg0,set_field:0->reg1,set_field:0->reg2,set_field:0->reg3,set_field:0->reg4,set_field:0->reg5,set_field:0->reg6,set_field:0->reg7,set_field:0->reg8,set_field:0->reg9,resubmit(,42)
+table_id=64, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=resubmit(,65)
+table_id=65, duration=35715s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,actions=drop
+table_id=254, duration=36082s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=2,recirc_id=0,actions=drop
+table_id=254, duration=36082s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x1,actions=controller(reason=)
+table_id=254, duration=36082s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x2,actions=drop
+table_id=254, duration=36082s, n_packets=0, n_bytes=0, n_offload_packets=0, n_offload_bytes=0, priority=0,reg0=0x3,actions=drop

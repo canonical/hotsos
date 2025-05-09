@@ -1,0 +1,547 @@
+2025-05-14T07:08:08.261Z [pebble] HTTP API server listening on ":38812".
+2025-05-14T07:08:08.261Z [pebble] Started daemon.
+2025-05-14T07:08:08.695Z [pebble] POST /v1/services 330.7572ms 202
+2025-05-14T07:08:08.859Z [pebble] Service "container-agent" starting: /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env "PATH=$PATH:/charm/bin" --show-log --charm-modified-version 0
+2025-05-14T07:08:10.040Z [pebble] GET /v1/changes/72/wait 1.341950778s 200
+2025-05-14T07:08:10.060Z [pebble] Started default services with change 72.
+2025-05-14T07:08:10.742Z [container-agent] 2025-05-14 07:08:10 INFO juju.cmd supercommand.go:56 running containerAgent [3.6.5 33b026f4ab2a4fe371764b9c41993d3e1e90ddef gc go1.24.1]
+2025-05-14T07:08:10.744Z [container-agent] starting containeragent unit command
+2025-05-14T07:08:10.750Z [container-agent] containeragent unit "unit-keystone-mysql-router-0" start (3.6.5 [gc])
+2025-05-14T07:08:10.769Z [container-agent] 2025-05-14 07:08:10 INFO juju.cmd.containeragent.unit runner.go:592 start "unit"
+2025-05-14T07:08:10.770Z [container-agent] 2025-05-14 07:08:10 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 3.6.5 have already been run.
+2025-05-14T07:08:10.993Z [container-agent] 2025-05-14 07:08:10 INFO juju.worker.probehttpserver server.go:157 starting http server on 127.0.0.1:65301
+2025-05-14T07:08:11.244Z [container-agent] 2025-05-14 07:08:11 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T07:08:11.305Z [container-agent] 2025-05-14 07:08:11 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-keystone-mysql-router-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T07:08:11.491Z [container-agent] 2025-05-14 07:08:11 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T07:08:11.491Z [container-agent] 2025-05-14 07:08:11 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T07:08:11.550Z [container-agent] 2025-05-14 07:08:11 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T07:08:11.621Z [container-agent] 2025-05-14 07:08:11 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T07:08:11.631Z [container-agent] 2025-05-14 07:08:11 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T07:08:11.648Z [container-agent] 2025-05-14 07:08:11 INFO juju.worker.leadership tracker.go:244 keystone-mysql-router/0 promoted to leadership of keystone-mysql-router
+2025-05-14T07:08:11.676Z [container-agent] 2025-05-14 07:08:11 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-keystone-mysql-router-0
+2025-05-14T07:08:12.982Z [container-agent] 2025-05-14 07:08:12 INFO juju.worker.uniter uniter.go:365 unit "keystone-mysql-router/0" started
+2025-05-14T07:08:13.122Z [container-agent] 2025-05-14 07:08:13 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T07:08:14.084Z [container-agent] 2025-05-14 07:08:13 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T07:08:17.929Z [container-agent] 2025-05-14 07:08:17 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T07:08:18.706Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T07:08:19.016Z [container-agent] 2025-05-14 07:08:19 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T07:08:28.960Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T07:08:38.604Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T07:08:38.604Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T07:08:38.604Z [pebble] Change 71 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T07:08:40.168Z [container-agent] 2025-05-14 07:08:40 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T07:08:40.459Z [container-agent] 2025-05-14 07:08:40 INFO juju-log Enabling MySQL Router service
+2025-05-14T07:08:48.918Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T07:08:58.994Z [pebble] Check "readiness" failure 5/3: non-2xx status code 418
+2025-05-14T07:09:08.854Z [pebble] Check "readiness" failure 6/3: non-2xx status code 418
+2025-05-14T07:09:11.425Z [container-agent] 2025-05-14 07:09:11 INFO juju-log Enabled MySQL Router service
+2025-05-14T07:09:18.828Z [pebble] Check "readiness" failure 7/3: non-2xx status code 418
+2025-05-14T07:09:24.850Z [container-agent] 2025-05-14 07:09:24 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T07:09:25.773Z [container-agent] 2025-05-14 07:09:25 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T07:09:28.916Z [pebble] Check "readiness" failure 8/3: non-2xx status code 418
+2025-05-14T07:09:33.915Z [container-agent] 2025-05-14 07:09:33 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T07:09:34.051Z [container-agent] 2025-05-14 07:09:34 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T07:10:03.542Z [container-agent] 2025-05-14 07:10:03 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T07:10:26.706Z [container-agent] 2025-05-14 07:10:26 INFO juju.worker.uniter.operation runhook.go:186 ran "mysql-router-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T07:13:49.729Z [container-agent] 2025-05-14 07:13:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:18:39.320Z [container-agent] 2025-05-14 07:18:39 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:22:49.894Z [container-agent] 2025-05-14 07:22:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:27:48.411Z [container-agent] 2025-05-14 07:27:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:31:59.319Z [container-agent] 2025-05-14 07:31:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:37:21.865Z [container-agent] 2025-05-14 07:37:21 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:43:00.976Z [container-agent] 2025-05-14 07:43:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:47:45.166Z [container-agent] 2025-05-14 07:47:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:53:03.071Z [container-agent] 2025-05-14 07:53:03 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:57:33.702Z [container-agent] 2025-05-14 07:57:33 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:03:17.743Z [container-agent] 2025-05-14 08:03:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:07:34.717Z [container-agent] 2025-05-14 08:07:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:12:20.584Z [container-agent] 2025-05-14 08:12:20 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:16:43.608Z [container-agent] 2025-05-14 08:16:43 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:22:08.736Z [container-agent] 2025-05-14 08:22:08 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:26:42.182Z [container-agent] 2025-05-14 08:26:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:32:17.307Z [container-agent] 2025-05-14 08:32:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:37:08.030Z [container-agent] 2025-05-14 08:37:08 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:41:49.759Z [container-agent] 2025-05-14 08:41:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:45:52.558Z [container-agent] 2025-05-14 08:45:52 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:50:17.249Z [container-agent] 2025-05-14 08:50:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:54:23.492Z [container-agent] 2025-05-14 08:54:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:58:45.143Z [container-agent] 2025-05-14 08:58:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:03:59.489Z [container-agent] 2025-05-14 09:03:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:09:20.015Z [container-agent] 2025-05-14 09:09:20 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:14:34.829Z [container-agent] 2025-05-14 09:14:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:19:48.523Z [container-agent] 2025-05-14 09:19:48 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:24:45.685Z [container-agent] 2025-05-14 09:24:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:29:58.299Z [container-agent] 2025-05-14 09:29:58 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:35:24.519Z [container-agent] 2025-05-14 09:35:24 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:40:09.371Z [container-agent] 2025-05-14 09:40:09 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:44:23.704Z [container-agent] 2025-05-14 09:44:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:49:27.059Z [container-agent] 2025-05-14 09:49:27 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:54:24.528Z [container-agent] 2025-05-14 09:54:24 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:59:02.872Z [container-agent] 2025-05-14 09:59:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:03:05.163Z [container-agent] 2025-05-14 10:03:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:08:57.372Z [container-agent] 2025-05-14 10:08:57 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:14:33.312Z [container-agent] 2025-05-14 10:14:33 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:19:23.204Z [container-agent] 2025-05-14 10:19:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:24:31.594Z [container-agent] 2025-05-14 10:24:31 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:30:31.123Z [container-agent] 2025-05-14 10:30:31 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:24 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for keystone-mysql-router/0: getting unit payloads: connection is shut down
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 INFO juju.worker.uniter uniter.go:349 unit "keystone-mysql-router/0" shutting down: preparing operation "run update-status hook" for keystone-mysql-router/0: getting unit payloads: connection is shut down
+2025-05-14T11:22:25.477Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "not-dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.516Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "leadership-tracker" manifold worker returned unexpected error: leadership failure: error making a leadership claim: connection is shut down
+2025-05-14T11:22:25.516Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "logging-config-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.516Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "hook-retry-strategy" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.516Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "proxy-config-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.516Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "api-address-updater" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.516Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "dead-flag" manifold worker returned unexpected error: watcher has been stopped (stopped)
+2025-05-14T11:22:25.545Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:44220->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:29.783Z [container-agent] 2025-05-14 11:22:29 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T11:22:29.802Z [container-agent] 2025-05-14 11:22:29 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T11:22:30.977Z [container-agent] 2025-05-14 11:22:30 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-keystone-mysql-router-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T11:22:31.493Z [container-agent] 2025-05-14 11:22:31 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T11:22:31.902Z [container-agent] 2025-05-14 11:22:31 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T11:22:35.002Z [container-agent] 2025-05-14 11:22:34 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T11:22:35.049Z [container-agent] 2025-05-14 11:22:34 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T11:22:35.655Z [container-agent] 2025-05-14 11:22:35 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T11:22:35.936Z [container-agent] 2025-05-14 11:22:35 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-keystone-mysql-router-0
+2025-05-14T11:22:36.264Z [container-agent] 2025-05-14 11:22:36 INFO juju.worker.leadership tracker.go:244 keystone-mysql-router/0 promoted to leadership of keystone-mysql-router
+2025-05-14T11:22:39.388Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T11:22:41.813Z [container-agent] 2025-05-14 11:22:41 INFO juju.worker.uniter uniter.go:365 unit "keystone-mysql-router/0" started
+2025-05-14T11:22:42.471Z [container-agent] 2025-05-14 11:22:42 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T11:22:45.239Z [container-agent] 2025-05-14 11:22:45 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T11:22:49.041Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T11:22:58.992Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T11:22:58.993Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T11:22:58.994Z [pebble] Change 74 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T11:23:09.006Z [container-agent] 2025-05-14 11:23:09 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T11:23:09.477Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T11:23:19.561Z [pebble] Check "readiness" failure 5/3: non-2xx status code 418
+2025-05-14T11:23:23.054Z [container-agent] 2025-05-14 11:23:23 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T11:23:24.236Z [container-agent] 2025-05-14 11:23:24 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T11:23:29.216Z [container-agent] 2025-05-14 11:23:29 ERROR juju-log Failed to run MySQL Shell script:
+2025-05-14T11:23:29.216Z [container-agent] import json
+2025-05-14T11:23:29.216Z [container-agent] import mysqlsh
+2025-05-14T11:23:29.216Z [container-agent] import traceback
+2025-05-14T11:23:29.216Z [container-agent] 
+2025-05-14T11:23:29.216Z [container-agent] try:
+2025-05-14T11:23:29.216Z [container-agent]     # Disable wizards in this script, since it will be invoked without --no-wizard
+2025-05-14T11:23:29.216Z [container-agent]     shell.options.set('useWizards', False)
+2025-05-14T11:23:29.216Z [container-agent]     import json
+2025-05-14T11:23:29.216Z [container-agent] 
+2025-05-14T11:23:29.216Z [container-agent]     cluster_set = dba.get_cluster_set()
+2025-05-14T11:23:29.216Z [container-agent]     routers = cluster_set.list_routers()
+2025-05-14T11:23:29.216Z [container-agent]     # mysqlsh objects are weird—they quack (i.e. duck typing) like standard Python objects (e.g. list,
+2025-05-14T11:23:29.216Z [container-agent]     # dict), but do not serialize to JSON correctly.
+2025-05-14T11:23:29.216Z [container-agent]     # Cast to str & load from JSON str before serializing
+2025-05-14T11:23:29.216Z [container-agent]     routers = json.loads(str(routers))
+2025-05-14T11:23:29.216Z [container-agent]     with open("/tmp/mysqlsh_output.json", "w") as file:
+2025-05-14T11:23:29.216Z [container-agent]         json.dump(routers, file)
+2025-05-14T11:23:29.216Z [container-agent] except mysqlsh.DBError as exception:
+2025-05-14T11:23:29.216Z [container-agent]     error = {
+2025-05-14T11:23:29.216Z [container-agent]         "message": str(exception),
+2025-05-14T11:23:29.216Z [container-agent]         "code": exception.code,
+2025-05-14T11:23:29.216Z [container-agent]         "traceback_message": "".join(traceback.format_exception(exception)),
+2025-05-14T11:23:29.216Z [container-agent]     }
+2025-05-14T11:23:29.216Z [container-agent] else:
+2025-05-14T11:23:29.216Z [container-agent]     error = None
+2025-05-14T11:23:29.216Z [container-agent] with open("/tmp/mysqlsh_error.json", "w") as file:
+2025-05-14T11:23:29.216Z [container-agent]     json.dump(error, file)
+2025-05-14T11:23:29.216Z [container-agent] 
+2025-05-14T11:23:29.216Z [container-agent] stderr:
+2025-05-14T11:23:29.216Z [container-agent] Cannot set LC_ALL to locale en_US.UTF-8: No such file or directory
+2025-05-14T11:23:29.216Z [container-agent] MySQL Error 2003 (HY000): Can't connect to MySQL server on 'mysql-primary.openstack.svc.cluster.local:3306' (1)
+2025-05-14T11:23:29.216Z [container-agent] 
+2025-05-14T11:23:29.216Z [container-agent] Traceback (most recent call last):
+2025-05-14T11:23:29.216Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 245, in _run_command
+2025-05-14T11:23:29.216Z [container-agent]     output, _ = process.wait_output()
+2025-05-14T11:23:29.216Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/pebble.py", line 1441, in wait_output
+2025-05-14T11:23:29.216Z [container-agent]     raise ExecError[AnyStr](self._command, exit_code, out_value, err_value)
+2025-05-14T11:23:29.216Z [container-agent] ops.pebble.ExecError: non-zero exit code 1 executing ['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py'], stdout="\x1b[1mPlease provide the password for 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306': \x1b[0m", stderr="Cannot set LC_ALL to locale en_US.UTF-8: No such file or directory\nMySQL Error 2003 (HY000): Can't connect to MySQL server on 'mysql-primary.openstack.svc.cluster.local:3306' (1)\n"
+2025-05-14T11:23:29.216Z [container-agent] 
+2025-05-14T11:23:29.216Z [container-agent] During handling of the above exception, another exception occurred:
+2025-05-14T11:23:29.216Z [container-agent] 
+2025-05-14T11:23:29.216Z [container-agent] Traceback (most recent call last):
+2025-05-14T11:23:29.216Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/mysql_shell/__init__.py", line 74, in _run_code
+2025-05-14T11:23:29.216Z [container-agent]     self._container.run_mysql_shell(
+2025-05-14T11:23:29.216Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T11:23:29.216Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T11:23:29.216Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/container.py", line 212, in run_mysql_shell
+2025-05-14T11:23:29.216Z [container-agent]     return self._run_command(args, timeout=timeout, input=input)
+2025-05-14T11:23:29.216Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T11:23:29.216Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T11:23:29.216Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 247, in _run_command
+2025-05-14T11:23:29.216Z [container-agent]     raise container.CalledProcessError(
+2025-05-14T11:23:29.216Z [container-agent] container.CalledProcessError: Command '['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py']' returned non-zero exit status 1.
+2025-05-14T11:23:29.474Z [pebble] Check "readiness" failure 6/3: non-2xx status code 418
+2025-05-14T11:23:29.643Z [container-agent] 2025-05-14 11:23:29 ERROR juju-log Uncaught exception while in charm code:
+2025-05-14T11:23:29.643Z [container-agent] Traceback (most recent call last):
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 245, in _run_command
+2025-05-14T11:23:29.643Z [container-agent]     output, _ = process.wait_output()
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/pebble.py", line 1441, in wait_output
+2025-05-14T11:23:29.643Z [container-agent]     raise ExecError[AnyStr](self._command, exit_code, out_value, err_value)
+2025-05-14T11:23:29.643Z [container-agent] ops.pebble.ExecError: non-zero exit code 1 executing ['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py'], stdout="\x1b[1mPlease provide the password for 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306': \x1b[0m", stderr="Cannot set LC_ALL to locale en_US.UTF-8: No such file or directory\nMySQL Error 2003 (HY000): Can't connect to MySQL server on 'mysql-primary.openstack.svc.cluster.local:3306' (1)\n"
+2025-05-14T11:23:29.643Z [container-agent] 
+2025-05-14T11:23:29.643Z [container-agent] During handling of the above exception, another exception occurred:
+2025-05-14T11:23:29.643Z [container-agent] 
+2025-05-14T11:23:29.643Z [container-agent] Traceback (most recent call last):
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/charm.py", line 448, in <module>
+2025-05-14T11:23:29.643Z [container-agent]     ops.main.main(KubernetesRouterCharm)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/main.py", line 436, in main
+2025-05-14T11:23:29.643Z [container-agent]     _emit_charm_event(charm, dispatcher.event_name)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/main.py", line 144, in _emit_charm_event
+2025-05-14T11:23:29.643Z [container-agent]     event_to_emit.emit(*args, **kwargs)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 351, in emit
+2025-05-14T11:23:29.643Z [container-agent]     framework._emit(event)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 853, in _emit
+2025-05-14T11:23:29.643Z [container-agent]     self._reemit(event_path)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 942, in _reemit
+2025-05-14T11:23:29.643Z [container-agent]     custom_handler(event)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T11:23:29.643Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/abstract_charm.py", line 375, in reconcile
+2025-05-14T11:23:29.643Z [container-agent]     self.set_status(event=event)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T11:23:29.643Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/abstract_charm.py", line 232, in set_status
+2025-05-14T11:23:29.643Z [container-agent]     self.unit.status = self._determine_unit_status(event=event)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T11:23:29.643Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/abstract_charm.py", line 217, in _determine_unit_status
+2025-05-14T11:23:29.643Z [container-agent]     workload_status = self.get_workload(event=event).status
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/workload.py", line 414, in status
+2025-05-14T11:23:29.643Z [container-agent]     if not self.shell.is_router_in_cluster_set(self._router_id):
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/mysql_shell/__init__.py", line 214, in is_router_in_cluster_set
+2025-05-14T11:23:29.643Z [container-agent]     self._run_code(
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/mysql_shell/__init__.py", line 74, in _run_code
+2025-05-14T11:23:29.643Z [container-agent]     self._container.run_mysql_shell(
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T11:23:29.643Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/container.py", line 212, in run_mysql_shell
+2025-05-14T11:23:29.643Z [container-agent]     return self._run_command(args, timeout=timeout, input=input)
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T11:23:29.643Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T11:23:29.643Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 247, in _run_command
+2025-05-14T11:23:29.643Z [container-agent]     raise container.CalledProcessError(
+2025-05-14T11:23:29.643Z [container-agent] container.CalledProcessError: Command '['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py']' returned non-zero exit status 1.
+2025-05-14T11:23:31.203Z [container-agent] 2025-05-14 11:23:31 ERROR juju.worker.uniter.operation runhook.go:180 hook "start" (via hook dispatching script: dispatch) failed: exit status 1
+2025-05-14T11:23:31.236Z [container-agent] 2025-05-14 11:23:31 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T11:23:36.261Z [container-agent] 2025-05-14 11:23:36 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "start" hook
+2025-05-14T11:23:39.358Z [pebble] Check "readiness" failure 7/3: non-2xx status code 418
+2025-05-14T11:23:49.351Z [pebble] Check "readiness" failure 8/3: non-2xx status code 418
+2025-05-14T11:23:53.913Z [container-agent] 2025-05-14 11:23:53 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T11:23:59.485Z [pebble] Check "readiness" failure 9/3: non-2xx status code 418
+2025-05-14T11:24:04.500Z [container-agent] 2025-05-14 11:24:04 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T11:24:05.212Z [container-agent] 2025-05-14 11:24:05 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T11:24:09.344Z [pebble] Check "readiness" failure 10/3: non-2xx status code 418
+2025-05-14T11:24:15.535Z [container-agent] 2025-05-14 11:24:15 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T11:24:51.294Z [container-agent] 2025-05-14 11:24:51 INFO juju.worker.uniter.operation runhook.go:186 ran "mysql-router-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T11:27:11.243Z [container-agent] 2025-05-14 11:27:11 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:31:21.311Z [container-agent] 2025-05-14 11:31:21 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:37:24.467Z [container-agent] 2025-05-14 11:37:24 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:42:41.412Z [container-agent] 2025-05-14 11:42:41 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:48:17.353Z [container-agent] 2025-05-14 11:48:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:52:22.002Z [container-agent] 2025-05-14 11:52:22 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:57:11.220Z [container-agent] 2025-05-14 11:57:11 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:02:12.230Z [container-agent] 2025-05-14 12:02:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:06:31.804Z [container-agent] 2025-05-14 12:06:31 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:10:59.765Z [container-agent] 2025-05-14 12:10:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:15:17.810Z [container-agent] 2025-05-14 12:15:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:20:02.459Z [container-agent] 2025-05-14 12:20:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:24:45.398Z [container-agent] 2025-05-14 12:24:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:28:54.132Z [container-agent] 2025-05-14 12:28:54 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:33:02.065Z [container-agent] 2025-05-14 12:33:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:38:25.880Z [container-agent] 2025-05-14 12:38:25 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:42:37.544Z [container-agent] 2025-05-14 12:42:37 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:48:28.804Z [container-agent] 2025-05-14 12:48:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:52:33.316Z [container-agent] 2025-05-14 12:52:33 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:57:31.722Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:31.752Z [container-agent] 2025-05-14 12:57:31 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T12:57:31.761Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "api-address-updater" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.767Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "migration-inactive-flag" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.773Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "dead-flag" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.777Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "upgrader" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.780Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "not-dead-flag" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "migration-minion" manifold worker returned unexpected error: hub txn watcher sync error: starting change stream: read tcp 127.0.0.1:50396->127.0.0.1:37017: i/o timeout
+2025-05-14T12:57:31.854Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:34798->10.152.183.59:17070: write: connection reset by peer
+2025-05-14T12:57:35.402Z [container-agent] 2025-05-14 12:57:35 INFO juju.api apiclient.go:601 connection established to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T12:57:35.432Z [container-agent] 2025-05-14 12:57:35 INFO juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-keystone-mysql-router-0" cannot open api: try again (try again)
+2025-05-14T12:57:39.651Z [container-agent] 2025-05-14 12:57:39 INFO juju.api apiclient.go:601 connection established to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T12:57:40.182Z [container-agent] 2025-05-14 12:57:40 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-keystone-mysql-router-0" successfully connected to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070"
+2025-05-14T12:57:40.338Z [container-agent] 2025-05-14 12:57:40 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T12:57:40.343Z [container-agent] 2025-05-14 12:57:40 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T12:57:40.358Z [container-agent] 2025-05-14 12:57:40 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: logsender dial failed: cannot connect to /logsink: dial tcp: lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T12:57:40.569Z [container-agent] 2025-05-14 12:57:40 INFO juju.worker.leadership tracker.go:244 keystone-mysql-router/0 promoted to leadership of keystone-mysql-router
+2025-05-14T12:57:40.856Z [container-agent] 2025-05-14 12:57:40 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T12:57:41.408Z [container-agent] 2025-05-14 12:57:41 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T12:57:41.433Z [container-agent] 2025-05-14 12:57:41 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T12:57:43.861Z [container-agent] 2025-05-14 12:57:43 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: logsender dial failed: cannot connect to /logsink: dial tcp: lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T12:57:48.251Z [container-agent] 2025-05-14 12:57:48 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: logsender dial failed: cannot connect to /logsink: dial tcp 10.152.183.59:17070: connect: operation not permitted
+2025-05-14T12:57:50.521Z [container-agent] 2025-05-14 12:57:50 ERROR juju-log Uncaught exception while in charm code:
+2025-05-14T12:57:50.529Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/model.py", line 2955, in _run
+2025-05-14T12:57:50.529Z [container-agent]     result = subprocess.run(args, **kwargs)  # type: ignore
+2025-05-14T12:57:50.529Z [container-agent]   File "/usr/lib/python3.10/subprocess.py", line 526, in run
+2025-05-14T12:57:50.529Z [container-agent]     raise CalledProcessError(retcode, process.args,
+2025-05-14T12:57:50.529Z [container-agent] subprocess.CalledProcessError: Command '('/var/lib/juju/tools/unit-keystone-mysql-router-0/relation-get', '-r', '43', '-', 'keystone-mysql-router', '--app', '--format=json')' returned non-zero exit status 1.
+2025-05-14T12:57:50.529Z [container-agent] 
+2025-05-14T12:57:50.529Z [container-agent] The above exception was the direct cause of the following exception:
+2025-05-14T12:57:50.529Z [container-agent] 
+2025-05-14T12:57:50.529Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/charm.py", line 448, in <module>
+2025-05-14T12:57:50.529Z [container-agent]     ops.main.main(KubernetesRouterCharm)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/main.py", line 436, in main
+2025-05-14T12:57:50.529Z [container-agent]     _emit_charm_event(charm, dispatcher.event_name)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/main.py", line 144, in _emit_charm_event
+2025-05-14T12:57:50.529Z [container-agent]     event_to_emit.emit(*args, **kwargs)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 351, in emit
+2025-05-14T12:57:50.529Z [container-agent]     framework._emit(event)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 853, in _emit
+2025-05-14T12:57:50.529Z [container-agent]     self._reemit(event_path)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 942, in _reemit
+2025-05-14T12:57:50.529Z [container-agent]     custom_handler(event)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T12:57:50.529Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/abstract_charm.py", line 275, in reconcile
+2025-05-14T12:57:50.529Z [container-agent]     if not self._upgrade.versions_set:
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/upgrade.py", line 169, in versions_set
+2025-05-14T12:57:50.529Z [container-agent]     return self._app_databag.get("versions") is not None
+2025-05-14T12:57:50.529Z [container-agent]   File "/usr/lib/python3.10/_collections_abc.py", line 824, in get
+2025-05-14T12:57:50.529Z [container-agent]     return self[key]
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/model.py", line 1685, in __getitem__
+2025-05-14T12:57:50.529Z [container-agent]     return super().__getitem__(key)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/model.py", line 790, in __getitem__
+2025-05-14T12:57:50.529Z [container-agent]     return self._data[key]
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/model.py", line 774, in _data
+2025-05-14T12:57:50.529Z [container-agent]     data = self._lazy_data = self._load()
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/model.py", line 1569, in _load
+2025-05-14T12:57:50.529Z [container-agent]     return self._backend.relation_get(self.relation.id, self._entity.name, self._is_app)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/model.py", line 3036, in relation_get
+2025-05-14T12:57:50.529Z [container-agent]     raw_data_content = self._run(*args, return_output=True, use_json=True)
+2025-05-14T12:57:50.529Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/model.py", line 2957, in _run
+2025-05-14T12:57:50.529Z [container-agent]     raise ModelError(e.stderr) from e
+2025-05-14T12:57:50.529Z [container-agent] ops.model.ModelError: ERROR connection is shut down
+2025-05-14T12:57:50.529Z [container-agent] 
+2025-05-14T12:57:54.021Z [container-agent] 2025-05-14 12:57:54 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: logsender dial failed: cannot connect to /logsink: dial tcp 10.152.183.59:17070: connect: operation not permitted
+2025-05-14T12:57:54.660Z [container-agent] 2025-05-14 12:57:54 ERROR juju.worker.uniter.operation runhook.go:180 hook "update-status" (via hook dispatching script: dispatch) failed: exit status 1
+2025-05-14T12:57:54.675Z [container-agent] 2025-05-14 12:57:54 INFO juju.worker.uniter uniter.go:349 unit "keystone-mysql-router/0" shutting down: (re)starting watcher: connection is shut down
+2025-05-14T12:57:54.706Z [container-agent] 2025-05-14 12:57:54 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-keystone-mysql-router-0
+2025-05-14T12:57:55.253Z [container-agent] 2025-05-14 12:57:55 INFO juju.worker.uniter uniter.go:365 unit "keystone-mysql-router/0" started
+2025-05-14T12:57:55.363Z [container-agent] 2025-05-14 12:57:55 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T12:57:55.844Z [container-agent] 2025-05-14 12:57:55 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:57:59.751Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T12:58:00.277Z [container-agent] 2025-05-14 12:58:00 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:58:00.474Z [container-agent] 2025-05-14 12:58:00 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: logsender dial failed: cannot connect to /logsink: dial tcp 10.152.183.59:17070: connect: operation not permitted
+2025-05-14T12:58:00.899Z [container-agent] 2025-05-14 12:58:00 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:58:09.746Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T12:58:19.903Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T12:58:19.903Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T12:58:19.930Z [pebble] Change 76 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T12:58:26.746Z [container-agent] 2025-05-14 12:58:26 ERROR juju-log Failed to run MySQL Shell script:
+2025-05-14T12:58:26.746Z [container-agent] import json
+2025-05-14T12:58:26.746Z [container-agent] import mysqlsh
+2025-05-14T12:58:26.746Z [container-agent] import traceback
+2025-05-14T12:58:26.746Z [container-agent] 
+2025-05-14T12:58:26.746Z [container-agent] try:
+2025-05-14T12:58:26.746Z [container-agent]     # Disable wizards in this script, since it will be invoked without --no-wizard
+2025-05-14T12:58:26.746Z [container-agent]     shell.options.set('useWizards', False)
+2025-05-14T12:58:26.746Z [container-agent]     import json
+2025-05-14T12:58:26.746Z [container-agent] 
+2025-05-14T12:58:26.746Z [container-agent]     cluster_set = dba.get_cluster_set()
+2025-05-14T12:58:26.746Z [container-agent]     routers = cluster_set.list_routers()
+2025-05-14T12:58:26.746Z [container-agent]     # mysqlsh objects are weird—they quack (i.e. duck typing) like standard Python objects (e.g. list,
+2025-05-14T12:58:26.746Z [container-agent]     # dict), but do not serialize to JSON correctly.
+2025-05-14T12:58:26.746Z [container-agent]     # Cast to str & load from JSON str before serializing
+2025-05-14T12:58:26.746Z [container-agent]     routers = json.loads(str(routers))
+2025-05-14T12:58:26.746Z [container-agent]     with open("/tmp/mysqlsh_output.json", "w") as file:
+2025-05-14T12:58:26.746Z [container-agent]         json.dump(routers, file)
+2025-05-14T12:58:26.746Z [container-agent] except mysqlsh.DBError as exception:
+2025-05-14T12:58:26.746Z [container-agent]     error = {
+2025-05-14T12:58:26.746Z [container-agent]         "message": str(exception),
+2025-05-14T12:58:26.746Z [container-agent]         "code": exception.code,
+2025-05-14T12:58:26.746Z [container-agent]         "traceback_message": "".join(traceback.format_exception(exception)),
+2025-05-14T12:58:26.746Z [container-agent]     }
+2025-05-14T12:58:26.746Z [container-agent] else:
+2025-05-14T12:58:26.746Z [container-agent]     error = None
+2025-05-14T12:58:26.746Z [container-agent] with open("/tmp/mysqlsh_error.json", "w") as file:
+2025-05-14T12:58:26.746Z [container-agent]     json.dump(error, file)
+2025-05-14T12:58:26.746Z [container-agent] 
+2025-05-14T12:58:26.746Z [container-agent] stderr:
+2025-05-14T12:58:26.746Z [container-agent] Cannot set LC_ALL to locale en_US.UTF-8: No such file or directory
+2025-05-14T12:58:26.746Z [container-agent] MySQL Error 2003 (HY000): Can't connect to MySQL server on 'mysql-primary.openstack.svc.cluster.local:3306' (1)
+2025-05-14T12:58:26.746Z [container-agent] 
+2025-05-14T12:58:26.746Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:58:26.746Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 245, in _run_command
+2025-05-14T12:58:26.746Z [container-agent]     output, _ = process.wait_output()
+2025-05-14T12:58:26.746Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/pebble.py", line 1441, in wait_output
+2025-05-14T12:58:26.746Z [container-agent]     raise ExecError[AnyStr](self._command, exit_code, out_value, err_value)
+2025-05-14T12:58:26.746Z [container-agent] ops.pebble.ExecError: non-zero exit code 1 executing ['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py'], stdout="\x1b[1mPlease provide the password for 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306': \x1b[0m", stderr="Cannot set LC_ALL to locale en_US.UTF-8: No such file or directory\nMySQL Error 2003 (HY000): Can't connect to MySQL server on 'mysql-primary.openstack.svc.cluster.local:3306' (1)\n"
+2025-05-14T12:58:26.746Z [container-agent] 
+2025-05-14T12:58:26.746Z [container-agent] During handling of the above exception, another exception occurred:
+2025-05-14T12:58:26.746Z [container-agent] 
+2025-05-14T12:58:26.746Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:58:26.746Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/mysql_shell/__init__.py", line 74, in _run_code
+2025-05-14T12:58:26.746Z [container-agent]     self._container.run_mysql_shell(
+2025-05-14T12:58:26.746Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T12:58:26.746Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T12:58:26.746Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/container.py", line 212, in run_mysql_shell
+2025-05-14T12:58:26.746Z [container-agent]     return self._run_command(args, timeout=timeout, input=input)
+2025-05-14T12:58:26.746Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T12:58:26.746Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T12:58:26.746Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 247, in _run_command
+2025-05-14T12:58:26.746Z [container-agent]     raise container.CalledProcessError(
+2025-05-14T12:58:26.746Z [container-agent] container.CalledProcessError: Command '['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py']' returned non-zero exit status 1.
+2025-05-14T12:58:26.993Z [container-agent] 2025-05-14 12:58:26 ERROR juju-log Uncaught exception while in charm code:
+2025-05-14T12:58:26.993Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 245, in _run_command
+2025-05-14T12:58:26.993Z [container-agent]     output, _ = process.wait_output()
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/pebble.py", line 1441, in wait_output
+2025-05-14T12:58:26.993Z [container-agent]     raise ExecError[AnyStr](self._command, exit_code, out_value, err_value)
+2025-05-14T12:58:26.993Z [container-agent] ops.pebble.ExecError: non-zero exit code 1 executing ['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py'], stdout="\x1b[1mPlease provide the password for 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306': \x1b[0m", stderr="Cannot set LC_ALL to locale en_US.UTF-8: No such file or directory\nMySQL Error 2003 (HY000): Can't connect to MySQL server on 'mysql-primary.openstack.svc.cluster.local:3306' (1)\n"
+2025-05-14T12:58:26.993Z [container-agent] 
+2025-05-14T12:58:26.993Z [container-agent] During handling of the above exception, another exception occurred:
+2025-05-14T12:58:26.993Z [container-agent] 
+2025-05-14T12:58:26.993Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/charm.py", line 448, in <module>
+2025-05-14T12:58:26.993Z [container-agent]     ops.main.main(KubernetesRouterCharm)
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/main.py", line 436, in main
+2025-05-14T12:58:26.993Z [container-agent]     _emit_charm_event(charm, dispatcher.event_name)
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/main.py", line 144, in _emit_charm_event
+2025-05-14T12:58:26.993Z [container-agent]     event_to_emit.emit(*args, **kwargs)
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 351, in emit
+2025-05-14T12:58:26.993Z [container-agent]     framework._emit(event)
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 853, in _emit
+2025-05-14T12:58:26.993Z [container-agent]     self._reemit(event_path)
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/venv/lib/python3.10/site-packages/ops/framework.py", line 942, in _reemit
+2025-05-14T12:58:26.993Z [container-agent]     custom_handler(event)
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T12:58:26.993Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/abstract_charm.py", line 371, in reconcile
+2025-05-14T12:58:26.993Z [container-agent]     if not workload_.status or workload_.status == ops.WaitingStatus():
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/workload.py", line 414, in status
+2025-05-14T12:58:26.993Z [container-agent]     if not self.shell.is_router_in_cluster_set(self._router_id):
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/mysql_shell/__init__.py", line 214, in is_router_in_cluster_set
+2025-05-14T12:58:26.993Z [container-agent]     self._run_code(
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/mysql_shell/__init__.py", line 74, in _run_code
+2025-05-14T12:58:26.993Z [container-agent]     self._container.run_mysql_shell(
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T12:58:26.993Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/container.py", line 212, in run_mysql_shell
+2025-05-14T12:58:26.993Z [container-agent]     return self._run_command(args, timeout=timeout, input=input)
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/lib/charms/tempo_coordinator_k8s/v0/charm_tracing.py", line 735, in wrapped_function
+2025-05-14T12:58:26.993Z [container-agent]     return callable(*args, **kwargs)  # type: ignore
+2025-05-14T12:58:26.993Z [container-agent]   File "/var/lib/juju/agents/unit-keystone-mysql-router-0/charm/src/rock.py", line 247, in _run_command
+2025-05-14T12:58:26.993Z [container-agent]     raise container.CalledProcessError(
+2025-05-14T12:58:26.993Z [container-agent] container.CalledProcessError: Command '['mysqlsh', '--passwords-from-stdin', '--uri', 'relation-85_ee070cdf4b8b49@mysql-primary.openstack.svc.cluster.local:3306', '--python', '--file', '/tmp/mysqlsh_script.py']' returned non-zero exit status 1.
+2025-05-14T12:58:28.859Z [container-agent] 2025-05-14 12:58:28 ERROR juju.worker.uniter.operation runhook.go:180 hook "update-status" (via hook dispatching script: dispatch) failed: exit status 1
+2025-05-14T12:58:28.879Z [container-agent] 2025-05-14 12:58:28 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:58:30.277Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T12:58:38.749Z [container-agent] 2025-05-14 12:58:38 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:58:40.297Z [pebble] Check "readiness" failure 5/3: non-2xx status code 418
+2025-05-14T12:58:48.029Z [container-agent] 2025-05-14 12:58:48 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T12:58:50.281Z [pebble] Check "readiness" failure 6/3: non-2xx status code 418
+2025-05-14T12:58:53.088Z [container-agent] 2025-05-14 12:58:53 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T12:58:53.348Z [container-agent] 2025-05-14 12:58:53 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T12:58:56.849Z [container-agent] 2025-05-14 12:58:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:58:56.868Z [container-agent] 2025-05-14 12:58:56 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T12:59:00.300Z [pebble] Check "readiness" failure 7/3: non-2xx status code 418
+2025-05-14T12:59:01.998Z [container-agent] 2025-05-14 12:59:01 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T12:59:05.878Z [container-agent] 2025-05-14 12:59:05 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T12:59:06.073Z [container-agent] 2025-05-14 12:59:06 INFO juju-log Unable to connect to endpoint='keystone-mysql-router-service.openstack.svc.cluster.local:6446'
+2025-05-14T12:59:09.883Z [container-agent] 2025-05-14 12:59:09 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T12:59:19.944Z [container-agent] 2025-05-14 12:59:19 INFO juju.worker.uniter.operation runhook.go:186 ran "mysql-router-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T13:03:42.252Z [container-agent] 2025-05-14 13:03:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:09:42.217Z [container-agent] 2025-05-14 13:09:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:14:34.877Z [container-agent] 2025-05-14 13:14:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:19:49.161Z [container-agent] 2025-05-14 13:19:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:24:06.267Z [container-agent] 2025-05-14 13:24:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:28:56.140Z [container-agent] 2025-05-14 13:28:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:32:59.406Z [container-agent] 2025-05-14 13:32:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:37:50.430Z [container-agent] 2025-05-14 13:37:50 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:43:49.194Z [container-agent] 2025-05-14 13:43:49 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:24.638Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "leadership-tracker" manifold worker returned unexpected error: leadership failure: error making a leadership claim: write tcp 10.1.0.126:51542->10.152.183.59:17070: write: broken pipe
+2025-05-14T14:07:24.638Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T14:07:24.644Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.126:51542->10.152.183.59:17070: write: broken pipe
+2025-05-14T14:07:24.644Z [container-agent] 2025-05-14 14:07:24 WARNING juju.worker.uniter.resolver loop.go:145 executor lock acquisition cancelled
+2025-05-14T14:07:24.644Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T14:07:24.646Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.uniter uniter.go:349 unit "keystone-mysql-router/0" shutting down: (re)starting watcher: connection is shut down
+2025-05-14T14:07:28.040Z [container-agent] 2025-05-14 14:07:28 INFO juju.api apiclient.go:601 connection established to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:28.053Z [container-agent] 2025-05-14 14:07:28 INFO juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-keystone-mysql-router-0" cannot open api: try again (try again)
+2025-05-14T14:07:31.679Z [container-agent] 2025-05-14 14:07:31 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T14:07:31.679Z [container-agent] 2025-05-14 14:07:31 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:31.789Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-keystone-mysql-router-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T14:07:31.858Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T14:07:31.862Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T14:07:31.932Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.leadership tracker.go:244 keystone-mysql-router/0 promoted to leadership of keystone-mysql-router
+2025-05-14T14:07:31.973Z [container-agent] 2025-05-14 14:07:31 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T14:07:31.977Z [container-agent] 2025-05-14 14:07:31 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-keystone-mysql-router-0
+2025-05-14T14:07:31.999Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T14:07:32.002Z [container-agent] 2025-05-14 14:07:32 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T14:07:32.884Z [container-agent] 2025-05-14 14:07:32 INFO juju.worker.uniter uniter.go:365 unit "keystone-mysql-router/0" started
+2025-05-14T14:07:32.976Z [container-agent] 2025-05-14 14:07:32 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T14:07:33.564Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T14:07:40.430Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T14:07:50.385Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T14:07:56.376Z [container-agent] 2025-05-14 14:07:56 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T14:08:17.731Z [container-agent] 2025-05-14 14:08:17 INFO juju.worker.uniter.operation runhook.go:186 ran "mysql-router-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T14:12:38.195Z [container-agent] 2025-05-14 14:12:38 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:17:36.199Z [container-agent] 2025-05-14 14:17:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:22:13.238Z [container-agent] 2025-05-14 14:22:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:27:08.393Z [container-agent] 2025-05-14 14:27:08 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:33:01.006Z [container-agent] 2025-05-14 14:33:01 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:37:46.886Z [container-agent] 2025-05-14 14:37:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:43:03.288Z [container-agent] 2025-05-14 14:43:03 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:48:09.588Z [container-agent] 2025-05-14 14:48:09 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:53:13.182Z [container-agent] 2025-05-14 14:53:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:57:46.380Z [container-agent] 2025-05-14 14:57:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T15:03:46.027Z [container-agent] 2025-05-14 15:03:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)

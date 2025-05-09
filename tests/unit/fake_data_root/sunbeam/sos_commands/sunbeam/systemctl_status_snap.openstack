@@ -1,0 +1,20 @@
+● snap.openstack.clusterd.service - Service for snap application openstack.clusterd
+     Loaded: loaded (/etc/systemd/system/snap.openstack.clusterd.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 04:22:03 UTC; 10h ago
+   Main PID: 1041 (sunbeamd)
+      Tasks: 18 (limit: 19136)
+     Memory: 97.1M (peak: 118.1M)
+        CPU: 2min 55.858s
+     CGroup: /system.slice/snap.openstack.clusterd.service
+             └─1041 sunbeamd --state-dir /var/snap/openstack/common/state --socket-group snap_daemon --verbose
+
+May 14 14:22:20 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:22:20Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:22:30 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:22:30Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:22:40 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:22:40Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:22:50 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:22:50Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:23:00 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:23:00Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:23:10 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:23:10Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:23:20 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:23:20Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:23:30 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:23:30Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:23:40 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:23:40Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"
+May 14 14:23:50 noble-sunbeam openstack.clusterd[1041]: time="2025-05-14T14:23:50Z" level=info msg="This is a hook that is run on the dqlite leader after a successful heartbeat"

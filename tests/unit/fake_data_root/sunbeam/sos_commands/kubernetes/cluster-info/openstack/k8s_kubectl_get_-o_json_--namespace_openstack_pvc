@@ -1,0 +1,425 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "glance",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "local-repository",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:28:28Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance",
+                    "storage.juju.is/name": "local-repository"
+                },
+                "name": "glance-local-repository-106d8bed-glance-0",
+                "namespace": "openstack",
+                "resourceVersion": "4240",
+                "uid": "a1e62018-b5f2-4781-ad8a-75628bcd3166"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "1Gi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-a1e62018-b5f2-4781-ad8a-75628bcd3166"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "1Gi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "keystone",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "credential-keys",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:27:52Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone",
+                    "storage.juju.is/name": "credential-keys"
+                },
+                "name": "keystone-credential-keys-b9d614e0-keystone-0",
+                "namespace": "openstack",
+                "resourceVersion": "3752",
+                "uid": "8c069d4b-ef5a-42fc-9e95-578b426c78aa"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "5Mi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-8c069d4b-ef5a-42fc-9e95-578b426c78aa"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "16Mi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "keystone",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "fernet-keys",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:27:52Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone",
+                    "storage.juju.is/name": "fernet-keys"
+                },
+                "name": "keystone-fernet-keys-b9d614e0-keystone-0",
+                "namespace": "openstack",
+                "resourceVersion": "3762",
+                "uid": "c025b1a8-06c9-4e1e-b0be-d691919832bd"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "5Mi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-c025b1a8-06c9-4e1e-b0be-d691919832bd"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "16Mi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "mysql",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "database",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:25:46Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "mysql",
+                    "storage.juju.is/name": "database"
+                },
+                "name": "mysql-database-c09a31bd-mysql-0",
+                "namespace": "openstack",
+                "resourceVersion": "2941",
+                "uid": "c0c40588-bcec-413f-9bb6-b61cb6108131"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "20Gi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-c0c40588-bcec-413f-9bb6-b61cb6108131"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "20Gi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "ovn-central",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "databases",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:25:58Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-central",
+                    "storage.juju.is/name": "databases"
+                },
+                "name": "ovn-central-databases-6e1cd209-ovn-central-0",
+                "namespace": "openstack",
+                "resourceVersion": "3030",
+                "uid": "d3080134-2020-4fe9-8905-5c68b093dbd0"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "100Mi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-d3080134-2020-4fe9-8905-5c68b093dbd0"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "100Mi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "rabbitmq",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "rabbitmq-data",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:25:42Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "rabbitmq",
+                    "storage.juju.is/name": "rabbitmq-data"
+                },
+                "name": "rabbitmq-rabbitmq-data-a5d9572d-rabbitmq-0",
+                "namespace": "openstack",
+                "resourceVersion": "2889",
+                "uid": "99ffd364-8793-43f2-8d1f-8e6960669286"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "1Gi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-99ffd364-8793-43f2-8d1f-8e6960669286"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "1Gi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "traefik",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "configurations",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:25:37Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik",
+                    "storage.juju.is/name": "configurations"
+                },
+                "name": "traefik-configurations-306f5094-traefik-0",
+                "namespace": "openstack",
+                "resourceVersion": "2814",
+                "uid": "ffb95b67-d50c-40dc-9f2d-e73c13bab67c"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "1Gi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-ffb95b67-d50c-40dc-9f2d-e73c13bab67c"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "1Gi"
+                },
+                "phase": "Bound"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "PersistentVolumeClaim",
+            "metadata": {
+                "annotations": {
+                    "controller.juju.is/id": "f6bcbd57-f5dd-48be-820d-5da61700b5c2",
+                    "juju-storage-owner": "traefik-public",
+                    "model.juju.is/id": "ee070cdf-4b8b-49ac-80cb-918841540fbe",
+                    "pv.kubernetes.io/bind-completed": "yes",
+                    "pv.kubernetes.io/bound-by-controller": "yes",
+                    "storage.juju.is/name": "configurations",
+                    "volume.beta.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io",
+                    "volume.kubernetes.io/selected-node": "noble-sunbeam",
+                    "volume.kubernetes.io/storage-provisioner": "rawfile.csi.openebs.io"
+                },
+                "creationTimestamp": "2025-05-09T15:25:34Z",
+                "finalizers": [
+                    "kubernetes.io/pvc-protection"
+                ],
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik-public",
+                    "storage.juju.is/name": "configurations"
+                },
+                "name": "traefik-public-configurations-9a7a0be3-traefik-public-0",
+                "namespace": "openstack",
+                "resourceVersion": "2773",
+                "uid": "a32597b7-d0d6-46ad-a462-4b833cefbab3"
+            },
+            "spec": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "resources": {
+                    "requests": {
+                        "storage": "1Gi"
+                    }
+                },
+                "storageClassName": "csi-rawfile-default",
+                "volumeMode": "Filesystem",
+                "volumeName": "pvc-a32597b7-d0d6-46ad-a462-4b833cefbab3"
+            },
+            "status": {
+                "accessModes": [
+                    "ReadWriteOnce"
+                ],
+                "capacity": {
+                    "storage": "1Gi"
+                },
+                "phase": "Bound"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

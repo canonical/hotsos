@@ -1,0 +1,521 @@
+2025-05-14T04:24:56.068Z [pebble] HTTP API server listening on ":38812".
+2025-05-14T04:24:56.068Z [pebble] Started daemon.
+2025-05-14T04:24:56.172Z [pebble] POST /v1/services 95.908883ms 202
+2025-05-14T04:24:56.185Z [pebble] Service "container-agent" starting: /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env "PATH=$PATH:/charm/bin" --show-log --charm-modified-version 0
+2025-05-14T04:24:56.289Z [container-agent] 2025-05-14 04:24:56 INFO juju.cmd supercommand.go:56 running containerAgent [3.6.5 33b026f4ab2a4fe371764b9c41993d3e1e90ddef gc go1.24.1]
+2025-05-14T04:24:56.289Z [container-agent] starting containeragent unit command
+2025-05-14T04:24:56.290Z [container-agent] containeragent unit "unit-rabbitmq-0" start (3.6.5 [gc])
+2025-05-14T04:24:56.290Z [container-agent] 2025-05-14 04:24:56 INFO juju.cmd.containeragent.unit runner.go:592 start "unit"
+2025-05-14T04:24:56.291Z [container-agent] 2025-05-14 04:24:56 INFO juju.worker.upgradesteps worker.go:60 upgrade steps for 3.6.5 have already been run.
+2025-05-14T04:24:56.296Z [container-agent] 2025-05-14 04:24:56 INFO juju.worker.probehttpserver server.go:157 starting http server on 127.0.0.1:65301
+2025-05-14T04:24:56.321Z [container-agent] 2025-05-14 04:24:56 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:24:56.724Z [container-agent] 2025-05-14 04:24:56 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-rabbitmq-0" cannot open api: cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:24:57.204Z [pebble] GET /v1/changes/50/wait 1.029372178s 200
+2025-05-14T04:24:57.204Z [pebble] Started default services with change 50.
+2025-05-14T04:25:00.326Z [container-agent] 2025-05-14 04:25:00 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:25:00.527Z [container-agent] 2025-05-14 04:25:00 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-rabbitmq-0" cannot open api: cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local on 10.152.183.193:53: dial udp 10.152.183.193:53: connect: operation not permitted
+2025-05-14T04:25:05.267Z [container-agent] 2025-05-14 04:25:05 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T04:25:05.267Z [container-agent] 2025-05-14 04:25:05 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T04:25:05.285Z [container-agent] 2025-05-14 04:25:05 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-rabbitmq-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T04:25:05.318Z [container-agent] 2025-05-14 04:25:05 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T04:25:05.326Z [container-agent] 2025-05-14 04:25:05 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T04:25:05.365Z [container-agent] 2025-05-14 04:25:05 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T04:25:05.396Z [container-agent] 2025-05-14 04:25:05 INFO juju.worker.leadership tracker.go:244 rabbitmq/0 promoted to leadership of rabbitmq
+2025-05-14T04:25:05.437Z [container-agent] 2025-05-14 04:25:05 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T04:25:05.438Z [container-agent] 2025-05-14 04:25:05 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-rabbitmq-0
+2025-05-14T04:25:05.438Z [container-agent] 2025-05-14 04:25:05 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T04:25:06.214Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T04:25:07.570Z [container-agent] 2025-05-14 04:25:07 INFO juju.worker.uniter uniter.go:365 unit "rabbitmq/0" started
+2025-05-14T04:25:07.671Z [container-agent] 2025-05-14 04:25:07 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T04:25:08.576Z [container-agent] 2025-05-14 04:25:08 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T04:25:14.669Z [container-agent] 2025-05-14 04:25:14 INFO juju-log Running legacy hooks/start.
+2025-05-14T04:25:16.466Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T04:25:19.740Z [container-agent] 2025-05-14 04:25:19 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T04:25:24.432Z [container-agent] 2025-05-14 04:25:24 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T04:25:29.744Z [container-agent] 2025-05-14 04:25:29 INFO juju-log Pushing new enabled_plugins
+2025-05-14T04:25:29.832Z [container-agent] 2025-05-14 04:25:29 INFO juju-log Pushing new rabbitmq.conf
+2025-05-14T04:25:29.909Z [container-agent] 2025-05-14 04:25:29 INFO juju-log Pushing new rabbitmq-env.conf
+2025-05-14T04:25:30.009Z [container-agent] 2025-05-14 04:25:30 INFO juju-log Pushing new notifier script
+2025-05-14T04:25:30.189Z [container-agent] 2025-05-14 04:25:30 INFO juju-log Autostarting rabbitmq
+2025-05-14T04:25:34.703Z [container-agent] 2025-05-14 04:25:34 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:25:39.019Z [container-agent] 2025-05-14 04:25:39 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:25:43.100Z [container-agent] 2025-05-14 04:25:43 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:25:47.308Z [container-agent] 2025-05-14 04:25:47 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:25:55.405Z [container-agent] 2025-05-14 04:25:55 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:26:05.475Z [container-agent] 2025-05-14 04:26:05 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:26:15.609Z [container-agent] 2025-05-14 04:26:15 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:26:25.733Z [container-agent] 2025-05-14 04:26:25 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:26:35.951Z [container-agent] 2025-05-14 04:26:35 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:26:46.112Z [container-agent] 2025-05-14 04:26:46 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:26:56.341Z [container-agent] 2025-05-14 04:26:56 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:27:06.629Z [container-agent] 2025-05-14 04:27:06 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T04:27:06.888Z [container-agent] 2025-05-14 04:27:06 INFO juju-log RabbitMQ started
+2025-05-14T04:27:08.977Z [container-agent] 2025-05-14 04:27:08 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:27:09.819Z [container-agent] 2025-05-14 04:27:09 WARNING juju-log No Loki endpoints available
+2025-05-14T04:27:10.350Z [container-agent] 2025-05-14 04:27:10 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T04:30:15.659Z [container-agent] 2025-05-14 04:30:15 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:30:16.313Z [container-agent] 2025-05-14 04:30:16 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:35:45.299Z [container-agent] 2025-05-14 04:35:45 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:35:45.832Z [container-agent] 2025-05-14 04:35:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:40:20.092Z [container-agent] 2025-05-14 04:40:20 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:40:20.733Z [container-agent] 2025-05-14 04:40:20 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:44:44.042Z [container-agent] 2025-05-14 04:44:44 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:44:44.515Z [container-agent] 2025-05-14 04:44:44 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:50:28.090Z [container-agent] 2025-05-14 04:50:28 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:50:28.650Z [container-agent] 2025-05-14 04:50:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:54:51.082Z [container-agent] 2025-05-14 04:54:51 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:54:51.559Z [container-agent] 2025-05-14 04:54:51 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T04:55:35.239Z [container-agent] 2025-05-14 04:55:35 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T04:55:35.769Z [container-agent] 2025-05-14 04:55:35 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T05:00:26.218Z [container-agent] 2025-05-14 05:00:26 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T05:00:26.904Z [container-agent] 2025-05-14 05:00:26 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:05:17.511Z [container-agent] 2025-05-14 05:05:17 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T05:05:17.981Z [container-agent] 2025-05-14 05:05:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:11:04.892Z [container-agent] 2025-05-14 05:11:04 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T05:11:05.389Z [container-agent] 2025-05-14 05:11:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:16:01.603Z [container-agent] 2025-05-14 05:16:01 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T05:16:02.192Z [container-agent] 2025-05-14 05:16:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:20:31.672Z [container-agent] 2025-05-14 05:20:31 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T05:20:32.240Z [container-agent] 2025-05-14 05:20:32 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:25:27.362Z [container-agent] 2025-05-14 05:25:27 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T05:25:27.870Z [container-agent] 2025-05-14 05:25:27 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T05:25:35.303Z [container-agent] 2025-05-14 05:25:35 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T05:25:35.791Z [container-agent] 2025-05-14 05:25:35 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T07:07:15.304Z [container-agent] 2025-05-14 07:07:15 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:38638->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T07:07:15.574Z [container-agent] 2025-05-14 07:07:15 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T07:07:15.576Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:38638->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T07:07:15.703Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for rabbitmq/0: getting unit payloads: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:38638->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T07:07:15.956Z [container-agent] 2025-05-14 07:07:15 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T07:07:15.956Z [container-agent] 2025-05-14 07:07:15 INFO juju.worker.uniter uniter.go:349 unit "rabbitmq/0" shutting down: preparing operation "run update-status hook" for rabbitmq/0: getting unit payloads: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:38638->172.16.1.201:17070: write: connection reset by peer
+2025-05-14T07:07:21.386Z [container-agent] 2025-05-14 07:07:21 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T07:07:22.540Z [container-agent] 2025-05-14 07:07:22 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-rabbitmq-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T07:07:23.266Z [container-agent] 2025-05-14 07:07:23 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T07:07:23.268Z [container-agent] 2025-05-14 07:07:23 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T07:07:25.187Z [container-agent] 2025-05-14 07:07:25 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T07:07:25.610Z [container-agent] 2025-05-14 07:07:25 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-rabbitmq-0
+2025-05-14T07:07:25.677Z [container-agent] 2025-05-14 07:07:25 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T07:07:25.677Z [container-agent] 2025-05-14 07:07:25 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T07:07:26.331Z [container-agent] 2025-05-14 07:07:26 INFO juju.worker.leadership tracker.go:244 rabbitmq/0 promoted to leadership of rabbitmq
+2025-05-14T07:07:26.454Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T07:07:34.706Z [container-agent] 2025-05-14 07:07:34 INFO juju.worker.uniter uniter.go:365 unit "rabbitmq/0" started
+2025-05-14T07:07:35.183Z [container-agent] 2025-05-14 07:07:35 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T07:07:36.141Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T07:07:37.206Z [container-agent] 2025-05-14 07:07:37 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T07:07:46.185Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T07:07:46.185Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T07:07:46.185Z [pebble] Change 49 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T07:07:50.682Z [container-agent] 2025-05-14 07:07:50 INFO juju-log Running legacy hooks/start.
+2025-05-14T07:07:57.097Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T07:08:05.309Z [container-agent] 2025-05-14 07:08:05 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T07:08:22.758Z [container-agent] 2025-05-14 07:08:22 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:08:26.006Z [container-agent] 2025-05-14 07:08:26 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T07:08:37.386Z [container-agent] 2025-05-14 07:08:37 INFO juju-log Pushing new enabled_plugins
+2025-05-14T07:08:37.461Z [container-agent] 2025-05-14 07:08:37 INFO juju-log Pushing new rabbitmq.conf
+2025-05-14T07:08:37.581Z [container-agent] 2025-05-14 07:08:37 INFO juju-log Pushing new rabbitmq-env.conf
+2025-05-14T07:08:39.205Z [container-agent] 2025-05-14 07:08:39 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T07:08:39.841Z [container-agent] 2025-05-14 07:08:39 INFO juju-log RabbitMQ started
+2025-05-14T07:08:45.816Z [container-agent] 2025-05-14 07:08:45 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:08:46.849Z [container-agent] 2025-05-14 07:08:46 WARNING juju-log No Loki endpoints available
+2025-05-14T07:08:48.384Z [container-agent] 2025-05-14 07:08:48 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T07:12:14.276Z [container-agent] 2025-05-14 07:12:14 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:12:14.965Z [container-agent] 2025-05-14 07:12:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:17:22.815Z [container-agent] 2025-05-14 07:17:22 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:17:23.401Z [container-agent] 2025-05-14 07:17:23 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:22:33.134Z [container-agent] 2025-05-14 07:22:33 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:22:34.051Z [container-agent] 2025-05-14 07:22:34 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:27:15.532Z [container-agent] 2025-05-14 07:27:15 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:27:16.262Z [container-agent] 2025-05-14 07:27:16 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:31:21.429Z [container-agent] 2025-05-14 07:31:21 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:31:21.996Z [container-agent] 2025-05-14 07:31:21 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:37:15.113Z [container-agent] 2025-05-14 07:37:15 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:37:16.136Z [container-agent] 2025-05-14 07:37:16 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:37:20.228Z [container-agent] 2025-05-14 07:37:20 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:37:21.019Z [container-agent] 2025-05-14 07:37:21 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T07:41:59.762Z [container-agent] 2025-05-14 07:41:59 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:42:00.599Z [container-agent] 2025-05-14 07:42:00 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:47:15.184Z [container-agent] 2025-05-14 07:47:15 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:47:16.341Z [container-agent] 2025-05-14 07:47:16 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:52:33.343Z [container-agent] 2025-05-14 07:52:33 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:52:33.994Z [container-agent] 2025-05-14 07:52:33 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T07:57:37.997Z [container-agent] 2025-05-14 07:57:37 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T07:57:38.842Z [container-agent] 2025-05-14 07:57:38 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:02:08.347Z [container-agent] 2025-05-14 08:02:08 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:02:09.595Z [container-agent] 2025-05-14 08:02:09 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:06:52.808Z [container-agent] 2025-05-14 08:06:52 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:06:53.581Z [container-agent] 2025-05-14 08:06:53 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:07:19.440Z [container-agent] 2025-05-14 08:07:19 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:07:20.078Z [container-agent] 2025-05-14 08:07:20 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T08:11:45.618Z [container-agent] 2025-05-14 08:11:45 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:11:46.237Z [container-agent] 2025-05-14 08:11:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:16:41.099Z [container-agent] 2025-05-14 08:16:41 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:16:42.014Z [container-agent] 2025-05-14 08:16:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:21:02.658Z [container-agent] 2025-05-14 08:21:02 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:21:03.277Z [container-agent] 2025-05-14 08:21:03 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:25:11.848Z [container-agent] 2025-05-14 08:25:11 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:25:12.569Z [container-agent] 2025-05-14 08:25:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:30:41.067Z [container-agent] 2025-05-14 08:30:41 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:30:41.722Z [container-agent] 2025-05-14 08:30:41 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:35:31.914Z [container-agent] 2025-05-14 08:35:31 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:35:32.519Z [container-agent] 2025-05-14 08:35:32 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:37:18.581Z [container-agent] 2025-05-14 08:37:18 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:37:19.079Z [container-agent] 2025-05-14 08:37:19 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T08:41:04.734Z [container-agent] 2025-05-14 08:41:04 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:41:05.800Z [container-agent] 2025-05-14 08:41:05 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:45:25.240Z [container-agent] 2025-05-14 08:45:25 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:45:25.812Z [container-agent] 2025-05-14 08:45:25 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:49:53.170Z [container-agent] 2025-05-14 08:49:53 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:49:53.827Z [container-agent] 2025-05-14 08:49:53 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T08:55:34.750Z [container-agent] 2025-05-14 08:55:34 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T08:55:35.548Z [container-agent] 2025-05-14 08:55:35 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:00:46.226Z [container-agent] 2025-05-14 09:00:46 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:00:46.788Z [container-agent] 2025-05-14 09:00:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:04:55.617Z [container-agent] 2025-05-14 09:04:55 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:04:56.253Z [container-agent] 2025-05-14 09:04:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:07:18.623Z [container-agent] 2025-05-14 09:07:18 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:07:19.132Z [container-agent] 2025-05-14 09:07:19 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T09:09:55.503Z [container-agent] 2025-05-14 09:09:55 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:09:56.106Z [container-agent] 2025-05-14 09:09:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:14:12.706Z [container-agent] 2025-05-14 09:14:12 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:14:13.308Z [container-agent] 2025-05-14 09:14:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:19:12.390Z [container-agent] 2025-05-14 09:19:12 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:19:13.163Z [container-agent] 2025-05-14 09:19:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:24:20.766Z [container-agent] 2025-05-14 09:24:20 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:24:21.778Z [container-agent] 2025-05-14 09:24:21 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:24:21.779Z [container-agent] 2025-05-14 09:24:21 ERROR juju.worker.dependency engine.go:695 "log-sender" manifold worker returned unexpected error: sending log message: websocket: close 1005 (no status): websocket: close sent
+2025-05-14T09:29:20.123Z [container-agent] 2025-05-14 09:29:20 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:29:20.927Z [container-agent] 2025-05-14 09:29:20 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:34:14.792Z [container-agent] 2025-05-14 09:34:14 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:34:15.395Z [container-agent] 2025-05-14 09:34:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:37:19.621Z [container-agent] 2025-05-14 09:37:19 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:37:20.128Z [container-agent] 2025-05-14 09:37:20 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T09:39:21.580Z [container-agent] 2025-05-14 09:39:21 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:39:22.201Z [container-agent] 2025-05-14 09:39:22 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:43:28.691Z [container-agent] 2025-05-14 09:43:28 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:43:29.426Z [container-agent] 2025-05-14 09:43:29 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:48:27.358Z [container-agent] 2025-05-14 09:48:27 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:48:28.033Z [container-agent] 2025-05-14 09:48:28 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:53:45.643Z [container-agent] 2025-05-14 09:53:45 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:53:46.454Z [container-agent] 2025-05-14 09:53:46 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T09:59:01.468Z [container-agent] 2025-05-14 09:59:01 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T09:59:02.103Z [container-agent] 2025-05-14 09:59:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:04:09.616Z [container-agent] 2025-05-14 10:04:09 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T10:04:10.404Z [container-agent] 2025-05-14 10:04:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:07:18.589Z [container-agent] 2025-05-14 10:07:18 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T10:07:19.095Z [container-agent] 2025-05-14 10:07:19 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T10:08:45.278Z [container-agent] 2025-05-14 10:08:45 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T10:08:45.807Z [container-agent] 2025-05-14 10:08:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:14:11.423Z [container-agent] 2025-05-14 10:14:11 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T10:14:12.141Z [container-agent] 2025-05-14 10:14:12 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:18:12.731Z [container-agent] 2025-05-14 10:18:12 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T10:18:13.472Z [container-agent] 2025-05-14 10:18:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:24:02.404Z [container-agent] 2025-05-14 10:24:02 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T10:24:02.996Z [container-agent] 2025-05-14 10:24:02 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T10:28:03.299Z [container-agent] 2025-05-14 10:28:03 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T10:28:03.945Z [container-agent] 2025-05-14 10:28:03 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:22:25.868Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.015Z [container-agent] 2025-05-14 11:22:25 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.worker.uniter agent.go:33 resolver loop error: preparing operation "run update-status hook" for rabbitmq/0: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:26 ERROR juju.worker.uniter agent.go:36 updating agent status: connection is shut down
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:25 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:26.232Z [container-agent] 2025-05-14 11:22:26 INFO juju.worker.uniter uniter.go:349 unit "rabbitmq/0" shutting down: preparing operation "run update-status hook" for rabbitmq/0: write tcp 10.1.0.224:58854->172.16.1.201:17070: write: broken pipe
+2025-05-14T11:22:29.896Z [container-agent] 2025-05-14 11:22:29 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T11:22:30.702Z [container-agent] 2025-05-14 11:22:30 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-rabbitmq-0" successfully connected to "wss://10.152.183.59:17070"
+2025-05-14T11:22:31.250Z [container-agent] 2025-05-14 11:22:31 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T11:22:31.360Z [container-agent] 2025-05-14 11:22:31 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T11:22:35.410Z [container-agent] 2025-05-14 11:22:35 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T11:22:35.410Z [container-agent] 2025-05-14 11:22:35 INFO juju.worker.leadership tracker.go:244 rabbitmq/0 promoted to leadership of rabbitmq
+2025-05-14T11:22:35.502Z [container-agent] 2025-05-14 11:22:35 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-rabbitmq-0
+2025-05-14T11:22:35.762Z [container-agent] 2025-05-14 11:22:35 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T11:22:35.764Z [container-agent] 2025-05-14 11:22:35 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T11:22:37.093Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T11:22:44.306Z [container-agent] 2025-05-14 11:22:44 INFO juju.worker.uniter uniter.go:365 unit "rabbitmq/0" started
+2025-05-14T11:22:44.834Z [container-agent] 2025-05-14 11:22:44 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T11:22:46.931Z [container-agent] 2025-05-14 11:22:46 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T11:22:47.108Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T11:22:57.162Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T11:22:57.162Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T11:22:57.163Z [pebble] Change 52 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T11:22:57.726Z [container-agent] 2025-05-14 11:22:57 INFO juju-log Running legacy hooks/start.
+2025-05-14T11:23:07.749Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T11:23:09.917Z [container-agent] 2025-05-14 11:23:09 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T11:23:19.136Z [container-agent] 2025-05-14 11:23:19 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T11:23:26.195Z [container-agent] 2025-05-14 11:23:26 INFO juju-log Pushing new enabled_plugins
+2025-05-14T11:23:26.291Z [container-agent] 2025-05-14 11:23:26 INFO juju-log Pushing new rabbitmq.conf
+2025-05-14T11:23:26.385Z [container-agent] 2025-05-14 11:23:26 INFO juju-log Pushing new rabbitmq-env.conf
+2025-05-14T11:23:26.573Z [container-agent] 2025-05-14 11:23:26 INFO juju-log Pushing new notifier script
+2025-05-14T11:23:26.733Z [container-agent] 2025-05-14 11:23:26 INFO juju-log Autostarting rabbitmq
+2025-05-14T11:23:32.094Z [container-agent] 2025-05-14 11:23:32 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:23:36.265Z [container-agent] 2025-05-14 11:23:36 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:23:40.600Z [container-agent] 2025-05-14 11:23:40 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:23:44.909Z [container-agent] 2025-05-14 11:23:44 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:23:53.058Z [container-agent] 2025-05-14 11:23:53 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:24:03.308Z [container-agent] 2025-05-14 11:24:03 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:24:13.637Z [container-agent] 2025-05-14 11:24:13 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:24:23.845Z [container-agent] 2025-05-14 11:24:23 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:24:34.186Z [container-agent] 2025-05-14 11:24:34 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:24:44.730Z [container-agent] 2025-05-14 11:24:44 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:24:54.887Z [container-agent] 2025-05-14 11:24:54 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:25:05.035Z [container-agent] 2025-05-14 11:25:05 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T11:25:05.234Z [container-agent] 2025-05-14 11:25:05 INFO juju-log RabbitMQ started
+2025-05-14T11:25:07.407Z [container-agent] 2025-05-14 11:25:07 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:25:08.277Z [container-agent] 2025-05-14 11:25:08 WARNING juju-log No Loki endpoints available
+2025-05-14T11:25:08.893Z [container-agent] 2025-05-14 11:25:08 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T11:27:30.775Z [container-agent] 2025-05-14 11:27:30 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:27:31.669Z [container-agent] 2025-05-14 11:27:31 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:33:17.224Z [container-agent] 2025-05-14 11:33:17 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:33:18.249Z [container-agent] 2025-05-14 11:33:18 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:37:20.489Z [container-agent] 2025-05-14 11:37:20 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:37:21.588Z [container-agent] 2025-05-14 11:37:21 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:42:38.290Z [container-agent] 2025-05-14 11:42:38 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:42:39.432Z [container-agent] 2025-05-14 11:42:39 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:46:56.688Z [container-agent] 2025-05-14 11:46:56 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:46:57.551Z [container-agent] 2025-05-14 11:46:57 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:51:42.147Z [container-agent] 2025-05-14 11:51:42 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:51:43.128Z [container-agent] 2025-05-14 11:51:43 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T11:53:32.712Z [container-agent] 2025-05-14 11:53:32 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:53:33.257Z [container-agent] 2025-05-14 11:53:33 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T11:57:35.961Z [container-agent] 2025-05-14 11:57:35 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T11:57:36.567Z [container-agent] 2025-05-14 11:57:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:02:13.186Z [container-agent] 2025-05-14 12:02:13 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:02:13.904Z [container-agent] 2025-05-14 12:02:13 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:06:51.647Z [container-agent] 2025-05-14 12:06:51 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:06:52.282Z [container-agent] 2025-05-14 12:06:52 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:11:13.834Z [container-agent] 2025-05-14 12:11:13 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:11:14.393Z [container-agent] 2025-05-14 12:11:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:16:55.578Z [container-agent] 2025-05-14 12:16:55 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:16:56.445Z [container-agent] 2025-05-14 12:16:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:22:24.311Z [container-agent] 2025-05-14 12:22:24 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:22:24.929Z [container-agent] 2025-05-14 12:22:24 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:23:32.705Z [container-agent] 2025-05-14 12:23:32 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:23:33.154Z [container-agent] 2025-05-14 12:23:33 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T12:28:02.278Z [container-agent] 2025-05-14 12:28:02 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:28:03.239Z [container-agent] 2025-05-14 12:28:03 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:33:19.138Z [container-agent] 2025-05-14 12:33:19 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:33:19.869Z [container-agent] 2025-05-14 12:33:19 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:38:36.997Z [container-agent] 2025-05-14 12:38:36 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:38:37.704Z [container-agent] 2025-05-14 12:38:37 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:42:41.713Z [container-agent] 2025-05-14 12:42:41 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:42:42.415Z [container-agent] 2025-05-14 12:42:42 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:46:44.409Z [container-agent] 2025-05-14 12:46:44 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:46:45.223Z [container-agent] 2025-05-14 12:46:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:51:56.165Z [container-agent] 2025-05-14 12:51:56 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:51:56.938Z [container-agent] 2025-05-14 12:51:56 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:53:32.626Z [container-agent] 2025-05-14 12:53:32 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:53:33.115Z [container-agent] 2025-05-14 12:53:33 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.824Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.878Z [container-agent] 2025-05-14 12:57:31 ERROR juju.api.watcher watcher.go:95 error trying to stop watcher: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.880Z [container-agent] 2025-05-14 12:57:31 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: codec.ReadHeader error: error receiving message: write tcp 10.1.0.224:51586->10.152.183.59:17070: write: broken pipe
+2025-05-14T12:57:31.880Z [container-agent] 2025-05-14 12:57:31 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T12:57:35.214Z [container-agent] 2025-05-14 12:57:35 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T12:57:35.214Z [container-agent] 2025-05-14 12:57:35 INFO juju.api apiclient.go:601 connection established to "wss://172.16.1.201:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T12:57:35.586Z [container-agent] 2025-05-14 12:57:35 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-rabbitmq-0" successfully connected to "wss://172.16.1.201:17070"
+2025-05-14T12:57:35.642Z [container-agent] 2025-05-14 12:57:35 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T12:57:35.654Z [container-agent] 2025-05-14 12:57:35 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T12:57:37.205Z [container-agent] 2025-05-14 12:57:37 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T12:57:37.216Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.leadership tracker.go:244 rabbitmq/0 promoted to leadership of rabbitmq
+2025-05-14T12:57:37.433Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T12:57:37.452Z [container-agent] 2025-05-14 12:57:37 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T12:57:45.281Z [container-agent] 2025-05-14 12:57:45 ERROR juju-log Uncaught exception while in charm code:
+2025-05-14T12:57:45.283Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/model.py", line 3407, in _run
+2025-05-14T12:57:45.283Z [container-agent]     result = subprocess.run(args, **kwargs)  # type: ignore
+2025-05-14T12:57:45.283Z [container-agent]              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/usr/lib/python3.12/subprocess.py", line 571, in run
+2025-05-14T12:57:45.283Z [container-agent]     raise CalledProcessError(retcode, process.args,
+2025-05-14T12:57:45.283Z [container-agent] subprocess.CalledProcessError: Command '('/var/lib/juju/tools/unit-rabbitmq-0/relation-get', '-r', '9', '-', 'rabbitmq', '--app', '--format=json')' returned non-zero exit status 1.
+2025-05-14T12:57:45.283Z [container-agent] 
+2025-05-14T12:57:45.283Z [container-agent] The above exception was the direct cause of the following exception:
+2025-05-14T12:57:45.283Z [container-agent] 
+2025-05-14T12:57:45.283Z [container-agent] Traceback (most recent call last):
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/./src/charm.py", line 1399, in <module>
+2025-05-14T12:57:45.283Z [container-agent]     ops.main(RabbitMQOperatorCharm)
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/__init__.py", line 347, in __call__
+2025-05-14T12:57:45.283Z [container-agent]     return _main.main(charm_class=charm_class, use_juju_for_storage=use_juju_for_storage)
+2025-05-14T12:57:45.283Z [container-agent]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/_main.py", line 565, in main
+2025-05-14T12:57:45.283Z [container-agent]     manager.run()
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/_main.py", line 550, in run
+2025-05-14T12:57:45.283Z [container-agent]     self._emit()
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/_main.py", line 502, in _emit
+2025-05-14T12:57:45.283Z [container-agent]     self._emit_charm_event(self.dispatcher.event_name)
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/_main.py", line 537, in _emit_charm_event
+2025-05-14T12:57:45.283Z [container-agent]     event_to_emit.emit(*args, **kwargs)
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/framework.py", line 348, in emit
+2025-05-14T12:57:45.283Z [container-agent]     framework._emit(event)
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/framework.py", line 907, in _emit
+2025-05-14T12:57:45.283Z [container-agent]     self._reemit(event_path)
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/framework.py", line 997, in _reemit
+2025-05-14T12:57:45.283Z [container-agent]     custom_handler(event)
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/./src/charm.py", line 1000, in _on_update_status
+2025-05-14T12:57:45.283Z [container-agent]     if not self.peers.operator_user_created:
+2025-05-14T12:57:45.283Z [container-agent]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/src/interface_rabbitmq_peers.py", line 202, in operator_user_created
+2025-05-14T12:57:45.283Z [container-agent]     return self.peers_rel.data[self.peers_rel.app].get(
+2025-05-14T12:57:45.283Z [container-agent]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "<frozen _collections_abc>", line 807, in get
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/model.py", line 1966, in __getitem__
+2025-05-14T12:57:45.283Z [container-agent]     return super().__getitem__(key)
+2025-05-14T12:57:45.283Z [container-agent]            ^^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/model.py", line 892, in __getitem__
+2025-05-14T12:57:45.283Z [container-agent]     return self._data[key]
+2025-05-14T12:57:45.283Z [container-agent]            ^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/model.py", line 876, in _data
+2025-05-14T12:57:45.283Z [container-agent]     data = self._lazy_data = self._load()
+2025-05-14T12:57:45.283Z [container-agent]                              ^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/model.py", line 1846, in _load
+2025-05-14T12:57:45.283Z [container-agent]     return self._backend.relation_get(self.relation.id, self._entity.name, self._is_app)
+2025-05-14T12:57:45.283Z [container-agent]            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/model.py", line 3486, in relation_get
+2025-05-14T12:57:45.283Z [container-agent]     raw_data_content = self._run(*args, return_output=True, use_json=True)
+2025-05-14T12:57:45.283Z [container-agent]                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2025-05-14T12:57:45.283Z [container-agent]   File "/var/lib/juju/agents/unit-rabbitmq-0/charm/venv/ops/model.py", line 3409, in _run
+2025-05-14T12:57:45.283Z [container-agent]     raise ModelError(e.stderr) from e
+2025-05-14T12:57:45.283Z [container-agent] ops.model.ModelError: ERROR connection is shut down
+2025-05-14T12:57:45.283Z [container-agent] 
+2025-05-14T12:57:46.623Z [container-agent] 2025-05-14 12:57:46 ERROR juju.worker.uniter.operation runhook.go:180 hook "update-status" (via hook dispatching script: dispatch) failed: exit status 1
+2025-05-14T12:57:46.623Z [container-agent] 2025-05-14 12:57:46 INFO juju.worker.uniter uniter.go:349 unit "rabbitmq/0" shutting down: (re)starting watcher: connection is shut down
+2025-05-14T12:57:46.763Z [container-agent] 2025-05-14 12:57:46 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-rabbitmq-0
+2025-05-14T12:57:48.041Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T12:57:50.294Z [container-agent] 2025-05-14 12:57:50 INFO juju.worker.uniter uniter.go:365 unit "rabbitmq/0" started
+2025-05-14T12:57:50.386Z [container-agent] 2025-05-14 12:57:50 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T12:57:51.649Z [container-agent] 2025-05-14 12:57:51 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:57:55.293Z [container-agent] 2025-05-14 12:57:55 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:57:56.703Z [container-agent] 2025-05-14 12:57:56 INFO juju.worker.uniter resolver.go:180 awaiting error resolution for "update-status" hook
+2025-05-14T12:57:57.923Z [pebble] Check "readiness" failure 2/3: non-2xx status code 418
+2025-05-14T12:58:07.756Z [pebble] Check "readiness" failure 3/3: non-2xx status code 418
+2025-05-14T12:58:07.757Z [pebble] Check "readiness" threshold 3 hit, triggering action and recovering
+2025-05-14T12:58:07.763Z [pebble] Change 54 task (Perform HTTP check "readiness") failed: non-2xx status code 418
+2025-05-14T12:58:10.537Z [container-agent] 2025-05-14 12:58:10 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:58:14.295Z [container-agent] 2025-05-14 12:58:14 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T12:58:14.375Z [container-agent] 2025-05-14 12:58:14 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T12:58:17.874Z [pebble] Check "readiness" failure 4/3: non-2xx status code 418
+2025-05-14T12:58:19.138Z [container-agent] 2025-05-14 12:58:19 INFO juju-log Running legacy hooks/start.
+2025-05-14T12:58:27.935Z [pebble] Check "readiness" failure 5/3: non-2xx status code 418
+2025-05-14T12:58:28.315Z [container-agent] 2025-05-14 12:58:28 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T12:58:36.207Z [container-agent] 2025-05-14 12:58:36 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:58:38.422Z [container-agent] 2025-05-14 12:58:38 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T12:58:42.642Z [container-agent] 2025-05-14 12:58:42 INFO juju-log Pushing new enabled_plugins
+2025-05-14T12:58:42.734Z [container-agent] 2025-05-14 12:58:42 INFO juju-log Pushing new rabbitmq.conf
+2025-05-14T12:58:42.793Z [container-agent] 2025-05-14 12:58:42 INFO juju-log Pushing new rabbitmq-env.conf
+2025-05-14T12:58:43.740Z [container-agent] 2025-05-14 12:58:43 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T12:58:44.227Z [container-agent] 2025-05-14 12:58:44 INFO juju-log RabbitMQ started
+2025-05-14T12:58:47.198Z [container-agent] 2025-05-14 12:58:47 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T12:58:47.914Z [container-agent] 2025-05-14 12:58:47 WARNING juju-log No Loki endpoints available
+2025-05-14T12:58:48.452Z [container-agent] 2025-05-14 12:58:48 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T13:02:00.655Z [container-agent] 2025-05-14 13:02:00 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:02:01.094Z [container-agent] 2025-05-14 13:02:01 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:06:33.065Z [container-agent] 2025-05-14 13:06:33 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:06:33.432Z [container-agent] 2025-05-14 13:06:33 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:12:10.076Z [container-agent] 2025-05-14 13:12:10 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:12:10.650Z [container-agent] 2025-05-14 13:12:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:16:35.972Z [container-agent] 2025-05-14 13:16:35 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:16:36.470Z [container-agent] 2025-05-14 13:16:36 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:21:40.424Z [container-agent] 2025-05-14 13:21:40 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:21:41.059Z [container-agent] 2025-05-14 13:21:41 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:23:32.555Z [container-agent] 2025-05-14 13:23:32 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:23:33.035Z [container-agent] 2025-05-14 13:23:33 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T13:27:28.817Z [container-agent] 2025-05-14 13:27:28 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:27:29.221Z [container-agent] 2025-05-14 13:27:29 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:33:17.037Z [container-agent] 2025-05-14 13:33:17 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:33:17.367Z [container-agent] 2025-05-14 13:33:17 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:39:08.068Z [container-agent] 2025-05-14 13:39:08 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:39:08.452Z [container-agent] 2025-05-14 13:39:08 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T13:44:15.452Z [container-agent] 2025-05-14 13:44:15 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T13:44:15.840Z [container-agent] 2025-05-14 13:44:15 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:24.687Z [container-agent] 2025-05-14 14:07:24 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+2025-05-14T14:07:24.687Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.uniter uniter.go:349 unit "rabbitmq/0" shutting down: catacomb 0xc000539688 is dying
+2025-05-14T14:07:24.726Z [container-agent] 2025-05-14 14:07:24 INFO juju.worker.logger logger.go:136 logger worker stopped
+2025-05-14T14:07:27.825Z [container-agent] 2025-05-14 14:07:27 INFO juju.api apiclient.go:979 cannot resolve "controller-service.controller-sunbeam-controller.svc.cluster.local": lookup controller-service.controller-sunbeam-controller.svc.cluster.local: operation was canceled
+2025-05-14T14:07:27.825Z [container-agent] 2025-05-14 14:07:27 INFO juju.api apiclient.go:601 connection established to "wss://10.152.183.59:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:27.897Z [container-agent] 2025-05-14 14:07:27 INFO juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [ee070c] "unit-rabbitmq-0" cannot open api: try again (try again)
+2025-05-14T14:07:31.346Z [container-agent] 2025-05-14 14:07:31 INFO juju.api apiclient.go:601 connection established to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070/model/ee070cdf-4b8b-49ac-80cb-918841540fbe/api"
+2025-05-14T14:07:31.359Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.apicaller connect.go:163 [ee070c] "unit-rabbitmq-0" successfully connected to "wss://controller-service.controller-sunbeam-controller.svc.cluster.local:17070"
+2025-05-14T14:07:31.400Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.logger logger.go:120 logger worker started
+2025-05-14T14:07:31.438Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.migrationminion worker.go:208 migration phase is now: NONE
+2025-05-14T14:07:31.486Z [container-agent] 2025-05-14 14:07:31 WARNING juju.worker.proxyupdater proxyupdater.go:237 unable to set snap core settings [proxy.http= proxy.https= proxy.store=]: exec: "snap": executable file not found in $PATH, output: ""
+2025-05-14T14:07:31.532Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.caasupgrader upgrader.go:113 abort check blocked until version event received
+2025-05-14T14:07:31.545Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.caasupgrader upgrader.go:119 unblocking abort check
+2025-05-14T14:07:31.554Z [container-agent] 2025-05-14 14:07:31 INFO juju.worker.leadership tracker.go:244 rabbitmq/0 promoted to leadership of rabbitmq
+2025-05-14T14:07:31.554Z [container-agent] 2025-05-14 14:07:31 INFO juju.agent.tools symlinks.go:20 ensure jujuc symlinks in /var/lib/juju/tools/unit-rabbitmq-0
+2025-05-14T14:07:33.184Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter uniter.go:365 unit "rabbitmq/0" started
+2025-05-14T14:07:33.216Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter uniter.go:391 hooks are retried true
+2025-05-14T14:07:33.834Z [container-agent] 2025-05-14 14:07:33 INFO juju.worker.uniter resolver.go:76 reboot detected; triggering implicit start hook to notify charm
+2025-05-14T14:07:35.669Z [container-agent] 2025-05-14 14:07:35 INFO juju-log Running legacy hooks/start.
+2025-05-14T14:07:37.977Z [pebble] Check "readiness" failure 1/3: non-2xx status code 418
+2025-05-14T14:07:39.348Z [container-agent] 2025-05-14 14:07:39 INFO juju.worker.uniter.operation runhook.go:186 ran "start" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:44.388Z [container-agent] 2025-05-14 14:07:44 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:07:45.893Z [container-agent] 2025-05-14 14:07:45 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T14:07:48.431Z [container-agent] 2025-05-14 14:07:48 INFO juju-log Pushing new enabled_plugins
+2025-05-14T14:07:48.641Z [container-agent] 2025-05-14 14:07:48 INFO juju-log Pushing new rabbitmq.conf
+2025-05-14T14:07:48.702Z [container-agent] 2025-05-14 14:07:48 INFO juju-log Pushing new rabbitmq-env.conf
+2025-05-14T14:07:49.115Z [container-agent] 2025-05-14 14:07:49 INFO juju-log Waiting for RabbitMQ to start
+2025-05-14T14:07:49.270Z [container-agent] 2025-05-14 14:07:49 INFO juju-log RabbitMQ started
+2025-05-14T14:07:51.123Z [container-agent] 2025-05-14 14:07:51 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:07:51.690Z [container-agent] 2025-05-14 14:07:51 WARNING juju-log No Loki endpoints available
+2025-05-14T14:07:52.404Z [container-agent] 2025-05-14 14:07:52 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-ready" hook (via hook dispatching script: dispatch)
+2025-05-14T14:12:35.200Z [container-agent] 2025-05-14 14:12:35 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:12:35.853Z [container-agent] 2025-05-14 14:12:35 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:17:33.131Z [container-agent] 2025-05-14 14:17:33 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:17:33.888Z [container-agent] 2025-05-14 14:17:33 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:22:10.355Z [container-agent] 2025-05-14 14:22:10 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:22:10.942Z [container-agent] 2025-05-14 14:22:10 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:27:05.717Z [container-agent] 2025-05-14 14:27:05 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:27:06.361Z [container-agent] 2025-05-14 14:27:06 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:32:59.181Z [container-agent] 2025-05-14 14:32:59 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:32:59.590Z [container-agent] 2025-05-14 14:32:59 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:37:25.298Z [container-agent] 2025-05-14 14:37:25 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:37:25.615Z [container-agent] 2025-05-14 14:37:25 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)
+2025-05-14T14:37:45.109Z [container-agent] 2025-05-14 14:37:45 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:37:45.487Z [container-agent] 2025-05-14 14:37:45 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:43:01.176Z [container-agent] 2025-05-14 14:43:01 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:43:01.621Z [container-agent] 2025-05-14 14:43:01 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:48:07.517Z [container-agent] 2025-05-14 14:48:07 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:48:08.018Z [container-agent] 2025-05-14 14:48:08 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:53:11.165Z [container-agent] 2025-05-14 14:53:11 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:53:11.675Z [container-agent] 2025-05-14 14:53:11 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T14:57:43.804Z [container-agent] 2025-05-14 14:57:43 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T14:57:44.409Z [container-agent] 2025-05-14 14:57:44 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T15:03:42.703Z [container-agent] 2025-05-14 15:03:42 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T15:03:43.377Z [container-agent] 2025-05-14 15:03:43 INFO juju.worker.uniter.operation runhook.go:186 ran "update-status" hook (via hook dispatching script: dispatch)
+2025-05-14T15:07:25.853Z [container-agent] 2025-05-14 15:07:25 INFO juju-log HTTP Request: GET https://10.152.183.1/api/v1/namespaces/openstack/services/rabbitmq-lb "HTTP/1.1 200 OK"
+2025-05-14T15:07:26.232Z [container-agent] 2025-05-14 15:07:26 INFO juju.worker.uniter.operation runhook.go:186 ran "rabbitmq-pebble-custom-notice" hook (via hook dispatching script: dispatch)

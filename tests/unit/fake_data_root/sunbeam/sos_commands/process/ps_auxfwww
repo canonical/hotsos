@@ -1,0 +1,653 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           2  0.0  0.0      0     0 ?        S    04:21   0:00 [kthreadd]
+root           3  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [pool_workqueue_release]
+root           4  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-rcu_g]
+root           5  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-rcu_p]
+root           6  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-slub_]
+root           7  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-netns]
+root           9  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/0:0H-events_highpri]
+root          12  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-mm_pe]
+root          13  0.0  0.0      0     0 ?        I    04:21   0:00  \_ [rcu_tasks_kthread]
+root          14  0.0  0.0      0     0 ?        I    04:21   0:00  \_ [rcu_tasks_rude_kthread]
+root          15  0.0  0.0      0     0 ?        I    04:21   0:00  \_ [rcu_tasks_trace_kthread]
+root          16  0.0  0.0      0     0 ?        S    04:21   0:16  \_ [ksoftirqd/0]
+root          17  0.3  0.0      0     0 ?        I    04:21   2:02  \_ [rcu_preempt]
+root          18  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [migration/0]
+root          19  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [idle_inject/0]
+root          20  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [cpuhp/0]
+root          21  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [cpuhp/1]
+root          22  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [idle_inject/1]
+root          23  0.0  0.0      0     0 ?        S    04:21   0:01  \_ [migration/1]
+root          24  0.0  0.0      0     0 ?        S    04:21   0:14  \_ [ksoftirqd/1]
+root          26  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/1:0H-events_highpri]
+root          27  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [cpuhp/2]
+root          28  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [idle_inject/2]
+root          29  0.0  0.0      0     0 ?        S    04:21   0:01  \_ [migration/2]
+root          30  0.0  0.0      0     0 ?        S    04:21   0:14  \_ [ksoftirqd/2]
+root          32  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/2:0H-events_highpri]
+root          33  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [cpuhp/3]
+root          34  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [idle_inject/3]
+root          35  0.0  0.0      0     0 ?        S    04:21   0:01  \_ [migration/3]
+root          36  0.0  0.0      0     0 ?        S    04:21   0:14  \_ [ksoftirqd/3]
+root          38  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/3:0H-kblockd]
+root          39  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [cpuhp/4]
+root          40  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [idle_inject/4]
+root          41  0.0  0.0      0     0 ?        S    04:21   0:01  \_ [migration/4]
+root          42  0.0  0.0      0     0 ?        S    04:21   0:14  \_ [ksoftirqd/4]
+root          44  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/4:0H-events_highpri]
+root          45  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [cpuhp/5]
+root          46  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [idle_inject/5]
+root          47  0.0  0.0      0     0 ?        S    04:21   0:01  \_ [migration/5]
+root          48  0.0  0.0      0     0 ?        S    04:21   0:30  \_ [ksoftirqd/5]
+root          50  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/5:0H-events_highpri]
+root          51  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [kdevtmpfs]
+root          52  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-inet_]
+root          54  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [kauditd]
+root          56  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [khungtaskd]
+root          57  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [oom_reaper]
+root          59  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-write]
+root          60  0.0  0.0      0     0 ?        S    04:21   0:14  \_ [kcompactd0]
+root          61  0.0  0.0      0     0 ?        SN   04:21   0:00  \_ [ksmd]
+root          62  0.0  0.0      0     0 ?        SN   04:21   0:00  \_ [khugepaged]
+root          63  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-kinte]
+root          64  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-kbloc]
+root          65  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-blkcg]
+root          66  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/9-acpi]
+root          70  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-tpm_d]
+root          71  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-ata_s]
+root          72  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-md]
+root          73  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-md_bi]
+root          74  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-edac-]
+root          75  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-devfr]
+root          76  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [watchdogd]
+root          77  0.0  0.0      0     0 ?        I<   04:21   0:05  \_ [kworker/0:1H-kblockd]
+root          78  0.0  0.0      0     0 ?        S    04:21   0:21  \_ [kswapd0]
+root          79  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [ecryptfs-kthread]
+root          80  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-kthro]
+root          81  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/24-aerdrv]
+root          82  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/25-aerdrv]
+root          83  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/26-aerdrv]
+root          84  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/27-aerdrv]
+root          85  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/28-aerdrv]
+root          86  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/29-aerdrv]
+root          87  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/30-aerdrv]
+root          88  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/31-aerdrv]
+root          89  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [irq/32-aerdrv]
+root          90  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-acpi_]
+root          93  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [scsi_eh_0]
+root          94  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-scsi_]
+root          96  0.0  0.0      0     0 ?        I<   04:21   0:05  \_ [kworker/3:1H-kblockd]
+root          98  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-mld]
+root          99  0.0  0.0      0     0 ?        I<   04:21   0:05  \_ [kworker/2:1H-kblockd]
+root         100  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-ipv6_]
+root         107  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-kstrp]
+root         110  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/u41:0]
+root         115  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-crypt]
+root         128  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-charg]
+root         156  0.0  0.0      0     0 ?        I<   04:21   0:05  \_ [kworker/4:1H-kblockd]
+root         171  0.1  0.0      0     0 ?        I<   04:21   0:44  \_ [kworker/5:1H-kblockd]
+root         184  0.0  0.0      0     0 ?        I<   04:21   0:05  \_ [kworker/1:1H-kblockd]
+root         193  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [hwrng]
+root         194  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [scsi_eh_1]
+root         195  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-scsi_]
+root         196  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [scsi_eh_2]
+root         197  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-scsi_]
+root         204  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [scsi_eh_3]
+root         205  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-scsi_]
+root         213  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [scsi_eh_4]
+root         214  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-scsi_]
+root         219  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [scsi_eh_5]
+root         221  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-scsi_]
+root         222  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [scsi_eh_6]
+root         223  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-scsi_]
+root         257  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-raid5]
+root         294  0.2  0.0      0     0 ?        S    04:21   1:43  \_ [jbd2/sda1-8]
+root         295  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-ext4-]
+root         389  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-kmpat]
+root         390  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-kmpat]
+root         414  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-dm_bu]
+root         425  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-iscsi]
+root         448  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [psimon]
+root         504  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd0-]
+root         515  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd1-]
+root         516  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd2-]
+root         536  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd3-]
+root         570  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd4-]
+root         585  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd5-]
+root         587  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd6-]
+root         591  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd7-]
+root         592  0.0  0.0      0     0 ?        S    04:21   0:00  \_ [jbd2/sda16-8]
+root         593  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-ext4-]
+root         597  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd8-]
+root         600  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd9-]
+root         603  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd10]
+root         619  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd11]
+root         621  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd12]
+root         622  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd13]
+root         624  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd14]
+root         633  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-nbd15]
+root         652  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-targe]
+root         653  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-targe]
+root         654  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-xcopy]
+root         655  0.0  0.0      0     0 ?        I<   04:21   0:00  \_ [kworker/R-vfio-]
+root        1947  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-dio/s]
+root        2282  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-tls-s]
+root        2627  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-nvme-]
+root        2628  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-nvme-]
+root        2629  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-nvme-]
+root        2630  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-nvme-]
+root        2641  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [spl_system_task]
+root        2642  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [spl_delay_taskq]
+root        2643  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [spl_dynamic_tas]
+root        2644  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [spl_kmem_cache]
+root        2674  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [zvol]
+root        2677  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [arc_prune]
+root        2678  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [arc_evict]
+root        2679  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [arc_reap]
+root        2681  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [dbu_evict]
+root        2682  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dbuf_evict]
+root        2685  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [z_vdev_file]
+root        2712  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [l2arc_feed]
+root        2784  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_null_iss]
+root        2785  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_null_int]
+root        2786  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_rd_iss]
+root        2787  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_rd_int]
+root        2788  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_wr_iss]
+root        2789  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_wr_iss_h]
+root        2790  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_wr_int]
+root        2791  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_wr_int_h]
+root        2792  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_fr_iss]
+root        2793  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_fr_int]
+root        2794  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_cl_iss]
+root        2795  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_cl_int]
+root        2796  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_ioctl_iss]
+root        2797  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_ioctl_int]
+root        2798  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_trim_iss]
+root        2799  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_trim_int]
+root        2800  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [z_zvol]
+root        2801  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [z_metaslab]
+root        2802  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [z_prefetch]
+root        2803  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [z_upgrade]
+root        2813  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_sync_taskq]
+root        2814  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_sync_taskq]
+root        2815  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_sync_taskq]
+root        2816  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_sync_taskq]
+root        2817  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_zil_clean_ta]
+root        2818  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_zil_clean_ta]
+root        2819  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_zil_clean_ta]
+root        2820  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_zil_clean_ta]
+root        2821  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_zil_clean_ta]
+root        2822  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [dp_zil_clean_ta]
+root        2823  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [z_zrele]
+root        2824  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [z_unlinked_drai]
+root        2840  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [txg_quiesce]
+root        2841  0.0  0.0      0     0 ?        S    04:22   0:01  \_ [txg_sync]
+root        2842  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [mmp]
+root        2843  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [z_indirect_cond]
+root        2844  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [z_livelist_dest]
+root        2845  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [z_livelist_cond]
+root        2846  0.0  0.0      0     0 ?        SN   04:22   0:00  \_ [z_checkpoint_di]
+root        2847  0.0  0.0      0     0 ?        D<   04:22   0:00  \_ [vdev_autotrim]
+root        2857  0.0  0.0      0     0 ?        S<   04:22   0:00  \_ [spl_system_task]
+root        2889  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2890  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2891  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2892  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2893  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2894  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2895  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2896  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2897  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2898  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2899  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2900  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2901  0.0  0.0      0     0 ?        I<   04:22   0:00  \_ [kworker/R-btrfs]
+root        2902  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [btrfs-cleaner]
+root        2903  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [btrfs-transaction]
+root        3588  0.0  0.0      0     0 ?        S    04:22   0:00  \_ [psimon]
+root       12070  0.0  0.0      0     0 ?        S    04:24   0:07  \_ [jbd2/loop10-8]
+root       12071  0.0  0.0      0     0 ?        I<   04:24   0:00  \_ [kworker/R-ext4-]
+root       12114  0.0  0.0      0     0 ?        S    04:24   0:02  \_ [jbd2/loop11-8]
+root       12115  0.0  0.0      0     0 ?        I<   04:24   0:00  \_ [kworker/R-ext4-]
+root       12138  0.0  0.0      0     0 ?        S    04:24   0:00  \_ [jbd2/loop12-8]
+root       12139  0.0  0.0      0     0 ?        I<   04:24   0:00  \_ [kworker/R-ext4-]
+root       12169  0.0  0.0      0     0 ?        S    04:24   0:15  \_ [jbd2/loop13-8]
+root       12170  0.0  0.0      0     0 ?        I<   04:24   0:00  \_ [kworker/R-ext4-]
+root       12221  0.0  0.0      0     0 ?        S    04:24   0:00  \_ [jbd2/loop14-8]
+root       12222  0.0  0.0      0     0 ?        I<   04:24   0:00  \_ [kworker/R-ext4-]
+root       15244  0.0  0.0      0     0 ?        I<   04:24   0:00  \_ [kworker/R-dio/l]
+root       27620  0.0  0.0      0     0 ?        I<   04:25   0:00  \_ [kworker/R-dio/o]
+root       41854  0.0  0.0      0     0 ?        S    04:26   0:00  \_ [jbd2/loop15-8]
+root       41855  0.0  0.0      0     0 ?        I<   04:26   0:00  \_ [kworker/R-ext4-]
+root       41984  0.0  0.0      0     0 ?        S    04:26   0:00  \_ [jbd2/loop16-8]
+root       41985  0.0  0.0      0     0 ?        I<   04:26   0:00  \_ [kworker/R-ext4-]
+root       42095  0.0  0.0      0     0 ?        S    04:26   0:00  \_ [jbd2/loop17-8]
+root       42096  0.0  0.0      0     0 ?        I<   04:26   0:00  \_ [kworker/R-ext4-]
+root       42118  0.0  0.0      0     0 ?        S    04:26   0:00  \_ [jbd2/loop18-8]
+root       42119  0.0  0.0      0     0 ?        I<   04:26   0:00  \_ [kworker/R-ext4-]
+root      299356  0.0  0.0      0     0 ?        S    07:07   0:00  \_ [psimon]
+root      304950  0.0  0.0      0     0 ?        S    07:08   0:00  \_ [psimon]
+root     1479933  0.0  0.0      0     0 ?        SN   12:37   0:00  \_ [z_vdev_file]
+root     1531071  0.0  0.0      0     0 ?        SN   12:53   0:00  \_ [z_vdev_file]
+root     1540191  0.0  0.0      0     0 ?        SN   12:58   0:00  \_ [z_vdev_file]
+root     1632880  0.0  0.0      0     0 ?        SN   13:13   0:00  \_ [z_vdev_file]
+root     1637492  0.0  0.0      0     0 ?        I    13:16   0:01  \_ [kworker/5:0-rcu_par_gp]
+root     1680754  0.0  0.0      0     0 ?        I    13:29   0:00  \_ [kworker/5:2-rcu_gp]
+root     1683756  0.0  0.0      0     0 ?        I    13:31   0:02  \_ [kworker/u40:2-flush-7:10]
+root     1699060  0.0  0.0      0     0 ?        I    13:35   0:00  \_ [kworker/0:0-rcu_par_gp]
+root     1735464  0.0  0.0      0     0 ?        I    13:37   0:01  \_ [kworker/u40:10-writeback]
+root     1735465  0.0  0.0      0     0 ?        I    13:37   0:01  \_ [kworker/u40:11-flush-8:0]
+root     1745827  0.0  0.0      0     0 ?        S<   13:38   0:00  \_ [z_wr_iss]
+root     1757411  0.0  0.0      0     0 ?        I    13:39   0:00  \_ [kworker/2:1-events]
+root     1757425  0.0  0.0      0     0 ?        I    13:39   0:00  \_ [kworker/3:1-rcu_par_gp]
+root     1806252  0.0  0.0      0     0 ?        I    13:44   0:00  \_ [kworker/2:2-rcu_par_gp]
+root     1815782  0.0  0.0      0     0 ?        I    13:46   0:00  \_ [kworker/1:1-events]
+root     1818610  0.0  0.0      0     0 ?        S<   14:07   0:00  \_ [z_wr_iss]
+root     1818612  0.0  0.0      0     0 ?        SN   14:07   0:00  \_ [z_vdev_file]
+root     1818613  0.0  0.0      0     0 ?        I    14:07   0:00  \_ [kworker/3:2-rcu_gp]
+root     1818614  0.0  0.0      0     0 ?        SN   14:07   0:00  \_ [z_vdev_file]
+root     1818628  0.0  0.0      0     0 ?        I    14:07   0:00  \_ [kworker/0:2-events]
+root     1821289  0.1  0.0      0     0 ?        I    14:07   0:01  \_ [kworker/u40:6-events_unbound]
+root     1821291  0.0  0.0      0     0 ?        I    14:07   0:00  \_ [kworker/u40:12-flush-8:0]
+root     1863761  0.0  0.0      0     0 ?        I    14:10   0:00  \_ [kworker/4:3-events]
+root     1875418  0.0  0.0      0     0 ?        I    14:12   0:00  \_ [kworker/1:2-rcu_gp]
+root     1875894  0.0  0.0      0     0 ?        I    14:13   0:00  \_ [kworker/0:1-rcu_par_gp]
+root     1876906  0.0  0.0      0     0 ?        I    14:13   0:00  \_ [kworker/5:3-events]
+root     1879005  0.0  0.0      0     0 ?        I    14:15   0:00  \_ [kworker/4:1-cgroup_destroy]
+root     1881309  0.0  0.0      0     0 ?        I    14:16   0:00  \_ [kworker/2:0-rcu_par_gp]
+root     1884404  0.0  0.0      0     0 ?        S<   14:17   0:00  \_ [z_wr_iss]
+root     1890785  0.0  0.0      0     0 ?        I    14:18   0:00  \_ [kworker/3:0-rcu_par_gp]
+root     1890916  0.0  0.0      0     0 ?        I    14:18   0:00  \_ [kworker/1:0-cgroup_destroy]
+root     1893091  0.0  0.0      0     0 ?        I    14:19   0:00  \_ [kworker/5:1]
+root     1894717  0.0  0.0      0     0 ?        I    14:19   0:00  \_ [kworker/1:3-events]
+root     1898577  0.0  0.0      0     0 ?        I    14:21   0:00  \_ [kworker/4:0-events]
+root     1898578  0.0  0.0      0     0 ?        I    14:21   0:00  \_ [kworker/4:2-rcu_par_gp]
+root     1916694  0.1  0.0      0     0 ?        I    14:22   0:00  \_ [kworker/u40:0-loop7]
+root     1928488  0.0  0.0      0     0 ?        S<   14:22   0:00  \_ [z_wr_int]
+root     1928489  0.0  0.0      0     0 ?        S<   14:22   0:00  \_ [z_wr_int]
+root     1928499  0.0  0.0      0     0 ?        S<   14:22   0:00  \_ [z_wr_int]
+root     1928507  0.0  0.0      0     0 ?        S<   14:22   0:00  \_ [z_metaslab]
+root     1928508  0.0  0.0      0     0 ?        S<   14:22   0:00  \_ [z_metaslab]
+root     1944266  0.0  0.0      0     0 ?        I    14:23   0:00  \_ [kworker/u40:1-ext4-rsv-conversion]
+root           1  4.1  0.1  37668 28576 ?        Ss   04:21  24:53 /sbin/init
+root         369  0.2  0.6 199388 110852 ?       S<s  04:21   1:16 /usr/lib/systemd/systemd-journald
+root         420  0.0  0.1 289120 27008 ?        SLsl 04:21   0:03 /sbin/multipathd -d -s
+root         429  0.0  0.0  26628  8116 ?        Ss   04:21   0:01 /usr/lib/systemd/systemd-udevd
+root         540  0.0  0.1 1239180 18696 ?       Ssl  04:21   0:29 /run/lxd_agent/lxd-agent
+root      162849  0.0  0.0   8120  3840 pts/13   Ss   04:47   0:00  \_ bash
+root     1195061  0.0  0.0  17400  6016 pts/13   S+   11:43   0:00  |   \_ sudo su - ubuntu
+root     1195063  0.0  0.0  17400  2252 pts/2    Ss   11:43   0:00  |       \_ sudo su - ubuntu
+root     1195064  0.0  0.0   9940  4352 pts/2    S    11:43   0:00  |           \_ su - ubuntu
+ubuntu   1195185  0.0  0.0   9188  5376 pts/2    S+   11:43   0:00  |               \_ -bash
+root     1687652  0.0  0.0   8004  4096 pts/3    Ss+  13:32   0:00  \_ bash
+root     1691706  0.0  0.0   8004  4096 pts/1    Ss   13:33   0:00  \_ bash
+root     1891021 11.3  0.5 763160 86384 pts/1    Sl+  14:18   0:33      \_ /usr/bin/python3 ./bin/sos report -a --all-logs --batch -k sunbeam.juju-allow-login=True -k kubernetes.all --plugin-timeout=18000
+root     1935737  0.0  0.0   6120  1920 pts/1    S    14:22   0:00          \_ timeout 300s journalctl --no-pager --unit snap.k8s.*
+root     1935738 94.6  2.1 555348 346128 pts/1   R    14:22   1:00          |   \_ journalctl --no-pager --unit snap.k8s.*
+root     1952623  0.0  0.0   6120  1920 pts/1    S    14:23   0:00          \_ timeout 300s bpftool prog dump xlated id 2182
+root     1952624  146  0.4  75472 73472 pts/1    R    14:23   0:00          |   \_ /usr/lib/linux-tools/6.8.0-59-generic/bpftool prog dump xlated id 2182
+root     1952643  0.0  0.0   6120  1920 pts/1    S    14:23   0:00          \_ timeout 300s ps auxfwww
+root     1952645  0.0  0.0  18300 10752 pts/1    R    14:23   0:00              \_ ps auxfwww
+systemd+     806  0.0  0.0  21908 12672 ?        Ss   04:21   0:02 /usr/lib/systemd/systemd-resolved
+systemd+     807  0.0  0.0  91020  7552 ?        Ssl  04:21   0:00 /usr/lib/systemd/systemd-timesyncd
+systemd+     899  0.0  0.0  22656  8960 ?        Ss   04:21   0:00 /usr/lib/systemd/systemd-networkd
+root         944  0.0  0.0   7224  2688 ?        Ss   04:22   0:00 /usr/sbin/cron -f -P
+message+     945  0.0  0.0  10736  6444 ?        Ss   04:22   0:19 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+polkitd      953  0.0  0.0 383704  9280 ?        Ssl  04:22   0:03 /usr/lib/polkit-1/polkitd --no-debug
+root         960  2.7  0.7 4392456 125164 ?      Ssl  04:22  16:15 /snap/k8s/2500/bin/containerd --address=/run/containerd/containerd.sock --config=/etc/containerd/config.toml --root=/var/lib/containerd --state=/run/containerd
+root         961  5.0  2.2 1868904 370104 ?      Ssl  04:22  30:29 /snap/k8s/2500/bin/k8s-dqlite --listen=unix:///var/snap/k8s/common/var/lib/k8s-dqlite/k8s-dqlite.sock --storage-dir=/var/snap/k8s/common/var/lib/k8s-dqlite
+root         962  1.0  0.8 5942852 143876 ?      Ssl  04:22   6:26 /snap/k8s/2500/bin/k8sd --state-dir=/var/snap/k8s/common/var/lib/k8sd/state
+root         963  7.3  3.0 1956520 503252 ?      Ssl  04:22  44:17 /snap/k8s/2500/bin/kube-apiserver --advertise-address=10.194.140.193 --allow-privileged=true --anonymous-auth=false --authentication-token-webhook-config-file=/var/snap/k8s/common/args/conf.d/auth-token-webhook.conf --authorization-mode=Node,RBAC --client-ca-file=/etc/kubernetes/pki/client-ca.crt --enable-admission-plugins=NodeRestriction --etcd-servers=unix:///var/snap/k8s/common/var/lib/k8s-dqlite/k8s-dqlite.sock --feature-gates=WatchList=false --kubelet-certificate-authority=/etc/kubernetes/pki/ca.crt --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP --profiling=false --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key --request-timeout=300s --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=6443 --service-account-issuer=https://kubernetes.default.svc --service-account-key-file=/etc/kubernetes/pki/serviceaccount.key --service-account-signing-key-file=/etc/kubernetes/pki/serviceaccount.key --service-cluster-ip-range=10.152.183.0/24 --tls-cert-file=/etc/kubernetes/pki/apiserver.crt --tls-cipher-suites=TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_RSA_WITH_3DES_EDE_CBC_SHA,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_256_GCM_SHA384 --tls-min-version=VersionTLS12 --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+root         964  1.5  1.0 1418948 168316 ?      Ssl  04:22   9:24 /snap/k8s/2500/bin/kube-controller-manager --authentication-kubeconfig=/etc/kubernetes/controller.conf --authorization-kubeconfig=/etc/kubernetes/controller.conf --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt --cluster-signing-key-file=/etc/kubernetes/pki/ca.key --kubeconfig=/etc/kubernetes/controller.conf --leader-elect-lease-duration=30s --leader-elect-renew-deadline=15s --profiling=false --root-ca-file=/etc/kubernetes/pki/ca.crt --service-account-private-key-file=/etc/kubernetes/pki/serviceaccount.key --terminated-pod-gc-threshold=12500 --tls-min-version=VersionTLS12 --use-service-account-credentials=true
+root         985  0.0  0.5 1351424 97132 ?       Ssl  04:22   0:11 /snap/k8s/2500/bin/kube-proxy --cluster-cidr=10.1.0.0/16 --healthz-bind-address=127.0.0.1:10256 --kubeconfig=/etc/kubernetes/proxy.conf --profiling=false
+root         994  0.2  0.6 1351680 102984 ?      Ssl  04:22   1:28 /snap/k8s/2500/bin/kube-scheduler --authentication-kubeconfig=/etc/kubernetes/scheduler.conf --authorization-kubeconfig=/etc/kubernetes/scheduler.conf --kubeconfig=/etc/kubernetes/scheduler.conf --leader-elect-lease-duration=30s --leader-elect-renew-deadline=15s --profiling=false --tls-min-version=VersionTLS12
+root        1011  0.3  0.1 1651100 22048 ?       Ssl  04:22   2:14 /snap/openstack-hypervisor/244/usr/sbin/libvirtd --pid /var/snap/openstack-hypervisor/244/libvirt.pid --listen
+root        1012  0.0  0.1  22040 17408 ?        Ss   04:22   0:00 python3 /snap/openstack-hypervisor/244/bin/ceilometer-compute-agent-service
+root        1918  0.3  0.5 236224 94424 ?        Ssl  04:22   2:06  \_ ceilometer-polling: master process [/snap/openstack-hypervisor/244/usr/bin/ceilometer-polling --config-file /var/snap/openstack-hypervisor/common/etc/ceilometer/ceilometer.conf --polling-namespaces compute]
+root        1018  0.0  0.1  22040 17152 ?        Ss   04:22   0:00 python3 /snap/openstack-hypervisor/244/bin/neutron-ovn-metadata-agent-service
+root        1916  0.0  0.9 172204 150824 ?       S    04:22   0:19  \_ neutron-ovn-metadata-agent (python3 /snap/openstack-hypervisor/244/usr/bin/neutron-ovn-metadata-agent --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron_ovn_metadata_agent.ini --config-dir /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf.d)
+root        1019  0.0  0.1  23056 16888 ?        Ss   04:22   0:00 python3 /snap/openstack-hypervisor/244/bin/nova-api-metadata-service
+root        1917  1.3  0.7 142496 126120 ?       S    04:22   7:59  \_ python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+root       91350  0.0  0.7 216340 121080 ?       S    04:32   0:04      \_ python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+root       91352  0.0  0.7 216340 121080 ?       S    04:32   0:04      \_ python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+root       91354  0.0  0.7 216340 121208 ?       S    04:32   0:04      \_ python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+root       91356  0.0  0.7 216340 121208 ?       S    04:32   0:04      \_ python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+root        1020  0.0  0.1  22048 16896 ?        Ss   04:22   0:00 python3 /snap/openstack-hypervisor/244/bin/nova-compute-service
+root        1920  0.3  1.0 1795836 177500 ?      Sl   04:22   1:53  \_ python3 /snap/openstack-hypervisor/244/usr/bin/nova-compute --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+root        1036  0.0  0.0  67748  8832 ?        Ss   04:22   0:01 /snap/openstack-hypervisor/244/usr/sbin/virtlogd --pid /var/snap/openstack-hypervisor/244/virtlogd.pid
+root        1041  0.4  0.5 2336292 91532 ?       Ssl  04:22   2:54 sunbeamd --state-dir /var/snap/openstack/common/state --socket-group snap_daemon --verbose
+root        1056  0.0  0.0  18180  8320 ?        Ss   04:22   0:02 /usr/lib/systemd/systemd-logind
+root        1072  0.2  0.0 471120 12800 ?        Ssl  04:22   1:12 /usr/libexec/udisks2/udisksd
+syslog      1090  0.0  0.0 222508  5948 ?        Ssl  04:22   0:30 /usr/sbin/rsyslogd -n -iNONE
+root        1114  0.0  0.0   7740  3456 ?        Ss   04:22   0:00 bash /etc/systemd/system/jujud-machine-0-exec-start.sh
+root        1163  0.1  0.2 1450864 47556 ?       Sl   04:22   1:02  \_ /var/lib/juju/tools/machine-0/jujud machine --data-dir /var/lib/juju --machine-id 0 --debug
+root        1134  0.0  0.1 110004 19072 ?        Ssl  04:22   0:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root        1162  0.0  0.0   6148  2048 ttyS0    Ss+  04:22   0:00 /sbin/agetty -o -p -- \u --keep-baud 115200,57600,38400,9600 - vt220
+root        1177  0.0  0.0   6104  1920 tty1     Ss+  04:22   0:00 /sbin/agetty -o -p -- \u --noclear - linux
+root        1224  0.0  0.0 392088  8832 ?        Ssl  04:22   0:00 /usr/sbin/ModemManager
+root        1977  0.0  0.0  11828  7168 ?        S<s  04:22   0:03 ovsdb-server /var/snap/openstack-hypervisor/common/etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock --private-key=db:Open_vSwitch,SSL,private_key --certificate=db:Open_vSwitch,SSL,certificate --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/openvswitch/ovsdb-server.log --pidfile=/var/snap/openstack-hypervisor/common/run/openvswitch/ovsdb-server.pid --detach
+root        2056  0.1  0.6 760116 105540 ?       S<Lsl 04:22   0:56 ovs-vswitchd unix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --mlockall --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/openvswitch/ovs-vswitchd.log --pidfile=/var/snap/openstack-hypervisor/common/run/openvswitch/ovs-vswitchd.pid --detach
+root        2083  0.0  0.0   2892   640 ?        Ss   04:22   0:00 /bin/sh /snap/lxd/33110/commands/daemon.start
+root        2432  0.0  0.3 6655268 61360 ?       Sl   04:22   0:32  \_ lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+lxd         2940  0.0  0.0  10508  1408 ?        Ss   04:22   0:00      \_ dnsmasq --keep-in-foreground --strict-order --bind-interfaces --except-interface=lo --pid-file= --no-ping --interface=sunbeambr0 --dhcp-rapid-commit --no-negcache --quiet-dhcp --quiet-dhcp6 --quiet-ra --listen-address=10.174.10.1 --dhcp-no-override --dhcp-authoritative --dhcp-leasefile=/var/snap/lxd/common/lxd/networks/sunbeambr0/dnsmasq.leases --dhcp-hostsfile=/var/snap/lxd/common/lxd/networks/sunbeambr0/dnsmasq.hosts --dhcp-range 10.174.10.2,10.174.10.254,1h -s lxd --interface-name _gateway.lxd,sunbeambr0 -S /lxd/ --conf-file=/var/snap/lxd/common/lxd/networks/sunbeambr0/dnsmasq.raw -u lxd -g lxd
+root        2276  0.0  0.0 308692  8968 ?        S<sl 04:22   0:06 ovn-controller unix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/ovn/ovn-controller.log --pidfile=/var/snap/openstack-hypervisor/common/run/ovn/ovn-controller.pid --detach
+root        2418  0.1  0.0 526996  1664 ?        Sl   04:22   0:43 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+root        2481  8.8  1.0 1421540 170900 ?      Ssl  04:22  53:14 /snap/k8s/2500/bin/kubelet --anonymous-auth=false --authentication-token-webhook=true --authorization-mode=Webhook --cgroup-driver=systemd --client-ca-file=/etc/kubernetes/pki/client-ca.crt --cluster-dns=10.152.183.193 --cluster-domain=cluster.local --container-runtime-endpoint=/run/containerd/containerd.sock --containerd=/run/containerd/containerd.sock --eviction-hard=memory.available<100Mi,nodefs.available<1Gi,imagefs.available<1Gi --fail-swap-on=false --kubeconfig=/etc/kubernetes/kubelet.conf --node-ip=10.194.140.193 --node-labels=node-role.kubernetes.io/control-plane=,node-role.kubernetes.io/worker=,k8sd.io/role=control-plane --read-only-port=0 --register-with-taints= --root-dir=/var/lib/kubelet --serialize-image-pulls=false --tls-cert-file=/etc/kubernetes/pki/kubelet.crt --tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384 --tls-private-key-file=/etc/kubernetes/pki/kubelet.key
+root        3133  0.0  0.1 6168216 21624 ?       Ss   04:22   0:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-3d4442-0
+1000000     3187  0.0  0.0  22324 11904 ?        Ss   04:22   0:11  \_ /sbin/init
+1000000     3296  0.0  0.0  33956  9916 ?        Ss   04:22   0:00      \_ /usr/lib/systemd/systemd-journald
+1000000     3384  0.0  0.0  24644  5376 ?        Ss   04:22   0:00      \_ /usr/lib/systemd/systemd-udevd
+1000000     3391  0.0  0.0 751048 13748 ?        Ssl  04:22   0:09      \_ snapfuse /var/lib/snapd/snaps/juju-db_178.snap /snap/juju-db/178 -o ro,nodev,allow_other,suid
+1000000     3394  0.0  0.0 751048 11560 ?        Ssl  04:22   0:13      \_ snapfuse /var/lib/snapd/snaps/core20_2571.snap /snap/core20/2571 -o ro,nodev,allow_other,suid
+1000000     3397  0.0  0.0 751048 13952 ?        Ssl  04:22   0:15      \_ snapfuse /var/lib/snapd/snaps/snapd_24505.snap /snap/snapd/24505 -o ro,nodev,allow_other,suid
+1000991     3629  0.0  0.0  21584 11136 ?        Ss   04:22   0:00      \_ /usr/lib/systemd/systemd-resolved
+1000998     4066  0.0  0.0  18976  7680 ?        Ss   04:22   0:00      \_ /usr/lib/systemd/systemd-networkd
+1000000     4265  0.0  0.0   7224  2688 ?        Ss   04:22   0:00      \_ /usr/sbin/cron -f -P
+1000101     4266  0.0  0.0   9784  4480 ?        Ss   04:22   0:00      \_ @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1000989     4271  0.0  0.0 383704  6932 ?        Ssl  04:22   0:00      \_ /usr/lib/polkit-1/polkitd --no-debug
+1000000     4279  1.0  1.3 1982316 224632 ?      SLsl 04:22   6:23      \_ /snap/juju-db/178/bin/mongod --config /var/snap/juju-db/common/juju-db.config
+1000000     4283  0.0  0.1 2144148 18808 ?       Ssl  04:22   0:03      \_ /usr/lib/snapd/snapd
+1000000     4285  0.0  0.0  17588  7168 ?        Ss   04:22   0:00      \_ /usr/lib/systemd/systemd-logind
+1000000     4289  0.0  0.0 468720  7424 ?        Ssl  04:22   0:00      \_ /usr/libexec/udisks2/udisksd
+1000000     4323  0.0  0.0   7740  2304 ?        Ss   04:22   0:00      \_ bash /etc/systemd/system/jujud-machine-0-exec-start.sh
+1000000     4347  0.5  1.0 1545300 169848 ?      Sl   04:22   3:20      |   \_ /var/lib/juju/tools/machine-0/jujud machine --data-dir /var/lib/juju --machine-id 0 --debug
+1000102     4330  0.0  0.0 152872  4736 ?        Ssl  04:22   0:00      \_ /usr/sbin/rsyslogd -n -iNONE
+1000000     4348  0.0  0.0   6148  2048 ?        Ss+  04:22   0:00      \_ /sbin/agetty -o -p -- \u --noclear --keep-baud - 115200,38400,9600 vt220
+1000000     4383  0.0  0.1 110004 18176 ?        Ssl  04:22   0:00      \_ /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+root        3985  0.0  0.0 1234156 8068 ?        Sl   04:22   0:14 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 1ea05ec7876f5a51f1448384ca1d282660174657d4801e08c27f4438c683138e -address /run/containerd/containerd.sock
+65535       4093  0.0  0.0   1020   128 ?        Ss   04:22   0:00  \_ /pause
+root        5101 15.8  0.8 1410620 134704 ?      Ssl  04:22  95:00  \_ cilium-agent --config-dir=/tmp/cilium/config-map
+root        6783  0.0  0.0 1229860 3584 ?        Sl   04:23   0:00      \_ cilium-health-responder --listen 4240 --pidfile /var/run/cilium/state/health-endpoint.pid
+root        4002  0.0  0.0 1234156 7628 ?        Sl   04:22   0:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f028eebebcafa55dccd31b994e1713398bf4771c68d7a2489d277e5a95dde040 -address /run/containerd/containerd.sock
+65535       4107  0.0  0.0   1020   128 ?        Ss   04:22   0:00  \_ /pause
+root        4207  0.3  0.2 1273304 40508 ?       Ssl  04:22   2:01  \_ /speaker --port=7472 --log-level=info
+root        4011  0.0  0.0 1234156 7260 ?        Sl   04:22   0:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 6aaf465ba7c493e5264fb4895065bac091ca4ec64816934484c1169124c6b194 -address /run/containerd/containerd.sock
+65535       4100  0.0  0.0   1020   128 ?        Ss   04:22   0:00  \_ /pause
+root     1009836  0.4  0.3 1332788 60276 ?       Ssl  11:22   0:48  \_ cilium-operator-generic --config-dir=/tmp/cilium/config-map --debug=false
+root        7670  0.0  0.0 1234412 8516 ?        Sl   04:23   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 31d2fd195d11f34483bafaa5bce12c9ee019979ab3f5b5e311351f242b7a9d82 -address /run/containerd/containerd.sock
+65535       7704  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root        8064  0.1  0.0 1235324 15872 ?       Ssl  04:23   0:46  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+   87335  0.2  0.1 2261952 20992 ?       Sl   04:31   1:24  |   \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+   87443  0.0  0.0  14908  8116 ?        S    04:31   0:00  |   \_ python3 /logrotate_executor.py
+root      302487  0.0  0.0 1234812 10896 ?       Ssl  07:08   0:24  \_ /charm/bin/pebble run --http :38812 --verbose
+root      304172  0.1  0.2 1298532 37888 ?       Sl   07:08   0:30      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root        8151  0.0  0.0 1234156 8852 ?        Sl   04:23   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 63bd835097096b934efe51d8c0972a57bfd10ffb6615cea93d3f9f8d71cb7103 -address /run/containerd/containerd.sock
+65535       8329  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root      305037  0.0  0.0 1235068 10688 ?       Ssl  07:08   0:24  \_ /charm/bin/pebble run --http :38812 --verbose
+root      305492  0.1  0.2 1298532 37092 ?       Sl   07:08   0:28  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root      305580  0.1  0.0 1235068 14560 ?       Ssl  07:08   0:39  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+  319240  1.1  0.1 2261952 20480 ?       Sl   07:09   5:04      \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+  320077  0.0  0.0  14908  8140 ?        S    07:09   0:00      \_ python3 /logrotate_executor.py
+root        8163  0.0  0.0 1234156 8696 ?        Sl   04:23   0:26 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id c54e18c53d5706db4be26dfbdcab5aac385982a2eafeef99262faa92bbb01780 -address /run/containerd/containerd.sock
+65535       8325  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root        8949  0.0  0.0 1232840 3328 ?        Ssl  04:23   0:00  \_ /bin/pebble enter --args rawfile csi-driver --disable-metrics
+root        8987  0.1  0.1 940300 26836 ?        Sl   04:23   0:48  |   \_ python3 /app/rawfile.py csi-driver --disable-metrics
+root        9000  0.0  0.0 1271888 11904 ?       Ssl  04:23   0:04  \_ /csi-resizer --csi-address=/csi/csi.sock --handle-volume-inuse-error=false
+root        8183  0.0  0.0 1234412 8552 ?        Sl   04:23   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 5596ee910eca8014c7e55c763cb108009d2d565a23d17c0de150fc72aacac245 -address /run/containerd/containerd.sock
+65535       8350  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root       16784  0.0  0.0 1234812 10664 ?       Ssl  04:25   0:25  \_ /charm/bin/pebble run --http :38812 --verbose
+root       17047  0.0  0.2 1299044 33576 ?       Sl   04:25   0:32  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root      299168  0.1  0.0 1235068 16040 ?       Ssl  07:07   0:39  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+  321510  0.2  0.1 2261952 21504 ?       Sl   07:09   1:17      \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+  322420  0.0  0.0  14908  7840 ?        S    07:09   0:00      \_ python3 /logrotate_executor.py
+root        8213  0.1  0.0 1234412 9008 ?        Sl   04:23   0:41 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 98322c04b1adb332a97f1d3ea6c49645a9b3e0fbad80b320fe8fea9b2017eeb3 -address /run/containerd/containerd.sock
+65535       8345  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root       10098  0.0  0.0 1234812 10396 ?       Ssl  04:23   0:19  \_ /charm/bin/pebble run --create-dirs --hold --http :38814 --verbose
+42407      87334  0.1  0.8 284924 141316 ?       S    04:31   0:42  |   \_ /usr/bin/python3 /usr/bin/cinder-scheduler --use-syslog
+root       15977  0.0  0.0 1234812 10716 ?       Ssl  04:25   0:25  \_ /charm/bin/pebble run --http :38812 --verbose
+root       16009  0.1  0.1 1299044 29304 ?       Sl   04:25   0:38  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root      299451  0.0  0.0 1235068 13524 ?       Ssl  07:07   0:24  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root     1843404  0.0  0.0  16944  8512 ?        S    14:08   0:00      \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42407    1843427  0.3  0.8 406488 145948 ?       Sl   14:08   0:02          \_ (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+42407    1843428  0.3  0.8 406488 146048 ?       Sl   14:08   0:02          \_ (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+42407    1843429  0.2  0.8 406488 146236 ?       Sl   14:08   0:02          \_ (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+42407    1843430  0.3  0.8 406488 146196 ?       Sl   14:08   0:02          \_ (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+www-data 1843431  0.0  0.1 1946288 17116 ?       Sl   14:08   0:00          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data 1843432  0.0  0.1 1946216 16860 ?       Sl   14:08   0:00          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+root        8253  0.1  0.0 1234668 9460 ?        Sl   04:23   1:06 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 0a86ac52b6fdc078435366c760c4a131c82a2366d1e48d59372b9e7545266938 -address /run/containerd/containerd.sock
+65535       8456  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root        9739  0.1  0.0 1234812 13136 ?       Ssl  04:23   0:36  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root       34358  0.0  0.0  16960  6688 ?        S    04:26   0:01  |   \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data   34493  0.0  0.0 1947448 12776 ?       Sl   04:26   0:01  |       \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data   72762  0.0  0.0 2013064 12904 ?       Sl   04:28   0:01  |       \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data   89177  0.0  0.0 2011784 11624 ?       Sl   04:32   0:02  |       \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42436     298009  0.0  0.0 110592  9060 ?        Sl   07:07   0:01  |       \_ (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+42436     298106  0.0  0.0 110592  9192 ?        Sl   07:07   0:01  |       \_ (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+42436    1008893  0.0  0.0 110592  9192 ?        Sl   11:22   0:00  |       \_ (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+42436    1009193  0.0  0.7 273452 130620 ?       Sl   11:22   0:09  |       \_ (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+42436    1818798  0.0  0.0 110592 11496 ?        Sl   14:07   0:00  |       \_ (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+42436    1819203  0.4  0.8 273452 136896 ?       Sl   14:07   0:04  |       \_ (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+42436    1819254  0.4  0.8 273452 137052 ?       Sl   14:07   0:04  |       \_ (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+42436    1819255  0.4  0.8 273452 136924 ?       Sl   14:07   0:03  |       \_ (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+root       10160  0.0  0.0 1234556 10064 ?       Ssl  04:23   0:18  \_ /charm/bin/pebble run --create-dirs --hold --http :38815 --verbose
+42436     100159  1.2  0.6 128608 112280 ?       S    04:33   7:37  |   \_ /usr/bin/python3 /usr/bin/nova-scheduler
+42436     100264  0.1  0.7 134752 115212 ?       S    04:33   0:59  |       \_ /usr/bin/python3 /usr/bin/nova-scheduler
+42436     100265  0.1  0.7 134692 115084 ?       S    04:33   0:58  |       \_ /usr/bin/python3 /usr/bin/nova-scheduler
+42436     100266  0.1  0.7 134600 115084 ?       S    04:33   0:57  |       \_ /usr/bin/python3 /usr/bin/nova-scheduler
+42436     100267  0.1  0.7 134684 114828 ?       S    04:33   0:57  |       \_ /usr/bin/python3 /usr/bin/nova-scheduler
+root       10207  0.0  0.0 1234812 10224 ?       Ssl  04:23   0:19  \_ /charm/bin/pebble run --create-dirs --hold --http :38816 --verbose
+42436      36755  0.0  0.6 149552 113868 ?       S    04:26   0:13  |   \_ /usr/bin/python3 /usr/bin/nova-spicehtml5proxy --use-syslog
+root       16260  0.0  0.0 1234812 10920 ?       Ssl  04:25   0:28  \_ /charm/bin/pebble run --http :38812 --verbose
+root       16583  0.1  0.2 1298788 36260 ?       Sl   04:25   1:03  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root      299456  0.0  0.0 1235068 10720 ?       Ssl  07:07   0:16  \_ /charm/bin/pebble run --create-dirs --hold --http :38814 --verbose
+42436     347206  1.5  0.6 128536 112208 ?       S    07:10   6:45      \_ /usr/bin/python3 /usr/bin/nova-conductor
+42436     348274  0.1  0.7 136184 116380 ?       S    07:10   0:49          \_ /usr/bin/python3 /usr/bin/nova-conductor
+42436     348276  0.1  0.7 135992 116576 ?       S    07:10   0:51          \_ /usr/bin/python3 /usr/bin/nova-conductor
+42436     348282  0.2  0.7 136468 116708 ?       S    07:10   0:52          \_ /usr/bin/python3 /usr/bin/nova-conductor
+42436     348283  0.2  0.7 136056 116460 ?       S    07:10   0:53          \_ /usr/bin/python3 /usr/bin/nova-conductor
+root        8259  0.0  0.0 1234412 8116 ?        Sl   04:23   0:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 5eaf00360fad50a557c0274454410b1fa8e212416280dc6abf4c37808040ea19 -address /run/containerd/containerd.sock
+65535       8437  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+ubuntu      8623  0.0  0.0 1232620 3456 ?        Ssl  04:23   0:00  \_ /bin/pebble enter --args metrics-server --secure-port=10250 --cert-dir=/tmp --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --kubelet-use-node-status-port --metric-resolution=15s
+ubuntu      8842  0.3  0.1 1284352 32012 ?       Sl   04:23   2:02      \_ /metrics-server --secure-port=10250 --cert-dir=/tmp --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --kubelet-use-node-status-port --metric-resolution=15s
+root        8302  0.0  0.0 1234156 8472 ?        Sl   04:23   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f868a8720686403a09ddb52800b283f54ec1441d4c762a0374f1724c9f0cb888 -address /run/containerd/containerd.sock
+65535       8453  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root        9980  0.0  0.0 1235068 11300 ?       Ssl  04:23   0:28  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+42435      70032  0.0  0.9 185152 159900 ?       S    04:28   0:33  |   \_ /usr/bin/python3 /usr/bin/neutron-server
+42435      98849  0.0  0.9 188368 162428 ?       S    04:32   0:30  |       \_ neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98850  0.0  0.9 187328 161660 ?       S    04:32   0:08  |       \_ neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98851  0.0  0.9 187328 161532 ?       S    04:32   0:09  |       \_ neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98852  0.0  0.9 187328 161532 ?       S    04:32   0:09  |       \_ neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98857  0.0  0.9 188400 163068 ?       S    04:32   0:08  |       \_ neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98858  0.0  0.9 188400 162940 ?       S    04:32   0:08  |       \_ neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98859  0.0  0.9 188400 163068 ?       S    04:32   0:08  |       \_ neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98860  0.0  0.9 188400 162940 ?       S    04:32   0:09  |       \_ neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98861  0.0  0.9 186208 157820 ?       S    04:32   0:01  |       \_ neutron-server: RpcReportsWorker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98862  0.0  1.0 190352 165116 ?       S    04:32   0:05  |       \_ neutron-server: MaintenanceWorker (/usr/bin/python3 /usr/bin/neutron-server)
+42435      98863  0.0  0.9 189424 161532 ?       S    04:32   0:33  |       \_ neutron-server: periodic worker (/usr/bin/python3 /usr/bin/neutron-server)
+root       16782  0.0  0.0 1235068 11072 ?       Ssl  04:25   0:27  \_ /charm/bin/pebble run --http :38812 --verbose
+root       17065  0.0  0.2 1299044 32784 ?       Sl   04:25   0:35      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root        8349  0.0  0.0 1233900 8592 ?        Sl   04:23   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id af6018980f1ad842e1eb39a688ee96ebc62dca67f4b001bec31d9cda18fc6ec9 -address /run/containerd/containerd.sock
+65535       8482  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root        9930  0.1  0.0 1235068 14740 ?       Ssl  04:23   0:44  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+   93785  0.2  0.1 2261952 21504 ?       Sl   04:32   1:37  |   \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+   94231  0.0  0.0  14908  8172 ?        S    04:32   0:00  |   \_ python3 /logrotate_executor.py
+root       16705  0.0  0.0 1234812 10228 ?       Ssl  04:25   0:28  \_ /charm/bin/pebble run --http :38812 --verbose
+root       16916  0.0  0.1 1298532 28724 ?       Sl   04:25   0:33      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root        8388  0.0  0.0 1234668 8608 ?        Sl   04:23   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f01f452c5d96caf2d2052b574ee4d11e9ca714bd37835baece01316663926692 -address /run/containerd/containerd.sock
+65535       8457  0.0  0.0   1020   128 ?        Ss   04:23   0:00  \_ /pause
+root        9706  0.1  0.1 1235068 16836 ?       Ssl  04:23   0:44  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+   94053  0.2  0.1 2261952 20608 ?       Sl   04:32   1:24  |   \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+   94603  0.0  0.0  14908  7908 ?        S    04:32   0:00  |   \_ python3 /logrotate_executor.py
+root      303556  0.0  0.0 1235068 11172 ?       Ssl  07:08   0:23  \_ /charm/bin/pebble run --http :38812 --verbose
+root      304280  0.1  0.2 1298532 36056 ?       Sl   07:08   0:28      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       10358  0.0  0.0 1234156 7572 ?        Sl   04:24   0:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 2fad83ccecee85f3791dd427310ca9df023286d98eea8fe2490d379161d1b62d -address /run/containerd/containerd.sock
+65535      10437  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       10476  0.0  0.1 1444160 32308 ?       Ssl  04:24   0:21  \_ /var/lib/juju/tools/jujud model --model-uuid=ee070cdf-4b8b-49ac-80cb-918841540fbe
+root       11014  0.0  0.0 1234412 8460 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id aa5ab5c52a52281681cf9997c59a5071134c636746d031e3ecee7303ec4f1aa4 -address /run/containerd/containerd.sock
+65535      11037  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root      303563  0.0  0.0 1235324 10536 ?       Ssl  07:08   0:23  \_ /charm/bin/pebble run --http :38812 --verbose
+root      304238  0.1  0.2 1299044 36656 ?       Sl   07:08   0:28  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root      305031  0.1  0.1 1235068 17724 ?       Ssl  07:08   0:40  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+  320371  0.3  0.1 2261952 21376 ?       Sl   07:09   1:36      \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+  320875  0.0  0.0  14908  8116 ?        S    07:09   0:00      \_ python3 /logrotate_executor.py
+root       11279  0.0  0.0 1234156 8456 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 6e8d6822c376d72e81427485a1c5bd40aeea9b2c73ad57047a41e282d5997624 -address /run/containerd/containerd.sock
+65535      11301  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       11435  0.0  0.0 1234812 10640 ?       Ssl  04:24   0:28  \_ /charm/bin/pebble run --http :38812 --verbose
+root       11483  0.0  0.2 1298788 33248 ?       Sl   04:24   0:28  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       11495  0.0  0.0 1235068 13256 ?       Ssl  04:24   0:26  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root     1830312  0.0  0.0   4616  3328 ?        S    14:07   0:00      \_ bash /root/ovn-relay-wrapper.sh
+root     1830346  0.0  0.0  12560  9344 ?        S    14:07   0:00          \_ ovsdb-server -vconsole:info -c /etc/ovn/cert_host -C /etc/ovn/ovn-central.crt -p /etc/ovn/key_host --no-chdir --pidfile=/var/run/ovn/ovn-relay.pid --unixctl=/var/run/ovn/ovn_relay.sock --remote=pssl:6642 relay:OVN_Southbound:ssl:10.1.0.67:6642
+root       11550  0.1  0.0 1234412 8808 ?        Sl   04:24   0:52 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id facc78df21132827882ea3a94bfc90314fe2344afdcd9381dfb498a61e3f4cd7 -address /run/containerd/containerd.sock
+65535      11572  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       11606  0.0  0.0 1232584 3456 ?        Ssl  04:24   0:00  \_ /bin/pebble enter
+root       11625  0.1  0.1 1236400 28168 ?       Sl   04:24   1:10  |   \_ python3 /app/rawfile.py csi-driver
+root       11645  0.0  0.0 1242036 12744 ?       Ssl  04:24   0:12  \_ /csi-node-driver-registrar --csi-address=/csi/csi.sock --kubelet-registration-path=/var/lib/kubelet/plugins/rawfile-csi/csi.sock --health-port=9809
+root       11683  0.1  0.1 1274300 17916 ?       Ssl  04:24   0:44  \_ /csi-provisioner --csi-address=/csi/csi.sock --feature-gates=Topology=true --strict-topology --immediate-topology=false --timeout=120s --enable-capacity=true --capacity-ownerref-level=1 --node-deployment=true
+root       11723  0.2  0.0 1271156 14572 ?       Ssl  04:24   1:22  \_ /csi-snapshotter --csi-address=/csi/csi.sock --node-deployment=true --extra-create-metadata=true
+root       11799  0.0  0.0 1234156 8188 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id a201169c6c2ae12aaa797c7c59470d0acc8bbc82167b6351f81b0866a1aea514 -address /run/containerd/containerd.sock
+65535      11822  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       11986  0.0  0.0 1235068 10560 ?       Ssl  04:24   0:27  \_ /charm/bin/pebble run --http :38812 --verbose
+root       12032  0.0  0.1 1298788 30684 ?       Sl   04:24   0:32  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       12061  0.1  0.0 1235068 16196 ?       Ssl  04:24   0:44  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+   90137  0.2  0.1 2261952 20736 ?       Sl   04:32   1:24      \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+   90411  0.0  0.0  14908  7812 ?        S    04:32   0:00      \_ python3 /logrotate_executor.py
+root       12243  0.0  0.0 1234412 9124 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 95d041490f0734155d4e74fbbf0144487d81f04b452846474783947757817a34 -address /run/containerd/containerd.sock
+65535      12266  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       12402  0.0  0.0 1234812 10596 ?       Ssl  04:24   0:27  \_ /charm/bin/pebble run --http :38812 --verbose
+root       12448  0.0  0.2 1298788 34840 ?       Sl   04:24   0:33  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       12460  0.1  0.0 1235324 15700 ?       Ssl  04:24   0:45  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+   94314  0.2  0.1 2261952 21248 ?       Sl   04:32   1:36      \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+   94782  0.0  0.0  14908  7840 ?        S    04:32   0:00      \_ python3 /logrotate_executor.py
+root       12492  0.0  0.0 1234412 8600 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id de506e1d14480cdf889922feeb4d3392f0decffd530f78166ede1f2b21a34c41 -address /run/containerd/containerd.sock
+65535      12515  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       12696  0.1  0.0 1235068 10588 ?       Ssl  04:24   0:39  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+   91291  9.9  0.1 2261952 22528 ?       Sl   04:32  58:49  |   \_ mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+snap_da+   91428  0.0  0.0  14908  7852 ?        S    04:32   0:00  |   \_ python3 /logrotate_executor.py
+root      305038  0.0  0.0 1235068 9692 ?        Ssl  07:08   0:24  \_ /charm/bin/pebble run --http :38812 --verbose
+root      305286  0.0  0.1 1298788 31720 ?       Sl   07:08   0:25      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root     1479967  0.0  0.3 295876 65160 ?        S    12:37   0:02          \_ /var/lib/juju/agents/unit-nova-mysql-router-0/charm/venv/bin/python /var/lib/juju/agents/unit-nova-mysql-router-0/charm/src/charm.py
+root       12730  0.0  0.0 1234412 7736 ?        Sl   04:24   0:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 953373094c3a4772901cd8686a77ae8bc78d33cc5051f1cc949ff25e307ce093 -address /run/containerd/containerd.sock
+65535      12754  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       13400  0.0  0.0 1232672 3200 ?        Ssl  04:24   0:00  \_ /bin/pebble enter --args coredns -conf /etc/coredns/Corefile
+root       13565  0.6  0.1 1287372 26444 ?       Sl   04:24   4:07      \_ /coredns -conf /etc/coredns/Corefile
+root       12782  0.0  0.0 1234156 8152 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 3bfe18913643763344c1e50766beac246bfdd7ec56972d337908300836710c35 -address /run/containerd/containerd.sock
+65535      13010  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       13830  0.0  0.0 1234556 10304 ?       Ssl  04:24   0:27  \_ /charm/bin/pebble run --http :38812 --verbose
+root       14017  0.0  0.1 1298788 31232 ?       Sl   04:24   0:25  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       14136  0.0  0.0 1234812 12624 ?       Ssl  04:24   0:28  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root       72990  0.0  0.0  16904  6496 ?        S    04:28   0:01      \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42420      72994  0.0  0.6 771748 110020 ?       Sl   04:28   0:21          \_ (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+www-data   72995  0.0  0.0 2011648 15720 ?       Sl   04:28   0:03          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data   72996  0.0  0.0 2011648 15852 ?       Sl   04:28   0:01          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42420    1008972  0.1  0.6 770720 109840 ?       Sl   11:22   0:11          \_ (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+42420    1819003  0.3  0.7 770720 117672 ?       Sl   14:07   0:03          \_ (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+42420    1819004  0.2  0.7 770712 118300 ?       Sl   14:07   0:02          \_ (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+root       12826  0.0  0.0 1234412 8720 ?        Sl   04:24   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 18b23f27ec28f0be1edc64a58140296a1de734b5b66bff428d4685800ca31ab2 -address /run/containerd/containerd.sock
+65535      13006  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       14302  0.0  0.0 1234812 10664 ?       Ssl  04:24   0:27  \_ /charm/bin/pebble run --http :38812 --verbose
+root       14398  0.0  0.1 1298532 31720 ?       Sl   04:24   0:29  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       14464  0.1  0.0 1235068 12700 ?       Ssl  04:24   0:36  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root       27392  0.0  0.0  16944  6556 ?        S    04:25   0:01      \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data   27563  0.0  0.0 1947444 13532 ?       Sl   04:25   0:03          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data   63889  0.0  0.0 2012468 13020 ?       Sl   04:27   0:01          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data   85806  0.0  0.0 2011988 12764 ?       Sl   04:31   0:02          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42482     298133  0.0  0.5 236752 82588 ?        Sl   07:07   0:12          \_ (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+42482    1008996  0.0  0.5 236752 82228 ?        Sl   11:22   0:07          \_ (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+42482    1009095  0.0  0.4 235728 81480 ?        Sl   11:22   0:08          \_ (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+42482    1818967  0.2  0.5 234704 87216 ?        Sl   14:07   0:02          \_ (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+root       12862  0.0  0.0 1234156 7732 ?        Sl   04:24   0:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 91cd0766615e97ec699efc7a9d61ed0a1b195896f24ea797a7c26a67a72613fd -address /run/containerd/containerd.sock
+nobody     13023  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+nobody     13182  0.1  0.2 1270556 33820 ?       Ssl  04:24   0:49  \_ /controller --port=7472 --log-level=info --tls-min-version=VersionTLS12
+root       12928  0.0  0.0 1233900 7900 ?        Sl   04:24   0:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id da5eb54f3abe58fe1bcc7e29ce72bf2ee48fcc520cec74a3fa4cefe17439037d -address /run/containerd/containerd.sock
+65535      13032  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       13195  0.0  0.1 1445168 31696 ?       Ssl  04:24   0:20  \_ /var/lib/juju/tools/jujud model --model-uuid=9972a5a1-e22e-4d1c-894e-dfd4acbda336
+root       12958  0.0  0.0 1234156 8736 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 4c00eb0527041aaecd37ac5a159424851ca1554cd6cd9599672088392eb2ff5d -address /run/containerd/containerd.sock
+65535      13031  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       14621  0.0  0.0 1235068 11604 ?       Ssl  04:24   0:20  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root     1831869  0.0  0.0  17184  8628 ?        S    14:07   0:00  |   \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data 1831904  0.0  0.0 1946444 14488 ?       Sl   14:07   0:00  |   |   \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data 1831905  0.0  0.0 2011980 14488 ?       Sl   14:07   0:00  |   |   \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42415    1833670  1.6  0.8 209580 143584 ?       S    14:07   0:15  |   \_ /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+42415    1838451  0.0  0.6 209580 112284 ?       S    14:08   0:00  |       \_ /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+42415    1838452  0.0  0.6 209580 112284 ?       S    14:08   0:00  |       \_ /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+42415    1838453  0.0  0.6 209744 113052 ?       S    14:08   0:00  |       \_ /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+42415    1838457  0.0  0.6 209580 112284 ?       S    14:08   0:00  |       \_ /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+root       23421  0.0  0.0 1234812 10324 ?       Ssl  04:25   0:26  \_ /charm/bin/pebble run --http :38812 --verbose
+root       23621  0.0  0.2 1298788 34252 ?       Sl   04:25   0:27      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       12987  0.0  0.0 1234156 8120 ?        Sl   04:24   0:14 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 927be5012b9cee627f60f21cb49c6d44a47389ccbc3729199063dbe709033e03 -address /run/containerd/containerd.sock
+65535      13043  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       13821  0.0  0.0 1235068 9716 ?        Ssl  04:24   0:25  \_ /charm/bin/pebble run --http :38812 --verbose
+root       13963  0.0  0.1 1298788 30280 ?       Sl   04:24   0:16      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       13696  0.0  0.0 1233900 8360 ?        Sl   04:24   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 1e5b2ce579cdb5d31fb1b06042fa1bbf95493b2ab5d3db01d71cf57c3f35f740 -address /run/containerd/containerd.sock
+65535      13826  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       14707  0.1  0.0 1235068 14728 ?       Ssl  04:24   0:36  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root     1851448  0.0  0.0   2920  1408 ?        S    14:08   0:00  |   \_ /bin/sh -c /usr/bin/traefik | tee /var/log/traefik.log
+root     1851455  0.1  0.7 1371784 123064 ?      Sl   14:08   0:01  |       \_ /usr/bin/traefik
+root     1851456  0.0  0.0   2824  1280 ?        S    14:08   0:00  |       \_ tee /var/log/traefik.log
+root     1013652  0.0  0.0 1235068 11544 ?       Ssl  11:23   0:10  \_ /charm/bin/pebble run --http :38812 --verbose
+root     1014151  0.1  0.2 1299044 39616 ?       Sl   11:23   0:17      \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       13850  0.0  0.0 1234156 8732 ?        Sl   04:24   0:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id a2c8161bb658bbb4f76710088a1204c9310e9bce0c89ee1981a03908e61afa07 -address /run/containerd/containerd.sock
+65535      13952  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       15068  0.0  0.0 1234876 10928 ?       Ssl  04:24   0:26  \_ /charm/bin/pebble run --http :38812 --verbose
+root       15122  0.0  0.2 1298788 33028 ?       Sl   04:24   0:28  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root     1010051  0.0  0.0 1234556 11376 ?       Ssl  11:22   0:07  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+lxd      1017451  0.0  0.0   7188  2816 ?        S    11:23   0:00      \_ epmd -d
+lxd      1018330  0.0  0.0   2828  1792 ?        S    11:23   0:00      \_ /bin/sh /usr/lib/rabbitmq/bin/rabbitmq-server
+lxd      1018368  1.3  1.2 4451360 197672 ?      Sl   11:23   2:24      |   \_ /usr/lib/erlang/erts-13.2.2.5/bin/beam.smp -W w -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -pc unicode -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -sbwt none -sbwtdcpu none -sbwtdio none -B i -- -root /usr/lib/erlang -bindir /usr/lib/erlang/erts-13.2.2.5/bin -progname erl -- -home /var/lib/rabbitmq -- -pa  -noshell -noinput -s rabbit boot -boot start_sasl -syslog logger [] -syslog syslog_error_logger false -kernel prevent_overlapping_partitions false -enable-feature maybe_expr
+lxd      1018472  0.0  0.0   2716  1408 ?        Ss   11:23   0:00      |       \_ erl_child_setup 1048576
+lxd      1025212  0.0  0.0   3680  1536 ?        Ss   11:23   0:00      |           \_ /usr/lib/erlang/erts-13.2.2.5/bin/inet_gethost 4
+lxd      1025216  0.0  0.0   3680  1296 ?        S    11:23   0:00      |           |   \_ /usr/lib/erlang/erts-13.2.2.5/bin/inet_gethost 4
+lxd      1538222  0.0  0.0   3680  1296 ?        S    12:57   0:00      |           |   \_ /usr/lib/erlang/erts-13.2.2.5/bin/inet_gethost 4
+lxd      1045284  0.0  0.0   2828  1896 ?        Ss   11:24   0:00      |           \_ /bin/sh -s rabbit_disk_monitor
+root     1018960  0.0  0.0   4616  3072 ?        S    11:23   0:00      \_ /bin/bash /usr/bin/notifier
+root     1818714  0.0  0.0   2724  1408 ?        S    14:07   0:00          \_ sleep 1800
+root       13895  0.0  0.0 1234412 8424 ?        Sl   04:24   0:30 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 055eb12af60c8b710de8c6ed726854892fe750d2cc8496f9939275ea516828bb -address /run/containerd/containerd.sock
+65535      13962  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+root       14804  0.0  0.0 1235068 10360 ?       Ssl  04:24   0:25  \_ /charm/bin/pebble run --http :38812 --verbose
+root       14864  0.1  0.2 1298788 40128 ?       Sl   04:24   0:43  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root     1823614  0.0  0.0  16672 10996 ?        S    14:07   0:00  |   \_ /usr/bin/python3 scripts/log_rotate_dispatcher.py mysql/0 /var/lib/juju/agents/unit-mysql-0/charm
+root       14876  3.1  0.2 1235324 35780 ?       Ssl  04:24  18:43  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+snap_da+   26946  5.5  6.5 4369432 1068676 ?     Sl   04:25  33:00      \_ /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mysql/plugin --log-error=/var/log/mysql/error.log --pid-file=mysql-0.pid
+root       13912  0.2  0.0 1234412 9744 ?        Sl   04:24   1:45 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f7b496cf8559f6df0c7122b9f8410ade24064d33a50764ac561ee5864d2f7e2e -address /run/containerd/containerd.sock
+65535      13964  0.0  0.0   1020   128 ?        Ss   04:24   0:00  \_ /pause
+170        14820  0.0  0.0 1234528 8272 ?        Ssl  04:24   0:10  \_ /charm/bin/pebble run --http :38812 --verbose
+170        14918  0.0  0.1 1298504 27892 ?       Sl   04:24   0:19  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0 --controller
+170        14946  4.1  1.8 2155644 304288 ?      SLsl 04:24  24:59  \_ mongod --dbpath=/var/lib/juju/db --tlsCertificateKeyFile=/var/lib/juju/server.pem --tlsCertificateKeyFilePassword=xxxxxxx --tlsMode=requireTLS --port=37017 --journal --replSet=juju --quiet --oplogSize=1024 --auth --keyFile=/var/lib/juju/shared-secret --storageEngine=wiredTiger --bind_ip_all --ipv6
+170        15067  0.0  0.0 1234784 7752 ?        Ssl  04:24   0:21  \_ /opt/pebble run --http :38811 --verbose
+170        15195  5.2  1.9 1708996 324708 ?      Sl   04:24  31:08      \_ /var/lib/juju/tools/jujud machine --data-dir /var/lib/juju --controller-id 0 --log-to-stderr --show-log
+root       42301  0.0  0.0 1234156 8576 ?        Sl   04:26   0:29 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 94cc77b6aac53778b30348a2a9ea26b8238bedec8171a4dadccf52e5ee1928d2 -address /run/containerd/containerd.sock
+65535      42397  0.0  0.0   1020   128 ?        Ss   04:26   0:00  \_ /pause
+root       44446  0.0  0.0 1235068 10908 ?       Ssl  04:26   0:29  \_ /charm/bin/pebble run --http :38812 --verbose
+root       44646  0.1  0.1 1298788 30764 ?       Sl   04:26   0:48  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root       44889  0.1  0.0 1235324 13648 ?       Ssl  04:26   0:37  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root     1851989  0.0  0.0   2920  1792 ?        S    14:08   0:00      \_ /bin/sh -c /usr/bin/traefik | tee /var/log/traefik.log
+root     1851991  0.2  0.7 1371720 121420 ?      Sl   14:08   0:01          \_ /usr/bin/traefik
+root     1851993  0.0  0.0   2824  1408 ?        S    14:08   0:00          \_ tee /var/log/traefik.log
+root       42894  0.0  0.0 1234156 8828 ?        Sl   04:26   0:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 0a9c0beeea24c19327b368b3b644ff34416b9a49bb10f76125bd34503c948d23 -address /run/containerd/containerd.sock
+65535      43109  0.0  0.0   1020   128 ?        Ss   04:26   0:00  \_ /pause
+root      302022  0.0  0.0 1234812 10548 ?       Ssl  07:08   0:23  \_ /charm/bin/pebble run --http :38812 --verbose
+root      302853  0.1  0.2 1298788 38660 ?       Sl   07:08   0:27  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root     1009916  0.1  0.0 1234556 12828 ?       Ssl  11:22   0:13  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root     1030735  0.0  0.3 260548 57584 ?        S    11:24   0:00      \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42425    1031013  0.2  0.7 496160 115856 ?       Sl   11:24   0:28          \_ (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+42425    1031037  0.2  0.6 494112 113664 ?       Sl   11:24   0:27          \_ (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+www-data 1031060  0.0  0.1 2190316 17440 ?       Sl   11:24   0:01          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+www-data 1031067  0.0  0.1 2189916 17172 ?       Sl   11:24   0:01          \_ /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+42425    1818969  0.5  0.7 493088 121536 ?       Sl   14:07   0:05          \_ (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+42425    1818970  0.5  0.7 493088 120792 ?       Sl   14:07   0:05          \_ (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+root       42934  8.4  0.0 1234156 9324 ?        Sl   04:26  50:30 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id ffe0580eeb27d83afdb6b6e9fc41e25648110f008f4f839409ae427e114dea79 -address /run/containerd/containerd.sock
+65535      43132  0.0  0.0   1020   128 ?        Ss   04:26   0:00  \_ /pause
+root       46094  0.1  0.0 1234812 13156 ?       Ssl  04:26   0:41  \_ /charm/bin/pebble run --create-dirs --hold --http :38815 --verbose
+root     1851388  0.0  0.0   4616  3328 ?        S    14:08   0:00  |   \_ bash /root/ovn-sb-db-server-wrapper.sh
+root     1851402  0.0  0.0   3096  2048 ?        S    14:08   0:00  |       \_ /bin/sh /usr/share/ovn/scripts/ovn-ctl run_sb_ovsdb --db-sb-cluster-local-addr=ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local --db-sb-cluster-local-port=6644 --db-sb-cluster-local-proto=ssl --db-sb-cluster-remote-addr= --db-sb-cluster-remote-port=6644 --db-sb-cluster-remote-proto=ssl --ovn-sb-db-ssl-key=/etc/ovn/key_host --ovn-sb-db-ssl-cert=/etc/ovn/cert_host --ovn-sb-db-ssl-ca-cert=/etc/ovn/ovn-central.crt --ovn-sb-log=-vconsole:info
+root     1851680  0.1  0.0 236688 11212 ?        Sl   14:08   0:01  |           \_ ovsdb-server -vconsole:info --log-file=/var/log/ovn/ovsdb-server-sb.log --remote=punix:/var/run/ovn/ovnsb_db.sock --pidfile=/var/run/ovn/ovnsb_db.pid --unixctl=/var/run/ovn/ovnsb_db.ctl --remote=db:OVN_Southbound,SB_Global,connections --private-key=/etc/ovn/key_host --certificate=/etc/ovn/cert_host --ca-cert=/etc/ovn/ovn-central.crt --ssl-protocols=db:OVN_Southbound,SSL,ssl_protocols --ssl-ciphers=db:OVN_Southbound,SSL,ssl_ciphers /var/lib/ovn/ovnsb_db.db
+root      303576  0.0  0.0 1234812 11228 ?       Ssl  07:08   0:24  \_ /charm/bin/pebble run --http :38812 --verbose
+root      304171  0.1  0.2 1298788 38260 ?       Sl   07:08   0:38  |   \_ /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+root      305049  0.0  0.0 1234812 12924 ?       Ssl  07:08   0:23  \_ /charm/bin/pebble run --create-dirs --hold --http :38814 --verbose
+root     1854409  0.0  0.0   4616  3456 ?        S    14:08   0:00  |   \_ bash /root/ovn-northd-wrapper.sh
+root     1854417  0.0  0.0 165384 11432 ?        Sl   14:08   0:00  |       \_ ovn-northd -vconsole:info --ovnnb-db=ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641 --ovnsb-db=ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642 -c /etc/ovn/cert_host -C /etc/ovn/ovn-central.crt -p /etc/ovn/key_host --no-chdir --pidfile=/var/run/ovn/ovn-northd.pid
+root      306175  0.1  0.0 1235324 12296 ?       Ssl  07:08   0:29  \_ /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+root     1852409  0.0  0.0   4616  3584 ?        S    14:08   0:00      \_ bash /root/ovn-nb-db-server-wrapper.sh
+root     1852416  0.0  0.0   3096  2048 ?        S    14:08   0:00          \_ /bin/sh /usr/share/ovn/scripts/ovn-ctl run_nb_ovsdb --db-nb-cluster-local-addr=ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local --db-nb-cluster-local-port=6643 --db-nb-cluster-local-proto=ssl --db-nb-cluster-remote-addr= --db-nb-cluster-remote-port=6643 --db-nb-cluster-remote-proto=ssl --ovn-nb-db-ssl-key=/etc/ovn/key_host --ovn-nb-db-ssl-cert=/etc/ovn/cert_host --ovn-nb-db-ssl-ca-cert=/etc/ovn/ovn-central.crt --ovn-nb-log=-vconsole:info
+root     1852597  0.1  0.0 236536 11096 ?        Sl   14:08   0:01              \_ ovsdb-server -vconsole:info --log-file=/var/log/ovn/ovsdb-server-nb.log --remote=punix:/var/run/ovn/ovnnb_db.sock --pidfile=/var/run/ovn/ovnnb_db.pid --unixctl=/var/run/ovn/ovnnb_db.ctl --remote=db:OVN_Northbound,NB_Global,connections --private-key=/etc/ovn/key_host --certificate=/etc/ovn/cert_host --ca-cert=/etc/ovn/ovn-central.crt --ssl-protocols=db:OVN_Northbound,SSL,ssl_protocols --ssl-ciphers=db:OVN_Northbound,SSL,ssl_ciphers /var/lib/ovn/ovnnb_db.db
+root       73409  0.0  0.8 205220 137036 ?       Sl   04:29   0:05 python3 /snap/openstack-hypervisor/244/usr/bin/privsep-helper --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron_ovn_metadata_agent.ini --config-dir /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf.d --privsep_context neutron.privileged.namespace_cmd --privsep_sock_path /tmp/tmpd37qrubr/privsep.sock
+root      202400  0.0  0.1 581388 20012 ?        Ssl  05:00   0:04 /usr/libexec/fwupd/fwupd
+root      256795  0.0  0.1 265732 28104 ?        S    05:18   0:00 /root/sos/.tox/sunbeam_tests/bin/python /root/sos/.tox/sunbeam_tests/bin/avocado-runner-avocado-instrumented task-run -i 14-/root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -j 45beb1f5bf325c29712d7d6d4987b282fa213b33 -k avocado-instrumented -u /root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -c {"run.test_parameters": [["TESTLOCAL", "true"]], "datadir.paths.cache_dirs": ["/root/avocado/data/cache"], "core.show": {"__encoded_set__": ["app"]}, "job.output.loglevel": "DEBUG", "job.run.store_logging_stream": []} tags=json:{"sunbeam": null, "stageone": null, "foreman": null} variant=json:{"paths": ["/"], "variant_id": null, "variant": [["/", [["/", "TESTLOCAL", "true"]]]]} output_dir=/root/avocado/job-results/job-2025-05-14T05.18-45beb1f/test-results/14-_root_sos_tests_product_tests_sunbeam_kubernetes_tests.py_K8sBasicTest.test_k8s_config_collected -s /var/tmp/avocado_7c_afl7q/.status_server.sock
+root      256799  0.0  0.0      0     0 ?        Z    05:18   0:00  \_ [sos] <defunct>
+root      260923  0.0  0.2  44244 33332 ?        S    05:19   0:00 /root/sos/.tox/sunbeam_tests/bin/python /root/sos/.tox/sunbeam_tests/bin/avocado-runner-avocado-instrumented task-run -i 15-/root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -j e4b98de07b875508c370a11564ff99676a232346 -k avocado-instrumented -u /root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -c {"run.test_parameters": [["TESTLOCAL", "true"]], "datadir.paths.cache_dirs": ["/root/avocado/data/cache"], "core.show": {"__encoded_set__": ["app"]}, "job.output.loglevel": "DEBUG", "job.run.store_logging_stream": []} tags=json:{"sunbeam": null, "stageone": null, "foreman": null} variant=json:{"paths": ["/"], "variant_id": null, "variant": [["/", [["/", "TESTLOCAL", "true"]]]]} output_dir=/root/avocado/job-results/job-2025-05-14T05.19-e4b98de/test-results/15-_root_sos_tests_product_tests_sunbeam_kubernetes_tests.py_K8sBasicTest.test_k8s_config_collected -s /var/tmp/avocado_vini_rin/.status_server.sock
+root      260924  0.0  0.1 265732 28228 ?        S    05:19   0:00  \_ /root/sos/.tox/sunbeam_tests/bin/python /root/sos/.tox/sunbeam_tests/bin/avocado-runner-avocado-instrumented task-run -i 15-/root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -j e4b98de07b875508c370a11564ff99676a232346 -k avocado-instrumented -u /root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -c {"run.test_parameters": [["TESTLOCAL", "true"]], "datadir.paths.cache_dirs": ["/root/avocado/data/cache"], "core.show": {"__encoded_set__": ["app"]}, "job.output.loglevel": "DEBUG", "job.run.store_logging_stream": []} tags=json:{"sunbeam": null, "stageone": null, "foreman": null} variant=json:{"paths": ["/"], "variant_id": null, "variant": [["/", [["/", "TESTLOCAL", "true"]]]]} output_dir=/root/avocado/job-results/job-2025-05-14T05.19-e4b98de/test-results/15-_root_sos_tests_product_tests_sunbeam_kubernetes_tests.py_K8sBasicTest.test_k8s_config_collected -s /var/tmp/avocado_vini_rin/.status_server.sock
+root      260929  0.0  0.0      0     0 ?        Z    05:19   0:00      \_ [sos] <defunct>
+root      297703  0.1  0.1 2218200 28500 ?       Ssl  07:07   0:41 /usr/lib/snapd/snapd
+ubuntu   1195068  4.1  0.0  25436 16128 ?        Ss   11:43   6:35 /usr/lib/systemd/systemd --user
+ubuntu   1195071  0.0  0.0  21148  3520 ?        S    11:43   0:00  \_ (sd-pam)
+ubuntu   1195466  0.0  0.0   9428  4992 ?        Ss   11:43   0:00  \_ /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only

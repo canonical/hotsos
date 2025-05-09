@@ -1,0 +1,43 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "data": {
+                "ca.crt": "-----SCRUBBED CERTIFICATE-----\n"
+            },
+            "kind": "ConfigMap",
+            "metadata": {
+                "annotations": {
+                    "kubernetes.io/description": "Contains a CA bundle that can be used to verify the kube-apiserver when using internal endpoints such as the internal service IP or kubernetes.default.svc. No other usage is guaranteed across distributions of Kubernetes clusters."
+                },
+                "creationTimestamp": "2025-05-09T15:25:01Z",
+                "name": "kube-root-ca.crt",
+                "namespace": "openstack",
+                "resourceVersion": "2493",
+                "uid": "9b6fb09e-f568-4ac6-882f-54c97599ca09"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "data": {
+                "modeloperator-agent.conf": "# format 2.0\ntag: model-ee070cdf-4b8b-49ac-80cb-918841540fbe\ndatadir: /var/lib/juju\ntransient-datadir: /var/run/juju\nlogdir: /var/log/juju\nmetricsspooldir: /var/lib/juju/metricspool\nupgradedToVersion: 3.6.5\ncacert: |\n  -----SCRUBBED CERTIFICATE-----\ncontroller: controller-f6bcbd57-f5dd-48be-820d-5da61700b5c2\nmodel: model-ee070cdf-4b8b-49ac-80cb-918841540fbe\napiaddresses:\n- 10.152.183.59:17070\n- controller-service.controller-sunbeam-controller.svc.cluster.local:17070\n- 172.16.1.201:17070\noldpassword: j9jZ4zHshciTsrhKU2jj2J0e\nvalues: {}\nagent-logfile-max-size: 0\nagent-logfile-max-backups: 0\n"
+            },
+            "kind": "ConfigMap",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:02Z",
+                "labels": {
+                    "juju-modeloperator": "modeloperator"
+                },
+                "name": "modeloperator",
+                "namespace": "openstack",
+                "resourceVersion": "2495",
+                "uid": "b8f10ce5-1bc1-483e-967d-1fc8d0b18014"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

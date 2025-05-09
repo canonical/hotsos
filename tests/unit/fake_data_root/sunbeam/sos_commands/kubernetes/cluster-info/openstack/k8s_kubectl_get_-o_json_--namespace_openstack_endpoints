@@ -1,0 +1,2601 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:12Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "certificate-authority"
+                },
+                "name": "certificate-authority",
+                "namespace": "openstack",
+                "resourceVersion": "133062",
+                "uid": "a66102be-05dc-4bae-bd1a-2faeb9bdac59"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.179",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "certificate-authority-0",
+                                "namespace": "openstack",
+                                "uid": "be27def2-0557-492d-a6af-db5a7e79a5e1"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:13Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "certificate-authority",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "certificate-authority-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70232",
+                "uid": "f7811ec7-969b-41b7-a102-98bab27bf81e"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "certificate-authority-0",
+                            "ip": "10.1.0.179",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "certificate-authority-0",
+                                "namespace": "openstack",
+                                "uid": "be27def2-0557-492d-a6af-db5a7e79a5e1"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:15Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder"
+                },
+                "name": "cinder",
+                "namespace": "openstack",
+                "resourceVersion": "133117",
+                "uid": "921cf62f-4dcf-4ef2-a50d-0ea93b1b840e"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.70",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "cinder-0",
+                                "namespace": "openstack",
+                                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-8776-tcp",
+                            "port": 8776,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:23Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "cinder-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69406",
+                "uid": "914439c5-636b-4a16-9181-81ee9417ef92"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "cinder-0",
+                            "ip": "10.1.0.70",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "cinder-0",
+                                "namespace": "openstack",
+                                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:08Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "name": "cinder-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133007",
+                "uid": "a235684d-ff1d-470b-9767-b4a890918da3"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.240",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "cinder-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "9c62b5d5-2288-4878-9ff3-8b3e0f563558"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:17Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "cinder-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "cinder-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69381",
+                "uid": "fd20ece4-8c42-4742-a1d8-128ee330061f"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "cinder-mysql-router-0",
+                            "ip": "10.1.0.240",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "cinder-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "9c62b5d5-2288-4878-9ff3-8b3e0f563558"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:46:53Z",
+                "labels": {
+                    "app.juju.is/created-by": "cinder-mysql-router",
+                    "app.kubernetes.io/name": "cinder-mysql-router"
+                },
+                "name": "cinder-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133015",
+                "uid": "c1975e3b-e1c5-42d7-bddb-cd0d160bfc5d"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.240",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "cinder-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "9c62b5d5-2288-4878-9ff3-8b3e0f563558"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T12:58:22Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:24Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance"
+                },
+                "name": "glance",
+                "namespace": "openstack",
+                "resourceVersion": "125565",
+                "uid": "1acb9ae5-43ca-4e2c-866e-32c65ccd7617"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.220",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "glance-0",
+                                "namespace": "openstack",
+                                "uid": "16b95588-0278-4331-b81e-6cea4666e126"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-9292-tcp",
+                            "port": 9292,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:33Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "glance-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70259",
+                "uid": "531bd0e0-9825-4a42-ad7e-b431e65cf235"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "glance-0",
+                            "ip": "10.1.0.220",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "glance-0",
+                                "namespace": "openstack",
+                                "uid": "16b95588-0278-4331-b81e-6cea4666e126"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:08Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:17Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "name": "glance-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133334",
+                "uid": "e33fd68f-f561-4bb2-abf9-cc1245407f89"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.119",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "glance-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:25Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "glance-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "glance-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70064",
+                "uid": "444e4df9-a948-4705-a608-3dc384d78cdf"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "glance-mysql-router-0",
+                            "ip": "10.1.0.119",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "glance-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:08Z"
+                },
+                "creationTimestamp": "2025-05-09T15:38:24Z",
+                "labels": {
+                    "app.juju.is/created-by": "glance-mysql-router",
+                    "app.kubernetes.io/name": "glance-mysql-router"
+                },
+                "name": "glance-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133335",
+                "uid": "64038571-dd30-4357-b0ab-462a686c5633"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.119",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "glance-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T12:58:23Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:36Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon"
+                },
+                "name": "horizon",
+                "namespace": "openstack",
+                "resourceVersion": "125591",
+                "uid": "b81fac2f-1789-4582-bbcd-50e62cc9fa3b"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.58",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "horizon-0",
+                                "namespace": "openstack",
+                                "uid": "ee0b9a70-9a96-49d3-bdea-3013c94f513c"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:45Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "horizon-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70248",
+                "uid": "70b1cb1f-eab1-4bdb-a67b-7443a61107b8"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "horizon-0",
+                            "ip": "10.1.0.58",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "horizon-0",
+                                "namespace": "openstack",
+                                "uid": "ee0b9a70-9a96-49d3-bdea-3013c94f513c"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:01Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:12Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "name": "horizon-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133274",
+                "uid": "849699bc-be7e-4444-83cd-3f6b2b744853"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.112",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "horizon-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "86375a91-3f23-44d1-8d04-2a31db5aa896"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:20Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "horizon-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "horizon-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69365",
+                "uid": "765c3810-beb5-4fe7-88c0-aa90073e9364"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "horizon-mysql-router-0",
+                            "ip": "10.1.0.112",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "horizon-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "86375a91-3f23-44d1-8d04-2a31db5aa896"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:01Z"
+                },
+                "creationTimestamp": "2025-05-09T15:42:56Z",
+                "labels": {
+                    "app.juju.is/created-by": "horizon-mysql-router",
+                    "app.kubernetes.io/name": "horizon-mysql-router"
+                },
+                "name": "horizon-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133275",
+                "uid": "31a2d77d-9fea-4394-8ba4-c6b9b74e51bf"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.112",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "horizon-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "86375a91-3f23-44d1-8d04-2a31db5aa896"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:26:59Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone"
+                },
+                "name": "keystone",
+                "namespace": "openstack",
+                "resourceVersion": "133133",
+                "uid": "8012c3e5-6e1e-4f9e-9d0a-30f7ade6c6ac"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.172",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "keystone-0",
+                                "namespace": "openstack",
+                                "uid": "b51111af-50ab-4a79-b166-faa23b248876"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-5000-tcp",
+                            "port": 5000,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:08Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "keystone-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "71293",
+                "uid": "37118031-8928-4adb-91c3-2e4f120a6703"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "keystone-0",
+                            "ip": "10.1.0.172",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "keystone-0",
+                                "namespace": "openstack",
+                                "uid": "b51111af-50ab-4a79-b166-faa23b248876"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:04Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "name": "keystone-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133090",
+                "uid": "d2bb48fd-f96e-4d80-8c36-aef3ec12625f"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.126",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "keystone-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "57a6dd2a-e704-469b-ac3c-141514fb84e9"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:13Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "keystone-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "keystone-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69830",
+                "uid": "150b5902-074e-44ba-91bf-3fa550cedc15"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "keystone-mysql-router-0",
+                            "ip": "10.1.0.126",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "keystone-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "57a6dd2a-e704-469b-ac3c-141514fb84e9"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:40:24Z",
+                "labels": {
+                    "app.juju.is/created-by": "keystone-mysql-router",
+                    "app.kubernetes.io/name": "keystone-mysql-router"
+                },
+                "name": "keystone-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133089",
+                "uid": "ab9e9fb6-0d9d-46f3-86c0-b94b8a806edd"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.126",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "keystone-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "57a6dd2a-e704-469b-ac3c-141514fb84e9"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:06Z",
+                "labels": {
+                    "juju-modeloperator": "modeloperator"
+                },
+                "name": "modeloperator",
+                "namespace": "openstack",
+                "resourceVersion": "124977",
+                "uid": "5009a842-7278-4622-a1e1-f9662ce61a2c"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.91",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "modeloperator-6f8f4577b4-9zhvc",
+                                "namespace": "openstack",
+                                "uid": "8ae5225f-ff59-438a-b75b-f2a45d90c7f4"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "port": 17071,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T12:58:28Z"
+                },
+                "creationTimestamp": "2025-05-09T15:25:29Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "mysql"
+                },
+                "name": "mysql",
+                "namespace": "openstack",
+                "resourceVersion": "125637",
+                "uid": "ee682243-94b3-4833-b9ba-3348fe94caf0"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.161",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "mysql-0",
+                                "namespace": "openstack",
+                                "uid": "59891981-71c2-47b3-9f31-2d8e4d3a8683"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "juju-33060-tcp",
+                            "port": 33060,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-3306-tcp",
+                            "port": 3306,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:31Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "mysql",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "mysql-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70326",
+                "uid": "c8eb4c7d-2329-453b-bf55-0b0b19acb564"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "mysql-0",
+                            "ip": "10.1.0.161",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "mysql-0",
+                                "namespace": "openstack",
+                                "uid": "59891981-71c2-47b3-9f31-2d8e4d3a8683"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T12:58:28Z"
+                },
+                "creationTimestamp": "2025-05-09T15:37:37Z",
+                "labels": {
+                    "app.juju.is/created-by": "mysql"
+                },
+                "name": "mysql-primary",
+                "namespace": "openstack",
+                "resourceVersion": "125639",
+                "uid": "2170244c-440a-47cb-bd55-77a8c362fd6f"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.161",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "mysql-0",
+                                "namespace": "openstack",
+                                "uid": "59891981-71c2-47b3-9f31-2d8e4d3a8683"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "port": 3306,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-09T15:37:38Z"
+                },
+                "creationTimestamp": "2025-05-09T15:37:38Z",
+                "labels": {
+                    "app.juju.is/created-by": "mysql"
+                },
+                "name": "mysql-replicas",
+                "namespace": "openstack",
+                "resourceVersion": "6294",
+                "uid": "539a8138-e99f-43b2-998c-63d5d2580b0f"
+            }
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:07:26Z"
+                },
+                "creationTimestamp": "2025-05-09T15:26:54Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron"
+                },
+                "name": "neutron",
+                "namespace": "openstack",
+                "resourceVersion": "133068",
+                "uid": "c52ff7cb-730b-4b98-aef7-ce475e354b1a"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.45",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "neutron-0",
+                                "namespace": "openstack",
+                                "uid": "6174adda-ae11-4e96-8616-9e4df87d87a7"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "juju-9696-tcp",
+                            "port": 9696,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:02Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "neutron-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69396",
+                "uid": "eb0e2fce-9e3a-410e-9c2e-340e6cd4dda6"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "neutron-0",
+                            "ip": "10.1.0.45",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "neutron-0",
+                                "namespace": "openstack",
+                                "uid": "6174adda-ae11-4e96-8616-9e4df87d87a7"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:07Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:01Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "name": "neutron-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133320",
+                "uid": "8e2aacd9-28ca-49a6-b823-1d44cc01a60c"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.94",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "neutron-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "8289888c-4c97-4d3b-b5e3-eb489208ae5a"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:10Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "neutron-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "neutron-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69402",
+                "uid": "1545bbed-c901-403c-b778-dc69e35d9a41"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "neutron-mysql-router-0",
+                            "ip": "10.1.0.94",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "neutron-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "8289888c-4c97-4d3b-b5e3-eb489208ae5a"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:07Z"
+                },
+                "creationTimestamp": "2025-05-09T15:41:29Z",
+                "labels": {
+                    "app.juju.is/created-by": "neutron-mysql-router",
+                    "app.kubernetes.io/name": "neutron-mysql-router"
+                },
+                "name": "neutron-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133322",
+                "uid": "3b2a3868-8d0b-4475-8516-467da8112916"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.94",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "neutron-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "8289888c-4c97-4d3b-b5e3-eb489208ae5a"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:22Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova"
+                },
+                "name": "nova",
+                "namespace": "openstack",
+                "resourceVersion": "133057",
+                "uid": "6f262aaf-aad3-4a61-bb8d-4c7eafa5708c"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.223",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-0",
+                                "namespace": "openstack",
+                                "uid": "8c380b9c-2a83-457e-a9da-5b6a7d8c149f"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-8774-tcp",
+                            "port": 8774,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:03Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "name": "nova-api-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133028",
+                "uid": "297f9cb0-f7f9-4050-9d38-67da4704a330"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.250",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-api-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "2a12ff98-a97e-411e-971c-035662d31cb1"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:12Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-api-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "nova-api-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70114",
+                "uid": "11535eb2-9ece-4346-a7a3-4abe1f5e2728"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "nova-api-mysql-router-0",
+                            "ip": "10.1.0.250",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-api-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "2a12ff98-a97e-411e-971c-035662d31cb1"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:39:28Z",
+                "labels": {
+                    "app.juju.is/created-by": "nova-api-mysql-router",
+                    "app.kubernetes.io/name": "nova-api-mysql-router"
+                },
+                "name": "nova-api-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133027",
+                "uid": "7dab7b5b-0eb6-4f02-bbba-03c25b40a227"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.250",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-api-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "2a12ff98-a97e-411e-971c-035662d31cb1"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:13Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:13Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "name": "nova-cell-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133357",
+                "uid": "65d4e72e-c8de-4a72-81c8-b94f4c92b9be"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.222",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-cell-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "f66578ec-00f0-4ef2-8ee6-6f1b48b38e0b"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-09T15:27:21Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:21Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-cell-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "nova-cell-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69291",
+                "uid": "c693db3d-f044-4ce7-86a1-4e2956c26e15"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "nova-cell-mysql-router-0",
+                            "ip": "10.1.0.222",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-cell-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "f66578ec-00f0-4ef2-8ee6-6f1b48b38e0b"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:13Z"
+                },
+                "creationTimestamp": "2025-05-09T15:43:40Z",
+                "labels": {
+                    "app.juju.is/created-by": "nova-cell-mysql-router",
+                    "app.kubernetes.io/name": "nova-cell-mysql-router"
+                },
+                "name": "nova-cell-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133359",
+                "uid": "b538b9e7-658e-400f-a296-bffa56f3622c"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.222",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-cell-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "f66578ec-00f0-4ef2-8ee6-6f1b48b38e0b"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:30Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "nova-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69390",
+                "uid": "7d91dc1a-4d15-4e1e-b261-4a87bdd97c40"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "nova-0",
+                            "ip": "10.1.0.223",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-0",
+                                "namespace": "openstack",
+                                "uid": "8c380b9c-2a83-457e-a9da-5b6a7d8c149f"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:17Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "name": "nova-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133049",
+                "uid": "bfd85718-fcc1-43d4-95de-56b9a2a2902b"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.145",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "8435af1f-1a63-4926-a8f3-c25d7650b7e0"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:26Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "nova-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "nova-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70165",
+                "uid": "4355ccc9-defd-4892-83d0-1881adc271d3"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "nova-mysql-router-0",
+                            "ip": "10.1.0.145",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "8435af1f-1a63-4926-a8f3-c25d7650b7e0"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:44:38Z",
+                "labels": {
+                    "app.juju.is/created-by": "nova-mysql-router",
+                    "app.kubernetes.io/name": "nova-mysql-router"
+                },
+                "name": "nova-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133045",
+                "uid": "264a14db-bb9e-4dad-8481-99ee525d6532"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.145",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "nova-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "8435af1f-1a63-4926-a8f3-c25d7650b7e0"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T12:58:43Z"
+                },
+                "creationTimestamp": "2025-05-09T15:25:33Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-central"
+                },
+                "name": "ovn-central",
+                "namespace": "openstack",
+                "resourceVersion": "125758",
+                "uid": "6b970669-c5ab-4804-8dd2-64b61158dca5"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.67",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "ovn-central-0",
+                                "namespace": "openstack",
+                                "uid": "44032624-addd-44ca-bc74-330ed239f828"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6641-tcp",
+                            "port": 6641,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6642-tcp",
+                            "port": 6642,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:36Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-central",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "ovn-central-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "71301",
+                "uid": "b2a1feec-f1b8-49da-bfff-9ce7d0db8d97"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "ovn-central-0",
+                            "ip": "10.1.0.67",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "ovn-central-0",
+                                "namespace": "openstack",
+                                "uid": "44032624-addd-44ca-bc74-330ed239f828"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:15Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-relay"
+                },
+                "name": "ovn-relay",
+                "namespace": "openstack",
+                "resourceVersion": "132997",
+                "uid": "c744dfe0-5ff9-41d1-9992-e25e3b032377"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.56",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "ovn-relay-0",
+                                "namespace": "openstack",
+                                "uid": "d5da400a-f7e5-4c32-bfac-b1895f3857c7"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6642-tcp",
+                            "port": 6642,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:16Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "ovn-relay",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "ovn-relay-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69889",
+                "uid": "a5bad3de-d3e3-4e52-82a9-8ecb0223ed72"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "ovn-relay-0",
+                            "ip": "10.1.0.56",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "ovn-relay-0",
+                                "namespace": "openstack",
+                                "uid": "d5da400a-f7e5-4c32-bfac-b1895f3857c7"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:26:23Z",
+                "labels": {
+                    "app.juju.is/created-by": "ovn-relay",
+                    "app.kubernetes.io/instance": "ovn-relay-openstack",
+                    "app.kubernetes.io/name": "ovn-relay",
+                    "kubernetes-resource-handler-scope": "ovn-relay-lb"
+                },
+                "name": "ovn-relay-lb",
+                "namespace": "openstack",
+                "resourceVersion": "132995",
+                "uid": "162119c6-1912-46cb-9d52-caeaf7370b78"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.56",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "ovn-relay-0",
+                                "namespace": "openstack",
+                                "uid": "d5da400a-f7e5-4c32-bfac-b1895f3857c7"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "southbound",
+                            "port": 6642,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:26:57Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement"
+                },
+                "name": "placement",
+                "namespace": "openstack",
+                "resourceVersion": "133125",
+                "uid": "832b3250-77ad-4ac2-886e-b1f90986682c"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.249",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "placement-0",
+                                "namespace": "openstack",
+                                "uid": "54eca9ef-dacb-4590-8cfe-249b0f5763ab"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-8778-tcp",
+                            "port": 8778,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:05Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "placement-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70267",
+                "uid": "7b8189aa-84ce-41a2-bc7b-acf51d9c9710"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "placement-0",
+                            "ip": "10.1.0.249",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "placement-0",
+                                "namespace": "openstack",
+                                "uid": "54eca9ef-dacb-4590-8cfe-249b0f5763ab"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:11Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:24Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "name": "placement-mysql-router",
+                "namespace": "openstack",
+                "resourceVersion": "133348",
+                "uid": "79b19b36-98d1-4b01-aef1-886212fcf039"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.122",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "placement-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "c1b57523-db20-42d2-89b1-587e98f99465"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6448-tcp",
+                            "port": 6448,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6447-tcp",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6446-tcp",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-6449-tcp",
+                            "port": 6449,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:27:33Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "placement-mysql-router",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "placement-mysql-router-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "69370",
+                "uid": "6994435e-6b79-46d5-8a0d-6d5f089607cf"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "placement-mysql-router-0",
+                            "ip": "10.1.0.122",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "placement-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "c1b57523-db20-42d2-89b1-587e98f99465"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:11Z"
+                },
+                "creationTimestamp": "2025-05-09T15:45:04Z",
+                "labels": {
+                    "app.juju.is/created-by": "placement-mysql-router",
+                    "app.kubernetes.io/name": "placement-mysql-router"
+                },
+                "name": "placement-mysql-router-service",
+                "namespace": "openstack",
+                "resourceVersion": "133346",
+                "uid": "7fda6562-33f4-4d3f-ab77-d818efd31c46"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.122",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "placement-mysql-router-0",
+                                "namespace": "openstack",
+                                "uid": "c1b57523-db20-42d2-89b1-587e98f99465"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "mysql-rw",
+                            "port": 6446,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "mysql-ro",
+                            "port": 6447,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:24Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "rabbitmq"
+                },
+                "name": "rabbitmq",
+                "namespace": "openstack",
+                "resourceVersion": "133098",
+                "uid": "fd4c5bf4-f592-42f9-a9f2-fd07134bd40c"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.224",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "rabbitmq-0",
+                                "namespace": "openstack",
+                                "uid": "4222cfcd-0ef2-4e6f-8f65-1252e17cc7b4"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-15672-tcp",
+                            "port": 15672,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "juju-5672-tcp",
+                            "port": 5672,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:26Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "rabbitmq",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "rabbitmq-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70361",
+                "uid": "b6538f63-8784-407b-8ffe-c62dc021ac1d"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "rabbitmq-0",
+                            "ip": "10.1.0.224",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "rabbitmq-0",
+                                "namespace": "openstack",
+                                "uid": "4222cfcd-0ef2-4e6f-8f65-1252e17cc7b4"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:26:47Z",
+                "labels": {
+                    "app.juju.is/created-by": "rabbitmq",
+                    "app.kubernetes.io/instance": "rabbitmq-openstack",
+                    "app.kubernetes.io/name": "rabbitmq",
+                    "kubernetes-resource-handler-scope": "rabbitmq-loadbalancer"
+                },
+                "name": "rabbitmq-lb",
+                "namespace": "openstack",
+                "resourceVersion": "133095",
+                "uid": "e192e0a9-1cf4-42c6-9cd8-15cfcd3c2460"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.224",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "rabbitmq-0",
+                                "namespace": "openstack",
+                                "uid": "4222cfcd-0ef2-4e6f-8f65-1252e17cc7b4"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "amqp",
+                            "port": 5672,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "management",
+                            "port": 15672,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:06Z"
+                },
+                "creationTimestamp": "2025-05-09T15:25:19Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik"
+                },
+                "name": "traefik",
+                "namespace": "openstack",
+                "resourceVersion": "133304",
+                "uid": "95e5e95e-b11d-4a90-a56b-e8ad4d8396e0"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.42",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "traefik-0",
+                                "namespace": "openstack",
+                                "uid": "b527de6d-ac0c-4ca5-b680-00e8e6cdbb18"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:21Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "traefik-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "71271",
+                "uid": "fdf0d007-5d7f-4680-afb5-6b016a20ec67"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "traefik-0",
+                            "ip": "10.1.0.42",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "traefik-0",
+                                "namespace": "openstack",
+                                "uid": "b527de6d-ac0c-4ca5-b680-00e8e6cdbb18"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:06Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:55Z",
+                "labels": {
+                    "app.juju.is/created-by": "traefik",
+                    "app.kubernetes.io/instance": "traefik-openstack",
+                    "app.kubernetes.io/name": "traefik",
+                    "kubernetes-resource-handler-scope": "traefik-loadbalancer"
+                },
+                "name": "traefik-lb",
+                "namespace": "openstack",
+                "resourceVersion": "133306",
+                "uid": "23fffee2-1ce3-4642-a1bc-7e99a51aafb4"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.42",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "traefik-0",
+                                "namespace": "openstack",
+                                "uid": "b527de6d-ac0c-4ca5-b680-00e8e6cdbb18"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "traefik",
+                            "port": 80,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "traefik-tls",
+                            "port": 443,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:18Z"
+                },
+                "creationTimestamp": "2025-05-09T15:25:19Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik-public"
+                },
+                "name": "traefik-public",
+                "namespace": "openstack",
+                "resourceVersion": "133378",
+                "uid": "a13e04fa-0a92-4350-9847-8478dc394f94"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.50",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "traefik-public-0",
+                                "namespace": "openstack",
+                                "uid": "5b902341-77cc-4983-8ff6-42fc35cd4f6a"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "placeholder",
+                            "port": 65535,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "creationTimestamp": "2025-05-09T15:25:21Z",
+                "labels": {
+                    "app.kubernetes.io/managed-by": "juju",
+                    "app.kubernetes.io/name": "traefik-public",
+                    "service.kubernetes.io/headless": ""
+                },
+                "name": "traefik-public-endpoints",
+                "namespace": "openstack",
+                "resourceVersion": "70339",
+                "uid": "ebe52ee7-0e08-44cd-8599-044f29cde739"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "hostname": "traefik-public-0",
+                            "ip": "10.1.0.50",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "traefik-public-0",
+                                "namespace": "openstack",
+                                "uid": "5b902341-77cc-4983-8ff6-42fc35cd4f6a"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "apiVersion": "v1",
+            "kind": "Endpoints",
+            "metadata": {
+                "annotations": {
+                    "endpoints.kubernetes.io/last-change-trigger-time": "2025-05-14T14:08:18Z"
+                },
+                "creationTimestamp": "2025-05-09T15:27:54Z",
+                "labels": {
+                    "app.juju.is/created-by": "traefik-public",
+                    "app.kubernetes.io/instance": "traefik-public-openstack",
+                    "app.kubernetes.io/name": "traefik-public",
+                    "kubernetes-resource-handler-scope": "traefik-loadbalancer"
+                },
+                "name": "traefik-public-lb",
+                "namespace": "openstack",
+                "resourceVersion": "133377",
+                "uid": "b70566c2-f685-46a9-a7e2-6a4a74e7d071"
+            },
+            "subsets": [
+                {
+                    "addresses": [
+                        {
+                            "ip": "10.1.0.50",
+                            "nodeName": "noble-sunbeam",
+                            "targetRef": {
+                                "kind": "Pod",
+                                "name": "traefik-public-0",
+                                "namespace": "openstack",
+                                "uid": "5b902341-77cc-4983-8ff6-42fc35cd4f6a"
+                            }
+                        }
+                    ],
+                    "ports": [
+                        {
+                            "name": "traefik",
+                            "port": 80,
+                            "protocol": "TCP"
+                        },
+                        {
+                            "name": "traefik-tls",
+                            "port": 443,
+                            "protocol": "TCP"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

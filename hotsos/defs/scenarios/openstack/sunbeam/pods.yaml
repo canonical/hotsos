@@ -1,0 +1,19 @@
+vars:
+  pods: '@hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.pods'
+checks:
+  is_sunbeam_controller:
+    property: hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.is_controller
+  not_all_pods_running:
+    or:
+      - varops: [[$pods], [contains, Running], [not_]]
+      - varops: [[$pods], [length_hint], [gt, 1]]
+conclusions:
+  pods-not-all-running:
+    decision:
+      - is_sunbeam_controller
+      - not_all_pods_running
+    raises:
+      type: OpenstackError
+      message: >-
+        Identified one or more Sunbeam OpenStack pods that do not have status
+        'Running'. Please see OpenStack plugin summary for more details.

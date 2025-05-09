@@ -1,0 +1,21 @@
+● snapd.service - Snap Daemon
+     Loaded: loaded (/usr/lib/systemd/system/snapd.service; enabled; preset: enabled)
+     Active: active (running) since Wed 2025-05-14 07:07:30 UTC; 7h ago
+TriggeredBy: ● snapd.socket
+   Main PID: 297703 (snapd)
+      Tasks: 14 (limit: 19136)
+     Memory: 34.1M (peak: 77.8M)
+        CPU: 1min 92ms
+     CGroup: /system.slice/snapd.service
+             └─297703 /usr/lib/snapd/snapd
+
+May 14 07:07:14 noble-sunbeam systemd[1]: Starting snapd.service - Snap Daemon...
+May 14 07:07:28 noble-sunbeam snapd[297703]: overlord.go:284: Acquiring state lock file
+May 14 07:07:28 noble-sunbeam snapd[297703]: overlord.go:289: Acquired state lock file
+May 14 07:07:28 noble-sunbeam snapd[297703]: daemon.go:250: started snapd/2.68.4 (series 16; classic) ubuntu/24.04 (amd64) linux/6.8.0-59-generic.
+May 14 07:07:28 noble-sunbeam snapd[297703]: daemon.go:353: adjusting startup timeout by 1m15s (pessimistic estimate of 30s plus 5s per snap)
+May 14 07:07:28 noble-sunbeam snapd[297703]: backends.go:91: AppArmor status: apparmor is enabled and all features are available (using snapd provided apparmor_parser)
+May 14 07:07:30 noble-sunbeam systemd[1]: Started snapd.service - Snap Daemon.
+May 14 07:07:47 noble-sunbeam snapd[297703]: storehelpers.go:916: cannot refresh:
+May 14 07:07:47 noble-sunbeam snapd[297703]: snap has no updates available: "core20", "core22", "core24", "juju", "lxd", "openstack", "openstack-hypervisor", "snapd"
+May 14 07:07:47 noble-sunbeam snapd[297703]: no snap revision available as specified: "k8s"

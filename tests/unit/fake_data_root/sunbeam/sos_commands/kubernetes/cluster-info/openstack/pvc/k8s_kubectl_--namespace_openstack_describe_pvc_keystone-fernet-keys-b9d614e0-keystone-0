@@ -1,0 +1,23 @@
+Name:          keystone-fernet-keys-b9d614e0-keystone-0
+Namespace:     openstack
+StorageClass:  csi-rawfile-default
+Status:        Bound
+Volume:        pvc-c025b1a8-06c9-4e1e-b0be-d691919832bd
+Labels:        app.kubernetes.io/managed-by=juju
+               app.kubernetes.io/name=keystone
+               storage.juju.is/name=fernet-keys
+Annotations:   controller.juju.is/id: f6bcbd57-f5dd-48be-820d-5da61700b5c2
+               juju-storage-owner: keystone
+               model.juju.is/id: ee070cdf-4b8b-49ac-80cb-918841540fbe
+               pv.kubernetes.io/bind-completed: yes
+               pv.kubernetes.io/bound-by-controller: yes
+               storage.juju.is/name: fernet-keys
+               volume.beta.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+               volume.kubernetes.io/selected-node: noble-sunbeam
+               volume.kubernetes.io/storage-provisioner: rawfile.csi.openebs.io
+Finalizers:    [kubernetes.io/pvc-protection]
+Capacity:      16Mi
+Access Modes:  RWO
+VolumeMode:    Filesystem
+Used By:       keystone-0
+Events:        <none>

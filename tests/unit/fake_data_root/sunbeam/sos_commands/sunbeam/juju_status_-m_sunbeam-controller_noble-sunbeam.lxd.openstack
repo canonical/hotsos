@@ -1,0 +1,61 @@
+Model      Controller          Cloud/Region                 Version  SLA          Timestamp
+openstack  sunbeam-controller  guided-raptor-k8s/localhost  3.6.5    unsupported  14:24:07Z
+
+App                     Version                  Status   Scale  Charm                     Channel        Rev  Address         Exposed  Message
+certificate-authority                            active       1  self-signed-certificates  1/stable       263  10.152.183.43   no       
+cinder                                           blocked      1  cinder-k8s                2024.1/stable  118  10.152.183.48   no       (storage-backend) integration missing
+cinder-mysql-router     8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.46   no       
+glance                                           active       1  glance-k8s                2024.1/stable  139  10.152.183.155  no       
+glance-mysql-router     8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.86   no       
+horizon                                          active       1  horizon-k8s               2024.1/stable  129  10.152.183.99   no       http://172.16.1.204/openstack-horizon
+horizon-mysql-router    8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.47   no       
+keystone                                         active       1  keystone-k8s              2024.1/stable  235  10.152.183.76   no       
+keystone-mysql-router   8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.55   no       
+mysql                   8.0.41-0ubuntu0.22.04.1  active       1  mysql-k8s                 8.0/stable     240  10.152.183.202  no       
+neutron                                          active       1  neutron-k8s               2024.1/stable  137  10.152.183.128  no       
+neutron-mysql-router    8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.181  no       
+nova                                             active       1  nova-k8s                  2024.1/stable  128  10.152.183.188  no       
+nova-api-mysql-router   8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.208  no       
+nova-cell-mysql-router  8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.152  no       
+nova-mysql-router       8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.77   no       
+ovn-central                                      active       1  ovn-central-k8s           24.03/stable   128  10.152.183.187  no       
+ovn-relay                                        active       1  ovn-relay-k8s             24.03/stable   115  10.152.183.252  no       
+placement                                        active       1  placement-k8s             2024.1/stable  111  10.152.183.104  no       
+placement-mysql-router  8.0.41-0ubuntu0.22.04.1  active       1  mysql-router-k8s          8.0/stable     599  10.152.183.20   no       
+rabbitmq                3.12.1                   active       1  rabbitmq-k8s              3.12/stable     50  10.152.183.160  no       
+traefik                 2.11.0                   active       1  traefik-k8s               latest/stable  236  10.152.183.165  no       Serving at 172.16.1.205
+traefik-public          2.11.0                   active       1  traefik-k8s               latest/stable  236  10.152.183.31   no       Serving at 172.16.1.204
+
+Unit                       Workload  Agent  Address     Ports  Message
+certificate-authority/0*   active    idle   10.1.0.179         
+cinder-mysql-router/0*     active    idle   10.1.0.240         
+cinder/0*                  blocked   idle   10.1.0.70          (storage-backend) integration missing
+glance-mysql-router/0*     active    idle   10.1.0.119         
+glance/0*                  active    idle   10.1.0.220         
+horizon-mysql-router/0*    active    idle   10.1.0.112         
+horizon/0*                 active    idle   10.1.0.58          
+keystone-mysql-router/0*   active    idle   10.1.0.126         
+keystone/0*                active    idle   10.1.0.172         
+mysql/0*                   active    idle   10.1.0.161         Primary
+neutron-mysql-router/0*    active    idle   10.1.0.94          
+neutron/0*                 active    idle   10.1.0.45          
+nova-api-mysql-router/0*   active    idle   10.1.0.250         
+nova-cell-mysql-router/0*  active    idle   10.1.0.222         
+nova-mysql-router/0*       active    idle   10.1.0.145         
+nova/0*                    active    idle   10.1.0.223         
+ovn-central/0*             active    idle   10.1.0.67          
+ovn-relay/0*               active    idle   10.1.0.56          
+placement-mysql-router/0*  active    idle   10.1.0.122         
+placement/0*               active    idle   10.1.0.249         
+rabbitmq/0*                active    idle   10.1.0.224         
+traefik-public/0*          active    idle   10.1.0.50          Serving at 172.16.1.204
+traefik/0*                 active    idle   10.1.0.42          Serving at 172.16.1.205
+
+Offer                  Application            Charm                     Rev  Connected  Endpoint              Interface             Role
+cert-distributor       keystone               keystone-k8s              235  1/1        send-ca-cert          certificate_transfer  provider
+certificate-authority  certificate-authority  self-signed-certificates  263  1/1        certificates          tls-certificates      provider
+keystone-credentials   keystone               keystone-k8s              235  1/1        identity-credentials  keystone-credentials  provider
+keystone-endpoints     keystone               keystone-k8s              235  0/0        identity-service      keystone              provider
+nova                   nova                   nova-k8s                  128  1/1        nova-service          nova                  provider
+ovn-relay              ovn-relay              ovn-relay-k8s             115  1/1        ovsdb-cms-relay       ovsdb-cms             provider
+rabbitmq               rabbitmq               rabbitmq-k8s              50   1/1        amqp                  rabbitmq              provider

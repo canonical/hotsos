@@ -671,3 +671,29 @@ class SnapPackageHelper(PackageHelperBase):
         # go fetch
         _ = self.all
         return self._core_snaps
+
+
+@dataclass(frozen=True)
+class SnapPackage:
+    """ Representation of an Snap package.  """
+    name: str
+    version: str
+    channel: str
+
+
+class SnapFactory(FactoryBase):
+    """
+    Factory to dynamically get snap package info.
+
+    SnapPackage object is returned when a getattr() is done on this object
+    using the name of a snap.
+    """
+
+    def __getattr__(self, name):
+        log.debug("creating SnapPackage object for %s", name)
+        helper = SnapPackageHelper([name])
+        if name in helper.all:
+            return SnapPackage(name, helper.get_version(name),
+                               helper.get_channel(name))
+
+        return None

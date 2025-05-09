@@ -1,0 +1,150 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "1"
+                },
+                "creationTimestamp": "2025-05-09T15:25:06Z",
+                "generation": 6,
+                "labels": {
+                    "juju-modeloperator": "modeloperator",
+                    "model.juju.is/disable-webhook": "true"
+                },
+                "name": "modeloperator",
+                "namespace": "openstack",
+                "resourceVersion": "125538",
+                "uid": "15f48b6a-1da0-4dd2-a048-d6f080d39085"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "juju-modeloperator": "modeloperator"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "creationTimestamp": null,
+                        "labels": {
+                            "juju-modeloperator": "modeloperator",
+                            "model.juju.is/disable-webhook": "true"
+                        }
+                    },
+                    "spec": {
+                        "automountServiceAccountToken": true,
+                        "containers": [
+                            {
+                                "args": [
+                                    "-c",
+                                    "export JUJU_DATA_DIR=/var/lib/juju\nexport JUJU_TOOLS_DIR=$JUJU_DATA_DIR/tools\n\nmkdir -p $JUJU_TOOLS_DIR\ncp /opt/jujud $JUJU_TOOLS_DIR/jujud\n\nexec $JUJU_TOOLS_DIR/jujud model --model-uuid=ee070cdf-4b8b-49ac-80cb-918841540fbe\n"
+                                ],
+                                "command": [
+                                    "/bin/sh"
+                                ],
+                                "env": [
+                                    {
+                                        "name": "HTTP_PORT",
+                                        "value": "17071"
+                                    },
+                                    {
+                                        "name": "SERVICE_NAME",
+                                        "value": "modeloperator"
+                                    },
+                                    {
+                                        "name": "SERVICE_NAMESPACE",
+                                        "value": "openstack"
+                                    }
+                                ],
+                                "image": "docker.io/jujusolutions/jujud-operator:3.6.5",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "juju-operator",
+                                "ports": [
+                                    {
+                                        "containerPort": 17071,
+                                        "name": "api",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File",
+                                "volumeMounts": [
+                                    {
+                                        "mountPath": "/var/lib/juju/agents/model-ee070cdf-4b8b-49ac-80cb-918841540fbe/template-agent.conf",
+                                        "name": "modeloperator",
+                                        "subPath": "template-agent.conf"
+                                    }
+                                ],
+                                "workingDir": "/var/lib/juju"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "modeloperator",
+                        "serviceAccountName": "modeloperator",
+                        "terminationGracePeriodSeconds": 30,
+                        "volumes": [
+                            {
+                                "configMap": {
+                                    "defaultMode": 420,
+                                    "items": [
+                                        {
+                                            "key": "modeloperator-agent.conf",
+                                            "path": "template-agent.conf"
+                                        }
+                                    ],
+                                    "name": "modeloperator"
+                                },
+                                "name": "modeloperator"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 1,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2025-05-09T15:25:06Z",
+                        "lastUpdateTime": "2025-05-09T15:25:08Z",
+                        "message": "ReplicaSet \"modeloperator-6f8f4577b4\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2025-05-14T12:57:47Z",
+                        "lastUpdateTime": "2025-05-14T12:57:47Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 6,
+                "readyReplicas": 1,
+                "replicas": 1,
+                "updatedReplicas": 1
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

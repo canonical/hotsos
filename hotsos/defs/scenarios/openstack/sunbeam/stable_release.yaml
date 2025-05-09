@@ -1,0 +1,20 @@
+vars:
+  channel: '@hotsos.core.host_helpers.packaging.SnapFactory.channel:openstack'
+checks:
+  is_sunbeam_controller:
+    property: hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.is_controller
+  snap_not_using_stable_release:
+    varops: [[$channel], [contains, '/stable'], [not_]]
+conclusions:
+  snap_using_stable_release:
+    decision:
+      - is_sunbeam_controller
+      - snap_not_using_stable_release
+    raises:
+      type: OpenstackError
+      message: >-
+        The openstack snap is installed from channel {channel} which is
+        not supported. Please use a supported stable release - see snap info
+        openstack for information.
+      format-dict:
+        channel: $channel

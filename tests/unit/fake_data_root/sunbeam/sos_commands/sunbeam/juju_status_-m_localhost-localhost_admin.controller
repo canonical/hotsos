@@ -1,0 +1,11 @@
+Model       Controller           Cloud/Region         Version  SLA          Timestamp
+controller  localhost-localhost  localhost/localhost  3.6.5    unsupported  14:24:03Z
+
+App         Version  Status  Scale  Charm            Channel     Rev  Exposed  Message
+controller           active      1  juju-controller  3.6/stable  116  no       
+
+Unit           Workload  Agent  Machine  Public address  Ports  Message
+controller/0*  active    idle   0        10.174.10.205          
+
+Machine  State    Address        Inst id        Base          AZ  Message
+0        started  10.174.10.205  juju-3d4442-0  ubuntu@24.04      Running

@@ -1,0 +1,9 @@
+/var/log/juju:
+total 748
+drwxr-xr-x  2 syslog adm    ?   4096 May  9 15:55 .
+drwxrwxr-x 12 root   syslog ?   4096 May 14 04:22 ..
+-rw-r-----  1 syslog adm    ? 236155 May 14 14:07 machine-0.log
+-rw-r-----  1 syslog adm    ?  64612 May 14 14:22 machine-lock.log
+-rw-r-----  1 syslog adm    ? 270097 May 14 14:22 unit-k8s-0.log
+-rw-r-----  1 syslog adm    ?  83225 May 14 14:22 unit-openstack-hypervisor-0.log
+-rw-r-----  1 syslog adm    ?  76586 May 14 14:22 unit-sunbeam-machine-0.log

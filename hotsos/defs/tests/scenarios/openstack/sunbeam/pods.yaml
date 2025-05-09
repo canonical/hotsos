@@ -1,0 +1,23 @@
+target-name: pods.yaml
+data-root:
+  files:
+    sos_commands/snap/snap_list_--all: |
+      Name                  Version         Rev    Tracking       Publisher    Notes
+      core20                20250407        2571   latest/stable  canonical**  base
+      core22                20250408        1963   latest/stable  canonical**  base
+      core24                20250318        888    latest/stable  canonical**  base
+      juju                  3.6.5           30723  3.6/stable     canonical**  -
+      k8s                   v1.32.2         2500   latest/stable  canonical**  classic,held
+      lxd                   5.21.3-c5ae129  33110  5.21/stable    canonical**  -
+      openstack             2024.1          727    2024.1/stable  canonical**  -
+      openstack-hypervisor  2024.1          244    2024.1/stable  canonical**  -
+      snapd                 2.68.4          24505  latest/stable  canonical**  snapd
+mock:
+  patch:
+    hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.pods:
+      kwargs:
+        new:
+          Running:
+            - cinder-0
+            - keystone-0
+raised-issues:

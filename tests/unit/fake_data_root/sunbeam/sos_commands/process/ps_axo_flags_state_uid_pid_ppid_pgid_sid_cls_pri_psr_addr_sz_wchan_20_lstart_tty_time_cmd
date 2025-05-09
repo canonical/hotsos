@@ -1,0 +1,653 @@
+F S   UID     PID    PPID    PGID     SID CLS PRI PSR ADDR    SZ WCHAN                                 STARTED TT           TIME CMD
+4 S     0       1       0       1       1  TS  19   2    -  9417 ep_poll              Wed May 14 04:21:51 2025 ?        00:24:53 /sbin/init
+1 S     0       2       0       0       0  TS  19   0    -     0 kthreadd             Wed May 14 04:21:51 2025 ?        00:00:00 [kthreadd]
+1 S     0       3       2       0       0  TS  19   1    -     0 kthread_worker_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [pool_workqueue_release]
+1 I     0       4       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-rcu_g]
+1 I     0       5       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-rcu_p]
+1 I     0       6       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-slub_]
+1 I     0       7       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-netns]
+1 I     0       9       2       0       0  TS  39   0    -     0 worker_thread        Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/0:0H-events_highpri]
+1 I     0      12       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-mm_pe]
+1 I     0      13       2       0       0  TS  19   0    -     0 rcu_tasks_one_gp     Wed May 14 04:21:51 2025 ?        00:00:00 [rcu_tasks_kthread]
+1 I     0      14       2       0       0  TS  19   0    -     0 rcu_tasks_one_gp     Wed May 14 04:21:51 2025 ?        00:00:00 [rcu_tasks_rude_kthread]
+1 I     0      15       2       0       0  TS  19   2    -     0 rcu_tasks_one_gp     Wed May 14 04:21:51 2025 ?        00:00:00 [rcu_tasks_trace_kthread]
+1 S     0      16       2       0       0  TS  19   0    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:16 [ksoftirqd/0]
+1 I     0      17       2       0       0  TS  19   4    -     0 rcu_gp_fqs_loop      Wed May 14 04:21:51 2025 ?        00:02:02 [rcu_preempt]
+1 S     0      18       2       0       0  FF 139   0    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [migration/0]
+1 S     0      19       2       0       0  FF  90   0    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [idle_inject/0]
+1 S     0      20       2       0       0  TS  19   0    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [cpuhp/0]
+1 S     0      21       2       0       0  TS  19   1    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [cpuhp/1]
+1 S     0      22       2       0       0  FF  90   1    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [idle_inject/1]
+1 S     0      23       2       0       0  FF 139   1    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:01 [migration/1]
+1 S     0      24       2       0       0  TS  19   1    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:14 [ksoftirqd/1]
+1 I     0      26       2       0       0  TS  39   1    -     0 worker_thread        Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/1:0H-events_highpri]
+1 S     0      27       2       0       0  TS  19   2    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [cpuhp/2]
+1 S     0      28       2       0       0  FF  90   2    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [idle_inject/2]
+1 S     0      29       2       0       0  FF 139   2    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:01 [migration/2]
+1 S     0      30       2       0       0  TS  19   2    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:14 [ksoftirqd/2]
+1 I     0      32       2       0       0  TS  39   2    -     0 worker_thread        Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/2:0H-events_highpri]
+1 S     0      33       2       0       0  TS  19   3    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [cpuhp/3]
+1 S     0      34       2       0       0  FF  90   3    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [idle_inject/3]
+1 S     0      35       2       0       0  FF 139   3    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:01 [migration/3]
+1 S     0      36       2       0       0  TS  19   3    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:14 [ksoftirqd/3]
+1 I     0      38       2       0       0  TS  39   3    -     0 worker_thread        Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/3:0H-kblockd]
+1 S     0      39       2       0       0  TS  19   4    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [cpuhp/4]
+1 S     0      40       2       0       0  FF  90   4    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [idle_inject/4]
+1 S     0      41       2       0       0  FF 139   4    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:01 [migration/4]
+1 S     0      42       2       0       0  TS  19   4    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:14 [ksoftirqd/4]
+1 I     0      44       2       0       0  TS  39   4    -     0 worker_thread        Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/4:0H-events_highpri]
+1 S     0      45       2       0       0  TS  19   5    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [cpuhp/5]
+1 S     0      46       2       0       0  FF  90   5    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:00 [idle_inject/5]
+1 S     0      47       2       0       0  FF 139   5    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:01 [migration/5]
+1 S     0      48       2       0       0  TS  19   5    -     0 smpboot_thread_fn    Wed May 14 04:21:51 2025 ?        00:00:30 [ksoftirqd/5]
+1 I     0      50       2       0       0  TS  39   5    -     0 worker_thread        Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/5:0H-events_highpri]
+5 S     0      51       2       0       0  TS  19   1    -     0 devtmpfs_work_loop   Wed May 14 04:21:51 2025 ?        00:00:00 [kdevtmpfs]
+1 I     0      52       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-inet_]
+1 S     0      54       2       0       0  TS  19   0    -     0 kauditd_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kauditd]
+1 S     0      56       2       0       0  TS  19   1    -     0 watchdog             Wed May 14 04:21:51 2025 ?        00:00:00 [khungtaskd]
+1 S     0      57       2       0       0  TS  19   4    -     0 oom_reaper           Wed May 14 04:21:51 2025 ?        00:00:00 [oom_reaper]
+1 I     0      59       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-write]
+1 S     0      60       2       0       0  TS  19   0    -     0 kcompactd            Wed May 14 04:21:51 2025 ?        00:00:14 [kcompactd0]
+1 S     0      61       2       0       0  TS  14   5    -     0 ksm_scan_thread      Wed May 14 04:21:51 2025 ?        00:00:00 [ksmd]
+1 S     0      62       2       0       0  TS   0   5    -     0 khugepaged_wait_work Wed May 14 04:21:51 2025 ?        00:00:00 [khugepaged]
+1 I     0      63       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-kinte]
+1 I     0      64       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-kbloc]
+1 I     0      65       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-blkcg]
+1 S     0      66       2       0       0  FF  90   1    -     0 irq_thread           Wed May 14 04:21:51 2025 ?        00:00:00 [irq/9-acpi]
+1 I     0      70       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-tpm_d]
+1 I     0      71       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-ata_s]
+1 I     0      72       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-md]
+1 I     0      73       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-md_bi]
+1 I     0      74       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-edac-]
+1 I     0      75       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:51 2025 ?        00:00:00 [kworker/R-devfr]
+1 S     0      76       2       0       0  FF  90   2    -     0 kthread_worker_fn    Wed May 14 04:21:52 2025 ?        00:00:00 [watchdogd]
+1 I     0      77       2       0       0  TS  39   0    -     0 worker_thread        Wed May 14 04:21:52 2025 ?        00:00:05 [kworker/0:1H-kblockd]
+1 S     0      78       2       0       0  TS  19   2    -     0 kswapd_try_to_sleep  Wed May 14 04:21:52 2025 ?        00:00:21 [kswapd0]
+1 S     0      79       2       0       0  TS  19   4    -     0 ecryptfs_threadfn    Wed May 14 04:21:52 2025 ?        00:00:00 [ecryptfs-kthread]
+1 I     0      80       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-kthro]
+1 S     0      81       2       0       0  FF  90   2    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/24-aerdrv]
+1 S     0      82       2       0       0  FF  90   3    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/25-aerdrv]
+1 S     0      83       2       0       0  FF  90   4    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/26-aerdrv]
+1 S     0      84       2       0       0  FF  90   5    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/27-aerdrv]
+1 S     0      85       2       0       0  FF  90   0    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/28-aerdrv]
+1 S     0      86       2       0       0  FF  90   1    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/29-aerdrv]
+1 S     0      87       2       0       0  FF  90   2    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/30-aerdrv]
+1 S     0      88       2       0       0  FF  90   3    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/31-aerdrv]
+1 S     0      89       2       0       0  FF  90   4    -     0 irq_thread           Wed May 14 04:21:52 2025 ?        00:00:00 [irq/32-aerdrv]
+1 I     0      90       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-acpi_]
+1 S     0      93       2       0       0  TS  19   2    -     0 scsi_error_handler   Wed May 14 04:21:52 2025 ?        00:00:00 [scsi_eh_0]
+1 I     0      94       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-scsi_]
+1 I     0      96       2       0       0  TS  39   3    -     0 worker_thread        Wed May 14 04:21:52 2025 ?        00:00:05 [kworker/3:1H-kblockd]
+1 I     0      98       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-mld]
+1 I     0      99       2       0       0  TS  39   2    -     0 worker_thread        Wed May 14 04:21:52 2025 ?        00:00:05 [kworker/2:1H-kblockd]
+1 I     0     100       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-ipv6_]
+1 I     0     107       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-kstrp]
+1 I     0     110       2       0       0  TS  39   5    -     0 worker_thread        Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/u41:0]
+1 I     0     115       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-crypt]
+1 I     0     128       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:52 2025 ?        00:00:00 [kworker/R-charg]
+1 I     0     156       2       0       0  TS  39   4    -     0 worker_thread        Wed May 14 04:21:52 2025 ?        00:00:05 [kworker/4:1H-kblockd]
+1 I     0     171       2       0       0  TS  39   5    -     0 worker_thread        Wed May 14 04:21:52 2025 ?        00:00:44 [kworker/5:1H-kblockd]
+1 I     0     184       2       0       0  TS  39   1    -     0 worker_thread        Wed May 14 04:21:53 2025 ?        00:00:05 [kworker/1:1H-kblockd]
+1 S     0     193       2       0       0  TS  19   5    -     0 add_hwgenerator_rand Wed May 14 04:21:53 2025 ?        00:00:00 [hwrng]
+1 S     0     194       2       0       0  TS  19   0    -     0 scsi_error_handler   Wed May 14 04:21:53 2025 ?        00:00:00 [scsi_eh_1]
+1 I     0     195       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:53 2025 ?        00:00:00 [kworker/R-scsi_]
+1 S     0     196       2       0       0  TS  19   5    -     0 scsi_error_handler   Wed May 14 04:21:53 2025 ?        00:00:00 [scsi_eh_2]
+1 I     0     197       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:21:53 2025 ?        00:00:00 [kworker/R-scsi_]
+1 S     0     204       2       0       0  TS  19   1    -     0 scsi_error_handler   Wed May 14 04:21:53 2025 ?        00:00:00 [scsi_eh_3]
+1 I     0     205       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:53 2025 ?        00:00:00 [kworker/R-scsi_]
+1 S     0     213       2       0       0  TS  19   2    -     0 scsi_error_handler   Wed May 14 04:21:53 2025 ?        00:00:00 [scsi_eh_4]
+1 I     0     214       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:53 2025 ?        00:00:00 [kworker/R-scsi_]
+1 S     0     219       2       0       0  TS  19   3    -     0 scsi_error_handler   Wed May 14 04:21:53 2025 ?        00:00:00 [scsi_eh_5]
+1 I     0     221       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:53 2025 ?        00:00:00 [kworker/R-scsi_]
+1 S     0     222       2       0       0  TS  19   4    -     0 scsi_error_handler   Wed May 14 04:21:53 2025 ?        00:00:00 [scsi_eh_6]
+1 I     0     223       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:53 2025 ?        00:00:00 [kworker/R-scsi_]
+1 I     0     257       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:54 2025 ?        00:00:00 [kworker/R-raid5]
+1 S     0     294       2       0       0  TS  19   4    -     0 kjournald2           Wed May 14 04:21:54 2025 ?        00:01:43 [jbd2/sda1-8]
+1 I     0     295       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:54 2025 ?        00:00:00 [kworker/R-ext4-]
+4 S     0     369       1     369     369  TS  20   3    - 49847 ep_poll              Wed May 14 04:21:55 2025 ?        00:01:16 /usr/lib/systemd/systemd-journald
+1 I     0     389       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:56 2025 ?        00:00:00 [kworker/R-kmpat]
+1 I     0     390       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:56 2025 ?        00:00:00 [kworker/R-kmpat]
+1 I     0     414       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:56 2025 ?        00:00:00 [kworker/R-dm_bu]
+4 S     0     420       1     420     420  RR 139   4    - 72280 futex_wait_queue     Wed May 14 04:21:56 2025 ?        00:00:03 /sbin/multipathd -d -s
+1 I     0     425       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:56 2025 ?        00:00:00 [kworker/R-iscsi]
+4 S     0     429       1     429     429  TS  19   5    -  6657 ep_poll              Wed May 14 04:21:56 2025 ?        00:00:01 /usr/lib/systemd/systemd-udevd
+1 S     0     448       2       0       0  FF  41   5    -     0 psi_rtpoll_worker    Wed May 14 04:21:56 2025 ?        00:00:00 [psimon]
+1 I     0     504       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:56 2025 ?        00:00:00 [kworker/R-nbd0-]
+1 I     0     515       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:56 2025 ?        00:00:00 [kworker/R-nbd1-]
+1 I     0     516       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:21:56 2025 ?        00:00:00 [kworker/R-nbd2-]
+1 I     0     536       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd3-]
+4 S     0     540       1     540     540  TS  19   5    - 309795 futex_wait_queue    Wed May 14 04:21:57 2025 ?        00:00:29 /run/lxd_agent/lxd-agent
+1 I     0     570       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd4-]
+1 I     0     585       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd5-]
+1 I     0     587       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd6-]
+1 I     0     591       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd7-]
+1 S     0     592       2       0       0  TS  19   2    -     0 kjournald2           Wed May 14 04:21:57 2025 ?        00:00:00 [jbd2/sda16-8]
+1 I     0     593       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-ext4-]
+1 I     0     597       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd8-]
+1 I     0     600       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd9-]
+1 I     0     603       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd10]
+1 I     0     619       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd11]
+1 I     0     621       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd12]
+1 I     0     622       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd13]
+1 I     0     624       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd14]
+1 I     0     633       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-nbd15]
+1 I     0     652       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-targe]
+1 I     0     653       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-targe]
+1 I     0     654       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-xcopy]
+1 I     0     655       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:21:57 2025 ?        00:00:00 [kworker/R-vfio-]
+4 S   991     806       1     806     806  TS  19   5    -  5477 ep_poll              Wed May 14 04:21:57 2025 ?        00:00:02 /usr/lib/systemd/systemd-resolved
+4 S   996     807       1     807     807  TS  19   3    - 22755 ep_poll              Wed May 14 04:21:57 2025 ?        00:00:00 /usr/lib/systemd/systemd-timesyncd
+4 S   998     899       1     899     899  TS  19   1    -  5664 ep_poll              Wed May 14 04:21:59 2025 ?        00:00:00 /usr/lib/systemd/systemd-networkd
+4 S     0     944       1     944     944  TS  19   0    -  1806 hrtimer_nanosleep    Wed May 14 04:22:01 2025 ?        00:00:00 /usr/sbin/cron -f -P
+4 S   101     945       1     945     945  TS  19   2    -  2684 ep_poll              Wed May 14 04:22:01 2025 ?        00:00:19 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S   989     953       1     953     953  TS  19   3    - 95926 do_poll.constprop.0  Wed May 14 04:22:01 2025 ?        00:00:03 /usr/lib/polkit-1/polkitd --no-debug
+4 S     0     960       1     960     960  TS  19   1    - 1098114 futex_wait_queue   Wed May 14 04:22:01 2025 ?        00:16:15 /snap/k8s/2500/bin/containerd --address=/run/containerd/containerd.sock --config=/etc/containerd/config.toml --root=/var/lib/containerd --state=/run/containerd
+4 S     0     961       1     961     961  TS  19   4    - 467210 futex_wait_queue    Wed May 14 04:22:01 2025 ?        00:30:29 /snap/k8s/2500/bin/k8s-dqlite --listen=unix:///var/snap/k8s/common/var/lib/k8s-dqlite/k8s-dqlite.sock --storage-dir=/var/snap/k8s/common/var/lib/k8s-dqlite
+4 S     0     962       1     962     962  TS  19   3    - 1485713 futex_wait_queue   Wed May 14 04:22:02 2025 ?        00:06:26 /snap/k8s/2500/bin/k8sd --state-dir=/var/snap/k8s/common/var/lib/k8sd/state
+4 S     0     963       1     963     963  TS  19   0    - 489130 futex_wait_queue    Wed May 14 04:22:02 2025 ?        00:44:17 /snap/k8s/2500/bin/kube-apiserver --advertise-address=10.194.140.193 --allow-privileged=true --anonymous-auth=false --authentication-token-webhook-config-file=/var/snap/k8s/common/args/conf.d/auth-token-webhook.conf --authorization-mode=Node,RBAC --client-ca-file=/etc/kubernetes/pki/client-ca.crt --enable-admission-plugins=NodeRestriction --etcd-servers=unix:///var/snap/k8s/common/var/lib/k8s-dqlite/k8s-dqlite.sock --feature-gates=WatchList=false --kubelet-certificate-authority=/etc/kubernetes/pki/ca.crt --kubelet-client-certificate=/etc/kubernetes/pki/apiserver-kubelet-client.crt --kubelet-client-key=/etc/kubernetes/pki/apiserver-kubelet-client.key --kubelet-preferred-address-types=InternalIP,Hostname,InternalDNS,ExternalDNS,ExternalIP --profiling=false --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt --proxy-client-key-file=/etc/kubernetes/pki/front-proxy-client.key --request-timeout=300s --requestheader-allowed-names=front-proxy-client --requestheader-client-ca-file=/etc/kubernetes/pki/front-proxy-ca.crt --requestheader-extra-headers-prefix=X-Remote-Extra- --requestheader-group-headers=X-Remote-Group --requestheader-username-headers=X-Remote-User --secure-port=6443 --service-account-issuer=https://kubernetes.default.svc --service-account-key-file=/etc/kubernetes/pki/serviceaccount.key --service-account-signing-key-file=/etc/kubernetes/pki/serviceaccount.key --service-cluster-ip-range=10.152.183.0/24 --tls-cert-file=/etc/kubernetes/pki/apiserver.crt --tls-cipher-suites=TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_RSA_WITH_3DES_EDE_CBC_SHA,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_256_GCM_SHA384 --tls-min-version=VersionTLS12 --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
+4 S     0     964       1     964     964  TS  19   4    - 354737 futex_wait_queue    Wed May 14 04:22:02 2025 ?        00:09:24 /snap/k8s/2500/bin/kube-controller-manager --authentication-kubeconfig=/etc/kubernetes/controller.conf --authorization-kubeconfig=/etc/kubernetes/controller.conf --cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt --cluster-signing-key-file=/etc/kubernetes/pki/ca.key --kubeconfig=/etc/kubernetes/controller.conf --leader-elect-lease-duration=30s --leader-elect-renew-deadline=15s --profiling=false --root-ca-file=/etc/kubernetes/pki/ca.crt --service-account-private-key-file=/etc/kubernetes/pki/serviceaccount.key --terminated-pod-gc-threshold=12500 --tls-min-version=VersionTLS12 --use-service-account-credentials=true
+4 S     0     985       1     985     985  TS  19   4    - 337856 futex_wait_queue    Wed May 14 04:22:02 2025 ?        00:00:11 /snap/k8s/2500/bin/kube-proxy --cluster-cidr=10.1.0.0/16 --healthz-bind-address=127.0.0.1:10256 --kubeconfig=/etc/kubernetes/proxy.conf --profiling=false
+4 S     0     994       1     994     994  TS  19   3    - 337920 futex_wait_queue    Wed May 14 04:22:02 2025 ?        00:01:28 /snap/k8s/2500/bin/kube-scheduler --authentication-kubeconfig=/etc/kubernetes/scheduler.conf --authorization-kubeconfig=/etc/kubernetes/scheduler.conf --kubeconfig=/etc/kubernetes/scheduler.conf --leader-elect-lease-duration=30s --leader-elect-renew-deadline=15s --profiling=false --tls-min-version=VersionTLS12
+4 S     0    1011       1    1011    1011  TS  19   0    - 412775 do_poll.constprop.0 Wed May 14 04:22:02 2025 ?        00:02:14 /snap/openstack-hypervisor/244/usr/sbin/libvirtd --pid /var/snap/openstack-hypervisor/244/libvirt.pid --listen
+4 S     0    1012       1    1012    1012  TS  19   0    -  5510 do_wait              Wed May 14 04:22:02 2025 ?        00:00:00 python3 /snap/openstack-hypervisor/244/bin/ceilometer-compute-agent-service
+4 S     0    1018       1    1018    1018  TS  19   4    -  5510 do_wait              Wed May 14 04:22:02 2025 ?        00:00:00 python3 /snap/openstack-hypervisor/244/bin/neutron-ovn-metadata-agent-service
+4 S     0    1019       1    1019    1019  TS  19   4    -  5764 do_wait              Wed May 14 04:22:02 2025 ?        00:00:00 python3 /snap/openstack-hypervisor/244/bin/nova-api-metadata-service
+4 S     0    1020       1    1020    1020  TS  19   4    -  5512 do_wait              Wed May 14 04:22:02 2025 ?        00:00:00 python3 /snap/openstack-hypervisor/244/bin/nova-compute-service
+4 S     0    1036       1    1036    1036  TS  19   2    - 16937 do_poll.constprop.0  Wed May 14 04:22:02 2025 ?        00:00:01 /snap/openstack-hypervisor/244/usr/sbin/virtlogd --pid /var/snap/openstack-hypervisor/244/virtlogd.pid
+4 S     0    1041       1    1041    1041  TS  19   3    - 584073 futex_wait_queue    Wed May 14 04:22:02 2025 ?        00:02:54 sunbeamd --state-dir /var/snap/openstack/common/state --socket-group snap_daemon --verbose
+4 S     0    1056       1    1056    1056  TS  19   1    -  4545 ep_poll              Wed May 14 04:22:02 2025 ?        00:00:02 /usr/lib/systemd/systemd-logind
+4 S     0    1072       1    1072    1072  TS  19   1    - 117780 do_poll.constprop.0 Wed May 14 04:22:02 2025 ?        00:01:12 /usr/libexec/udisks2/udisksd
+4 S   102    1090       1    1090    1090  TS  19   0    - 55627 do_select            Wed May 14 04:22:02 2025 ?        00:00:30 /usr/sbin/rsyslogd -n -iNONE
+4 S     0    1114       1    1114    1114  TS  19   5    -  1935 do_wait              Wed May 14 04:22:02 2025 ?        00:00:00 bash /etc/systemd/system/jujud-machine-0-exec-start.sh
+4 S     0    1134       1    1134    1134  TS  19   2    - 27501 do_poll.constprop.0  Wed May 14 04:22:02 2025 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S     0    1162       1    1162    1162  TS  19   0    -  1537 do_select            Wed May 14 04:22:02 2025 ttyS0    00:00:00 /sbin/agetty -o -p -- \u --keep-baud 115200,57600,38400,9600 - vt220
+4 S     0    1163    1114    1114    1114  TS  19   2    - 362716 futex_wait_queue    Wed May 14 04:22:02 2025 ?        00:01:02 /var/lib/juju/tools/machine-0/jujud machine --data-dir /var/lib/juju --machine-id 0 --debug
+4 S     0    1177       1    1177    1177  TS  19   2    -  1526 do_select            Wed May 14 04:22:02 2025 tty1     00:00:00 /sbin/agetty -o -p -- \u --noclear - linux
+4 S     0    1224       1    1224    1224  TS  19   1    - 98022 do_poll.constprop.0  Wed May 14 04:22:02 2025 ?        00:00:00 /usr/sbin/ModemManager
+4 S     0    1916    1018    1018    1018  TS  19   4    - 43051 ep_poll              Wed May 14 04:22:08 2025 ?        00:00:19 neutron-ovn-metadata-agent (python3 /snap/openstack-hypervisor/244/usr/bin/neutron-ovn-metadata-agent --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron_ovn_metadata_agent.ini --config-dir /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf.d)
+4 S     0    1917    1019    1019    1019  TS  19   2    - 35624 hrtimer_nanosleep    Wed May 14 04:22:08 2025 ?        00:07:59 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+0 S     0    1918    1012    1918    1918  TS  19   3    - 59056 do_select            Wed May 14 04:22:08 2025 ?        00:02:06 ceilometer-polling: master process [/snap/openstack-hypervisor/244/usr/bin/ceilometer-polling --config-file /var/snap/openstack-hypervisor/common/etc/ceilometer/ceilometer.conf --polling-namespaces compute]
+4 S     0    1920    1020    1020    1020  TS  19   4    - 448959 ep_poll             Wed May 14 04:22:08 2025 ?        00:01:53 python3 /snap/openstack-hypervisor/244/usr/bin/nova-compute --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+1 I     0    1947       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:22:09 2025 ?        00:00:00 [kworker/R-dio/s]
+5 S     0    1977       1    1977    1977  TS  29   1    -  2957 do_poll.constprop.0  Wed May 14 04:22:10 2025 ?        00:00:03 ovsdb-server /var/snap/openstack-hypervisor/common/etc/openvswitch/conf.db -vconsole:emer -vsyslog:err -vfile:info --remote=punix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock --private-key=db:Open_vSwitch,SSL,private_key --certificate=db:Open_vSwitch,SSL,certificate --bootstrap-ca-cert=db:Open_vSwitch,SSL,ca_cert --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/openvswitch/ovsdb-server.log --pidfile=/var/snap/openstack-hypervisor/common/run/openvswitch/ovsdb-server.pid --detach
+5 S     0    2056       1    2056    2056  TS  29   3    - 190029 do_poll.constprop.0 Wed May 14 04:22:11 2025 ?        00:00:56 ovs-vswitchd unix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --mlockall --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/openvswitch/ovs-vswitchd.log --pidfile=/var/snap/openstack-hypervisor/common/run/openvswitch/ovs-vswitchd.pid --detach
+4 S     0    2083       1    2083    2083  TS  19   2    -   723 sigsuspend           Wed May 14 04:22:12 2025 ?        00:00:00 /bin/sh /snap/lxd/33110/commands/daemon.start
+5 S     0    2276       1    2276    2276  TS  29   2    - 77173 do_poll.constprop.0  Wed May 14 04:22:13 2025 ?        00:00:06 ovn-controller unix:/var/snap/openstack-hypervisor/common/run/openvswitch/db.sock -vconsole:emer -vsyslog:err -vfile:info --no-chdir --log-file=/var/snap/openstack-hypervisor/common/log/ovn/ovn-controller.log --pidfile=/var/snap/openstack-hypervisor/common/run/ovn/ovn-controller.pid --detach
+1 I     0    2282       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:22:13 2025 ?        00:00:00 [kworker/R-tls-s]
+4 S     0    2418       1    2083    2083  TS  19   3    - 131749 futex_wait_queue    Wed May 14 04:22:16 2025 ?        00:00:43 lxcfs /var/snap/lxd/common/var/lib/lxcfs -p /var/snap/lxd/common/lxcfs.pid
+4 S     0    2432    2083    2083    2083  TS  19   3    - 1663817 futex_wait_queue   Wed May 14 04:22:17 2025 ?        00:00:32 lxd --logfile /var/snap/lxd/common/lxd/logs/lxd.log --group lxd
+4 S     0    2481       1    2481    2481  TS  19   0    - 355385 futex_wait_queue    Wed May 14 04:22:20 2025 ?        00:53:14 /snap/k8s/2500/bin/kubelet --anonymous-auth=false --authentication-token-webhook=true --authorization-mode=Webhook --cgroup-driver=systemd --client-ca-file=/etc/kubernetes/pki/client-ca.crt --cluster-dns=10.152.183.193 --cluster-domain=cluster.local --container-runtime-endpoint=/run/containerd/containerd.sock --containerd=/run/containerd/containerd.sock --eviction-hard=memory.available<100Mi,nodefs.available<1Gi,imagefs.available<1Gi --fail-swap-on=false --kubeconfig=/etc/kubernetes/kubelet.conf --node-ip=10.194.140.193 --node-labels=node-role.kubernetes.io/control-plane=,node-role.kubernetes.io/worker=,k8sd.io/role=control-plane --read-only-port=0 --register-with-taints= --root-dir=/var/lib/kubelet --serialize-image-pulls=false --tls-cert-file=/etc/kubernetes/pki/kubelet.crt --tls-cipher-suites=TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384 --tls-private-key-file=/etc/kubernetes/pki/kubelet.key
+1 I     0    2627       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:22:24 2025 ?        00:00:00 [kworker/R-nvme-]
+1 I     0    2628       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:22:24 2025 ?        00:00:00 [kworker/R-nvme-]
+1 I     0    2629       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:22:24 2025 ?        00:00:00 [kworker/R-nvme-]
+1 I     0    2630       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:22:24 2025 ?        00:00:00 [kworker/R-nvme-]
+1 S     0    2641       2       0       0  TS  39   4    -     0 taskq_thread         Wed May 14 04:22:24 2025 ?        00:00:00 [spl_system_task]
+1 S     0    2642       2       0       0  TS  39   1    -     0 taskq_thread         Wed May 14 04:22:24 2025 ?        00:00:00 [spl_delay_taskq]
+1 S     0    2643       2       0       0  TS  39   3    -     0 taskq_thread         Wed May 14 04:22:24 2025 ?        00:00:00 [spl_dynamic_tas]
+1 S     0    2644       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:24 2025 ?        00:00:00 [spl_kmem_cache]
+1 S     0    2674       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:25 2025 ?        00:00:00 [zvol]
+1 S     0    2677       2       0       0  TS  19   1    -     0 taskq_thread         Wed May 14 04:22:25 2025 ?        00:00:00 [arc_prune]
+1 S     0    2678       2       0       0  TS  19   5    -     0 cv_timedwait_hires   Wed May 14 04:22:25 2025 ?        00:00:00 [arc_evict]
+1 S     0    2679       2       0       0  TS   0   5    -     0 cv_timedwait_hires   Wed May 14 04:22:25 2025 ?        00:00:00 [arc_reap]
+1 S     0    2681       2       0       0  TS  19   4    -     0 taskq_thread         Wed May 14 04:22:25 2025 ?        00:00:00 [dbu_evict]
+1 S     0    2682       2       0       0  TS   0   3    -     0 cv_timedwait_hires   Wed May 14 04:22:25 2025 ?        00:00:00 [dbuf_evict]
+1 S     0    2685       2       0       0  TS   0   3    -     0 taskq_thread         Wed May 14 04:22:25 2025 ?        00:00:00 [z_vdev_file]
+1 S     0    2712       2       0       0  TS  19   2    -     0 cv_timedwait_common  Wed May 14 04:22:28 2025 ?        00:00:00 [l2arc_feed]
+1 S     0    2784       2       0       0  TS  39   1    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_null_iss]
+1 S     0    2785       2       0       0  TS  39   3    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_null_int]
+1 S     0    2786       2       0       0  TS  39   1    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_rd_iss]
+1 S     0    2787       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_rd_int]
+1 S     0    2788       2       0       0  TS  38   0    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_wr_iss]
+1 S     0    2789       2       0       0  TS  39   1    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_wr_iss_h]
+1 S     0    2790       2       0       0  TS  39   4    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_wr_int]
+1 S     0    2791       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_wr_int_h]
+1 S     0    2792       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_fr_iss]
+1 S     0    2793       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_fr_int]
+1 S     0    2794       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_cl_iss]
+1 S     0    2795       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_cl_int]
+1 S     0    2796       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_ioctl_iss]
+1 S     0    2797       2       0       0  TS  39   2    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_ioctl_int]
+1 S     0    2798       2       0       0  TS  39   0    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_trim_iss]
+1 S     0    2799       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_trim_int]
+1 S     0    2800       2       0       0  TS  19   1    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_zvol]
+1 S     0    2801       2       0       0  TS  39   4    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_metaslab]
+1 S     0    2802       2       0       0  TS  19   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_prefetch]
+1 S     0    2803       2       0       0  TS  19   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_upgrade]
+1 S     0    2813       2       0       0  TS   0   0    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_sync_taskq]
+1 S     0    2814       2       0       0  TS   0   0    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_sync_taskq]
+1 S     0    2815       2       0       0  TS   0   0    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_sync_taskq]
+1 S     0    2816       2       0       0  TS   0   0    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_sync_taskq]
+1 S     0    2817       2       0       0  TS   0   4    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_zil_clean_ta]
+1 S     0    2818       2       0       0  TS   0   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_zil_clean_ta]
+1 S     0    2819       2       0       0  TS   0   4    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_zil_clean_ta]
+1 S     0    2820       2       0       0  TS   0   1    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_zil_clean_ta]
+1 S     0    2821       2       0       0  TS   0   5    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_zil_clean_ta]
+1 S     0    2822       2       0       0  TS   0   4    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [dp_zil_clean_ta]
+1 S     0    2823       2       0       0  TS  19   1    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_zrele]
+1 S     0    2824       2       0       0  TS  19   1    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [z_unlinked_drai]
+1 S     0    2840       2       0       0  TS  19   2    -     0 cv_wait_common       Wed May 14 04:22:28 2025 ?        00:00:00 [txg_quiesce]
+1 S     0    2841       2       0       0  TS  19   2    -     0 cv_timedwait_common  Wed May 14 04:22:28 2025 ?        00:00:01 [txg_sync]
+1 S     0    2842       2       0       0  TS  19   2    -     0 cv_timedwait_hires   Wed May 14 04:22:28 2025 ?        00:00:00 [mmp]
+1 S     0    2843       2       0       0  TS   0   0    -     0 cv_wait_common       Wed May 14 04:22:28 2025 ?        00:00:00 [z_indirect_cond]
+1 S     0    2844       2       0       0  TS   0   3    -     0 cv_wait_common       Wed May 14 04:22:28 2025 ?        00:00:00 [z_livelist_dest]
+1 S     0    2845       2       0       0  TS   0   0    -     0 cv_wait_common       Wed May 14 04:22:28 2025 ?        00:00:00 [z_livelist_cond]
+1 S     0    2846       2       0       0  TS   0   1    -     0 cv_wait_common       Wed May 14 04:22:28 2025 ?        00:00:00 [z_checkpoint_di]
+1 D     0    2847       2       0       0  TS  39   2    -     0 cv_wait_common       Wed May 14 04:22:28 2025 ?        00:00:00 [vdev_autotrim]
+1 S     0    2857       2       0       0  TS  39   0    -     0 taskq_thread         Wed May 14 04:22:28 2025 ?        00:00:00 [spl_system_task]
+1 I     0    2889       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2890       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2891       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2892       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2893       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2894       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2895       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2896       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2897       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2898       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2899       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2900       2       0       0  TS  39   2    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 I     0    2901       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:22:28 2025 ?        00:00:00 [kworker/R-btrfs]
+1 S     0    2902       2       0       0  TS  19   2    -     0 cleaner_kthread      Wed May 14 04:22:28 2025 ?        00:00:00 [btrfs-cleaner]
+1 S     0    2903       2       0       0  TS  19   4    -     0 transaction_kthread  Wed May 14 04:22:28 2025 ?        00:00:00 [btrfs-transaction]
+4 S   999    2940    2432    2940    2940  TS  19   1    -  2627 do_poll.constprop.0  Wed May 14 04:22:29 2025 ?        00:00:00 dnsmasq --keep-in-foreground --strict-order --bind-interfaces --except-interface=lo --pid-file= --no-ping --interface=sunbeambr0 --dhcp-rapid-commit --no-negcache --quiet-dhcp --quiet-dhcp6 --quiet-ra --listen-address=10.174.10.1 --dhcp-no-override --dhcp-authoritative --dhcp-leasefile=/var/snap/lxd/common/lxd/networks/sunbeambr0/dnsmasq.leases --dhcp-hostsfile=/var/snap/lxd/common/lxd/networks/sunbeambr0/dnsmasq.hosts --dhcp-range 10.174.10.2,10.174.10.254,1h -s lxd --interface-name _gateway.lxd,sunbeambr0 -S /lxd/ --conf-file=/var/snap/lxd/common/lxd/networks/sunbeambr0/dnsmasq.raw -u lxd -g lxd
+5 S     0    3133       1    3133    3133  TS  19   4    - 1542054 ep_poll            Wed May 14 04:22:30 2025 ?        00:00:00 [lxc monitor] /var/snap/lxd/common/lxd/containers juju-3d4442-0
+4 S 1000000  3187    3133    3187    3187  TS  19   3    -  5581 ep_poll              Wed May 14 04:22:30 2025 ?        00:00:11 /sbin/init
+4 S 1000000  3296    3187    3296    3296  TS  19   3    -  8489 ep_poll              Wed May 14 04:22:31 2025 ?        00:00:00 /usr/lib/systemd/systemd-journald
+4 S 1000000  3384    3187    3384    3384  TS  19   3    -  6161 ep_poll              Wed May 14 04:22:31 2025 ?        00:00:00 /usr/lib/systemd/systemd-udevd
+1 S 1000000  3391    3187    3391    3391  TS  19   1    - 187762 futex_wait_queue    Wed May 14 04:22:31 2025 ?        00:00:09 snapfuse /var/lib/snapd/snaps/juju-db_178.snap /snap/juju-db/178 -o ro,nodev,allow_other,suid
+1 S 1000000  3394    3187    3394    3394  TS  19   1    - 187762 futex_wait_queue    Wed May 14 04:22:31 2025 ?        00:00:13 snapfuse /var/lib/snapd/snaps/core20_2571.snap /snap/core20/2571 -o ro,nodev,allow_other,suid
+1 S 1000000  3397    3187    3397    3397  TS  19   3    - 187762 futex_wait_queue    Wed May 14 04:22:31 2025 ?        00:00:15 snapfuse /var/lib/snapd/snaps/snapd_24505.snap /snap/snapd/24505 -o ro,nodev,allow_other,suid
+1 S     0    3588       2       0       0  FF  41   2    -     0 psi_rtpoll_worker    Wed May 14 04:22:31 2025 ?        00:00:00 [psimon]
+4 S 1000991  3629    3187    3629    3629  TS  19   4    -  5396 ep_poll              Wed May 14 04:22:31 2025 ?        00:00:00 /usr/lib/systemd/systemd-resolved
+0 S     0    3985       1    3985     960  TS  19   1    - 308539 futex_wait_queue    Wed May 14 04:22:33 2025 ?        00:00:14 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 1ea05ec7876f5a51f1448384ca1d282660174657d4801e08c27f4438c683138e -address /run/containerd/containerd.sock
+0 S     0    4002       1    4002     960  TS  19   1    - 308539 futex_wait_queue    Wed May 14 04:22:33 2025 ?        00:00:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f028eebebcafa55dccd31b994e1713398bf4771c68d7a2489d277e5a95dde040 -address /run/containerd/containerd.sock
+0 S     0    4011       1    4011     960  TS  19   4    - 308539 futex_wait_queue    Wed May 14 04:22:33 2025 ?        00:00:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 6aaf465ba7c493e5264fb4895065bac091ca4ec64816934484c1169124c6b194 -address /run/containerd/containerd.sock
+4 S 1000998  4066    3187    4066    4066  TS  19   5    -  4744 ep_poll              Wed May 14 04:22:33 2025 ?        00:00:00 /usr/lib/systemd/systemd-networkd
+4 S 65535    4093    3985    4093    4093  TS  19   5    -   255 do_sys_pause         Wed May 14 04:22:34 2025 ?        00:00:00 /pause
+4 S 65535    4100    4011    4100    4100  TS  19   3    -   255 do_sys_pause         Wed May 14 04:22:34 2025 ?        00:00:00 /pause
+4 S 65535    4107    4002    4107    4107  TS  19   5    -   255 do_sys_pause         Wed May 14 04:22:34 2025 ?        00:00:00 /pause
+4 S     0    4207    4002    4207    4207  TS  19   3    - 318326 futex_wait_queue    Wed May 14 04:22:34 2025 ?        00:02:01 /speaker --port=7472 --log-level=info
+0 S 1000000  4265    3187    4265    4265  TS  19   0    -  1806 hrtimer_nanosleep    Wed May 14 04:22:34 2025 ?        00:00:00 /usr/sbin/cron -f -P
+4 S 1000101  4266    3187    4266    4266  TS  19   1    -  2446 ep_poll              Wed May 14 04:22:34 2025 ?        00:00:00 @dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+4 S 1000989  4271    3187    4271    4271  TS  19   4    - 95926 do_poll.constprop.0  Wed May 14 04:22:34 2025 ?        00:00:00 /usr/lib/polkit-1/polkitd --no-debug
+4 S 1000000  4279    3187    4279    4279  TS  19   5    - 495579 futex_wait_queue    Wed May 14 04:22:34 2025 ?        00:06:23 /snap/juju-db/178/bin/mongod --config /var/snap/juju-db/common/juju-db.config
+0 S 1000000  4283    3187    4283    4283  TS  19   1    - 536037 futex_wait_queue    Wed May 14 04:22:34 2025 ?        00:00:03 /usr/lib/snapd/snapd
+4 S 1000000  4285    3187    4285    4285  TS  19   0    -  4397 ep_poll              Wed May 14 04:22:34 2025 ?        00:00:00 /usr/lib/systemd/systemd-logind
+4 S 1000000  4289    3187    4289    4289  TS  19   4    - 117180 do_poll.constprop.0 Wed May 14 04:22:34 2025 ?        00:00:00 /usr/libexec/udisks2/udisksd
+4 S 1000000  4323    3187    4323    4323  TS  19   1    -  1935 do_wait              Wed May 14 04:22:35 2025 ?        00:00:00 bash /etc/systemd/system/jujud-machine-0-exec-start.sh
+4 S 1000102  4330    3187    4330    4330  TS  19   0    - 38218 do_select            Wed May 14 04:22:35 2025 ?        00:00:00 /usr/sbin/rsyslogd -n -iNONE
+4 S 1000000  4347    4323    4323    4323  TS  19   4    - 386325 futex_wait_queue    Wed May 14 04:22:35 2025 ?        00:03:20 /var/lib/juju/tools/machine-0/jujud machine --data-dir /var/lib/juju --machine-id 0 --debug
+4 S 1000000  4348    3187    4348    4348  TS  19   5    -  1537 do_select            Wed May 14 04:22:35 2025 ?        00:00:00 /sbin/agetty -o -p -- \u --noclear --keep-baud - 115200,38400,9600 vt220
+0 S 1000000  4383    3187    4383    4383  TS  19   1    - 27501 do_poll.constprop.0  Wed May 14 04:22:35 2025 ?        00:00:00 /usr/bin/python3 /usr/share/unattended-upgrades/unattended-upgrade-shutdown --wait-for-signal
+4 S     0    5101    3985    5101    5101  TS  19   3    - 352655 futex_wait_queue    Wed May 14 04:22:42 2025 ?        01:35:00 cilium-agent --config-dir=/tmp/cilium/config-map
+0 S     0    6783    5101    5101    5101  TS  19   1    - 307465 futex_wait_queue    Wed May 14 04:23:35 2025 ?        00:00:00 cilium-health-responder --listen 4240 --pidfile /var/run/cilium/state/health-endpoint.pid
+0 S     0    7670       1    7670     960  TS  19   3    - 308603 futex_wait_queue    Wed May 14 04:23:41 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 31d2fd195d11f34483bafaa5bce12c9ee019979ab3f5b5e311351f242b7a9d82 -address /run/containerd/containerd.sock
+4 S 65535    7704    7670    7704    7704  TS  19   2    -   255 do_sys_pause         Wed May 14 04:23:41 2025 ?        00:00:00 /pause
+4 S     0    8064    7670    8064    8064  TS  19   2    - 308831 futex_wait_queue    Wed May 14 04:23:43 2025 ?        00:00:46 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+0 S     0    8151       1    8151     960  TS  19   2    - 308539 futex_wait_queue    Wed May 14 04:23:50 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 63bd835097096b934efe51d8c0972a57bfd10ffb6615cea93d3f9f8d71cb7103 -address /run/containerd/containerd.sock
+0 S     0    8163       1    8163     960  TS  19   0    - 308539 futex_wait_queue    Wed May 14 04:23:50 2025 ?        00:00:26 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id c54e18c53d5706db4be26dfbdcab5aac385982a2eafeef99262faa92bbb01780 -address /run/containerd/containerd.sock
+0 S     0    8183       1    8183     960  TS  19   1    - 308603 futex_wait_queue    Wed May 14 04:23:50 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 5596ee910eca8014c7e55c763cb108009d2d565a23d17c0de150fc72aacac245 -address /run/containerd/containerd.sock
+0 S     0    8213       1    8213     960  TS  19   4    - 308603 futex_wait_queue    Wed May 14 04:23:50 2025 ?        00:00:41 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 98322c04b1adb332a97f1d3ea6c49645a9b3e0fbad80b320fe8fea9b2017eeb3 -address /run/containerd/containerd.sock
+0 S     0    8253       1    8253     960  TS  19   4    - 308667 futex_wait_queue    Wed May 14 04:23:50 2025 ?        00:01:06 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 0a86ac52b6fdc078435366c760c4a131c82a2366d1e48d59372b9e7545266938 -address /run/containerd/containerd.sock
+0 S     0    8259       1    8259     960  TS  19   1    - 308603 futex_wait_queue    Wed May 14 04:23:50 2025 ?        00:00:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 5eaf00360fad50a557c0274454410b1fa8e212416280dc6abf4c37808040ea19 -address /run/containerd/containerd.sock
+0 S     0    8302       1    8302     960  TS  19   3    - 308539 futex_wait_queue    Wed May 14 04:23:50 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f868a8720686403a09ddb52800b283f54ec1441d4c762a0374f1724c9f0cb888 -address /run/containerd/containerd.sock
+4 S 65535    8325    8163    8325    8325  TS  19   0    -   255 do_sys_pause         Wed May 14 04:23:50 2025 ?        00:00:00 /pause
+4 S 65535    8329    8151    8329    8329  TS  19   2    -   255 do_sys_pause         Wed May 14 04:23:50 2025 ?        00:00:00 /pause
+4 S 65535    8345    8213    8345    8345  TS  19   1    -   255 do_sys_pause         Wed May 14 04:23:51 2025 ?        00:00:00 /pause
+0 S     0    8349       1    8349     960  TS  19   5    - 308475 futex_wait_queue    Wed May 14 04:23:51 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id af6018980f1ad842e1eb39a688ee96ebc62dca67f4b001bec31d9cda18fc6ec9 -address /run/containerd/containerd.sock
+4 S 65535    8350    8183    8350    8350  TS  19   2    -   255 do_sys_pause         Wed May 14 04:23:51 2025 ?        00:00:00 /pause
+0 S     0    8388       1    8388     960  TS  19   1    - 308667 futex_wait_queue    Wed May 14 04:23:51 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f01f452c5d96caf2d2052b574ee4d11e9ca714bd37835baece01316663926692 -address /run/containerd/containerd.sock
+4 S 65535    8437    8259    8437    8437  TS  19   1    -   255 do_sys_pause         Wed May 14 04:23:51 2025 ?        00:00:00 /pause
+4 S 65535    8453    8302    8453    8453  TS  19   2    -   255 do_sys_pause         Wed May 14 04:23:51 2025 ?        00:00:00 /pause
+4 S 65535    8456    8253    8456    8456  TS  19   5    -   255 do_sys_pause         Wed May 14 04:23:51 2025 ?        00:00:00 /pause
+4 S 65535    8457    8388    8457    8457  TS  19   3    -   255 do_sys_pause         Wed May 14 04:23:51 2025 ?        00:00:00 /pause
+4 S 65535    8482    8349    8482    8482  TS  19   2    -   255 do_sys_pause         Wed May 14 04:23:51 2025 ?        00:00:00 /pause
+4 S  1000    8623    8259    8623    8623  TS  19   5    - 308155 futex_wait_queue    Wed May 14 04:23:51 2025 ?        00:00:00 /bin/pebble enter --args metrics-server --secure-port=10250 --cert-dir=/tmp --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --kubelet-use-node-status-port --metric-resolution=15s
+4 S  1000    8842    8623    8842    8623  TS  19   0    - 321088 futex_wait_queue    Wed May 14 04:23:51 2025 ?        00:02:02 /metrics-server --secure-port=10250 --cert-dir=/tmp --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname --kubelet-use-node-status-port --metric-resolution=15s
+4 S     0    8949    8163    8949    8949  TS  19   5    - 308210 futex_wait_queue    Wed May 14 04:23:52 2025 ?        00:00:00 /bin/pebble enter --args rawfile csi-driver --disable-metrics
+4 S     0    8987    8949    8987    8949  TS  19   2    - 235075 futex_wait_queue    Wed May 14 04:23:52 2025 ?        00:00:48 python3 /app/rawfile.py csi-driver --disable-metrics
+4 S     0    9000    8163    9000    9000  TS  19   0    - 317972 futex_wait_queue    Wed May 14 04:23:52 2025 ?        00:00:04 /csi-resizer --csi-address=/csi/csi.sock --handle-volume-inuse-error=false
+4 S     0    9706    8388    9706    9706  TS  19   0    - 308767 futex_wait_queue    Wed May 14 04:23:54 2025 ?        00:00:44 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0    9739    8253    9739    9739  TS  19   0    - 308703 futex_wait_queue    Wed May 14 04:23:54 2025 ?        00:00:36 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0    9930    8349    9930    9930  TS  19   4    - 308767 futex_wait_queue    Wed May 14 04:23:55 2025 ?        00:00:44 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0    9980    8302    9980    9980  TS  19   0    - 308767 futex_wait_queue    Wed May 14 04:23:55 2025 ?        00:00:28 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0   10098    8213   10098   10098  TS  19   3    - 308703 futex_wait_queue    Wed May 14 04:23:55 2025 ?        00:00:19 /charm/bin/pebble run --create-dirs --hold --http :38814 --verbose
+4 S     0   10160    8253   10160   10160  TS  19   4    - 308639 futex_wait_queue    Wed May 14 04:23:55 2025 ?        00:00:18 /charm/bin/pebble run --create-dirs --hold --http :38815 --verbose
+4 S     0   10207    8253   10207   10207  TS  19   2    - 308703 futex_wait_queue    Wed May 14 04:23:56 2025 ?        00:00:19 /charm/bin/pebble run --create-dirs --hold --http :38816 --verbose
+0 S     0   10358       1   10358     960  TS  19   1    - 308539 wait_woken          Wed May 14 04:24:02 2025 ?        00:00:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 2fad83ccecee85f3791dd427310ca9df023286d98eea8fe2490d379161d1b62d -address /run/containerd/containerd.sock
+4 S 65535   10437   10358   10437   10437  TS  19   5    -   255 do_sys_pause         Wed May 14 04:24:03 2025 ?        00:00:00 /pause
+4 S     0   10476   10358   10476   10476  TS  19   3    - 361040 futex_wait_queue    Wed May 14 04:24:03 2025 ?        00:00:21 /var/lib/juju/tools/jujud model --model-uuid=ee070cdf-4b8b-49ac-80cb-918841540fbe
+0 S     0   11014       1   11014     960  TS  19   4    - 308603 futex_wait_queue    Wed May 14 04:24:16 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id aa5ab5c52a52281681cf9997c59a5071134c636746d031e3ecee7303ec4f1aa4 -address /run/containerd/containerd.sock
+4 S 65535   11037   11014   11037   11037  TS  19   2    -   255 do_sys_pause         Wed May 14 04:24:17 2025 ?        00:00:00 /pause
+0 S     0   11279       1   11279     960  TS  19   1    - 308539 futex_wait_queue    Wed May 14 04:24:25 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 6e8d6822c376d72e81427485a1c5bd40aeea9b2c73ad57047a41e282d5997624 -address /run/containerd/containerd.sock
+4 S 65535   11301   11279   11301   11301  TS  19   4    -   255 do_sys_pause         Wed May 14 04:24:25 2025 ?        00:00:00 /pause
+4 S     0   11435   11279   11435   11435  TS  19   2    - 308703 futex_wait_queue    Wed May 14 04:24:27 2025 ?        00:00:28 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   11483   11435   11483   11435  TS  19   4    - 324697 futex_wait_queue    Wed May 14 04:24:28 2025 ?        00:00:28 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   11495   11279   11495   11495  TS  19   0    - 308767 futex_wait_queue    Wed May 14 04:24:28 2025 ?        00:00:26 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+0 S     0   11550       1   11550     960  TS  19   0    - 308603 futex_wait_queue    Wed May 14 04:24:32 2025 ?        00:00:52 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id facc78df21132827882ea3a94bfc90314fe2344afdcd9381dfb498a61e3f4cd7 -address /run/containerd/containerd.sock
+4 S 65535   11572   11550   11572   11572  TS  19   1    -   255 do_sys_pause         Wed May 14 04:24:32 2025 ?        00:00:00 /pause
+4 S     0   11606   11550   11606   11606  TS  19   2    - 308146 futex_wait_queue    Wed May 14 04:24:33 2025 ?        00:00:00 /bin/pebble enter
+4 S     0   11625   11606   11625   11606  TS  19   2    - 309100 futex_wait_queue    Wed May 14 04:24:34 2025 ?        00:01:10 python3 /app/rawfile.py csi-driver
+4 S     0   11645   11550   11645   11645  TS  19   5    - 310509 futex_wait_queue    Wed May 14 04:24:34 2025 ?        00:00:12 /csi-node-driver-registrar --csi-address=/csi/csi.sock --kubelet-registration-path=/var/lib/kubelet/plugins/rawfile-csi/csi.sock --health-port=9809
+4 S     0   11683   11550   11683   11683  TS  19   1    - 318575 futex_wait_queue    Wed May 14 04:24:34 2025 ?        00:00:44 /csi-provisioner --csi-address=/csi/csi.sock --feature-gates=Topology=true --strict-topology --immediate-topology=false --timeout=120s --enable-capacity=true --capacity-ownerref-level=1 --node-deployment=true
+4 S     0   11723   11550   11723   11723  TS  19   3    - 317789 futex_wait_queue    Wed May 14 04:24:34 2025 ?        00:01:22 /csi-snapshotter --csi-address=/csi/csi.sock --node-deployment=true --extra-create-metadata=true
+0 S     0   11799       1   11799     960  TS  19   4    - 308539 futex_wait_queue    Wed May 14 04:24:37 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id a201169c6c2ae12aaa797c7c59470d0acc8bbc82167b6351f81b0866a1aea514 -address /run/containerd/containerd.sock
+4 S 65535   11822   11799   11822   11822  TS  19   2    -   255 do_sys_pause         Wed May 14 04:24:37 2025 ?        00:00:00 /pause
+4 S     0   11986   11799   11986   11986  TS  19   3    - 308767 futex_wait_queue    Wed May 14 04:24:38 2025 ?        00:00:27 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   12032   11986   12032   11986  TS  19   1    - 324697 futex_wait_queue    Wed May 14 04:24:39 2025 ?        00:00:32 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   12061   11799   12061   12061  TS  19   2    - 308767 futex_wait_queue    Wed May 14 04:24:39 2025 ?        00:00:44 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+1 S     0   12070       2       0       0  TS  19   2    -     0 kjournald2           Wed May 14 04:24:39 2025 ?        00:00:07 [jbd2/loop10-8]
+1 I     0   12071       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:24:39 2025 ?        00:00:00 [kworker/R-ext4-]
+1 S     0   12114       2       0       0  TS  19   1    -     0 kjournald2           Wed May 14 04:24:39 2025 ?        00:00:02 [jbd2/loop11-8]
+1 I     0   12115       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:24:39 2025 ?        00:00:00 [kworker/R-ext4-]
+1 S     0   12138       2       0       0  TS  19   2    -     0 kjournald2           Wed May 14 04:24:39 2025 ?        00:00:00 [jbd2/loop12-8]
+1 I     0   12139       2       0       0  TS  39   3    -     0 rescuer_thread       Wed May 14 04:24:39 2025 ?        00:00:00 [kworker/R-ext4-]
+1 S     0   12169       2       0       0  TS  19   0    -     0 kjournald2           Wed May 14 04:24:40 2025 ?        00:00:15 [jbd2/loop13-8]
+1 I     0   12170       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:24:40 2025 ?        00:00:00 [kworker/R-ext4-]
+1 S     0   12221       2       0       0  TS  19   5    -     0 kjournald2           Wed May 14 04:24:40 2025 ?        00:00:00 [jbd2/loop14-8]
+1 I     0   12222       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:24:40 2025 ?        00:00:00 [kworker/R-ext4-]
+0 S     0   12243       1   12243     960  TS  19   2    - 308603 futex_wait_queue    Wed May 14 04:24:41 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 95d041490f0734155d4e74fbbf0144487d81f04b452846474783947757817a34 -address /run/containerd/containerd.sock
+4 S 65535   12266   12243   12266   12266  TS  19   4    -   255 do_sys_pause         Wed May 14 04:24:41 2025 ?        00:00:00 /pause
+4 S     0   12402   12243   12402   12402  TS  19   1    - 308703 futex_wait_queue    Wed May 14 04:24:42 2025 ?        00:00:27 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   12448   12402   12448   12402  TS  19   0    - 324697 futex_wait_queue    Wed May 14 04:24:43 2025 ?        00:00:33 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   12460   12243   12460   12460  TS  19   4    - 308831 futex_wait_queue    Wed May 14 04:24:43 2025 ?        00:00:45 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+0 S     0   12492       1   12492     960  TS  19   5    - 308603 futex_wait_queue    Wed May 14 04:24:44 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id de506e1d14480cdf889922feeb4d3392f0decffd530f78166ede1f2b21a34c41 -address /run/containerd/containerd.sock
+4 S 65535   12515   12492   12515   12515  TS  19   3    -   255 do_sys_pause         Wed May 14 04:24:44 2025 ?        00:00:00 /pause
+4 S     0   12696   12492   12696   12696  TS  19   0    - 308767 futex_wait_queue    Wed May 14 04:24:46 2025 ?        00:00:39 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+0 S     0   12730       1   12730     960  TS  19   1    - 308603 futex_wait_queue    Wed May 14 04:24:46 2025 ?        00:00:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 953373094c3a4772901cd8686a77ae8bc78d33cc5051f1cc949ff25e307ce093 -address /run/containerd/containerd.sock
+4 S 65535   12754   12730   12754   12754  TS  19   0    -   255 do_sys_pause         Wed May 14 04:24:46 2025 ?        00:00:00 /pause
+0 S     0   12782       1   12782     960  TS  19   1    - 308539 futex_wait_queue    Wed May 14 04:24:46 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 3bfe18913643763344c1e50766beac246bfdd7ec56972d337908300836710c35 -address /run/containerd/containerd.sock
+0 S     0   12826       1   12826     960  TS  19   2    - 308603 futex_wait_queue    Wed May 14 04:24:46 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 18b23f27ec28f0be1edc64a58140296a1de734b5b66bff428d4685800ca31ab2 -address /run/containerd/containerd.sock
+0 S     0   12862       1   12862     960  TS  19   3    - 308539 futex_wait_queue    Wed May 14 04:24:46 2025 ?        00:00:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 91cd0766615e97ec699efc7a9d61ed0a1b195896f24ea797a7c26a67a72613fd -address /run/containerd/containerd.sock
+0 S     0   12928       1   12928     960  TS  19   1    - 308475 futex_wait_queue    Wed May 14 04:24:46 2025 ?        00:00:13 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id da5eb54f3abe58fe1bcc7e29ce72bf2ee48fcc520cec74a3fa4cefe17439037d -address /run/containerd/containerd.sock
+0 S     0   12958       1   12958     960  TS  19   1    - 308539 futex_wait_queue    Wed May 14 04:24:46 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 4c00eb0527041aaecd37ac5a159424851ca1554cd6cd9599672088392eb2ff5d -address /run/containerd/containerd.sock
+0 S     0   12987       1   12987     960  TS  19   1    - 308539 futex_wait_queue    Wed May 14 04:24:47 2025 ?        00:00:14 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 927be5012b9cee627f60f21cb49c6d44a47389ccbc3729199063dbe709033e03 -address /run/containerd/containerd.sock
+4 S 65535   13006   12826   13006   13006  TS  19   2    -   255 do_sys_pause         Wed May 14 04:24:47 2025 ?        00:00:00 /pause
+4 S 65535   13010   12782   13010   13010  TS  19   2    -   255 do_sys_pause         Wed May 14 04:24:47 2025 ?        00:00:00 /pause
+4 S 65534   13023   12862   13023   13023  TS  19   1    -   255 do_sys_pause         Wed May 14 04:24:47 2025 ?        00:00:00 /pause
+4 S 65535   13031   12958   13031   13031  TS  19   5    -   255 do_sys_pause         Wed May 14 04:24:47 2025 ?        00:00:00 /pause
+4 S 65535   13032   12928   13032   13032  TS  19   1    -   255 do_sys_pause         Wed May 14 04:24:47 2025 ?        00:00:00 /pause
+4 S 65535   13043   12987   13043   13043  TS  19   5    -   255 do_sys_pause         Wed May 14 04:24:47 2025 ?        00:00:00 /pause
+4 S 65534   13182   12862   13182   13182  TS  19   1    - 317639 futex_wait_queue    Wed May 14 04:24:47 2025 ?        00:00:49 /controller --port=7472 --log-level=info --tls-min-version=VersionTLS12
+4 S     0   13195   12928   13195   13195  TS  19   4    - 361292 futex_wait_queue    Wed May 14 04:24:47 2025 ?        00:00:20 /var/lib/juju/tools/jujud model --model-uuid=9972a5a1-e22e-4d1c-894e-dfd4acbda336
+4 S     0   13400   12730   13400   13400  TS  19   4    - 308168 futex_wait_queue    Wed May 14 04:24:47 2025 ?        00:00:00 /bin/pebble enter --args coredns -conf /etc/coredns/Corefile
+4 S     0   13565   13400   13565   13400  TS  19   1    - 321843 futex_wait_queue    Wed May 14 04:24:48 2025 ?        00:04:07 /coredns -conf /etc/coredns/Corefile
+0 S     0   13696       1   13696     960  TS  19   3    - 308475 futex_wait_queue    Wed May 14 04:24:49 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 1e5b2ce579cdb5d31fb1b06042fa1bbf95493b2ab5d3db01d71cf57c3f35f740 -address /run/containerd/containerd.sock
+4 S     0   13821   12987   13821   13821  TS  19   1    - 308767 futex_wait_queue    Wed May 14 04:24:50 2025 ?        00:00:25 /charm/bin/pebble run --http :38812 --verbose
+4 S 65535   13826   13696   13826   13826  TS  19   5    -   255 do_sys_pause         Wed May 14 04:24:50 2025 ?        00:00:00 /pause
+4 S     0   13830   12782   13830   13830  TS  19   3    - 308639 futex_wait_queue    Wed May 14 04:24:50 2025 ?        00:00:27 /charm/bin/pebble run --http :38812 --verbose
+0 S     0   13850       1   13850     960  TS  19   1    - 308539 futex_wait_queue    Wed May 14 04:24:50 2025 ?        00:00:27 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id a2c8161bb658bbb4f76710088a1204c9310e9bce0c89ee1981a03908e61afa07 -address /run/containerd/containerd.sock
+0 S     0   13895       1   13895     960  TS  19   0    - 308603 futex_wait_queue    Wed May 14 04:24:50 2025 ?        00:00:30 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 055eb12af60c8b710de8c6ed726854892fe750d2cc8496f9939275ea516828bb -address /run/containerd/containerd.sock
+0 S     0   13912       1   13912     960  TS  19   3    - 308603 futex_wait_queue    Wed May 14 04:24:50 2025 ?        00:01:45 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id f7b496cf8559f6df0c7122b9f8410ade24064d33a50764ac561ee5864d2f7e2e -address /run/containerd/containerd.sock
+4 S 65535   13952   13850   13952   13952  TS  19   3    -   255 do_sys_pause         Wed May 14 04:24:50 2025 ?        00:00:00 /pause
+4 S 65535   13962   13895   13962   13962  TS  19   4    -   255 do_sys_pause         Wed May 14 04:24:50 2025 ?        00:00:00 /pause
+4 S     0   13963   13821   13963   13821  TS  19   5    - 324697 futex_wait_queue    Wed May 14 04:24:50 2025 ?        00:00:16 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S 65535   13964   13912   13964   13964  TS  19   1    -   255 do_sys_pause         Wed May 14 04:24:50 2025 ?        00:00:00 /pause
+4 S     0   14017   13830   14017   13830  TS  19   2    - 324697 futex_wait_queue    Wed May 14 04:24:50 2025 ?        00:00:25 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   14136   12782   14136   14136  TS  19   3    - 308703 futex_wait_queue    Wed May 14 04:24:51 2025 ?        00:00:28 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0   14302   12826   14302   14302  TS  19   2    - 308703 futex_wait_queue    Wed May 14 04:24:51 2025 ?        00:00:27 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   14398   14302   14398   14302  TS  19   5    - 324633 futex_wait_queue    Wed May 14 04:24:51 2025 ?        00:00:29 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   14464   12826   14464   14464  TS  19   0    - 308767 futex_wait_queue    Wed May 14 04:24:52 2025 ?        00:00:36 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0   14621   12958   14621   14621  TS  19   0    - 308767 futex_wait_queue    Wed May 14 04:24:52 2025 ?        00:00:20 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0   14707   13696   14707   14707  TS  19   0    - 308767 futex_wait_queue    Wed May 14 04:24:53 2025 ?        00:00:36 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0   14804   13895   14804   14804  TS  19   2    - 308767 futex_wait_queue    Wed May 14 04:24:53 2025 ?        00:00:25 /charm/bin/pebble run --http :38812 --verbose
+4 S   170   14820   13912   14820   14820  TS  19   3    - 308632 futex_wait_queue    Wed May 14 04:24:53 2025 ?        00:00:10 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   14864   14804   14864   14804  TS  19   3    - 324697 futex_wait_queue    Wed May 14 04:24:53 2025 ?        00:00:43 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   14876   13895   14876   14876  TS  19   3    - 308831 futex_wait_queue    Wed May 14 04:24:53 2025 ?        00:18:43 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S   170   14918   14820   14918   14820  TS  19   4    - 324626 futex_wait_queue    Wed May 14 04:24:54 2025 ?        00:00:19 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0 --controller
+4 S   170   14946   13912   14946   14946  TS  19   2    - 538911 futex_wait_queue    Wed May 14 04:24:54 2025 ?        00:24:59 mongod --dbpath=/var/lib/juju/db --tlsCertificateKeyFile=/var/lib/juju/server.pem --tlsCertificateKeyFilePassword=xxxxxxx --tlsMode=requireTLS --port=37017 --journal --replSet=juju --quiet --oplogSize=1024 --auth --keyFile=/var/lib/juju/shared-secret --storageEngine=wiredTiger --bind_ip_all --ipv6
+4 S   170   15067   13912   15067   15067  TS  19   1    - 308696 futex_wait_queue    Wed May 14 04:24:54 2025 ?        00:00:21 /opt/pebble run --http :38811 --verbose
+4 S     0   15068   13850   15068   15068  TS  19   2    - 308719 futex_wait_queue    Wed May 14 04:24:54 2025 ?        00:00:26 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   15122   15068   15122   15068  TS  19   4    - 324697 futex_wait_queue    Wed May 14 04:24:55 2025 ?        00:00:28 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S   170   15195   15067   15195   15067  TS  19   0    - 427249 futex_wait_queue    Wed May 14 04:24:55 2025 ?        00:31:08 /var/lib/juju/tools/jujud machine --data-dir /var/lib/juju --controller-id 0 --log-to-stderr --show-log
+1 I     0   15244       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:24:56 2025 ?        00:00:00 [kworker/R-dio/l]
+4 S     0   15977    8213   15977   15977  TS  19   3    - 308703 futex_wait_queue    Wed May 14 04:25:06 2025 ?        00:00:25 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   16009   15977   16009   15977  TS  19   0    - 324761 futex_wait_queue    Wed May 14 04:25:07 2025 ?        00:00:38 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   16260    8253   16260   16260  TS  19   1    - 308703 futex_wait_queue    Wed May 14 04:25:09 2025 ?        00:00:28 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   16583   16260   16583   16260  TS  19   2    - 324697 futex_wait_queue    Wed May 14 04:25:11 2025 ?        00:01:03 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   16705    8349   16705   16705  TS  19   5    - 308703 futex_wait_queue    Wed May 14 04:25:12 2025 ?        00:00:28 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   16782    8302   16782   16782  TS  19   4    - 308767 futex_wait_queue    Wed May 14 04:25:13 2025 ?        00:00:27 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   16784    8183   16784   16784  TS  19   2    - 308703 futex_wait_queue    Wed May 14 04:25:13 2025 ?        00:00:25 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   16916   16705   16916   16705  TS  19   0    - 324633 futex_wait_queue    Wed May 14 04:25:14 2025 ?        00:00:33 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   17047   16784   17047   16784  TS  19   2    - 324761 futex_wait_queue    Wed May 14 04:25:14 2025 ?        00:00:32 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   17065   16782   17065   16782  TS  19   3    - 324761 futex_wait_queue    Wed May 14 04:25:15 2025 ?        00:00:35 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   23421   12958   23421   23421  TS  19   3    - 308703 futex_wait_queue    Wed May 14 04:25:37 2025 ?        00:00:26 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   23621   23421   23621   23421  TS  19   5    - 324697 futex_wait_queue    Wed May 14 04:25:38 2025 ?        00:00:27 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S 584788  26946   14876   26946   14876  TS  19   3    - 1092358 do_poll.constprop.0 Wed May 14 04:25:48 2025 ?       00:33:00 /usr/sbin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mysql/plugin --log-error=/var/log/mysql/error.log --pid-file=mysql-0.pid
+4 S     0   27392   14464   27392   14464  TS  19   3    -  4236 do_select            Wed May 14 04:25:50 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S    33   27563   27392   27392   14464  TS  19   4    - 486861 pipe_read           Wed May 14 04:25:51 2025 ?        00:00:03 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+1 I     0   27620       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:25:51 2025 ?        00:00:00 [kworker/R-dio/o]
+4 S     0   34358    9739   34358    9739  TS  19   0    -  4240 do_select            Wed May 14 04:26:11 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S    33   34493   34358   34358    9739  TS  19   2    - 486862 pipe_read           Wed May 14 04:26:12 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+4 S 42436   36755   10207   36755   10207  TS  19   3    - 37388 ep_poll              Wed May 14 04:26:20 2025 ?        00:00:13 /usr/bin/python3 /usr/bin/nova-spicehtml5proxy --use-syslog
+1 S     0   41854       2       0       0  TS  19   5    -     0 kjournald2           Wed May 14 04:26:41 2025 ?        00:00:00 [jbd2/loop15-8]
+1 I     0   41855       2       0       0  TS  39   1    -     0 rescuer_thread       Wed May 14 04:26:41 2025 ?        00:00:00 [kworker/R-ext4-]
+1 S     0   41984       2       0       0  TS  19   4    -     0 kjournald2           Wed May 14 04:26:42 2025 ?        00:00:00 [jbd2/loop16-8]
+1 I     0   41985       2       0       0  TS  39   0    -     0 rescuer_thread       Wed May 14 04:26:42 2025 ?        00:00:00 [kworker/R-ext4-]
+1 S     0   42095       2       0       0  TS  19   1    -     0 kjournald2           Wed May 14 04:26:42 2025 ?        00:00:00 [jbd2/loop17-8]
+1 I     0   42096       2       0       0  TS  39   4    -     0 rescuer_thread       Wed May 14 04:26:42 2025 ?        00:00:00 [kworker/R-ext4-]
+1 S     0   42118       2       0       0  TS  19   5    -     0 kjournald2           Wed May 14 04:26:42 2025 ?        00:00:00 [jbd2/loop18-8]
+1 I     0   42119       2       0       0  TS  39   5    -     0 rescuer_thread       Wed May 14 04:26:42 2025 ?        00:00:00 [kworker/R-ext4-]
+0 S     0   42301       1   42301     960  TS  19   2    - 308539 futex_wait_queue    Wed May 14 04:26:43 2025 ?        00:00:29 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 94cc77b6aac53778b30348a2a9ea26b8238bedec8171a4dadccf52e5ee1928d2 -address /run/containerd/containerd.sock
+4 S 65535   42397   42301   42397   42397  TS  19   2    -   255 do_sys_pause         Wed May 14 04:26:44 2025 ?        00:00:00 /pause
+0 S     0   42894       1   42894     960  TS  19   3    - 308539 futex_wait_queue    Wed May 14 04:26:46 2025 ?        00:00:28 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id 0a9c0beeea24c19327b368b3b644ff34416b9a49bb10f76125bd34503c948d23 -address /run/containerd/containerd.sock
+0 S     0   42934       1   42934     960  TS  19   2    - 308539 futex_wait_queue    Wed May 14 04:26:47 2025 ?        00:50:30 /snap/k8s/2500/bin/containerd-shim-runc-v2 -namespace k8s.io -id ffe0580eeb27d83afdb6b6e9fc41e25648110f008f4f839409ae427e114dea79 -address /run/containerd/containerd.sock
+4 S 65535   43109   42894   43109   43109  TS  19   1    -   255 do_sys_pause         Wed May 14 04:26:47 2025 ?        00:00:00 /pause
+4 S 65535   43132   42934   43132   43132  TS  19   1    -   255 do_sys_pause         Wed May 14 04:26:47 2025 ?        00:00:00 /pause
+4 S     0   44446   42301   44446   44446  TS  19   4    - 308767 futex_wait_queue    Wed May 14 04:26:52 2025 ?        00:00:29 /charm/bin/pebble run --http :38812 --verbose
+4 S     0   44646   44446   44646   44446  TS  19   1    - 324697 futex_wait_queue    Wed May 14 04:26:53 2025 ?        00:00:48 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0   44889   42301   44889   44889  TS  19   0    - 308831 futex_wait_queue    Wed May 14 04:26:54 2025 ?        00:00:37 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0   46094   42934   46094   46094  TS  19   3    - 308703 futex_wait_queue    Wed May 14 04:26:58 2025 ?        00:00:41 /charm/bin/pebble run --create-dirs --hold --http :38815 --verbose
+5 S    33   63889   27392   27392   14464  TS  19   4    - 503117 pipe_read           Wed May 14 04:27:58 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+4 S 42435   70032    9980   70032    9980  TS  19   4    - 46288 hrtimer_nanosleep    Wed May 14 04:28:18 2025 ?        00:00:33 /usr/bin/python3 /usr/bin/neutron-server
+5 S    33   72762   34358   34358    9739  TS  19   2    - 503266 pipe_read           Wed May 14 04:28:46 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+4 S     0   72990   14136   72990   14136  TS  19   4    -  4226 do_select            Wed May 14 04:28:53 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S 42420   72994   72990   72990   14136  TS  19   2    - 192937 do_poll.constprop.0 Wed May 14 04:28:53 2025 ?        00:00:21 (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+5 S    33   72995   72990   72990   14136  TS  19   4    - 502912 pipe_read           Wed May 14 04:28:53 2025 ?        00:00:03 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S    33   72996   72990   72990   14136  TS  19   0    - 502912 pipe_read           Wed May 14 04:28:53 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S     0   73409       1    1018    1018  TS  19   5    - 51305 unix_stream_data_wai Wed May 14 04:29:02 2025 ?        00:00:05 python3 /snap/openstack-hypervisor/244/usr/bin/privsep-helper --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf --config-file /var/snap/openstack-hypervisor/common/etc/neutron/neutron_ovn_metadata_agent.ini --config-dir /var/snap/openstack-hypervisor/common/etc/neutron/neutron.conf.d --privsep_context neutron.privileged.namespace_cmd --privsep_sock_path /tmp/tmpd37qrubr/privsep.sock
+5 S    33   85806   27392   27392   14464  TS  19   3    - 502997 pipe_read           Wed May 14 04:31:15 2025 ?        00:00:02 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+4 S 42407   87334   10098   87334   10098  TS  19   3    - 71231 ep_poll              Wed May 14 04:31:55 2025 ?        00:00:42 /usr/bin/python3 /usr/bin/cinder-scheduler --use-syslog
+4 S 584788  87335    8064   87335    8064  TS  19   1    - 565488 futex_wait_queue    Wed May 14 04:31:55 2025 ?        00:01:24 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788  87443    8064   87443    8064  TS  19   4    -  3727 do_select            Wed May 14 04:31:56 2025 ?        00:00:00 python3 /logrotate_executor.py
+5 S    33   89177   34358   34358    9739  TS  19   4    - 502946 pipe_read           Wed May 14 04:32:07 2025 ?        00:00:02 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+4 S 584788  90137   12061   90137   12061  TS  19   4    - 565488 futex_wait_queue    Wed May 14 04:32:11 2025 ?        00:01:24 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788  90411   12061   90411   12061  TS  19   1    -  3727 do_select            Wed May 14 04:32:13 2025 ?        00:00:00 python3 /logrotate_executor.py
+4 S 584788  91291   12696   91291   12696  TS  19   2    - 565488 futex_wait_queue    Wed May 14 04:32:19 2025 ?        00:58:49 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+1 S     0   91350    1917    1019    1019  TS  19   4    - 54085 ep_poll              Wed May 14 04:32:19 2025 ?        00:00:04 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+1 S     0   91352    1917    1019    1019  TS  19   1    - 54085 ep_poll              Wed May 14 04:32:20 2025 ?        00:00:04 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+1 S     0   91354    1917    1019    1019  TS  19   3    - 54085 ep_poll              Wed May 14 04:32:20 2025 ?        00:00:04 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+1 S     0   91356    1917    1019    1019  TS  19   3    - 54085 ep_poll              Wed May 14 04:32:20 2025 ?        00:00:04 python3 /snap/openstack-hypervisor/244/usr/bin/nova-api-metadata --config-file /var/snap/openstack-hypervisor/common/etc/nova/nova.conf --config-dir /var/snap/openstack-hypervisor/common/etc/nova/nova.conf.d
+4 S 584788  91428   12696   91428   12696  TS  19   0    -  3727 do_select            Wed May 14 04:32:20 2025 ?        00:00:00 python3 /logrotate_executor.py
+4 S 584788  93785    9930   93785    9930  TS  19   3    - 565488 futex_wait_queue    Wed May 14 04:32:31 2025 ?        00:01:37 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788  94053    9706   94053    9706  TS  19   1    - 565488 futex_wait_queue    Wed May 14 04:32:32 2025 ?        00:01:24 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788  94231    9930   94231    9930  TS  19   5    -  3727 do_select            Wed May 14 04:32:32 2025 ?        00:00:00 python3 /logrotate_executor.py
+4 S 584788  94314   12460   94314   12460  TS  19   4    - 565488 futex_wait_queue    Wed May 14 04:32:32 2025 ?        00:01:36 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788  94603    9706   94603    9706  TS  19   0    -  3727 do_select            Wed May 14 04:32:33 2025 ?        00:00:00 python3 /logrotate_executor.py
+4 S 584788  94782   12460   94782   12460  TS  19   3    -  3727 do_select            Wed May 14 04:32:34 2025 ?        00:00:00 python3 /logrotate_executor.py
+5 S 42435   98849   70032   70032    9980  TS  19   2    - 47092 ep_poll              Wed May 14 04:32:54 2025 ?        00:00:30 neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+5 S 42435   98850   70032   70032    9980  TS  19   2    - 46832 ep_poll              Wed May 14 04:32:54 2025 ?        00:00:08 neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+5 S 42435   98851   70032   70032    9980  TS  19   2    - 46832 ep_poll              Wed May 14 04:32:54 2025 ?        00:00:09 neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+5 S 42435   98852   70032   70032    9980  TS  19   2    - 46832 ep_poll              Wed May 14 04:32:54 2025 ?        00:00:09 neutron-server: api worker (/usr/bin/python3 /usr/bin/neutron-server)
+1 S 42435   98857   70032   70032    9980  TS  19   0    - 47100 ep_poll              Wed May 14 04:32:55 2025 ?        00:00:08 neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+1 S 42435   98858   70032   70032    9980  TS  19   3    - 47100 ep_poll              Wed May 14 04:32:55 2025 ?        00:00:08 neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+1 S 42435   98859   70032   70032    9980  TS  19   1    - 47100 ep_poll              Wed May 14 04:32:55 2025 ?        00:00:08 neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+1 S 42435   98860   70032   70032    9980  TS  19   2    - 47100 ep_poll              Wed May 14 04:32:55 2025 ?        00:00:09 neutron-server: RpcWorker (/usr/bin/python3 /usr/bin/neutron-server)
+5 S 42435   98861   70032   70032    9980  TS  19   1    - 46552 ep_poll              Wed May 14 04:32:55 2025 ?        00:00:01 neutron-server: RpcReportsWorker (/usr/bin/python3 /usr/bin/neutron-server)
+1 S 42435   98862   70032   70032    9980  TS  19   3    - 47588 ep_poll              Wed May 14 04:32:55 2025 ?        00:00:05 neutron-server: MaintenanceWorker (/usr/bin/python3 /usr/bin/neutron-server)
+1 S 42435   98863   70032   70032    9980  TS  19   2    - 47356 ep_poll              Wed May 14 04:32:55 2025 ?        00:00:33 neutron-server: periodic worker (/usr/bin/python3 /usr/bin/neutron-server)
+4 S 42436  100159   10160  100159   10160  TS  19   4    - 32152 hrtimer_nanosleep    Wed May 14 04:33:02 2025 ?        00:07:37 /usr/bin/python3 /usr/bin/nova-scheduler
+5 S 42436  100264  100159  100159   10160  TS  19   1    - 33688 ep_poll              Wed May 14 04:33:06 2025 ?        00:00:59 /usr/bin/python3 /usr/bin/nova-scheduler
+5 S 42436  100265  100159  100159   10160  TS  19   5    - 33673 ep_poll              Wed May 14 04:33:06 2025 ?        00:00:58 /usr/bin/python3 /usr/bin/nova-scheduler
+5 S 42436  100266  100159  100159   10160  TS  19   2    - 33650 ep_poll              Wed May 14 04:33:06 2025 ?        00:00:57 /usr/bin/python3 /usr/bin/nova-scheduler
+5 S 42436  100267  100159  100159   10160  TS  19   1    - 33671 ep_poll              Wed May 14 04:33:06 2025 ?        00:00:57 /usr/bin/python3 /usr/bin/nova-scheduler
+4 S     0  162849     540  162849  162849  TS  19   3    -  2030 do_wait              Wed May 14 04:47:49 2025 pts/13   00:00:00 bash
+4 S     0  202400       1  202400  202400  TS  19   2    - 145347 do_poll.constprop.0 Wed May 14 05:00:48 2025 ?        00:00:04 /usr/libexec/fwupd/fwupd
+1 S     0  256795       1  255805    7015  TS  19   1    - 66433 futex_wait_queue     Wed May 14 05:18:20 2025 ?        00:00:00 /root/sos/.tox/sunbeam_tests/bin/python /root/sos/.tox/sunbeam_tests/bin/avocado-runner-avocado-instrumented task-run -i 14-/root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -j 45beb1f5bf325c29712d7d6d4987b282fa213b33 -k avocado-instrumented -u /root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -c {"run.test_parameters": [["TESTLOCAL", "true"]], "datadir.paths.cache_dirs": ["/root/avocado/data/cache"], "core.show": {"__encoded_set__": ["app"]}, "job.output.loglevel": "DEBUG", "job.run.store_logging_stream": []} tags=json:{"sunbeam": null, "stageone": null, "foreman": null} variant=json:{"paths": ["/"], "variant_id": null, "variant": [["/", [["/", "TESTLOCAL", "true"]]]]} output_dir=/root/avocado/job-results/job-2025-05-14T05.18-45beb1f/test-results/14-_root_sos_tests_product_tests_sunbeam_kubernetes_tests.py_K8sBasicTest.test_k8s_config_collected -s /var/tmp/avocado_7c_afl7q/.status_server.sock
+0 Z     0  256799  256795  255805    7015  TS  19   0    -     0 -                    Wed May 14 05:18:20 2025 ?        00:00:00 [sos] <defunct>
+0 S     0  260923       1  259401    7015  TS  19   0    - 11061 do_wait              Wed May 14 05:19:44 2025 ?        00:00:00 /root/sos/.tox/sunbeam_tests/bin/python /root/sos/.tox/sunbeam_tests/bin/avocado-runner-avocado-instrumented task-run -i 15-/root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -j e4b98de07b875508c370a11564ff99676a232346 -k avocado-instrumented -u /root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -c {"run.test_parameters": [["TESTLOCAL", "true"]], "datadir.paths.cache_dirs": ["/root/avocado/data/cache"], "core.show": {"__encoded_set__": ["app"]}, "job.output.loglevel": "DEBUG", "job.run.store_logging_stream": []} tags=json:{"sunbeam": null, "stageone": null, "foreman": null} variant=json:{"paths": ["/"], "variant_id": null, "variant": [["/", [["/", "TESTLOCAL", "true"]]]]} output_dir=/root/avocado/job-results/job-2025-05-14T05.19-e4b98de/test-results/15-_root_sos_tests_product_tests_sunbeam_kubernetes_tests.py_K8sBasicTest.test_k8s_config_collected -s /var/tmp/avocado_vini_rin/.status_server.sock
+1 S     0  260924  260923  259401    7015  TS  19   1    - 66433 futex_wait_queue     Wed May 14 05:19:44 2025 ?        00:00:00 /root/sos/.tox/sunbeam_tests/bin/python /root/sos/.tox/sunbeam_tests/bin/avocado-runner-avocado-instrumented task-run -i 15-/root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -j e4b98de07b875508c370a11564ff99676a232346 -k avocado-instrumented -u /root/sos/tests/product_tests/sunbeam/kubernetes_tests.py:K8sBasicTest.test_k8s_config_collected -c {"run.test_parameters": [["TESTLOCAL", "true"]], "datadir.paths.cache_dirs": ["/root/avocado/data/cache"], "core.show": {"__encoded_set__": ["app"]}, "job.output.loglevel": "DEBUG", "job.run.store_logging_stream": []} tags=json:{"sunbeam": null, "stageone": null, "foreman": null} variant=json:{"paths": ["/"], "variant_id": null, "variant": [["/", [["/", "TESTLOCAL", "true"]]]]} output_dir=/root/avocado/job-results/job-2025-05-14T05.19-e4b98de/test-results/15-_root_sos_tests_product_tests_sunbeam_kubernetes_tests.py_K8sBasicTest.test_k8s_config_collected -s /var/tmp/avocado_vini_rin/.status_server.sock
+0 Z     0  260929  260924  259401    7015  TS  19   3    -     0 -                    Wed May 14 05:19:44 2025 ?        00:00:00 [sos] <defunct>
+4 S     0  297703       1  297703  297703  TS  19   5    - 554550 futex_wait_queue    Wed May 14 07:07:13 2025 ?        00:00:41 /usr/lib/snapd/snapd
+5 S 42436  298009   34358   34358    9739  TS  19   0    - 27648 do_poll.constprop.0  Wed May 14 07:07:16 2025 ?        00:00:01 (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+5 S 42436  298106   34358   34358    9739  TS  19   2    - 27648 do_poll.constprop.0  Wed May 14 07:07:20 2025 ?        00:00:01 (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+5 S 42482  298133   27392   27392   14464  TS  19   0    - 59188 do_poll.constprop.0  Wed May 14 07:07:20 2025 ?        00:00:12 (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+4 S     0  299168    8183  299168  299168  TS  19   4    - 308767 futex_wait_queue    Wed May 14 07:07:33 2025 ?        00:00:39 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+1 S     0  299356       2       0       0  FF  41   1    -     0 psi_rtpoll_worker    Wed May 14 07:07:36 2025 ?        00:00:00 [psimon]
+4 S     0  299451    8213  299451  299451  TS  19   2    - 308767 futex_wait_queue    Wed May 14 07:07:37 2025 ?        00:00:24 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0  299456    8253  299456  299456  TS  19   5    - 308767 futex_wait_queue    Wed May 14 07:07:37 2025 ?        00:00:16 /charm/bin/pebble run --create-dirs --hold --http :38814 --verbose
+4 S     0  302022   42894  302022  302022  TS  19   0    - 308703 futex_wait_queue    Wed May 14 07:08:00 2025 ?        00:00:23 /charm/bin/pebble run --http :38812 --verbose
+4 S     0  302487    7670  302487  302487  TS  19   5    - 308703 futex_wait_queue    Wed May 14 07:08:01 2025 ?        00:00:24 /charm/bin/pebble run --http :38812 --verbose
+4 S     0  302853  302022  302853  302022  TS  19   2    - 324697 futex_wait_queue    Wed May 14 07:08:02 2025 ?        00:00:27 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0  303556    8388  303556  303556  TS  19   5    - 308767 futex_wait_queue    Wed May 14 07:08:05 2025 ?        00:00:23 /charm/bin/pebble run --http :38812 --verbose
+4 S     0  303563   11014  303563  303563  TS  19   3    - 308831 futex_wait_queue    Wed May 14 07:08:05 2025 ?        00:00:23 /charm/bin/pebble run --http :38812 --verbose
+4 S     0  303576   42934  303576  303576  TS  19   1    - 308703 futex_wait_queue    Wed May 14 07:08:05 2025 ?        00:00:24 /charm/bin/pebble run --http :38812 --verbose
+4 S     0  304171  303576  304171  303576  TS  19   2    - 324697 futex_wait_queue    Wed May 14 07:08:07 2025 ?        00:00:38 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0  304172  302487  304172  302487  TS  19   4    - 324633 futex_wait_queue    Wed May 14 07:08:07 2025 ?        00:00:30 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0  304238  303563  304238  303563  TS  19   1    - 324761 futex_wait_queue    Wed May 14 07:08:07 2025 ?        00:00:28 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0  304280  303556  304280  303556  TS  19   5    - 324633 futex_wait_queue    Wed May 14 07:08:08 2025 ?        00:00:28 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+1 S     0  304950       2       0       0  FF  41   4    -     0 psi_rtpoll_worker    Wed May 14 07:08:10 2025 ?        00:00:00 [psimon]
+4 S     0  305031   11014  305031  305031  TS  19   0    - 308767 futex_wait_queue    Wed May 14 07:08:11 2025 ?        00:00:40 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0  305037    8151  305037  305037  TS  19   0    - 308767 futex_wait_queue    Wed May 14 07:08:11 2025 ?        00:00:24 /charm/bin/pebble run --http :38812 --verbose
+4 S     0  305038   12492  305038  305038  TS  19   5    - 308767 futex_wait_queue    Wed May 14 07:08:11 2025 ?        00:00:24 /charm/bin/pebble run --http :38812 --verbose
+4 S     0  305049   42934  305049  305049  TS  19   3    - 308703 futex_wait_queue    Wed May 14 07:08:11 2025 ?        00:00:23 /charm/bin/pebble run --create-dirs --hold --http :38814 --verbose
+4 S     0  305286  305038  305286  305038  TS  19   0    - 324697 futex_wait_queue    Wed May 14 07:08:12 2025 ?        00:00:25 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0  305492  305037  305492  305037  TS  19   2    - 324633 futex_wait_queue    Wed May 14 07:08:13 2025 ?        00:00:28 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S     0  305580    8151  305580  305580  TS  19   1    - 308767 futex_wait_queue    Wed May 14 07:08:13 2025 ?        00:00:39 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0  306175   42934  306175  306175  TS  19   0    - 308831 futex_wait_queue    Wed May 14 07:08:16 2025 ?        00:00:29 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S 584788 319240  305580  319240  305580  TS  19   5    - 565488 futex_wait_queue    Wed May 14 07:09:02 2025 ?        00:05:04 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788 320077  305580  320077  305580  TS  19   1    -  3727 do_select            Wed May 14 07:09:05 2025 ?        00:00:00 python3 /logrotate_executor.py
+4 S 584788 320371  305031  320371  305031  TS  19   3    - 565488 futex_wait_queue    Wed May 14 07:09:06 2025 ?        00:01:36 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788 320875  305031  320875  305031  TS  19   4    -  3727 do_select            Wed May 14 07:09:08 2025 ?        00:00:00 python3 /logrotate_executor.py
+4 S 584788 321510  299168  321510  299168  TS  19   4    - 565488 futex_wait_queue    Wed May 14 07:09:12 2025 ?        00:01:17 mysqlrouter --config /etc/mysqlrouter/mysqlrouter.conf
+4 S 584788 322420  299168  322420  299168  TS  19   4    -  3727 do_select            Wed May 14 07:09:14 2025 ?        00:00:00 python3 /logrotate_executor.py
+4 S 42436  347206  299456  347206  299456  TS  19   4    - 32134 hrtimer_nanosleep    Wed May 14 07:10:36 2025 ?        00:06:45 /usr/bin/python3 /usr/bin/nova-conductor
+5 S 42436  348274  347206  347206  299456  TS  19   5    - 34046 ep_poll              Wed May 14 07:10:40 2025 ?        00:00:49 /usr/bin/python3 /usr/bin/nova-conductor
+5 S 42436  348276  347206  347206  299456  TS  19   1    - 33998 ep_poll              Wed May 14 07:10:40 2025 ?        00:00:51 /usr/bin/python3 /usr/bin/nova-conductor
+5 S 42436  348282  347206  347206  299456  TS  19   1    - 34117 ep_poll              Wed May 14 07:10:40 2025 ?        00:00:52 /usr/bin/python3 /usr/bin/nova-conductor
+5 S 42436  348283  347206  347206  299456  TS  19   1    - 34014 ep_poll              Wed May 14 07:10:40 2025 ?        00:00:53 /usr/bin/python3 /usr/bin/nova-conductor
+5 S 42436 1008893   34358   34358    9739  TS  19   1    - 27648 do_poll.constprop.0  Wed May 14 11:22:26 2025 ?        00:00:00 (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+5 S 42420 1008972   72990   72990   14136  TS  19   5    - 192680 do_poll.constprop.0 Wed May 14 11:22:29 2025 ?        00:00:11 (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+5 S 42482 1008996   27392   27392   14464  TS  19   1    - 59188 do_poll.constprop.0  Wed May 14 11:22:30 2025 ?        00:00:07 (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+5 S 42482 1009095   27392   27392   14464  TS  19   1    - 58932 do_poll.constprop.0  Wed May 14 11:22:31 2025 ?        00:00:08 (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+5 S 42436 1009193   34358   34358    9739  TS  19   3    - 68363 do_poll.constprop.0  Wed May 14 11:22:32 2025 ?        00:00:09 (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+4 S     0 1009836    4011 1009836 1009836  TS  19   1    - 333197 futex_wait_queue    Wed May 14 11:22:44 2025 ?        00:00:48 cilium-operator-generic --config-dir=/tmp/cilium/config-map --debug=false
+4 S     0 1009916   42894 1009916 1009916  TS  19   4    - 308639 futex_wait_queue    Wed May 14 11:22:44 2025 ?        00:00:13 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0 1010051   13850 1010051 1010051  TS  19   0    - 308639 futex_wait_queue    Wed May 14 11:22:47 2025 ?        00:00:07 /charm/bin/pebble run --create-dirs --hold --http :38813 --verbose
+4 S     0 1013652   13696 1013652 1013652  TS  19   5    - 308767 futex_wait_queue    Wed May 14 11:23:09 2025 ?        00:00:10 /charm/bin/pebble run --http :38812 --verbose
+4 S     0 1014151 1013652 1014151 1013652  TS  19   3    - 324761 futex_wait_queue    Wed May 14 11:23:11 2025 ?        00:00:17 /charm/bin/containeragent unit --data-dir /var/lib/juju --append-env PATH=$PATH:/charm/bin --show-log --charm-modified-version 0
+4 S   999 1017451 1010051 1017451 1010051  TS  19   5    -  1797 do_select            Wed May 14 11:23:25 2025 ?        00:00:00 epmd -d
+4 S   999 1018330 1010051 1018330 1010051  TS  19   3    -   707 sigsuspend           Wed May 14 11:23:27 2025 ?        00:00:00 /bin/sh /usr/lib/rabbitmq/bin/rabbitmq-server
+4 S   999 1018368 1018330 1018330 1010051  TS  19   1    - 1112840 do_select          Wed May 14 11:23:28 2025 ?        00:02:24 /usr/lib/erlang/erts-13.2.2.5/bin/beam.smp -W w -MBas ageffcbf -MHas ageffcbf -MBlmbcs 512 -MHlmbcs 512 -MMmcs 30 -pc unicode -P 1048576 -t 5000000 -stbt db -zdbbl 128000 -sbwt none -sbwtdcpu none -sbwtdio none -B i -- -root /usr/lib/erlang -bindir /usr/lib/erlang/erts-13.2.2.5/bin -progname erl -- -home /var/lib/rabbitmq -- -pa  -noshell -noinput -s rabbit boot -boot start_sasl -syslog logger [] -syslog syslog_error_logger false -kernel prevent_overlapping_partitions false -enable-feature maybe_expr
+4 S   999 1018472 1018368 1018472 1018472  TS  19   1    -   679 do_select            Wed May 14 11:23:28 2025 ?        00:00:00 erl_child_setup 1048576
+0 S     0 1018960 1010051 1018960 1010051  TS  19   1    -  1154 do_wait              Wed May 14 11:23:29 2025 ?        00:00:00 /bin/bash /usr/bin/notifier
+0 S   999 1025212 1018472 1025212 1025212  TS  19   2    -   920 do_select            Wed May 14 11:23:50 2025 ?        00:00:00 /usr/lib/erlang/erts-13.2.2.5/bin/inet_gethost 4
+1 S   999 1025216 1025212 1025212 1025212  TS  19   1    -   920 pipe_read            Wed May 14 11:23:50 2025 ?        00:00:00 /usr/lib/erlang/erts-13.2.2.5/bin/inet_gethost 4
+4 S     0 1030735 1009916 1030735 1009916  TS  19   2    - 65137 do_select            Wed May 14 11:24:06 2025 ?        00:00:00 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S 42425 1031013 1030735 1030735 1009916  TS  19   0    - 124040 do_poll.constprop.0 Wed May 14 11:24:08 2025 ?        00:00:28 (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+5 S 42425 1031037 1030735 1030735 1009916  TS  19   2    - 123528 do_poll.constprop.0 Wed May 14 11:24:08 2025 ?        00:00:27 (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+5 S    33 1031060 1030735 1030735 1009916  TS  19   0    - 547579 pipe_read           Wed May 14 11:24:08 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S    33 1031067 1030735 1030735 1009916  TS  19   2    - 547479 pipe_read           Wed May 14 11:24:08 2025 ?        00:00:01 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+0 S   999 1045284 1018472 1045284 1045284  TS  19   2    -   707 pipe_read            Wed May 14 11:24:58 2025 ?        00:00:00 /bin/sh -s rabbit_disk_monitor
+4 S     0 1195061  162849 1195061  162849  TS  19   3    -  4350 do_poll.constprop.0  Wed May 14 11:43:28 2025 pts/13   00:00:00 sudo su - ubuntu
+1 S     0 1195063 1195061 1195063 1195063  TS  19   5    -  4350 do_poll.constprop.0  Wed May 14 11:43:28 2025 pts/2    00:00:00 sudo su - ubuntu
+4 S     0 1195064 1195063 1195064 1195063  TS  19   4    -  2485 do_wait              Wed May 14 11:43:28 2025 pts/2    00:00:00 su - ubuntu
+4 S  1000 1195068       1 1195068 1195068  TS  19   2    -  6359 ep_poll              Wed May 14 11:43:29 2025 ?        00:06:35 /usr/lib/systemd/systemd --user
+5 S  1000 1195071 1195068 1195068 1195068  TS  19   5    -  5287 do_sigtimedwait.isra Wed May 14 11:43:29 2025 ?        00:00:00 (sd-pam)
+4 S  1000 1195185 1195064 1195185 1195063  TS  19   0    -  2297 do_select            Wed May 14 11:43:31 2025 pts/2    00:00:00 -bash
+0 S  1000 1195466 1195068 1195466 1195466  TS  19   2    -  2357 ep_poll              Wed May 14 11:43:36 2025 ?        00:00:00 /usr/bin/dbus-daemon --session --address=systemd: --nofork --nopidfile --systemd-activation --syslog-only
+1 S     0 1479933       2       0       0  TS   0   1    -     0 taskq_thread         Wed May 14 12:37:54 2025 ?        00:00:00 [z_vdev_file]
+4 S     0 1479967  305286  305286  305038  TS  19   5    - 73969 unix_stream_data_wai Wed May 14 12:37:54 2025 ?        00:00:02 /var/lib/juju/agents/unit-nova-mysql-router-0/charm/venv/bin/python /var/lib/juju/agents/unit-nova-mysql-router-0/charm/src/charm.py
+1 S     0 1531071       2       0       0  TS   0   1    -     0 taskq_thread         Wed May 14 12:53:00 2025 ?        00:00:00 [z_vdev_file]
+1 S   999 1538222 1025212 1025212 1025212  TS  19   2    -   920 pipe_read            Wed May 14 12:57:26 2025 ?        00:00:00 /usr/lib/erlang/erts-13.2.2.5/bin/inet_gethost 4
+1 S     0 1540191       2       0       0  TS   0   3    -     0 taskq_thread         Wed May 14 12:58:01 2025 ?        00:00:00 [z_vdev_file]
+1 S     0 1632880       2       0       0  TS   0   1    -     0 taskq_thread         Wed May 14 13:13:07 2025 ?        00:00:00 [z_vdev_file]
+1 I     0 1637492       2       0       0  TS  19   5    -     0 worker_thread        Wed May 14 13:16:04 2025 ?        00:00:01 [kworker/5:0-rcu_par_gp]
+1 I     0 1680754       2       0       0  TS  19   5    -     0 worker_thread        Wed May 14 13:29:37 2025 ?        00:00:00 [kworker/5:2-rcu_gp]
+1 I     0 1683756       2       0       0  TS  19   4    -     0 worker_thread        Wed May 14 13:31:35 2025 ?        00:00:02 [kworker/u40:2-loop10]
+4 S     0 1687652     540 1687652 1687652  TS  19   1    -  2001 do_select            Wed May 14 13:32:32 2025 pts/3    00:00:00 bash
+4 S     0 1691706     540 1691706 1691706  TS  19   2    -  2001 do_wait              Wed May 14 13:33:15 2025 pts/1    00:00:00 bash
+1 I     0 1699060       2       0       0  TS  19   0    -     0 worker_thread        Wed May 14 13:35:17 2025 ?        00:00:00 [kworker/0:0-rcu_par_gp]
+1 I     0 1735464       2       0       0  TS  19   2    -     0 worker_thread        Wed May 14 13:37:41 2025 ?        00:00:01 [kworker/u40:10-events_unbound]
+1 I     0 1735465       2       0       0  TS  19   4    -     0 worker_thread        Wed May 14 13:37:41 2025 ?        00:00:01 [kworker/u40:11-flush-8:0]
+1 S     0 1745827       2       0       0  TS  38   0    -     0 taskq_thread         Wed May 14 13:38:18 2025 ?        00:00:00 [z_wr_iss]
+1 I     0 1757411       2       0       0  TS  19   2    -     0 worker_thread        Wed May 14 13:39:00 2025 ?        00:00:00 [kworker/2:1-rcu_gp]
+1 I     0 1757425       2       0       0  TS  19   3    -     0 worker_thread        Wed May 14 13:39:00 2025 ?        00:00:00 [kworker/3:1-rcu_par_gp]
+1 I     0 1806252       2       0       0  TS  19   2    -     0 worker_thread        Wed May 14 13:44:29 2025 ?        00:00:00 [kworker/2:2-rcu_par_gp]
+1 I     0 1815782       2       0       0  TS  19   1    -     0 worker_thread        Wed May 14 13:46:59 2025 ?        00:00:00 [kworker/1:1-events]
+1 S     0 1818610       2       0       0  TS  38   0    -     0 taskq_thread         Wed May 14 14:07:23 2025 ?        00:00:00 [z_wr_iss]
+1 S     0 1818612       2       0       0  TS   0   1    -     0 taskq_thread         Wed May 14 14:07:23 2025 ?        00:00:00 [z_vdev_file]
+1 I     0 1818613       2       0       0  TS  19   3    -     0 worker_thread        Wed May 14 14:07:23 2025 ?        00:00:00 [kworker/3:2-rcu_gp]
+1 S     0 1818614       2       0       0  TS   0   1    -     0 taskq_thread         Wed May 14 14:07:23 2025 ?        00:00:00 [z_vdev_file]
+1 I     0 1818628       2       0       0  TS  19   0    -     0 worker_thread        Wed May 14 14:07:23 2025 ?        00:00:00 [kworker/0:2-events]
+0 S     0 1818714 1018960 1018960 1010051  TS  19   2    -   681 hrtimer_nanosleep    Wed May 14 14:07:23 2025 ?        00:00:00 sleep 1800
+5 S 42436 1818798   34358   34358    9739  TS  19   5    - 27648 do_poll.constprop.0  Wed May 14 14:07:24 2025 ?        00:00:00 (wsgi:nova-metada -DFOREGROUND -DNO_DETACH
+5 S 42482 1818967   27392   27392   14464  TS  19   5    - 58676 do_poll.constprop.0  Wed May 14 14:07:25 2025 ?        00:00:02 (wsgi:placement)  -DFOREGROUND -DNO_DETACH
+5 S 42425 1818969 1030735 1030735 1009916  TS  19   4    - 123272 do_poll.constprop.0 Wed May 14 14:07:25 2025 ?        00:00:05 (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+5 S 42425 1818970 1030735 1030735 1009916  TS  19   5    - 123272 do_poll.constprop.0 Wed May 14 14:07:25 2025 ?        00:00:05 (wsgi:keystone-pu -DFOREGROUND -DNO_DETACH
+5 S 42420 1819003   72990   72990   14136  TS  19   3    - 192680 do_poll.constprop.0 Wed May 14 14:07:26 2025 ?        00:00:03 (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+5 S 42420 1819004   72990   72990   14136  TS  19   5    - 192678 do_poll.constprop.0 Wed May 14 14:07:26 2025 ?        00:00:02 (wsgi:horizon)    -DFOREGROUND -DNO_DETACH
+5 S 42436 1819203   34358   34358    9739  TS  19   0    - 68363 do_poll.constprop.0  Wed May 14 14:07:28 2025 ?        00:00:04 (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+5 S 42436 1819254   34358   34358    9739  TS  19   3    - 68363 do_poll.constprop.0  Wed May 14 14:07:29 2025 ?        00:00:04 (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+5 S 42436 1819255   34358   34358    9739  TS  19   5    - 68363 do_poll.constprop.0  Wed May 14 14:07:29 2025 ?        00:00:03 (wsgi:nova-api)   -DFOREGROUND -DNO_DETACH
+1 I     0 1821289       2       0       0  TS  19   1    -     0 worker_thread        Wed May 14 14:07:38 2025 ?        00:00:01 [kworker/u40:6-loop13]
+1 I     0 1821291       2       0       0  TS  19   0    -     0 worker_thread        Wed May 14 14:07:38 2025 ?        00:00:00 [kworker/u40:12-flush-8:0]
+0 S     0 1823614   14804   14864   14804  TS  19   2    -  4168 do_select            Wed May 14 14:07:42 2025 ?        00:00:00 /usr/bin/python3 scripts/log_rotate_dispatcher.py mysql/0 /var/lib/juju/agents/unit-mysql-0/charm
+0 S     0 1830312   11495 1830312   11495  TS  19   2    -  1154 do_wait              Wed May 14 14:07:52 2025 ?        00:00:00 bash /root/ovn-relay-wrapper.sh
+4 S     0 1830346 1830312 1830312   11495  TS  19   4    -  3140 do_poll.constprop.0  Wed May 14 14:07:53 2025 ?        00:00:00 ovsdb-server -vconsole:info -c /etc/ovn/cert_host -C /etc/ovn/ovn-central.crt -p /etc/ovn/key_host --no-chdir --pidfile=/var/run/ovn/ovn-relay.pid --unixctl=/var/run/ovn/ovn_relay.sock --remote=pssl:6642 relay:OVN_Southbound:ssl:10.1.0.67:6642
+4 S     0 1831869   14621 1831869   14621  TS  19   3    -  4296 do_select            Wed May 14 14:07:56 2025 ?        00:00:00 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S    33 1831904 1831869 1831869   14621  TS  19   4    - 486611 pipe_read           Wed May 14 14:07:56 2025 ?        00:00:00 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S    33 1831905 1831869 1831869   14621  TS  19   4    - 502995 pipe_read           Wed May 14 14:07:56 2025 ?        00:00:00 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+4 S 42415 1833670   14621 1833670   14621  TS  19   5    - 52395 hrtimer_nanosleep    Wed May 14 14:07:59 2025 ?        00:00:15 /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+1 S 42415 1838451 1833670 1833670   14621  TS  19   1    - 52395 do_poll.constprop.0  Wed May 14 14:08:09 2025 ?        00:00:00 /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+1 S 42415 1838452 1833670 1833670   14621  TS  19   2    - 52395 do_poll.constprop.0  Wed May 14 14:08:09 2025 ?        00:00:00 /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+1 S 42415 1838453 1833670 1833670   14621  TS  19   4    - 52436 do_poll.constprop.0  Wed May 14 14:08:09 2025 ?        00:00:00 /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+1 S 42415 1838457 1833670 1833670   14621  TS  19   4    - 52395 do_poll.constprop.0  Wed May 14 14:08:09 2025 ?        00:00:00 /usr/bin/python3 /usr/bin/glance-api --config-file /etc/glance/glance-api.conf
+4 S     0 1843404  299451 1843404  299451  TS  19   5    -  4236 do_select            Wed May 14 14:08:17 2025 ?        00:00:00 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S 42407 1843427 1843404 1843404  299451  TS  19   1    - 101622 do_poll.constprop.0 Wed May 14 14:08:17 2025 ?        00:00:02 (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+5 S 42407 1843428 1843404 1843404  299451  TS  19   0    - 101622 do_poll.constprop.0 Wed May 14 14:08:17 2025 ?        00:00:02 (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+5 S 42407 1843429 1843404 1843404  299451  TS  19   0    - 101622 do_poll.constprop.0 Wed May 14 14:08:17 2025 ?        00:00:02 (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+5 S 42407 1843430 1843404 1843404  299451  TS  19   5    - 101622 do_poll.constprop.0 Wed May 14 14:08:17 2025 ?        00:00:02 (wsgi:cinder)     -DFOREGROUND -DNO_DETACH
+5 S    33 1843431 1843404 1843404  299451  TS  19   5    - 486572 pipe_read           Wed May 14 14:08:17 2025 ?        00:00:00 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+5 S    33 1843432 1843404 1843404  299451  TS  19   0    - 486554 pipe_read           Wed May 14 14:08:17 2025 ?        00:00:00 /usr/sbin/apache2 -DFOREGROUND -DNO_DETACH
+0 S     0 1851388   46094 1851388   46094  TS  19   4    -  1154 do_wait              Wed May 14 14:08:28 2025 ?        00:00:00 bash /root/ovn-sb-db-server-wrapper.sh
+0 S     0 1851402 1851388 1851388   46094  TS  19   3    -   774 sigsuspend           Wed May 14 14:08:28 2025 ?        00:00:00 /bin/sh /usr/share/ovn/scripts/ovn-ctl run_sb_ovsdb --db-sb-cluster-local-addr=ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local --db-sb-cluster-local-port=6644 --db-sb-cluster-local-proto=ssl --db-sb-cluster-remote-addr= --db-sb-cluster-remote-port=6644 --db-sb-cluster-remote-proto=ssl --ovn-sb-db-ssl-key=/etc/ovn/key_host --ovn-sb-db-ssl-cert=/etc/ovn/cert_host --ovn-sb-db-ssl-ca-cert=/etc/ovn/ovn-central.crt --ovn-sb-log=-vconsole:info
+0 S     0 1851448   14707 1851448   14707  TS  19   2    -   730 do_wait              Wed May 14 14:08:28 2025 ?        00:00:00 /bin/sh -c /usr/bin/traefik | tee /var/log/traefik.log
+4 S     0 1851455 1851448 1851448   14707  TS  19   1    - 342946 futex_wait_queue    Wed May 14 14:08:28 2025 ?        00:00:01 /usr/bin/traefik
+0 S     0 1851456 1851448 1851448   14707  TS  19   3    -   706 pipe_read            Wed May 14 14:08:28 2025 ?        00:00:00 tee /var/log/traefik.log
+4 S     0 1851680 1851402 1851388   46094  TS  19   3    - 59172 do_poll.constprop.0  Wed May 14 14:08:28 2025 ?        00:00:01 ovsdb-server -vconsole:info --log-file=/var/log/ovn/ovsdb-server-sb.log --remote=punix:/var/run/ovn/ovnsb_db.sock --pidfile=/var/run/ovn/ovnsb_db.pid --unixctl=/var/run/ovn/ovnsb_db.ctl --remote=db:OVN_Southbound,SB_Global,connections --private-key=/etc/ovn/key_host --certificate=/etc/ovn/cert_host --ca-cert=/etc/ovn/ovn-central.crt --ssl-protocols=db:OVN_Southbound,SSL,ssl_protocols --ssl-ciphers=db:OVN_Southbound,SSL,ssl_ciphers /var/lib/ovn/ovnsb_db.db
+0 S     0 1851989   44889 1851989   44889  TS  19   1    -   730 do_wait              Wed May 14 14:08:28 2025 ?        00:00:00 /bin/sh -c /usr/bin/traefik | tee /var/log/traefik.log
+4 S     0 1851991 1851989 1851989   44889  TS  19   3    - 342930 futex_wait_queue    Wed May 14 14:08:28 2025 ?        00:00:01 /usr/bin/traefik
+0 S     0 1851993 1851989 1851989   44889  TS  19   1    -   706 pipe_read            Wed May 14 14:08:28 2025 ?        00:00:00 tee /var/log/traefik.log
+0 S     0 1852409  306175 1852409  306175  TS  19   5    -  1154 do_wait              Wed May 14 14:08:29 2025 ?        00:00:00 bash /root/ovn-nb-db-server-wrapper.sh
+0 S     0 1852416 1852409 1852409  306175  TS  19   5    -   774 sigsuspend           Wed May 14 14:08:29 2025 ?        00:00:00 /bin/sh /usr/share/ovn/scripts/ovn-ctl run_nb_ovsdb --db-nb-cluster-local-addr=ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local --db-nb-cluster-local-port=6643 --db-nb-cluster-local-proto=ssl --db-nb-cluster-remote-addr= --db-nb-cluster-remote-port=6643 --db-nb-cluster-remote-proto=ssl --ovn-nb-db-ssl-key=/etc/ovn/key_host --ovn-nb-db-ssl-cert=/etc/ovn/cert_host --ovn-nb-db-ssl-ca-cert=/etc/ovn/ovn-central.crt --ovn-nb-log=-vconsole:info
+4 S     0 1852597 1852416 1852409  306175  TS  19   2    - 59134 do_poll.constprop.0  Wed May 14 14:08:29 2025 ?        00:00:01 ovsdb-server -vconsole:info --log-file=/var/log/ovn/ovsdb-server-nb.log --remote=punix:/var/run/ovn/ovnnb_db.sock --pidfile=/var/run/ovn/ovnnb_db.pid --unixctl=/var/run/ovn/ovnnb_db.ctl --remote=db:OVN_Northbound,NB_Global,connections --private-key=/etc/ovn/key_host --certificate=/etc/ovn/cert_host --ca-cert=/etc/ovn/ovn-central.crt --ssl-protocols=db:OVN_Northbound,SSL,ssl_protocols --ssl-ciphers=db:OVN_Northbound,SSL,ssl_ciphers /var/lib/ovn/ovnnb_db.db
+0 S     0 1854409  305049 1854409  305049  TS  19   1    -  1154 do_wait              Wed May 14 14:08:32 2025 ?        00:00:00 bash /root/ovn-northd-wrapper.sh
+4 S     0 1854417 1854409 1854409  305049  TS  19   5    - 41346 do_poll.constprop.0  Wed May 14 14:08:32 2025 ?        00:00:00 ovn-northd -vconsole:info --ovnnb-db=ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:6641 --ovnsb-db=ssl:ovn-central-0.ovn-central-endpoints.openstack.svc.cluster.local:16642 -c /etc/ovn/cert_host -C /etc/ovn/ovn-central.crt -p /etc/ovn/key_host --no-chdir --pidfile=/var/run/ovn/ovn-northd.pid
+1 I     0 1863761       2       0       0  TS  19   4    -     0 worker_thread        Wed May 14 14:10:09 2025 ?        00:00:00 [kworker/4:3-events]
+1 I     0 1875418       2       0       0  TS  19   1    -     0 worker_thread        Wed May 14 14:12:57 2025 ?        00:00:00 [kworker/1:2-rcu_par_gp]
+1 I     0 1875894       2       0       0  TS  19   0    -     0 worker_thread        Wed May 14 14:13:09 2025 ?        00:00:00 [kworker/0:1-rcu_par_gp]
+1 I     0 1876906       2       0       0  TS  19   5    -     0 worker_thread        Wed May 14 14:13:56 2025 ?        00:00:00 [kworker/5:3-rcu_gp]
+1 I     0 1879005       2       0       0  TS  19   4    -     0 worker_thread        Wed May 14 14:15:57 2025 ?        00:00:00 [kworker/4:1-cgroup_destroy]
+1 I     0 1881309       2       0       0  TS  19   2    -     0 worker_thread        Wed May 14 14:16:49 2025 ?        00:00:00 [kworker/2:0-rcu_par_gp]
+1 S     0 1884404       2       0       0  TS  38   0    -     0 taskq_thread         Wed May 14 14:17:27 2025 ?        00:00:00 [z_wr_iss]
+1 I     0 1890785       2       0       0  TS  19   3    -     0 worker_thread        Wed May 14 14:18:29 2025 ?        00:00:00 [kworker/3:0-rcu_par_gp]
+1 I     0 1890916       2       0       0  TS  19   1    -     0 worker_thread        Wed May 14 14:18:37 2025 ?        00:00:00 [kworker/1:0-cgroup_destroy]
+4 S     0 1891021 1691706 1891021 1691706  TS  19   5    - 190790 futex_wait_queue    Wed May 14 14:18:46 2025 pts/1    00:00:33 /usr/bin/python3 ./bin/sos report -a --all-logs --batch -k sunbeam.juju-allow-login=True -k kubernetes.all --plugin-timeout=18000
+1 I     0 1893091       2       0       0  TS  19   5    -     0 worker_thread        Wed May 14 14:19:28 2025 ?        00:00:00 [kworker/5:1]
+1 I     0 1894717       2       0       0  TS  19   1    -     0 worker_thread        Wed May 14 14:19:59 2025 ?        00:00:00 [kworker/1:3-events]
+1 I     0 1898577       2       0       0  TS  19   4    -     0 worker_thread        Wed May 14 14:21:07 2025 ?        00:00:00 [kworker/4:0-events]
+1 I     0 1898578       2       0       0  TS  19   4    -     0 worker_thread        Wed May 14 14:21:07 2025 ?        00:00:00 [kworker/4:2-rcu_par_gp]
+1 I     0 1916694       2       0       0  TS  19   2    -     0 worker_thread        Wed May 14 14:22:20 2025 ?        00:00:00 [kworker/u40:0-loop7]
+1 S     0 1928488       2       0       0  TS  39   4    -     0 taskq_thread         Wed May 14 14:22:29 2025 ?        00:00:00 [z_wr_int]
+1 S     0 1928489       2       0       0  TS  39   2    -     0 taskq_thread         Wed May 14 14:22:29 2025 ?        00:00:00 [z_wr_int]
+1 S     0 1928499       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 14:22:29 2025 ?        00:00:00 [z_wr_int]
+1 S     0 1928507       2       0       0  TS  39   0    -     0 taskq_thread         Wed May 14 14:22:29 2025 ?        00:00:00 [z_metaslab]
+1 S     0 1928508       2       0       0  TS  39   5    -     0 taskq_thread         Wed May 14 14:22:29 2025 ?        00:00:00 [z_metaslab]
+0 S     0 1935737 1891021 1935737 1691706  TS  19   4    -  1530 sigsuspend           Wed May 14 14:22:36 2025 pts/1    00:00:00 timeout 300s journalctl --no-pager --unit snap.k8s.*
+0 R     0 1935738 1935737 1935737 1691706  TS  19   0    - 138837 -                   Wed May 14 14:22:36 2025 pts/1    00:01:01 journalctl --no-pager --unit snap.k8s.*
+1 I     0 1944266       2       0       0  TS  19   1    -     0 worker_thread        Wed May 14 14:23:05 2025 ?        00:00:00 [kworker/u40:1-events_power_efficient]
+0 S     0 1952725 1891021 1952725 1691706  TS  19   1    -  1530 sigsuspend           Wed May 14 14:23:41 2025 pts/1    00:00:00 timeout 300s bpftool prog dump xlated id 2184
+4 R     0 1952726 1952725 1952725 1691706  TS  19   1    - 22551 -                    Wed May 14 14:23:41 2025 pts/1    00:00:00 /usr/lib/linux-tools/6.8.0-59-generic/bpftool prog dump xlated id 2184
+0 S     0 1952754 1891021 1952754 1691706  TS  19   5    -  1530 sigsuspend           Wed May 14 14:23:41 2025 pts/1    00:00:00 timeout 300s ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,psr,addr,sz,wchan:20,lstart,tty,time,cmd
+4 R     0 1952755 1952754 1952754 1691706  TS  19   3    -  4268 -                    Wed May 14 14:23:41 2025 pts/1    00:00:00 ps axo flags,state,uid,pid,ppid,pgid,sid,cls,pri,psr,addr,sz,wchan:20,lstart,tty,time,cmd

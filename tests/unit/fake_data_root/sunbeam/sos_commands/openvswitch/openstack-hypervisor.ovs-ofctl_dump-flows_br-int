@@ -1,0 +1,12 @@
+NXST_FLOW reply (xid=0x4):
+ cookie=0x0, duration=35715.810s, table=0, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=drop
+ cookie=0x0, duration=35715.810s, table=37, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=resubmit(,39)
+ cookie=0x0, duration=35715.810s, table=38, n_packets=0, n_bytes=0, idle_age=35715, priority=10,reg10=0x1/0x1 actions=resubmit(,40)
+ cookie=0x0, duration=35715.810s, table=38, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=resubmit(,39)
+ cookie=0x0, duration=35715.810s, table=39, n_packets=0, n_bytes=0, idle_age=35715, priority=150,reg10=0x10/0x10 actions=resubmit(,40)
+ cookie=0x0, duration=35715.810s, table=39, n_packets=0, n_bytes=0, idle_age=35715, priority=150,reg10=0x2/0x3 actions=resubmit(,40)
+ cookie=0x0, duration=35715.810s, table=39, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=resubmit(,40)
+ cookie=0x0, duration=35715.810s, table=40, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=drop
+ cookie=0x0, duration=35715.810s, table=41, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=load:0->NXM_NX_REG0[],load:0->NXM_NX_REG1[],load:0->NXM_NX_REG2[],load:0->NXM_NX_REG3[],load:0->NXM_NX_REG4[],load:0->NXM_NX_REG5[],load:0->NXM_NX_REG6[],load:0->NXM_NX_REG7[],load:0->NXM_NX_REG8[],load:0->NXM_NX_REG9[],resubmit(,42)
+ cookie=0x0, duration=35715.810s, table=64, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=resubmit(,65)
+ cookie=0x0, duration=35715.810s, table=65, n_packets=0, n_bytes=0, idle_age=35715, priority=0 actions=drop

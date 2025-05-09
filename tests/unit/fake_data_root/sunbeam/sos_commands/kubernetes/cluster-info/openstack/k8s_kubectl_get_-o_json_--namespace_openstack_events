@@ -1,0 +1,2307 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "certificate-authority-0",
+                "namespace": "openstack",
+                "resourceVersion": "65174",
+                "uid": "be27def2-0557-492d-a6af-db5a7e79a5e1"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.179:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "certificate-authority-0.183f52ff0a29a941",
+                "namespace": "openstack",
+                "resourceVersion": "133123",
+                "uid": "aae4c980-4eb5-487b-b862-2dc3b1cc2bc0"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:14Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{cinder-scheduler}",
+                "kind": "Pod",
+                "name": "cinder-0",
+                "namespace": "openstack",
+                "resourceVersion": "65154",
+                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.70:38814/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:27Z",
+                "name": "cinder-0.183f52febab2f00c",
+                "namespace": "openstack",
+                "resourceVersion": "132784",
+                "uid": "cfb7a548-91e9-405c-9da6-b18c73596299"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{cinder-api}",
+                "kind": "Pod",
+                "name": "cinder-0",
+                "namespace": "openstack",
+                "resourceVersion": "65154",
+                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.70:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:57Z",
+                "name": "cinder-0.183f52ff55cee395",
+                "namespace": "openstack",
+                "resourceVersion": "132840",
+                "uid": "2b5f4f03-6ae3-454d-909b-9fbed060e4aa"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{cinder-scheduler}",
+                "kind": "Pod",
+                "name": "cinder-0",
+                "namespace": "openstack",
+                "resourceVersion": "65154",
+                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.70:38814/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:29Z",
+                "name": "cinder-0.183f52ff644ded42",
+                "namespace": "openstack",
+                "resourceVersion": "132925",
+                "uid": "234d6f9c-a2b5-4047-bed9-722b5d52c476"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "cinder-0",
+                "namespace": "openstack",
+                "resourceVersion": "65154",
+                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.70:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:55Z",
+                "name": "cinder-0.183f52ff82fb588e",
+                "namespace": "openstack",
+                "resourceVersion": "132801",
+                "uid": "77491c84-7aaf-4207-9d12-856f8e034085"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 3,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:20Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "cinder-0",
+                "namespace": "openstack",
+                "resourceVersion": "65154",
+                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.70:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:29Z",
+                "name": "cinder-0.183f53000cd8d7b5",
+                "namespace": "openstack",
+                "resourceVersion": "132978",
+                "uid": "4ac3704c-e8dc-4891-b630-398e69751ee0"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:21Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{cinder-api}",
+                "kind": "Pod",
+                "name": "cinder-0",
+                "namespace": "openstack",
+                "resourceVersion": "65154",
+                "uid": "af80c822-07ee-4322-87c2-a9ab684988f2"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.70:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "cinder-0.183f53004f46065c",
+                "namespace": "openstack",
+                "resourceVersion": "133112",
+                "uid": "e0abae0d-0e45-436a-8558-eb5788dc6355"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "cinder-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66340",
+                "uid": "9c62b5d5-2288-4878-9ff3-8b3e0f563558"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.240:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:33Z",
+                "name": "cinder-mysql-router-0.183f52feec7c241c",
+                "namespace": "openstack",
+                "resourceVersion": "132882",
+                "uid": "44ee827d-e146-41cd-a261-ba2eef0f629b"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "cinder-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66340",
+                "uid": "9c62b5d5-2288-4878-9ff3-8b3e0f563558"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.240:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:28Z",
+                "name": "cinder-mysql-router-0.183f52ff0b437663",
+                "namespace": "openstack",
+                "resourceVersion": "132874",
+                "uid": "bd1aa2f0-5217-4723-acb2-df5a027c1a73"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:16Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "cinder-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66340",
+                "uid": "9c62b5d5-2288-4878-9ff3-8b3e0f563558"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.240:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:59Z",
+                "name": "cinder-mysql-router-0.183f52ff21e8783e",
+                "namespace": "openstack",
+                "resourceVersion": "132893",
+                "uid": "8906a215-1065-447d-8e7d-592e8394e1d4"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{glance-api}",
+                "kind": "Pod",
+                "name": "glance-0",
+                "namespace": "openstack",
+                "resourceVersion": "65113",
+                "uid": "16b95588-0278-4331-b81e-6cea4666e126"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.220:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "glance-0.183f52fefc5363b8",
+                "namespace": "openstack",
+                "resourceVersion": "133060",
+                "uid": "60d2995f-2901-4194-b369-fd35ba9bdc34"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "glance-0",
+                "namespace": "openstack",
+                "resourceVersion": "65113",
+                "uid": "16b95588-0278-4331-b81e-6cea4666e126"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.220:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "glance-0.183f52ff02e5ed3e",
+                "namespace": "openstack",
+                "resourceVersion": "133065",
+                "uid": "de6b8cbe-b0c9-4538-a9bf-4d235fefb38d"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 135,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:25:11Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "glance-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66355",
+                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:03Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 502",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:53Z",
+                "name": "glance-mysql-router-0.183f4a26f6446588",
+                "namespace": "openstack",
+                "resourceVersion": "133294",
+                "uid": "f48e68e7-8d85-4dbe-b02f-8e3851f16647"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "glance-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66355",
+                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.119:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "glance-mysql-router-0.183f52ff82f1c234",
+                "namespace": "openstack",
+                "resourceVersion": "133044",
+                "uid": "33221db1-a244-4296-b311-c233656fc966"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "glance-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66355",
+                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.119:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:32Z",
+                "name": "glance-mysql-router-0.183f52ff82fbc032",
+                "namespace": "openstack",
+                "resourceVersion": "133082",
+                "uid": "6679a085-820e-44c8-aeb2-d4942d8f0631"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:21Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "glance-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66355",
+                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.119:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:51Z",
+                "name": "glance-mysql-router-0.183f5300757d7963",
+                "namespace": "openstack",
+                "resourceVersion": "132832",
+                "uid": "72f58802-8d62-4ad2-9f7f-0a87bf8d41c7"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 2,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T11:22:33Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "glance-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66355",
+                "uid": "d7a79904-ec9b-4b15-9835-1ecdc80b2639"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:26Z",
+            "message": "Unable to retrieve some image pull secrets (glance-mysql-router-mysql-router-secret); attempting to pull the image may not succeed.",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "glance-mysql-router-0.183f60ed89363ab8",
+                "namespace": "openstack",
+                "resourceVersion": "133140",
+                "uid": "e82578cc-8030-46db-9e82-e6f21190512d"
+            },
+            "reason": "FailedToRetrieveImagePullSecret",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "horizon-0",
+                "namespace": "openstack",
+                "resourceVersion": "65132",
+                "uid": "ee0b9a70-9a96-49d3-bdea-3013c94f513c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.58:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "horizon-0.183f52fee2cce88a",
+                "namespace": "openstack",
+                "resourceVersion": "133115",
+                "uid": "3db56a1a-696c-4954-93bd-a965022177d8"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 8,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{horizon}",
+                "kind": "Pod",
+                "name": "horizon-0",
+                "namespace": "openstack",
+                "resourceVersion": "65132",
+                "uid": "ee0b9a70-9a96-49d3-bdea-3013c94f513c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.58:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:58Z",
+                "name": "horizon-0.183f52ff07fe070c",
+                "namespace": "openstack",
+                "resourceVersion": "132941",
+                "uid": "08537cdc-a9df-4bf3-826d-cc6d2b9cd4c9"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:24Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "horizon-0",
+                "namespace": "openstack",
+                "resourceVersion": "65132",
+                "uid": "ee0b9a70-9a96-49d3-bdea-3013c94f513c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.58:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:26Z",
+                "name": "horizon-0.183f5301084f69c5",
+                "namespace": "openstack",
+                "resourceVersion": "132761",
+                "uid": "51fdb2a8-5131-4a10-8f0a-4409c9d8f3be"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:24Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{horizon}",
+                "kind": "Pod",
+                "name": "horizon-0",
+                "namespace": "openstack",
+                "resourceVersion": "65132",
+                "uid": "ee0b9a70-9a96-49d3-bdea-3013c94f513c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.58:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:29Z",
+                "name": "horizon-0.183f530126ba2cc8",
+                "namespace": "openstack",
+                "resourceVersion": "132957",
+                "uid": "bfb38660-89dc-447d-b792-ee6fc8c11b28"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 139,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:24:28Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "horizon-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66492",
+                "uid": "86375a91-3f23-44d1-8d04-2a31db5aa896"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:56Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 502",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:51Z",
+                "name": "horizon-mysql-router-0.183f4a1cdf2a3a3a",
+                "namespace": "openstack",
+                "resourceVersion": "133233",
+                "uid": "c7bac4d4-f2fa-48a6-84ce-0c9ec55326df"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "horizon-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66492",
+                "uid": "86375a91-3f23-44d1-8d04-2a31db5aa896"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.112:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:29Z",
+                "name": "horizon-mysql-router-0.183f52ff1343c04d",
+                "namespace": "openstack",
+                "resourceVersion": "132973",
+                "uid": "3e5d1129-8f61-496e-8687-1383d7ee459c"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T14:07:26Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "horizon-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66492",
+                "uid": "86375a91-3f23-44d1-8d04-2a31db5aa896"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:26Z",
+            "message": "Unable to retrieve some image pull secrets (horizon-mysql-router-mysql-router-secret); attempting to pull the image may not succeed.",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "horizon-mysql-router-0.183f69ecca323442",
+                "namespace": "openstack",
+                "resourceVersion": "133142",
+                "uid": "c9cdd373-1739-4835-b6d4-831d9223219b"
+            },
+            "reason": "FailedToRetrieveImagePullSecret",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "keystone-0",
+                "namespace": "openstack",
+                "resourceVersion": "65624",
+                "uid": "b51111af-50ab-4a79-b166-faa23b248876"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.172:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:28Z",
+                "name": "keystone-0.183f52feedc52789",
+                "namespace": "openstack",
+                "resourceVersion": "132846",
+                "uid": "bfa676b7-620d-4124-a2b5-dbbee90127ce"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "keystone-0",
+                "namespace": "openstack",
+                "resourceVersion": "65624",
+                "uid": "b51111af-50ab-4a79-b166-faa23b248876"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.172:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:27Z",
+                "name": "keystone-0.183f52ff890b3cd7",
+                "namespace": "openstack",
+                "resourceVersion": "132790",
+                "uid": "0d475ced-8a66-4179-94b8-d7ea1f95dcbe"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:16Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "keystone-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66395",
+                "uid": "57a6dd2a-e704-469b-ac3c-141514fb84e9"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.126:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:32Z",
+                "name": "keystone-mysql-router-0.183f52ff2edd654f",
+                "namespace": "openstack",
+                "resourceVersion": "133096",
+                "uid": "708796d0-b32f-4b1d-9393-282347088d4f"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "keystone-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66395",
+                "uid": "57a6dd2a-e704-469b-ac3c-141514fb84e9"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.126:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "keystone-mysql-router-0.183f52ff745be734",
+                "namespace": "openstack",
+                "resourceVersion": "133128",
+                "uid": "04f123f1-3db1-47c3-b0d7-a136a60aa6da"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:20Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "keystone-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66395",
+                "uid": "57a6dd2a-e704-469b-ac3c-141514fb84e9"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.126:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:46Z",
+                "name": "keystone-mysql-router-0.183f53001fc8cc08",
+                "namespace": "openstack",
+                "resourceVersion": "132827",
+                "uid": "9b2e8d3b-cfd6-4917-b83f-a62e9ef2db25"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql}",
+                "kind": "Pod",
+                "name": "mysql-0",
+                "namespace": "openstack",
+                "resourceVersion": "65199",
+                "uid": "59891981-71c2-47b3-9f31-2d8e4d3a8683"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.161:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "mysql-0.183f52ff0b425b51",
+                "namespace": "openstack",
+                "resourceVersion": "133119",
+                "uid": "abd9d983-bc9b-430f-b2ba-cc2ab11554c6"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql}",
+                "kind": "Pod",
+                "name": "mysql-0",
+                "namespace": "openstack",
+                "resourceVersion": "65199",
+                "uid": "59891981-71c2-47b3-9f31-2d8e4d3a8683"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.161:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "mysql-0.183f52ff67341af0",
+                "namespace": "openstack",
+                "resourceVersion": "133051",
+                "uid": "e6b4e8b9-1afc-4562-957b-b928fb346296"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T14:07:26Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "mysql-0",
+                "namespace": "openstack",
+                "resourceVersion": "65199",
+                "uid": "59891981-71c2-47b3-9f31-2d8e4d3a8683"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:26Z",
+            "message": "Unable to retrieve some image pull secrets (mysql-mysql-secret); attempting to pull the image may not succeed.",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "mysql-0.183f69ecca2d23cd",
+                "namespace": "openstack",
+                "resourceVersion": "133141",
+                "uid": "525b7a22-5b06-45d6-8d1a-641762c0e037"
+            },
+            "reason": "FailedToRetrieveImagePullSecret",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "neutron-0",
+                "namespace": "openstack",
+                "resourceVersion": "66458",
+                "uid": "6174adda-ae11-4e96-8616-9e4df87d87a7"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.45:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:29Z",
+                "name": "neutron-0.183f52fef656b1d4",
+                "namespace": "openstack",
+                "resourceVersion": "132917",
+                "uid": "104d92c9-2986-46f2-a77a-5c397b7d342d"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{neutron-server}",
+                "kind": "Pod",
+                "name": "neutron-0",
+                "namespace": "openstack",
+                "resourceVersion": "66458",
+                "uid": "6174adda-ae11-4e96-8616-9e4df87d87a7"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.45:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:58Z",
+                "name": "neutron-0.183f52ff7f47af13",
+                "namespace": "openstack",
+                "resourceVersion": "132723",
+                "uid": "6b1fa3c7-7593-432a-88cd-25aa43061a13"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 154,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:24:28Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "neutron-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66365",
+                "uid": "8289888c-4c97-4d3b-b5e3-eb489208ae5a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:02Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 502",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:57Z",
+                "name": "neutron-mysql-router-0.183f4a1cdec8c3b8",
+                "namespace": "openstack",
+                "resourceVersion": "133279",
+                "uid": "b495fcf2-8173-44bd-b8a9-024e3cc85ca9"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "neutron-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66365",
+                "uid": "8289888c-4c97-4d3b-b5e3-eb489208ae5a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.94:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:42Z",
+                "name": "neutron-mysql-router-0.183f52feecb531e3",
+                "namespace": "openstack",
+                "resourceVersion": "132731",
+                "uid": "679eba88-f549-4465-aaa8-2b564e22ff33"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "neutron-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66365",
+                "uid": "8289888c-4c97-4d3b-b5e3-eb489208ae5a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.94:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:30Z",
+                "name": "neutron-mysql-router-0.183f52ff5bdf611f",
+                "namespace": "openstack",
+                "resourceVersion": "132985",
+                "uid": "27237653-e485-4c6e-9aa1-efcc5b390f0e"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "neutron-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66365",
+                "uid": "8289888c-4c97-4d3b-b5e3-eb489208ae5a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.94:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:26Z",
+                "name": "neutron-mysql-router-0.183f52ff82f95ac8",
+                "namespace": "openstack",
+                "resourceVersion": "132751",
+                "uid": "2805e0ca-180a-4cb0-847d-5ce997733939"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "nova-0",
+                "namespace": "openstack",
+                "resourceVersion": "66529",
+                "uid": "8c380b9c-2a83-457e-a9da-5b6a7d8c149f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.223:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:30Z",
+                "name": "nova-0.183f52ff659491b8",
+                "namespace": "openstack",
+                "resourceVersion": "133012",
+                "uid": "d2fae7a6-ff25-4063-b536-fc185506bffd"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{nova-conductor}",
+                "kind": "Pod",
+                "name": "nova-0",
+                "namespace": "openstack",
+                "resourceVersion": "66529",
+                "uid": "8c380b9c-2a83-457e-a9da-5b6a7d8c149f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.223:38814/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "nova-0.183f52ff82f8f098",
+                "namespace": "openstack",
+                "resourceVersion": "133054",
+                "uid": "b106765b-6007-4f8c-8080-520aaa005050"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{nova-conductor}",
+                "kind": "Pod",
+                "name": "nova-0",
+                "namespace": "openstack",
+                "resourceVersion": "66529",
+                "uid": "8c380b9c-2a83-457e-a9da-5b6a7d8c149f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.223:38814/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "nova-0.183f52ff83683cf4",
+                "namespace": "openstack",
+                "resourceVersion": "133138",
+                "uid": "6aa21a63-824a-457f-90f1-f7d8167b3c6f"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T11:22:25Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{nova-api}",
+                "kind": "Pod",
+                "name": "nova-0",
+                "namespace": "openstack",
+                "resourceVersion": "66529",
+                "uid": "8c380b9c-2a83-457e-a9da-5b6a7d8c149f"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.223:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:30Z",
+                "name": "nova-0.183f60eb84a52297",
+                "namespace": "openstack",
+                "resourceVersion": "133005",
+                "uid": "b6008470-64a0-4816-b995-e143edafb793"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 3,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:24Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "nova-api-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66505",
+                "uid": "2a12ff98-a97e-411e-971c-035662d31cb1"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.250:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:27Z",
+                "name": "nova-api-mysql-router-0.183f5300fe3266dd",
+                "namespace": "openstack",
+                "resourceVersion": "132767",
+                "uid": "9cfe1297-d348-4551-a375-3bc40c8178e5"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 141,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:24:16Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "nova-cell-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66406",
+                "uid": "f66578ec-00f0-4ef2-8ee6-6f1b48b38e0b"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:08Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 502",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:08:03Z",
+                "name": "nova-cell-mysql-router-0.183f4a1a0663e87c",
+                "namespace": "openstack",
+                "resourceVersion": "133326",
+                "uid": "17a36455-6314-41f9-8299-971582482887"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:20Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "nova-cell-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66406",
+                "uid": "f66578ec-00f0-4ef2-8ee6-6f1b48b38e0b"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.222:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:29Z",
+                "name": "nova-cell-mysql-router-0.183f53003fe78d4e",
+                "namespace": "openstack",
+                "resourceVersion": "132902",
+                "uid": "4d97a244-9da0-4082-b77f-bcec3a91a4b5"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:21Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "nova-cell-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66406",
+                "uid": "f66578ec-00f0-4ef2-8ee6-6f1b48b38e0b"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.222:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "nova-cell-mysql-router-0.183f530055f2cf50",
+                "namespace": "openstack",
+                "resourceVersion": "133132",
+                "uid": "b6f819f1-741f-4f87-92de-13de8e2bacc8"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "nova-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66242",
+                "uid": "8435af1f-1a63-4926-a8f3-c25d7650b7e0"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.145:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:32Z",
+                "name": "nova-mysql-router-0.183f52ff82fd1a64",
+                "namespace": "openstack",
+                "resourceVersion": "133092",
+                "uid": "813e4288-9478-46d4-aab9-72e078fcbc00"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 8,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "nova-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66242",
+                "uid": "8435af1f-1a63-4926-a8f3-c25d7650b7e0"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.145:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:30Z",
+                "name": "nova-mysql-router-0.183f52ff82fed24d",
+                "namespace": "openstack",
+                "resourceVersion": "133024",
+                "uid": "2b2c50ea-f229-4168-9818-7ca59c386d44"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:20Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "nova-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66242",
+                "uid": "8435af1f-1a63-4926-a8f3-c25d7650b7e0"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.145:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "nova-mysql-router-0.183f53002a3685bc",
+                "namespace": "openstack",
+                "resourceVersion": "133067",
+                "uid": "654343a1-5fc5-4845-9785-183d413025fd"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:16Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{ovsdb-server}",
+                "kind": "Pod",
+                "name": "ovn-relay-0",
+                "namespace": "openstack",
+                "resourceVersion": "64998",
+                "uid": "d5da400a-f7e5-4c32-bfac-b1895f3857c7"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.56:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:55Z",
+                "name": "ovn-relay-0.183f52ff32240ef5",
+                "namespace": "openstack",
+                "resourceVersion": "132717",
+                "uid": "0b92939f-0ec3-415a-82de-30a59fa2a85d"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{ovsdb-server}",
+                "kind": "Pod",
+                "name": "ovn-relay-0",
+                "namespace": "openstack",
+                "resourceVersion": "64998",
+                "uid": "d5da400a-f7e5-4c32-bfac-b1895f3857c7"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.56:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:29Z",
+                "name": "ovn-relay-0.183f52ff8366509f",
+                "namespace": "openstack",
+                "resourceVersion": "132931",
+                "uid": "c8aefd38-6fda-4552-8040-62cc48f810cc"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 1,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T14:07:26Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Pod",
+                "name": "ovn-relay-0",
+                "namespace": "openstack",
+                "resourceVersion": "64998",
+                "uid": "d5da400a-f7e5-4c32-bfac-b1895f3857c7"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:26Z",
+            "message": "Unable to retrieve some image pull secrets (ovn-relay-ovsdb-server-secret); attempting to pull the image may not succeed.",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "ovn-relay-0.183f69ecca349fb0",
+                "namespace": "openstack",
+                "resourceVersion": "133143",
+                "uid": "e2566ea7-ff4b-4b5f-839f-211d2f3ea9b5"
+            },
+            "reason": "FailedToRetrieveImagePullSecret",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 10,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:22:37Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Service",
+                "name": "ovn-relay-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8807",
+                "uid": "e247ab7e-d970-4006-805f-0a0f75cda67e"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:30Z",
+            "message": "announcing from node \"noble-sunbeam\" with protocol \"layer2\"",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:56Z",
+                "name": "ovn-relay-lb.183f4a0309718d9f",
+                "namespace": "openstack",
+                "resourceVersion": "133000",
+                "uid": "4a0420ae-8ea7-4160-9aa6-6407683515a6"
+            },
+            "reason": "nodeAssigned",
+            "reportingComponent": "metallb-speaker",
+            "reportingInstance": "",
+            "source": {
+                "component": "metallb-speaker"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:14Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "placement-0",
+                "namespace": "openstack",
+                "resourceVersion": "66439",
+                "uid": "54eca9ef-dacb-4590-8cfe-249b0f5763ab"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.249:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:28Z",
+                "name": "placement-0.183f52fea8cec12d",
+                "namespace": "openstack",
+                "resourceVersion": "132842",
+                "uid": "7d23898d-d72f-4910-81d4-927a33442368"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "placement-0",
+                "namespace": "openstack",
+                "resourceVersion": "66439",
+                "uid": "54eca9ef-dacb-4590-8cfe-249b0f5763ab"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.249:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:32Z",
+                "name": "placement-0.183f52ff8abf8217",
+                "namespace": "openstack",
+                "resourceVersion": "133073",
+                "uid": "5f3f5003-2223-4132-a1b8-1ebd488807aa"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 156,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:24:28Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "placement-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66413",
+                "uid": "c1b57523-db20-42d2-89b1-587e98f99465"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:06Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 502",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:08:01Z",
+                "name": "placement-mysql-router-0.183f4a1cdf07edb1",
+                "namespace": "openstack",
+                "resourceVersion": "133314",
+                "uid": "4c250e64-84da-41dd-91cb-93baeb701fa1"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "placement-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66413",
+                "uid": "c1b57523-db20-42d2-89b1-587e98f99465"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.122:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:27Z",
+                "name": "placement-mysql-router-0.183f52ff0a79bcfe",
+                "namespace": "openstack",
+                "resourceVersion": "132813",
+                "uid": "63810bf5-0f66-4139-85bf-671a2ef8f654"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{mysql-router}",
+                "kind": "Pod",
+                "name": "placement-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66413",
+                "uid": "c1b57523-db20-42d2-89b1-587e98f99465"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.122:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:33Z",
+                "name": "placement-mysql-router-0.183f52ff82c457fd",
+                "namespace": "openstack",
+                "resourceVersion": "133137",
+                "uid": "d78a5a7f-2684-4544-9738-e3057c54aa48"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:20Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "placement-mysql-router-0",
+                "namespace": "openstack",
+                "resourceVersion": "66413",
+                "uid": "c1b57523-db20-42d2-89b1-587e98f99465"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.122:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:32Z",
+                "name": "placement-mysql-router-0.183f530030eaa59c",
+                "namespace": "openstack",
+                "resourceVersion": "133102",
+                "uid": "e54ea503-10d9-4964-99d9-b51d8f66edc8"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:15Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{rabbitmq}",
+                "kind": "Pod",
+                "name": "rabbitmq-0",
+                "namespace": "openstack",
+                "resourceVersion": "65022",
+                "uid": "4222cfcd-0ef2-4e6f-8f65-1252e17cc7b4"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.224:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "rabbitmq-0.183f52ff03bb2c79",
+                "namespace": "openstack",
+                "resourceVersion": "133038",
+                "uid": "a6b8b5c0-f4a2-497f-97ce-d82e7c20febd"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 7,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "rabbitmq-0",
+                "namespace": "openstack",
+                "resourceVersion": "65022",
+                "uid": "4222cfcd-0ef2-4e6f-8f65-1252e17cc7b4"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.224:38812/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:30Z",
+                "name": "rabbitmq-0.183f52ff82f35e5a",
+                "namespace": "openstack",
+                "resourceVersion": "132994",
+                "uid": "1de8bc34-aa6a-4561-81b0-d9e9ce48c8d3"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 4,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:24Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "rabbitmq-0",
+                "namespace": "openstack",
+                "resourceVersion": "65022",
+                "uid": "4222cfcd-0ef2-4e6f-8f65-1252e17cc7b4"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.224:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:30Z",
+                "name": "rabbitmq-0.183f53011388792d",
+                "namespace": "openstack",
+                "resourceVersion": "133031",
+                "uid": "a6c26ad5-a1ec-4b4e-9268-37651d992714"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 8,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:22:37Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Service",
+                "name": "rabbitmq-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8805",
+                "uid": "8e551b93-e394-4d12-b096-f945192e6cfb"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:32Z",
+            "message": "announcing from node \"noble-sunbeam\" with protocol \"layer2\"",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:52Z",
+                "name": "rabbitmq-lb.183f4a03095bc2cb",
+                "namespace": "openstack",
+                "resourceVersion": "133106",
+                "uid": "13b4ee51-9f94-49d7-b752-8ca0335a8b53"
+            },
+            "reason": "nodeAssigned",
+            "reportingComponent": "metallb-speaker",
+            "reportingInstance": "",
+            "source": {
+                "component": "metallb-speaker"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 49,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:27:29Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "traefik-0",
+                "namespace": "openstack",
+                "resourceVersion": "65337",
+                "uid": "b527de6d-ac0c-4ca5-b680-00e8e6cdbb18"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:01Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 502",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:56Z",
+                "name": "traefik-0.183f4a46f9a41ece",
+                "namespace": "openstack",
+                "resourceVersion": "133262",
+                "uid": "59443df4-34af-4e3b-b096-77d6153e2c46"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 6,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:16Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{traefik}",
+                "kind": "Pod",
+                "name": "traefik-0",
+                "namespace": "openstack",
+                "resourceVersion": "65337",
+                "uid": "b527de6d-ac0c-4ca5-b680-00e8e6cdbb18"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.42:38813/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:31Z",
+                "name": "traefik-0.183f52ff5159af5a",
+                "namespace": "openstack",
+                "resourceVersion": "133053",
+                "uid": "6a70504c-2c5e-49a2-958d-8581b25982b0"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:17Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "traefik-0",
+                "namespace": "openstack",
+                "resourceVersion": "65337",
+                "uid": "b527de6d-ac0c-4ca5-b680-00e8e6cdbb18"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Readiness probe failed: Get \"http://10.1.0.42:38812/v1/health?level=ready\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:36Z",
+                "name": "traefik-0.183f52ff82f8a6da",
+                "namespace": "openstack",
+                "resourceVersion": "132775",
+                "uid": "173e55e3-06e5-4c1e-965d-85720240aa88"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 11,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:22:37Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Service",
+                "name": "traefik-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8801",
+                "uid": "3fa92914-63f7-401d-b5da-fce74f43b85c"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:06Z",
+            "message": "announcing from node \"noble-sunbeam\" with protocol \"layer2\"",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T12:57:57Z",
+                "name": "traefik-lb.183f4a0309793c8d",
+                "namespace": "openstack",
+                "resourceVersion": "133310",
+                "uid": "f928970f-090d-4eab-9e84-bf676ddc113d"
+            },
+            "reason": "nodeAssigned",
+            "reportingComponent": "metallb-speaker",
+            "reportingInstance": "",
+            "source": {
+                "component": "metallb-speaker"
+            },
+            "type": "Normal"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 56,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:25:26Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{charm}",
+                "kind": "Pod",
+                "name": "traefik-public-0",
+                "namespace": "openstack",
+                "resourceVersion": "65356",
+                "uid": "5b902341-77cc-4983-8ff6-42fc35cd4f6a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:13Z",
+            "message": "Readiness probe failed: HTTP probe failed with statuscode: 502",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:58Z",
+                "name": "traefik-public-0.183f4a2a65d13bc1",
+                "namespace": "openstack",
+                "resourceVersion": "133361",
+                "uid": "2f7cdae6-c5de-4666-82c4-ce90f94d6cfb"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 5,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T07:07:25Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "fieldPath": "spec.containers{traefik}",
+                "kind": "Pod",
+                "name": "traefik-public-0",
+                "namespace": "openstack",
+                "resourceVersion": "65356",
+                "uid": "5b902341-77cc-4983-8ff6-42fc35cd4f6a"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:07:25Z",
+            "message": "Liveness probe failed: Get \"http://10.1.0.50:38813/v1/health?level=alive\": context deadline exceeded (Client.Timeout exceeded while awaiting headers)",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:28Z",
+                "name": "traefik-public-0.183f5301491178a4",
+                "namespace": "openstack",
+                "resourceVersion": "132849",
+                "uid": "7748437b-0e08-44a3-84ed-223187906a63"
+            },
+            "reason": "Unhealthy",
+            "reportingComponent": "kubelet",
+            "reportingInstance": "noble-sunbeam",
+            "source": {
+                "component": "kubelet",
+                "host": "noble-sunbeam"
+            },
+            "type": "Warning"
+        },
+        {
+            "apiVersion": "v1",
+            "count": 11,
+            "eventTime": null,
+            "firstTimestamp": "2025-05-14T04:22:37Z",
+            "involvedObject": {
+                "apiVersion": "v1",
+                "kind": "Service",
+                "name": "traefik-public-lb",
+                "namespace": "openstack",
+                "resourceVersion": "8803",
+                "uid": "6227fc84-8047-4b7e-9886-00db1219ca85"
+            },
+            "kind": "Event",
+            "lastTimestamp": "2025-05-14T14:08:18Z",
+            "message": "announcing from node \"noble-sunbeam\" with protocol \"layer2\"",
+            "metadata": {
+                "creationTimestamp": "2025-05-14T14:07:26Z",
+                "name": "traefik-public-lb.183f4a03096a0937",
+                "namespace": "openstack",
+                "resourceVersion": "133381",
+                "uid": "ca95a928-8ade-4a13-813c-a2fbbe59a211"
+            },
+            "reason": "nodeAssigned",
+            "reportingComponent": "metallb-speaker",
+            "reportingInstance": "",
+            "source": {
+                "component": "metallb-speaker"
+            },
+            "type": "Normal"
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}
