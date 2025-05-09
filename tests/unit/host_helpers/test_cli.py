@@ -3,8 +3,11 @@ import subprocess
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers.cli import cli as host_cli
-from hotsos.core.host_helpers.cli import catalog
+from hotsos.core.host_helpers.cli import (
+    cli as host_cli,
+    catalog,
+    common as cli_common,
+)
 
 from .. import utils
 
@@ -39,7 +42,7 @@ class TestCLIHelper(utils.BaseTestCase):
         out = host_cli.CLIHelper().udevadm_info_dev(device='/dev/vdb')
         self.assertEqual(out, [])
 
-    @mock.patch.object(catalog, 'subprocess')
+    @mock.patch.object(cli_common, 'subprocess')
     def test_ps(self, mock_subprocess):
         path = os.path.join(HotSOSConfig.data_root, "ps")
         with open(path, 'r', encoding='utf-8') as fd:
@@ -92,7 +95,7 @@ class TestCLIHelper(utils.BaseTestCase):
             raise subprocess.CalledProcessError(1, 'ofctl')
 
         HotSOSConfig.data_root = '/'
-        with mock.patch.object(catalog.subprocess, 'run') as \
+        with mock.patch.object(cli_common.subprocess, 'run') as \
                 mock_run:
             mock_run.side_effect = fake_run
 
@@ -154,13 +157,13 @@ class TestCLIHelper(utils.BaseTestCase):
                 HotSOSConfig.set(**orig_cfg)
 
     @staticmethod
-    @mock.patch.object(catalog, 'subprocess')
+    @mock.patch.object(cli_common, 'subprocess')
     def test_kubectl_logs_bincmd(mock_subprocess):
         HotSOSConfig.data_root = '/'
         host_cli.CLIHelper().kubectl_logs(namespace='openstack',
-                                          pod='neutron-0',
+                                          opt='neutron-0',
                                           container='neutron-server')
-        cmd = ['kubectl', '--namespace', 'openstack', 'logs', 'neutron-0',
+        cmd = ['kubectl', 'logs', '--namespace', 'openstack', 'neutron-0',
                '-c', 'neutron-server']
         mock_subprocess.run.assert_called_with(cmd, timeout=300,
                                                capture_output=True,
@@ -172,7 +175,7 @@ class TestCLIHelper(utils.BaseTestCase):
                              'SUCCESS!'})
     def test_kubectl_logs_filecmd(self):
         out = host_cli.CLIHelper().kubectl_logs(namespace='openstack',
-                                                pod='neutron-0',
+                                                opt='neutron-0',
                                                 container='neutron-server')
         self.assertEqual(out, ['SUCCESS!'])
 
@@ -182,6 +185,6 @@ class TestCLIHelper(utils.BaseTestCase):
                              'SUCCESS!'})
     def test_kubectl_logs_filecmd_microk8s(self):
         out = host_cli.CLIHelper().kubectl_logs(namespace='openstack',
-                                                pod='neutron-0',
+                                                opt='neutron-0',
                                                 container='neutron-server')
         self.assertEqual(out, ['SUCCESS!'])

@@ -7,7 +7,7 @@ from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.cli import CLIHelper
-from hotsos.core.host_helpers.cli.catalog import CmdBase
+from hotsos.core.host_helpers.cli.common import CmdBase
 from hotsos.core.host_helpers import (
     APTPackageHelper,
     DockerImageHelper,
