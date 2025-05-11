@@ -13,12 +13,12 @@ from hotsos.core.host_helpers.exceptions import (
     CLIExecError,
     SourceNotFound,
 )
-from hotsos.core.host_helpers.cli.catalog import (
+from hotsos.core.host_helpers.cli.common import (
     BinCmd,
     BinFileCmd,
     CmdOutput,
-    CommandCatalog,
 )
+from hotsos.core.host_helpers.cli.catalog import CommandCatalog
 from hotsos.core.host_helpers.common import HostHelpersBase
 from hotsos.core.host_helpers.exceptions import CommandNotFound
 from hotsos.core.log import log

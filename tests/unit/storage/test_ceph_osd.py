@@ -2,7 +2,7 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core import host_helpers
-from hotsos.core.host_helpers.cli.catalog import CmdOutput
+from hotsos.core.host_helpers.cli.common import CmdOutput
 from hotsos.core.plugins.storage import ceph
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import (

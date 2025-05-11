@@ -327,7 +327,7 @@ class TestKernelBase(utils.BaseTestCase):
 class MockJournalBinFileCmdOOMKillKernLog(cli.cli.JournalctlBinFileCmd):
     """ Mock the journalctl command to return some oom kill content. """
     def __call__(self, *args, **kwargs):
-        return cli.catalog.CmdOutput(KERNLOG_OOM_KILL)
+        return cli.common.CmdOutput(KERNLOG_OOM_KILL)
 
 
 class TestKernelCallTraceManager(TestKernelBase):
