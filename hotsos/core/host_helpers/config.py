@@ -160,10 +160,15 @@ class IniConfigBase(ConfigBase):
             return
 
         self.config = configparser.ConfigParser(strict=False)
-        if self.path not in self.config.read(self.path):
-            log.error("cannot parse config file `%s`", self.path)
+        try:
+            parsed = self.config.read(self.path)
+        except configparser.ParsingError as exc:
+            log.warning("failed to read config file '%s': %s", self.path, exc)
             self.config = None
-            return
+        else:
+            if self.path not in parsed:
+                log.warning("cannot parse config file '%s'", self.path)
+                self.config = None
 
 
 class GenericIniConfig(IniConfigBase):
