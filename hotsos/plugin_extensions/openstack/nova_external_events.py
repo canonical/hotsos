@@ -27,7 +27,9 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
             instance_id = result.get(1)
             stage = result.get(2)
             event_id = result.get(3)
-            if event_id in data:
+            # If the same event/port is used for a new instance we reset.
+            if (event_id in data and
+                    data[event_id]['instance_id'] == instance_id):
                 stages = data[event_id]['stages']
                 stages.add(stage)
                 if (not
