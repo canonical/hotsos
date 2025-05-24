@@ -25,7 +25,8 @@ class SunbeamInfo():
             phase = pod['status']['phase']
             pods[phase].append(pod['metadata']['name'])
 
-        return pods
+        # must be type dict for pyyaml
+        return dict(pods)
 
     @cached_property
     def statefulsets(self):
@@ -45,4 +46,5 @@ class SunbeamInfo():
             else:
                 ss['incomplete'].append(name)
 
-        return ss
+        # must be type dict for pyyaml
+        return dict(ss)
