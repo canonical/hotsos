@@ -1,13 +1,9 @@
+from collections import defaultdict
+
 from hotsos.core.plugins.openstack.common import (
     OpenstackEventCallbackBase,
     OpenstackEventHandlerBase,
 )
-from hotsos.core.search import (
-    FileSearcher,
-    SearchDef,
-    SearchConstraintSearchSince,
-)
-from hotsos.core.search import CommonTimestampMatcher
 from hotsos.core.plugintools import (
     summary_entry,
     get_min_available_entry_index,
@@ -25,73 +21,33 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
     event_group = 'nova.external-events'
     event_names = ['network-changed', 'network-vif-plugged']
 
-    @staticmethod
-    def _get_state_dict(event_name):
-        state = {}
-        for key in EXT_EVENT_META[event_name]['stages_keys']:
-            state[key] = False
-
-        return state
-
-    def _get_output(self, event_name, results, events):
-        ext_output = {}
-        for event_id, event_dict in events.items():
-            instance_id = event_dict['instance_id']
-            data_source = event_dict['data_source']
-            stages = self._get_state_dict(event_name)
-            for stage in stages:
-                tag = f"{instance_id}_{event_id}_{stage}"
-                r = results.find_by_tag(tag, path=data_source)
-                if r:
-                    stages[stage] = True
-
-            if all(values for stage, values in stages.items()):
-                result = 'succeeded'
-            else:
-                result = 'failed'
-
-            if result not in ext_output:
-                ext_output[result] = []
-
-            info = {'port': event_id, 'instance': instance_id}
-            ext_output[result].append(info)
-
-        return ext_output
-
-    def _get_events_found(self, event_name, results, events):
-        events_found = {}
-
-        ext_output = self._get_output(event_name, results, events)
-        if ext_output:
-            for result, values in ext_output.items():
-                events_found[result] = list(values)
-
-        return events_found
-
     def __call__(self, event):
-        events = {}
-
-        c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
-        s = FileSearcher(constraint=c)
+        data = {}
         for result in event.results:
             instance_id = result.get(1)
-            event_id = result.get(2)
-            result_path = event.searcher.resolve_source_id(result.source_id)
-            events[event_id] = {'instance_id': instance_id,
-                                'data_source': result_path}
+            stage = result.get(2)
+            event_id = result.get(3)
+            if event_id in data:
+                stages = data[event_id]['stages']
+                stages.add(stage)
+                if (not
+                        stages.difference(EXT_EVENT_META[event.name]
+                                          ['stages_keys'])):
+                    data[event_id]['complete'] = True
+            else:
+                data[event_id] = {'complete': False,
+                                  'stages': {stage},
+                                  'instance_id': instance_id}
 
-            for stage in EXT_EVENT_META[event.name]['stages_keys']:
-                expr = (r"[\d-]+ [\d:]+\.\d{3} "
-                        rf".+\[instance: {instance_id}\]"
-                        rf"\s+{stage}\s.*\s?event\s+{event.name}-{event_id}.?")
-                tag = f"{instance_id}_{event_id}_{stage}"
-                sd = SearchDef(expr, tag, hint=event.name,
-                               store_result_contents=False)
-                s.add(sd, result_path)
+        out = defaultdict(list)
+        for e, info in data.items():
+            x = {'port': e, 'instance': info['instance_id']}
+            if info['complete']:
+                out['succeeded'].append(x)
+            else:
+                out['failed'].append(x)
 
-        results = s.run()
-
-        return self._get_events_found(event.name, results, events)
+        return dict(out)
 
 
 class NovaExternalEventChecks(OpenstackEventHandlerBase):
