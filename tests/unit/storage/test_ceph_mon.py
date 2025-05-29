@@ -289,7 +289,8 @@ class TestCephMonSummary(CephMonTestsBase):
         svc_info = {'systemd': {'enabled': [
                                     'ceph-crash',
                                     'ceph-mgr',
-                                    'ceph-mon'],
+                                    'ceph-mon',
+                                    'rbdmap'],
                                 'disabled': [
                                     'ceph-mds',
                                     'ceph-osd',
