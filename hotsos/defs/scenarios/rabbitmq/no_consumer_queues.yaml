@@ -1,0 +1,15 @@
+checks:
+  queues_no_consumers:
+    property:
+      path: hotsos.core.plugins.rabbitmq.RabbitMQReport.queues_w_messages_no_consumers
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  queues_no_consumers:
+    decision: queues_no_consumers
+    raises:
+      type: RabbitMQWarning
+      message: >-
+        One or more RabbitMQ queue(s) "{queues}" appear to have unacknowledged
+        messages but no consumers. Please investigate (e.g. rabbitmqctl report).
+      format-dict:
+        queues: '@checks.queues_no_consumers.requires.value_actual:comma_join'
