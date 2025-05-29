@@ -33,6 +33,7 @@ storage:
           - ceph-crash
           - ceph-mgr
           - ceph-mon
+          - rbdmap
         masked:
           - ceph-create-keys
         disabled:

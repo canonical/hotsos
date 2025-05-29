@@ -242,7 +242,8 @@ class SystemdHelper(ServiceManagerBase):
             return
 
         unit = ret.group(1)
-        state = ret.group(2)
+        # state is always at the end
+        state = ret.group(len(ret.groups()))
         has_instances = False
         units_expr = r"\*?\s+({})\.service\s+(\S+)\s+(\S+)\s+(\S+)"
         if unit.endswith('@'):

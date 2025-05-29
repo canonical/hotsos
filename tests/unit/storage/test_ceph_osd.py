@@ -120,7 +120,8 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
     def test_service_info(self):
         svc_info = {'systemd': {'enabled': [
                                     'ceph-crash',
-                                    'ceph-osd'],
+                                    'ceph-osd',
+                                    'rbdmap'],
                                 'disabled': [
                                     'ceph-mds',
                                     'ceph-mgr',
