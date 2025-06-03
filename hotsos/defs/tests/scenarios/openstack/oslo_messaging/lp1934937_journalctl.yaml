@@ -1,0 +1,27 @@
+target-name: lp1934937.yaml
+mock:
+  patch.object:
+    hotsos.core.ycheck.engine.properties.inputdef.CLIHelperFile:
+      kwargs:
+        create: true
+        attribute: journalctl
+        return_value: /tmp/hotsos-unit-test-lp1934937.txt
+data-root:
+  files:
+    /tmp/hotsos-unit-test-lp1934937.txt: |
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]: Traceback (most recent call last):
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]:   File "/usr/lib/python3/dist-packages/eventlet/hubs/hub.py", line 476, in fire_timers
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]:     timer()
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]:   File "/usr/lib/python3/dist-packages/eventlet/hubs/timer.py", line 59, in __call__
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]:     cb(*args, **kw)
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]:   File "/usr/lib/python3/dist-packages/eventlet/semaphore.py", line 152, in _do_acquire
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]:     waiter.switch()
+      May 19 18:53:51 juju-f10c6a-5-lxd-16 neutron-server[1090279]: greenlet.error: cannot switch to a different thread
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1934937: >-
+   One or more service(s) on this host are affected by this bug which is
+   triggered when a non-wsgi service that uses greenthreads and oslo.messaging
+   with heartbeat_in_pthread=True tries to send a heartbeat message
+   to rabbitmq.

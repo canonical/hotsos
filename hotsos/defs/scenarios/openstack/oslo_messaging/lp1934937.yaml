@@ -21,9 +21,14 @@ checks:
   syslog_has_1934937:
     input: var/log/syslog*
     expr: $expr
+  journalctl_has_1934937:
+    input:
+      command: journalctl
+    search:
+      expr: $expr
 conclusions:
   nova_1934937:
-    priority: 2
+    priority: 3
     decision: nova_has_1934937
     raises:
       type: LaunchpadBug
@@ -33,7 +38,7 @@ conclusions:
       format-dict:
         msg_part_common: $msg_part_common
   neutron_1934937:
-    priority: 2
+    priority: 3
     decision: neutron_has_1934937
     raises:
       type: LaunchpadBug
@@ -43,7 +48,7 @@ conclusions:
       format-dict:
         msg_part_common: $msg_part_common
   cinder_1934937:
-    priority: 2
+    priority: 3
     decision: cinder_has_1934937
     raises:
       type: LaunchpadBug
@@ -53,7 +58,7 @@ conclusions:
       format-dict:
         msg_part_common: $msg_part_common
   gnocchi_1934937:
-    priority: 2
+    priority: 3
     decision: gnocchi_has_1934937
     raises:
       type: LaunchpadBug
@@ -63,7 +68,17 @@ conclusions:
       format-dict:
         msg_part_common: $msg_part_common
   syslog_1934937:
+    priority: 2
     decision: syslog_has_1934937
+    raises:
+      type: LaunchpadBug
+      bug-id: 1934937
+      message: >-
+        One or more {msg_part_common}.
+      format-dict:
+        msg_part_common: $msg_part_common
+  journalctl_1934937:
+    decision: journalctl_has_1934937
     raises:
       type: LaunchpadBug
       bug-id: 1934937
