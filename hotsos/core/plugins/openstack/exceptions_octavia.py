@@ -83,7 +83,7 @@ OCTAVIA_EXCEPTIONS = [
     "VolumeGetException",
     "NetworkServiceError",
     "InvalidIPAddress",
-# amphora/driver_exceptions/exceptions.py
+# amphorae/driver_exceptions/exceptions.py
     "AmphoraDriverError",
     "NotFoundError",
     "InfoException",
@@ -102,6 +102,15 @@ OCTAVIA_EXCEPTIONS = [
     "NodeProvisioningError",
     "AmpDriverNotImplementedError",
     "AmpConnectionRetry",
+# amphorae/drivers/haproxy/exceptions.py  # pylint: disable=duplicate-code
+    "APIException",
+    "InvalidRequest",
+    "Unauthorized",
+    "Forbidden",
+    "NotFound",
+    "Conflict",
+    "InternalServerError",
+    "ServiceUnavailable",
 # network/base.py
     "NetworkException",
     "PlugVIPException",
