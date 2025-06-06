@@ -1,0 +1,24 @@
+target-name: lp1972028.yaml
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager [req-51b7c1c4-2b4a-46cc-9baa-8bf61801c48d - - - - -] Error updating resources for node <snip>.: libvirt.libvirtError: Node device not found: no node device with matching name 'net_tap8b08ec90_e5_fe_16_3e_0f_0a_d4'
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager Traceback (most recent call last):
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager File "/var/lib/openstack/lib/python3.8/site-packages/nova/compute/manager.py", line 9946, in _update_available_resource_for_node
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager self.rt.update_available_resource(context, nodename,
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager File "/var/lib/openstack/lib/python3.8/site-packages/nova/compute/resource_tracker.py", line 879, in update_available_resource
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager resources = self.driver.get_available_resource(nodename)
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager File "/var/lib/openstack/lib/python3.8/site-packages/nova/virt/libvirt/driver.py", line 8937, in get_available_resource
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager data['pci_passthrough_devices'] = self._get_pci_passthrough_devices()
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager File "/var/lib/openstack/lib/python3.8/site-packages/nova/virt/libvirt/driver.py", line 7663, in _get_pci_passthrough_devices
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager vdpa_devs = [
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager File "/var/lib/openstack/lib/python3.8/site-packages/nova/virt/libvirt/driver.py", line 7664, in <listcomp>
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager dev for dev in devices.values() if "vdpa" in dev.listCaps()
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager File "/var/lib/openstack/lib/python3.8/site-packages/libvirt.py", line 6276, in listCaps
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager raise libvirtError('virNodeDeviceListCaps() failed')
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager libvirt.libvirtError: Node device not found: no node device with matching name 'net_tap8b08ec90_e5_fe_16_3e_0f_0a_d4'
+      2022-02-02 20:16:16.110 4053032 ERROR nova.compute.manager
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/dpkg/dpkg_-l
+raised-bugs:
