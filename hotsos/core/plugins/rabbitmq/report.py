@@ -1,5 +1,6 @@
 from functools import cached_property
 
+from searchkit import ResultFieldInfo
 from hotsos.core.log import log
 from hotsos.core.utils import sorted_dict
 from hotsos.core.search import (
@@ -31,27 +32,47 @@ class RabbitMQReport():
             searcher.add(self.connections_searchdef, fout)
             searcher.add(self.memory_searchdef, fout)
             searcher.add(self.cluster_partition_handling_searchdef, fout)
-            searcher.add(self.queues_searchdef, fout)
+            searcher.add(self.queues_searchdef_36, fout)
+            searcher.add(self.queues_searchdef_38, fout)
             self.results = searcher.run()
 
     @cached_property
-    def queues_searchdef(self):
-        start = SearchDef([r"^Queues on ([^:]+):",
-                           (r"^Listing queues for vhost ([^:]+) "
-                            r"...")])
-        # NOTE: we don't use a list for the body here because
-        # we need to know which expression matched so that we
-        # can know in which order to retrieve the columns since
-        # their order is inverted between 3.6.x and 3.8.x
-        body = SearchDef(r"^(?:<([^.\s]+)[.0-9]+>\s+(\S+)|"
-                         r"(\S+)\s+(?:\S+\s+){4}<([^.\s]+)[.0-9]"
-                         r"+>)\s+.+")
+    def queues_searchdef_36(self):
+        """ Expression matching report format from rabbitmq 3.6. """
+        start = SearchDef(r"^Queues on ([^:]+):",
+                          field_info=ResultFieldInfo({'VHOST': str}))
+        body = SearchDef(r"^<([^.\s]+)[.0-9]+>\s+(\S+)\s+.+",
+                         field_info=ResultFieldInfo({'NODE': str,
+                                                     'QUEUE': str}))
         end = SearchDef(r"^$")
         return SequenceSearchDef(start=start, body=body, end=end,
-                                 tag='queues')
+                                 tag='queues-v36')
+
+    @cached_property
+    def queues_searchdef_38(self):
+        """ Expression matching report format from rabbitmq 3.8 and above. """
+        start = SearchDef(r"^Listing queues for vhost ([^:]+) ...",
+                          field_info=ResultFieldInfo({'VHOST': str}))
+        # The position of values varies in the output of rabbtmq-report so
+        # these readings of messages and consumers risk being inaccurate.
+        body = SearchDef(r"^(\S+)\s+(?:\S+\s+){4}<([^.\s]+)[.0-9]+>"
+                         r"\s+(?:\S+\s+){2}(\d+)\s+(?:\S+\s+){13}(\S+).+",
+                         field_info=ResultFieldInfo({'QUEUE': str,
+                                                     'NODE': str,
+                                                     'MESSAGES_UNACK': int,
+                                                     'NUM_CONSUMERS': float}))
+        end = SearchDef(r"^$")
+        return SequenceSearchDef(start=start, body=body, end=end,
+                                 tag='queues-v38')
 
     @cached_property
     def skewed_nodes(self):
+        """
+        Returns nodes holding more than 2/3 queues or any given vhost. This
+        implies a cluster imbalance which has performance implications.
+
+        @return: dictionary of nodes and lists of highlighted vhosts.
+        """
         vhosts = self.vhosts
         _skewed_nodes = {}
         skewed_queue_nodes = {}
@@ -86,33 +107,54 @@ class RabbitMQReport():
         return _skewed_nodes
 
     @cached_property
+    def queues_w_messages_no_consumers(self):
+        _queues = []
+        for vhost in self.vhosts:
+            if not vhost.no_consumer_queues:
+                continue
+
+            _queues.extend(vhost.no_consumer_queues.keys())
+
+        return _queues
+
+    @cached_property
     def vhosts(self):
-        seq_def = self.queues_searchdef
+        """ List of vhosts containing a count of queues per host.
+
+        @return : list of RabbitMQVhost objects.
+        """
         vhosts = []
-        for section in self.results.find_sequence_sections(seq_def).values():
+        for seq_def in [self.queues_searchdef_36, self.queues_searchdef_38]:
+            sections = self.results.find_sequence_sections(seq_def)
+            if sections:
+                break
+
+        for section in sections.values():
             vhost = None
             # ensure we get vhost before the rest
             for result in section:
                 if result.tag == seq_def.start_tag:
-                    # check both report formats
-                    vhost = RabbitMQVhost(result.get(1))
+                    vhost = RabbitMQVhost(result.VHOST)
                     break
 
             for result in section:
                 if result.tag == seq_def.body_tag:
-                    node_name = result.get(1) or result.get(4)
                     # if we matched the section header, skip
-                    if node_name == "pid":
+                    if result.NODE == "pid":
                         continue
 
-                    queue = result.get(2) or result.get(3)
                     # if we matched the section header, skip
-                    if queue == "name":
+                    if result.QUEUE == "name":
                         continue
 
-                    vhost.node_inc_queue_count(node_name)
+                    vhost.node_inc_queue_count(result.NODE)
+                    if not seq_def.tag == 'queues-v36':
+                        if (result.MESSAGES_UNACK and
+                                result.NUM_CONSUMERS == 0):
+                            vhost.add_queue_no_consumer(result.QUEUE,
+                                                        result.MESSAGES_UNACK)
 
-            log.debug(vhost.name)
+            log.debug("adding vhost: %s", vhost.name)
             vhosts.append(vhost)
 
         return vhosts
@@ -208,6 +250,7 @@ class RabbitMQVhost():
     def __init__(self, name):
         self.name = name
         self._node_queues = {}
+        self.no_consumer_queues = {}
 
     def node_inc_queue_count(self, node):
         if node not in self._node_queues:
@@ -237,3 +280,6 @@ class RabbitMQVhost():
                 dists[node] = {'queues': 0, 'pcent': 0}
 
         return dists
+
+    def add_queue_no_consumer(self, queue, messages_unack):
+        self.no_consumer_queues[queue] = messages_unack
