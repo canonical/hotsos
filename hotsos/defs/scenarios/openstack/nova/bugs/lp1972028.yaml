@@ -1,0 +1,28 @@
+checks:
+  logs:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+ libvirt.libvirtError: Node device not found: no node device with matching name \S+'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+  package_affected:
+    apt:
+      nova-common:
+        - lt: 3:25.2.1-0ubuntu2.8
+conclusions:
+  lp1967956:
+    decision:
+      - package_affected
+      - logs
+    raises:
+      type: LaunchpadBug
+      bug-id: 1972028
+      message: >-
+        This host is affected by a bug in OpenStack Nova where polling libvirt
+        for pci passthrough devices (usually during a vm migration) can
+        trigger a race condition and cause an error to be raised. This is
+        fixed in the latest packages on Ubuntu Jammy and above so upgrading is
+        recommended (current={version}).
+      format-dict:
+        version: '@checks.package_affected.requires.version'
