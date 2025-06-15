@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 from hotsos.core.plugins.openstack.common import (
     OpenstackEventCallbackBase,
     OpenstackEventHandlerBase,
@@ -17,7 +15,11 @@ EXT_EVENT_META = {'network-vif-plugged': {'stages_keys':
 
 
 class ExternalEventsCallback(OpenstackEventCallbackBase):
-    """ Implements Openstack Nova external events callback. """
+    """ Implements Openstack Nova external events callback.
+
+    @return: dictionary with count of succeeded and list of failed (incomplete)
+             external events grouped by event type.
+    """
     event_group = 'nova.external-events'
     event_names = ['network-changed', 'network-vif-plugged']
 
@@ -41,15 +43,22 @@ class ExternalEventsCallback(OpenstackEventCallbackBase):
                                   'stages': {stage},
                                   'instance_id': instance_id}
 
-        out = defaultdict(list)
+        out = {'succeeded': 0,
+               'failed': []}
         for e, info in data.items():
-            x = {'port': e, 'instance': info['instance_id']}
             if info['complete']:
-                out['succeeded'].append(x)
+                out['succeeded'] += 1
             else:
+                x = {'port': e, 'instance': info['instance_id']}
                 out['failed'].append(x)
 
-        return dict(out)
+        if not out['succeeded']:
+            del out['succeeded']
+
+        if not out['failed']:
+            del out['failed']
+
+        return out
 
 
 class NovaExternalEventChecks(OpenstackEventHandlerBase):
