@@ -113,13 +113,9 @@ openstack:
     backup: 1
   os-server-external-events:
     network-changed:
-      succeeded:
-        - port: 6a0486f9-823b-4dcf-91fb-8a4663d31855
-          instance: 359150c9-6f40-416e-b381-185bff09e974
+      succeeded: 1
     network-vif-plugged:
-      succeeded:
-        - port: 6a0486f9-823b-4dcf-91fb-8a4663d31855
-          instance: 359150c9-6f40-416e-b381-185bff09e974
+      succeeded: 1
   vm-info:
     running:
       count: 1

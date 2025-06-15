@@ -727,14 +727,8 @@ class TestOpenstackNovaExternalEvents(TestOpenstackBase):
     def test_get_events(self):
         with GlobalSearcher() as searcher:
             inst = nova_external_events.NovaExternalEventChecks(searcher)
-            events = {'network-changed':
-                      {"succeeded":
-                       [{"port": "6a0486f9-823b-4dcf-91fb-8a4663d31855",
-                         "instance": "359150c9-6f40-416e-b381-185bff09e974"}]},
-                      'network-vif-plugged':
-                      {"succeeded":
-                       [{"instance": '359150c9-6f40-416e-b381-185bff09e974',
-                         "port": "6a0486f9-823b-4dcf-91fb-8a4663d31855"}]}}
+            events = {'network-changed': {"succeeded": 1},
+                      'network-vif-plugged': {"succeeded": 1}}
             actual = self.part_output_to_actual(inst.output)
             self.assertEqual(actual["os-server-external-events"], events)
 
