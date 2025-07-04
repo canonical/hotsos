@@ -5,6 +5,11 @@ vars:
     a non-wsgi service that uses greenthreads and oslo.messaging with
     heartbeat_in_pthread=True tries to send a heartbeat message to rabbitmq
 checks:
+  has_fix:
+    apt:
+      oslo.messaging:
+        # Yoga
+        - min: 12.13.0-0ubuntu1.2~cloud0
   # Include non-wsgi services that use oslo.messaging
   nova_has_1934937:
     input: var/log/nova/*.log
@@ -69,7 +74,12 @@ conclusions:
         msg_part_common: $msg_part_common
   syslog_1934937:
     priority: 2
-    decision: syslog_has_1934937
+    decision:
+      # syslog does not necessarily logrotate every 24h so we maybe find traces
+      # of the bug from way before it was resolved. Therefore we ignore traces
+      # if the installed package has the fix.
+      - not: has_fix
+      - syslog_has_1934937
     raises:
       type: LaunchpadBug
       bug-id: 1934937
