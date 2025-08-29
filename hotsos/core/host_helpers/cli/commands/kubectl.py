@@ -18,6 +18,7 @@ class KubectlBinCmdBase(BinCmd):
     def __init__(self, cmd, *args, **kwargs):
         cmd = (f'{cmd} {self.KUBECTL_CMD} --namespace {{namespace}} {{opt}} '
                '{subopts}')
+
         super().__init__(cmd, *args, **kwargs)
 
 

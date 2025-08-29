@@ -19,7 +19,7 @@ class SunbeamInfo():
             return {}
 
         cli = CLIHelper()
-        out = cli.kubectl_get(namespace='openstack', opt='pods')
+        out = cli.kubectl_get(namespace='openstack', opt='pods', subopts='')
         pods = defaultdict(list)
         for pod in out['items']:
             phase = pod['status']['phase']
@@ -37,7 +37,8 @@ class SunbeamInfo():
             return {}
 
         cli = CLIHelper()
-        out = cli.kubectl_get(namespace='openstack', opt='statefulsets')
+        out = cli.kubectl_get(namespace='openstack', opt='statefulsets',
+                              subopts='')
         ss = {'complete': [], 'incomplete': []}
         for i in out['items']:
             name = i['metadata']['name']
