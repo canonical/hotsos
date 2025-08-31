@@ -151,6 +151,7 @@ class BinCmd(BinCmdBase):
             cmd = cmd.format(**kwargs)
 
         _cmd = cmd.split() + self.cmd_extras
+        log.debug("executing cli command: %s", _cmd)
         out = subprocess.run(_cmd, timeout=HotSOSConfig.command_timeout,
                              capture_output=True, check=False)
         output = out.stdout

@@ -171,9 +171,14 @@ class TestCLIHelper(utils.BaseTestCase):
     @mock.patch.object(cli_common, 'subprocess')
     def test_kubectl_get_bincmd(mock_subprocess):
         HotSOSConfig.data_root = '/'
+        mock_out = mock.MagicMock()
+        mock_subprocess.run.return_value = mock_out
+        mock_out.stdout = b"{}"
+        mock_out.stderr = b""
         host_cli.CLIHelper().kubectl_get(namespace='openstack',
                                          opt='pods', subopts='')
-        cmd = ['kubectl', 'get', '--namespace', 'openstack', 'pods']
+        cmd = ['kubectl', 'get', '--namespace', 'openstack', 'pods', '-o',
+               'json']
         mock_subprocess.run.assert_called_with(cmd, timeout=300,
                                                capture_output=True,
                                                check=False)

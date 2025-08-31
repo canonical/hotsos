@@ -11,15 +11,40 @@ KUBE_CONFIGS = ['/etc/kubernetes/admin.conf',
 
 
 class KubectlBinCmdBase(BinCmd):
-    """ Generic kubctl implementation for binary kubectl commands. Aims to
-    support all kubectl commands and their subcommands. """
+    """ Generic kubectl implementation for binary kubectl commands.
+
+    Aims to support all kubectl commands and their subcommands in a format
+    comparable to sosreport. This means that if e.g. sosreport executes the
+    command with -o json then we need to do the same here for the binary
+    version.
+    """
     KUBECTL_CMD = None
+
+    @property
+    def _use_json_encoding(self):
+        return self.KUBECTL_CMD == 'get'
 
     def __init__(self, cmd, *args, **kwargs):
         cmd = (f'{cmd} {self.KUBECTL_CMD} --namespace {{namespace}} {{opt}} '
                '{subopts}')
 
+        # NOTE: sosreport runs kubectl get with -o json so we will do the
+        # same for binary commands so that the api calls can be expect
+        # consistent return type.
+        if self._use_json_encoding:
+            kwargs['json_decode'] = True
+
         super().__init__(cmd, *args, **kwargs)
+
+    def __call__(self, *args, **kwargs):
+        if self._use_json_encoding:
+            _subopts = kwargs.get('subopts', "")
+            if not _subopts:
+                kwargs['subopts'] = "-o json"
+            else:
+                kwargs['subopts'] += " -o json"
+
+        return super().__call__(*args, **kwargs)
 
 
 class KubectlLogsBinCmd(KubectlBinCmdBase):
