@@ -7,24 +7,35 @@ checks:
       - varops: [[$local_charms], [contains, ceph-mon]]
       - varops: [[$local_charms], [contains, ceph-fs]]
       - varops: [[$local_charms], [contains, ceph-radosgw]]
+      - varops: [[$local_charms], [contains, ceph-nfs]]
   ceph_mon_has_conflicts:
     varops: [[$local_charms], [contains, ceph-mon]]
     or:
       - varops: [[$local_charms], [contains, ceph-fs]]
       - varops: [[$local_charms], [contains, ceph-osd]]
       - varops: [[$local_charms], [contains, ceph-radosgw]]
+      - varops: [[$local_charms], [contains, ceph-nfs]]
   ceph_fs_has_conflicts:
     varops: [[$local_charms], [contains, ceph-fs]]
     or:
       - varops: [[$local_charms], [contains, ceph-mon]]
       - varops: [[$local_charms], [contains, ceph-osd]]
       - varops: [[$local_charms], [contains, ceph-radosgw]]
+      - varops: [[$local_charms], [contains, ceph-nfs]]
   ceph_radosgw_has_conflicts:
     varops: [[$local_charms], [contains, ceph-radosgw]]
     or:
       - varops: [[$local_charms], [contains, ceph-fs]]
       - varops: [[$local_charms], [contains, ceph-mon]]
       - varops: [[$local_charms], [contains, ceph-osd]]
+      - varops: [[$local_charms], [contains, ceph-nfs]]
+  ceph_nfs_has_conflicts:
+    varops: [[$local_charms], [contains, ceph-nfs]]
+    or:
+      - varops: [[$local_charms], [contains, ceph-mon]]
+      - varops: [[$local_charms], [contains, ceph-osd]]
+      - varops: [[$local_charms], [contains, ceph-radosgw]]
+      - varops: [[$local_charms], [contains, ceph-fs]]
 conclusions:
   ceph_charm_conflicts:
     decision:
@@ -33,6 +44,7 @@ conclusions:
         - ceph_mon_has_conflicts
         - ceph_osd_has_conflicts
         - ceph_radosgw_has_conflicts
+        - ceph_nfs_has_conflicts
     raises:
       type: CephWarning
       message: >-
