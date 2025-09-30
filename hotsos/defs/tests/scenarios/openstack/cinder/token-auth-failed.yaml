@@ -1,0 +1,25 @@
+target-name: token-auth-failed.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  cinder-api                      2:20.2.0-0ubuntu1~cloud0          all          Cinder storage service - API server
+      ii  cinder-common                   2:20.2.0-0ubuntu1~cloud0          all          Cinder storage service - common files
+      ii  cinder-scheduler                2:20.2.0-0ubuntu1~cloud0          all          Cinder storage service - Scheduler server
+      ii  cinder-volume                   2:20.2.0-0ubuntu1~cloud0          all          Cinder storage service - Volume server
+      ii  python3-cinder                  2:20.2.0-0ubuntu1~cloud0          all          Cinder Python 3 libraries
+    var/log/apache2/cinder_error.log: |
+      2025-07-21 11:57:24.730343 2025-07-21 11:57:24.729 3890533 WARNING keystonemiddleware.auth_token [req-47565f8f-6b63-4389-a109-9e85fe74dcd4 3478b4aca2d14940828884edc5779ac3 d617a9b7a2ef4dfd84240d993de16d53 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-21 18:47:31.194849 2025-07-21 18:47:31.194 3890533 WARNING keystonemiddleware.auth_token [req-82cfee63-0fc1-401e-80c8-a75f03af02c4 a665331ab3254c0584abd2d2091c2fad a4343c1dc6cb41d28c4b2f14d70643f2 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 01:00:04.044200 2025-07-22 01:00:04.043 1774689 WARNING keystonemiddleware.auth_token [req-ebac8f61-722a-4843-af76-d1aac0f41892 c668c9a55c4f48dd858045b6fd737fa5 efd20e7f792f49d6982b9de4dbbb72b6 - d9d8ac3430744eae87e730a8a57d1f21 d9d8ac3430744eae87e730a8a57d1f21] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 08:44:40.308298 2025-07-22 08:44:40.306 1774688 WARNING keystonemiddleware.auth_token [req-4a4ca899-77af-464a-9c69-5c6317a007d5 558364855af04b03923ceed1f9cf1875 983a9a15c32540519c8e3cf433b94187 - 8859e0f606294fe7b78e8a1644fbd8cb 8859e0f606294fe7b78e8a1644fbd8cb] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 09:58:01.767070 2025-07-22 09:58:01.765 1774686 WARNING keystonemiddleware.auth_token [req-4a18b315-17f2-4479-9616-3bbfe50d72ac c668c9a55c4f48dd858045b6fd737fa5 efd20e7f792f49d6982b9de4dbbb72b6 - d9d8ac3430744eae87e730a8a57d1f21 d9d8ac3430744eae87e730a8a57d1f21] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 12:01:32.604965 2025-07-22 12:01:32.603 1774687 WARNING keystonemiddleware.auth_token [req-e5cff8bc-a0ca-4c69-8e9f-837856094dcc a665331ab3254c0584abd2d2091c2fad a4343c1dc6cb41d28c4b2f14d70643f2 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 12:14:13.831290 2025-07-22 12:14:13.830 1774687 WARNING keystonemiddleware.auth_token [req-601e5898-04fa-498b-91d1-d17ea91d58bd 558364855af04b03923ceed1f9cf1875 983a9a15c32540519c8e3cf433b94187 - 8859e0f606294fe7b78e8a1644fbd8cb 8859e0f606294fe7b78e8a1644fbd8cb] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 14:21:32.924987 2025-07-22 14:21:32.924 1774689 WARNING keystonemiddleware.auth_token [req-2a36f154-35d2-44a0-88b2-b001b7774a0f c668c9a55c4f48dd858045b6fd737fa5 efd20e7f792f49d6982b9de4dbbb72b6 - d9d8ac3430744eae87e730a8a57d1f21 d9d8ac3430744eae87e730a8a57d1f21] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 18:48:58.424958 2025-07-22 18:48:58.424 1774687 WARNING keystonemiddleware.auth_token [req-8c7850db-437b-4d23-95a4-40e26a17e491 a665331ab3254c0584abd2d2091c2fad a4343c1dc6cb41d28c4b2f14d70643f2 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+      2025-07-22 19:49:10.725685 2025-07-22 19:49:10.725 1774688 WARNING keystonemiddleware.auth_token [req-12694feb-c76e-494c-a926-91bd02036526 3478b4aca2d14940828884edc5779ac3 d617a9b7a2ef4dfd84240d993de16d53 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
+raised-issues:
+  OpenstackWarning: >-
+    The cinder-api service running on this host has experienced "Token
+    authorization failed" error (at least 10 in the last 7 days). Needs
+    investigating.

@@ -1,0 +1,22 @@
+checks:
+  pkg_installed:
+    apt: cinder-api
+  has_auth_errors:
+    input: var/log/apache2/cinder_error.log
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{6} .+ Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed.+'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  has_auth_errors:
+    decision:
+      - pkg_installed
+      - has_auth_errors
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The cinder-api service running on this host has experienced "Token
+        authorization failed" error (at least {count} in the last 7 days). Needs
+        investigating.
+      format-dict:
+        count: '@checks.has_auth_errors.search.num_results'
