@@ -1,4 +1,4 @@
-target-name: token-auth-failed.yaml
+target-name: token_auth_failed.yaml
 data-root:
   files:
     sos_commands/dpkg/dpkg_-l: |
@@ -20,6 +20,6 @@ data-root:
       2025-07-22 19:49:10.725685 2025-07-22 19:49:10.725 1774688 WARNING keystonemiddleware.auth_token [req-12694feb-c76e-494c-a926-91bd02036526 3478b4aca2d14940828884edc5779ac3 d617a9b7a2ef4dfd84240d993de16d53 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed\x1b[00m
 raised-issues:
   OpenstackWarning: >-
-    The cinder-api service running on this host has experienced "Token
-    authorization failed" error (at least 10 in the last 7 days). Needs
+    The cinder api running on this host has "Token authorization failed" errors
+    (at least 10 in the last 7 days). Needs
     investigating.

@@ -1,0 +1,64 @@
+checks:
+  is_cinder:
+    apt: cinder-api
+  is_neutron:
+    apt: neutron-server
+  is_nova:
+    apt: nova-api-os-compute
+  is_octavia:
+    apt: octavia-api
+  has_auth_errors:
+    input:
+      - var/log/apache2/cinder_error.log
+      - var/log/nova/nova-api-wsgi.log
+      - var/log/neutron-server.log
+      - var/log/apache2/octavia_error.log
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{3,6} .+ Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed.*'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  cinder_has_auth_errors:
+    decision:
+      - is_cinder
+      - has_auth_errors
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The cinder api running on this host has "Token authorization failed"
+        errors (at least {count} in the last 7 days). Needs investigating.
+      format-dict:
+        count: '@checks.has_auth_errors.search.num_results'
+  nova_has_auth_errors:
+    decision:
+      - is_nova
+      - has_auth_errors
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The nova api running on this host has "Token authorization failed"
+        errors (at least {count} in the last 7 days). Needs investigating.
+      format-dict:
+        count: '@checks.has_auth_errors.search.num_results'
+  neutron_has_auth_errors:
+    decision:
+      - is_neutron
+      - has_auth_errors
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The neutron api running on this host has "Token authorization failed"
+        errors (at least {count} in the last 7 days). Needs investigating.
+      format-dict:
+        count: '@checks.has_auth_errors.search.num_results'
+  octavia_has_auth_errors:
+    decision:
+      - is_octavia
+      - has_auth_errors
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The octavia api running on this host has "Token authorization failed"
+        errors (at least {count} in the last 7 days). Needs investigating.
+      format-dict:
+        count: '@checks.has_auth_errors.search.num_results'

@@ -1,0 +1,21 @@
+target-name: token_auth_failed.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-common                  2:20.5.0-0ubuntu2                               all          Neutron is a virtual network service for Openstack - common
+      ii  neutron-plugin-ml2              2:20.5.0-0ubuntu2                               all          Neutron is a virtual network service for Openstack - ML2 plugin
+      ii  neutron-server                  2:20.5.0-0ubuntu2                               all          Neutron is a virtual network service for Openstack - server
+      ii  python3-neutron                 2:20.5.0-0ubuntu2                               all          Neutron is a virtual network service for Openstack - Python library
+      ii  python3-neutron-dynamic-routing 2:20.0.0-0ubuntu1                               all          OpenStack Neutron Dynamic Routing - Python 3 library
+      ii  python3-neutron-lib             2.20.0-0ubuntu1                                 all          Neutron shared routines and utilities - Python 3.x
+      ii  python3-neutronclient           1:7.8.0-0ubuntu1                                all          client API library for Neutron - Python 3.x
+    var/log/neutron-server.log: |
+      2025-09-18 13:15:36.330 1195397 WARNING keystonemiddleware.auth_token [req-46b61f98-8aed-4bff-9e83-75be4387a5df 076234e1df134ba692e4bc9d6fae8f60 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727 -] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed
+      2025-09-18 13:17:47.734 1195396 WARNING keystonemiddleware.auth_token [req-bcc65ab0-d178-4085-a02f-b23e511aea19 dfdff47052ff4d449627da94a201e55c 50f48ba03d834625af8db43400a151dd - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed
+      2025-09-18 19:15:53.574 2771694 WARNING keystonemiddleware.auth_token [req-e16008ef-daac-43b3-a462-4cc44fdaa7ab a665331ab3254c0584abd2d2091c2fad a4343c1dc6cb41d28c4b2f14d70643f2 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed
+      2025-09-18 19:25:10.071 2771688 WARNING keystonemiddleware.auth_token [req-257de62c-b9b3-4a7c-a7d2-545f77b71811 dfdff47052ff4d449627da94a201e55c 50f48ba03d834625af8db43400a151dd - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed
+      2025-09-18 19:57:37.041 2771695 WARNING keystonemiddleware.auth_token [req-4c03d121-509d-4b35-9cb2-95a6d57e08b5 076234e1df134ba692e4bc9d6fae8f60 - 6164886f24e241a2b3566f182088a727 6164886f24e241a2b3566f182088a727 -] Authorization failed for token: keystonemiddleware.auth_token._exceptions.InvalidToken: Token authorization failed
+raised-issues:
+  OpenstackWarning: >-
+    The neutron api running on this host has "Token authorization failed" errors
+    (at least 5 in the last 7 days). Needs investigating.
