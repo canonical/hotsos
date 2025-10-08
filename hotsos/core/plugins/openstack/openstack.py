@@ -58,7 +58,12 @@ from hotsos.core.plugins.openstack.exceptions_octavia import (
 
 # NOTE(tpsilva): when updating this, refer to the Charmed Openstack supported
 # versions page: https://ubuntu.com/openstack/docs/supported-versions
+# and the Sunbeam supported versions page:
+# https://canonical-openstack.readthedocs-hosted.com/en/latest/reference/release-cycle-and-supported-versions/  # noqa, pylint: disable=line-too-long
 OST_EOL_INFO = {
+    'flamingo': datetime(2027, 4, 30),
+    'epoxy': datetime(2026, 10, 30),
+    'dalmatian': datetime(2026, 4, 30),
     'caracal': datetime(2029, 4, 30),
     'bobcat': datetime(2025, 4, 30),
     'antelope': datetime(2026, 4, 30),
@@ -79,6 +84,9 @@ OST_EOL_INFO = {
 # https://openstack-ci-reports.ubuntu.com/reports/cloud-archive/index.html
 OST_REL_INFO = {
     'aodh-common': {
+        'flamingo': '1:21.0.0',
+        'epoxy': '1:20.0.0',
+        'dalmatian': '1:19.0.0',
         'caracal': '1:18.0.0',
         'bobcat': '1:17.0.0',
         'antelope': '1:16.0.0',
@@ -93,6 +101,9 @@ OST_REL_INFO = {
         'rocky': '7.0.0',
         'queens': '6.0.0'},
     'barbican-common': {
+        'flamingo': '2:21.0.0',
+        'epoxy': '2:20.0.0',
+        'dalmatian': '2:19.0.0',
         'caracal': '2:18.0.0',
         'bobcat': '2:17.0.0',
         'antelope': '2:16.0.0',
@@ -107,6 +118,9 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'cinder-common': {
+        'flamingo': '2:27.0.0',
+        'epoxy': '2:26.0.0',
+        'dalmatian': '2:25.0.0',
         'caracal': '2:24.0.0',
         'bobcat': '2:23.0.0',
         'antelope': '2:22.0.0',
@@ -121,6 +135,9 @@ OST_REL_INFO = {
         'rocky': '2:13.0.0',
         'queens': '2:12.0.0'},
     'designate-common': {
+        'flamingo': '1:21.0.0',
+        'epoxy': '1:20.0.0',
+        'dalmatian': '1:19.0.0',
         'caracal': '1:18.0.0',
         'bobcat': '1:17.0.0',
         'antelope': '1:16.0.0',
@@ -135,6 +152,9 @@ OST_REL_INFO = {
         'rocky': '1:7.0.0',
         'queens': '1:6.0.0'},
     'glance-common': {
+        'flamingo': '2:31.0.1',
+        'epoxy': '2:30.0.1',
+        'dalmatian': '2:29.0.1',
         'caracal': '2:28.0.1',
         'bobcat': '2:27.0.0',
         'antelope': '2:26.0.0',
@@ -149,6 +169,9 @@ OST_REL_INFO = {
         'rocky': '2:17.0.0',
         'queens': '2:16.0.0'},
     'heat-common': {
+        'flamingo': '1:25.0.0',
+        'epoxy': '1:24.0.0',
+        'dalmatian': '1:23.0.0',
         'caracal': '1:22.0.0',
         'bobcat': '1:21.0.0',
         'antelope': '1:20.0.0',
@@ -163,12 +186,18 @@ OST_REL_INFO = {
         'rocky': '1:11.0.0',
         'queens': '1:10.0.0'},
     'ironic-common': {
+        'flamingo': '1:32.0.0',
+        'epoxy': '1:29.0.0',
+        'dalmatian': '1:26.1.0',
         'caracal': '1:24.1.1',
         'bobcat': '1:23.0.0',
         'antelope': '1:21.2',
         'zed': '1:20.2.0',
         'yoga': '1:19.0.0'},
     'keystone': {
+        'flamingo': '2:28.0.0',
+        'epoxy': '2:27.0.0',
+        'dalmatian': '2:26.0.0',
         'caracal': '2:25.0.0',
         'bobcat': '2:24.0.0',
         'antelope': '2:23.0.0',
@@ -185,6 +214,9 @@ OST_REL_INFO = {
         'pike': '2:12.0.0',
         'ocata': '2:11.0.0'},
     'masakari-common': {
+        'flamingo': '20.0.0',
+        'epoxy': '19.0.0',
+        'dalmatian': '18.0.0',
         'caracal': '17.0.0',
         'bobcat': '16.0.0',
         'antelope': '15.0.0',
@@ -198,6 +230,9 @@ OST_REL_INFO = {
         'stein': '7.0.0',
         'rocky': '6.0.0'},
     'neutron-common': {
+        'flamingo': '2:27.0.0',
+        'epoxy': '2:26.0.0',
+        'dalmatian': '2:25.0.0',
         'caracal': '2:24.0.0',
         'bobcat': '2:23.0.0',
         'antelope': '2:22.0.0',
@@ -220,6 +255,9 @@ OST_REL_INFO = {
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
     'nova-common': {
+        'flamingo': '3:32.0.0',
+        'epoxy': '3:31.0.0',
+        'dalmatian': '3:30.0.0',
         'caracal': '3:29.0.1',
         'bobcat': '3:28.0.0',
         'antelope': '3:27.0.0',
@@ -242,6 +280,9 @@ OST_REL_INFO = {
         'juno': '1:2014.2.0',
         'icehouse': '1:2014.1.0'},
     'octavia-common': {
+        'flamingo': '1:17.0.0',
+        'epoxy': '1:16.0.0',
+        'dalmatian': '1:15.0.0',
         'caracal': '1:14.0.0',
         'bobcat': '1:13.0.0',
         'antelope': '1:12.0.0',
@@ -255,6 +296,9 @@ OST_REL_INFO = {
         'stein': '4.0.0',
         'rocky': '3.0.0'},
     'openstack-dashboard-common': {
+        'flamingo': '4:25.5.1',
+        'epoxy': '4:25.3.0',
+        'dalmatian': '4:25.1.0',
         'caracal': '4:24.0.0',
         'bobcat': '4:23.3.0',
         'antelope': '4:23.1.0',
@@ -269,6 +313,9 @@ OST_REL_INFO = {
         'rocky': '3:14.0.0',
         'queens': '3:13.0.0'},
     'placement-common': {
+        'flamingo': '1:14.0.0',
+        'epoxy': '1:13.0.0',
+        'dalmatian': '1:12.0.0',
         'caracal': '1:11.0.0',
         'bobcat': '1:10.0.0',
         'antelope': '1:9.0.0',
@@ -285,6 +332,7 @@ OST_REL_INFO = {
 OST_SUNBEAM_SNAP_NAMES = ['openstack', 'openstack-hypervisor']
 
 OST_SUNBEAM_REL_INFO = {
+    '2025.2': 'flamingo',
     '2025.1': 'epoxy',
     '2024.2': 'dalmation',
     '2024.1': 'caracal',
