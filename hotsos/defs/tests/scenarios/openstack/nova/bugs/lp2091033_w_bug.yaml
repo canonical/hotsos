@@ -1,0 +1,21 @@
+target-name: lp2091033.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-api-metadata                      3:25.2.1-0ubuntu2.8                        all          OpenStack Compute - metadata API frontend
+      ii  nova-common                            3:25.2.1-0ubuntu2.8                        all          OpenStack Compute - common files
+      ii  nova-compute                           3:25.2.1-0ubuntu2.8                        all          OpenStack Compute - compute node base
+      ii  nova-compute-kvm                       3:25.2.1-0ubuntu2.8                        all          OpenStack Compute - compute node (KVM)
+      ii  nova-compute-libvirt                   3:25.2.1-0ubuntu2.8                        all          OpenStack Compute - compute node libvirt support
+      ii  python3-nova                           3:25.2.1-0ubuntu2.8                        all          OpenStack Compute Python 3 libraries
+      ii  python3-novaclient                     2:17.6.0-0ubuntu2.8                        all          client library for OpenStack Compute API - 3.x
+    etc/nova/nova.conf: |
+      [devices]
+      enabled_mdev_types = nvidia-610
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2091033: >-
+    OpenStack Nova has vGPUs enabled and the installed version
+    (3:25.2.1-0ubuntu2.8) has a known bug that can critically impact the
+    nova-compute service. Please upgrade to resolve this issue.
