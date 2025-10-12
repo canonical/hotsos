@@ -1,0 +1,25 @@
+checks:
+  has_2091033:
+    apt:
+      nova-compute:
+        - lt: '3:25.2.1-0ubuntu2.9'
+    config:
+      handler: hotsos.core.plugins.openstack.OpenstackConfig
+      path: etc/nova/nova.conf
+      assertions:
+        - key: enabled_mdev_types
+          section: devices
+          ops: [[ne, null]]
+          allow-unset: false
+conclusions:
+  lp2091033:
+    decision: has_2091033
+    raises:
+      type: LaunchpadBug
+      bug-id: 2091033
+      message: >-
+        OpenStack Nova has vGPUs enabled and the installed version ({version})
+        has a known bug that can critically impact the nova-compute service.
+        Please upgrade to resolve this issue.
+      format-dict:
+        version: '@checks.has_2091033.requires.version'
