@@ -1,0 +1,23 @@
+checks:
+  pkg_has_bug:
+    apt:
+      ceph-osd:
+        - min: 15.2.0
+          max: 15.2.17-0ubuntu0.20.04.6  # NOTE: not currently fixed in Focal
+        - min: 17.2.0
+          max: 17.2.7-0ubuntu0.22.04.2
+        - min: 18.2.0
+          max: 18.2.4-0ubuntu1
+conclusions:
+  has_delete_workload_bug:
+    decision: pkg_has_bug
+    raises:
+      type: CephOSDWarning
+      message: >-
+        The installed version of Ceph ({version}) is impacted by a critical
+        performance issue whereby high delete workloads can trigger OSD crashes.
+        More information can be found in https://tracker.ceph.com/issues/58274 and
+        https://tracker.ceph.com/issues/55324. Please upgrade your install of Ceph to get
+        the latest fixes.
+      format-dict:
+        version: '@checks.pkg_has_bug.requires.version'
