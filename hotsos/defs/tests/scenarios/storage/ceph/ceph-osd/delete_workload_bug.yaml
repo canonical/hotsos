@@ -1,0 +1,11 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-osd  17.2.7-0ubuntu0.22.04.1   amd64
+raised-issues:
+  CephOSDWarning: >-
+      The installed version of Ceph (17.2.7-0ubuntu0.22.04.1) is impacted by a critical
+      performance issue whereby high delete workloads can trigger OSD crashes. More
+      information can be found in https://tracker.ceph.com/issues/58274 and
+      https://tracker.ceph.com/issues/55324. Please upgrade your install of Ceph to get
+      the latest fixes.
