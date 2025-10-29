@@ -1,0 +1,19 @@
+checks:
+  recent_laggy_pgs:
+    input:
+      path: ['var/log/ceph/ceph*.log', 'var/snap/microceph/common/logs/ceph*.log']
+    search:
+      expr: '^([\d-]+)[T ]([\d:]+)\S+ .+laggy, .+'
+      constraints:
+        # A brief appearance isn't an issue (due to OSD overload or network blip).
+        min-results: 20
+        search-period-hours: 1
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  recent-laggy-pgs:
+    decision: recent_laggy_pgs
+    raises:
+      type: CephWarning
+      message: >-
+        Ceph cluster has been reporting laggy PGs. This suggests a potential
+        network or high load on OSDs - please check.
