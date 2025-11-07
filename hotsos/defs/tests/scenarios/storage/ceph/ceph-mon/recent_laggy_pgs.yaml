@@ -38,4 +38,6 @@ data-root:
 raised-issues:
   CephWarning: >-
     Ceph cluster has been reporting laggy PGs. This suggests a potential
-    network or high load on OSDs - please check.
+    network or high load on OSDs. Laggy PGs indicate that there is a
+    significant delays in the communication between OSDs and will result
+    in stalled I/O. Please investigate.
