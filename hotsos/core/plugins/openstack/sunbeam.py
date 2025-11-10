@@ -3,6 +3,7 @@ from collections import defaultdict
 from functools import cached_property
 
 from hotsos.core.host_helpers import CLIHelper, SnapPackageHelper
+from hotsos.core.log import log
 
 
 class SunbeamInfo():
@@ -39,13 +40,32 @@ class SunbeamInfo():
         cli = CLIHelper()
         out = cli.kubectl_get(namespace='openstack', opt='statefulsets',
                               subopts='')
+
         ss = {'complete': [], 'incomplete': []}
+        if 'items' not in out:
+            log.info('no statefulsets found')
+            return {}
+
+        metadata_fails = 0
         for i in out['items']:
-            name = i['metadata']['name']
-            if i['status']['replicas'] / i['status']['readyReplicas']:
-                ss['complete'].append(name)
-            else:
-                ss['incomplete'].append(name)
+            try:
+                name = i['metadata']['name']
+            except KeyError:
+                metadata_fails += 1
+                continue
+
+            try:
+                ready = i['status'].get('readyReplicas', 0)
+                if ready and i['status']['replicas'] / ready:
+                    ss['complete'].append(name)
+                else:
+                    ss['incomplete'].append(name)
+            except KeyError:
+                log.warning("failed to get replicaset '%s' status", name)
+
+        if metadata_fails:
+            log.warning("failed to get replicaset metadata for %s items",
+                        metadata_fails)
 
         # must be type dict for pyyaml
         return dict(ss)

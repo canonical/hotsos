@@ -328,6 +328,48 @@ class TestOpenstackSunbeam(TestOpenstackBase):
                     'incomplete': []}
         self.assertDictEqual(sunbeaminfo.statefulsets, expected)
 
+    @utils.create_data_root(
+        {'sos_commands/kubernetes/cluster-info/openstack/'
+         'k8s_kubectl_get_-o_json_--namespace_openstack_statefulsets':
+         '{"apiVersion": "v1","items": [{"metadata": '
+         '{"name": "traefik-public"},"status": '
+         '{"readyReplicas": 1,"replicas": 1}}]}'})
+    def test_statefulsets_w_complete(self):
+        sunbeaminfo = sunbeam.SunbeamInfo()
+        with mock.patch.object(sunbeaminfo, 'is_controller',
+                               return_value=True):
+            expected = {'complete': ['traefik-public'],
+                        'incomplete': []}
+            self.assertDictEqual(sunbeaminfo.statefulsets, expected)
+
+    @utils.create_data_root(
+        {'sos_commands/kubernetes/cluster-info/openstack/'
+         'k8s_kubectl_get_-o_json_--namespace_openstack_statefulsets':
+         '{"apiVersion": "v1","items": [{"metadata": '
+         '{"name": "traefik-public"},"status": '
+         '{"readyReplicas": 0,"replicas": 1}}]}'})
+    def test_statefulsets_w_incomplete(self):
+        sunbeaminfo = sunbeam.SunbeamInfo()
+        with mock.patch.object(sunbeaminfo, 'is_controller',
+                               return_value=True):
+            expected = {'complete': [],
+                        'incomplete': ['traefik-public']}
+            self.assertDictEqual(sunbeaminfo.statefulsets, expected)
+
+    @utils.create_data_root(
+        {'sos_commands/kubernetes/cluster-info/openstack/'
+         'k8s_kubectl_get_-o_json_--namespace_openstack_statefulsets':
+         '{"apiVersion": "v1","items": [{"metadata": '
+         '{"name": "traefik-public"},"status": '
+         '{"replicas": 1}}]}'})
+    def test_statefulsets_w_missing_readreplicas_key(self):
+        sunbeaminfo = sunbeam.SunbeamInfo()
+        with mock.patch.object(sunbeaminfo, 'is_controller',
+                               return_value=True):
+            expected = {'complete': [],
+                        'incomplete': ['traefik-public']}
+            self.assertDictEqual(sunbeaminfo.statefulsets, expected)
+
 
 class TestOpenstackPluginCore(TestOpenstackBase):
     """ Unit tests for OpenStack plugin core. """
