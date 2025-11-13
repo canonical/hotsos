@@ -144,7 +144,7 @@ class TemplatedTest():
         if 'potential-issues' not in actual:
             raise ExpectationNotMetError(
                 "test expects one or more issues to have "
-                "been raised did not find any.")
+                "been raised but did not find any.")
         _expected = {}
         for itype, items in expected.items():
             if itype not in _expected:
