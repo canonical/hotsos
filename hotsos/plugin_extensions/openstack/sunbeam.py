@@ -11,7 +11,7 @@ from hotsos.core.plugintools import (
 
 class SunbeamStatus(OpenstackBase, OpenStackChecks):
     """ Get information from Sunbeam to display. """
-    summary_part_index = 14
+    summary_part_index = 15
 
     @staticmethod
     @summary_entry('sunbeam', get_min_available_entry_index() + 10)

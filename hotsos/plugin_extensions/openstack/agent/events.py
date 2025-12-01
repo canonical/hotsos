@@ -1,4 +1,5 @@
 import datetime
+import http
 
 import yaml
 from hotsos.core.analytics import (
@@ -99,17 +100,17 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
         return None
 
 
-class APIEventsCallback(OpenstackEventCallbackBase):
+class APIHTTPRequestsCallback(OpenstackEventCallbackBase):
     """ Implements OpenStack REST API events callback. """
     event_group = 'http-requests'
-    event_names = ['neutron', 'nova']
+    event_names = ['cinder', 'keystone', 'octavia', 'neutron', 'nova']
 
     def __call__(self, event):
         results = [{'date': r.get(1),
                     'key': r.get(2)} for r in event.results]
         ret = self.categorise_events(event, results=results)
         if ret:
-            if event.name == 'nova':
+            if event.name != 'neutron':
                 newdict = {}
                 for key, value in ret.items():
                     d = datetime.datetime.strptime(key, '%d/%b/%Y')
@@ -122,12 +123,75 @@ class APIEventsCallback(OpenstackEventCallbackBase):
         return None
 
 
-class APIEvents(OpenstackEventHandlerBase):
-    """ Implements Nova API events handler. """
+class APIHTTPRequests(OpenstackEventHandlerBase):
+    """ Implements API http requests events handler. """
     summary_part_index = 9
     event_group = 'http-requests'
 
     @summary_entry('api-info', get_min_available_entry_index() + 100)
+    def summary_api_info(self):
+        out = self.run()
+        if out:
+            return {self.event_group: out}
+
+        return None
+
+
+class APIHTTPStatusEventsCallback(OpenstackEventCallbackBase):
+    """ Implements OpenStack REST API HTTP code events callback. """
+    event_group = 'http-status-codes'
+    event_names = ['cinder', 'keystone', 'octavia', 'neutron', 'nova']
+
+    @staticmethod
+    def http_code_to_name(value):
+        for s in http.HTTPStatus:
+            if s.value == int(value):
+                return s.name
+
+        return None
+
+    @classmethod
+    def categorise_events(cls, *args, **kwargs):
+        """ Add status code name to the status code. """
+        ret = super().categorise_events(*args, **kwargs)
+        if not ret:
+            return ret
+
+        updated = {}
+        for ts, codeinfo in ret.items():
+            for code, count in codeinfo.items():
+                newval = {f"{code} ({cls.http_code_to_name(code)})": count}
+                if ts in updated:
+                    updated[ts].update(newval)
+                else:
+                    updated[ts] = newval
+
+        return updated
+
+    def __call__(self, event):
+        results = [{'date': r.get(1),
+                    'key': r.get(2)} for r in event.results]
+        ret = self.categorise_events(event, results=results)
+        if ret:
+            if event.name != 'neutron':
+                newdict = {}
+                for key, value in ret.items():
+                    d = datetime.datetime.strptime(key, '%d/%b/%Y')
+                    newdict[d.strftime("%Y-%m-%d")] = value
+
+                ret = newdict
+
+            return ret
+
+        return None
+
+
+class APIHTTPStatusEvents(OpenstackEventHandlerBase):
+    """ Implements API events handler. """
+    summary_part_index = 14
+    event_group = 'http-status-codes'
+
+    @summary_entry('api-info', get_min_available_entry_index() + 102)
     def summary_api_info(self):
         out = self.run()
         if out:
