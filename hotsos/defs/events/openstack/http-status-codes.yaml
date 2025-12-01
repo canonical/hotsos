@@ -8,28 +8,28 @@ cinder:
     path: 'var/log/apache2/cinder_access.log'
     options:
       disable-all-logs: true
-  expr: '.+(\d{2}/\w{3,5}/\d{4}).+ "(GET|POST|PUT|DELETE)'
+  expr: '.+(\d{2}/\w{3,5}/\d{4}).+HTTP/\d\.\d" (\d+)'
 keystone:
   input:
     path: 'var/log/apache2/keystone_access.log'
     options:
       disable-all-logs: true
-  expr: '.+(\d{2}/\w{3,5}/\d{4}).+ "(GET|POST|PUT|DELETE)'
+  expr: '.+(\d{2}/\w{3,5}/\d{4}).+HTTP/\d\.\d" (\d+)'
 neutron:
   input:
     path: 'var/log/neutron/neutron-server.log'
     options:
       disable-all-logs: true
-  expr: '([\d-]+) [\d:]+\.\d{3} .+ neutron.wsgi .+ "(GET|POST|PUT|DELETE)'
+  expr: '([\d-]+) [\d:]+\.\d{3} .+ neutron.wsgi .+HTTP/\d\.\d" (\d+)'
 nova:
   input:
     path: 'var/log/apache2/nova-api-os-compute_access.log'
     options:
       disable-all-logs: true
-  expr: '.+(\d{2}/\w{3,5}/\d{4}).+ "(GET|POST|PUT|DELETE)'
+  expr: '.+(\d{2}/\w{3,5}/\d{4}).+HTTP/\d\.\d" (\d+)'
 octavia:
   input:
     path: 'var/log/apache2/octavia_access.log'
     options:
       disable-all-logs: true
-  expr: '.+(\d{2}/\w{3,5}/\d{4}).+ "(GET|POST|PUT|DELETE)'
+  expr: '.+(\d{2}/\w{3,5}/\d{4}).+HTTP/\d\.\d" (\d+)'

@@ -358,7 +358,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              NEUTRON_HTTP})
     def test_api_events(self):
         with GlobalSearcher() as searcher:
-            inst = agent.events.APIEvents(searcher)
+            inst = agent.events.APIHTTPRequests(searcher)
             inst.run()
             actual = self.part_output_to_actual(inst.output)
 
@@ -368,6 +368,34 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                                                        'POST': 4,
                                                        'DELETE': 5}}}}
         self.assertEqual(actual['api-info'], expected)
+
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('http-status-codes.yaml',
+                                        'events/openstack'))
+    @utils.create_data_root({'var/log/apache2/'
+                             'nova-api-os-compute_access.log.2.gz':
+                             '\n'.join(NOVA_REST_API[:2]),
+                             'var/log/apache2/'
+                             'nova-api-os-compute_access.log.1.gz':
+                             '\n'.join(NOVA_REST_API[2:3]),
+                             'var/log/apache2/nova-api-os-compute_access.log':
+                             '\n'.join(NOVA_REST_API[3:])},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_nova_http_return_codes(self):
+        expected = {}
+        with GlobalSearcher() as searcher:
+            inst = agent.events.APIHTTPStatusEvents(searcher)
+            actual = self.part_output_to_actual(inst.output)
+            expected = {'api-info': {
+                            'http-status-codes': {
+                                'nova': {
+                                    '2024-12-27': {
+                                        '200 (OK)': 4}
+                                    }
+                                }
+                            }
+                        }
+            self.assertEqual(actual, expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                 new=utils.is_def_filter('http-requests.yaml',
@@ -384,7 +412,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     def test_nova_http_requests(self):
         expected = {}
         with GlobalSearcher() as searcher:
-            inst = agent.events.APIEvents(searcher)
+            inst = agent.events.APIHTTPRequests(searcher)
             actual = self.part_output_to_actual(inst.output)
             expected = {'api-info': {
                             'http-requests': {
