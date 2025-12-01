@@ -86,7 +86,7 @@ def get_repo_info():
     # NOTE: The pylint warning is suppressed for W4902 because the
     # alternative (i.e. resources.files) is not available for python
     # 3.8, which is a supported environment for hotsos.
-    with warnings.catch_warnings(), contextlib.suppress(Exception):
+    with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=DeprecationWarning)
         # pylint: disable-next=W4902
         with resources.path('hotsos', '.repo-info') as repo_info:
