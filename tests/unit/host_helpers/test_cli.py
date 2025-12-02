@@ -203,7 +203,7 @@ class TestCLIHelper(utils.BaseTestCase):
     def test_kubectl_logs_filecmd(self):
         out = host_cli.CLIHelper().kubectl_logs(namespace='openstack',
                                                 opt='neutron-0',
-                                                subopts='-c_neutron-server')
+                                                subopts='-c neutron-server')
         self.assertEqual(out, ['SUCCESS!'])
 
     @utils.create_data_root({'sos_commands/kubernetes/cluster-info/openstack/'
@@ -213,7 +213,7 @@ class TestCLIHelper(utils.BaseTestCase):
     def test_kubectl_logs_filecmd_microk8s(self):
         out = host_cli.CLIHelper().kubectl_logs(namespace='openstack',
                                                 opt='neutron-0',
-                                                subopts='-c_neutron-server')
+                                                subopts='-c neutron-server')
         self.assertEqual(out, ['SUCCESS!'])
 
     @utils.create_data_root({'sos_commands/kubernetes/services/kubectl_'

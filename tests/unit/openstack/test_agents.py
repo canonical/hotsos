@@ -3,9 +3,7 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.plugin_extensions.openstack import (
-    agent,
-)
+from hotsos.plugin_extensions.openstack import agent
 from hotsos.core.ycheck.common import GlobalSearcher
 from tests.unit.openstack.test_openstack import TestOpenstackBase
 from tests.unit import utils
@@ -369,7 +367,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         self.assertEqual(actual['api-info'], expected)
 
     @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
-                new=utils.is_def_filter('http-status-codes.yaml',
+                new=utils.is_def_filter('http-status.yaml',
                                         'events/openstack'))
     @utils.create_data_root({'var/log/apache2/'
                              'nova-api-os-compute_access.log.2.gz':
@@ -386,7 +384,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
             inst = agent.events.APIHTTPStatusEvents(searcher)
             actual = self.part_output_to_actual(inst.output)
             expected = {'api-info': {
-                            'http-status-codes': {
+                            'http-status': {
                                 'nova': {
                                     '2024-12-27': {
                                         '200 (OK)': 4}

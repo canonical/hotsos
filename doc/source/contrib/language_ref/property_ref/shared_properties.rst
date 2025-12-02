@@ -94,7 +94,9 @@ Usage:
         # after the last boot time.
         min-hours-since-last-boot: <int>
 
-Search expressions can be defined as a single string or list of strings.
+Search expressions can be defined as a single string or list of strings. If the
+provided string value starts with "@" it will be considered as Python import
+path and imported. This allows for using expressions stored in code.
 
 If you want to analyse logs that contain overlapping sequences, perhaps from
 multiple threads running concurrently, a **passthrough sequence** search is

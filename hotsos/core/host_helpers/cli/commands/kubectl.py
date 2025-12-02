@@ -52,6 +52,18 @@ class KubectlLogsBinCmd(KubectlBinCmdBase):
     KUBECTL_CMD = 'logs'
 
 
+class KubectlFileBinCmd(FileCmd):
+    """ Implements kubectl logs file command. """
+    KUBECTL_CMD = 'logs'
+
+    def __call__(self, *args, **kwargs):
+        subopts = kwargs.get('subopts')
+        if subopts:
+            kwargs['subopts'] = subopts.replace(' ', '_')
+
+        return super().__call__(*args, **kwargs)
+
+
 class KubectlLogsCmds(UserList):
     """ Generate kubectl logs command variants. """
 
@@ -68,11 +80,12 @@ class KubectlLogsCmds(UserList):
 
             paths.extend([(f'sos_commands/kubernetes/pods/{cmd}'
                            f'_--kubeconfig_{conf}'
-                           '_--namespace_{namespace}_logs_{opt}') for conf in
+                           '_--namespace_{namespace}_logs_{opt}'
+                           '_{subopts}') for conf in
                           confs])
 
         for path in paths:
-            cmds.append(FileCmd(path))
+            cmds.append(KubectlFileBinCmd(path))
 
         super().__init__(cmds)
 
