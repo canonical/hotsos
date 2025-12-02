@@ -11,13 +11,13 @@ cinder-sunbeam:
         namespace: openstack
         opt: cinder-0
         subopts: -c cinder-api
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.sunbeam_cinder'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.sunbeam_cinder'
 cinder:
   input:
     path: 'var/log/apache2/cinder_access.log'
     options:
       disable-all-logs: true
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.apache_common'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.apache_common'
 
 glance-sunbeam:
   input:
@@ -27,13 +27,13 @@ glance-sunbeam:
         namespace: openstack
         opt: glance-0
         subopts: -c glance-api
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.sunbeam_glance'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.sunbeam_glance'
 glance:
   input:
     path: 'var/log/apache2/glance_access.log'
     options:
       disable-all-logs: true
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.apache_common'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.apache_common'
 
 keystone-sunbeam:
   input:
@@ -43,13 +43,13 @@ keystone-sunbeam:
         namespace: openstack
         opt: keystone-0
         subopts: -c keystone
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.sunbeam_keystone'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.sunbeam_keystone'
 keystone:
   input:
     path: 'var/log/apache2/keystone_access.log'
     options:
       disable-all-logs: true
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.apache_common'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.apache_common'
 
 neutron-sunbeam:
   input:
@@ -59,13 +59,13 @@ neutron-sunbeam:
         namespace: openstack
         opt: neutron-0
         subopts: -c neutron-server
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.sunbeam_neutron'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.sunbeam_neutron'
 neutron:
   input:
     path: 'var/log/neutron/neutron-server.log'
     options:
       disable-all-logs: true
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.wsgi_neutron'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.wsgi_neutron'
 
 nova-sunbeam:
   input:
@@ -75,13 +75,13 @@ nova-sunbeam:
         namespace: openstack
         opt: nova-0
         subopts: -c nova-api
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.sunbeam_nova'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.sunbeam_nova'
 nova:
   input:
     path: 'var/log/apache2/nova-api-os-compute_access.log'
     options:
       disable-all-logs: true
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.apache_common'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.apache_common'
 
 octavia-sunbeam:
   input:
@@ -91,13 +91,13 @@ octavia-sunbeam:
         namespace: openstack
         opt: octavia-0
         subopts: -c octavia-api
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.sunbeam_octavia'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.sunbeam_octavia'
 octavia:
   input:
     path: 'var/log/apache2/octavia_access.log'
     options:
       disable-all-logs: true
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.apache_common'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.apache_common'
 
 placement-sunbeam:
   input:
@@ -107,10 +107,10 @@ placement-sunbeam:
         namespace: openstack
         opt: placement-0
         subopts: -c placement-api
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.sunbeam_placement'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.sunbeam_placement'
 placement:
   input:
     path: 'var/log/apache2/placement_access.log'
     options:
       disable-all-logs: true
-  expr: '@hotsos.core.plugins.openstack.HTTPRequestExprs.apache_common'
+  expr: '@hotsos.core.plugins.openstack.HTTPStatusExprs.apache_common'

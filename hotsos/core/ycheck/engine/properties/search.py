@@ -128,6 +128,10 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
         return _patterns
 
+    @staticmethod
+    def _is_import_path(value):
+        return isinstance(value, str) and value.startswith('@')
+
     @property
     def search_pattern(self):
         try:
@@ -145,14 +149,24 @@ class YPropertySearchBase(YPropertyOverrideBase):
                 raise NotEnoughParametersError(
                     "no search pattern (expr) defined")
 
+            _patterns = []
             for pattern in patterns:
+                if self._is_import_path(pattern):
+                    try:
+                        pattern = self.get_property(pattern[1:])
+                    except ModuleNotFoundError:
+                        log.warning("failed to import pattern '%s' - using "
+                                    "raw string as expression", pattern)
+
                 if not re.search(r"[^\\]?\(.+\)", pattern):
                     log.info("pattern '%s' does not contain a subgroup. this "
                              "is inefficient and can result in unnecessary "
                              "memory consumption", pattern)
 
-            if len(patterns) == 1:
-                return patterns[0]
+                _patterns.append(pattern)
+
+            if len(_patterns) == 1:
+                return _patterns[0]
 
             return patterns
         except Exception:

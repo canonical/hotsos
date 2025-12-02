@@ -103,14 +103,22 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
 class APIHTTPRequestsCallback(OpenstackEventCallbackBase):
     """ Implements OpenStack REST API events callback. """
     event_group = 'http-requests'
-    event_names = ['cinder', 'keystone', 'octavia', 'neutron', 'nova']
+    event_names = ['cinder', 'cinder-sunbeam',
+                   'glance', 'glance-sunbeam',
+                   'keystone', 'keystone-sunbeam',
+                   'neutron', 'neutron-sunbeam',
+                   'nova', 'nova-sunbeam',
+                   'octavia', 'octavia-sunbeam',
+                   'placement', 'placement-sunbeam']
 
     def __call__(self, event):
         results = [{'date': r.get(1),
                     'key': r.get(2)} for r in event.results]
         ret = self.categorise_events(event, results=results)
         if ret:
-            if event.name != 'neutron':
+            # neutron and glance are pywsgi not apache so treated differently
+            if not (event.name.startswith('glance') or
+                    event.name.startswith('neutron')):
                 newdict = {}
                 for key, value in ret.items():
                     d = datetime.datetime.strptime(key, '%d/%b/%Y')
@@ -118,7 +126,7 @@ class APIHTTPRequestsCallback(OpenstackEventCallbackBase):
 
                 ret = newdict
 
-            return ret
+            return (ret, event.name.replace('-sunbeam', ''))
 
         return None
 
@@ -139,8 +147,14 @@ class APIHTTPRequests(OpenstackEventHandlerBase):
 
 class APIHTTPStatusEventsCallback(OpenstackEventCallbackBase):
     """ Implements OpenStack REST API HTTP code events callback. """
-    event_group = 'http-status-codes'
-    event_names = ['cinder', 'keystone', 'octavia', 'neutron', 'nova']
+    event_group = 'http-status'
+    event_names = ['cinder', 'cinder-sunbeam',
+                   'glance', 'glance-sunbeam',
+                   'keystone', 'keystone-sunbeam',
+                   'neutron', 'neutron-sunbeam',
+                   'nova', 'nova-sunbeam',
+                   'octavia', 'octavia-sunbeam',
+                   'placement', 'placement-sunbeam']
 
     @staticmethod
     def http_code_to_name(value):
@@ -173,7 +187,9 @@ class APIHTTPStatusEventsCallback(OpenstackEventCallbackBase):
                     'key': r.get(2)} for r in event.results]
         ret = self.categorise_events(event, results=results)
         if ret:
-            if event.name != 'neutron':
+            # neutron and glance are pywsgi not apache so treated differently
+            if not (event.name.startswith('glance') or
+                    event.name.startswith('neutron')):
                 newdict = {}
                 for key, value in ret.items():
                     d = datetime.datetime.strptime(key, '%d/%b/%Y')
@@ -181,7 +197,7 @@ class APIHTTPStatusEventsCallback(OpenstackEventCallbackBase):
 
                 ret = newdict
 
-            return ret
+            return (ret, event.name.replace('-sunbeam', ''))
 
         return None
 
@@ -189,7 +205,7 @@ class APIHTTPStatusEventsCallback(OpenstackEventCallbackBase):
 class APIHTTPStatusEvents(OpenstackEventHandlerBase):
     """ Implements API events handler. """
     summary_part_index = 14
-    event_group = 'http-status-codes'
+    event_group = 'http-status'
 
     @summary_entry('api-info', get_min_available_entry_index() + 102)
     def summary_api_info(self):
