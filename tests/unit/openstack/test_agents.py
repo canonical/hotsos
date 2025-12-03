@@ -7,9 +7,8 @@ from hotsos.plugin_extensions.openstack import (
     agent,
 )
 from hotsos.core.ycheck.common import GlobalSearcher
-from tests.unit.test_openstack import TestOpenstackBase
-
-from . import utils
+from tests.unit.openstack.test_openstack import TestOpenstackBase
+from tests.unit import utils
 
 EVENT_PCIDEVNOTFOUND_LOG = r"""
 2022-09-17 13:49:47.257 3060998 WARNING nova.pci.utils [req-f6448047-9a0f-453b-9189-079dd00ab3a3 - - - - -] No net device was found for VF 0000:3b:10.0: nova.exception.PciDeviceNotFoundById: PCI device 0000:3b:10.0 not found
