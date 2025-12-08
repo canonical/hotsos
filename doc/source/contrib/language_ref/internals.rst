@@ -103,8 +103,8 @@ property objects to share state by "referencing" each others' cache. An example
 of this is when formatting a message as part of a :ref:`raised issue <raises>`.
 See the "Cache keys" section of a property description for supported keys.
 
-As an example here is a :ref:`check<checks>` that compares the version of an apt
-package and a :ref:`conclusion<conclusions>` that :ref:`raises<raises>` an
+As an example here is a :ref:`check<checks>` that compares the status of a systemd
+service  and a :ref:`conclusion<conclusions>` that :ref:`raises<raises>` an
 issue that references the check cache to format it's message:
 
 .. code-block:: yaml
