@@ -1,0 +1,21 @@
+checks:
+  syslog_in_imfiles:
+    input:
+      path: "etc/rsyslog.d/*.conf"
+    search:
+      expr: '\s+File="/var/log/syslog"'
+
+conclusions:
+  syslog_loop_possible:
+    decision: [syslog_in_imfiles]
+    raises:
+      type: SystemWarning
+      message: >-
+        rsyslog is configured to read from /var/log/syslog, which may cause a loop
+        if data is being logged locally to /var/log/syslog. This may happen
+        with a rule like "*.*;auth,authpriv.none		-/var/log/syslog "
+        which appears in the default configuration file
+        /etc/rsyslog.d/50-default.conf on ubuntu.
+
+        Please make sure not to configure /var/log/syslog
+        as an input file for rsyslog.

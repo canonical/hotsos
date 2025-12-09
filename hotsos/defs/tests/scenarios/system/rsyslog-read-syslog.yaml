@@ -1,0 +1,31 @@
+data-root:
+  files:
+    etc/rsyslog.d/40-rsyslog-imfile.conf: |
+      module(load="imfile")
+
+      # Note StateFile is deprecated in rsyslog 8 but needed for rsyslog 7
+
+      input(type="imfile"
+            File="/var/log/dpkg.log"
+            StateFile="dpkg.log"
+            Tag="dpkg.log")
+
+      input(type="imfile"
+            File="/var/log/apt/history.log"
+            StateFile="history.log"
+            Tag="history.log")
+
+      input(type="imfile"
+            File="/var/log/syslog"
+            StateFile="syslog"
+            Tag="syslog")
+raised-issues:
+  SystemWarning: >-
+    rsyslog is configured to read from /var/log/syslog, which may cause a loop
+    if data is being logged locally to /var/log/syslog. This may happen
+    with a rule like "*.*;auth,authpriv.none		-/var/log/syslog "
+    which appears in the default configuration file
+    /etc/rsyslog.d/50-default.conf on ubuntu.
+
+    Please make sure not to configure /var/log/syslog
+    as an input file for rsyslog.

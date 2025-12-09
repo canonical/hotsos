@@ -1,0 +1,18 @@
+target-name: rsyslog-read-syslog.yaml
+data-root:
+  files:
+    etc/rsyslog.d/45-.log: |
+      module(load="imfile")
+
+      # Note StateFile is deprecated in rsyslog 8 but needed for rsyslog 7
+
+      input(type="imfile"
+            File="/var/log/dpkg.log"
+            StateFile="dpkg.log"
+            Tag="dpkg.log")
+
+      input(type="imfile"
+            File="/var/log/apt/history.log"
+            StateFile="history.log"
+            Tag="history.log")
+raised-issues: # none expected
