@@ -106,7 +106,7 @@ class NetworkPort(HostHelpersBase):
         if counters:
             return counters
 
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         seqdef = SequenceSearchDef(
                     # match start of interface
                     start=SearchDef(IP_IFACE_NAME_TEMPLATE.format(self.name)),

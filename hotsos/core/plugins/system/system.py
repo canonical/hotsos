@@ -174,7 +174,7 @@ class SystemBase():
         # human-readable output for now. This function should ideally
         # rely on the json output when the upstream sos starts to
         # include it.
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         service_status_seqdef = SequenceSearchDef(
             start=SearchDef(r"^SERVICE +ENTITLED +STATUS +DESCRIPTION"),
             body=SearchDef(r"^(\S+) +(\S+) +(\S+) +(.+)\n"),

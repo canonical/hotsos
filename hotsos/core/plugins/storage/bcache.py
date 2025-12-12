@@ -124,7 +124,7 @@ class BcacheBase():
         """ If bcache devices exist fetch information and return as a list. """
         devs = []
         with CLIHelperFile() as cli:
-            s = FileSearcher()
+            s = FileSearcher(decode_errors='backslashreplace')
             sdef = SequenceSearchDef(start=SearchDef(r"^P: .+/(bcache\S+)"),
                                      body=SearchDef(r"^S: disk/by-uuid/(\S+)"),
                                      tag="bcacheinfo")

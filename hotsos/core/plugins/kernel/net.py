@@ -464,7 +464,7 @@ class Lsof(STOVParserBase):
     """
 
     def _load(self):
-        search = FileSearcher()
+        search = FileSearcher(decode_errors='backslashreplace')
         with CLIHelperFile() as cli:
             fout = cli.lsof_Mnlc()
             search.add(SearchDef(self._header_matcher, tag='header'), fout)

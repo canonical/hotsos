@@ -121,7 +121,8 @@ class AgentExceptionChecks(OpenstackBase, OpenStackChecks):
         self._agent_results = None
         c = SearchConstraintSearchSince(
                                       ts_matcher_cls=CommonTimestampMatcher)
-        self.searchobj = FileSearcher(constraint=c)
+        self.searchobj = FileSearcher(constraint=c,
+                                      decode_errors='backslashreplace')
         # The following are expected to be logged using WARNING log level.
         self._agent_warnings = {
             'nova': ['MessagingTimeout',

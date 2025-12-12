@@ -55,7 +55,7 @@ class SOSReportBase():
                                            'sos_logs')):
             return timeouts
 
-        searcher = FileSearcher()
+        searcher = FileSearcher(decode_errors='backslashreplace')
         path = os.path.join(HotSOSConfig.data_root, 'sos_logs/ui.log')
         searcher.add(SearchDef(r".* Plugin (\S+) timed out.*", tag="timeouts"),
                      path=path)
