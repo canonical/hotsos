@@ -369,40 +369,6 @@ class OpenstackConfig(host_helpers.IniConfigBase):
         return self.get(key)
 
 
-@dataclass(frozen=True)
-class OSTProjectParameters:
-    """Parameters for OSTProject class.
-
-        @param name: name of this project
-        @param config: dict of config files keyed by a label used to identify
-                       them. All projects should have a config file labelled
-                       'main'.
-        @param apt_core_alt: optional list of apt packages (regex) that are
-                             used by this project where the name of the project
-                             is not the same as the name used for its packages.
-        @param systemd_masked_services: optional list of services that are
-               expected to be masked in systemd e.g. if they are actually being
-               run by apache.
-        @param systemd_deprecated_services: optional list of services that are
-               deprecated. This can be helpful if e.g. you want to skip checks
-               for resources related to these services.
-        @param systemd_extra_services: optional list of systemd services that
-               are used. This is useful e.g. if components are run under
-               apache or if a package runs components using services whose name
-               don't match the name of the project.
-        @param log_path_overrides: specify log path for a given service that
-                                   overrides the default format i.e.
-                                   /var/log/<project>/<svc>.log.
-    """
-    name: str = None
-    config: dict = None
-    apt_core_alt: list = None
-    systemd_masked_services: list = field(default_factory=lambda: [])
-    systemd_deprecated_services: list = field(default_factory=lambda: [])
-    systemd_extra_services: list = field(default_factory=lambda: [])
-    log_path_overrides: dict = field(default_factory=lambda: {})
-
-
 @dataclass
 class OSTProjectAptHelperParams:
     """ APTPackageHelper package matching expression lists. """
@@ -412,10 +378,42 @@ class OSTProjectAptHelperParams:
 
 @dataclass
 class OSTProjectSystemdHelperParams:
-    """SystemdHelper service matching expression lists. """
-    extra_services: list
-    masked_services: list
-    deprecated_services: list
+    """SystemdHelper service matching expression lists.
+
+     Masked services: used if e.g. if they are actually being run by apache.
+     Deprecated services: helpful if e.g. you want to skip checks for resources
+                          related to these services.
+     Extra services: this is useful e.g. if components are run under apache
+                     and/or if a package runs components using services whose
+                     name don't match the name of the project.
+    """
+    extra_services: list = field(default_factory=lambda: [])
+    masked_services: list = field(default_factory=lambda: [])
+    deprecated_services: list = field(default_factory=lambda: [])
+
+
+@dataclass(frozen=True)
+class OSTProjectParameters:
+    """Parameters for OSTProject class.
+
+        @param name: name of this project
+        @param config: dict of config files keyed by a label used to identify
+                       them. All projects should have a config file labeled
+                       'main'.
+        @param apt_core_alt: optional list of apt packages (regex) that are
+                             used by this project where the name of the project
+                             is not the same as the name used for its packages.
+        @param systemd_services_info: OSTProjectSystemdHelperParams for masked,
+                                      deprecated and extra services.
+        @param log_path_overrides: specify log path for a given service that
+                                   overrides the default format i.e.
+                                   /var/log/<project>/<svc>.log.
+    """
+    name: str = None
+    config: dict = None
+    apt_core_alt: list = None
+    systemd_services_info: OSTProjectSystemdHelperParams = None
+    log_path_overrides: dict = field(default_factory=lambda: {})
 
 
 class OSTProject():
@@ -428,28 +426,6 @@ class OSTProject():
     PY_CLIENT_PREFIX = r"python3?-{}\S*"
 
     def __init__(self, params: OSTProjectParameters):
-        """
-        @param name: name of this project
-        @param config: dict of config files keyed by a label used to identify
-                       them. All projects should have a config file labelled
-                       'main'.
-        @param apt_core_alt: optional list of apt packages (regex) that are
-                             used by this project where the name of the project
-                             is not the same as the name used for its packages.
-        @param systemd_masked_services: optional list of services that are
-               expected to be masked in systemd e.g. if they are actually being
-               run by apache.
-        @param systemd_deprecated_services: optional list of services that are
-               deprecated. This can be helpful if e.g. you want to skip checks
-               for resources related to these services.
-        @param log_path_overrides: specify log path for a given service that
-                                   overrides the default format i.e.
-                                   /var/log/<project>/<svc>.log.
-        @param systemd_extra_services: optional list of systemd services that
-               are used. This is useful e.g. if components are run under
-               apache or if a package runs components using services whose name
-               don't match the name of the project.
-        """
         self.params = params
         self.name = params.name
 
@@ -461,10 +437,8 @@ class OSTProject():
             for c in params.apt_core_alt:
                 self.apt_params.deps.append(self.PY_CLIENT_PREFIX.format(c))
 
-        self.systemd_params = OSTProjectSystemdHelperParams(
-                                params.systemd_extra_services,
-                                params.systemd_masked_services,
-                                params.systemd_deprecated_services)
+        self.systemd_params = (params.systemd_services_info or
+                               OSTProjectSystemdHelperParams())
 
         self.logs_path = os.path.join("var/log", params.name)
         self.log_path_overrides = params.log_path_overrides
@@ -562,38 +536,48 @@ class OSTProjectCatalog():
     def __init__(self):
         self._projects = {}
         self.add('aodh', config={'main': 'aodh.conf'},
-                 systemd_masked_services=['aodh-api'],
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     masked_services=['aodh-api'],
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/aodh/aodh-api.log']})
         self.add('barbican', config={'main': 'barbican.conf'},
-                 systemd_masked_services=['barbican-api'],
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     masked_services=['barbican-api'],
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/barbican/barbican-api.log']})
         self.add('ceilometer', config={'main': 'ceilometer.conf'},
-                 systemd_masked_services=['ceilometer-api'])
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                    masked_services=['ceilometer-api']))
         self.add('cinder', config={'main': 'cinder.conf'},
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/apache2/cinder_*.log']})
         self.add('designate', config={'main': 'designate.conf'},
-                 systemd_extra_services=['apache2'])
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     extra_services=['apache2']))
         self.add('glance', config={'main': 'glance-api.conf'},
-                 systemd_extra_services=['apache2'])
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     extra_services=['apache2']))
         self.add('gnocchi', config={'main': 'gnocchi.conf'},
-                 systemd_masked_services=['gnocchi-api'],
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     masked_services=['gnocchi-api'],
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/gnocchi/gnocchi-api.log']})
         self.add('heat', config={'main': 'heat.conf'},
-                 systemd_extra_services=['apache2'])
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     extra_services=['apache2']))
         self.add('horizon', apt_core_alt=['openstack-dashboard'],
-                 systemd_extra_services=['apache2'])
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     extra_services=['apache2']))
         self.add('ironic', config={'main': 'ironic.conf'})
         self.add('keystone', config={'main': 'keystone.conf'},
-                 systemd_masked_services=['keystone'],
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     masked_services=['keystone'],
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/keystone/keystone.log']})
         self.add('neutron',
@@ -604,44 +588,53 @@ class OSTProjectCatalog():
                          'dhcp-agent': 'dhcp_agent.ini',
                          'ovn': 'ovn.ini',
                          'ml2': 'plugins/ml2/ml2_conf.ini'},
-                 systemd_masked_services=['nova-api-metadata'],
-                 systemd_extra_services=['apache2'],
-                 systemd_deprecated_services=['neutron-lbaas-agent',
-                                              'neutron-lbaasv2-agent',
-                                              'neutron-fwaas-agent'])
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                    masked_services=['nova-api-metadata'],
+                    extra_services=['apache2'],
+                    deprecated_services=['neutron-lbaas-agent',
+                                         'neutron-lbaasv2-agent',
+                                         'neutron-fwaas-agent']))
         self.add('nova', config={'main': 'nova.conf'},
                  # See LP bug 1957760 for reason why neutron-server is added.
-                 systemd_masked_services=['nova-api-os-compute',
-                                          'neutron-server'],
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     masked_services=['nova-api-os-compute',
+                                      'neutron-server'],
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/apache2/nova-*.log',
                                       'var/log/nova/nova-api-wsgi.log']})
         self.add('manila', config={'main': 'manila.conf'},
-                 systemd_masked_services=['manila-api'],
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     masked_services=['manila-api'],
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/manila/manila-api.log']})
         self.add('masakari', config={'main': 'masakari.conf'},
-                 systemd_masked_services=['masakari'],
-                 systemd_extra_services=['apache2', 'masakari-engine'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                                        masked_services=['masakari'],
+                                        extra_services=['apache2',
+                                                        'masakari-engine']),
                  log_path_overrides={'apache2':
                                      ['var/log/apache2/masakari_error.log']})
         self.add('octavia', config={'main': 'octavia.conf',
                                     'amphora': 'amphora-agent.conf'},
-                 systemd_masked_services=['octavia-api'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                                            masked_services=['octavia-api'],
+                                            extra_services=['apache2',
+                                                            'amphora-agent']),
                  apt_core_alt=[r'amphora-\S+'],
-                 systemd_extra_services=['apache2', 'amphora-agent'],
                  log_path_overrides={'apache2':
                                      ['var/log/octavia/octavia-api.log']})
         self.add('placement', config={'main': 'placement.conf'},
-                 systemd_masked_services=['placement'],
-                 systemd_extra_services=['apache2'],
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     masked_services=['placement'],
+                     extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/apache2/*error.log']})
         self.add('swift', config={'main': 'swift-proxy.conf',
                                   'proxy': 'swift-proxy.conf'},
-                 systemd_extra_services=['apache2'])
+                 systemd_services_info=OSTProjectSystemdHelperParams(
+                     extra_services=['apache2']))
 
     def __getitem__(self, name):
         return self._projects[name]
