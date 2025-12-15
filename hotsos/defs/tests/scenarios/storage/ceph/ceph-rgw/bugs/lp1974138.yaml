@@ -2,6 +2,7 @@ data-root:
   files:
     sos_commands/dpkg/dpkg_-l: |
       ii  librgw2  15.2.14-0ubuntu0.20.04.1   amd64
+      ii  apache2  2.4.41-4ubuntu3.23    amd64    Apache HTTP Server
     etc/apache2/sites-enabled/openstack_https_frontend.conf: |
       Listen 433
       <VirtualHost 10.1.15.202:433>

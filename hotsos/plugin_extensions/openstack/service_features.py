@@ -1,5 +1,9 @@
 from hotsos.core.log import log
-from hotsos.core.plugins.openstack.common import OpenstackBase, OpenStackChecks
+from hotsos.core.plugins.openstack.common import (
+    ApacheInfo,
+    OpenstackBase,
+    OpenStackChecks,
+)
 from hotsos.core.plugintools import (
     summary_entry,
     get_min_available_entry_index,
@@ -78,35 +82,41 @@ class ServiceFeatureChecks(OpenstackBase, OpenStackChecks):
     @summary_entry('features', get_min_available_entry_index() + 3)
     def summary_features(self):
         """
-        This is used to display whether or not specific features are enabled.
+        For each OpenStack service running on this host, display common config
+        and service specific features.
         """
         features = {}
-        for service, modules in FEATURES.items():
-            svc_cfg = self.project_catalog.all[service].config
-            if not svc_cfg['main'].exists:
+        apache = ApacheInfo()
+        installed = {name: service for name, service in
+                     self.project_catalog.all.items()
+                     if service.installed and 'main' in service.config and
+                     service.config['main'].exists}
+        for name, service in installed.items():
+            debug_enabled = service.config['main'].get('debug',
+                                                       section="DEFAULT")
+            features[name] = {}
+            if service.api_installed and apache.project_ssl_enabled(name):
+                features[name]['api-ssl'] = True
+
+            features[name]['main'] = {'debug': debug_enabled or False}
+            if name not in FEATURES:
                 continue
 
-            dbg_enabled = svc_cfg['main'].get('debug', section="DEFAULT")
-            features[service] = {'main': {'debug': dbg_enabled or False}}
-
-            for module, sections in modules.items():
-                log.debug("getting features for '%s.%s'", service, module)
-                cfg = svc_cfg[module]
+            for module, sections in FEATURES[name].items():
+                log.debug("getting features for '%s.%s'", name, module)
+                cfg = service.config[module]
                 if not cfg.exists:
                     log.debug("%s not found - skipping features", cfg.path)
                     continue
 
-                module_features = self._get_module_features(service, module,
+                module_features = self._get_module_features(name, module,
                                                             sections, cfg)
                 if not module_features:
                     continue
 
-                if module in features[service]:
-                    features[service][module].update(module_features)
+                if module in features[name]:
+                    features[name][module].update(module_features)
                 else:
-                    features[service][module] = module_features
-
-        if self.ssl_enabled is not None:
-            features['api-ssl'] = self.ssl_enabled or False
+                    features[name][module] = module_features
 
         return features or None

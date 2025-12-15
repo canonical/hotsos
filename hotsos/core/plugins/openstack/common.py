@@ -71,6 +71,82 @@ class OpenStackInstallInfo(InstallInfoBase):
         _self.systemd = self.systemd
 
 
+class ApacheInfo:
+    """
+    Provides information related to Apache used by OpenStack services.
+    """
+    certificate_expire_days = 60
+
+    @cached_property
+    def ssl_config_file(self):
+        return os.path.join(HotSOSConfig.data_root,
+                            'etc/apache2/sites-enabled',
+                            'openstack_https_frontend.conf')
+
+    def project_ssl_enabled(self, project):
+        if not os.path.exists(self.ssl_config_file):
+            return False
+
+        expr = fr"^\s+SSLCertificateFile /etc/apache2/ssl/{project}"
+        with open(self.ssl_config_file, encoding='utf-8') as fd:
+            for line in fd:
+                if re.match(expr, line):
+                    return True
+
+        return False
+
+    @cached_property
+    def _certificates(self):
+        """ Returns list of ssl cert paths relative to data_root. """
+        certificate_paths = []
+        if not os.path.exists(self.ssl_config_file):
+            return certificate_paths
+
+        with open(self.ssl_config_file, encoding='utf-8') as fd:
+            for line in fd:
+                ret = re.search(r'SSLCertificateFile /(\S+)', line)
+                if ret:
+                    path = ret.group(1)
+                    if path not in certificate_paths:
+                        certificate_paths.append(path)
+
+            return certificate_paths
+
+    @cached_property
+    def certificates_expiring(self):
+        _certificates_expiring = []
+        max_days = self.certificate_expire_days
+        for path in self._certificates:
+            try:
+                ssl_checks = SSLCertificatesHelper(SSLCertificate(path),
+                                                   max_days)
+            except OSError:
+                log.info("cert path not found: %s", path)
+                continue
+
+            if ssl_checks.certificate_expires_soon:
+                _certificates_expiring.append(path)
+
+        return _certificates_expiring
+
+    @cached_property
+    def allow_encoded_slashes_on(self):
+        """ Returns True if AllowEncodedSlashes On is found. """
+        if not os.path.exists(self.ssl_config_file):
+            return False
+
+        with open(self.ssl_config_file, encoding='utf-8') as fd:
+            for line in fd:
+                if line.strip().startswith('#'):
+                    continue
+
+                ret = re.search(r'[Aa]llow[Ee]ncoded[Ss]lashes\s+[Oo]n', line)
+                if ret:
+                    return True
+
+        return False
+
+
 class OpenstackBase():  # pylint: disable=too-many-instance-attributes
     """
     Base class for OpenStack checks.
@@ -79,7 +155,6 @@ class OpenstackBase():  # pylint: disable=too-many-instance-attributes
     """
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.certificate_expire_days = 60
         self.project_helpers = OSTProjectHelpers(NovaBase(), NeutronBase(),
                                                  OctaviaBase())
         self.project_catalog = OSTProjectCatalog()
@@ -222,66 +297,6 @@ class OpenstackBase():  # pylint: disable=too-many-instance-attributes
 
         expected_masked = self.project_catalog.default_masked_services
         return sorted(list(masked.difference(expected_masked)))
-
-    @cached_property
-    def apache2_ssl_config_file(self):
-        return os.path.join(HotSOSConfig.data_root,
-                            'etc/apache2/sites-enabled',
-                            'openstack_https_frontend.conf')
-
-    @cached_property
-    def ssl_enabled(self):
-        return os.path.exists(self.apache2_ssl_config_file)
-
-    @cached_property
-    def _apache2_certificates(self):
-        """ Returns list of ssl cert paths relative to data_root. """
-        certificate_paths = []
-        if not self.ssl_enabled:
-            return certificate_paths
-
-        with open(self.apache2_ssl_config_file, encoding='utf-8') as fd:
-            for line in fd:
-                ret = re.search(r'SSLCertificateFile /(\S+)', line)
-                if ret:
-                    path = ret.group(1)
-                    if path not in certificate_paths:
-                        certificate_paths.append(path)
-
-            return certificate_paths
-
-    @cached_property
-    def apache2_certificates_expiring(self):
-        apache2_certificates_expiring = []
-        max_days = self.certificate_expire_days
-        for path in self._apache2_certificates:
-            try:
-                ssl_checks = SSLCertificatesHelper(SSLCertificate(path),
-                                                   max_days)
-            except OSError:
-                log.info("cert path not found: %s", path)
-                continue
-
-            if ssl_checks.certificate_expires_soon:
-                apache2_certificates_expiring.append(path)
-
-        return apache2_certificates_expiring
-
-    @cached_property
-    def apache2_allow_encoded_slashes_on(self):
-        """ Returns True if AllowEncodedSlashes On is found. """
-        if not self.ssl_enabled:
-            return False
-
-        with open(self.apache2_ssl_config_file, encoding='utf-8') as fd:
-            for line in fd:
-                if line.strip().startswith('#'):
-                    continue
-
-                ret = re.search(r'[Aa]llow[Ee]ncoded[Ss]lashes\s+[Oo]n', line)
-                if ret:
-                    return True
-        return False
 
 
 class OpenStackChecks(plugintools.PluginPartBase):

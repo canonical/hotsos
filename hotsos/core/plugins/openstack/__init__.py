@@ -1,4 +1,5 @@
 from .common import (
+    ApacheInfo,
     OpenstackBase,
     OpenStackChecks,
     OpenstackEventHandlerBase,
@@ -11,6 +12,7 @@ from .search_exprs import (
 from .openstack import OpenstackConfig
 
 __all__ = [
+    ApacheInfo.__name__,
     OpenstackBase.__name__,
     OpenStackChecks.__name__,
     OpenstackConfig.__name__,

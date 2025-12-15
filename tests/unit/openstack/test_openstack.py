@@ -741,20 +741,20 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                     'nova': {'main': {
                                 'debug': True,
                                 'live_migration_permit_auto_converge': False,
-                                'live_migration_permit_post_copy': False}},
-                    'api-ssl': False}
+                                'live_migration_permit_post_copy': False}}}
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["features"], expected)
 
     @utils.create_data_root({'etc/neutron/neutron.conf': '',
                              'etc/neutron/ovn.ini':
                              ('[DEFAULT]\n'
-                              'enable_distributed_floating_ip = true')})
+                              'enable_distributed_floating_ip = true')},
+                            copy_from_original=['sos_commands/systemd',
+                                                'sos_commands/dpkg'])
     def test_get_service_features_ovn(self):
         inst = service_features.ServiceFeatureChecks()
         actual = self.part_output_to_actual(inst.output)
-        expected = {'api-ssl': False,
-                    'neutron': {'main': {'debug': False},
+        expected = {'neutron': {'main': {'debug': False},
                                 'ovn': {'enable_distributed_floating_ip':
                                         True}}}
         self.assertEqual(actual["features"], expected)
@@ -803,21 +803,21 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF})
     def test_ssl_enabled(self):
-        base = openstack_core.OpenstackBase()
-        self.assertTrue(base.ssl_enabled)
+        base = openstack_core.ApacheInfo()
+        self.assertTrue(base.project_ssl_enabled('keystone'))
 
     def test_ssl_disabled(self):
-        base = openstack_core.OpenstackBase()
-        self.assertFalse(base.ssl_enabled)
+        base = openstack_core.ApacheInfo()
+        self.assertFalse(base.project_ssl_enabled('keystone'))
 
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF,
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE})
     def test_ssl_certificate_list(self):
-        base = openstack_core.OpenstackBase()
-        self.assertTrue(len(base._apache2_certificates), 1)  # noqa,pylint: disable=protected-access
-        self.assertEqual(base._apache2_certificates,  # noqa,pylint: disable=protected-access
+        base = openstack_core.ApacheInfo()
+        self.assertTrue(len(base._certificates), 1)  # noqa,pylint: disable=protected-access
+        self.assertEqual(base._certificates,  # noqa,pylint: disable=protected-access
                          ['etc/apache2/ssl/keystone/cert_10.5.100.2'])
 
     @utils.create_data_root(
@@ -826,8 +826,8 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE,
          'sos_commands/date/date': 'Thu Apr 12 16:19:17 UTC 2022'})
     def test_ssl_expiration_false(self):
-        base = openstack_core.OpenstackBase()
-        self.assertEqual(len(base.apache2_certificates_expiring), 0)
+        base = openstack_core.ApacheInfo()
+        self.assertEqual(len(base.certificates_expiring), 0)
 
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
@@ -835,19 +835,19 @@ class TestOpenstackApache2SSL(TestOpenstackBase):
          'etc/apache2/ssl/keystone/cert_10.5.100.2': CERTIFICATE_FILE,
          'sos_commands/date/date': 'Thu Apr 12 16:19:17 UTC 2023'})
     def test_ssl_expiration_true(self):
-        base = openstack_core.OpenstackBase()
-        self.assertTrue(len(base.apache2_certificates_expiring), 1)
+        base = openstack_core.ApacheInfo()
+        self.assertTrue(len(base.certificates_expiring), 1)
 
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF_RGW})
     def test_1974138_apache2_allow_encoded_slashes_true(self):
-        base = openstack_core.OpenstackBase()
-        self.assertTrue(base.apache2_allow_encoded_slashes_on)
+        base = openstack_core.ApacheInfo()
+        self.assertTrue(base.allow_encoded_slashes_on)
 
     @utils.create_data_root(
         {'etc/apache2/sites-enabled/openstack_https_frontend.conf':
          APACHE2_SSL_CONF})
     def test_lp1974138_apache2_allow_encoded_slashes_false(self):
-        base = openstack_core.OpenstackBase()
-        self.assertFalse(base.apache2_allow_encoded_slashes_on)
+        base = openstack_core.ApacheInfo()
+        self.assertFalse(base.allow_encoded_slashes_on)

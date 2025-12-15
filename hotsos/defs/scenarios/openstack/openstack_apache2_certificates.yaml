@@ -1,15 +1,11 @@
 checks:
-  ssl_enabled:
-    property: hotsos.core.plugins.openstack.OpenstackBase.ssl_enabled
   apache2_certificate_expiring:
     property:
-      path: hotsos.core.plugins.openstack.OpenstackBase.apache2_certificates_expiring
+      path: hotsos.core.plugins.openstack.ApacheInfo.certificates_expiring
       ops: [[ne, []]]
 conclusions:
   need-certificate-renewal:
-    decision:
-      - ssl_enabled
-      - apache2_certificate_expiring
+    decision: apache2_certificate_expiring
     raises:
       type: OpenstackWarning
       message: >-
@@ -17,4 +13,4 @@ conclusions:
         {apache2-certificates-path}
       format-dict:
         apache2-certificates-path: '@checks.apache2_certificate_expiring.requires.value_actual:comma_join'
-        apache2-certificates-days-to-expire: 'hotsos.core.plugins.openstack.OpenstackBase.certificate_expire_days'
+        apache2-certificates-days-to-expire: 'hotsos.core.plugins.openstack.ApacheInfo.certificate_expire_days'

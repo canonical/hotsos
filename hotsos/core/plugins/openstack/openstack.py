@@ -400,6 +400,10 @@ class OSTProjectParameters:
         @param config: dict of config files keyed by a label used to identify
                        them. All projects should have a config file labeled
                        'main'.
+        @param apt_api_packages: list of one or more packages required for
+                                 api agent(s) to be running. This is used to
+                                 distinguish between api agents and other
+                                 e.g. library packages for a project.
         @param apt_core_alt: optional list of apt packages (regex) that are
                              used by this project where the name of the project
                              is not the same as the name used for its packages.
@@ -411,6 +415,7 @@ class OSTProjectParameters:
     """
     name: str = None
     config: dict = None
+    apt_api_packages: list = None
     apt_core_alt: list = None
     systemd_services_info: OSTProjectSystemdHelperParams = None
     log_path_overrides: dict = field(default_factory=lambda: {})
@@ -465,10 +470,23 @@ class OSTProject():
         return config
 
     @cached_property
+    def api_installed(self):
+        """ Return True if the openstack service is installed incl. an api
+        component. """
+        if not self.installed:
+            return False
+
+        _installed_packages = host_helpers.APTPackageHelper(
+                          core_pkgs=self.apt_params.core).core
+        api_packages = self.params.apt_api_packages or []
+        return bool(not api_packages or [p for p in api_packages
+                    if p in _installed_packages])
+
+    @cached_property
     def installed(self):
         """ Return True if the openstack service is installed. """
         return bool(host_helpers.APTPackageHelper(
-                        core_pkgs=self.apt_params.core).core)
+                                  core_pkgs=self.apt_params.core).core)
 
     @cached_property
     def services_expr(self):
@@ -536,12 +554,14 @@ class OSTProjectCatalog():
     def __init__(self):
         self._projects = {}
         self.add('aodh', config={'main': 'aodh.conf'},
+                 apt_api_packages=['aodh-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      masked_services=['aodh-api'],
                      extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/aodh/aodh-api.log']})
         self.add('barbican', config={'main': 'barbican.conf'},
+                 apt_api_packages=['barbican-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      masked_services=['barbican-api'],
                      extra_services=['apache2']),
@@ -551,23 +571,28 @@ class OSTProjectCatalog():
                  systemd_services_info=OSTProjectSystemdHelperParams(
                     masked_services=['ceilometer-api']))
         self.add('cinder', config={'main': 'cinder.conf'},
+                 apt_api_packages=['cinder-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/apache2/cinder_*.log']})
         self.add('designate', config={'main': 'designate.conf'},
+                 apt_api_packages=['designate'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      extra_services=['apache2']))
         self.add('glance', config={'main': 'glance-api.conf'},
+                 apt_api_packages=['glance-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      extra_services=['apache2']))
         self.add('gnocchi', config={'main': 'gnocchi.conf'},
+                 apt_api_packages=['gnocchi-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      masked_services=['gnocchi-api'],
                      extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/gnocchi/gnocchi-api.log']})
         self.add('heat', config={'main': 'heat.conf'},
+                 apt_api_packages=['heat-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      extra_services=['apache2']))
         self.add('horizon', apt_core_alt=['openstack-dashboard'],
@@ -575,12 +600,14 @@ class OSTProjectCatalog():
                      extra_services=['apache2']))
         self.add('ironic', config={'main': 'ironic.conf'})
         self.add('keystone', config={'main': 'keystone.conf'},
+                 apt_api_packages=['keystone'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      masked_services=['keystone'],
                      extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/keystone/keystone.log']})
         self.add('neutron',
+                 apt_api_packages=['neutron-server'],
                  config={'main': 'neutron.conf',
                          'openvswitch-agent':
                          'plugins/ml2/openvswitch_agent.ini',
@@ -595,6 +622,7 @@ class OSTProjectCatalog():
                                          'neutron-lbaasv2-agent',
                                          'neutron-fwaas-agent']))
         self.add('nova', config={'main': 'nova.conf'},
+                 apt_api_packages=['nova-api', 'nova-api-os-compute'],
                  # See LP bug 1957760 for reason why neutron-server is added.
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      masked_services=['nova-api-os-compute',
@@ -604,12 +632,14 @@ class OSTProjectCatalog():
                                      ['var/log/apache2/nova-*.log',
                                       'var/log/nova/nova-api-wsgi.log']})
         self.add('manila', config={'main': 'manila.conf'},
+                 apt_api_packages=['manila-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      masked_services=['manila-api'],
                      extra_services=['apache2']),
                  log_path_overrides={'apache2':
                                      ['var/log/manila/manila-api.log']})
         self.add('masakari', config={'main': 'masakari.conf'},
+                 apt_api_packages=['masakari-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                                         masked_services=['masakari'],
                                         extra_services=['apache2',
@@ -618,6 +648,7 @@ class OSTProjectCatalog():
                                      ['var/log/apache2/masakari_error.log']})
         self.add('octavia', config={'main': 'octavia.conf',
                                     'amphora': 'amphora-agent.conf'},
+                 apt_api_packages=['octavia-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                                             masked_services=['octavia-api'],
                                             extra_services=['apache2',
@@ -626,6 +657,7 @@ class OSTProjectCatalog():
                  log_path_overrides={'apache2':
                                      ['var/log/octavia/octavia-api.log']})
         self.add('placement', config={'main': 'placement.conf'},
+                 apt_api_packages=['placement-api'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      masked_services=['placement'],
                      extra_services=['apache2']),
@@ -633,6 +665,7 @@ class OSTProjectCatalog():
                                      ['var/log/apache2/*error.log']})
         self.add('swift', config={'main': 'swift-proxy.conf',
                                   'proxy': 'swift-proxy.conf'},
+                 apt_api_packages=['swift-proxy'],
                  systemd_services_info=OSTProjectSystemdHelperParams(
                      extra_services=['apache2']))
 
