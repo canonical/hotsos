@@ -78,7 +78,8 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
 
         self._loaded_searches = []
         self._results = None
-        self._searcher = FileSearcher(constraint=constraint)
+        self._searcher = FileSearcher(constraint=constraint,
+                                      decode_errors='backslashreplace')
         log.debug("creating new global searcher (%s)", self._searcher)
         super().__init__()
 

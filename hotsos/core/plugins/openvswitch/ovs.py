@@ -125,7 +125,7 @@ class OpenvSwitchBase():
 
         nethelp = HostNetworkingHelper()
         with CLIHelperFile() as cli:
-            s = FileSearcher()
+            s = FileSearcher(decode_errors='backslashreplace')
             expr = r'.+ \(([a-z]+): ([a-f\d\.:]+)->([a-f\d\.:]+), .+'
             s.add(SearchDef(expr, tag='all'),
                   cli.ovs_appctl(command='ofproto/list-tunnels'))
@@ -190,7 +190,7 @@ class OVSFDBStats(OpenvSwitchBase):
         @return: list of bridges with full FDB.
         """
         expr = r'\s*Current/maximum MAC entries in the table: (\d+)/(\d+)'
-        searcher = FileSearcher()
+        searcher = FileSearcher(decode_errors='backslashreplace')
         with CLIHelperFile() as cli:
             for bridge in self.bridges:
                 log.info("Checking FDB for bridge '%s'", bridge.name)

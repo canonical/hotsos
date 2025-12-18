@@ -106,7 +106,7 @@ class NetworkPort(HostHelpersBase):
         if counters:
             return counters
 
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         seqdef = SequenceSearchDef(
                     # match start of interface
                     start=SearchDef(IP_IFACE_NAME_TEMPLATE.format(self.name)),
@@ -259,7 +259,7 @@ class HostNetworkingHelper(HostHelpersBase):
                                          namespace=namespace) or []
         if not interfaces_raw:
             seq = self._ip_addr_show_iface_sequence_def
-            search_obj = FileSearcher()
+            search_obj = FileSearcher(decode_errors='backslashreplace')
             ip_addr = self.cli.ns_ip_addr(namespace=namespace)
             prefix = f"__ns_start__{namespace}__ns__end__"
             path = mktemp_dump(''.join(ip_addr), prefix=prefix)
@@ -291,7 +291,7 @@ class HostNetworkingHelper(HostHelpersBase):
                                          all_namespaces=all_namespaces) or []
         if not interfaces_raw:
             seq = self._ip_addr_show_iface_sequence_def
-            search_obj = FileSearcher()
+            search_obj = FileSearcher(decode_errors='backslashreplace')
             if all_namespaces:
                 for ns in self.cli.ip_netns():
                     ns_name = ns.partition(" ")[0]
