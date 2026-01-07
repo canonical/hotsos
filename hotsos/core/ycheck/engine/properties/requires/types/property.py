@@ -21,7 +21,7 @@ class YRequirementTypeProperty(YRequirementTypeWithOpsBase):
         else:
             path = self.content['path']
 
-        actual = self.get_property(path)
+        actual = self.get_property(self.context, path)
         result = self.apply_ops(self.ops, opinput=actual)
         log.debug('requirement check: property %s %s (result=%s)',
                   path, self.ops_to_str(self.ops), result)

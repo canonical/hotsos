@@ -1,9 +1,7 @@
 # NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
 ovs-vswitchd:
-  input:
-    path: 'var/log/openvswitch/ovs-vswitchd.log'
+  input: 'openvswitch:openvswitch/ovs-vswitchd.log'
   expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)'
 ovsdb-server:
-  input:
-    path: 'var/log/openvswitch/ovsdb-server.log'
+  input: 'openvswitch:openvswitch/ovsdb-server.log'
   expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(ERR|ERROR|WARN|EMER)'

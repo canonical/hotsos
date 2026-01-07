@@ -2,9 +2,8 @@ checks:
   # NOTE: the following check can be run on a mon or osd node since the same
   # logs should be available on both.
   osd_flapping:
-    input:
-      path: ['var/log/ceph/ceph*.log', 'var/snap/microceph/common/logs/ceph*.log']
-    expr: '([\d-])+[T ][\d:]+\S+ .+ wrongly marked me down at .+'
+    input: 'storage.ceph:ceph*.log'
+    search: '([\d-])+[T ][\d:]+\S+ .+ wrongly marked me down at .+'
   ceph_interfaces_have_errors:
     property: hotsos.core.plugins.storage.ceph.CephChecks.has_interface_errors
 conclusions:

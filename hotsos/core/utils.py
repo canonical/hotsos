@@ -1,3 +1,6 @@
+import abc
+import glob
+import os
 import tempfile
 from collections import namedtuple
 from operator import attrgetter
@@ -105,3 +108,25 @@ def sort_suffixed_integers(values, reverse=False):
 
     reals.sort(key=attrgetter('actual'), reverse=reverse)
     return [t.raw for t in reals]
+
+
+class PathFinderBase:
+    """
+    Discovers correct path to a file. This is used to support file locations
+    that differ depending on their install method e.g. snap vs. deb package.
+    """
+
+    @property
+    @abc.abstractmethod
+    def paths(self):
+        """ This must be implemented and return and list of root locations to
+        use when search for a given subpath. """
+
+    def resolve(self, subpath):
+        for path in self.paths:
+            path = os.path.join(path, subpath)
+            for _path in glob.glob(os.path.join(HotSOSConfig.data_root, path)):
+                if os.path.exists(_path):
+                    return path
+
+        return None

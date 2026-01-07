@@ -284,54 +284,25 @@ class PropertyCache(UserDict):
         return self.data.get(key)
 
 
-class YPropertyBase(PTreeOverrideBase):
-    """
-    Base class used for all YAML property objects. Implements and extends
-    PTreeOverrideBase to provide frequently used methods and helpers to
-    property implementations.
-    """
-    def __init__(self, *args, **kwargs):
-        self._cache = PropertyCache()
-        super().__init__(*args, **kwargs)
+class ImportHelper:
+    """ Helper class for importing modules/classes/properties from strings. """
 
-    def resolve_var(self, name):
-        """
-        Resolve variable with name to value. This can be used speculatively and
-        will return the name as value if it can't be resolved.
-        """
-        if not name.startswith('$'):
-            return name
-
-        if hasattr(self, 'context'):
-            if self.context.vars:
-                _name = name.partition('$')[2]
-                return self.context.vars.resolve(_name)
-
-        log.warning("could not resolve var '%s' - vars not found in "
-                    "context", name)
-
-        return name
-
-    @property
-    def cache(self):
-        """
-        All properties get their own cache object that they can use as they
-        wish.
-        """
-        return self._cache
-
-    def _load_from_import_cache(self, key):
+    @staticmethod
+    def _load_from_import_cache(context, key):
         """ Retrieve from global context if one exists.
 
+        @param context: global context property. This is where we look for the
+                        cache which is stored using key 'import_cache'. If an
+                        import is cached we use it rather than re-importing.
         @param key: key to retrieve
         """
-        if self.context is None:
+        if context is None:
             log.info("context not available - cannot load '%s'", key)
             return None
 
         # we save all imports in a dict called "import_cache" within the
         # global context so that all properties have access.
-        c = getattr(self.context, 'import_cache')
+        c = getattr(context, 'import_cache')
         if not c:
             return None
 
@@ -368,29 +339,36 @@ class YPropertyBase(PTreeOverrideBase):
 
         return _cls, _prop
 
-    def _add_to_import_cache(self, key, value):
+    @staticmethod
+    def _add_to_import_cache(context, key, value):
         """ Save in the global context if one exists.
 
+        @param context: global context property. This is where we look for the
+                        cache which is stored using key 'import_cache'. If an
+                        import is cached we use it rather than re-importing.
         @param key: key to save
         @param value: value to save
         """
-        if self.context is None:
+        if context is None:
             log.info("context not available - cannot save '%s'", key)
             return
 
-        c = getattr(self.context, 'import_cache')
+        c = getattr(context, 'import_cache')
         if c:
             c[key] = value
         else:
             c = {key: value}
-            setattr(self.context, 'import_cache', c)
+            setattr(context, 'import_cache', c)
 
-    def get_cls(self, import_str):
+    def get_cls(self, context, import_str):
         """ Import and instantiate Python class.
 
+        @param context: global context property. This is where we look for the
+                        cache which is stored using key 'import_cache'. If an
+                        import is cached we use it rather than re-importing.
         @param import_str: import path to Python class.
         """
-        ret = self._load_from_import_cache(import_str)
+        ret = self._load_from_import_cache(context, import_str)
         if ret:
             log.debug("instantiating class %s (from_cache=True)", import_str)
             return ret
@@ -411,10 +389,10 @@ class YPropertyBase(PTreeOverrideBase):
             log.exception("failed to import class %s from %s", cls_name, mod)
             raise
 
-        self._add_to_import_cache(import_str, ret)
+        self._add_to_import_cache(context, import_str, ret)
         return ret
 
-    def get_property(self, import_str):
+    def get_property(self, context, import_str):
         """
         Import and fetch value of a Python property or factory.
 
@@ -426,9 +404,12 @@ class YPropertyBase(PTreeOverrideBase):
         this case the field prior to the delim is the path to the factory class
         itself with an optional input.
 
+        @param context: global context property. This is where we look for the
+                        cache which is stored using key 'import_cache'. If an
+                        import is cached we use it rather than re-importing.
         @param import_str: a path to a Python property or Factory.
         """
-        ret = self._load_from_import_cache(import_str)
+        ret = self._load_from_import_cache(context, import_str)
         if ret:
             log.debug("calling property %s (from_cache=True)", import_str)
             return ret
@@ -437,27 +418,27 @@ class YPropertyBase(PTreeOverrideBase):
         _cls, _prop = self._get_class_property_from_path(import_str)
         try:
             try:
-                cls = self.get_cls(_cls)
+                cls = self.get_cls(context, _cls)
             except ImportPathIsNotAClass:
                 # support case where factory has no attribute
                 log.debug("trying again without property")
                 _cls, _prop = self._get_class_property_from_path(
                                                               import_str,
                                                               no_property=True)
-                cls = self.get_cls(_cls)
+                cls = self.get_cls(context, _cls)
         except Exception:
             log.exception("class '%s' import failed", _cls)
             raise
 
         key = f"{cls}.object"
-        cls_inst = self._load_from_import_cache(key)
+        cls_inst = self._load_from_import_cache(context, key)
         if not cls_inst:
             try:
-                cls_inst = cls(global_searcher=self.context.global_searcher)
+                cls_inst = cls(global_searcher=context.global_searcher)
             except TypeError:
                 cls_inst = cls()
 
-            self._add_to_import_cache(key, cls_inst)
+            self._add_to_import_cache(context, key, cls_inst)
 
         if ':' in _prop:
             # property is for a factory object
@@ -483,7 +464,7 @@ class YPropertyBase(PTreeOverrideBase):
                 raise TypeError(f"{_obj} is a not a property (looks like it "
                                 "is a callable method)")
 
-        self._add_to_import_cache(import_str, _obj)
+        self._add_to_import_cache(context, import_str, _obj)
         return _obj
 
     @staticmethod
@@ -526,17 +507,58 @@ class YPropertyBase(PTreeOverrideBase):
 
         return ret
 
-    def get_import(self, import_str):
+    def get_import(self, context, import_str):
         """
         First attempt to treat import string as a class property then try
         module attribute.
+
+        @param context: global context property. This is where we look for the
+                        cache which is stored using key 'import_cache'. If an
+                        import is cached we use it rather than re-importing.
         """
         try:
-            return self.get_property(import_str)
+            return self.get_property(context, import_str)
         except TypeError as exc:
             log.debug("get_property failed, trying get_attribute: %s", exc)
 
         return self.get_attribute(import_str)
+
+
+class YPropertyBase(PTreeOverrideBase, ImportHelper):
+    """
+    Base class used for all YAML property objects. Implements and extends
+    PTreeOverrideBase to provide frequently used methods and helpers to
+    property implementations.
+    """
+    def __init__(self, *args, **kwargs):
+        self._cache = PropertyCache()
+        super().__init__(*args, **kwargs)
+
+    @property
+    def cache(self):
+        """
+        All properties get their own cache object that they can use as they
+        wish.
+        """
+        return self._cache
+
+    def resolve_var(self, name):
+        """
+        Resolve variable with name to value. This can be used speculatively and
+        will return the name as value if it can't be resolved.
+        """
+        if not name.startswith('$'):
+            return name
+
+        if hasattr(self, 'context'):
+            if self.context.vars:
+                _name = name.partition('$')[2]
+                return self.context.vars.resolve(_name)
+
+        log.warning("could not resolve var '%s' - vars not found in "
+                    "context", name)
+
+        return name
 
 
 class YPropertyOverrideBase(YPropertyBase, PTreeOverrideBase):
