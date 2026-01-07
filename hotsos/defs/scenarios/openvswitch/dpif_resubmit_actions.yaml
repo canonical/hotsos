@@ -1,6 +1,5 @@
 # default input
-input:
-  path: var/log/openvswitch/ovs-vswitchd.log
+input: 'openvswitch:openvswitch/ovs-vswitchd.log'
 checks:
   dpif_resubmit_limit_reached:
     search:

@@ -1,6 +1,6 @@
 checks:
   1865127_logs:
-    input: 'var/log/ovn/ovn-controller.log'
+    input: 'openvswitch:ovn/ovn-controller.log'
     search:
       expr: '([\d-]+)T([\d:]+)\.\d+Z.+ERR\|bridge not found for localnet port \S+ with network name'
       constraints:

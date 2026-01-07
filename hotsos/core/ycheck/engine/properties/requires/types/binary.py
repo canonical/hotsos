@@ -53,7 +53,8 @@ class YRequirementTypeBinary(YRequirementTypeBase):
     @intercept_exception
     def _result(self):
         items = BinCheckItems(self._bin_info,
-                              bin_handler=self.get_cls(self.handler))
+                              bin_handler=self.get_cls(self.context,
+                                                       self.handler))
 
         _result = True
         # bail on first fail i.e. if any not installed

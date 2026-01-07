@@ -20,7 +20,7 @@ checks:
       min-results: 10
       search-result-age-hours: 6
   has_1829109_ovn_controller_log:
-    input: var/log/ovn/ovn-controller.log
+    input: 'openvswitch:ovn/ovn-controller.log'
     expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|ovsdb_idl\|WARN\|tcp:\S+:6642: clustered database server has stale data; trying another server'
     constraints:
       min-results: 10

@@ -22,7 +22,7 @@ checks:
         - min: 21.09.0
           max: 21.09.0~git20210806.d08f89e21-0ubuntu1
   has_northd_version_mismatch:
-    input: var/log/ovn/ovn-controller.log
+    input: 'openvswitch:ovn/ovn-controller.log'
     expr: '([\d-]+)T([\d:]+)\.\d+Z\|\S+\|main\|WARN\|controller version - (\S+) mismatch with northd version - (\S+)'
     constraints:
       search-result-age-hours: 336  # 14 days

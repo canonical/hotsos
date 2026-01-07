@@ -32,6 +32,7 @@ from hotsos.core.search import (
     SearchDef
 )
 from hotsos.core.ycheck.events import EventCallbackBase
+from hotsos.core.utils import PathFinderBase
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+",
@@ -76,6 +77,18 @@ CEPH_REL_INFO = {
         'kraken': '11.0',
         'jewel': '10.0'},
 }
+
+
+class PathFinder(PathFinderBase):
+    """ Supports both snap and deb based installed of ceph.
+
+    Ensure this list contains every possible path available for ceph
+    log files.
+    """
+    @property
+    def paths(self):
+        return ['var/log/ceph',
+                'var/snap/microceph/common/logs']
 
 
 def csv_to_set(f):

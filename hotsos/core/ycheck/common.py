@@ -207,9 +207,6 @@ class GlobalSearcherPreloaderBase():
         @param search_property: YPropertySearch object
         @param search_input: YPropertyInput object
         """
-        if len(search_input.paths) == 0:
-            return
-
         allow_constraints = True
         if search_input.command:
             # don't apply constraints to command outputs
@@ -226,6 +223,9 @@ class GlobalSearcherPreloaderBase():
                                     search_property.simple_search,
                                 'sequence_search':
                                     search_property.sequence_search}
+
+        if len(search_input.paths) == 0:
+            return
 
         for path in search_input.paths:
             log.debug("loading search (tag=%s, input_path=%s, "

@@ -11,12 +11,12 @@ checks:
     - varops: [[$host_cert_mtime], [gt, $ovn_controller_start_time]]
     - varops: [[$ovn_chassis_cert_mtime], [gt, $ovn_controller_start_time]]
   certs_expired_logs:
-    input: var/log/ovn/ovn-controller.log
+    input: 'openvswitch:ovn/ovn-controller.log'
     expr: $cert_expired_expr
     constraints:
       search-result-age-hours: 24
   certs_invalid_logs:
-    input: var/log/ovn/ovn-controller.log
+    input: 'openvswitch:ovn/ovn-controller.log'
     expr: $cert_invalid_expr
     constraints:
       search-result-age-hours: 24
