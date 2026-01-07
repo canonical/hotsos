@@ -10,7 +10,7 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 raised-issues:
   CephMgrError: >-
-    PG autoscaler found overlapping roots for pool(s). As a
+    PG autoscaler found overlapping roots for pools: 14, 4. As a
     result, PG autoscaler won't scale those pools. This happens
     when a pool uses a crush rule that doesn't distinguish
     between OSD device classes. Any pool using that crush rule
