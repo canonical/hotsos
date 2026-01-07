@@ -21,6 +21,10 @@ class SunbeamInfo():
 
         cli = CLIHelper()
         out = cli.kubectl_get(namespace='openstack', opt='pods', subopts='')
+        if 'items' not in out:
+            log.info('no sunbeam pods found')
+            return {}
+
         pods = defaultdict(list)
         for pod in out['items']:
             phase = pod['status']['phase']
@@ -43,7 +47,7 @@ class SunbeamInfo():
 
         ss = {'complete': [], 'incomplete': []}
         if 'items' not in out:
-            log.info('no statefulsets found')
+            log.info('no sunbeam statefulsets found')
             return {}
 
         metadata_fails = 0
