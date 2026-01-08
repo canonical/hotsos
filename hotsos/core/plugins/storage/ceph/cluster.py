@@ -310,6 +310,69 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         return _osds
 
     @cached_property
+    def nearfull_ratio(self):
+        """Return the cluster nearfull ratio from ``ceph report``.
+
+        Returns the value if available, otherwise ``None``.
+        """
+        report = self.crush_map.ceph_report
+        if not report:
+            return None
+
+        val = None
+        if 'osdmap' in report:
+            val = report['osdmap'].get('nearfull_ratio')
+        if val is None:
+            val = report.get('nearfull_ratio')
+
+        try:
+            return round(val, 2) if val is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    @cached_property
+    def backfillfull_ratio(self):
+        """Return the cluster backfillfull ratio from ``ceph report``.
+
+        Returns the value if available, otherwise ``None``.
+        """
+        report = self.crush_map.ceph_report
+        if not report:
+            return None
+
+        val = None
+        if 'osdmap' in report:
+            val = report['osdmap'].get('backfillfull_ratio')
+        if val is None:
+            val = report.get('backfillfull_ratio')
+
+        try:
+            return round(val, 2) if val is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    @cached_property
+    def full_ratio(self):
+        """Return the cluster full ratio from ``ceph report``.
+
+        Returns the value if available, otherwise ``None``.
+        """
+        report = self.crush_map.ceph_report
+        if not report:
+            return None
+
+        val = None
+        if 'osdmap' in report:
+            val = report['osdmap'].get('full_ratio')
+        if val is None:
+            val = report.get('full_ratio')
+
+        try:
+            return round(val, 2) if val is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    @cached_property
     def cluster_osds_without_v2_messenger_protocol(self):
         v1_osds = []
         for osd in self.osds:
