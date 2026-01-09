@@ -464,7 +464,7 @@ class Lsof(STOVParserBase):
     """
 
     def _load(self):
-        search = FileSearcher()
+        search = FileSearcher(decode_errors='backslashreplace')
         with CLIHelperFile() as cli:
             fout = cli.lsof_Mnlc()
             search.add(SearchDef(self._header_matcher, tag='header'), fout)
@@ -543,7 +543,7 @@ class NetLink(STOVParserBase):
     """
 
     def _load(self):
-        search = FileSearcher()
+        search = FileSearcher(decode_errors='backslashreplace')
         path = os.path.join(HotSOSConfig.data_root, 'proc/net/netlink')
         search.add(SearchDef(self._header_matcher, tag='header'), path)
         search.add(SearchDef(self._field_matcher, tag='content',

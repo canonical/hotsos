@@ -61,7 +61,7 @@ def _should_skip_log(now, then):
 
 def _init_searchobj():
     c = SearchConstraintSearchSince(ts_matcher_cls=CommonTimestampMatcher)
-    searchobj = FileSearcher(constraint=c)
+    searchobj = FileSearcher(constraint=c, decode_errors='backslashreplace')
     path = os.path.join(HotSOSConfig.data_root, 'var/log/juju/unit-*.log')
     ts_expr = r"^([\d-]+)\s+([\d:]+)"
     for msg in ['ERROR', 'WARNING']:

@@ -40,7 +40,7 @@ class CephDaemonBase():
 
         NOTE: this assumes we have ps auxwwwm format.
         """
-        s = FileSearcher()
+        s = FileSearcher(decode_errors='backslashreplace')
         # columns: USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
         if self.id is not None:
             ceph_id = rf"--id\s+{self.id}"

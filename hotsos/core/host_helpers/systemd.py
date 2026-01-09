@@ -145,7 +145,7 @@ class SystemdService():
                                 'memory.current')
         if os.path.exists(cgroupv1):
             total_usage = {}
-            fs = FileSearcher()
+            fs = FileSearcher(decode_errors='backslashreplace')
             fs.add(SearchDef(r'(cache|rss|swap) (\d+)'), path=cgroupv1)
             for result in fs.run().get(cgroupv1, {}):
                 total_usage[result.get(1)] = int(result.get(2))
