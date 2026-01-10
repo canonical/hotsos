@@ -148,6 +148,11 @@ class OVSOFCtlBinCmd(BinCmd):
         self.prefix = prefix
         super().__init__(*args, **kwargs)
 
+    @property
+    def _affinity_info(self):
+        """ Disable affinity for this command. """
+        return ()
+
     def __call__(self, *args, **kwargs):
         """
         First try without specifying protocol version. If error is raised
@@ -194,6 +199,11 @@ class OVSOFCtlFileCmd(FileCmd):
         path = (f'sos_commands/openvswitch/{prefix}ovs-ofctl'
                 '{ofversion}_{command}_{args}')
         super().__init__(path, *args, **kwargs)
+
+    @property
+    def _affinity_info(self):
+        """ Disable affinity for this command. """
+        return ()
 
     def __call__(self, *args, **kwargs):
         """
