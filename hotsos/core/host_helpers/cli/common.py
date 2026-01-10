@@ -1,7 +1,9 @@
+import abc
 import json
 import os
 import re
 import subprocess
+from collections import defaultdict
 from dataclasses import dataclass, field, fields
 
 import yaml
@@ -69,17 +71,82 @@ def reset_command(f):
     return reset_command_inner
 
 
+class CmdAffinity:
+    """
+    Supports command affinity. By default all commands support affinity so that
+    we can run the last-known-good command source without having to try all
+    variants first.
+    """
+
+    def __init__(self, info):
+        self.info = info
+
+    def matches(self, cmdkey):
+        """
+        Return true if the provided cmdkey has an affinity match for this
+        object.
+        """
+        if not self.info:
+            return False
+
+        cls, value = self.info
+        if value in (cls.CMD_AFFINITY or {}).get(cmdkey, []):
+            log.debug("affinity match found: %s='%s' (%s)", cmdkey,
+                      value, cls.__name__)
+            return True
+
+        return False
+
+    def set(self, cmdkey):
+        """
+        Set affinity path/cmd for cmdkey. This allows us to use a
+        last-known-good source so we don't have to retry ones that didn't work.
+        """
+        if (not self.info or
+                os.environ.get('HOTSOS_DISABLE_AFFINITY') == 'True'):
+            return
+
+        cls, value = self.info
+        if cls.CMD_AFFINITY is None:
+            cls.CMD_AFFINITY = defaultdict(list)
+
+        if (cmdkey not in cls.CMD_AFFINITY or
+                value not in cls.CMD_AFFINITY[cmdkey]):
+            log.debug("setting affinity %s='%s' (%s)", cmdkey, value,
+                      cls.__name__)
+            cls.CMD_AFFINITY[cmdkey].append(value)
+        else:
+            log.debug("%s '%s' affinity already exists (%s)", cls.__name__,
+                      cmdkey, ', '.join(cls.CMD_AFFINITY[cmdkey]))
+
+
 @dataclass
 class CmdBase:
     """ Base class for all command source types.
 
     Provides a way to save original state and restore to that state.
     """
+    CMD_AFFINITY = None
+
     def __post_init__(self):
+        self.affinity = CmdAffinity(self._affinity_info)
         self.hooks = {}
         # make a copy of field original values.
         for f in fields(self):
             setattr(self, 'original_' + f.name, f.type(getattr(self, f.name)))
+
+    @property
+    @abc.abstractmethod
+    def _affinity_info(self):
+        """ All command types must implement this. Returns information needed
+        to set affinity.
+
+        To disable affinity for a command this must return an empty tuple()
+
+        :return: tuple of (class, value) where class is the implementation of
+                 CmdBase we want to register the affinity with and value is the
+                 command identifier e.g. path or cli command.
+        """
 
     def get_original_attr_value(self, name):
         return getattr(self, 'original_' + name)
@@ -119,6 +186,10 @@ class FileCmdBase(CmdBase):
     singleline: bool = False
     decode_error_handling: str = None
 
+    @property
+    def _affinity_info(self):
+        return self.__class__, self.path
+
     def __post_init__(self):
         self.path = os.path.join(HotSOSConfig.data_root, self.path)
         super().__post_init__()
@@ -132,6 +203,10 @@ class BinCmdBase(CmdBase):
     yaml_decode: bool = False
     singleline: bool = False
     cmd_extras: list = field(default_factory=lambda: [])
+
+    @property
+    def _affinity_info(self):
+        return self.__class__, self.cmd
 
 
 class BinCmd(BinCmdBase):

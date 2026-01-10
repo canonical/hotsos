@@ -297,7 +297,8 @@ class ImportHelper:
         @param key: key to retrieve
         """
         if context is None:
-            log.info("context not available - cannot load '%s'", key)
+            log.debug("context not available - cannot check cache for '%s'",
+                      key)
             return None
 
         # we save all imports in a dict called "import_cache" within the
@@ -350,7 +351,7 @@ class ImportHelper:
         @param value: value to save
         """
         if context is None:
-            log.info("context not available - cannot save '%s'", key)
+            log.debug("context not available - cannot save '%s' to cache", key)
             return
 
         c = getattr(context, 'import_cache')

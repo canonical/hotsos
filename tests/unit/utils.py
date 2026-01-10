@@ -507,6 +507,7 @@ class BaseTestCase(unittest.TestCase):
         self.maxDiff = None  # pylint: disable=invalid-name
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
+        os.environ["HOTSOS_DISABLE_AFFINITY"] = 'True'
         # Always reset env globals
         HotSOSConfig.set(**self.hotsos_config)
         if not self.global_tmp_dir:
