@@ -67,9 +67,12 @@ export PYTHONPATH=.
 
 default=${PLUGIN_ROOTS[openstack]}
 for plugin in ${PLUGINS[@]}; do
-    test_plugin $plugin
-    test_plugin $plugin short
+    test_plugin $plugin &
+    test_plugin $plugin short &
 done
+
+# wait for all plugin tests
+wait
 
 # do a test run with --save to be sure we havent broken anything
 ./scripts/hotsos --kernel --save --output-path $dtmp
