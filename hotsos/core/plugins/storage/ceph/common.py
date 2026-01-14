@@ -113,6 +113,10 @@ class CephConfig(IniConfigBase):
     """
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root, 'etc/ceph/ceph.conf')
+        if not os.path.exists(path):
+            path = os.path.join(HotSOSConfig.data_root,
+                                'var/snap/microceph/current/conf/ceph.conf')
+
         super().__init__(*args, path=path, **kwargs)
 
     def get(self, key, *args, **kwargs):
