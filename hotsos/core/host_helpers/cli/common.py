@@ -213,6 +213,14 @@ class BinCmd(BinCmdBase):
     """ Implements binary command execution. """
     TYPE = "BIN"
 
+    def json_decode_output(self, output):  # pylint: disable=no-self-use
+        """
+        Decode JSON output.
+
+        This allows implementations to override the decoding if necessary.
+        """
+        return CmdOutput(json.loads(output))
+
     @catch_exceptions(*CLI_COMMON_EXCEPTIONS)
     @reset_command
     @run_post_exec_hooks
@@ -244,7 +252,7 @@ class BinCmd(BinCmdBase):
             output = ''
 
         if self.json_decode and not skip_json_decode:
-            return CmdOutput(json.loads(output))
+            return self.json_decode_output(output)
 
         if self.yaml_decode:
             return CmdOutput(yaml.safe_load(output))

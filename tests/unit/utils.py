@@ -32,6 +32,16 @@ TEST_TEMPLATE_SCHEMA = set(['target-name', 'data-root', 'mock',
                             'raised-issues', 'raised-bugs'])
 
 
+@dataclass
+class FakeOut:
+    """
+    Fake Popen output
+    """
+    stdout: str
+    stderr: str
+    returncode: int
+
+
 def find_all_templated_tests(path):
     """
     Generator to recursively find all templates (files) under path.
