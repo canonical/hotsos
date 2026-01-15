@@ -1,6 +1,5 @@
 import os
 import subprocess
-from dataclasses import dataclass
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
@@ -265,22 +264,13 @@ class TestCommandAffinity(utils.BaseTestCase):
         class CmdB(CmdBase):
             """ fake command """
 
-        @dataclass
-        class FakeOut:
-            """
-            Fake Popen output
-            """
-            stdout: str
-            stderr: str
-            returncode: int
-
         checked = []
         with mock.patch.object(cli_common.subprocess, 'run') as mock_run:
             for cmd in [(CmdA, 'cmd_a'), (CmdB, 'cmd_b')]:
                 cmd_cls, cmd_key = cmd
-                mock_run.return_value = FakeOut(f'i am {cmd_key}'.
-                                                encode('utf-8'),
-                                                ''.encode('utf-8'), 0)
+                mock_run.return_value = utils.FakeOut(f'i am {cmd_key}'.
+                                                      encode('utf-8'),
+                                                      ''.encode('utf-8'), 0)
                 source = cmd_cls(cmd_key)
                 self.assertEqual(cmd_cls.CMD_AFFINITY, None)
                 self.assertEqual(source().value, [f'i am {cmd_key}'])

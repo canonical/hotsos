@@ -3,6 +3,7 @@ import os
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers import cli
 from hotsos.core.plugins.storage import ceph
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
@@ -281,6 +282,19 @@ class TestCoreCephCluster(CephMonTestsBase):
                     'iostat',
                     'restful']
         self.assertEqual(cluster.mgr_modules, expected)
+
+    @mock.patch('hotsos.core.host_helpers.cli.common.subprocess.run')
+    def test_ceph_report_bin(self, mock_run):
+        """
+        Test that the extraneous line is removed from the command output before
+        JSON decode takes place.
+        """
+        HotSOSConfig.data_root = '/'
+        mock_run.return_value = utils.FakeOut(
+                         '{"foo": "bar"}\nreport 1221906417\n'.encode('utf-8'),
+                         ''.encode('utf-8'), 0)
+        self.assertEqual(cli.CLIHelper().ceph_report_json_decoded(),
+                         {'foo': 'bar'})
 
 
 class TestCephMonSummary(CephMonTestsBase):
