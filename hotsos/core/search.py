@@ -39,6 +39,7 @@ class FileSearcher(_FileSearcher):
         super().__init__(*args,
                          max_parallel_tasks=HotSOSConfig.max_parallel_tasks,
                          max_logrotate_depth=max_logrotate_depth,
+                         decode_errors='backslashreplace',
                          **kwargs)
 
 
