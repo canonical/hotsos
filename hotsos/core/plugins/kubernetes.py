@@ -21,6 +21,7 @@ SERVICES = [r"etcd\S*",
             r"kubelet\S*",
             r"kube-\S*",
             r"microk8s\S*",
+            r"k8s\S*",
             ]
 
 # Packages that only exist in a K8s deployment
