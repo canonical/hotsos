@@ -1,9 +1,7 @@
-import os
 import re
 import uuid
 from functools import cached_property
 
-from hotsos.core.config import HotSOSConfig
 from hotsos.core.factory import FactoryBase
 from hotsos.core.log import log
 from hotsos.core.host_helpers import (
@@ -20,6 +18,7 @@ from hotsos.core.search import (
 from hotsos.core.plugins.openvswitch.common import (
     OpenvSwitchGlobalSearchBase,
     OVSDBTableBase,
+    PathFinder,
 )
 
 
@@ -242,8 +241,9 @@ class OVSBFDSearch(OpenvSwitchGlobalSearchBase):
 
     @classmethod
     def paths(cls):
-        return [os.path.join(HotSOSConfig.data_root,
-                             'var/log/openvswitch/ovs-vswitchd.log')]
+        path = PathFinder().resolve('openvswitch/ovs-vswitchd.log')
+        if path:
+            return [path]
 
 
 class OVSBFD(OpenvSwitchBase):

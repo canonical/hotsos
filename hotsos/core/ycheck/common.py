@@ -259,11 +259,13 @@ class GlobalSearcherAutoRegisterMeta(type):
 class GlobalSearcherAutoRegisterBase(metaclass=GlobalSearcherAutoRegisterMeta):
     """
     Generic interface for loading search definitions into the global searcher.
+
     The attributes of this class are intentionally similar to those of
     hotsos.core.ycheck.engine.properties.search so as to be able to give them
     equivalent meaning but this is really intended for use by code that wants
     to perform searches but that is not using YPropertySearch (i.e. not event
-    or scenario yaml).
+    or scenario yaml). An example of this would be imported code that performs
+    searches that is called from an event or scenario.
     """
     # This must be set to the same value as used by corresponding
     # implementation of PluginPartBase.plugin_name.
