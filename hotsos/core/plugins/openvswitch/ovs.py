@@ -20,6 +20,7 @@ from hotsos.core.search import (
 from hotsos.core.plugins.openvswitch.common import (
     OpenvSwitchGlobalSearchBase,
     OVSDBTableBase,
+    PathFinder,
 )
 
 
@@ -242,8 +243,11 @@ class OVSBFDSearch(OpenvSwitchGlobalSearchBase):
 
     @classmethod
     def paths(cls):
-        return [os.path.join(HotSOSConfig.data_root,
-                             'var/log/openvswitch/ovs-vswitchd.log')]
+        path = PathFinder().resolve('openvswitch/ovs-vswitchd.log')
+        if path:
+            return [os.path.join(HotSOSConfig.data_root, path)]
+
+        return []
 
 
 class OVSBFD(OpenvSwitchBase):
