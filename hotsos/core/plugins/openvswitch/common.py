@@ -52,7 +52,14 @@ class PathFinder(PathFinderBase):
 
 
 class OpenvSwitchGlobalSearchBase(GlobalSearcherAutoRegisterBase):
-    """ Base class for global searcher registration for OpenvSwitch. """
+    """ Base class for global searcher registration for OpenvSwitch.
+
+    Event and scenario searches already leverage the global searcher and this
+    is an extension for searches done in code that is called from events and
+    scenarios such that it does not incur an extra search run. In other words
+    this ensures that these searches are bundled with the others in the global
+    search.
+    """
     plugin_name = "openvswitch"
 
     @classmethod
