@@ -52,6 +52,67 @@ CEPH_VERSIONS_MISMATCHED_MINOR = """
 """  # noqa
 
 
+CEPH_OSD_CRUSH_DUMP_SINGLE_OSD = """
+{
+   "buckets": [
+        {
+            "id": -1,
+            "name": "default",
+            "type_id": 11,
+            "type_name": "root",
+            "weight": 2981,
+            "alg": "straw2",
+            "hash": "rjenkins1",
+            "items": [
+                {
+                    "id": -2,
+                    "weight": 2981,
+                    "pos": 0
+                }
+            ]
+        },
+        {
+            "id": -2,
+            "name": "sunbeam-vm",
+            "type_id": 1,
+            "type_name": "host",
+            "weight": 2981,
+            "alg": "straw2",
+            "hash": "rjenkins1",
+            "items": [
+                {
+                    "id": 1,
+                    "weight": 2981,
+                    "pos": 0
+                }
+            ]
+        }
+    ],
+    "rules": [
+        {
+            "rule_id": 0,
+            "rule_name": "replicated_rule",
+            "type": 1,
+            "steps": [
+                {
+                    "op": "take",
+                    "item": -1,
+                    "item_name": "default"
+                },
+                {
+                    "op": "chooseleaf_firstn",
+                    "num": 0,
+                    "type": "host"
+                },
+                {
+                    "op": "emit"
+                }
+            ]
+        }
+    }
+"""  # noqa
+
+
 CEPH_OSD_CRUSH_DUMP = """
 {
         "buckets": [
@@ -265,6 +326,16 @@ class TestCoreCephCluster(CephMonTestsBase):
     def test_crushmap_no_mixed_buckets(self):
         cluster = ceph.CephCluster()
         buckets = cluster.crush_map.crushmap_mixed_buckets
+        self.assertEqual(buckets, [])
+
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_osd_crush_dump':
+                             CEPH_OSD_CRUSH_DUMP_SINGLE_OSD})
+    def test_crushmap_single_osd(self):
+        """Test crushmap with a single OSD doesn't cause KeyError."""
+        cluster = ceph.CephCluster()
+        # Should not raise KeyError when checking bucket balance
+        buckets = cluster.crush_map.crushmap_equal_buckets
+        # With a single OSD, there's nothing to compare, so no imbalance
         self.assertEqual(buckets, [])
 
     def test_mgr_modules(self):
