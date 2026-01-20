@@ -129,6 +129,10 @@ class CephCrushMap():
         """
 
         for item in buckets[start_bucket_id]["items"]:
+            # Skip items that are not buckets (e.g., OSDs with positive IDs)
+            # since they are leaf nodes and don't exist in buckets.
+            if item["id"] not in buckets:
+                continue
             if buckets[item["id"]]["type_name"] != failure_domain:
                 if self._is_bucket_imbalanced(buckets, item["id"],
                                               failure_domain, weight):
