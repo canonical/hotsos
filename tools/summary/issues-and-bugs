@@ -1,0 +1,12 @@
+#!/bin/bash
+#
+# Description: display only bugs and issues from summary outputs.
+#
+path=${1:-hotsos-output}
+for f in `find $path -maxdepth 1 -name *summary.json`; do
+    clear
+    jq -r '"\nHostname: " + .system.hostname,
+            "Issues:", (.[]|to_entries[]|select(.key=="potential-issues")|.value|to_entries[]|.key, .value),
+            "Bugs:", (.[]|to_entries[]|select(.key=="known-bugs")|.value|to_entries[]|.key, .value)' $f
+    read -p "Next? [ENTER]"
+done
