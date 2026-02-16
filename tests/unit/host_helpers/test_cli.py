@@ -245,7 +245,9 @@ class TestCommandAffinity(utils.BaseTestCase):
                   'ethtool':
                   {'interface': 'ens3'},
                   'ns_ip_addr':
-                  {'namespace': 'fip-32981f34-497a-4fae-914a-8576055c8d0d'}}
+                  {'namespace': 'fip-32981f34-497a-4fae-914a-8576055c8d0d'},
+                  'smartctl_all':
+                  {'device': 'sda'}}
 
     # Allow the code to use affinity for this test
     @mock.patch.object(host_cli.os, 'environ', {})
@@ -332,6 +334,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'ceph_osd_dump_json_decoded',
                         'ceph_df_json_decoded',
                         'kubectl_logs',
+                        'smartctl_all',
                         ])
         self.assertEqual(cmd_no_output, expected)
         self.assertEqual(skipped, set())

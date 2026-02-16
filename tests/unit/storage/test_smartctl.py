@@ -69,8 +69,10 @@ class TestSmartctlSummary(utils.BaseTestCase):
             'sos_commands/smartctl/smartctl_-a_sda'
         ]
         self.assertEqual(disk['health_status'], 'FAILED')
-        self.assertEqual(disk['Reallocated_Sector_Ct'], 3)
-        self.assertEqual(disk['Current_Pending_Sector'], 2)
+        # Current_Pending_Sector is a failure counter
+        self.assertEqual(disk['failure_counters']['Current_Pending_Sector'], 2)
+        # Reallocated_Sector_Ct is an info counter
+        self.assertEqual(disk['info_counters']['Reallocated_Sector_Ct'], 3)
         self.assertIn('message', result)
         self.assertEqual(
             result['message'],
@@ -123,8 +125,10 @@ class TestSmartctlSummary(utils.BaseTestCase):
         disk = result['abnormal_disks'][
             'sos_commands/smartctl/smartctl_-a_sda'
         ]
-        self.assertEqual(disk['Reallocated_Sector_Ct'], 2)
-        self.assertEqual(disk['Current_Pending_Sector'], 1)
+        # Reallocated_Sector_Ct is an info counter
+        self.assertEqual(disk['info_counters']['Reallocated_Sector_Ct'], 2)
+        # Current_Pending_Sector is a failure counter
+        self.assertEqual(disk['failure_counters']['Current_Pending_Sector'], 1)
         self.assertIn('message', result)
         self.assertEqual(
             result['message'],
