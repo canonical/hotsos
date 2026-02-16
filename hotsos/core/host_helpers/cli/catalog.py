@@ -6,7 +6,13 @@ from hotsos.core.host_helpers.cli.common import (
     DateFileCmd,
     FileCmd,
 )
-from hotsos.core.host_helpers.cli.commands import kubectl, ovs, ovn, ceph
+from hotsos.core.host_helpers.cli.commands import (
+    kubectl,
+    ovs,
+    ovn,
+    ceph,
+    smartctl
+)
 
 
 class DateBinCmd(BinCmd):
@@ -178,6 +184,8 @@ class CommandCatalog(UserDict):
                  FileCmd('sos_commands/sunbeam/'
                          'sunbeam_cluster_list_--format_yaml',
                          yaml_decode=True)],
+            'smartctl_all':
+                smartctl.SmartctlAllCommands(device='{device}'),
             'snap_list_all':
                 [BinCmd('snap list --all'),
                  FileCmd('sos_commands/snap/snap_list_--all'),

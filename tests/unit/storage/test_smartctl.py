@@ -19,10 +19,10 @@ class TestSmartctlSummary(utils.BaseTestCase):
 
     def test_failed_disk(self):
         fake_content = {
-            'sos_commands/smartctl/smartctl_-a_sda': (
+            'sos_commands/ata/smartctl_-a_sda': (
                 'SMART overall-health self-assessment test result: FAILED'
             ),
-            'sos_commands/smartctl/smartctl_-a_sdb': (
+            'sos_commands/ata/smartctl_-a_sdb': (
                 'SMART overall-health self-assessment test result: PASSED'
             ),
         }
@@ -31,11 +31,11 @@ class TestSmartctlSummary(utils.BaseTestCase):
         result = self.plugin.disk_health()
         self.assertIn('abnormal_disks', result)
         self.assertIn(
-            'sos_commands/smartctl/smartctl_-a_sda',
+            'sos_commands/ata/smartctl_-a_sda',
             result['abnormal_disks']
         )
         self.assertEqual(
-            result['abnormal_disks']['sos_commands/smartctl/smartctl_-a_sda'][
+            result['abnormal_disks']['sos_commands/ata/smartctl_-a_sda'][
                 'health_status'
             ],
             'FAILED'
@@ -51,7 +51,7 @@ class TestSmartctlSummary(utils.BaseTestCase):
 
     def test_failed_and_abnormal_counters(self):
         fake_content = {
-            'sos_commands/smartctl/smartctl_-a_sda': (
+            'sos_commands/ata/smartctl_-a_sda': (
                 'SMART overall-health self-assessment test result: FAILED\n'
                 'ID# ATTRIBUTE_NAME FLAG VALUE WORST THRESH TYPE UPDATED '
                 'WHEN_FAILED RAW_VALUE\n'
@@ -66,11 +66,13 @@ class TestSmartctlSummary(utils.BaseTestCase):
         result = self.plugin.disk_health()
         self.assertIn('abnormal_disks', result)
         disk = result['abnormal_disks'][
-            'sos_commands/smartctl/smartctl_-a_sda'
+            'sos_commands/ata/smartctl_-a_sda'
         ]
         self.assertEqual(disk['health_status'], 'FAILED')
-        self.assertEqual(disk['Reallocated_Sector_Ct'], 3)
-        self.assertEqual(disk['Current_Pending_Sector'], 2)
+        # Current_Pending_Sector is a failure counter
+        self.assertEqual(disk['failure_counters']['Current_Pending_Sector'], 2)
+        # Reallocated_Sector_Ct is an info counter
+        self.assertEqual(disk['info_counters']['Reallocated_Sector_Ct'], 3)
         self.assertIn('message', result)
         self.assertEqual(
             result['message'],
@@ -82,7 +84,7 @@ class TestSmartctlSummary(utils.BaseTestCase):
 
     def test_zero_error_counters(self):
         fake_content = {
-            'sos_commands/smartctl/smartctl_-a_sda': (
+            'sos_commands/ata/smartctl_-a_sda': (
                 'SMART overall-health self-assessment test result: PASSED\n'
                 'ID# ATTRIBUTE_NAME FLAG VALUE WORST THRESH TYPE UPDATED '
                 'WHEN_FAILED RAW_VALUE\n'
@@ -107,7 +109,7 @@ class TestSmartctlSummary(utils.BaseTestCase):
 
     def test_abnormal_error_counters(self):
         fake_content = {
-            'sos_commands/smartctl/smartctl_-a_sda': (
+            'sos_commands/ata/smartctl_-a_sda': (
                 'ID# ATTRIBUTE_NAME          FLAG     VALUE WORST THRESH TYPE '
                 'UPDATED  WHEN_FAILED RAW_VALUE\n'
                 '  5 Reallocated_Sector_Ct   0x0033   100   100   036    '
@@ -121,10 +123,12 @@ class TestSmartctlSummary(utils.BaseTestCase):
         result = self.plugin.disk_health()
         self.assertIn('abnormal_disks', result)
         disk = result['abnormal_disks'][
-            'sos_commands/smartctl/smartctl_-a_sda'
+            'sos_commands/ata/smartctl_-a_sda'
         ]
-        self.assertEqual(disk['Reallocated_Sector_Ct'], 2)
-        self.assertEqual(disk['Current_Pending_Sector'], 1)
+        # Reallocated_Sector_Ct is an info counter
+        self.assertEqual(disk['info_counters']['Reallocated_Sector_Ct'], 2)
+        # Current_Pending_Sector is a failure counter
+        self.assertEqual(disk['failure_counters']['Current_Pending_Sector'], 1)
         self.assertIn('message', result)
         self.assertEqual(
             result['message'],
@@ -136,7 +140,7 @@ class TestSmartctlSummary(utils.BaseTestCase):
 
     def test_all_disks_passed(self):
         fake_content = {
-            'sos_commands/smartctl/smartctl_-a_sda': (
+            'sos_commands/ata/smartctl_-a_sda': (
                 'SMART overall-health self-assessment test result: PASSED'
             ),
         }
