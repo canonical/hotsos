@@ -1,6 +1,4 @@
-"""
-Plugin for analyzing disk health using smartctl output.
-"""
+""" Plugin for analyzing disk health using smartctl output. """
 
 import re
 import os
@@ -14,74 +12,89 @@ from hotsos.core.plugintools import summary_entry
 
 class SmartctlSummary(SmartctlChecks):
     """Analyze disk health using smartctl output."""
-
-    summary_part_index = get_min_available_entry_index()
+    summary_part_index = 3
 
     @summary_entry('disk_health', index=get_min_available_entry_index())
     def disk_health(self):
-        """Summarize disk health and error counters from smartctl output."""
-        smartctl_dir = os.path.join(
-            HotSOSConfig.data_root,
-            'sos_commands',
-            'smartctl',
-        )
-        results = self._search_sosreport(smartctl_dir)
+        """ Summarize disk health from smartctl output. """
+
+        results = {}
+        for directory in ['nvme', 'ata']:
+            smartctl_dir = os.path.join(
+                HotSOSConfig.data_root,
+                'sos_commands',
+                directory,
+            )
+            results.update(self._search_sosreport(smartctl_dir))
+
         if not results:
             log.debug('No smartctl output found in sosreport')
             return None
 
-        # Only include counters that are meaningful for RAW_VALUE > 0
-        # Exclude counters like Seek_Error_Rate, Raw_Read_Error_Rate, and
-        # Hardware_ECC_Recovered, which are not reliable for error detection
-        error_counters = [
-            'Reallocated_Sector_Ct',
+        # Strong indicators of problems that require immediate attention
+        failure_counters = [
             'Current_Pending_Sector',
             'Offline_Uncorrectable',
-            'Reported_Uncorrect',
+        ]
+
+        # Informational counters that may indicate issues but require
+        # further analysis for proper interpretation
+        info_counters = [
+            'Reallocated_Sector_Ct',
             'UDMA_CRC_Error_Count',
             'Spin_Retry_Count',
             'End-to-End_Error',
             'Command_Timeout',
         ]
+
         abnormal_disks = {}
         for path, content in results.items():
-            disk_issues = {}
-            # Only match the full health status phrase
-            if re.search(
+            # Check overall health status
+            disk_issues = ({'health_status': 'FAILED'} if re.search(
                 r'SMART overall-health self-assessment test result: FAILED',
                 content
-            ):
-                disk_issues['health_status'] = 'FAILED'
-            # Match lines like (smartctl attributes format):
-            # 5 Reallocated_Sector_Ct 0x0033 100 100 036 Pre-fail Always - 2
-            # where columns are:
+            ) else {})
+
+            # Match SMART attribute lines format:
             # ID# ATTRIBUTE_NAME FLAG VALUE WORST THRESH TYPE UPDATED
             # WHEN_FAILED RAW_VALUE
-            for counter in error_counters:
-                # Allow for variable whitespace and capture RAW_VALUE
-                # (last column)
+            failure_issues = {}
+            info_issues = {}
+
+            for counter in failure_counters:
                 pattern = rf'^\s*\d+\s+{re.escape(counter)}\b.*?(\d+)\s*$'
-                m = re.search(pattern, content, re.MULTILINE)
-                if m:
-                    value = int(m.group(1))
-                    if value > 0:
-                        disk_issues[counter] = value
+                match = re.search(pattern, content, re.MULTILINE)
+                if match and int(match.group(1)) > 0:
+                    failure_issues[counter] = int(match.group(1))
+
+            for counter in info_counters:
+                pattern = rf'^\s*\d+\s+{re.escape(counter)}\b.*?(\d+)\s*$'
+                match = re.search(pattern, content, re.MULTILINE)
+                if match and int(match.group(1)) > 0:
+                    info_issues[counter] = int(match.group(1))
+
+            disk_issues.update({
+                key: value for key, value in {
+                    'failure_counters': failure_issues,
+                    'info_counters': info_issues,
+                }.items() if value
+            })
+
+            # Only report disk if there are issues
             if disk_issues:
                 abnormal_disks[path] = disk_issues
 
-        result = {}
         if abnormal_disks:
-            result['abnormal_disks'] = abnormal_disks
-            result['message'] = (
-                'Some disks reported SMART health failures or abnormal error '
-                'counters.'
-            )
-        else:
-            result['message'] = (
-                'No SMART health failures or abnormal error counters '
-                'detected.'
-            )
-        return result
+            return {
+                'abnormal_disks': abnormal_disks,
+                'message': ('Some disks reported SMART health failures or '
+                            'abnormal error counters.'),
+            }
+
+        return {
+            'message': ('No SMART health failures or abnormal error counters '
+                        'detected.'),
+        }
 
     @staticmethod
     def _search_sosreport(directory):
