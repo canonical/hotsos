@@ -456,7 +456,8 @@ class CephDaemonAllOSDsCommand():
                 config = getattr(sys.modules[__name__],
                                  self.command)(osd_id=osd.id)
             except ImportError:
-                log.warning("no ceph daemon command handler found for '%s'")
+                log.warning("no ceph daemon command handler found for '%s'",
+                            self.command)
                 break
 
             if hasattr(config, name):
