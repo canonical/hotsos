@@ -6,7 +6,7 @@ from hotsos.core.host_helpers.cli.common import BinCmd, FileCmd
 from hotsos.core.host_helpers.exceptions import SourceNotFound
 
 
-CephAliases = ['microceph.']
+CEPH_ALIASES = ['microceph.']
 
 
 class CephJSONBinCmd(BinCmd):
@@ -79,7 +79,7 @@ class CephHealthDetailCommands(UserList):
     """ Generate ceph heath detail command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph health detail --format '
                                'json-pretty') for prefix in prefixes]
@@ -100,7 +100,7 @@ class CephMonDumpCommands(UserList):
 
     def __init__(self):
         json_kwargs = {'last_line_filter': 'dumped monmap epoch'}
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph mon dump --format json-pretty',
                                **json_kwargs) for prefix in prefixes]
@@ -122,7 +122,7 @@ class CephOSDDumpCommands(UserList):
     """ Generate ceph osd dump command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph osd dump --format json-pretty')
                 for prefix in prefixes]
@@ -142,7 +142,7 @@ class CephDFCommands(UserList):
     """ Generate ceph df command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph df --format json-pretty')
                 for prefix in prefixes]
@@ -161,7 +161,7 @@ class CepOSDDFTreeCommands(UserList):
     """ Generate ceph df tree command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph osd df tree '
                                '--format json-pretty')
@@ -182,7 +182,7 @@ class CephOSDCrushDumpCommands(UserList):
     """ Generate ceph osd crush dump command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph osd crush dump')
                 for prefix in prefixes]
@@ -201,7 +201,7 @@ class CephPGDumpCommands(UserList):
 
     def __init__(self):
         json_kwargs = {'last_line_filter': 'dumped all'}
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph pg dump --format json-pretty',
                                **json_kwargs)
@@ -224,7 +224,7 @@ class CephStatusCommands(UserList):
     """ Generate ceph status command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph status --format json-pretty')
                 for prefix in prefixes]
@@ -244,7 +244,7 @@ class CephVersionsCommands(UserList):
     """ Generate ceph versions command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [BinCmd(f'{prefix}ceph versions') for prefix in prefixes]
         # file-based
@@ -261,7 +261,7 @@ class CephVolumeLVMListCommands(UserList):
     """ Generate ceph-volume lvm list command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [BinCmd(f'{prefix}ceph-volume lvm list') for prefix in prefixes]
         # file-based
@@ -279,7 +279,7 @@ class CephReportCommands(UserList):
 
     def __init__(self):
         json_kwargs = {'last_line_filter': 'report'}
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph report', **json_kwargs)
                 for prefix in prefixes]
@@ -298,7 +298,7 @@ class CephMgrModuleLsCommands(UserList):
     """ Generate ceph XXX command variants. """
 
     def __init__(self):
-        prefixes = [""] + CephAliases
+        prefixes = [""] + CEPH_ALIASES
         # binary
         cmds = [CephJSONBinCmd(f'{prefix}ceph mgr module ls')
                 for prefix in prefixes]

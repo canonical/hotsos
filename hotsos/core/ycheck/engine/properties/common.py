@@ -112,6 +112,8 @@ class PropertyCacheRefResolver():
             prefix = "$"
         elif self.reftype == 'checks':
             prefix = f"@checks.{self.check_name}."
+        else:
+            return self.refstr
 
         return self.refstr.partition(prefix)[2]
 

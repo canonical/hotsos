@@ -1,8 +1,10 @@
-bashate
+# This is a templated file and must be kept up-to-date with the original
+# from upstream at https://github.com/canonical/se-tooling-ci-common.
 flake8==7.3.0
 flake8-import-order==0.19.2
 stestr
-pylint==3.1.0
-rpdb
-yamllint==1.35.1
+pylint==4.0.5
 coverage
+bashate
+rpdb
+yamllint==1.38.0

@@ -8,7 +8,7 @@ from hotsos.core.host_helpers.exceptions import (
     SourceNotFound,
 )
 
-OVSAliases = ['openstack-hypervisor.', 'microovn.']
+OVS_ALIASES = ['openstack-hypervisor.', 'microovn.']
 
 
 class OVSVSCtlCmdsBase(UserList):
@@ -29,13 +29,13 @@ class OVSVSCtlCmdsBase(UserList):
         # binary commands
         cmds = [BinCmd(cmd, singleline=self.SINGLELINE)]
         cmds.extend([BinCmd(f'{prefix}{cmd}', singleline=self.SINGLELINE)
-                    for prefix in OVSAliases])
+                    for prefix in OVS_ALIASES])
         # file-based commands
         cmds.append(FileCmd(self.get_sos_path(prefix=''),
                             singleline=self.SINGLELINE))
         cmds.extend([FileCmd(self.get_sos_path(prefix=prefix),
                              singleline=self.SINGLELINE)
-                    for prefix in OVSAliases])
+                    for prefix in OVS_ALIASES])
         super().__init__(cmds)
 
 
@@ -122,11 +122,11 @@ class OVSAppCtlCmds(UserList):
         cmds = [OVSAppCtlBinCmd(cmd + ' {command} {flags} {args}')]
         cmds.extend([OVSAppCtlBinCmd(f"{prefix}{cmd}" +
                                      ' {command} {flags} {args}')
-                    for prefix in OVSAliases])
+                    for prefix in OVS_ALIASES])
         # file-based commands
         cmds.append(OVSAppCtlFileCmd())
         cmds.extend([OVSAppCtlFileCmd(prefix=prefix)
-                    for prefix in OVSAliases])
+                    for prefix in OVS_ALIASES])
         super().__init__(cmds)
 
 
@@ -241,9 +241,9 @@ class OVSOFCtlCmds(UserList):
         # binary
         cmds = [OVSOFCtlBinCmd('{command} {args}')]
         cmds.extend([OVSOFCtlBinCmd('{command} {args}', prefix=prefix)
-                    for prefix in OVSAliases])
+                    for prefix in OVS_ALIASES])
         # file-based
         cmds.append(OVSOFCtlFileCmd())
         cmds.extend([OVSOFCtlFileCmd(prefix=prefix)
-                    for prefix in OVSAliases])
+                    for prefix in OVS_ALIASES])
         super().__init__(cmds)
