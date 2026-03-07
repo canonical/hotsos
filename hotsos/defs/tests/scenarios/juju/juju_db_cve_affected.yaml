@@ -1,0 +1,24 @@
+target-name: juju_db_cve.yaml
+data-root:
+  files:
+    var/lib/juju/agents/machine-0/agent.conf: |
+      # format 2.0
+      tag: machine-0
+      datadir: /var/lib/juju
+      logdir: /var/log/juju
+      jobs:
+      - JobManageModel
+      - JobHostUnits
+      upgradedToVersion: 3.6.14
+      juju-db-snap-channel: 4.4/stable
+      values:
+        AGENT_SERVICE_NAME: jujud-machine-0
+    sos_commands/snap/snap_list_--all: |
+      Name     Version   Rev    Tracking       Publisher    Notes
+      juju-db  4.4.24    178    4.4/stable     juju-qa      -
+raised-bugs:
+  https://www.cve.org/CVERecord?id=CVE-2025-14847: >-
+    This Juju controller is running juju-db snap version 4.4.24
+    which is affected by CVE-2025-14847. To mitigate this
+    vulnerability, upgrade the controller to juju >= 3.6.15 and
+    refresh the juju-db snap to >= 4.4.30.

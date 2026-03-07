@@ -1,0 +1,26 @@
+checks:
+  is_juju_controller:
+    property:
+      path: hotsos.core.plugins.juju.JujuChecks.is_controller
+      ops: [[truth]]
+  has_affected_juju_db_snap:
+    snap:
+      juju-db:
+        - version:
+            min: '0'
+            max: '4.4.29'
+conclusions:
+  juju_db_cve_2025_14847:
+    decision:
+      - is_juju_controller
+      - has_affected_juju_db_snap
+    raises:
+      type: MitreCVE
+      cve-id: CVE-2025-14847
+      message: >-
+        This Juju controller is running juju-db snap version {version}
+        which is affected by CVE-2025-14847. To mitigate this
+        vulnerability, upgrade the controller to juju >= 3.6.15 and
+        refresh the juju-db snap to >= 4.4.30.
+      format-dict:
+        version: '@checks.has_affected_juju_db_snap.requires.version'
