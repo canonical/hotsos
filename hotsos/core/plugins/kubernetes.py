@@ -126,6 +126,11 @@ class KubernetesChecks(KubernetesBase, plugintools.PluginPartBase):
         super().__init__()
         KubernetesInstallInfo().mixin(self)
 
+    @property
+    def bad_units(self):
+        """ Passthrough property to allow it to be called from yaml checks. """
+        return self.systemd.bad_units
+
     @classmethod
     def is_runnable(cls):
         """

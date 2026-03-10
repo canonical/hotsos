@@ -298,6 +298,11 @@ class OpenstackBase():  # pylint: disable=too-many-instance-attributes
         expected_masked = self.project_catalog.default_masked_services
         return sorted(list(masked.difference(expected_masked)))
 
+    @property
+    def bad_units(self):
+        """ Passthrough property to allow it to be called from yaml checks. """
+        return self.systemd.bad_units
+
 
 class OpenStackChecks(plugintools.PluginPartBase):
     """ OpenStack checks. """

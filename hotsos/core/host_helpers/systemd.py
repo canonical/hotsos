@@ -305,6 +305,22 @@ class SystemdHelper(ServiceManagerBase):
 
         return sorted(self._service_info.get('masked', []))
 
+    @property
+    def bad_units(self):
+        """
+        Return dictionary with service name and state for each unit
+        with state 'bad'.
+
+        The "bad" state means the unit file is invalid or some other error
+        occurred.
+        """
+        bad = {}
+        for svc in self.services.values():
+            if svc.state == 'bad':
+                bad[svc.name] = svc.state
+
+        return bad
+
     def get_services_expanded(self, name):
         _expanded = []
         for line in self._systemctl_list_units:
