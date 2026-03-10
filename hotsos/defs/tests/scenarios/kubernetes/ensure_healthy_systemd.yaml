@@ -1,0 +1,25 @@
+data-root:
+  files:
+    sos_commands/systemd/systemctl_list-unit-files: |
+      UNIT FILE                                     STATE           VENDOR PRESET
+      containerd.service                            bad             enabled
+      snap-kube\x2dapiserver-4152.mount             enabled         enabled
+      snap-kube\x2dcontroller\x2dmanager-3960.mount enabled         enabled
+      snap-kube\x2dproxy-3849.mount                 enabled         enabled
+      snap-kube\x2dscheduler-3821.mount             enabled         enabled
+      snap-kubectl-3746.mount                       enabled         enabled
+      snap-kubelet-3759.mount                       enabled         enabled
+      snap.kube-apiserver.daemon.service            bad             enabled
+      snap.kube-controller-manager.daemon.service   enabled         enabled
+      snap.kube-proxy.daemon.service                enabled         enabled
+      snap.kube-scheduler.daemon.service            enabled         enabled
+      snap.kubelet.daemon.service                   enabled         enabled
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+raised-issues:
+  KubernetesError: >-
+    The host is running one or more Kubernetes systemd unit(s) with state
+    'bad': containerd, snap.kube-apiserver.daemon. This means the unit file is
+    invalid or another error occurred. One common cause is when the unit is
+    pending a restart following a config change. See 'systemctl status <name>'
+    for more information.
