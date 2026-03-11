@@ -203,6 +203,10 @@ class SSSDWarning(IssueTypeBase):
     """ Issue for SSSD warnings. """
 
 
+class SmartCtlWarning(IssueTypeBase):
+    """ smartctl warnings. """
+
+
 class UbuntuCVE(CVETypeBase):
     """ Ubuntu CVE bug type """
     @property

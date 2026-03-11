@@ -1,0 +1,13 @@
+data-root:
+  files:
+    sos_commands/ata/smartctl_-a_sda: |
+      SMART overall-health self-assessment test result: FAILED
+    sos_commands/ata/smartctl_-a_sdb: |
+      SMART overall-health self-assessment test result: FAILED
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  SmartCtlWarning: >-
+    Smartctl is reporting unhealthy disks:
+    {'smartctl_-a_sda': {'health_status': 'FAILED'}, 'smartctl_-a_sdb': {'health_status': 'FAILED'}}

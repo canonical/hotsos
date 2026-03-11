@@ -1,0 +1,16 @@
+vars:
+  abnormal_disks: '@hotsos.core.plugins.storage.smartctl.SmartctlChecks.abnormal_disks'
+
+checks:
+  abnormal_disks:
+    varops: [[$abnormal_disks], [length_hint]]
+
+conclusions:
+  abnormal_disks:
+    decision: abnormal_disks
+    raises:
+      type: SmartCtlWarning
+      message: >-
+        Smartctl is reporting unhealthy disks: {disks}
+      format-dict:
+        disks: '$abnormal_disks'
