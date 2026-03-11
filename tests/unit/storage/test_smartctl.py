@@ -4,7 +4,14 @@ from hotsos.plugin_extensions.storage.smartctl_summary import SmartctlSummary
 from .. import utils
 
 
-class TestSmartctlSummary(utils.BaseTestCase):
+class SmartctlTestsBase(utils.BaseTestCase):
+    """ Custom test case that sets the storage plugin context. """
+    def setUp(self):
+        super().setUp()
+        HotSOSConfig.plugin_name = 'storage'
+
+
+class TestSmartctlSummary(SmartctlTestsBase):
     """Unit tests for SmartctlSummary plugin."""
     def setUp(self):
         super().setUp()
@@ -14,8 +21,8 @@ class TestSmartctlSummary(utils.BaseTestCase):
     def test_no_smartctl_output(self):
         # pylint: disable=protected-access
         self.plugin._search_sosreport = lambda directory: {}
-        result = self.plugin.disk_health()
-        self.assertIsNone(result)
+        result = self.plugin.smartctl_summary()
+        self.assertEqual(result, {})
 
     def test_failed_disk(self):
         fake_content = {
@@ -28,25 +35,17 @@ class TestSmartctlSummary(utils.BaseTestCase):
         }
         # pylint: disable=protected-access
         self.plugin._search_sosreport = lambda directory: fake_content
-        result = self.plugin.disk_health()
-        self.assertIn('abnormal_disks', result)
+        result = self.plugin.smartctl_summary()
+        self.assertIn('unhealthy-disks', result)
         self.assertIn(
             'sos_commands/ata/smartctl_-a_sda',
-            result['abnormal_disks']
+            result['unhealthy-disks']
         )
         self.assertEqual(
-            result['abnormal_disks']['sos_commands/ata/smartctl_-a_sda'][
+            result['unhealthy-disks']['sos_commands/ata/smartctl_-a_sda'][
                 'health_status'
             ],
             'FAILED'
-        )
-        self.assertIn('message', result)
-        self.assertEqual(
-            result['message'],
-            (
-                'Some disks reported SMART health failures or abnormal error '
-                'counters.'
-            )
         )
 
     def test_failed_and_abnormal_counters(self):
@@ -63,9 +62,9 @@ class TestSmartctlSummary(utils.BaseTestCase):
         }
         # pylint: disable=protected-access
         self.plugin._search_sosreport = lambda directory: fake_content
-        result = self.plugin.disk_health()
-        self.assertIn('abnormal_disks', result)
-        disk = result['abnormal_disks'][
+        result = self.plugin.smartctl_summary()
+        self.assertIn('unhealthy-disks', result)
+        disk = result['unhealthy-disks'][
             'sos_commands/ata/smartctl_-a_sda'
         ]
         self.assertEqual(disk['health_status'], 'FAILED')
@@ -73,14 +72,6 @@ class TestSmartctlSummary(utils.BaseTestCase):
         self.assertEqual(disk['failure_counters']['Current_Pending_Sector'], 2)
         # Reallocated_Sector_Ct is an info counter
         self.assertEqual(disk['info_counters']['Reallocated_Sector_Ct'], 3)
-        self.assertIn('message', result)
-        self.assertEqual(
-            result['message'],
-            (
-                'Some disks reported SMART health failures or abnormal error '
-                'counters.'
-            )
-        )
 
     def test_zero_error_counters(self):
         fake_content = {
@@ -96,16 +87,8 @@ class TestSmartctlSummary(utils.BaseTestCase):
         }
         # pylint: disable=protected-access
         self.plugin._search_sosreport = lambda directory: fake_content
-        result = self.plugin.disk_health()
-        self.assertNotIn('abnormal_disks', result)
-        self.assertIn('message', result)
-        self.assertEqual(
-            result['message'],
-            (
-                'No SMART health failures or abnormal error counters '
-                'detected.'
-            )
-        )
+        result = self.plugin.smartctl_summary()
+        self.assertNotIn('unhealthy-disks', result)
 
     def test_abnormal_error_counters(self):
         fake_content = {
@@ -120,23 +103,15 @@ class TestSmartctlSummary(utils.BaseTestCase):
         }
         # pylint: disable=protected-access
         self.plugin._search_sosreport = lambda directory: fake_content
-        result = self.plugin.disk_health()
-        self.assertIn('abnormal_disks', result)
-        disk = result['abnormal_disks'][
+        result = self.plugin.smartctl_summary()
+        self.assertIn('unhealthy-disks', result)
+        disk = result['unhealthy-disks'][
             'sos_commands/ata/smartctl_-a_sda'
         ]
         # Reallocated_Sector_Ct is an info counter
         self.assertEqual(disk['info_counters']['Reallocated_Sector_Ct'], 2)
         # Current_Pending_Sector is a failure counter
         self.assertEqual(disk['failure_counters']['Current_Pending_Sector'], 1)
-        self.assertIn('message', result)
-        self.assertEqual(
-            result['message'],
-            (
-                'Some disks reported SMART health failures or abnormal error '
-                'counters.'
-            )
-        )
 
     def test_all_disks_passed(self):
         fake_content = {
@@ -146,12 +121,16 @@ class TestSmartctlSummary(utils.BaseTestCase):
         }
         # pylint: disable=protected-access
         self.plugin._search_sosreport = lambda directory: fake_content
-        result = self.plugin.disk_health()
-        self.assertIn('message', result)
-        self.assertEqual(
-            result['message'],
-            (
-                'No SMART health failures or abnormal error counters '
-                'detected.'
-            )
-        )
+        result = self.plugin.smartctl_summary()
+        self.assertEqual(result, {})
+
+
+@utils.load_templated_tests('scenarios/storage/smartctl')
+class TestSmartCtlScenarios(SmartctlTestsBase):
+    """
+    Scenario tests can be written using YAML templates that are auto-loaded
+    into this test runner. This is the recommended way to write tests for
+    scenarios. It is however still possible to write the tests in Python if
+    required. See https://hotsos.readthedocs.io/en/latest/contrib/testing.html
+    for more information.
+    """
