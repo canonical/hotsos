@@ -1,13 +1,14 @@
 data-root:
   files:
-    sos_commands/ata/smartctl_-a_sda: |
+    sos_commands/ata/smartctl_-a_vda: |
       SMART overall-health self-assessment test result: FAILED
-    sos_commands/ata/smartctl_-a_sdb: |
+    sos_commands/ata/smartctl_-a_vdb: |
       SMART overall-health self-assessment test result: FAILED
   copy-from-original:
     - sos_commands/date/date
     - uptime
+    - sos_commands/block/ls_-lanR_.sys.block
 raised-issues:
   SmartCtlWarning: >-
     Smartctl is reporting unhealthy disks:
-    {'smartctl_-a_sda': {'health_status': 'FAILED'}, 'smartctl_-a_sdb': {'health_status': 'FAILED'}}
+    {'vda': {'health_status': 'FAILED'}, 'vdb': {'health_status': 'FAILED'}}
