@@ -1,10 +1,9 @@
 import os
 import re
-from collections import OrderedDict
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.host_helpers import APTPackageHelper
+from hotsos.core.host_helpers import CLIHelper, APTPackageHelper
 from hotsos.core.log import log
 from hotsos.core.plugins.storage import StorageBase
 
@@ -35,18 +34,34 @@ class SmartctlChecks(StorageBase):
         log.debug("No smartctl data found")
         return False
 
+    @staticmethod
+    def get_system_disks():
+        """
+        Get physical disks available in this host. Ignores virtual devices e.g.
+        loop devices.
+
+        @return: list of devices
+        """
+        devs = []
+        out = CLIHelper().ls_lanR_sys_block()
+        for line in out:
+            if re.search(r'\s->\s\.\./devices/virtual', line):
+                continue
+
+            ret = re.search(r'\s(\S+)\s->', line)
+            if ret:
+                devs.append(ret.group(1))
+
+        return devs
+
     @cached_property
     def abnormal_disks(self):
         """ Summarize disk health from smartctl output. """
-
         results = {}
-        for directory in ['nvme', 'ata']:
-            smartctl_dir = os.path.join(
-                HotSOSConfig.data_root,
-                'sos_commands',
-                directory,
-            )
-            results.update(self._search_sosreport(smartctl_dir))
+        for dev in self.get_system_disks():
+            out = CLIHelper().smartctl_all(device=dev)
+            if out:
+                results[dev] = '\n'.join([line.strip() for line in out])
 
         if not results:
             log.debug('No smartctl output found in sosreport')
@@ -69,7 +84,7 @@ class SmartctlChecks(StorageBase):
         ]
 
         abnormal_disks = {}
-        for path, content in results.items():
+        for dev, content in results.items():
             # Check overall health status
             disk_issues = ({'health_status': 'FAILED'} if re.search(
                 r'SMART overall-health self-assessment test result: FAILED',
@@ -103,24 +118,6 @@ class SmartctlChecks(StorageBase):
 
             # Only report disk if there are issues
             if disk_issues:
-                abnormal_disks[path] = disk_issues
+                abnormal_disks[dev] = disk_issues
 
         return abnormal_disks
-
-    @staticmethod
-    def _search_sosreport(directory):
-        """
-        Search for and read all smartctl output files in the given directory.
-        """
-        results = OrderedDict()
-        if not os.path.isdir(directory):
-            return results
-        for fname in sorted(os.listdir(directory)):
-            fpath = os.path.join(directory, fname)
-            if os.path.isfile(fpath):
-                try:
-                    with open(fpath, encoding='utf-8', errors='ignore') as f:
-                        results[os.path.basename(fpath)] = f.read()
-                except OSError as exc:
-                    log.debug('Failed to read %s: %s', fpath, exc)
-        return results
