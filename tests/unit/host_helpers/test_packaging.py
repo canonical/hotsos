@@ -3,6 +3,12 @@ from hotsos.core.host_helpers import packaging as host_pack
 
 from .. import utils
 
+SNAP_LIST_W_DISABLED = """
+Name       Version          Rev    Tracking         Publisher       Notes
+code       61b3d0ab         228    latest/stable    vscode**        classic
+lxd        5.21.4-8caf727   37923  5.21/stable      canonical**     disabled
+"""
+
 
 class TestAPTPackageHelper(utils.BaseTestCase):
     """ Unit tests for apt helper """
@@ -52,6 +58,21 @@ class TestSnapPackageHelper(utils.BaseTestCase):
         expected = ['core20 20220114 (latest/stable)']
         obj = host_pack.SnapPackageHelper(["core20"])
         self.assertEqual(obj.all_formatted, expected)
+
+    @utils.create_data_root({'sos_commands/snap/snap_list_--all':
+                             SNAP_LIST_W_DISABLED})
+    def test_ignore_disabled(self):
+        obj = host_pack.SnapPackageHelper(core_snaps=['code', 'lxd'])
+        self.assertEqual(obj.all_formatted, ['code 61b3d0ab (latest/stable)'])
+
+    @utils.create_data_root({'sos_commands/snap/snap_list_--all':
+                             SNAP_LIST_W_DISABLED})
+    def test_dont_ignore_disabled(self):
+        obj = host_pack.SnapPackageHelper(core_snaps=['code', 'lxd'],
+                                          ignore_disabled=False)
+        self.assertListEqual(obj.all_formatted,
+                             ['code 61b3d0ab (latest/stable)',
+                              'lxd 5.21.4-8caf727 (5.21/stable)'])
 
 
 class TestDPKGVersion(utils.BaseTestCase):  # noqa, pylint: disable=too-many-public-methods

@@ -379,7 +379,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
                              'ii foo 123 amd64\nii bar 123 amd64',
                              'sos_commands/snap/snap_list_--all':
-                             'snapd 2.54.2 14549 latest/stable xxx'})
+                             'snapd 2.54.2 14549 latest/stable xxx -'})
     def test_grouped_items_all_true_mixed_types_apt_first(self):
         """ If the all items evaluates to False nothing is copied. """
         scenario = """
@@ -411,7 +411,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l':
                              'ii foo 123 amd64\nii bar 123 amd64',
                              'sos_commands/snap/snap_list_--all':
-                             'snapd 2.54.2 14549 latest/stable xxx'})
+                             'snapd 2.54.2 14549 latest/stable xxx -'})
     def test_grouped_items_all_true_mixed_types_snap_first(self):
         """ If the all items evaluates to False nothing is copied. """
         scenario = """
