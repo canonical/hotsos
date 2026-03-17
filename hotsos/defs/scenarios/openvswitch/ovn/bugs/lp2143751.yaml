@@ -1,0 +1,23 @@
+checks:
+  gw_lrp_with_hyphen:
+    input:
+      command: ovn_nbctl_list
+      options:
+        kwargs:
+          table: Gateway_Chassis
+    search: '^name\s*:\s*(?:lrp-)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}-[A-Za-z0-9.-]+$'
+conclusions:
+  gw_lrp_with_hyphen_exists:
+    decision: gw_lrp_with_hyphen
+    raises:
+      type: LaunchpadBug
+      bug-id: 2143751
+      message: >-
+        The OVN Northbound database Gateway_Chassis table contains
+        Logical Router Port (LRP) registers with a hyphen between the UUID
+        and chassis name. This usually indicates the LRP was added manually
+        using 'ovn-nbctl lrp-set-gateway-chassis', which is incompatible with
+        Neutron. As a result, affected ports cannot be rescheduled by the
+        Neutron OVN scheduler. To identify impacted LRP registers, run
+        'ovn-nbctl list Gateway_Chassis'. For more information and remediation
+        steps, refer to the Launchpad bug report.
