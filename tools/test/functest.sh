@@ -36,12 +36,19 @@ result=true
 
 test_plugin ()
 {
-    local plugin=$1
-    local type=${2:-}
-    local data_root=$3
+    local plugin=
+    local type=
+    local data_root=
     local args=()
     local label=""
     local msg
+    local diffout=
+
+    plugin=$1
+    type=${2:-}
+    data_root=$3
+
+    mkdir -p $dtmp/$plugin
 
     msg="TEST: "
     msg+="plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root ..."
@@ -52,15 +59,15 @@ test_plugin ()
     # NOTE: we remove repo-info, date and INFO from hotsos and system plugin
     #       output since they are liable to change.
     ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
-        egrep -v "^  repo-info:|date:|INFO:" > $dtmp/$plugin$label
+        egrep -v "^  repo-info:|date:|INFO:" > $dtmp/$plugin/result$label
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
-    egrep -v "^  repo-info:|date:|INFO:" $litmus > $dtmp/$plugin.litmus
-    if diff $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail; then
+    egrep -v "^  repo-info:|date:|INFO:" $litmus > $dtmp/$plugin/litmus$label
+    diffout=$dtmp/$plugin/fail$label
+    if diff $dtmp/$plugin/litmus$label $dtmp/$plugin/result$label &> $diffout; then
         echo -e "$msg [${F_GRN}PASS${RES}]"
     else
         echo -e "$msg [${F_RED}FAIL${RES}]"
-        cat $dtmp/fail
-        result=false
+        cat $dtmp/$plugin/fail$label
     fi
 }
 
@@ -71,6 +78,7 @@ echo "INFO: Starting functional tests for plugins: ${PLUGINS[@]}"
 for plugin in ${PLUGINS[@]}; do
     test_plugin $plugin "" ${PLUGIN_ROOTS[$plugin]:-$DEFAULT_DATA_ROOT} &
     test_plugin $plugin short ${PLUGIN_ROOTS[$plugin]:-$DEFAULT_DATA_ROOT} &
+    [[ -r $dtmp/$plugin/fail* ]] && result=false
 done
 
 # wait for all plugin tests
