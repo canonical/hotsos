@@ -3,6 +3,7 @@ import contextlib
 import os
 import subprocess
 import sys
+import tempfile
 import threading
 import warnings
 from importlib import metadata, resources
@@ -218,6 +219,7 @@ class CLIArgs:  # pylint: disable=too-many-instance-attributes
     sos_unpack_dir: str
     scenario: str
     event: str
+    tmp_dir: str
 
     @classmethod
     def filter_kwargs(cls, **kwargs):
@@ -341,9 +343,13 @@ def main():
                   help='Path to yaml definitions (ydefs).')
     @click.option('--version', '-v', default=False, is_flag=True,
                   help='Show the version.')
+    @click.option('--tmp-dir', default=None,
+                  help=('Temporary directory to use. The default is the '
+                        'tmpdir for the system, typically this would be '
+                        '/tmp or /var/tmp'))
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
-    def cli(**kwargs):
+    def cli(**kwargs):  # pylint: disable=too-many-branches
         """
         Run this tool on a host or against a sosreport to perform
         analysis of specific applications and the host itself. A summary of
@@ -385,6 +391,15 @@ def main():
         if arguments.version:
             print(_version)
             return
+
+        if arguments.tmp_dir is not None:
+            if not os.path.isdir(str(arguments.tmp_dir)):
+                print(f"The temporary directory {arguments.tmp_dir} does not"
+                      " exist.")
+                return
+            for key in ['TMPDIR', 'TEMP', 'TMP']:
+                os.environ[key] = arguments.tmp_dir
+            tempfile.tempdir = arguments.tmp_dir
 
         config = {'repo_info': get_repo_info(),
                   'force_mode': arguments.force,
