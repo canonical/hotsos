@@ -779,3 +779,21 @@ class CephCluster():  # pylint: disable=too-many-public-methods
                     _bad_osds.append(osd['name'])
 
         return sorted(_bad_osds)
+
+    @cached_property
+    def osds_missing_device_class(self):
+        """Return OSDs with no device class set in the CRUSH map.
+
+        An OSD lacking a device class cannot benefit from device-class-based
+        CRUSH rules, which may lead to unintended data placement.
+        """
+        _bad_osds = []
+
+        if not self.osd_df_tree:
+            return _bad_osds
+
+        for osd in self.osd_df_tree['nodes']:
+            if osd['id'] >= 0 and not osd.get('device_class'):
+                _bad_osds.append(osd['name'])
+
+        return sorted(_bad_osds)
