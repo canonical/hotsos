@@ -104,6 +104,25 @@ class JujuMachine():
         return self.config.get("upgradedToVersion", "unknown")
 
     @cached_property
+    def is_controller(self):
+        """
+        Check if this machine is a Juju controller.
+
+        Controllers have JobManageModel in their jobs list.
+        """
+        jobs = self.config.get("jobs", [])
+        return "JobManageModel" in jobs
+
+    @cached_property
+    def juju_db_snap_channel(self):
+        """
+        Get the juju-db-snap-channel from agent.conf if it exists.
+
+        This is only present on controller machines.
+        """
+        return self.config.get("juju-db-snap-channel")
+
+    @cached_property
     def deployed_units(self):
         units = []
         # requires >= 2.9.x

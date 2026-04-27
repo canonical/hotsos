@@ -587,6 +587,7 @@ class SnapPackageHelper(PackageHelperBase):
 
         @param snap_name_expr: is a regular expression that can match one or
                                more snaps.
+        @param include_disabled: if True, include disabled snap revisions.
         @return: a list of snaps and their info.
         """
         if not self.snap_list_all:
@@ -595,6 +596,8 @@ class SnapPackageHelper(PackageHelperBase):
         info = []
         cexpr = re.compile(self._match_expr_template.format(snap_name_expr))
         for line in self.snap_list_all:
+            if re.search(r'\bdisabled\b', line):
+                continue
             snap_info = self._get_snap_info_from_line(line, cexpr)
             if snap_info:
                 info.append(snap_info)

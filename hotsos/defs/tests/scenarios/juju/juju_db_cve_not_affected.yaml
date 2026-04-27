@@ -1,0 +1,18 @@
+target-name: juju_db_cve.yaml
+data-root:
+  files:
+    var/lib/juju/agents/machine-0/agent.conf: |
+      # format 2.0
+      tag: machine-0
+      datadir: /var/lib/juju
+      logdir: /var/log/juju
+      jobs:
+      - JobManageModel
+      - JobHostUnits
+      upgradedToVersion: 3.6.15
+      juju-db-snap-channel: 4.4/stable
+      values:
+        AGENT_SERVICE_NAME: jujud-machine-0
+    sos_commands/snap/snap_list_--all: |
+      Name     Version   Rev    Tracking       Publisher    Notes
+      juju-db  4.4.30    201    4.4/candidate  juju-qa      -
