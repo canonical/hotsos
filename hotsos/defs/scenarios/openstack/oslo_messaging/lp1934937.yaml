@@ -7,7 +7,7 @@ vars:
 checks:
   has_fix:
     apt:
-      oslo.messaging:
+      python3-oslo.messaging:
         # Yoga
         - min: 12.13.0-0ubuntu1.2~cloud0
   # Include non-wsgi services that use oslo.messaging

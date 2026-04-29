@@ -10,12 +10,8 @@ data-root:
       Mar 24 08:00:27 testnode02 nova-compute[3334105]:   File "/usr/lib/python3/dist-packages/eventlet/semaphore.py", line 152, in _do_acquire
       Mar 24 08:00:27 testnode02 nova-compute[3334105]:     waiter.switch()
       Mar 24 08:00:27 testnode02 nova-compute[3334105]: greenlet.error: cannot switch to a different thread
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-oslo.messaging               12.13.0-0ubuntu1.2                                      all          oslo messaging library - Python 3.x
   copy-from-original:
     - sos_commands/date/date
-    - sos_commands/dpkg/dpkg_-l
 raised-bugs:
-  https://bugs.launchpad.net/bugs/1934937: >-
-   One or more service(s) on this host are affected by this bug which is
-   triggered when a non-wsgi service that uses greenthreads and oslo.messaging
-   with heartbeat_in_pthread=True tries to send a heartbeat message
-   to rabbitmq.
