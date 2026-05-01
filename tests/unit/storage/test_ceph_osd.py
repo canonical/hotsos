@@ -99,6 +99,48 @@ class TestCephOSDChecks(StorageCephOSDTestsBase):
         self.assertEqual(config.foo, [])
         self.assertEqual(config.bluefs_buffered_io, ['true'])
 
+    def test_daemon_osd_perf_dump(self):
+        perf = ceph.common.CephDaemonPerfDump(osd_id=0)
+        self.assertEqual(perf.bluefs.get('log_bytes'), 8388608)
+        self.assertEqual(perf.bluefs.get('log_compactions'), 3)
+
+    def test_daemon_osd_perf_dump_no_exist(self):
+        perf = ceph.common.CephDaemonPerfDump(osd_id=100)
+        self.assertEqual(perf.bluefs, {})
+
+    def test_oversized_bluefs_log_no_issue(self):
+        checks = ceph.common.CephChecks()
+        # default fake data has healthy bluefs counters
+        self.assertEqual(checks.local_osds_with_oversized_bluefs_log, [])
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_osd/ceph_daemon_osd.0_perf_dump': (
+            '{"bluefs": {"log_bytes": 639122546688, '
+            '"log_compactions": 0}}')},
+        copy_from_original=[
+            'sos_commands/ceph_osd/ceph-volume_lvm_list',
+            'sos_commands/dpkg/dpkg_-l',
+            'sos_commands/systemd/systemctl_list-units',
+            'sos_commands/systemd/systemctl_list-unit-files'])
+    def test_oversized_bluefs_log_detected(self):
+        checks = ceph.common.CephChecks()
+        self.assertEqual(checks.local_osds_with_oversized_bluefs_log,
+                         ['osd.0'])
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_osd/ceph_daemon_osd.0_perf_dump': (
+            '{"bluefs": {"log_bytes": 1073741824, '
+            '"log_compactions": 0}}')},
+        copy_from_original=[
+            'sos_commands/ceph_osd/ceph-volume_lvm_list',
+            'sos_commands/dpkg/dpkg_-l',
+            'sos_commands/systemd/systemctl_list-units',
+            'sos_commands/systemd/systemctl_list-unit-files'])
+    def test_oversized_bluefs_log_under_limit(self):
+        # log_bytes (1 GiB) is well under the 50 GiB threshold
+        checks = ceph.common.CephChecks()
+        self.assertEqual(checks.local_osds_with_oversized_bluefs_log, [])
+
 
 class TestCephOSDSummary(StorageCephOSDTestsBase):
     """ Unit tests for Ceph osd summary. """
