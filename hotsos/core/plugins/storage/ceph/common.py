@@ -177,6 +177,12 @@ class CephInstallInfo(InstallInfoBase):
 
 class CephChecks(StorageBase):
     """ Ceph Checks. """
+    # Threshold above which an OSD's bluefs log is considered oversized.
+    # Healthy OSDs keep this well under 50 GiB; sustained growth past this
+    # point indicates that bluefs log compaction has failed and the log is
+    # consuming DB/WAL/main device space.
+    BLUEFS_LOG_SIZE_LIMIT = 50 * 1024 * 1024 * 1024
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ceph_config = CephConfig()
@@ -340,6 +346,36 @@ class CephChecks(StorageBase):
         return [osd.devtype for osd in self.local_osds]
 
     @cached_property
+    def local_osds_with_oversized_bluefs_log(self):
+        """
+        Returns names of local OSDs whose bluefs log has grown beyond
+        BLUEFS_LOG_SIZE_LIMIT.
+
+        Sustained growth past this size indicates that bluestore failed
+        to invoke log compaction so the log is consuming DB/WAL/main
+        device space which can eventually crash the OSD.
+        """
+        bad = []
+        for osd in self.local_osds:
+            try:
+                bluefs = CephDaemonPerfDump(osd_id=osd.id).bluefs
+            except Exception:  # pylint: disable=broad-except
+                continue
+
+            if not bluefs:
+                continue
+
+            try:
+                log_bytes = int(bluefs.get('log_bytes', 0))
+            except (TypeError, ValueError):
+                continue
+
+            if log_bytes > self.BLUEFS_LOG_SIZE_LIMIT:
+                bad.append(f'osd.{osd.id}')
+
+        return sorted(bad)
+
+    @cached_property
     def bluestore_enabled(self):
         """
         If any of the following are enabled in ceph.conf (by the charm) it
@@ -439,6 +475,21 @@ class CephDaemonDumpMemPools():
             return val.get('by_pool', {}).get(name, {}).get('items')
 
         return None
+
+
+class CephDaemonPerfDump():
+    """ Interface to ceph daemon osd perf dump. """
+    def __init__(self, osd_id):
+        self.osd_id = osd_id
+        self.cmd = CephDaemonCommand('ceph_daemon_osd_perf_dump',
+                                     osd_id=osd_id)
+
+    @property
+    def bluefs(self):
+        try:
+            return getattr(self.cmd, 'bluefs') or {}
+        except AttributeError:
+            return {}
 
 
 class CephDaemonAllOSDsCommand():

@@ -60,6 +60,13 @@ class CommandCatalog(UserDict):
                  FileCmd('sos_commands/ceph_osd/'
                          'ceph_daemon_osd.{osd_id}_dump_mempools',
                          json_decode=True)],
+            'ceph_daemon_osd_perf_dump':
+                [BinCmd('ceph daemon osd.{osd_id} perf dump',
+                        json_decode=True),
+                 # requires sosreport 4.3 or above
+                 FileCmd('sos_commands/ceph_osd/'
+                         'ceph_daemon_osd.{osd_id}_perf_dump',
+                         json_decode=True)],
             'ceph_health_detail_json_decoded': ceph.CephHealthDetailCommands(),
             'ceph_mon_dump_json_decoded': ceph.CephMonDumpCommands(),
             'ceph_osd_dump_json_decoded': ceph.CephOSDDumpCommands(),
