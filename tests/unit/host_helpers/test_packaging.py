@@ -46,7 +46,8 @@ class TestSnapPackageHelper(utils.BaseTestCase):
     """ Unit tests for snap helper """
     def test_all(self):
         expected = {'core20': {'channel': 'latest/stable',
-                               'version': '20220114'}}
+                               'version': '20220114',
+                               'revision': '1328'}}
         obj = host_pack.SnapPackageHelper(["core20"])
         self.assertEqual(obj.all, expected)
         # lookup package already loaded
