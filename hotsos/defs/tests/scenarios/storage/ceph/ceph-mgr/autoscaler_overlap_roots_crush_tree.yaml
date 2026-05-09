@@ -1,0 +1,35 @@
+target-name: autoscaler_overlap_roots.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_osd_crush_tree_--show-shadow_--format_json-pretty: |
+      {
+        "nodes": [
+          {"id": -5, "name": "default~nvme", "type": "root", "type_id": 11, "children": [-4]},
+          {"id": -4, "name": "storage-001~nvme", "type": "host", "type_id": 1, "children": [3]},
+          {"id": 3, "name": "osd.3", "type": "osd", "type_id": 0, "device_class": "nvme"},
+          {"id": -3, "name": "default~hdd", "type": "root", "type_id": 11, "children": [-2]},
+          {"id": -2, "name": "storage-001~hdd", "type": "host", "type_id": 1, "children": [1, 2]},
+          {"id": 1, "name": "osd.1", "type": "osd", "type_id": 0, "device_class": "hdd"},
+          {"id": 2, "name": "osd.2", "type": "osd", "type_id": 0, "device_class": "hdd"},
+          {"id": -1, "name": "default", "type": "root", "type_id": 11, "children": [-6]},
+          {"id": -6, "name": "storage-001", "type": "host", "type_id": 1, "children": [1, 2, 3]},
+          {"id": 1, "name": "osd.1", "type": "osd", "type_id": 0, "device_class": "hdd"},
+          {"id": 2, "name": "osd.2", "type": "osd", "type_id": 0, "device_class": "hdd"},
+          {"id": 3, "name": "osd.3", "type": "osd", "type_id": 0, "device_class": "nvme"}
+        ],
+        "stray": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephMgrError: >-
+    Overlapping CRUSH roots detected via ceph osd crush tree
+    --show-shadow. This will prevent PG autoscaler from scaling
+    those pools. This happens when a pool uses a crush rule that
+    doesn't distinguish between OSD device classes. Any pool
+    using that crush rule would use OSDs from multiple device
+    classes. Identify those pools (ceph osd crush tree
+    --show-shadow) and change their crush rule to use only one
+    of the device classes.

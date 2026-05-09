@@ -196,6 +196,45 @@ class CephCrushMap():
         return None
 
     @cached_property
+    def crush_tree_has_overlapping_roots(self):
+        """
+        Detect overlapping roots from ceph osd crush tree --show-shadow.
+
+        A non-shadow root has overlapping roots when it contains OSDs from
+        multiple device classes.
+        """
+        crush_tree = CLIHelper().ceph_osd_crush_tree_json_decoded()
+        if not crush_tree:
+            return False
+
+        nodes = {n['id']: n for n in crush_tree.get('nodes', [])}
+
+        def collect_osd_classes(node_id):
+            """Recursively collect device classes of all OSDs under a node."""
+            node = nodes.get(node_id)
+            if node is None:
+                return set()
+            if node.get('type') == 'osd':
+                dc = node.get('device_class')
+                return {dc} if dc else set()
+            classes = set()
+            for child_id in node.get('children', []):
+                classes.update(collect_osd_classes(child_id))
+            return classes
+
+        for node in crush_tree.get('nodes', []):
+            if node.get('type') != 'root':
+                continue
+            # Skip shadow roots (their names contain '~')
+            if '~' in node.get('name', ''):
+                continue
+            classes = collect_osd_classes(node['id'])
+            if len(classes) > 1:
+                return True
+
+        return False
+
+    @cached_property
     def autoscaler_enabled_pools(self):
         if not self.ceph_report:
             return []

@@ -329,6 +329,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'ceph_status_json_decoded',
                         'ceph_daemon_osd_dump_mempools',
                         'ceph_osd_crush_dump_json_decoded',
+                        'ceph_osd_crush_tree_json_decoded',
                         'ceph_versions',
                         'ceph_mon_dump_json_decoded',
                         'ceph_osd_dump_json_decoded',

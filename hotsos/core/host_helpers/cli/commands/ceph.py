@@ -196,6 +196,29 @@ class CephOSDCrushDumpCommands(UserList):
         super().__init__(cmds)
 
 
+class CephOSDCrushTreeCommands(UserList):
+    """ Generate ceph osd crush tree --show-shadow command variants. """
+
+    def __init__(self):
+        prefixes = [""] + CEPH_ALIASES
+        # binary
+        cmds = [CephJSONBinCmd(f'{prefix}ceph osd crush tree --show-shadow '
+                               '--format json-pretty')
+                for prefix in prefixes]
+        # file-based
+        # sosreport < 4.2
+        cmds.append(CephJSONFileCmd(
+            'sos_commands/ceph/json_output/'
+            'ceph_osd_crush_tree_--show-shadow_--format_json-pretty'))
+        # sosreport >= 4.2
+        cmds.extend([CephJSONFileCmd(
+            'sos_commands/ceph_mon/json_output/'
+            f'{prefix}ceph_osd_crush_tree_--show-shadow_'
+            '--format_json-pretty')
+            for prefix in prefixes])
+        super().__init__(cmds)
+
+
 class CephPGDumpCommands(UserList):
     """ Generate ceph pg dump command variants. """
 
