@@ -1,3 +1,11 @@
+vars:
+  overlap_common_msg: >-
+    This will prevent PG autoscaler from scaling those pools. This happens
+    when a pool uses a crush rule that doesn't distinguish between OSD
+    device classes. Any pool using that crush rule would use OSDs from
+    multiple device classes. Identify those pools
+    (ceph osd crush tree --show-shadow) and change their crush rule to
+    use only one of the device classes.
 checks:
   overlapping_roots:
     input: 'storage.ceph:ceph-mgr*.log'
@@ -5,17 +13,26 @@ checks:
       - '.* pool (\w+) scale due to overlapping roots:.*'
       - '.* pool (\w+) has overlapping roots: .*'
       - '.* pool (\w+) contains an overlapping root .*'
+  overlapping_roots_crush_tree:
+    property: hotsos.core.plugins.storage.ceph.CephCrushMap.crush_tree_has_overlapping_roots
 conclusions:
-  overlapping-roots:
+  overlapping-roots-from-crush-tree:
+    priority: 1
+    decision: overlapping_roots_crush_tree
+    raises:
+      type: CephMgrError
+      message: >-
+        Overlapping CRUSH roots detected via ceph osd crush tree
+        --show-shadow. {common}
+      format-dict:
+        common: $overlap_common_msg
+  overlapping-roots-with-pools:
+    priority: 2
     decision: overlapping_roots
     raises:
       type: CephMgrError
       message: >-
-        PG autoscaler found overlapping roots for pools: {pools}. As a result,
-        PG autoscaler won't scale those pools. This happens when a pool uses
-        a crush rule that doesn't distinguish between OSD device classes.
-        Any pool using that crush rule would use OSDs from multiple device
-        classes. Identify those pools (ceph osd crush tree --show-shadow)
-        and change their crush rule to use only one of the device classes.
+        PG autoscaler found overlapping roots for pools: {pools}. {common}
       format-dict:
         pools: "@checks.overlapping_roots.search.results_group_1:unique_comma_join"
+        common: $overlap_common_msg

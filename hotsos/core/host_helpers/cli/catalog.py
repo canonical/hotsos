@@ -67,6 +67,8 @@ class CommandCatalog(UserDict):
             'ceph_osd_df_tree_json_decoded': ceph.CepOSDDFTreeCommands(),
             'ceph_osd_crush_dump_json_decoded':
                 ceph.CephOSDCrushDumpCommands(),
+            'ceph_osd_crush_tree_json_decoded':
+                ceph.CephOSDCrushTreeCommands(),
             'ceph_pg_dump_json_decoded': ceph.CephPGDumpCommands(),
             'ceph_status_json_decoded': ceph.CephStatusCommands(),
             'ceph_versions': ceph.CephVersionsCommands(),
