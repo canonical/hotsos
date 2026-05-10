@@ -1,7 +1,11 @@
+import abc
+import glob
+import os
 import tempfile
 from collections import namedtuple
 from operator import attrgetter
 
+from hotsos.core.log import log
 from hotsos.core.config import HotSOSConfig
 
 
@@ -105,3 +109,39 @@ def sort_suffixed_integers(values, reverse=False):
 
     reals.sort(key=attrgetter('actual'), reverse=reverse)
     return [t.raw for t in reals]
+
+
+class PathFinderBase:
+    """
+    Discovers correct path to a file. This is used to support file locations
+    that differ depending on their install method e.g. snap vs. deb package.
+    """
+    # NOTE: we must not use affinity with unit tests since they will be
+    #       testing different install methods/paths and this will therefore
+    #       break tests. To avoid this we use the HOTSOS_DISABLE_AFFINITY
+    #       env var.
+    PATH_AFFINITY = None
+
+    @property
+    @abc.abstractmethod
+    def paths(self):
+        """ This must be implemented and return a list of root locations to
+        use when searching for a given subpath. """
+
+    def resolve(self, subpath):
+        if self.PATH_AFFINITY:
+            log.debug("using affinity path %s", self.PATH_AFFINITY)
+
+        paths = [self.PATH_AFFINITY] if self.PATH_AFFINITY else self.paths
+        for root in paths:
+            path = os.path.join(root, subpath)
+            for abspath in glob.glob(os.path.join(HotSOSConfig.data_root,
+                                                  path)):
+                if os.path.exists(abspath):
+                    if (os.environ.get('HOTSOS_DISABLE_AFFINITY') !=
+                            'True'):
+                        self.__class__.PATH_AFFINITY = root
+
+                    return path
+
+        return None

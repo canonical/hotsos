@@ -129,6 +129,10 @@ class CephCrushMap():
         """
 
         for item in buckets[start_bucket_id]["items"]:
+            # Skip items that are not buckets (e.g., OSDs with positive IDs)
+            # since they are leaf nodes and don't exist in buckets.
+            if item["id"] not in buckets:
+                continue
             if buckets[item["id"]]["type_name"] != failure_domain:
                 if self._is_bucket_imbalanced(buckets, item["id"],
                                               failure_domain, weight):
@@ -308,6 +312,69 @@ class CephCluster():  # pylint: disable=too-many-public-methods
             _osds.append(CephOSD(osd['osd'], osd['uuid'], dump=osd))
 
         return _osds
+
+    @cached_property
+    def nearfull_ratio(self):
+        """Return the cluster nearfull ratio from ``ceph report``.
+
+        Returns the value if available, otherwise ``None``.
+        """
+        report = self.crush_map.ceph_report
+        if not report:
+            return None
+
+        val = None
+        if 'osdmap' in report:
+            val = report['osdmap'].get('nearfull_ratio')
+        if val is None:
+            val = report.get('nearfull_ratio')
+
+        try:
+            return round(val, 2) if val is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    @cached_property
+    def backfillfull_ratio(self):
+        """Return the cluster backfillfull ratio from ``ceph report``.
+
+        Returns the value if available, otherwise ``None``.
+        """
+        report = self.crush_map.ceph_report
+        if not report:
+            return None
+
+        val = None
+        if 'osdmap' in report:
+            val = report['osdmap'].get('backfillfull_ratio')
+        if val is None:
+            val = report.get('backfillfull_ratio')
+
+        try:
+            return round(val, 2) if val is not None else None
+        except (TypeError, ValueError):
+            return None
+
+    @cached_property
+    def full_ratio(self):
+        """Return the cluster full ratio from ``ceph report``.
+
+        Returns the value if available, otherwise ``None``.
+        """
+        report = self.crush_map.ceph_report
+        if not report:
+            return None
+
+        val = None
+        if 'osdmap' in report:
+            val = report['osdmap'].get('full_ratio')
+        if val is None:
+            val = report.get('full_ratio')
+
+        try:
+            return round(val, 2) if val is not None else None
+        except (TypeError, ValueError):
+            return None
 
     @cached_property
     def cluster_osds_without_v2_messenger_protocol(self):
@@ -710,5 +777,23 @@ class CephCluster():  # pylint: disable=too-many-public-methods
                 allowance = total_usage * self.OSD_DISCREPANCY_ALLOWED / 100.0
                 if raw_usage > (total_usage + allowance):
                     _bad_osds.append(osd['name'])
+
+        return sorted(_bad_osds)
+
+    @cached_property
+    def osds_missing_device_class(self):
+        """Return OSDs with no device class set in the CRUSH map.
+
+        An OSD lacking a device class cannot benefit from device-class-based
+        CRUSH rules, which may lead to unintended data placement.
+        """
+        _bad_osds = []
+
+        if not self.osd_df_tree:
+            return _bad_osds
+
+        for osd in self.osd_df_tree['nodes']:
+            if osd['id'] >= 0 and not osd.get('device_class'):
+                _bad_osds.append(osd['name'])
 
         return sorted(_bad_osds)

@@ -153,7 +153,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
             for pattern in patterns:
                 if self._is_import_path(pattern):
                     try:
-                        pattern = self.get_property(pattern[1:])
+                        pattern = self.get_property(self.context, pattern[1:])
                     except ModuleNotFoundError:
                         log.warning("failed to import pattern '%s' - using "
                                     "raw string as expression", pattern)

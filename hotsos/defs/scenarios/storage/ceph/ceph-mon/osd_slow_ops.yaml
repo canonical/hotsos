@@ -2,8 +2,7 @@ checks:
   # NOTE: the following check can be run on a mon or osd node since the same
   # logs should be available on both.
   osd_slow_ops:
-    input:
-      path: ['var/log/ceph/ceph*.log', 'var/snap/microceph/common/logs/ceph*.log']
+    input: 'storage.ceph:ceph*.log'
     search:
       expr: '^([\d-]+)[T ]([\d:]+)\S+ .+ slow ops, oldest one blocked .+'
       constraints:

@@ -104,7 +104,7 @@ class YPropertyRaises(YPropertyOverrideBase):
 
             # process now since there is no cache to resolve
             path, _, func = v.partition(':')
-            value = self.get_import(path)
+            value = self.get_import(self.context, path)
             if func:
                 value = PropertyCacheRefResolver.apply_renderer(value, func)
 
@@ -117,7 +117,7 @@ class YPropertyRaises(YPropertyOverrideBase):
         """ Name of core.issues.IssueTypeBase object and will be used to raise
         an issue or bug using message as argument. """
         _type = f"hotsos.core.issues.{self.content['type']}"
-        return self.get_cls(_type)
+        return self.get_cls(self.context, _type)
 
 
 class DecisionBase():

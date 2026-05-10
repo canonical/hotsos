@@ -1,0 +1,20 @@
+checks:
+  osds_missing_device_class:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.osds_missing_device_class
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  osds-missing-device-class:
+    decision: osds_missing_device_class
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Found OSD(s) {bad_osds} with no device class set in the CRUSH map.
+        Without a device class, these OSDs cannot be targeted by
+        device-class-based CRUSH rules, which may cause unintended data
+        placement and prevent proper pool isolation (e.g. separating SSD
+        and HDD pools). To fix this, set a device class with:
+        'ceph osd crush rm-device-class {bad_osds}' followed by
+        'ceph osd crush set-device-class <class> {bad_osds}'.
+      format-dict:
+        bad_osds: '@checks.osds_missing_device_class.requires.value_actual:comma_join'

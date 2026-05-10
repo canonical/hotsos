@@ -3,6 +3,7 @@ import contextlib
 import os
 import subprocess
 import sys
+import tempfile
 import threading
 import warnings
 from importlib import metadata, resources
@@ -88,7 +89,6 @@ def get_repo_info():
     # 3.8, which is a supported environment for hotsos.
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=DeprecationWarning)
-        # pylint: disable-next=W4902
         with resources.path('hotsos', '.repo-info') as repo_info:
             if repo_info and os.path.exists(repo_info):
                 with open(repo_info, encoding='utf-8') as fd:
@@ -102,7 +102,7 @@ def get_repo_info():
             return "unknown"
     # We really do want to catch all here since we don't care why it failed
     # but don't want to fail hard if it does.
-    except Exception:  # pylint: disable=W0718
+    except Exception:  # pylint: disable=broad-exception-caught
         return "unknown"
 
     return out.decode().strip()
@@ -125,7 +125,7 @@ def get_defs_path():
     defs = os.path.join(get_hotsos_root(), 'defs')
     if not os.path.isdir(defs):
         # pypi
-        with resources.path('hotsos', 'defs') as path:  # pylint: disable=W4902
+        with resources.path('hotsos', 'defs') as path:
             defs = path
 
     if not os.path.isdir(defs):
@@ -145,8 +145,6 @@ def get_templates_path():
     # source
     templates = os.path.join(get_hotsos_root(), 'templates')
     if not os.path.isdir(templates):
-        # pypi
-        # pylint: disable-next=W4902
         with resources.path('hotsos', 'templates') as path:
             templates = path
 
@@ -218,6 +216,7 @@ class CLIArgs:  # pylint: disable=too-many-instance-attributes
     sos_unpack_dir: str
     scenario: str
     event: str
+    tmp_dir: str
 
     @classmethod
     def filter_kwargs(cls, **kwargs):
@@ -255,7 +254,41 @@ def run_client(arguments, plugins_to_run, data_root_name, logmanager):
         return client.summary
 
 
-# pylint: disable=R0915
+def init_config(arguments):
+    cfg = {'repo_info': get_repo_info(),
+           'force_mode': arguments.force,
+           'hotsos_version': get_version(),
+           'command_timeout': arguments.command_timeout,
+           'use_all_logs': arguments.all_logs,
+           'plugin_yaml_defs': arguments.defs_path,
+           'templates_path': arguments.templates_path,
+           'event_tally_granularity': arguments.event_tally_granularity,
+           'max_logrotate_depth': arguments.max_logrotate_depth,
+           'max_parallel_tasks': arguments.max_parallel_tasks,
+           'machine_readable': arguments.machine_readable,
+           'debug_mode': arguments.debug,
+           'scenario_filter': arguments.scenario,
+           'event_filter': arguments.event}
+    HotSOSConfig.set(**cfg)
+
+
+def set_tmpdir(tmpdir):
+    """
+    If an alternate temporary directory is provided we set the necessary env
+    vars so that this new location is used by default.
+    """
+    if tmpdir is None:
+        return
+
+    if not os.path.isdir(tmpdir):
+        raise ValueError(f"temporary directory path '{tmpdir}' not found.")
+
+    for key in ['TMPDIR', 'TEMP', 'TMP']:
+        os.environ[key] = tmpdir
+
+    tempfile.tempdir = tmpdir
+
+
 def main():
     @click.command(name='hotsos')
     @click.option('--event', default='',
@@ -341,6 +374,10 @@ def main():
                   help='Path to yaml definitions (ydefs).')
     @click.option('--version', '-v', default=False, is_flag=True,
                   help='Show the version.')
+    @click.option('--tmp-dir', default=None,
+                  help=('Temporary directory to use. The default is the '
+                        'tmpdir for the system, typically this would be '
+                        '/tmp or /var/tmp'))
     @set_plugin_options
     @click.argument('data_root', required=False, type=click.Path(exists=True))
     def cli(**kwargs):
@@ -381,26 +418,17 @@ def main():
             plugins_to_run.add('hotsos')
             plugins_to_run.add('system')
 
-        _version = get_version()
         if arguments.version:
-            print(_version)
+            print(get_version())
             return
 
-        config = {'repo_info': get_repo_info(),
-                  'force_mode': arguments.force,
-                  'hotsos_version': _version,
-                  'command_timeout': arguments.command_timeout,
-                  'use_all_logs': arguments.all_logs,
-                  'plugin_yaml_defs': arguments.defs_path,
-                  'templates_path': arguments.templates_path,
-                  'event_tally_granularity': arguments.event_tally_granularity,
-                  'max_logrotate_depth': arguments.max_logrotate_depth,
-                  'max_parallel_tasks': arguments.max_parallel_tasks,
-                  'machine_readable': arguments.machine_readable,
-                  'debug_mode': arguments.debug,
-                  'scenario_filter': arguments.scenario,
-                  'event_filter': arguments.event}
-        HotSOSConfig.set(**config)
+        try:
+            set_tmpdir(arguments.tmp_dir)
+        except ValueError as exc:
+            sys.stderr.write(f'ERROR: {exc}\n')
+            sys.exit(1)
+
+        init_config(arguments)
 
         with LoggingManager() as logmanager:
             with DataRootManager(
@@ -451,7 +479,7 @@ def main():
                     if out:
                         sys.stdout.write(f"{out}\n")
 
-    cli(prog_name='hotsos')  # pylint: disable=no-value-for-parameter
+    cli(prog_name='hotsos')
 
 
 def exit_if_os_version_not_supported_in_snap():

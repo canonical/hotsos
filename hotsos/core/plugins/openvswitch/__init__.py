@@ -1,4 +1,4 @@
-from .common import OpenvSwitchChecks
+from .common import OpenvSwitchChecks, PathFinder
 from .ovs import (
     OpenvSwitchBase,
     OVSBFD,
@@ -22,4 +22,5 @@ __all__ = [
     OVSDPLookups.__name__,
     OVNBase.__name__,
     OVSFDBStats.__name__,
+    PathFinder.__name__,
     ]

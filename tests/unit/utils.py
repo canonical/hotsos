@@ -32,6 +32,16 @@ TEST_TEMPLATE_SCHEMA = set(['target-name', 'data-root', 'mock',
                             'raised-issues', 'raised-bugs'])
 
 
+@dataclass
+class FakeOut:
+    """
+    Fake Popen output
+    """
+    stdout: str
+    stderr: str
+    returncode: int
+
+
 def find_all_templated_tests(path):
     """
     Generator to recursively find all templates (files) under path.
@@ -507,6 +517,7 @@ class BaseTestCase(unittest.TestCase):
         self.maxDiff = None  # pylint: disable=invalid-name
         # ensure locale consistency wherever tests are run
         os.environ["LANG"] = 'C.UTF-8'
+        os.environ["HOTSOS_DISABLE_AFFINITY"] = 'True'
         # Always reset env globals
         HotSOSConfig.set(**self.hotsos_config)
         if not self.global_tmp_dir:

@@ -3,6 +3,7 @@ import os
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.host_helpers import cli
 from hotsos.core.plugins.storage import ceph
 from hotsos.core.ycheck.common import GlobalSearcher
 from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
@@ -48,6 +49,67 @@ CEPH_VERSIONS_MISMATCHED_MINOR = """
         "ceph version 15.2.13 (c44bc49e7a57a87d84dfff2a077a2058aa2172e2) octopus (stable)": 16
     }
 }
+"""  # noqa
+
+
+CEPH_OSD_CRUSH_DUMP_SINGLE_OSD = """
+{
+   "buckets": [
+        {
+            "id": -1,
+            "name": "default",
+            "type_id": 11,
+            "type_name": "root",
+            "weight": 2981,
+            "alg": "straw2",
+            "hash": "rjenkins1",
+            "items": [
+                {
+                    "id": -2,
+                    "weight": 2981,
+                    "pos": 0
+                }
+            ]
+        },
+        {
+            "id": -2,
+            "name": "sunbeam-vm",
+            "type_id": 1,
+            "type_name": "host",
+            "weight": 2981,
+            "alg": "straw2",
+            "hash": "rjenkins1",
+            "items": [
+                {
+                    "id": 1,
+                    "weight": 2981,
+                    "pos": 0
+                }
+            ]
+        }
+    ],
+    "rules": [
+        {
+            "rule_id": 0,
+            "rule_name": "replicated_rule",
+            "type": 1,
+            "steps": [
+                {
+                    "op": "take",
+                    "item": -1,
+                    "item_name": "default"
+                },
+                {
+                    "op": "chooseleaf_firstn",
+                    "num": 0,
+                    "type": "host"
+                },
+                {
+                    "op": "emit"
+                }
+            ]
+        }
+    }
 """  # noqa
 
 
@@ -266,6 +328,16 @@ class TestCoreCephCluster(CephMonTestsBase):
         buckets = cluster.crush_map.crushmap_mixed_buckets
         self.assertEqual(buckets, [])
 
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_osd_crush_dump':
+                             CEPH_OSD_CRUSH_DUMP_SINGLE_OSD})
+    def test_crushmap_single_osd(self):
+        """Test crushmap with a single OSD doesn't cause KeyError."""
+        cluster = ceph.CephCluster()
+        # Should not raise KeyError when checking bucket balance
+        buckets = cluster.crush_map.crushmap_equal_buckets
+        # With a single OSD, there's nothing to compare, so no imbalance
+        self.assertEqual(buckets, [])
+
     def test_mgr_modules(self):
         cluster = ceph.CephCluster()
         expected = ['balancer',
@@ -281,6 +353,19 @@ class TestCoreCephCluster(CephMonTestsBase):
                     'iostat',
                     'restful']
         self.assertEqual(cluster.mgr_modules, expected)
+
+    @mock.patch('hotsos.core.host_helpers.cli.common.subprocess.run')
+    def test_ceph_report_bin(self, mock_run):
+        """
+        Test that the extraneous line is removed from the command output before
+        JSON decode takes place.
+        """
+        HotSOSConfig.data_root = '/'
+        mock_run.return_value = utils.FakeOut(
+                         '{"foo": "bar"}\nreport 1221906417\n'.encode('utf-8'),
+                         ''.encode('utf-8'), 0)
+        self.assertEqual(cli.CLIHelper().ceph_report_json_decoded(),
+                         {'foo': 'bar'})
 
 
 class TestCephMonSummary(CephMonTestsBase):

@@ -1,0 +1,127 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_osd_df_tree_--format_json-pretty: |
+      {
+          "nodes": [
+              {
+                  "id": -1,
+                  "name": "default",
+                  "type": "root",
+                  "type_id": 11,
+                  "children": [
+                      -3,
+                      -5
+                  ]
+              },
+              {
+                  "id": -5,
+                  "name": "compute1",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      1,
+                      2
+                  ]
+              },
+              {
+                  "id": 1,
+                  "device_class": "ssd",
+                  "name": "osd.1",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 1.746600,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 1845493760,
+                  "kb_used": 1310720,
+                  "kb_used_data": 655360,
+                  "kb_used_omap": 10,
+                  "kb_used_meta": 655360,
+                  "kb_avail": 1844183040,
+                  "utilization": 0.08,
+                  "var": 0.94,
+                  "pgs": 16,
+                  "status": "up"
+              },
+              {
+                  "id": 2,
+                  "name": "osd.2",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 1.746600,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 1845493760,
+                  "kb_used": 1258291,
+                  "kb_used_data": 629145,
+                  "kb_used_omap": 1,
+                  "kb_used_meta": 629145,
+                  "kb_avail": 1844235469,
+                  "utilization": 0.07,
+                  "var": 0.86,
+                  "pgs": 17,
+                  "status": "up"
+              },
+              {
+                  "id": -3,
+                  "name": "compute2",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      3
+                  ]
+              },
+              {
+                  "id": 3,
+                  "device_class": "",
+                  "name": "osd.3",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 1.746600,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 1845493760,
+                  "kb_used": 1310720,
+                  "kb_used_data": 655360,
+                  "kb_used_omap": 14,
+                  "kb_used_meta": 655360,
+                  "kb_avail": 1844183040,
+                  "utilization": 0.07,
+                  "var": 0.86,
+                  "pgs": 24,
+                  "status": "up"
+              }
+          ],
+          "stray": [],
+          "summary": {
+              "total_kb": 5536481280,
+              "total_kb_used": 3879731,
+              "total_kb_used_data": 1939770,
+              "total_kb_used_omap": 25,
+              "total_kb_used_meta": 1939865,
+              "total_kb_avail": 5532601549,
+              "average_utilization": 0.07,
+              "min_var": 0.86,
+              "max_var": 0.94,
+              "dev": 0.04,
+              "total_pgs": 57
+          }
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    Found OSD(s) osd.2, osd.3 with no device class set in the CRUSH map.
+    Without a device class, these OSDs cannot be targeted by
+    device-class-based CRUSH rules, which may cause unintended data
+    placement and prevent proper pool isolation (e.g. separating SSD
+    and HDD pools). To fix this, set a device class with:
+    'ceph osd crush rm-device-class osd.2, osd.3' followed by
+    'ceph osd crush set-device-class <class> osd.2, osd.3'.

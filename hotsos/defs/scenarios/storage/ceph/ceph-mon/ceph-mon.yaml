@@ -7,9 +7,12 @@
 # permissive such that the local ceph-mon service need not necessarily be
 # active - checks themselves can apply more restrictive pre-requisites
 # if necessary.
+
 requires:
-  # ensures that a ceph-mon unit is enabled but does not assert that it is active
+  # ensures that a ceph-mon unit is enabled but doesn't assert that it is active
   or:
-    systemd:
-      ceph-mon: enabled
-    pebble: ceph-mon
+    - systemd:
+        ceph-mon: enabled
+    - systemd:
+        snap.microceph.mon: enabled
+    - pebble: ceph-mon

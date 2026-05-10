@@ -1,6 +1,6 @@
 checks:
   has_1917475:
-    input: 'var/log/ovn/ovn-controller.log'
+    input: 'openvswitch:ovn/ovn-controller.log'
     search:
       expr: '([\d-]+)T([\d:]+)\.\d+Z.+transaction error: {"details":"RBAC rules for client \\"\S+\\" role \\"\S+\\" prohibit .+ table\s+\\"\S+\\".","error":"permission error"'
       constraints:

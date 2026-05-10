@@ -1,6 +1,5 @@
 # NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
-input:
-  path: 'var/log/openvswitch/ovs-vswitchd.log'
+input: 'openvswitch:openvswitch/ovs-vswitchd.log'
 netdev-linux-no-such-device:
   expr: '([\d-]+)T[\d:]+\.\d+Z.+\|(\S+): .+ \S+: No such device'
 bridge-no-such-device:

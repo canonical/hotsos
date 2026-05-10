@@ -2,7 +2,7 @@ from collections import UserList
 
 from hotsos.core.host_helpers.cli.common import BinCmd, FileCmd
 
-KubectlAliases = ['kubectl', 'microk8s.kubectl', 'k8s kubectl']
+KUBECTL_ALIASES = ['kubectl', 'microk8s.kubectl', 'k8s kubectl']
 
 # Paths checked by sos report
 KUBE_CONFIGS = ['/etc/kubernetes/admin.conf',
@@ -68,11 +68,11 @@ class KubectlLogsCmds(UserList):
     """ Generate kubectl logs command variants. """
 
     def __init__(self):
-        cmds = [KubectlLogsBinCmd(cmd) for cmd in KubectlAliases]
+        cmds = [KubectlLogsBinCmd(cmd) for cmd in KUBECTL_ALIASES]
 
         confs = [p.replace('/', '.') for p in KUBE_CONFIGS]
         paths = []
-        for cmd in KubectlAliases:
+        for cmd in KUBECTL_ALIASES:
             cmd = cmd.replace('.', '_').replace(' ', '_')
             paths.append('sos_commands/kubernetes/cluster-info/{namespace}/'
                          'podlogs/{opt}/' + cmd +
@@ -99,11 +99,11 @@ class KubectlGetCmds(UserList):
     """ Generate kubectl get command variants. """
 
     def __init__(self):
-        cmds = [KubectlGetBinCmd(cmd) for cmd in KubectlAliases]
+        cmds = [KubectlGetBinCmd(cmd) for cmd in KUBECTL_ALIASES]
 
         confs = [p.replace('/', '.') for p in KUBE_CONFIGS]
         paths = []
-        for cmd in KubectlAliases:
+        for cmd in KUBECTL_ALIASES:
             cmd = cmd.replace('.', '_').replace(' ', '_')
             paths.extend([(f'sos_commands/kubernetes/services/{cmd}'
                            f'_--kubeconfig_{conf}'

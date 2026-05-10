@@ -1,7 +1,6 @@
 checks:
   recent_laggy_pgs:
-    input:
-      path: ['var/log/ceph/ceph*.log', 'var/snap/microceph/common/logs/ceph*.log']
+    input: 'storage.ceph:ceph*.log'
     search:
       expr: '^([\d-]+)[T ]([\d:]+)\S+ .+laggy, .+'
       constraints:

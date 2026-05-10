@@ -35,7 +35,7 @@ class YPropertyVars(YPropertyOverrideBase):
             value = getattr(self, name)
             if self._is_import_path(value):
                 # NOTE: this path can be a property or a factory.
-                value = self.get_property(value[1:])
+                value = self.get_property(self.context, value[1:])
 
             log.debug("resolved var %s=%s (type=%s)", name, value, type(value))
         else:

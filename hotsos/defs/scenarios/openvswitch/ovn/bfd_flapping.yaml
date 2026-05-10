@@ -2,8 +2,7 @@ vars:
   bfd_transitions: '@hotsos.core.plugins.openvswitch.OVSBFD.max_transitions_last_24h_within_hour'
 checks:
   vswitchd_to_ovn_controller_inactivity_timeouts:
-    input:
-      path: var/log/openvswitch/ovs-vswitchd.log
+    input: 'openvswitch:openvswitch/ovs-vswitchd.log'
     search:
       expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|reconnect\|ERR\|ssl:(\S+):\d+: no response to inactivity probe'
       constraints:
@@ -14,8 +13,7 @@ checks:
   bfd_state_changes:
     varops: [[$bfd_transitions], [ge, 5]]
   chassis_gw_port_reassignments:
-    input:
-      path: var/log/ovn/ovn-controller.log
+    input: 'openvswitch:ovn/ovn-controller.log'
     search:
       expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|binding\|INFO\|(Claiming|Releasing) lport cr-lrp-\S+ for this chassis.'
       constraints:

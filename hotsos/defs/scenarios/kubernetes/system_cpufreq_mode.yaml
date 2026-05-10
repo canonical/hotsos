@@ -16,8 +16,7 @@ checks:
     - varops: [[$scaling_governor], [ne, unknown]]
     # does it have the expected value
     - varops: [[$scaling_governor], [ne, performance]]
-  kubernetes_installed:
-    - snap: kubelet
+  kubernetes_installed_metal:
     # ignore if not running on metal
     - property:
         path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
@@ -30,7 +29,7 @@ conclusions:
     priority: 1
     decision:
       - cpufreq_governor_not_performance
-      - kubernetes_installed
+      - kubernetes_installed_metal
     raises:
       type: KubernetesWarning
       message: >-
@@ -43,7 +42,7 @@ conclusions:
     priority: 2
     decision:
       - cpufreq_governor_not_performance
-      - kubernetes_installed
+      - kubernetes_installed_metal
       - ondemand_installed_and_enabled
     raises:
       type: KubernetesWarning

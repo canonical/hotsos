@@ -148,9 +148,10 @@ class SourceRunner():
             self.cache_cmdkey = self.cmdkey
 
     def bsource(self, *args, **kwargs):
+        """ Execute binary sources until one succeeds. """
         # binary sources only apply if data_root is system root
         bin_out = None
-        for bsource in [s for s in self.sources if s.TYPE == "BIN"]:
+        for source in self.get_type_sources('BIN'):
             cache = False
             # NOTE: we currently only support caching commands with no
             #       args.
@@ -165,7 +166,7 @@ class SourceRunner():
                     # don't decode if we are going to be saving to a file
                     kwargs['skip_json_decode'] = True
 
-                bin_out = bsource(*args, **kwargs)
+                bin_out = source(*args, **kwargs)
                 if cache and bin_out is not None:
                     try:
                         self.cache.save(self.cache_cmdkey, bin_out)
@@ -175,6 +176,7 @@ class SourceRunner():
 
                 # if command executed but returned nothing that still counts
                 # as success.
+                source.affinity.set(self.cmdkey)
                 break
             except CLIExecError as exc:
                 if not self.catch_exceptions:
@@ -185,14 +187,17 @@ class SourceRunner():
         return bin_out
 
     def fsource(self, *args, **kwargs):
-        for fsource in [s for s in self.sources if s.TYPE == "FILE"]:
+        """ Execute filesystem sources until one succeeds. """
+        for source in self.get_type_sources('FILE'):
             try:
                 skip_load_contents = False
                 if self.output_file:
                     skip_load_contents = True
 
-                return fsource(*args, **kwargs,
-                               skip_load_contents=skip_load_contents)
+                ret = source(*args, **kwargs,
+                             skip_load_contents=skip_load_contents)
+                source.affinity.set(self.cmdkey)
+                return ret
             except CLIExecError as exc:
                 if not self.catch_exceptions:
                     raise
@@ -203,8 +208,38 @@ class SourceRunner():
 
         return None
 
+    def get_type_sources(self, stype):
+        """
+        Generator returning all runner sources for a given type.
+
+        If there are multiple sources and one has an affinity set then it will
+        be returned first.
+        """
+        if os.environ.get('HOTSOS_DISABLE_AFFINITY') != 'True':
+            affinity = [s for s in self.sources
+                        if s.affinity.matches(self.cmdkey)]
+            if len(affinity) > 1:
+                log.warning("more than one source has an affinity match - "
+                            "ignoring affinity")
+            elif affinity:
+                if affinity[0].TYPE != stype:
+                    return
+
+                yield affinity[0]
+
+        sources = []
+        for s in self.sources:
+            if s.TYPE != stype:
+                continue
+
+            sources.append(s)
+
+        log.debug("%s - %s source(s) to try with type=%s",
+                  self.cmdkey, len(sources), stype)
+        yield from sources
+
     def _execute(self, *args, **kwargs):
-        # always try file sources first
+        """ Execute all sources, trying filesystem first then binary. """
         ret = self.fsource(*args, **kwargs)
         if ret is not None:
             return ret

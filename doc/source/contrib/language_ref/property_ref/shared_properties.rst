@@ -3,7 +3,7 @@ NOTE: these properties can be used on their own or in conjunction with others e.
 Input
 =====
 
-Provides a common way to define input. Supports a filesystem
+Provides a common way to define input. Takes one or more filesystem
 path or `command <https://github.com/canonical/hotsos/blob/main/hotsos/core/host_helpers/cli.py>`_.
 When a command is provided, its output is written to a temporary file
 and *input.path* is set to the path of that file.
@@ -27,13 +27,41 @@ Usage:
 The *path* and *command* settings are mutually exclusive. A *path* can be a
 single or list of filesystem paths that must be relative to :ref:`Data Root`.
 
-By default if --all-logs is provided to the hotsos client that will apply
-to *path* but there may be cases where this is not desired and
-*disable-all-logs* can be used to disable this behaviour for a specific path.
+PathFinder
+----------
 
-When input is the output of a command, the execution of that command may
-itself require some input. Both *args* and *kwargs* can be set as a list and/or
-dictionary respectively and will be providing as input to the
+For applications that have more than one install method this can result in log
+files existing in different locations. To support this, some plugins provide a
+*PathFinder* which takes a relative log file path and returns the absolute path
+if it exists based on one or more choice. To use a *PathFinder* do the
+following:
+
+.. code-block:: yaml
+
+    input: '<plugin>:app.log'
+
+Where "plugin" results in *hotsos.core.plugins.<name>.PathFinder* being
+imported and called with *app.log* as a value. If the application uses either
+of e.g. /var/log and /snap/app/common/log then both are checked until
+one is found. This is useful so that we don't have to explicitly list all
+possible paths for every search.
+
+Logrotate Depth
+---------------
+
+By default if *--all-logs* is provided to the hotsos client that will apply
+to every *path* but there may be cases where this is not desired and
+*--disable-all-logs* can be used to disable this behaviour for a specific path.
+
+Using Command Output as Input
+-----------------------------
+
+If we want to take input as the output of a command, we can use the
+```command:``` stanza to specify a command that will be executed and its output
+captured.
+
+If the command requires some input, both *args* and *kwargs* can be set as a
+list and/or dictionary respectively and will be providing as input to the
 `CLIHelper command <https://github.com/canonical/hotsos/blob/main/hotsos/core/host_helpers/cli.py>`_.
 
 Sometimes we may way to dynamically generate the input args to *command*. For

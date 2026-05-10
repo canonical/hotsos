@@ -1,5 +1,4 @@
 # NOTE: for efficiency, do not capture time as subgroup unless actually necessary.
-input:
-  path: 'var/log/openvswitch/ovs-vswitchd.log'
+input: 'openvswitch:openvswitch/ovs-vswitchd.log'
 bfd-state-changes:
   expr: '([\d-]+)T[\d:]+\.\d+Z.+\|bfd(?:\S+)?\|\S+\|(\S+): BFD state change: (\S+)'

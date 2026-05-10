@@ -207,9 +207,6 @@ class GlobalSearcherPreloaderBase():
         @param search_property: YPropertySearch object
         @param search_input: YPropertyInput object
         """
-        if len(search_input.paths) == 0:
-            return
-
         allow_constraints = True
         if search_input.command:
             # don't apply constraints to command outputs
@@ -226,6 +223,9 @@ class GlobalSearcherPreloaderBase():
                                     search_property.simple_search,
                                 'sequence_search':
                                     search_property.sequence_search}
+
+        if len(search_input.paths) == 0:
+            return
 
         for path in search_input.paths:
             log.debug("loading search (tag=%s, input_path=%s, "
@@ -259,11 +259,13 @@ class GlobalSearcherAutoRegisterMeta(type):
 class GlobalSearcherAutoRegisterBase(metaclass=GlobalSearcherAutoRegisterMeta):
     """
     Generic interface for loading search definitions into the global searcher.
+
     The attributes of this class are intentionally similar to those of
     hotsos.core.ycheck.engine.properties.search so as to be able to give them
     equivalent meaning but this is really intended for use by code that wants
     to perform searches but that is not using YPropertySearch (i.e. not event
-    or scenario yaml).
+    or scenario yaml). An example of this would be imported code that performs
+    searches that is called from an event or scenario.
     """
     # This must be set to the same value as used by corresponding
     # implementation of PluginPartBase.plugin_name.

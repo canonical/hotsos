@@ -190,7 +190,7 @@ class YRequirementTypeConfig(YRequirementTypeBase):
 
     @property
     def handler(self):
-        return self.get_cls(self.content['handler'])
+        return self.get_cls(self.context, self.content['handler'])
 
     @property
     def path(self):

@@ -32,6 +32,7 @@ from hotsos.core.search import (
     SearchDef
 )
 from hotsos.core.ycheck.events import EventCallbackBase
+from hotsos.core.utils import PathFinderBase
 
 CEPH_SERVICES_EXPRS = [r"ceph-[a-z0-9-]+",
                        r"rados[a-z0-9-:]+",
@@ -78,6 +79,18 @@ CEPH_REL_INFO = {
 }
 
 
+class PathFinder(PathFinderBase):
+    """ Supports both snap and deb based installed of ceph.
+
+    Ensure this list contains every possible path available for ceph
+    log files.
+    """
+    @property
+    def paths(self):
+        return ['var/log/ceph',
+                'var/snap/microceph/common/logs']
+
+
 def csv_to_set(f):
     """
     Decorator used to convert a csv string to a set().
@@ -100,6 +113,10 @@ class CephConfig(IniConfigBase):
     """
     def __init__(self, *args, **kwargs):
         path = os.path.join(HotSOSConfig.data_root, 'etc/ceph/ceph.conf')
+        if not os.path.exists(path):
+            path = os.path.join(HotSOSConfig.data_root,
+                                'var/snap/microceph/current/conf/ceph.conf')
+
         super().__init__(*args, path=path, **kwargs)
 
     def get(self, key, *args, **kwargs):
@@ -166,6 +183,11 @@ class CephChecks(StorageBase):
         self.bcache = BcacheBase()
         self.cluster = CephCluster()
         CephInstallInfo().mixin(self)
+
+    @property
+    def bad_units(self):
+        """ Passthrough property to allow it to be called from yaml checks. """
+        return self.systemd.bad_units
 
     @property
     def summary_subkey_include_default_entries(self):
@@ -439,7 +461,8 @@ class CephDaemonAllOSDsCommand():
                 config = getattr(sys.modules[__name__],
                                  self.command)(osd_id=osd.id)
             except ImportError:
-                log.warning("no ceph daemon command handler found for '%s'")
+                log.warning("no ceph daemon command handler found for '%s'",
+                            self.command)
                 break
 
             if hasattr(config, name):

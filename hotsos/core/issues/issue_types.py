@@ -63,6 +63,10 @@ class CephWarning(IssueTypeBase):
     """ Issue for ceph warnings. """
 
 
+class CephError(IssueTypeBase):
+    """ Issue for ceph errors. """
+
+
 class CephHealthWarning(IssueTypeBase):
     """ Issue for Ceph cluster health warnings. """
 
@@ -131,6 +135,10 @@ class RabbitMQWarning(IssueTypeBase):
     """ Issue for RabbitMQ warnings. """
 
 
+class OpenStackError(IssueTypeBase):
+    """ Issue for Openstack errors. """
+
+
 class OpenstackWarning(IssueTypeBase):
     """ Issue for Openstack warnings. """
 
@@ -163,6 +171,10 @@ class KubernetesWarning(IssueTypeBase):
     """ Issue for Kubernetes warnings. """
 
 
+class KubernetesError(IssueTypeBase):
+    """ Issue for Kubernetes errors. """
+
+
 class PacemakerWarning(IssueTypeBase):
     """ Issue for Pacemaker warnings. """
 
@@ -189,6 +201,10 @@ class VaultWarning(IssueTypeBase):
 
 class SSSDWarning(IssueTypeBase):
     """ Issue for SSSD warnings. """
+
+
+class SmartCtlWarning(IssueTypeBase):
+    """ smartctl warnings. """
 
 
 class UbuntuCVE(CVETypeBase):

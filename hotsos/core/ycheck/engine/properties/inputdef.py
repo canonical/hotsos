@@ -1,15 +1,17 @@
 import os
+import re
 from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import CLIHelperFile
 from hotsos.core.log import log
 from hotsos.core.ycheck.engine.properties.common import (
+    ImportHelper,
     YPropertyOverrideBase,
 )
 
 
-class YPropertyInputBase():
+class YPropertyInputBase(ImportHelper):
     """ Base class for input property implementations. """
     @property
     def options(self):
@@ -32,8 +34,26 @@ class YPropertyInputBase():
         return self.content.get('command')  # pylint: disable=E1101
 
     def expand_paths(self, paths):
+        """
+        Expand paths to absolute using prefix that exists.
+
+        @param paths: list of paths we want to use as input. Note that paths
+                      must be relative to data_root.
+        """
         _paths = []
         for path in paths:
+            # First check if a PathFinder is used
+            if re.match(r'^[\w.]+:', path):
+                plugin, _, subpath = path.partition(':')
+                importpath = f'hotsos.core.plugins.{plugin}.PathFinder'
+                # NOTE: we don't bother to supply context/cache. The pathfinder
+                # itself should support affinity for paths that match.
+                path = self.get_cls(None, importpath)().resolve(subpath)
+                if not path:
+                    log.debug("PathFinder did not identify a path for %s",
+                              subpath)
+                    continue
+
             path = os.path.join(HotSOSConfig.data_root, path)
             if (HotSOSConfig.use_all_logs and not
                     self.options['disable-all-logs']):
@@ -49,7 +69,6 @@ class YPropertyInputBase():
 
     @cached_property
     def paths(self):
-        _paths = []
         fs_path = None
         if isinstance(self.content, (str, list)):  # pylint: disable=E1101
             fs_path = self.content  # pylint: disable=E1101
@@ -57,6 +76,7 @@ class YPropertyInputBase():
             fs_path = self.content.get('path')  # pylint: disable=E1101
 
         if fs_path:
+            _paths = []
             if isinstance(fs_path, list):
                 for path in fs_path:
                     _paths.append(path)

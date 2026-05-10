@@ -1,0 +1,45 @@
+vars:
+  nf_r_def: 0.85
+  bf_r_def: 0.90
+  full_r_def: 0.95
+
+checks:
+  nearfull_ratio_key:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.nearfull_ratio
+      ops: [[gt, $nf_r_def]]
+
+  backfillfull_ratio_key:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.backfillfull_ratio
+      ops: [[gt, $bf_r_def]]
+
+  full_ratio_key:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.full_ratio
+      ops: [[gt, $full_r_def]]
+
+conclusions:
+  ceph-capacity-ratios-nondefault:
+    decision:
+      - or:
+          - nearfull_ratio_key
+          - backfillfull_ratio_key
+          - full_ratio_key
+    raises:
+      type: CephMonWarning
+      message: >-
+        One or more Ceph capacity ratios are set higher than the usual defaults
+        nearfull={nf_r:.2f} (default: {nf_r_def:.2f}), backfillfull={bf_r:.2f} (default: {bf_r_def:.2f}),
+        full={full_r:.2f} (default: {full_r_def:.2f}). These ratios control when Ceph
+        warns and blocks operations as the cluster approaches capacity. Setting
+        them higher than defaults can delay critical warnings and risk the cluster
+        becoming toofull before warning. Please revert any of the increased
+        values to their default values.
+      format-dict:
+        nf_r: hotsos.core.plugins.storage.ceph.CephCluster.nearfull_ratio
+        bf_r: hotsos.core.plugins.storage.ceph.CephCluster.backfillfull_ratio
+        full_r: hotsos.core.plugins.storage.ceph.CephCluster.full_ratio
+        nf_r_def: $nf_r_def
+        bf_r_def: $bf_r_def
+        full_r_def: $full_r_def

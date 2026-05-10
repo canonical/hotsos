@@ -13,7 +13,7 @@ from hotsos.core.host_helpers import (
 from hotsos.core.plugins.openstack.openstack import OST_SUNBEAM_SNAP_NAMES
 from hotsos.core.ycheck.events import EventCallbackBase, EventHandlerBase
 from hotsos.core.ycheck.common import GlobalSearcherAutoRegisterBase
-from hotsos.core.utils import sorted_dict
+from hotsos.core.utils import PathFinderBase, sorted_dict
 
 OVS_SERVICES_EXPRS = [r'ovsdb[a-zA-Z-]*',
                       r'ovs-vswitch[a-zA-Z-]*',
@@ -38,8 +38,28 @@ OVS_PKGS_DEPS = _OVS_PKGS_DEPS + \
 OVS_SNAPS_CORE = ['microovn'] + OST_SUNBEAM_SNAP_NAMES
 
 
+class PathFinder(PathFinderBase):
+    """ Supports both snap and deb based installed of ovs/ovn.
+
+    Ensure this list contains every possible path available for openvswitch/ovn
+    log files.
+    """
+    @property
+    def paths(self):
+        return ['var/log',
+                'var/snap/openstack-hypervisor/common/log',
+                'var/snap/microovn/common/logs']
+
+
 class OpenvSwitchGlobalSearchBase(GlobalSearcherAutoRegisterBase):
-    """ Base class for global searcher registration for OpenvSwitch. """
+    """ Base class for global searcher registration for OpenvSwitch.
+
+    Event and scenario searches already leverage the global searcher and this
+    is an extension for searches done in code that is called from events and
+    scenarios such that it does not incur an extra search run. In other words
+    this ensures that these searches are bundled with the others in the global
+    search.
+    """
     plugin_name = "openvswitch"
 
     @classmethod

@@ -514,20 +514,22 @@ class AptFactory(FactoryBase):
 
 class SnapPackageHelper(PackageHelperBase):
     """ Helpers for analysing snap packages. """
-    def __init__(self, core_snaps, other_snaps=None):
+    def __init__(self, core_snaps, other_snaps=None, ignore_disabled=True):
         """
         @param core_snaps: list of python.re expressions used to match
         snap names.
-        @param other_snap_exprs: optional list of python.re expressions used to
+        @param other_snaps: optional list of python.re expressions used to
         match snap names for snaps that are not considered part of the
         core set.
+        @param ignore_disabled: by default we ignore disabled snaps. These are
+                                usually older revisions of snaps left after
+                                a snap was upgraded.
         """
-        self.core_snap_exprs = core_snaps
-        self.other_snap_exprs = other_snaps or []
-        self._core_snaps = {}
-        self._other_snaps = {}
-        self._all_snaps = {}
-        self._match_expr_template = r"^({})\s+([\S]+)\s+([\d]+)\s+(\S+)\s+.+"
+        self.exprs = {'core': core_snaps, 'other': other_snaps or []}
+        self.snaps = {'core': {}, 'other': {}, 'all': {}}
+        self._match_expr_template = (r'^({})\s+([\S]+)\s+([\d]+)\s+(\S+)\s+'
+                                     r'(\S+)\s+(\S+)\s*')
+        self.ignore_disabled = ignore_disabled
         self.snap_list_all = CLIHelper().snap_list_all()
 
     def is_installed(self, pkg):
@@ -542,6 +544,8 @@ class SnapPackageHelper(PackageHelperBase):
                     'version': ret.group(2),
                     'revision': ret.group(3),
                     'channel': ret.group(4),
+                    'publisher': ret.group(5),
+                    'notes': ret.group(6),
                     }
 
         return None
@@ -599,22 +603,27 @@ class SnapPackageHelper(PackageHelperBase):
 
     @property
     def _all(self):
-        if self._all_snaps:
-            return self._all_snaps
+        if self.snaps['all']:
+            return self.snaps['all']
 
         if not self.snap_list_all:
             return {}
 
         _core = {}
         _other = {}
-        all_exprs = self.core_snap_exprs + self.other_snap_exprs
+        all_exprs = self.exprs['core'] + self.exprs['other']
         for snap in all_exprs:
             for snap_info in self._get_snap_info(snap):
+                if self.ignore_disabled and 'disabled' in snap_info['notes']:
+                    log.debug("ignoring disabled snap name='%s' rev=%s",
+                              snap_info['name'], snap_info['revision'])
+                    continue
+
                 name = snap_info['name']
                 version = snap_info['version']
                 channel = snap_info['channel']
                 # only show latest version installed
-                if snap in self.core_snap_exprs:
+                if snap in self.exprs['core']:
                     if name in _core:
                         if version > _core[name]['version']:
                             _core[name]['version'] = version
@@ -632,14 +641,14 @@ class SnapPackageHelper(PackageHelperBase):
                                         'channel': channel}
 
         # ensure sorted
-        self._core_snaps = sorted_dict(_core)
-        self._other_snaps = sorted_dict(_other)
+        self.snaps['core'] = sorted_dict(_core)
+        self.snaps['other'] = sorted_dict(_other)
         combined = {}
         combined.update(_core)
         combined.update(_other)
-        self._all_snaps = sorted_dict(combined)
+        self.snaps['all'] = sorted_dict(combined)
 
-        return self._all_snaps
+        return self.snaps['all']
 
     @property
     def all(self):
@@ -662,15 +671,15 @@ class SnapPackageHelper(PackageHelperBase):
         """
         Only return results that matched from the "core" set of snaps.
         """
-        if self._core_snaps:
-            return self._core_snaps
+        if self.snaps['core']:
+            return self.snaps['core']
 
-        if self._other_snaps:
+        if self.snaps['other']:
             return {}
 
         # go fetch
         _ = self.all
-        return self._core_snaps
+        return self.snaps['core']
 
 
 @dataclass(frozen=True)

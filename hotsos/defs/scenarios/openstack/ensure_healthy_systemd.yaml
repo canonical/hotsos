@@ -1,0 +1,18 @@
+vars:
+  bad_units: '@hotsos.core.plugins.openstack.OpenstackBase.bad_units'
+checks:
+  has_units_with_state_bad:
+    varops: [[$bad_units], [length_hint]]
+conclusions:
+  systemd_unexpected_status:
+    decision: has_units_with_state_bad
+    raises:
+      type: OpenStackError
+      message: >-
+        The host is running one or more OpenStack systemd unit(s) with state
+        'bad': {units}. This means the unit file is invalid or another error
+        occurred. One common cause is when the unit is pending a restart
+        following a config change. See 'systemctl status <name>' for more
+        information.
+      format-dict:
+        units: '$bad_units:comma_join'

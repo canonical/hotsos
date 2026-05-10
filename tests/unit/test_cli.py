@@ -21,9 +21,6 @@ class TestCLI(utils.BaseTestCase):
                              {'SNAP_REVISION': 'edge'}):
             self.assertEqual(hotsos.cli.get_version(), 'edge')
 
-    def test_get_version(self):
-        self.assertEqual(hotsos.cli.get_version(), 'development')
-
     def test_is_not_snap(self):
         self.assertFalse(hotsos.cli.is_snap())
 

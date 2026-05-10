@@ -15,6 +15,7 @@ declare -A PLUGIN_ROOTS=(
     [pacemaker]=./tests/unit/fake_data_root/vault
     [mysql]=./tests/unit/fake_data_root/vault
 )
+DEFAULT_DATA_ROOT=${PLUGIN_ROOTS[openstack]}
 PLUGINS=(
     openstack
     openvswitch
@@ -35,42 +36,57 @@ result=true
 
 test_plugin ()
 {
-    local plugin=$1
-    local type=${2:-}
+    local plugin=
+    local type=
+    local data_root=
     local args=()
     local label=""
+    local msg
+    local diffout=
 
-    data_root=${PLUGIN_ROOTS[$plugin]:-$default}
-    echo -n "TEST: "
-    echo -n "plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root ..."
+    plugin=$1
+    type=${2:-}
+    data_root=$3
+
+    mkdir -p $dtmp/$plugin
+
+    msg="TEST: "
+    msg+="plugin=$plugin (${type:-full}) with DATA_ROOT=$data_root ..."
     if [[ $type == short ]]; then
         args+=( --short )
         label=".short"
     fi
     # NOTE: we remove repo-info, date and INFO from hotsos and system plugin
     #       output since they are liable to change.
+    test_out=$dtmp/$plugin/result$label
     ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
-        egrep -v "^  repo-info:|date:|INFO:" > $dtmp/$plugin$label
+        egrep -v "^\s*(repo-info|date|INFO|version):" > $test_out
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
-    egrep -v "^  repo-info:|date:|INFO:" $litmus > $dtmp/$plugin.litmus
-    if diff $dtmp/$plugin.litmus $dtmp/$plugin$label &> $dtmp/fail; then
-        echo -e " [${F_GRN}PASS${RES}]"
+    ref_out=$dtmp/$plugin/litmus$label
+    egrep -v "^\s*(repo-info|date|INFO|version):" $litmus > $ref_out
+    diffout=$dtmp/$plugin/fail$label
+    if diff $ref_out $test_out &> $diffout; then
+        echo -e "$msg [${F_GRN}PASS${RES}]"
     else
-        echo -e " [${F_RED}FAIL${RES}]"
-        cat $dtmp/fail
-        result=false
+        echo -e "$msg [${F_RED}FAIL${RES}]"
+        cat $dtmp/$plugin/fail$label
     fi
 }
 
 # this is needed for github workflows to work
 export PYTHONPATH=.
 
-default=${PLUGIN_ROOTS[openstack]}
+echo "INFO: Starting functional tests for plugins: ${PLUGINS[@]}"
 for plugin in ${PLUGINS[@]}; do
-    test_plugin $plugin
-    test_plugin $plugin short
+    test_plugin $plugin "" ${PLUGIN_ROOTS[$plugin]:-$DEFAULT_DATA_ROOT} &
+    test_plugin $plugin short ${PLUGIN_ROOTS[$plugin]:-$DEFAULT_DATA_ROOT} &
+    [[ -r $dtmp/$plugin/fail* ]] && result=false
 done
 
+# wait for all plugin tests
+wait
+
+echo "INFO: testing running hotsos with --save:"
 # do a test run with --save to be sure we havent broken anything
 ./scripts/hotsos --kernel --save --output-path $dtmp
 

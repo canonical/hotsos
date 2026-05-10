@@ -1,4 +1,9 @@
-from .common import CephChecks, CephConfig, CephDaemonAllOSDsFactory
+from .common import (
+    CephChecks,
+    CephConfig,
+    CephDaemonAllOSDsFactory,
+    PathFinder,
+)
 from .cluster import CephCluster, CephCrushMap
 
 __all__ = [
@@ -6,5 +11,6 @@ __all__ = [
     CephConfig.__name__,
     CephDaemonAllOSDsFactory.__name__,
     CephCluster.__name__,
-    CephCrushMap.__name__
+    CephCrushMap.__name__,
+    PathFinder.__name__,
     ]

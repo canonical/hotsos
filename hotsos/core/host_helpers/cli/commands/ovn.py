@@ -3,7 +3,7 @@ from collections import UserList
 from hotsos.core.host_helpers.cli.common import BinCmd, FileCmd
 
 
-OVNAliases = ['openstack-hypervisor.', 'microovn.']
+OVN_ALIASES = ['openstack-hypervisor.', 'microovn.']
 
 
 class OVNDBCTLShowBinCmd(BinCmd):
@@ -35,12 +35,12 @@ class OVNDBCTLShowCmds(UserList):
     def __init__(self, ctl_command):
         cmds = [OVNDBCTLShowBinCmd(ctl_command=ctl_command)]
         cmds.extend([OVNDBCTLShowBinCmd(ctl_command=ctl_command,
-                     prefix=prefix) for prefix in OVNAliases])
+                     prefix=prefix) for prefix in OVN_ALIASES])
         cmds.append(OVNDBCTLShowFileCmd(ctl_command=ctl_command))
         # sosreport < 4.5
         cmds.append(FileCmd(f'sos_commands/ovn_central/{ctl_command}_show'))
         cmds.extend([OVNDBCTLShowFileCmd(ctl_command=ctl_command,
-                     prefix=prefix) for prefix in OVNAliases])
+                     prefix=prefix) for prefix in OVN_ALIASES])
         super().__init__(cmds)
 
 
@@ -73,10 +73,10 @@ class OVNDBCTLListCmds(UserList):
     def __init__(self, ctl_command):
         cmds = [OVNDBCTLListBinCmd(ctl_command=ctl_command)]
         cmds.extend([OVNDBCTLListBinCmd(ctl_command=ctl_command,
-                     prefix=prefix) for prefix in OVNAliases])
+                     prefix=prefix) for prefix in OVN_ALIASES])
         cmds.append(OVNDBCTLListFileCmd(ctl_command=ctl_command))
         # sosreport < 4.5
         cmds.append(FileCmd(f'sos_commands/ovn_central/{ctl_command}_list'))
         cmds.extend([OVNDBCTLListFileCmd(ctl_command=ctl_command,
-                     prefix=prefix) for prefix in OVNAliases])
+                     prefix=prefix) for prefix in OVN_ALIASES])
         super().__init__(cmds)
