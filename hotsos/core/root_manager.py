@@ -85,7 +85,7 @@ class DataRootManager():
                     # We really do want to catch all here since we don't care
                     # why it failed but don't want to fail hard if it does.
                     except Exception:  # pylint: disable=W0718
-                        log.exception("error occured while unpacking "
+                        log.exception("error occurred while unpacking "
                                       "sosreport:")
                         # some members might fail to extract e.g. permission
                         # denied but we dont want that to cause the whole run
