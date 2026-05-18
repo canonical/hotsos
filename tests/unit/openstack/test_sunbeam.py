@@ -150,9 +150,11 @@ class TestOpenstackSunbeamPluginCore(TestOpenstackSunbeamBase):
     def test_project_catalog_snap_packages(self):
         ost_base = openstack_core.OpenstackBase()
         core = {'openstack':
-                {'version': '2024.1', 'channel': '2024.1/stable'},
+                {'version': '2024.1', 'revision': '727',
+                 'channel': '2024.1/stable'},
                 'openstack-hypervisor':
-                {'version': '2024.1', 'channel': '2024.1/stable'}}
+                {'version': '2024.1', 'revision': '244',
+                 'channel': '2024.1/stable'}}
         self.assertEqual(ost_base.snaps.core, core)
 
 
