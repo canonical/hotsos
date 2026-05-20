@@ -10,12 +10,11 @@ conclusions:
       type: CephOSDError
       message: >-
         Found OSD(s) {bad_osds} whose bluefs log file has grown beyond
-        {limit_bytes} bytes. This indicates that bluestore failed to invoke
-        bluefs log compaction so the log is consuming the DB and WAL device
-        space and may fall back to the main device, eventually preventing
-        the OSD from starting. Inspect 'ceph daemon osd.N perf dump' for the
-        bluefs section ('log_bytes', 'log_compactions', 'db_used_bytes',
+        50 GiB. This indicates that bluestore failed to invoke bluefs log
+        compaction so the log is consuming the DB and WAL device space and
+        may fall back to the main device, eventually preventing the OSD
+        from starting. Inspect 'ceph daemon osd.N perf dump' for the bluefs
+        section ('log_bytes', 'log_compactions', 'db_used_bytes',
         'wal_used_bytes') and consider an online or offline rocksdb compaction.
       format-dict:
         bad_osds: '@checks.osds_with_oversized_bluefs_log.requires.value_actual:comma_join'
-        limit_bytes: hotsos.core.plugins.storage.ceph.CephChecks.BLUEFS_LOG_SIZE_LIMIT
