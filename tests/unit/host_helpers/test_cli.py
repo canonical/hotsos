@@ -328,6 +328,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'sunbeam_cluster_list',
                         'ceph_status_json_decoded',
                         'ceph_daemon_osd_dump_mempools',
+                        'ceph_daemon_osd_perf_dump',
                         'ceph_osd_crush_dump_json_decoded',
                         'ceph_osd_crush_tree_json_decoded',
                         'ceph_versions',
