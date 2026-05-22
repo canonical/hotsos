@@ -1,0 +1,12 @@
+data-root:
+  files:
+    sos_commands/kernel/uname_-a: |
+      Linux compute4 4.15.0-97-generic #110-Ubuntu SMP Thu Jan 13 18:22:13 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
+  copy-from-original:
+    - etc/lsb-release
+raised-issues:
+  KernelWarning: >-
+    This node is running a kernel version that is End of Life
+    (version=3.4.0) which means it has limited support and is
+    likely not receiving updates anymore. Please consider upgrading
+    to a newer release.
