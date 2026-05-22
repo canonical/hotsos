@@ -1,0 +1,29 @@
+vars:
+  local_charms: '@hotsos.core.plugins.juju.JujuChecks.charms'
+checks:
+  host_has_ceph_fs_charm:
+    varops: [[$local_charms], [contains, ceph-fs]]
+  ceph_mds_frequent_restarts:
+    input:
+      command: journalctl
+    search:
+      expr: '([\d-]+)T([\d:]+)[+-]\d+ \S+ systemd\[1\]: Starting Ceph metadata server daemon\.\.\.'
+      constraints:
+        search-period-hours: 1
+        min-results: 6
+conclusions:
+  lp2071780:
+    decision:
+      - host_has_ceph_fs_charm
+      - ceph_mds_frequent_restarts
+    raises:
+      type: LaunchpadBug
+      bug-id: 2071780
+      message: >-
+        This host appears to be affected by LP bug 2071780 where ceph-fs charm
+        can restart ceph-mds too often on config-changed hooks. Logs show
+        {num_restarts} ceph-mds starts within one hour, which can impact
+        CephFS clients. Consider moving to quincy/stable, squid/stable,
+        or newer.
+      format-dict:
+        num_restarts: '@checks.ceph_mds_frequent_restarts.search.num_results'
