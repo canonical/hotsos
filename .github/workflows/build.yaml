@@ -3,6 +3,7 @@
 name: Python package
 on:
   push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -29,11 +30,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install build
           python -m build
-      - name: Publish a Python distribution to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        if: github.event_name == 'push' && github.ref_name == 'main' && matrix.python-version == '3.8'
-        with:
-          password: ${{ secrets.PYPI_API_TOKEN }}
       - name: Upload Python package as CI artifact
         uses: actions/upload-artifact@v4
         with:
