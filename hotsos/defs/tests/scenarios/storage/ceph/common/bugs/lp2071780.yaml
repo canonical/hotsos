@@ -31,5 +31,5 @@ raised-bugs:
     This host appears to be affected by LP bug 2071780 where ceph-fs charm
     can restart ceph-mds too often on config-changed hooks. Logs show
     12 ceph-mds starts within one hour, which can impact
-    CephFS clients. Consider moving to quincy/stable, squid/stable,
-    or newer.
+    CephFS clients. Upgrade the ceph-fs charm to revision 293
+    or newer for Quincy, and revision 200 or newer for Squid to get the fix.
