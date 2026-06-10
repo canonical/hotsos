@@ -351,6 +351,12 @@ class SystemdHelper(ServiceManagerBase):
             path = os.path.join(HotSOSConfig.data_root,
                                 'sys/fs/cgroup/system.slice')
 
+        if not os.path.exists(path):
+            # No cgroup data at all e.g. a sosreport from a snap-based
+            # deployment. Fall back to scanning ps directly.
+            log.debug("%s doesn't exist. Falling back using ps.", path)
+            return self._ps_fallback_for_services()
+
         for svc in self.services:
             for svc in self.get_services_expanded(svc):
                 _path = os.path.join(path, f"{svc}.service",
@@ -370,6 +376,28 @@ class SystemdHelper(ServiceManagerBase):
                             if re.match(rf'^\S+\s+{int(pid)}\s+', line):
                                 ps_filtered.append(line)
                                 break
+
+        return ps_filtered
+
+    def _ps_fallback_for_services(self):
+        """
+        Fallback when cgroup.procs is not available (e.g. snap services).
+        Scans ps output directly for commands matching any of the
+        registered service expressions.
+
+        This is used when the entire cgroup directory is absent, so we
+        match using all service expressions because the binary names in
+        ps may differ from the systemd unit names (e.g.
+        snap.microceph.osd.daemon service runs /snap/.../bin/ceph-osd).
+
+        @return: list of matching ps lines.
+        """
+        ps_filtered = []
+        for line in self._ps:
+            for expr in self._service_exprs:
+                if self.get_cmd_from_ps_line(line, expr):
+                    ps_filtered.append(line)
+                    break
 
         return ps_filtered
 

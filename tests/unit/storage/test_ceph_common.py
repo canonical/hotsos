@@ -1,7 +1,9 @@
+import json
 import os
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.plugins.storage import ceph
+from hotsos.plugin_extensions.storage import ceph_summary
 
 from .. import utils
 
@@ -95,6 +97,189 @@ class TestCephPluginDeps(CephCommonTestsBase):
     def test_ceph_dep_snap(self):
         self.assertTrue(ceph.common.CephChecks().is_runnable())
         self.assertEqual(ceph.common.CephChecks().release_name, 'reef')
+
+    @utils.create_data_root({
+        'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF})
+    def test_ceph_dep_microceph_conf_fallback(self):
+        """Detect microceph from config file when snap list is unavailable."""
+        self.assertTrue(ceph.common.CephChecks().is_runnable())
+
+
+class TestMicrocephLocalOSDs(CephCommonTestsBase):
+    """ Unit tests for microceph local OSD detection. """
+
+    @utils.create_data_root({
+        'sos_commands/snap/snap_list_--all': SNAP_LIST_MICROCEPH,
+        'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF,
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_status':
+            json.dumps({
+                "cluster_fsid": "d219246a-6edc-4655-8c6d-2af0f38b1e0b",
+                "osd_fsid": "831fa05a-3901-4206-a850-ac38d26327d2",
+                "whoami": 2,
+                "state": "active"
+            }),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_list_devices':
+            json.dumps({
+                "devices": [
+                    {"devnode": "/dev/vdb", "device_type": "ssd"}
+                ]
+            }),
+    })
+    def test_microceph_local_osds(self):
+        checks = ceph.common.CephChecks()
+        osds = checks.local_osds
+        self.assertEqual(len(osds), 1)
+        self.assertEqual(osds[0].id, 2)
+        self.assertEqual(osds[0].fsid,
+                         '831fa05a-3901-4206-a850-ac38d26327d2')
+        self.assertEqual(osds[0].device, '/dev/vdb')
+
+    @utils.create_data_root({
+        'sos_commands/snap/snap_list_--all': SNAP_LIST_MICROCEPH,
+        'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF,
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.0.asok_status':
+            json.dumps({
+                "cluster_fsid": "d219246a-6edc-4655-8c6d-2af0f38b1e0b",
+                "osd_fsid": "aaaa-bbbb-cccc",
+                "whoami": 0,
+                "state": "active"
+            }),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.0.asok_list_devices':
+            json.dumps({
+                "devices": [
+                    {"devnode": "/dev/vdc", "device_type": "hdd"}
+                ]
+            }),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.1.asok_status':
+            json.dumps({
+                "cluster_fsid": "d219246a-6edc-4655-8c6d-2af0f38b1e0b",
+                "osd_fsid": "dddd-eeee-ffff",
+                "whoami": 1,
+                "state": "active"
+            }),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.1.asok_list_devices':
+            json.dumps({
+                "devices": [
+                    {"devnode": "/dev/vdd", "device_type": "ssd"}
+                ]
+            }),
+    })
+    def test_microceph_local_osds_multiple(self):
+        checks = ceph.common.CephChecks()
+        osds = checks.local_osds
+        self.assertEqual(len(osds), 2)
+        self.assertEqual(osds[0].id, 0)
+        self.assertEqual(osds[0].fsid, 'aaaa-bbbb-cccc')
+        self.assertEqual(osds[0].device, '/dev/vdc')
+        self.assertEqual(osds[1].id, 1)
+        self.assertEqual(osds[1].fsid, 'dddd-eeee-ffff')
+        self.assertEqual(osds[1].device, '/dev/vdd')
+
+    @utils.create_data_root({
+        'sos_commands/snap/snap_list_--all': SNAP_LIST_MICROCEPH,
+        'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF,
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.5.asok_status':
+            json.dumps({
+                "cluster_fsid": "d219246a-6edc-4655-8c6d-2af0f38b1e0b",
+                "osd_fsid": "some-fsid-value",
+                "whoami": 5,
+                "state": "active"
+            }),
+    })
+    def test_microceph_local_osds_no_list_devices(self):
+        checks = ceph.common.CephChecks()
+        osds = checks.local_osds
+        self.assertEqual(len(osds), 1)
+        self.assertEqual(osds[0].id, 5)
+        self.assertEqual(osds[0].fsid, 'some-fsid-value')
+        self.assertIsNone(osds[0].device)
+
+    @utils.create_data_root({
+        'sos_commands/snap/snap_list_--all': SNAP_LIST_MICROCEPH,
+        'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF,
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.1.asok_status':
+            json.dumps({
+                "cluster_fsid": "d219246a-6edc-4655-8c6d-2af0f38b1e0b",
+                "osd_fsid": "507b8f73-5507-4dd8-9055-50d57719ce6a",
+                "whoami": 1,
+                "state": "active"
+            }),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.1.asok_list_devices':
+            json.dumps([
+                {"device": "/dev/nvme0n1",
+                 "device_id": "SAMSUNG_MZVLC1T0HFLU-00BLL_S7SDNF0Y871382"}
+            ]),
+    })
+    def test_microceph_local_osds_bare_list_format(self):
+        """list_devices may return a bare JSON list with 'device' key."""
+        checks = ceph.common.CephChecks()
+        osds = checks.local_osds
+        self.assertEqual(len(osds), 1)
+        self.assertEqual(osds[0].id, 1)
+        self.assertEqual(osds[0].fsid,
+                         '507b8f73-5507-4dd8-9055-50d57719ce6a')
+        self.assertEqual(osds[0].device, '/dev/nvme0n1')
+
+
+MICROCEPH_SYSTEMCTL_LIST_UNIT_FILES = """\
+UNIT FILE                              STATE           VENDOR PRESET
+snap.microceph.osd.daemon.service      enabled         enabled
+snap.microceph.mon.daemon.service      enabled         enabled
+snap.microceph.mgr.daemon.service      enabled         enabled
+snap.microceph.mds.daemon.service      disabled        enabled
+snap.microceph.rgw.daemon.service      disabled        enabled
+snapd.service                          enabled         enabled
+"""
+
+MICROCEPH_SYSTEMCTL_LIST_UNITS = """\
+  UNIT                                  LOAD   ACTIVE     SUB       DESCRIPTION
+  snap.microceph.osd.daemon.service     loaded active     running   Service for snap application microceph.osd
+  snap.microceph.mon.daemon.service     loaded active     running   Service for snap application microceph.mon
+  snap.microceph.mgr.daemon.service     loaded active     running   Service for snap application microceph.mgr
+"""  # noqa
+
+MICROCEPH_PS = """\
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.1 226828  6632 ?        Ss   Feb09   0:05 /sbin/init
+root       100  0.6  5.0 500000 100000 ?       Ssl  Feb09   1:30 /snap/microceph/975/bin/ceph-osd -f --cluster ceph --id 0 --setuser root --setgroup root
+root       101  0.0  0.3  18808  8336 ?        Ss   Feb09   0:00 /snap/microceph/975/bin/ceph-mon -f --cluster ceph --id node1 --setuser root --setgroup root
+root       102  0.0  2.0 400000 50000 ?        Ssl  Feb09   0:10 /snap/microceph/975/bin/ceph-mgr -f --cluster ceph --id node1 --setuser root --setgroup root
+"""  # noqa
+
+
+class TestMicrocephProcesses(CephCommonTestsBase):
+    """ Unit tests for microceph process detection in ps section. """
+
+    @utils.create_data_root({
+        'sos_commands/snap/snap_list_--all': SNAP_LIST_MICROCEPH,
+        'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF,
+        'sos_commands/systemd/systemctl_list-unit-files':
+            MICROCEPH_SYSTEMCTL_LIST_UNIT_FILES,
+        'sos_commands/systemd/systemctl_list-units':
+            MICROCEPH_SYSTEMCTL_LIST_UNITS,
+        'ps': MICROCEPH_PS,
+    })
+    def test_microceph_ps_fallback(self):
+        """
+        When cgroup.procs files are not available for snap.microceph
+        services, the ps section should still be populated via the
+        direct ps scanning fallback.
+        """
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        ps = actual['services']['ps']
+        self.assertIn('ceph-mgr (1)', ps)
+        self.assertIn('ceph-mon (1)', ps)
+        self.assertIn('ceph-osd (1)', ps)
 
 
 @utils.load_templated_tests('scenarios/storage/ceph/common')
