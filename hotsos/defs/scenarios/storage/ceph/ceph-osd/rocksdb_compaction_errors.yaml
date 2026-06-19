@@ -1,0 +1,143 @@
+checks:
+  rocksdb_compaction_error:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+Compaction error:
+        Corruption:.+
+      constraints:
+        min-results: 1
+  rocksdb_background_compaction_error:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+Waiting after background
+        compaction error: Corruption:.+
+      constraints:
+        min-results: 1
+  rocksdb_flush_error:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+Waiting after background
+        flush error: Corruption:.+
+      constraints:
+        min-results: 1
+  rocksdb_bad_table_magic:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+Corruption: Bad table
+        magic number:.+
+      constraints:
+        min-results: 1
+  rocksdb_compression_dict_error:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+Encountered error while
+        reading data from compression dictionary block Corruption:.+
+      constraints:
+        min-results: 1
+  bluestore_open_db_error:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ bluestore.+_open_db erroring
+        opening db:.*
+      constraints:
+        min-results: 1
+  rocksdb_io_error:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+IO error:.+\.sst.+
+      constraints:
+        min-results: 1
+  rocksdb_wal_corruption:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+Corruption:.+\.log.*
+      constraints:
+        min-results: 1
+  rocksdb_slow_compaction_events:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ rocksdb:.+compaction.+
+        (slow|stall|delay|wait).+
+      constraints:
+        min-results: 3
+        search-period-hours: 24
+  osd_op_tp_timeout:
+    input: 'storage.ceph:ceph*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ osd_op_tp thread.+timed out
+        after.+
+      constraints:
+        min-results: 5
+        search-period-hours: 24
+conclusions:
+  rocksdb_compaction_corruption:
+    priority: 2
+    decision:
+      or:
+        - rocksdb_compaction_error
+        - rocksdb_background_compaction_error
+        - rocksdb_flush_error
+        - rocksdb_bad_table_magic
+        - rocksdb_compression_dict_error
+        - bluestore_open_db_error
+        - rocksdb_io_error
+        - rocksdb_wal_corruption
+    raises:
+      type: CephOSDError
+      message: >-
+        Ceph OSD is experiencing RocksDB corruption errors. This
+        typically indicates hardware issues such as failing disk, memory
+        corruption, or bit rot. The errors may include block checksum
+        mismatches, bad table magic numbers, compression dictionary
+        errors, or database opening failures during compaction or flush
+        operations. Large (2+GB) write operations are particularly
+        susceptible to corruption issues. Recommended actions: (1) Check
+        hardware health using smartctl for disk errors and memtest86+ for
+        memory issues, (2) Review dmesg and syslog for hardware-related
+        errors, (3) Run 'ceph-bluestore-tool fsck' to check BlueStore
+        integrity (read-only mode first), (4) Consider setting
+        bluefs_buffered_io=false as a workaround for buffered I/O issues,
+        (5) If the OSD is severely affected and fsck fails, it may need
+        to be removed from the cluster and re-created after addressing
+        the underlying hardware issue. Note that RocksDB corruption can
+        lead to OSD crashes and data unavailability. See
+        https://tracker.ceph.com/issues/45337 for known issues related to
+        large writes with bluefs_buffered_io=true.
+  rocksdb_slow_compaction:
+    priority: 1
+    decision:
+      or:
+        - rocksdb_slow_compaction_events
+        - osd_op_tp_timeout
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Ceph OSD is experiencing slow RocksDB compaction or thread pool
+        timeouts. This is typically caused by high cluster load, large
+        delete operations, tombstone accumulation, or RocksDB performance
+        degradation rather than corruption. Symptoms include OSD op thread
+        pool timeouts and sluggish cluster performance. Recommended
+        actions: (1) For Pacific 16.2.13+ or Reef+, enable
+        rocksdb_cf_compaction_on_deletion feature to automatically compact
+        on deletions and avoid tombstone accumulation, (2) Consider
+        performing offline manual compaction during maintenance windows
+        using 'ceph-kvstore-tool compact', (3) Enable LZ4 compression in
+        RocksDB (bluestore_rocksdb_options with
+        'compression=kLZ4Compression') to improve compaction performance
+        and reduce space usage, (4) Review and tune RocksDB compaction
+        settings (max_background_compactions, compaction_readahead_size),
+        (5) If issue persists after large delete operations, schedule
+        regular offline compaction, (6) Monitor OSD memory usage and
+        adjust bluestore_cache_* settings if needed. Note that concurrent
+        iteration and deletions with no writes can cause rapid tombstone
+        accumulation requiring manual intervention.

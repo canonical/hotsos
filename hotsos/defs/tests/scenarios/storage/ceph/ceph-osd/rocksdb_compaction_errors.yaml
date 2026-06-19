@@ -1,0 +1,33 @@
+target-name: rocksdb_compaction_errors.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Fri Feb 12 12:00:00 UTC 2021
+    var/log/ceph/ceph-osd.log: |
+      2021-02-12 05:03:23.672 7ff3df46d700  3 rocksdb: [db/db_impl_compaction_flush.cc:2660] Compaction error: Corruption: block checksum mismatch: expected 4004054141, got 2324967102  in db/000141.sst offset 1214210 size 4093
+      2021-02-12 05:03:23.672 7ff3df46d700  2 rocksdb: [db/db_impl_compaction_flush.cc:2212] Waiting after background compaction error: Corruption: block checksum mismatch: expected 4004054141, got 2324967102  in db/000141.sst offset 1214210 size 4093, Accumulated background error counts: 1
+      2021-02-12T05:33:51.986+0000 7fafb1be4700  2 rocksdb: [db/db_impl_compaction_flush.cc:2123] Waiting after background flush error: Corruption: block checksum mismatch: expected 488398259, got 381327025  in db/000200.sst offset 61326210 size 840435Accumulated background error counts: 1
+      2021-02-12 15:23:47.612 7f4856e82a80 -1 rocksdb: Corruption: Bad table magic number: expected 986351839 0377041911, found 12950032858166034944 in db/068269.sst
+      2021-02-12 16:32:51.835 7f1f45527a80 3 rocksdb: [table/block_based_table_reader.cc:1117] Encountered error while reading data from compression dictionary block Corruption: block checksum mismatch: expected 0, got 2729370997 in db/181355.sst offset 18446744073709551615 size 18446744073709551615
+      2021-02-12 16:05:47.251 7fcbd1e46a80 -1 bluestore(/var/lib/ceph/osd/ceph-3) _open_db erroring opening db:
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDError: >-
+    Ceph OSD is experiencing RocksDB corruption errors. This typically
+    indicates hardware issues such as failing disk, memory corruption,
+    or bit rot. The errors may include block checksum mismatches, bad
+    table magic numbers, compression dictionary errors, or database
+    opening failures during compaction or flush operations. Large (2+GB)
+    write operations are particularly susceptible to corruption issues.
+    Recommended actions: (1) Check hardware health using smartctl for disk
+    errors and memtest86+ for memory issues, (2) Review dmesg and syslog
+    for hardware-related errors, (3) Run 'ceph-bluestore-tool fsck' to
+    check BlueStore integrity (read-only mode first), (4) Consider setting
+    bluefs_buffered_io=false as a workaround for buffered I/O issues,
+    (5) If the OSD is severely affected and fsck fails, it may need to be
+    removed from the cluster and re-created after addressing the underlying
+    hardware issue. Note that RocksDB corruption can lead to OSD crashes
+    and data unavailability. See https://tracker.ceph.com/issues/45337 for
+    known issues related to large writes with bluefs_buffered_io=true.

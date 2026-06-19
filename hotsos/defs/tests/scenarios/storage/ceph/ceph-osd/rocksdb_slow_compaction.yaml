@@ -1,0 +1,37 @@
+target-name: rocksdb_compaction_errors.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Thu Sep 07 12:00:00 UTC 2023
+    var/log/ceph/ceph-osd.log: |
+      2023-09-07T09:05:15.234+0000 7f346aa64700 -1 osd.5 osd_op_tp thread 0x7f346aa64700 had timed out after 15.000000954s
+      2023-09-07T09:05:30.567+0000 7f346aa64700 -1 osd.12 osd_op_tp thread 0x7f346aa64700 had timed out after 15.000000954s
+      2023-09-07T09:05:45.891+0000 7f346aa64700 -1 osd.8 osd_op_tp thread 0x7f346aa64700 had timed out after 15.000000954s
+      2023-09-07T09:06:01.234+0000 7f346aa64700 -1 osd.21 osd_op_tp thread 0x7f346aa64700 had timed out after 15.000000954s
+      2023-09-07T09:06:16.567+0000 7f346aa64700 -1 osd.49 osd_op_tp thread 0x7f346aa64700 had timed out after 15.000000954s
+      2023-09-07T09:06:31.891+0000 7f346aa64700 -1 osd.3 osd_op_tp thread 0x7f346aa64700 had timed out after 15.000000954s
+      2023-09-07T09:07:00.123+0000 7f346aa64700  0 osd.5 rocksdb: compaction took 12.5s slow operation detected
+      2023-09-07T09:07:15.456+0000 7f346aa64700  0 osd.12 rocksdb: compaction stall detected on column family default
+      2023-09-07T09:07:30.789+0000 7f346aa64700  0 osd.8 rocksdb: compaction write rate delay due to pending compaction bytes
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    Ceph OSD is experiencing slow RocksDB compaction or thread pool
+    timeouts. This is typically caused by high cluster load, large delete
+    operations, tombstone accumulation, or RocksDB performance degradation
+    rather than corruption. Symptoms include OSD op thread pool timeouts
+    and sluggish cluster performance. Recommended actions: (1) For Pacific
+    16.2.13+ or Reef+, enable rocksdb_cf_compaction_on_deletion feature to
+    automatically compact on deletions and avoid tombstone accumulation,
+    (2) Consider performing offline manual compaction during maintenance
+    windows using 'ceph-kvstore-tool compact', (3) Enable LZ4 compression
+    in RocksDB (bluestore_rocksdb_options with 'compression=kLZ4Compression')
+    to improve compaction performance and reduce space usage, (4) Review
+    and tune RocksDB compaction settings (max_background_compactions,
+    compaction_readahead_size), (5) If issue persists after large delete
+    operations, schedule regular offline compaction, (6) Monitor OSD memory
+    usage and adjust bluestore_cache_* settings if needed. Note that
+    concurrent iteration and deletions with no writes can cause rapid
+    tombstone accumulation requiring manual intervention.
