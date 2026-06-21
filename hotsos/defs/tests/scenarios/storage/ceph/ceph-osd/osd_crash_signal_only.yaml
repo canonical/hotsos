@@ -1,0 +1,21 @@
+target-name: osd_crashes.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Thu Sep 07 12:00:00 UTC 2023
+    var/log/ceph/ceph-osd.3.log: |
+      2023-09-07T09:01:00.123+0000 7f346aa64700  0 osd.3 456 boot
+      2023-09-07T09:05:10.237+0000 7f346aa64700 -1 *** Caught signal (Segmentation fault) **
+      2023-09-07T09:05:10.238+0000 7f346aa64700 -1  in thread 7f346aa64700 thread_name:bstore_kv_final
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDError: >-
+    One or more Ceph OSD processes have crashed. The OSD log
+    contains crash signal entries (e.g. Segmentation fault, Aborted)
+    which indicate the OSD daemon terminated unexpectedly.
+    Recommended actions: (1) Check 'ceph crash ls' for crash details
+    and acknowledge with 'ceph crash archive-all', (2) Inspect the
+    full backtrace in the OSD log to identify the failing code path.
+    This may need further investigation.

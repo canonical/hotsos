@@ -1,0 +1,45 @@
+checks:
+  osd_crash_signal:
+    input: 'storage.ceph:ceph-osd*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ \*\*\* Caught signal
+        \((\S+( \S+)?)\) \*\*.*
+      constraints:
+        min-results: 1
+  osd_crash_assert:
+    input: 'storage.ceph:ceph-osd*.log'
+    search:
+      expr: >-
+        ^([\d-]+)[T ]([\d:]+)\S+ .+ FAILED
+        (ceph_assert|assert(ion)?)\(.+\).*
+      constraints:
+        min-results: 1
+conclusions:
+  osd_crash_with_assert:
+    priority: 2
+    decision:
+      - osd_crash_signal
+      - osd_crash_assert
+    raises:
+      type: CephOSDError
+      message: >-
+        One or more Ceph OSD processes have crashed with assertion
+        failures. This typically indicates a software bug in the Ceph
+        OSD daemon. Recommended actions: (1) Check 'ceph crash ls' for
+        crash details and acknowledge with 'ceph crash archive-all',
+        (2) Inspect the full backtrace in the OSD log to identify the
+        failing code path. This may need further investigation.
+  osd_crash_signal_only:
+    priority: 1
+    decision: osd_crash_signal
+    raises:
+      type: CephOSDError
+      message: >-
+        One or more Ceph OSD processes have crashed. The OSD log
+        contains crash signal entries (e.g. Segmentation fault, Aborted)
+        which indicate the OSD daemon terminated unexpectedly.
+        Recommended actions: (1) Check 'ceph crash ls' for crash details
+        and acknowledge with 'ceph crash archive-all', (2) Inspect the
+        full backtrace in the OSD log to identify the failing code path.
+        This may need further investigation.
