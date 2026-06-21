@@ -1,0 +1,24 @@
+target-name: rgw_s3_auth_order.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  librgw2  17.2.8-0ubuntu0.22.04.1   amd64
+    etc/ceph/ceph.conf: |
+      [client.rgw.juju-ab1234-zaza-0]
+      host = juju-ab1234-zaza-0
+      rgw frontends = beast port=8080
+      rgw_s3_auth_order = sts, local, external
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephRGWWarning: >-
+    Ceph RGW has rgw_s3_auth_order configured with 'local' before
+    'external'. This causes S3 requests using Keystone credentials
+    to fail because the local auth handler consumes the request before
+    the external (Keystone) handler can process it. Recommended action:
+    upgrade the ceph-radosgw charm which sets the correct auth order
+    with 'external' before 'local'. See
+    https://bugs.launchpad.net/charm-ceph-radosgw/+bug/2083831 for
+    details.

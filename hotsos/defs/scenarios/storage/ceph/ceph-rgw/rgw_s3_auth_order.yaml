@@ -1,0 +1,35 @@
+checks:
+  node_is_ceph_rgw_affected_version:
+    apt:
+      librgw2:
+        # This was a regression in upstream and has been fixed in
+        # https://tracker.ceph.com/issues/68393. Only the following
+        # versions contain the bug.
+        - min: 17.2.8
+          max: 17.2.9
+        - min: 18.2.0
+          max: 18.2.4
+        - min: 19.2.0
+          max: 19.2.2
+  rgw_s3_auth_local_before_external:
+    input:
+      path:
+        - etc/ceph/ceph.conf
+        - var/snap/microceph/current/conf/ceph.conf
+    expr: 'rgw.s3.auth.order\s*=\s*.*local.*external'
+conclusions:
+  rgw_s3_auth_order_local_before_external:
+    decision:
+      - node_is_ceph_rgw_affected_version
+      - rgw_s3_auth_local_before_external
+    raises:
+      type: CephRGWWarning
+      message: >-
+        Ceph RGW has rgw_s3_auth_order configured with 'local' before
+        'external'. This causes S3 requests using Keystone credentials
+        to fail because the local auth handler consumes the request before
+        the external (Keystone) handler can process it. Recommended action:
+        upgrade the ceph-radosgw charm which sets the correct auth order
+        with 'external' before 'local'. See
+        https://bugs.launchpad.net/charm-ceph-radosgw/+bug/2083831 for
+        details.
