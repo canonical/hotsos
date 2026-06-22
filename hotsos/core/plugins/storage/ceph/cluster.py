@@ -21,6 +21,14 @@ log = logging.getLogger()
 
 CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
+# Ratio threshold for OSD count imbalance across failure-domain buckets.
+# A value of 1.33 means a warning is raised when the largest bucket has
+# >= 1.33x the OSDs of the smallest bucket.
+#
+# This is a arbitrarily chosen value to catch meaningful imbalances
+# without alerting on minor differences (e.g. 10 vs 9 OSDs).
+CEPH_OSD_COUNT_IMBALANCE_THRESHOLD = 1.33
+
 
 class CephCrushMap():
     """
@@ -153,6 +161,25 @@ class CephCrushMap():
 
         return False
 
+    def _get_in_use_trees_and_fdomains(self):
+        """Get list of (rule_id, tree_bucket_id, failure_domain) tuples
+        for rules that are used by at least one pool."""
+        to_check = []
+        for rule in self.osd_crush_dump.get('rules', []):
+            taken = 0
+            fdomain = 0
+            rid = rule["rule_id"]
+            for step in rule['steps']:
+                if step["op"] == "take":
+                    taken = step["item"]
+                if "type" in step and taken != 0:
+                    fdomain = step["type"]
+                if taken != 0 and fdomain != 0 and \
+                        self._rule_used_by_any_pool(rid):
+                    to_check.append((rid, taken, fdomain))
+                    taken = fdomain = 0
+        return to_check
+
     @cached_property
     def crushmap_equal_buckets(self):
         """
@@ -166,21 +193,7 @@ class CephCrushMap():
             return []
 
         buckets = {b['id']: b for b in self.osd_crush_dump["buckets"]}
-
-        to_check = []
-        for rule in self.osd_crush_dump.get('rules', []):
-            taken = 0
-            fdomain = 0
-            rid = rule["rule_id"]
-            for i in rule['steps']:
-                if i["op"] == "take":
-                    taken = i["item"]
-                if "type" in i and taken != 0:
-                    fdomain = i["type"]
-                if taken != 0 and fdomain != 0 and \
-                        self._rule_used_by_any_pool(rid):
-                    to_check.append((rid, taken, fdomain))
-                    taken = fdomain = 0
+        to_check = self._get_in_use_trees_and_fdomains()
 
         unequal_buckets = []
         for _, tree, failure_domain in to_check:
@@ -197,6 +210,131 @@ class CephCrushMap():
             return ", ".join(unequal)
 
         return None
+
+    def _count_osds_by_class_in_bucket(self, buckets, bucket_id,
+                                       device_classes):
+        """Count the number of OSDs per device class under a bucket.
+
+        @param device_classes: dict mapping OSD id -> class name
+        @return: dict mapping class name -> count
+        """
+        bucket = buckets.get(bucket_id)
+        if bucket is None:
+            return {}
+
+        counts = {}
+        for item in bucket["items"]:
+            if item["id"] >= 0:
+                cls = device_classes.get(item["id"], "unknown")
+                counts[cls] = counts.get(cls, 0) + 1
+            elif item["id"] in buckets:
+                sub = self._count_osds_by_class_in_bucket(
+                    buckets, item["id"], device_classes)
+                for cls, cnt in sub.items():
+                    counts[cls] = counts.get(cls, 0) + cnt
+
+        return counts
+
+    def _check_class_imbalance(self, buckets, fd_bucket_ids,
+                               device_classes):
+        """Check for per-class OSD count imbalance across fd buckets.
+
+        @return: list of (device_class, bucket_count_parts) tuples
+        """
+        per_bucket = {}
+        all_classes = set()
+        for bid in fd_bucket_ids:
+            class_counts = self._count_osds_by_class_in_bucket(
+                buckets, bid, device_classes)
+            per_bucket[bid] = class_counts
+            all_classes.update(class_counts.keys())
+
+        results = []
+        for cls in sorted(all_classes):
+            counts = [per_bucket[bid].get(cls, 0)
+                      for bid in fd_bucket_ids]
+            nonzero = [c for c in counts if c > 0]
+            if not nonzero:
+                continue
+            # A class present in only one bucket is a severe imbalance
+            if len(nonzero) == 1 and len(counts) > 1:
+                pass  # fall through to report
+            elif len(nonzero) < 2:
+                continue
+            elif max(nonzero) < (
+                    CEPH_OSD_COUNT_IMBALANCE_THRESHOLD * min(nonzero)):
+                continue
+
+            parts = [f"{buckets[bid]['name']}="
+                     f"{per_bucket[bid].get(cls, 0)}"
+                     for bid in fd_bucket_ids]
+            results.append((cls, parts))
+
+        return results
+
+    @cached_property
+    def crushmap_osd_count_imbalanced_buckets(self):
+        """
+        Report failure-domain buckets with significantly imbalanced OSD
+        counts per device class. Flags when the maximum OSD count across
+        sibling buckets is >= CEPH_OSD_COUNT_IMBALANCE_THRESHOLD times
+        the minimum (non-zero) count for any device class.
+        """
+        if not self.osd_crush_dump:
+            return []
+
+        buckets = {b['id']: b for b in self.osd_crush_dump["buckets"]}
+        device_classes = {
+            d['id']: d.get('class', 'unknown')
+            for d in self.osd_crush_dump.get("devices", [])}
+
+        imbalanced = []
+        for _, tree, failure_domain in self._get_in_use_trees_and_fdomains():
+            fd_bucket_ids = self._collect_fd_buckets(
+                buckets, tree, failure_domain)
+            if len(fd_bucket_ids) < 2:
+                continue
+
+            for cls, parts in self._check_class_imbalance(
+                    buckets, fd_bucket_ids, device_classes):
+                imbalanced.append(
+                    f"tree '{buckets[tree]['name']}' at the "
+                    f"'{failure_domain}' level for device class "
+                    f"'{cls}' (OSD counts: {', '.join(parts)})")
+
+        return imbalanced
+
+    def _collect_fd_buckets(self, buckets, start_bucket_id, failure_domain):
+        """Collect bucket IDs at the given failure domain level."""
+        result = []
+        bucket = buckets.get(start_bucket_id)
+        if bucket is None:
+            return result
+
+        for item in bucket["items"]:
+            if item["id"] not in buckets:
+                continue
+            child = buckets[item["id"]]
+            if child["type_name"] == failure_domain:
+                result.append(item["id"])
+            else:
+                result.extend(self._collect_fd_buckets(
+                    buckets, item["id"], failure_domain))
+
+        return result
+
+    @cached_property
+    def crushmap_osd_count_imbalanced_pretty(self):
+        imbalanced = self.crushmap_osd_count_imbalanced_buckets
+        if imbalanced:
+            return "; ".join(imbalanced)
+
+        return None
+
+    @property
+    def osd_count_imbalance_threshold(self):
+        """Return the configured OSD count imbalance threshold."""
+        return CEPH_OSD_COUNT_IMBALANCE_THRESHOLD
 
     @staticmethod
     def collect_osd_classes(node_id, nodes):

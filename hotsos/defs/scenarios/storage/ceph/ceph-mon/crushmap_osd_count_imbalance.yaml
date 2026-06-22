@@ -1,0 +1,21 @@
+checks:
+  crushmap_osd_count_imbalanced:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_osd_count_imbalanced_buckets
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  crushmap-osd-count-imbalance:
+    decision: crushmap_osd_count_imbalanced
+    raises:
+      type: CephCrushWarning
+      message: >-
+        Significant OSD count imbalance detected across failure domain
+        buckets (racks/AZs). One or more buckets have >= {threshold}x
+        the OSD count of another bucket at the same level. This can
+        result in uneven data distribution and reduced fault tolerance
+        if an AZ with the majority of OSDs is lost. Consider
+        rebalancing by adding OSDs to the smaller buckets or
+        redistributing hosts across AZs. Affected: {affected}.
+      format-dict:
+        threshold: hotsos.core.plugins.storage.ceph.CephCrushMap.osd_count_imbalance_threshold
+        affected: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_osd_count_imbalanced_pretty
