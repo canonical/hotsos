@@ -1,0 +1,16 @@
+target-name: system_cpufreq_mode.yaml
+mock:
+  patch:
+    hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all:
+      kwargs:
+        new: unknown
+raised-issues:
+  OpenstackWarning: >-
+    This node is used as an Openstack hypervisor but is not using
+    cpufreq scaling_governor in "performance" mode (actual=unknown).
+    The cpufreq scaling governor could not be determined which
+    typically means frequency scaling is disabled in the BIOS.
+    Please check that the BIOS power management is set to "OS
+    Control" or equivalent and reboot. If already set correctly,
+    install cpufrequtils, set "GOVERNOR=performance" in
+    /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
