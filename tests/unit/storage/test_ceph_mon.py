@@ -358,6 +358,55 @@ class TestCoreCephCluster(  # pylint: disable=too-many-public-methods
         # With a single OSD, there's nothing to compare, so no imbalance
         self.assertEqual(buckets, [])
 
+    def test_mixed_size_osd_same_size(self):
+        """Default data has all same-size OSDs - no mixed size warning."""
+        cluster = ceph.CephCluster()
+        self.assertEqual(cluster.mixed_size_osd_device_classes, [])
+
+    @mock.patch.object(ceph.cluster, 'CLIHelper')
+    def test_mixed_size_osd_different_sizes(self, mock_cli_helper):
+        """Mixed OSD sizes within same device class should be detected."""
+        inst = mock.MagicMock()
+        mock_cli_helper.return_value = inst
+        inst.ceph_osd_df_tree_json_decoded.return_value = {
+            'nodes': [
+                {'id': 0, 'device_class': 'hdd', 'name': 'osd.0',
+                 'type': 'osd', 'kb': 4000000000},
+                {'id': 1, 'device_class': 'hdd', 'name': 'osd.1',
+                 'type': 'osd', 'kb': 8000000000},
+                {'id': 2, 'device_class': 'ssd', 'name': 'osd.2',
+                 'type': 'osd', 'kb': 1000000000},
+                {'id': 3, 'device_class': 'ssd', 'name': 'osd.3',
+                 'type': 'osd', 'kb': 1000000000},
+                {'id': -1, 'name': 'default', 'type': 'root'}
+            ],
+            'summary': {'average_utilization': 10.0}}
+        cluster = ceph.CephCluster()
+        result = cluster.mixed_size_osd_device_classes
+        self.assertEqual(len(result), 1)
+        self.assertIn("'hdd'", result[0])
+
+    @mock.patch.object(ceph.cluster, 'CLIHelper')
+    def test_mixed_size_osd_different_classes_ok(self, mock_cli_helper):
+        """Different sizes across different device classes is fine."""
+        inst = mock.MagicMock()
+        mock_cli_helper.return_value = inst
+        inst.ceph_osd_df_tree_json_decoded.return_value = {
+            'nodes': [
+                {'id': 0, 'device_class': 'hdd', 'name': 'osd.0',
+                 'type': 'osd', 'kb': 8000000000},
+                {'id': 1, 'device_class': 'hdd', 'name': 'osd.1',
+                 'type': 'osd', 'kb': 8000000000},
+                {'id': 2, 'device_class': 'ssd', 'name': 'osd.2',
+                 'type': 'osd', 'kb': 1000000000},
+                {'id': 3, 'device_class': 'ssd', 'name': 'osd.3',
+                 'type': 'osd', 'kb': 1000000000},
+                {'id': -1, 'name': 'default', 'type': 'root'}
+            ],
+            'summary': {'average_utilization': 10.0}}
+        cluster = ceph.CephCluster()
+        self.assertEqual(cluster.mixed_size_osd_device_classes, [])
+
     def test_mgr_modules(self):
         cluster = ceph.CephCluster()
         expected = ['balancer',
