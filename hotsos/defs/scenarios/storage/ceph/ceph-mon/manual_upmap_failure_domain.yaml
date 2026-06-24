@@ -1,0 +1,22 @@
+checks:
+  upmaps_disrespect_failure_domain:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.manual_upmaps_disrespecting_failure_domain
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  manual-upmaps-disrespect-failure-domain:
+    decision: upmaps_disrespect_failure_domain
+    raises:
+      type: CephCrushWarning
+      message: >-
+        Found manually-set pg-upmap placement(s) that do not honour the crush
+        rule's failure domain: {upmaps}. Commands such as
+        'ceph osd pg-upmap <pgid> <osd> ...' or 'ceph osd pg-upmap-items'
+        override a PG's placement and can put more than one OSD of the PG in
+        the same failure domain (e.g. two OSDs on the same host). This defeats
+        the redundancy the crush rule is meant to provide and can lead to data
+        loss if that domain fails. Review these mappings and remove them with
+        'ceph osd rm-pg-upmap[-items] <pgid>' so that placement follows the
+        crush rule, or let the balancer manage upmaps.
+      format-dict:
+        upmaps: hotsos.core.plugins.storage.ceph.CephCluster.manual_upmaps_disrespecting_failure_domain_str

@@ -838,3 +838,163 @@ class CephCluster():  # pylint: disable=too-many-public-methods
                 _bad_osds.append(osd['name'])
 
         return sorted(_bad_osds)
+
+    @staticmethod
+    def _rule_root_and_failure_domain(rule):
+        """Extract the (root_item_id, failure_domain_type) from a crush rule.
+
+        A rule selects a starting bucket with a 'take' step then chooses
+        leaves at a bucket type (the failure domain) with a 'choose' step.
+        Returns None if the rule has no such pair of steps.
+        """
+        root = None
+        for step in rule.get('steps', []):
+            op = step.get('op', '')
+            if op == 'take':
+                root = step.get('item')
+            elif 'choose' in op and 'type' in step and root is not None:
+                return (root, step['type'])
+
+        return None
+
+    @staticmethod
+    def _map_osds_to_failure_domain(root_id, fd_type, buckets_by_id):
+        """Map each OSD under a crush tree to its failure domain bucket.
+
+        Walks the subtree rooted at root_id (the tree selected by a rule's
+        'take' step) returning {osd_id: fd_bucket_id} where fd_bucket_id is
+        the ancestor bucket of type fd_type. Restricting the walk to the
+        rule's root means shadow trees (e.g. 'default~ssd') that share the
+        same OSDs do not interfere.
+        """
+        mapping = {}
+        # (node_id, enclosing failure-domain bucket id or None)
+        stack = [(root_id, None)]
+        while stack:
+            node_id, fd_bucket = stack.pop()
+            bucket = buckets_by_id.get(node_id)
+            if bucket is None:
+                continue
+            cur_fd = node_id if bucket['type_name'] == fd_type else fd_bucket
+            for item in bucket.get('items', []):
+                iid = item['id']
+                if iid < 0:
+                    stack.append((iid, cur_fd))
+                # OSD leaf - only meaningful inside a failure-domain bucket.
+                elif cur_fd is not None:
+                    mapping[iid] = cur_fd
+
+        return mapping
+
+    def _manual_upmap_placements(self, osd_dump, upmap_pgids):
+        """Return {pgid: [osd, ...]} placement for each manually-upmapped PG.
+
+        'ceph osd dump' carries the full override OSD list for pg_upmap
+        entries; for pg_upmap_items (pairwise from->to) we use the resulting
+        up set which is authoritative in 'ceph pg dump'.
+        """
+        placements = {e['pgid']: list(e.get('osds', []))
+                      for e in osd_dump.get('pg_upmap', [])}
+        if self.pg_dump:
+            for pg in self.pg_dump['pg_map']['pg_stats']:
+                if pg['pgid'] in upmap_pgids:
+                    placements[pg['pgid']] = pg.get('up', [])
+
+        return placements
+
+    @staticmethod
+    def _failure_domain_collisions(osds, osd_fd, buckets_by_id):
+        """Return {bucket_name: [osds]} for failure domains holding >1 OSD."""
+        buckets_seen = {}
+        for osd_id in osds:
+            fd_bucket = osd_fd.get(osd_id)
+            if fd_bucket is None:
+                continue
+            buckets_seen.setdefault(fd_bucket, []).append(osd_id)
+
+        return {buckets_by_id[fd_bucket]['name']: sorted(ids)
+                for fd_bucket, ids in buckets_seen.items() if len(ids) > 1}
+
+    @cached_property
+    def manual_upmaps_disrespecting_failure_domain(self):
+        """Detect manual pg-upmap placements that break the failure domain.
+
+        Operators can use 'ceph osd pg-upmap' or 'ceph osd pg-upmap-items' to
+        override where a PG is placed. Because these overrides bypass the
+        crush rule, they can put two or more shards/replicas of a PG into the
+        same failure domain (e.g. two OSDs on the same host when the rule
+        requires host-level separation). This silently defeats the
+        redundancy guarantee and can lead to data loss if that domain fails.
+
+        Returns a dict keyed by pgid with the offending failure domain type
+        and the buckets that hold more than one OSD of the PG, e.g.
+
+            {'3.326': {'failure_domain': 'host',
+                       'shared': {'compute4': [6, 18]}}}
+        """
+        osd_dump = self._osd_dump
+        crush_dump = self.crush_map.osd_crush_dump
+        if not osd_dump or not crush_dump:
+            return {}
+
+        # PGs that have a manual upmap of either kind.
+        upmap_pgids = {e['pgid'] for e in osd_dump.get('pg_upmap', [])}
+        upmap_pgids |= {e['pgid'] for e in osd_dump.get('pg_upmap_items', [])}
+        if not upmap_pgids:
+            return {}
+
+        buckets_by_id = {b['id']: b for b in crush_dump.get('buckets', [])}
+        rules_by_id = {r['rule_id']: r for r in crush_dump.get('rules', [])}
+        pool_rule = {p['pool']: p['crush_rule']
+                     for p in osd_dump.get('pools', [])}
+        placements = self._manual_upmap_placements(osd_dump, upmap_pgids)
+
+        # Cache osd->failure-domain maps keyed by (root, fd_type).
+        fd_cache = {}
+        violations = {}
+        for pgid in sorted(upmap_pgids):
+            osds = placements.get(pgid)
+            info = self._pg_rule_failure_domain(pgid, pool_rule, rules_by_id)
+            if not osds or info is None:
+                continue
+
+            if info not in fd_cache:
+                fd_cache[info] = self._map_osds_to_failure_domain(
+                    info[0], info[1], buckets_by_id)
+
+            shared = self._failure_domain_collisions(
+                osds, fd_cache[info], buckets_by_id)
+            if shared:
+                violations[pgid] = {'failure_domain': info[1],
+                                    'shared': shared}
+
+        return violations
+
+    def _pg_rule_failure_domain(self, pgid, pool_rule, rules_by_id):
+        """Return (root_id, failure_domain_type) for the PG's crush rule."""
+        try:
+            pool_id = int(pgid.split('.')[0])
+        except (ValueError, IndexError):
+            return None
+
+        rule = rules_by_id.get(pool_rule.get(pool_id))
+        if rule is None:
+            return None
+
+        return self._rule_root_and_failure_domain(rule)
+
+    @cached_property
+    def manual_upmaps_disrespecting_failure_domain_str(self):
+        """Human-readable summary of failure-domain-breaking pg-upmaps."""
+        violations = self.manual_upmaps_disrespecting_failure_domain
+        if not violations:
+            return None
+
+        parts = []
+        for pgid, info in violations.items():
+            groups = ', '.join(f"{bucket}={ids}"
+                               for bucket, ids in info['shared'].items())
+            parts.append(f"{pgid} (failure domain '{info['failure_domain']}'"
+                         f": {groups})")
+
+        return '; '.join(parts)
