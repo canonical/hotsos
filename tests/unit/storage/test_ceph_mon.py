@@ -407,6 +407,86 @@ class TestCoreCephCluster(  # pylint: disable=too-many-public-methods
         cluster = ceph.CephCluster()
         self.assertEqual(cluster.mixed_size_osd_device_classes, [])
 
+    # root 'default' -> host0 (osd 0,1), host1 (osd 2), host2 (osd 3)
+    UPMAP_CRUSH_DUMP = {
+        "buckets": [
+            {"id": -1, "name": "default", "type_id": 11, "type_name": "root",
+             "items": [{"id": -3, "weight": 1}, {"id": -5, "weight": 1},
+                       {"id": -7, "weight": 1}]},
+            {"id": -3, "name": "host0", "type_id": 1, "type_name": "host",
+             "items": [{"id": 0, "weight": 1}, {"id": 1, "weight": 1}]},
+            {"id": -5, "name": "host1", "type_id": 1, "type_name": "host",
+             "items": [{"id": 2, "weight": 1}]},
+            {"id": -7, "name": "host2", "type_id": 1, "type_name": "host",
+             "items": [{"id": 3, "weight": 1}]},
+        ],
+        "rules": [{"rule_id": 0, "rule_name": "replicated_rule", "steps": [
+            {"op": "take", "item": -1, "item_name": "default"},
+            {"op": "chooseleaf_firstn", "num": 0, "type": "host"},
+            {"op": "emit"}]}],
+    }
+
+    def test_manual_upmaps_disrespecting_failure_domain(self):
+        # pg 3.326 fully overridden onto osds 0 and 1 (both on host0) plus
+        # osd 2 - this violates the host failure domain. pg 3.10 uses
+        # pg-upmap-items, resulting up set [0, 1, 3] (0 and 1 on host0).
+        osd_dump = {
+            "pools": [{"pool": 3, "pool_name": "cinder", "crush_rule": 0}],
+            "pg_upmap": [{"pgid": "3.326", "osds": [0, 1, 2]}],
+            "pg_upmap_items": [{"pgid": "3.10",
+                                "mappings": [{"from": 2, "to": 1}]}],
+        }
+        pg_dump = {"pg_map": {"pg_stats": [
+            {"pgid": "3.326", "up": [0, 1, 2]},
+            {"pgid": "3.10", "up": [0, 1, 3]},
+        ]}}
+
+        cluster = ceph.CephCluster()
+        with mock.patch.object(type(cluster.crush_map), 'osd_crush_dump',
+                               new=self.UPMAP_CRUSH_DUMP), \
+                mock.patch.object(ceph.CephCluster, '_osd_dump',
+                                  new=osd_dump), \
+                mock.patch.object(ceph.CephCluster, 'pg_dump', new=pg_dump):
+            result = cluster.manual_upmaps_disrespecting_failure_domain
+            self.assertEqual(result, {
+                '3.10': {'failure_domain': 'host',
+                         'shared': {'host0': [0, 1]}},
+                '3.326': {'failure_domain': 'host',
+                          'shared': {'host0': [0, 1]}},
+            })
+            self.assertEqual(
+                cluster.manual_upmaps_disrespecting_failure_domain_str,
+                "3.10 (failure domain 'host': host0=[0, 1]); "
+                "3.326 (failure domain 'host': host0=[0, 1])")
+
+    def test_manual_upmaps_respecting_failure_domain(self):
+        # pg 3.326 overridden onto osds on three distinct hosts - no
+        # violation.
+        osd_dump = {
+            "pools": [{"pool": 3, "pool_name": "cinder", "crush_rule": 0}],
+            "pg_upmap": [{"pgid": "3.326", "osds": [0, 2, 3]}],
+            "pg_upmap_items": [],
+        }
+        pg_dump = {"pg_map": {"pg_stats": [
+            {"pgid": "3.326", "up": [0, 2, 3]},
+        ]}}
+
+        cluster = ceph.CephCluster()
+        with mock.patch.object(type(cluster.crush_map), 'osd_crush_dump',
+                               new=self.UPMAP_CRUSH_DUMP), \
+                mock.patch.object(ceph.CephCluster, '_osd_dump',
+                                  new=osd_dump), \
+                mock.patch.object(ceph.CephCluster, 'pg_dump', new=pg_dump):
+            self.assertEqual(
+                cluster.manual_upmaps_disrespecting_failure_domain, {})
+            self.assertIsNone(
+                cluster.manual_upmaps_disrespecting_failure_domain_str)
+
+    def test_manual_upmaps_no_upmaps(self):
+        cluster = ceph.CephCluster()
+        self.assertEqual(
+            cluster.manual_upmaps_disrespecting_failure_domain, {})
+
     def test_mgr_modules(self):
         cluster = ceph.CephCluster()
         expected = ['balancer',
