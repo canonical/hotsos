@@ -553,33 +553,39 @@ class SnapPackageHelper(PackageHelperBase):
     def get_revision(self, snap):
         """ Return revision of package.
         """
-        info = self._get_snap_info(snap)
-        if info:
-            return info[0]['revision']
-
-        return None
+        return self._get_active_info(snap).get('revision')
 
     def get_version(self, pkg):
-        """ Return version of snap package.
-
-        Assumes only one snap will be matched.
+        """ Return version of a package.
         """
-        info = self._get_snap_info(pkg)
-        if info:
-            return info[0]['version']
-
-        return None
+        return self._get_active_info(pkg).get('version')
 
     def get_channel(self, pkg):
         """ Return channel of snap package.
-
-        Assumes only one snap will be matched.
         """
-        info = self._get_snap_info(pkg)
-        if info:
-            return info[0]['channel']
+        return self._get_active_info(pkg).get('channel')
 
-        return None
+    def _get_active_info(self, snap):
+        """
+        Return info dict for the active (non-disabled) revision of snap.
+
+        Prefers the already-resolved cache in self.all; falls back to
+        scanning snap_list_all directly when the package was not part
+        of the exprs used at construction time. In both cases disabled
+        snap revisions are filtered out when self.ignore_disabled is True.
+        """
+        if snap in self.all:
+            return self.all[snap]
+
+        active = None
+        for snap_info in self._get_snap_info(snap) or []:
+            if self.ignore_disabled and 'disabled' in snap_info['notes']:
+                continue
+            # pick the highest version if multiple active entries exist
+            if active is None or snap_info['version'] > active['version']:
+                active = snap_info
+
+        return active or {}
 
     def _get_snap_info(self, snap_name_expr):
         """
@@ -621,23 +627,28 @@ class SnapPackageHelper(PackageHelperBase):
 
                 name = snap_info['name']
                 version = snap_info['version']
+                revision = snap_info['revision']
                 channel = snap_info['channel']
                 # only show latest version installed
                 if snap in self.exprs['core']:
                     if name in _core:
                         if version > _core[name]['version']:
                             _core[name]['version'] = version
+                            _core[name]['revision'] = revision
                             _core[name]['channel'] = channel
                     else:
                         _core[name] = {'version': version,
+                                       'revision': revision,
                                        'channel': channel}
                 else:
                     if name in _other:
                         if version > _other[name]['version']:
                             _other[name]['version'] = version
+                            _other[name]['revision'] = revision
                             _other[name]['channel'] = channel
                     else:
                         _other[name] = {'version': version,
+                                        'revision': revision,
                                         'channel': channel}
 
         # ensure sorted
