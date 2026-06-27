@@ -1,3 +1,4 @@
+import logging
 import re
 from functools import cached_property
 
@@ -15,6 +16,8 @@ from hotsos.core.plugins.storage.ceph.daemon import (
     CephOSD,
 )
 from hotsos.core.utils import sorted_dict
+
+log = logging.getLogger()
 
 CEPH_POOL_TYPE = {1: 'replicated', 3: 'erasure-coded'}
 
@@ -277,7 +280,11 @@ class CephCluster():  # pylint: disable=too-many-public-methods
           nature this is going to have a large number of public methods.
     """
     OSD_META_LIMIT_PERCENT = 5
-    OSD_PG_MAX_LIMIT = 500
+    # Ceph defaults for PG overdose protection
+    MON_MAX_PG_PER_OSD_DEFAULT = 250
+    OSD_MAX_PG_PER_OSD_HARD_RATIO_DEFAULT = 3.0
+    # Fraction of the hard limit at which we warn
+    OSD_PG_MAX_LIMIT_FRACTION = 2.0 / 3.0
     # min cluster utilisation required to trigger this warning
     OSD_PG_OPTIMAL_MIN_UTIL = 10
     OSD_PG_OPTIMAL_NUM_MAX = 200
@@ -288,6 +295,52 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     def __init__(self):
         self.crush_map = CephCrushMap()
+
+    @cached_property
+    def _osd_daemon_config(self):
+        """
+        Try to get daemon config from any local OSD. Returns a dict of config
+        values or empty dict if unavailable.
+        """
+        cli = CLIHelper()
+        for osd in self.osds:
+            config = cli.ceph_daemon_osd_config_show(osd_id=osd.id)
+            if config:
+                return config
+
+        return {}
+
+    @cached_property
+    def osd_pg_max_limit(self):
+        """
+        Compute the PG-per-OSD warning threshold dynamically based on the
+        configured mon_max_pg_per_osd and osd_max_pg_per_osd_hard_ratio.
+
+        The hard limit (at which Ceph refuses to create PGs) is:
+            mon_max_pg_per_osd * osd_max_pg_per_osd_hard_ratio
+
+        We warn at 2/3 of the hard limit to give operators time to act.
+        """
+        config = self._osd_daemon_config
+        try:
+            mon_max = int(config.get('mon_max_pg_per_osd',
+                                     self.MON_MAX_PG_PER_OSD_DEFAULT))
+        except (TypeError, ValueError):
+            mon_max = self.MON_MAX_PG_PER_OSD_DEFAULT
+
+        try:
+            hard_ratio = float(config.get(
+                'osd_max_pg_per_osd_hard_ratio',
+                self.OSD_MAX_PG_PER_OSD_HARD_RATIO_DEFAULT))
+        except (TypeError, ValueError):
+            hard_ratio = self.OSD_MAX_PG_PER_OSD_HARD_RATIO_DEFAULT
+
+        hard_limit = mon_max * hard_ratio
+        limit = int(hard_limit * self.OSD_PG_MAX_LIMIT_FRACTION)
+        log.debug("OSD PG max limit computed as %d (mon_max_pg_per_osd=%d, "
+                  "osd_max_pg_per_osd_hard_ratio=%.2f, hard_limit=%d)",
+                  limit, mon_max, hard_ratio, int(hard_limit))
+        return limit
 
     @cached_property
     def health_status(self):
@@ -734,7 +787,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
     def osds_pgs_above_max(self):
         _osds_pgs = {}
         for osd, num_pgs in self.osds_pgs.items():
-            if num_pgs > self.OSD_PG_MAX_LIMIT:
+            if num_pgs > self.osd_pg_max_limit:
                 _osds_pgs[osd] = num_pgs
 
         return sorted_dict(_osds_pgs, key=lambda e: e[1], reverse=True)
