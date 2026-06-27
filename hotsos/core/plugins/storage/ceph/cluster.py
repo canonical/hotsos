@@ -912,3 +912,114 @@ class CephCluster():  # pylint: disable=too-many-public-methods
                 _bad_osds.append(osd['name'])
 
         return sorted(_bad_osds)
+
+    @staticmethod
+    def _build_osd_to_failure_domain(crush_dump):
+        """Build a mapping from OSD id to its ancestor at each bucket type.
+
+        Returns a dict: {osd_id: {'host': name, 'rack': name, ...}}
+        """
+        buckets = {}
+        for bucket in crush_dump.get('buckets', []):
+            buckets[bucket['id']] = bucket
+
+        # Map each OSD to its parent chain
+        # First build child -> parent mapping
+        child_to_parent = {}
+        for bucket in buckets.values():
+            for item in bucket['items']:
+                child_to_parent[item['id']] = bucket
+
+        osd_ancestry = {}
+        for device in crush_dump.get('devices', []):
+            osd_id = device['id']
+            ancestry = {}
+            current_id = osd_id
+            while current_id in child_to_parent:
+                parent = child_to_parent[current_id]
+                ancestry[parent['type_name']] = parent['name']
+                current_id = parent['id']
+            osd_ancestry[osd_id] = ancestry
+
+        return osd_ancestry
+
+    @staticmethod
+    def _get_pool_failure_domain(pool_crush_rule, crush_dump):
+        """Get the failure domain type for a pool's CRUSH rule.
+
+        Returns the type string (e.g. 'host', 'rack') or None.
+        """
+        for rule in crush_dump.get('rules', []):
+            if rule['rule_id'] == pool_crush_rule:
+                for step in rule['steps']:
+                    if step['op'] in ('chooseleaf_firstn',
+                                      'chooseleaf_indep'):
+                        return step.get('type')
+                    if step['op'] in ('choose_firstn', 'choose_indep'):
+                        return step.get('type')
+        return None
+
+    @cached_property
+    def pg_failure_domain_violations(self):
+        """Detect PGs whose OSDs violate failure domain separation.
+
+        Cross-references the CRUSH hierarchy with PG up-set mappings to
+        find PGs where two or more OSDs reside in the same failure domain
+        bucket (e.g. same host or same rack when the rule requires
+        separation at that level).
+
+        Returns a dict keyed by pool name with value being the count of
+        violating PGs in that pool.
+        """
+        crush_dump = self.crush_map.osd_crush_dump
+        if not crush_dump or not self.pg_dump:
+            return {}
+
+        osd_ancestry = self._build_osd_to_failure_domain(crush_dump)
+        if not osd_ancestry:
+            return {}
+
+        # Build pool_id -> (crush_rule, pool_name) mapping
+        pool_info = {}
+        for pool in self._osd_dump.get('pools', []):
+            pool_info[pool['pool']] = (pool['crush_rule'],
+                                       pool['pool_name'])
+
+        violations = {}
+        for pg in self.pg_dump.get('pg_map', {}).get('pg_stats', []):
+            osd_up = pg.get('up', [])
+            if len(osd_up) <= 1:
+                continue
+
+            pool_id = int(pg['pgid'].partition('.')[0])
+            if pool_id not in pool_info:
+                continue
+
+            crush_rule, pool_name = pool_info[pool_id]
+            fdomain = self._get_pool_failure_domain(crush_rule, crush_dump)
+            if not fdomain:
+                continue
+
+            # Check if any two OSDs share the same failure domain bucket
+            seen_domains = set()
+            for osd_id in osd_up:
+                domain_name = osd_ancestry.get(osd_id, {}).get(fdomain)
+                if domain_name is None:
+                    continue
+                if domain_name in seen_domains:
+                    violations[pool_name] = \
+                        violations.get(pool_name, 0) + 1
+                    break
+                seen_domains.add(domain_name)
+
+        return violations
+
+    @cached_property
+    def pg_failure_domain_violations_str(self):
+        if not self.pg_failure_domain_violations:
+            return None
+
+        parts = []
+        for pool, count in self.pg_failure_domain_violations.items():
+            parts.append(f"{pool} ({count} PGs)")
+        return ', '.join(parts)

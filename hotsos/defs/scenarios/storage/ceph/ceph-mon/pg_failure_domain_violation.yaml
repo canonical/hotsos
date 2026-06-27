@@ -1,0 +1,18 @@
+checks:
+  pgs_violate_failure_domain:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.pg_failure_domain_violations
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  pgs-violating-failure-domain:
+    decision: pgs_violate_failure_domain
+    raises:
+      type: CephCrushWarning
+      message: >-
+        Found placement groups with OSDs that violate failure domain
+        separation. This means some PGs have multiple OSDs in the same
+        failure domain bucket (e.g. same host), reducing data redundancy.
+        Affected pools: {pools}. Check the CRUSH map and consider running
+        'ceph osd crush reweight-subtree' or adjusting CRUSH rules.
+      format-dict:
+        pools: hotsos.core.plugins.storage.ceph.CephCluster.pg_failure_domain_violations_str
