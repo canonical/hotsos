@@ -238,8 +238,9 @@ class CephMonTestsBase(utils.BaseTestCase):
                      'osd.1': 501}}
 
 
-class TestCoreCephCluster(CephMonTestsBase):
-    """ Unit tests for ceph cluster code. """
+class TestCoreCephCluster(  # pylint: disable=too-many-public-methods
+        CephMonTestsBase):
+    """Unit tests for ceph cluster code."""
     def test_cluster_mons(self):
         cluster_mons = ceph.CephCluster().mons
         self.assertEqual([ceph.daemon.CephMon],
@@ -281,6 +282,25 @@ class TestCoreCephCluster(CephMonTestsBase):
     def test_cluster_osd_ids(self):
         cluster = ceph.CephCluster()
         self.assertEqual([osd.id for osd in cluster.osds], [0, 1, 2])
+
+    def test_osd_pg_max_limit_default(self):
+        """When no OSD daemon config is available, use default threshold."""
+        cluster = ceph.CephCluster()
+        # Default: 250 * 3.0 * 2/3 = 500
+        self.assertEqual(cluster.osd_pg_max_limit, 500)
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_osd/ceph_daemon_osd.0_config_show':
+         json.dumps({"mon_max_pg_per_osd": "500",
+                     "osd_max_pg_per_osd_hard_ratio": "3.000000"})},
+        copy_from_original=[
+            'sos_commands/ceph_mon/json_output/'
+            'ceph_osd_dump_--format_json-pretty'])
+    def test_osd_pg_max_limit_custom_config(self):
+        """When mon_max_pg_per_osd is configured higher, threshold adapts."""
+        cluster = ceph.CephCluster()
+        # Custom: 500 * 3.0 * 2/3 = 1000
+        self.assertEqual(cluster.osd_pg_max_limit, 1000)
 
     def test_crush_rules(self):
         cluster = ceph.CephCluster()

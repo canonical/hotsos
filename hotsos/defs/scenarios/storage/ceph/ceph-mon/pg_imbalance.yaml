@@ -24,7 +24,7 @@ conclusions:
         limit at which point they will stop creating pgs and fail - please
         investigate.
       format-dict:
-        limit: hotsos.core.plugins.storage.ceph.CephCluster.OSD_PG_MAX_LIMIT
+        limit: hotsos.core.plugins.storage.ceph.CephCluster.osd_pg_max_limit
   cluster-osds-with-suboptimal-pgs:
     decision:
       - cluster_has_osds_with_suboptimal_pgs
