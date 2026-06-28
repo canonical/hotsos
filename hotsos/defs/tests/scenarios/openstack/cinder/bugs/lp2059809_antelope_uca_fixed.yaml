@@ -1,0 +1,7 @@
+target-name: lp2059809.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  cinder-common                   2:22.1.1-0ubuntu1.3~cloud0       all          Cinder storage service - common files
+raised-bugs: {}
+raised-issues: {}

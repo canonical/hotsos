@@ -1,0 +1,12 @@
+target-name: lp2059809.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  cinder-common                   2:20.3.1-0ubuntu1.3              all          Cinder storage service - common files
+raised-bugs:
+  https://ubuntu.com/security/CVE-2024-32498: >-
+    The version of Openstack Cinder (2:20.3.1-0ubuntu1.3) running on this host is
+    impacted by security vulnerability CVE-2024-32498 where a
+    malicious QCOW2 image with an external data file allows an
+    authenticated user to read arbitrary files from the host. There is a
+    fix available in the Ubuntu archives and upgrading is recommended.

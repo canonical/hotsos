@@ -1,0 +1,7 @@
+target-name: lp2059809.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  glance-common                   2:24.2.1-0ubuntu1.2              all          OpenStack Image Registry and Delivery Service - common files
+raised-bugs: {}
+raised-issues: {}
