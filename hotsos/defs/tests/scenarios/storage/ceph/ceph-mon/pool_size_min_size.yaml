@@ -1,0 +1,49 @@
+target-name: pool_size_min_size.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_report: |
+      {
+        "osdmap": {
+          "pools": [
+            {
+              "pool": 1,
+              "pool_name": "device_health_metrics",
+              "type": 1,
+              "size": 3,
+              "min_size": 2,
+              "crush_rule": 0,
+              "pg_autoscale_mode": "on"
+            },
+            {
+              "pool": 2,
+              "pool_name": "cinder-ceph",
+              "type": 1,
+              "size": 3,
+              "min_size": 3,
+              "crush_rule": 0,
+              "pg_autoscale_mode": "on"
+            },
+            {
+              "pool": 3,
+              "pool_name": "nova",
+              "type": 1,
+              "size": 3,
+              "min_size": 3,
+              "crush_rule": 0,
+              "pg_autoscale_mode": "on"
+            }
+          ]
+        }
+      }
+      report 1234567890
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+    - sos_commands/dpkg/dpkg_-l
+raised-issues:
+  CephWarning:
+    - >-
+      Found pool(s) 'cinder-ceph, nova' where size == min_size.
+      This means the pool cannot tolerate any OSD failure without losing
+      availability. It is recommended to set min_size < size (e.g. size: 3,
+      min_size: 2) to allow degraded I/O to continue when an OSD is lost.

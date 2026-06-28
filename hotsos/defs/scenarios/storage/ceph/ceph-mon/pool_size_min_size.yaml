@@ -1,0 +1,17 @@
+checks:
+  pools_with_size_equal_min_size:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.pools_with_size_equal_min_size
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  pools-size-equal-min-size:
+    decision: pools_with_size_equal_min_size
+    raises:
+      type: CephWarning
+      message: >-
+        Found pool(s) '{pools}' where size == min_size. This means
+        the pool cannot tolerate any OSD failure without losing availability.
+        It is recommended to set min_size < size (e.g. size: 3, min_size: 2)
+        to allow degraded I/O to continue when an OSD is lost.
+      format-dict:
+        pools: '@checks.pools_with_size_equal_min_size.requires.value_actual:comma_join'

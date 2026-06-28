@@ -635,6 +635,27 @@ class CephCluster():  # pylint: disable=too-many-public-methods
                 return True
         return False
 
+    @cached_property
+    def pools_with_size_equal_min_size(self):
+        """
+        Returns a list of pool names where size == min_size. This is a risky
+        configuration because it means the pool cannot tolerate any OSD
+        failures without becoming unavailable.
+        """
+        bad_pools = []
+        ceph_report = self.crush_map.ceph_report
+        if not ceph_report:
+            return bad_pools
+
+        pools = ceph_report.get('osdmap', {}).get('pools', [])
+        for pool in pools:
+            size = pool.get('size', 0)
+            min_size = pool.get('min_size', 0)
+            if 0 < size <= min_size:
+                bad_pools.append(pool['pool_name'])
+
+        return bad_pools
+
     @staticmethod
     def version_as_a_tuple(ver):
         """
