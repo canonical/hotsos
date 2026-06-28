@@ -1,20 +1,21 @@
 vars:
   cache_available_percent: '@hotsos.core.plugins.storage.bcache.CachesetsInfo.cache_available_percent'
 checks:
-  node_is_ceph_osd_and_has_version:
-    # Get version of osd based on package installed. This is prone to
-    # inaccuracy since the daemon many not have been restarted after
-    # package update.
-    apt:
+  osd_daemon_has_vulnerable_version:
+    # Get version of osd based on running daemon version. This is more
+    # accurate than checking the apt package version since the daemon
+    # may not have been restarted after a package update.
+    binary:
+      handler: hotsos.core.plugins.storage.ceph.common.CephOSDDaemonVersionInterface
       ceph-osd:
-        - min: 13.0.2
-          max: 14.2.9
-        - min: 14.2.22
-          max: 15.2.1
-        - min: 15.2.13
-          max: 16.1.0
-        - min: 17.0.0
-          max: 17.0.0
+        - min: '13.0.2'
+          max: '14.2.9'
+        - min: '14.2.22'
+          max: '15.2.1'
+        - min: '15.2.13'
+          max: '16.1.0'
+        - min: '17.0.0'
+          max: '17.0.0'
   node_has_osds_using_bcache:
     property: hotsos.core.plugins.storage.ceph.CephChecks.local_osds_use_bcache
   kernel_version_check:
@@ -33,7 +34,7 @@ checks:
 conclusions:
   node_affected_by_bug_1936136:
     decision:
-      - node_is_ceph_osd_and_has_version
+      - osd_daemon_has_vulnerable_version
       - node_has_osds_using_bcache
       - kernel_version_check
       - bluefs_buffered_io_enabled

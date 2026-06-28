@@ -46,6 +46,13 @@ class CommandCatalog(UserDict):
             'apparmor_status':
                 [BinCmd('apparmor_status'),
                  FileCmd('sos_commands/apparmor/apparmor_status')],
+            'ceph_daemon_osd_version':
+                [BinCmd('ceph daemon osd.{osd_id} version',
+                        json_decode=True),
+                 # requires sosreport 4.3 or above
+                 FileCmd('sos_commands/ceph_osd/'
+                         'ceph_daemon_osd.{osd_id}_version',
+                         json_decode=True)],
             'ceph_daemon_osd_config_show':
                 [BinCmd('ceph daemon osd.{osd_id} config show',
                         json_decode=True),

@@ -315,6 +315,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'pebble_services',
                         'sunbeam_cluster_list_yaml_decoded',
                         'ceph_daemon_osd_config_show',
+                        'ceph_daemon_osd_version',
                         'ceph_report_json_decoded',
                         'ps_axo_flags',
                         'docker_images',

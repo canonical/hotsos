@@ -463,6 +463,72 @@ class CephDaemonConfigShow():
         return getattr(self.cmd, name)
 
 
+class CephDaemonVersion():
+    """ Interface to ceph daemon osd version command. """
+    def __init__(self, osd_id):
+        self.cmd = CephDaemonCommand('ceph_daemon_osd_version',
+                                     osd_id=osd_id)
+
+    @property
+    def version(self):
+        """
+        Parses the version string from ceph daemon osd version output.
+        The output format is:
+        {"version":"ceph version <ver> (<hash>) <release> (<stability>)"}
+        Returns the version part e.g. "15.2.14".
+        """
+        try:
+            raw = getattr(self.cmd, 'version')
+        except AttributeError:
+            return None
+
+        if raw:
+            match = re.match(r'ceph version (\S+)', raw)
+            if match:
+                return match.group(1)
+
+        return None
+
+
+class CephOSDDaemonVersionInterface():
+    """ Handler for the binary check type to verify OSD daemon versions. """
+
+    @cached_property
+    def _local_osd_ids(self):
+        osd_ids = []
+        s = FileSearcher()
+        sd = SequenceSearchDef(
+            start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
+            body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
+                            r"\s+(devices)\s+([\S]+)\s*"]),
+            tag="ceph-lvm")
+        with CLIHelperFile() as cli:
+            fout = cli.ceph_volume_lvm_list()
+            s.add(sd, path=fout)
+            for results in s.run().find_sequence_sections(sd).values():
+                for result in results:
+                    if result.tag == sd.start_tag:
+                        osd_ids.append(int(result.get(1)))
+        return osd_ids
+
+    @cached_property
+    def _daemon_version(self):
+        for osd_id in self._local_osd_ids:
+            try:
+                ver = CephDaemonVersion(osd_id=osd_id).version
+            except Exception:  # pylint: disable=broad-except
+                continue
+            if ver:
+                return ver
+        return None
+
+    def is_installed(self, _name):
+        return self._daemon_version is not None
+
+    def get_version(self, _name):
+        return self._daemon_version
+
+
 class CephDaemonDumpMemPools():
     """ Interface to ceph daemon osd dump mempools. """
     def __init__(self, osd_id):
