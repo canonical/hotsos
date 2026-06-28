@@ -7,10 +7,12 @@ from .. import utils
 class TestUptimeHelper(utils.BaseTestCase):
     """ Unit tests for uptime helper """
     def test_loadavg(self):
+        """Test load average string is parsed."""
         self.assertEqual(host_uptime.UptimeHelper().loadavg,
                          "3.58, 3.27, 2.58")
 
     def test_uptime(self):
+        """Test uptime in seconds, hours, and repr."""
         uptime = host_uptime.UptimeHelper()
         self.assertEqual(uptime.in_seconds, 63660)
         self.assertEqual(uptime.in_hours, 17)
@@ -20,6 +22,7 @@ class TestUptimeHelper(utils.BaseTestCase):
                              (' 14:51:10 up 1 day,  6:27,  1 user,  '
                               'load average: 0.55, 0.73, 0.70')})
     def test_uptime_alt_format(self):
+        """Test uptime parsing with 'N day' format."""
         uptime = host_uptime.UptimeHelper()
         self.assertEqual(uptime.in_seconds, 109620)
         self.assertEqual(uptime.in_hours, 30)
@@ -29,6 +32,7 @@ class TestUptimeHelper(utils.BaseTestCase):
                              (' 19:12:40 up  1:55,  2 users,  '
                               'load average: 3.92, 4.05, 3.90')})
     def test_uptime_alt_format2(self):
+        """Test uptime parsing with hours:minutes format."""
         uptime = host_uptime.UptimeHelper()
         self.assertEqual(uptime.in_seconds, 6900)
         self.assertEqual(uptime.in_hours, 1)

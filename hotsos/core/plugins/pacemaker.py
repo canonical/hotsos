@@ -30,10 +30,12 @@ class PacemakerBase():
     """ Base class for pacemaker checks. """
     @cached_property
     def crm_status(self):
+        """ Callable returning pacemaker crm status output. """
         return CLIHelper().pacemaker_crm_status
 
     @cached_property
     def offline_nodes(self):
+        """ List of offline pacemaker nodes. """
         crm_status = self.crm_status()
         for line in crm_status:
             regex_match = re.search(r'.*OFFLINE.*\[\s(.*)\s\]',
@@ -44,6 +46,7 @@ class PacemakerBase():
 
     @cached_property
     def online_nodes(self):
+        """ List of online pacemaker nodes. """
         crm_status = self.crm_status()
         for line in crm_status:
             regex_match = re.search(r'.*Online.*\[\s(.*)\s\]',

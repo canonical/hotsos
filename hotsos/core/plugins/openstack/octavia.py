@@ -24,6 +24,7 @@ class OctaviaBase(OSTServiceBase):
 
     @property
     def hm_port_has_address(self):
+        """ Whether the health-manager port has an address. """
         port = self.bind_interfaces.get(OCTAVIA_HM_PORT_NAME)
         if port is None or not port.addresses:
             return False
@@ -32,6 +33,7 @@ class OctaviaBase(OSTServiceBase):
 
     @cached_property
     def hm_port_healthy(self):
+        """ Whether the health-manager port shows healthy traffic. """
         port = self.bind_interfaces.get(OCTAVIA_HM_PORT_NAME)
         if port is None:
             return True

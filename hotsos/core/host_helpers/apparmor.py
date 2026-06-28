@@ -58,6 +58,7 @@ class ApparmorHelper():
         return info
 
     def get_profile_mode(self, name):
+        """ Return the mode of the named profile or None. """
         for mode, profiles in self.profiles.items():
             if name in profiles['profiles']:
                 return mode
@@ -66,18 +67,22 @@ class ApparmorHelper():
 
     @property
     def profiles_enforce(self):
+        """ Return list of profiles in enforce mode. """
         return self.profiles.get('enforce', {}).get('profiles', [])
 
     @property
     def profiles_complain(self):
+        """ Return list of profiles in complain mode. """
         return self.profiles.get('complain', {}).get('profiles', [])
 
     @property
     def profiles_kill(self):
+        """ Return list of profiles in kill mode. """
         return self.profiles.get('kill', {}).get('profiles', [])
 
     @property
     def profiles_unconfined(self):
+        """ Return list of profiles in unconfined mode. """
         return self.profiles.get('unconfined', {}).get('profiles', [])
 
 

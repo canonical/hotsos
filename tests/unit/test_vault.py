@@ -18,11 +18,13 @@ class VaultTestsBase(utils.BaseTestCase):
 class TestVaultSummary(VaultTestsBase):
     """ Tests Vault summary. """
     def test_snaps(self):
+        """Test that vault snap info is correctly reported."""
         inst = summary.VaultSummary()
         self.assertEqual(self.part_output_to_actual(inst.output)['snaps'],
                          ['vault 1.5.9 (1.5/stable)'])
 
     def test_services(self):
+        """Test that vault service info is correctly reported."""
         # NOTE: this needs fixing - the pid is not identifiable
         # under the vault.service but instead under a .scope of
         # snap.vault.vault

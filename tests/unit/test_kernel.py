@@ -333,6 +333,7 @@ class MockJournalBinFileCmdOOMKillKernLog(cli.cli.JournalctlBinFileCmd):
 class TestKernelCallTraceManager(TestKernelBase):
     """ Unit tests for kernlog trace manager. """
     def common_test_calltrace_manager_handler(self):
+        """Verify OOM killer calltrace parsing from logs."""
         for killer in CallTraceManager().oom_killer:
             self.assertEqual(killer.procname, 'kworker/0:0')
             self.assertEqual(killer.pid, '955')
@@ -354,16 +355,19 @@ class TestKernelCallTraceManager(TestKernelBase):
 
     @utils.create_data_root({'var/log/kern.log': KERNLOG_OOM_KILL})
     def test_calltrace_manager_handler_kern_log(self):
+        """Test calltrace parsing from kern.log."""
         self.common_test_calltrace_manager_handler()
 
     @utils.create_data_root({'sos_commands/logs/journalctl_--no-pager':
                              KERNLOG_OOM_KILL})
     def test_calltrace_manager_handler_journal_file(self):
+        """Test calltrace parsing from journalctl file."""
         self.common_test_calltrace_manager_handler()
 
     # Create empty data root and mock the journal
     @utils.create_data_root({'var/log/journal': 'content'})
     def test_calltrace_manager_handler_systemd_journal(self):
+        """Test calltrace parsing from systemd journal binary."""
         with mock.patch.object(cli.cli, 'JournalctlBinFileCmd') as \
                 mock_cmd:
             mock_cmd.return_value = MockJournalBinFileCmdOOMKillKernLog(
@@ -378,6 +382,7 @@ class TestKernelInfo(TestKernelBase):
                               '#CPUAffinity=1 2\n'
                               'CPUAffinity=0-7,32-39\n')})
     def test_systemd_config_ranges(self):
+        """Test SystemdConfig CPUAffinity range parsing."""
         self.assertEqual(SystemdConfig().get('CPUAffinity'), '0-7,32-39')
         self.assertEqual(SystemdConfig().get('CPUAffinity',
                                              expand_to_list=True),
@@ -390,12 +395,14 @@ class TestKernelInfo(TestKernelBase):
                               '#CPUAffinity=1 2\n'
                               'CPUAffinity=0 1 2 3 8 9 10 11\n')})
     def test_systemd_config_expanded(self):
+        """Test SystemdConfig CPUAffinity space-delimited form."""
         self.assertEqual(SystemdConfig().get('CPUAffinity'),
                          '0 1 2 3 8 9 10 11')
 
     @mock.patch('hotsos.core.plugins.kernel.config.SystemdConfig.get',
                 lambda *args, **kwargs: '0-7,32-39')
     def test_info(self):
+        """Test kernel summary output contents."""
         inst = summary.KernelSummary()
         expected = {'boot': 'ro',
                     'cpu': {'cpufreq-scaling-governor': 'unknown',
@@ -411,16 +418,19 @@ class TestKernelInfo(TestKernelBase):
 class TestKernelMemoryInfo(TestKernelBase):
     """ Unit tests for kernel memory info. """
     def test_numa_nodes(self):
+        """Test BuddyInfo NUMA node detection."""
         ret = BuddyInfo().nodes
         expected = [0]
         self.assertEqual(ret, expected)
 
     def test_get_node_zones(self):
+        """Test BuddyInfo zone data for a given node."""
         ret = BuddyInfo().get_node_zones("DMA32", 0)
         expected = "Node 0, zone DMA32 1127 453 112 65 27 7 13 6 5 30 48"
         self.assertEqual(ret, expected)
 
     def test_mallocinfo(self):
+        """Test MallocInfo block sizes and order tallies."""
         m = MallocInfo(0, "Normal")
         self.assertEqual(m.empty_order_tally, 19)
         self.assertEqual(m.high_order_seq, 2)
@@ -438,6 +448,7 @@ class TestKernelMemoryInfo(TestKernelBase):
         self.assertEqual(m.block_sizes_available, bsizes)
 
     def test_slab_major_consumers(self):
+        """Test SlabInfo top-5 major consumer output."""
         top5 = SlabInfo(filter_names=[r"\S*kmalloc"]).major_consumers
         expected = ['buffer_head (87540.6796875k)',
                     'anon_vma_chain (9068.0k)',
@@ -454,6 +465,7 @@ class TestKernelNetworkInfo(TestKernelBase):
          'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
     )
     def test_sockstat_parse(self):
+        """Test /proc/net/sockstat parsing with sysctl data."""
         uut = SockStat()
         self.assertEqual(uut.NsTotalSocksInUse, 908)
         self.assertEqual(uut.NsTcpSocksInUse, 22)
@@ -481,6 +493,7 @@ class TestKernelNetworkInfo(TestKernelBase):
          'sos_commands/kernel/sysctl_-a': PROC_SOCKSTAT_SYSCTL_A}
     )
     def test_sockstat_parse_bad(self):
+        """Test sockstat parsing handles corrupt entries."""
         with self.assertLogs(logger='hotsos', level='WARNING') as log:
             uut = SockStat()
             self.assertEqual(uut.NsTotalSocksInUse, 908)
@@ -511,6 +524,7 @@ class TestKernelNetworkInfo(TestKernelBase):
          'sos_commands/kernel/sysctl_-a': ""}
     )
     def test_sockstat_parse_sockstat_sysctl_absent(self):
+        """Test sockstat returns zeros when files are empty."""
         uut = SockStat()
         self.assertEqual(uut.NsTotalSocksInUse, 0)
         self.assertEqual(uut.NsTcpSocksInUse, 0)
@@ -536,6 +550,7 @@ class TestKernelNetworkInfo(TestKernelBase):
         {'sos_commands/process/lsof_M_-n_-l_-c': LSOF_MNLC}
     )
     def test_lsof_parse(self):
+        """Test lsof output parsing into structured rows."""
         uut = Lsof()
 
         expected_output = [
@@ -644,6 +659,7 @@ class TestKernelNetworkInfo(TestKernelBase):
         {'proc/net/netlink': PROC_NETLINK}
     )
     def test_netlink_parse(self):
+        """Test /proc/net/netlink parsing."""
         uut = NetLink()
 
         expected_output = [
@@ -671,6 +687,7 @@ class TestKernelNetworkInfo(TestKernelBase):
          'sos_commands/process/lsof_M_-n_-l_-c': LSOF_MNLC}
     )
     def test_netlink_parse_with_drops(self):
+        """Test netlink entries with packet drops."""
         uut = NetLink()
         awd = uut.all_with_drops
         self.assertEqual(len(awd), 1)
@@ -691,6 +708,7 @@ class TestKernelNetworkInfo(TestKernelBase):
          'sos_commands/process/lsof_M_-n_-l_-c': LSOF_MNLC}
     )
     def test_netlink_parse_with_drops_str(self):
+        """Test string representation of netlink drops."""
         uut = NetLink()
         awd = uut.all_with_drops_str
         self.assertEqual(awd,

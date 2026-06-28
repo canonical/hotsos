@@ -88,6 +88,7 @@ class JournalctlBinFileCmd(BinFileCmd, JournalctlBase):
         self.register_hook("pre-exec", self.preformat_sos_journalctl)
 
     def preformat_sos_journalctl(self, **kwargs):
+        """ Build the journalctl command with date and unit opts. """
         default_opts = '-oshort-iso'
         if kwargs.get("opts"):
             self.path = (f"journalctl {default_opts} {kwargs.get('opts')} "
@@ -111,9 +112,11 @@ class CLICacheWrapper():
         self.save_f = cache_save_f
 
     def load(self, key):
+        """ Load a cached command output by key. """
         return self.load_f(key)
 
     def save(self, key, value):
+        """ Save a command output to the cache under key. """
         return self.save_f(key, value)
 
 
@@ -296,13 +299,16 @@ class CLIHelperBase(HostHelpersBase):
         return "commands"
 
     def cache_load(self, key):
+        """ Load a value from the host helpers cache. """
         return self.cache.get(key)
 
     def cache_save(self, key, value):
+        """ Save a value to the host helpers cache. """
         return self.cache.set(key, value)
 
     @cached_property
     def command_catalog(self):
+        """ Build and return the default command catalog. """
         catalog = CommandCatalog()
         catalog.update({'journalctl':
                         [JournalctlBinCmd('journalctl -oshort-iso'),
@@ -368,6 +374,7 @@ class CLIHelperFile(CLIHelperBase):
 
     @cached_property
     def output_file(self):
+        """ Create and return a temporary output file path. """
         path = tempfile.mktemp(dir=HotSOSConfig.plugin_tmp_dir)
         pathlib.Path(path).touch()
         self._tmp_file_mtime = os.path.getmtime(path)

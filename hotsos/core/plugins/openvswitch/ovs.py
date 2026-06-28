@@ -84,6 +84,7 @@ class OVSBridge():
 
     @cached_property
     def ports(self):
+        """ Return list of ports on this bridge from ofctl show. """
         ports = []
         for line in self.cli.ovs_ofctl(command='show', args=self.name):
             ret = re.compile(r'^\s+\d+\((\S+)\):\s+').match(line)
@@ -109,11 +110,13 @@ class OpenvSwitchBase():
 
     @cached_property
     def bridges(self):
+        """ Return list of OVSBridge objects for all bridges. """
         bridges = self.cli.ovs_vsctl_list_br()
         return [OVSBridge(br.strip(), self.net_helper) for br in bridges]
 
     @cached_property
     def tunnels(self):
+        """ Return tunnel endpoint info keyed by protocol. """
         tunnel_info = {}
         ovn_external_ids = self.ovsdb.Open_vSwitch.external_ids
         if ovn_external_ids:
@@ -168,6 +171,7 @@ class OpenvSwitchBase():
 
     @cached_property
     def offload_enabled(self):
+        """ Return True if hardware offload is enabled. """
         config = self.ovsdb.Open_vSwitch.other_config
         if not config:
             return False
@@ -254,10 +258,12 @@ class OVSBFD(OpenvSwitchBase):
     """ OVS BFD representation. """
     @property
     def up_states(self):
+        """ Return BFD state names considered as up. """
         return ['up', 'init']
 
     @property
     def down_states(self):
+        """ Return BFD state names considered as down. """
         return ['down']
 
     @property
@@ -299,6 +305,7 @@ class OVSBFD(OpenvSwitchBase):
 
     @cached_property
     def max_transitions_last_24h_within_hour(self):
+        """ Return total BFD down transitions in the last 24h. """
         return sum((port['transitions']
                     for port in self._transitions.values()))
 
@@ -307,10 +314,12 @@ class OVSDPDK(OpenvSwitchBase):
     """ Interface to OVS DPDK. """
     @cached_property
     def config(self):
+        """ Return the OVSDB Open_vSwitch other_config dict. """
         return self.ovsdb.Open_vSwitch.other_config or {}
 
     @property
     def enabled(self):
+        """ Return True if DPDK initialisation is enabled. """
         if self.config.get('dpdk-init') == "true":
             return True
 
@@ -318,6 +327,7 @@ class OVSDPDK(OpenvSwitchBase):
 
     @property
     def pmd_cpu_mask(self):
+        """ Return the PMD CPU mask as an integer, or None. """
         mask = self.config.get('pmd-cpu-mask')
         if mask is not None:
             return int(mask, 16)
@@ -326,6 +336,7 @@ class OVSDPDK(OpenvSwitchBase):
 
     @property
     def dpdk_lcore_mask(self):
+        """ Return the DPDK lcore mask as an integer, or None. """
         mask = self.config.get('dpdk-lcore-mask')
         if mask is not None:
             return int(mask, 16)

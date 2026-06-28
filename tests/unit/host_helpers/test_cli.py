@@ -33,6 +33,7 @@ class TestCLIHelper(utils.BaseTestCase):
     """
 
     def test_journalctl(self):
+        """Test journalctl since_date with various settings."""
         HotSOSConfig.use_all_logs = False
         HotSOSConfig.max_logrotate_depth = 7
         self.assertEqual(host_cli.JournalctlBase().since_date,
@@ -45,17 +46,20 @@ class TestCLIHelper(utils.BaseTestCase):
                          "2019-05-17")
 
     def test_ns_ip_addr(self):
+        """Test namespaced ip addr output parsing."""
         ns = "qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5"
         out = host_cli.CLIHelper().ns_ip_addr(namespace=ns)
         self.assertIsInstance(out, list)
         self.assertEqual(len(out), 18)
 
     def test_udevadm_info_dev(self):
+        """Test udevadm info returns empty for missing dev."""
         out = host_cli.CLIHelper().udevadm_info_dev(device='/dev/vdb')
         self.assertEqual(out, [])
 
     @mock.patch.object(cli_common, 'subprocess')
     def test_ps(self, mock_subprocess):
+        """Test ps output is read from file, not subprocess."""
         path = os.path.join(HotSOSConfig.data_root, "ps")
         with open(path, 'r', encoding='utf-8') as fd:
             out = fd.readlines()
@@ -64,30 +68,36 @@ class TestCLIHelper(utils.BaseTestCase):
         self.assertFalse(mock_subprocess.called)
 
     def test_get_date_local(self):
+        """Test date returns a string on live system."""
         HotSOSConfig.data_root = '/'
         self.assertEqual(type(host_cli.CLIHelper().date()), str)
 
     def test_get_date(self):
+        """Test date returns epoch from fake data root."""
         self.assertEqual(host_cli.CLIHelper().date(), '1644509957')
 
     @utils.create_data_root({'sos_commands/date/date':
                              'Thu Mar 25 10:55:05 2021'})
     def test_get_date_no_tz(self):
+        """Test date parsing without timezone."""
         self.assertEqual(host_cli.CLIHelper().date(), '1616669705')
 
     @utils.create_data_root({'sos_commands/date/date':
                              'Thu Mar 25 10:55:05 -03 2021'})
     def test_get_date_w_numeric_tz(self):
+        """Test date parsing with numeric timezone offset."""
         self.assertEqual(host_cli.CLIHelper().date(), '1616680505')
 
     @utils.create_data_root({'sos_commands/date/date':
                              'Thu Mar 25 10:55:05 UTC 2021'})
     def test_get_date_w_tz(self):
+        """Test date parsing with named timezone."""
         self.assertEqual(host_cli.CLIHelper().date(), '1616669705')
 
     @utils.create_data_root({'sos_commands/date/date':
                              'Thu Mar 25 10:55:05 123UTC 2021'})
     def test_get_date_w_invalid_tz(self):
+        """Test invalid timezone logs error and returns empty."""
         with self.assertLogs(logger='hotsos', level='ERROR') as log:
             self.assertEqual(host_cli.CLIHelper().date(), "")
             # If invalid date, log.error() will have been called
@@ -95,8 +105,10 @@ class TestCLIHelper(utils.BaseTestCase):
             self.assertIn('has invalid date string', log.output[0])
 
     def test_ovs_ofctl_bin_w_errors(self):
+        """Test ovs-ofctl retries on error and falls back."""
 
         def fake_run(cmd, *_args, **_kwargs):
+            """Simulate OpenFlow version fallback."""
             if 'OpenFlow13' in cmd:
                 m = mock.MagicMock()
                 m.returncode = 0
@@ -127,6 +139,7 @@ class TestCLIHelper(utils.BaseTestCase):
     @mock.patch.object(host_cli.CLIHelper, 'command_catalog',
                        {'sleep': [host_cli.BinCmd('time sleep 2')]})
     def test_cli_timeout(self):
+        """Test command timeout returns empty list."""
         cli = host_cli.CLIHelper()
         orig_cfg = HotSOSConfig.CONFIG
         try:
@@ -143,6 +156,7 @@ class TestCLIHelper(utils.BaseTestCase):
     @mock.patch.object(host_cli.CLIHelper, 'command_catalog',
                        {'sleep': [host_cli.BinCmd('time sleep 1')]})
     def test_cli_no_timeout(self):
+        """Test command completes within default timeout."""
         cli = host_cli.CLIHelper()
         orig_cfg = HotSOSConfig.CONFIG
         try:
@@ -155,6 +169,7 @@ class TestCLIHelper(utils.BaseTestCase):
             HotSOSConfig.set(**orig_cfg)
 
     def test_clitempfile(self):
+        """Test CLIHelperFile writes output to temp files."""
         with host_cli.CLIHelperFile() as cli:
             self.assertEqual(os.path.basename(cli.date()), 'date')
 
@@ -171,6 +186,7 @@ class TestCLIHelper(utils.BaseTestCase):
     @staticmethod
     @mock.patch.object(cli_common, 'subprocess')
     def test_kubectl_get_bincmd(mock_subprocess):
+        """Test kubectl get invokes correct subprocess."""
         HotSOSConfig.data_root = '/'
         mock_out = mock.MagicMock()
         mock_subprocess.run.return_value = mock_out
@@ -187,6 +203,7 @@ class TestCLIHelper(utils.BaseTestCase):
     @staticmethod
     @mock.patch.object(cli_common, 'subprocess')
     def test_kubectl_logs_bincmd(mock_subprocess):
+        """Test kubectl logs invokes correct subprocess."""
         HotSOSConfig.data_root = '/'
         host_cli.CLIHelper().kubectl_logs(namespace='openstack',
                                           opt='neutron-0',
@@ -202,6 +219,7 @@ class TestCLIHelper(utils.BaseTestCase):
                              'openstack_logs_neutron-0_-c_neutron-server':
                              'SUCCESS!'})
     def test_kubectl_logs_filecmd(self):
+        """Test kubectl logs reads from file data root."""
         out = host_cli.CLIHelper().kubectl_logs(namespace='openstack',
                                                 opt='neutron-0',
                                                 subopts='-c neutron-server')
@@ -212,6 +230,7 @@ class TestCLIHelper(utils.BaseTestCase):
                              'openstack_logs_neutron-0_-c_neutron-server':
                              'SUCCESS!'})
     def test_kubectl_logs_filecmd_microk8s(self):
+        """Test kubectl logs reads microk8s variant path."""
         out = host_cli.CLIHelper().kubectl_logs(namespace='openstack',
                                                 opt='neutron-0',
                                                 subopts='-c neutron-server')
@@ -222,6 +241,7 @@ class TestCLIHelper(utils.BaseTestCase):
                              '-o_json_--namespace_'
                              'kubernetes-dashboard_services': KUBECTL_GET_OUT})
     def test_kubectl_get_filecmd(self):
+        """Test kubectl get reads JSON from file data root."""
         out = host_cli.CLIHelper().kubectl_get(
                                      namespace='kubernetes-dashboard',
                                      opt='services')
@@ -252,6 +272,7 @@ class TestCommandAffinity(utils.BaseTestCase):
     # Allow the code to use affinity for this test
     @mock.patch.object(host_cli.os, 'environ', {})
     def test_cmd_affinity(self):
+        """Test command affinity tracking per command class."""
 
         class CmdBase(cli_common.BinCmd):
             """ fake command base """
@@ -289,6 +310,7 @@ class TestCommandAffinity(utils.BaseTestCase):
     # Allow the code to use affinity for this test
     @mock.patch.object(host_cli.os, 'environ', {})
     def test_all_cmds(self):
+        """Test all catalog commands have expected affinity."""
         cmds = set()
         cmd_no_output = set()
         skipped = set()

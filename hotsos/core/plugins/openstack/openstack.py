@@ -454,6 +454,7 @@ class OSTProject():
 
     @cached_property
     def config(self):
+        """ Load and return project config file objects. """
         config = {}
         if not self.params.config:
             return config
@@ -490,6 +491,7 @@ class OSTProject():
 
     @cached_property
     def services_expr(self):
+        """ Return systemd service match expressions. """
         exprs = [f'{self.name}{self.SVC_VALID_SUFFIX}']
         if self.systemd_params.extra_services:
             exprs += self.systemd_params.extra_services
@@ -497,6 +499,7 @@ class OSTProject():
 
     @cached_property
     def services(self):
+        """ Return discovered systemd or pebble services. """
         exprs = self.services_expr
         info = host_helpers.SystemdHelper(service_exprs=exprs)
         if not info.services:
@@ -680,10 +683,12 @@ class OSTProjectCatalog():
 
     @cached_property
     def all(self):
+        """ Return the full dictionary of registered projects. """
         return self._projects
 
     @cached_property
     def service_exprs(self):
+        """ Return service match expressions for all installed projects. """
         # Expressions used to match openstack systemd services for each project
         exprs = []
         for p in self.all.values():
@@ -706,15 +711,18 @@ class OSTProjectCatalog():
         return sorted(masked)
 
     def add(self, name, *args, **kwargs):
+        """ Register a new OpenStack project in the catalog. """
         params = OSTProjectParameters(name=name, *args, **kwargs)
         self._projects[name] = OSTProject(params)
 
     @cached_property
     def snap_core_exprs(self):
+        """ Return snap package match expressions. """
         return self.SNAP_DEPS_SUNBEAM
 
     @cached_property
     def apt_core_exprs(self):
+        """ Return combined core APT package expressions. """
         core = set()
         for p in self.all.values():
             core.update(p.apt_params.core)
@@ -723,6 +731,7 @@ class OSTProjectCatalog():
 
     @cached_property
     def apt_dep_exprs(self):
+        """ Return combined dependency APT package expressions. """
         deps = set(self.APT_DEPS_COMMON)
         for p in self.all.values():
             deps.update(p.apt_params.deps)
@@ -736,10 +745,12 @@ class OSTServiceBase():
 
     @cached_property
     def nethelp(self):
+        """ Return a host networking helper instance. """
         return host_helpers.HostNetworkingHelper()
 
     @cached_property
     def project(self):
+        """ Return the OSTProject for this service. """
         return OSTProjectCatalog()[self.PROJECT_NAME]
 
     @cached_property

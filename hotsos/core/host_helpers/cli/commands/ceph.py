@@ -49,6 +49,7 @@ class CephJSONFileCmd(FileCmd):
             self.last_line_filter = last_line_filter
 
     def format_json_contents(self, *_args, **_kwargs):
+        """ Strip trailing non-JSON line and redirect to tmpfile. """
         if not os.path.exists(self.path):
             raise SourceNotFound(self.path)
 

@@ -103,6 +103,7 @@ class TestYamlEventsPreLoad(utils.BaseTestCase):
                              EVENT_DEF_MULTI_SEARCH.format(path='data.txt')})
     @utils.global_search_context
     def test_events_search_preload(self, global_searcher):
+        """ Test event search preloader discovers events. """
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
         HotSOSConfig.plugin_name = 'myplugin'
         spl = EventsSearchPreloader(global_searcher)
@@ -122,6 +123,7 @@ class TestYamlEvents(utils.BaseTestCase):
     """ Tests for yaml events """
 
     def test_yaml_def_group_input(self):
+        """ Test event group input path resolution. """
         plugin_checks = yaml.safe_load(EVENT_DEF_INPUT).get('pluginX')
         for name, group in plugin_checks.items():
             group = YDefsSection(name, group)
@@ -131,6 +133,7 @@ class TestYamlEvents(utils.BaseTestCase):
                                                'foo/bar1*')])
 
     def test_yaml_def_section_input_override(self):
+        """ Test section-level input overrides group input. """
         plugin_checks = yaml.safe_load(EVENT_DEF_INPUT_SUPERSEDED)
         for name, group in plugin_checks.get('pluginX').items():
             group = YDefsSection(name, group)
@@ -140,6 +143,7 @@ class TestYamlEvents(utils.BaseTestCase):
                                                'foo/bar2*')])
 
     def test_yaml_def_entry_input_override(self):
+        """ Test entry-level input overrides section input. """
         plugin_checks = yaml.safe_load(EVENT_DEF_INPUT_SUPERSEDED2)
         for name, group in plugin_checks.get('pluginX').items():
             group = YDefsSection(name, group)
@@ -152,6 +156,7 @@ class TestYamlEvents(utils.BaseTestCase):
                              'events/myplugin/mygroup.yaml':
                              EVENT_DEF_MULTI_SEARCH.format(path='data.txt')})
     def test_yaml_def_entry_input_paths(self):
+        """ Test event entry input paths resolve correctly. """
         _yaml = EVENT_DEF_MULTI_SEARCH.format(path='data.txt')
         plugin_checks = yaml.safe_load(_yaml).get('myplugin')
         for name, group in plugin_checks.items():
@@ -164,6 +169,7 @@ class TestYamlEvents(utils.BaseTestCase):
                              'events/myplugin/mygroup.yaml':
                              EVENT_DEF_MULTI_SEARCH.format(path='data.txt')})
     def test_yaml_def_entry_seq(self):
+        """ Test sequence and passthrough search event handling. """
         test_self = self
         match_count = {'count': 0}
         callbacks_called = {}
@@ -179,6 +185,7 @@ class TestYamlEvents(utils.BaseTestCase):
 
             @staticmethod
             def my_sequence_search(event):
+                """ Validate sequence search results. """
                 callbacks_called[event.name] = True
                 for section in event.results:
                     for result in section:
@@ -194,6 +201,7 @@ class TestYamlEvents(utils.BaseTestCase):
 
             @staticmethod
             def my_passthrough_search(event):
+                """ Validate passthrough search results. """
                 # expected to be passthough results (i.e. raw)
                 callbacks_called[event.name] = True
                 tag = f'{event.search_tag}-start'
@@ -215,6 +223,7 @@ class TestYamlEvents(utils.BaseTestCase):
             """ Test Handler """
             @property
             def event_group(self):
+                """ Return the event group name. """
                 return 'mygroup'
 
         with GlobalSearcher() as searcher:
@@ -230,6 +239,7 @@ class TestYamlEvents(utils.BaseTestCase):
                              'events/myplugin/mygroup.yaml':
                              EVENT_DEF_MULTI_SEARCH.format(path='data.txt')})
     def test_yaml_def_entry_callback_not_found(self):
+        """ Test missing callback raises EventCallbackNotFound. """
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
         HotSOSConfig.plugin_name = 'myplugin'
 
@@ -237,6 +247,7 @@ class TestYamlEvents(utils.BaseTestCase):
             """ Test Handler """
             @property
             def event_group(self):
+                """ Return the event group name. """
                 return 'mygroup'
 
         with self.assertRaises(EventCallbackNotFound):
@@ -246,6 +257,7 @@ class TestYamlEvents(utils.BaseTestCase):
     @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE,
                              'a/path': 'content'})
     def test_events_filter_none(self):
+        """ Test all events loaded with no filter. """
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
         HotSOSConfig.plugin_name = 'myplugin'
 
@@ -253,6 +265,7 @@ class TestYamlEvents(utils.BaseTestCase):
             """ Test Handler """
             @property
             def event_group(self):
+                """ Return the event group name. """
                 return 'mygroup'
 
         defs = {'myeventsubgroup': {
@@ -270,6 +283,7 @@ class TestYamlEvents(utils.BaseTestCase):
     @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE,
                              'a/path': 'content'})
     def test_events_filter_event2(self):
+        """ Test event filter selects only matching event. """
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
         HotSOSConfig.event_filter = ('myplugin.mygroup.myeventgroup.'
                                      'myeventsubgroup.event2')
@@ -279,6 +293,7 @@ class TestYamlEvents(utils.BaseTestCase):
             """ Test Handler """
             @property
             def event_group(self):
+                """ Return the event group name. """
                 return 'mygroup'
 
         defs = {'myeventsubgroup': {
@@ -293,6 +308,7 @@ class TestYamlEvents(utils.BaseTestCase):
     @utils.create_data_root({'events/myplugin/mygroup.yaml': EVENT_DEF_SIMPLE,
                              'a/path': 'content'})
     def test_events_filter_nonexistent(self):
+        """ Test nonexistent event filter returns empty. """
         HotSOSConfig.plugin_yaml_defs = HotSOSConfig.data_root
         HotSOSConfig.event_filter = 'blahblah'
         HotSOSConfig.plugin_name = 'myplugin'
@@ -301,6 +317,7 @@ class TestYamlEvents(utils.BaseTestCase):
             """ Test Handler """
             @property
             def event_group(self):
+                """ Return the event group name. """
                 return 'mygroup'
 
         defs = {}
@@ -311,6 +328,7 @@ class TestYamlEvents(utils.BaseTestCase):
         self.assertEqual(len(handler.searcher.catalog), 0)
 
     def test_processing_utils_key_by_date_true(self):
+        """ Test event tally keyed by date. """
         info = {}
         results = [{'date': '2000-01-04', 'key': 'f4'},
                    {'date': '2000-01-01', 'key': 'f1'},
@@ -336,6 +354,7 @@ class TestYamlEvents(utils.BaseTestCase):
         self.assertEqual(list(ret), list(expected))
 
     def test_processing_utils_key_by_date_false(self):
+        """ Test event tally keyed by event name. """
         info = {}
         results = [{'date': '2000-01-04', 'key': 'f4'},
                    {'date': '2000-01-01', 'key': 'f1'},
@@ -368,6 +387,7 @@ class TestYamlEvents(utils.BaseTestCase):
         self.assertEqual(list(ret), list(expected))
 
     def test_processing_utils_top5_results(self):
+        """ Test top-N event result limiting. """
         results = [{'date': '2000-01-01', 'key': '10'},
                    {'date': '2000-01-01', 'key': '9'},
                    {'date': '2000-01-01', 'key': '6'},

@@ -12,6 +12,7 @@ class KernLogEvents(KernLogBase):
 
     @property
     def over_mtu_dropped_packets_search_def(self):
+        """ Return search definition for over-MTU dropped packets. """
         return SearchDef(r'.+\] (\S+): dropped over-mtu packet',
                          hint='dropped', tag='over-mtu-dropped')
 

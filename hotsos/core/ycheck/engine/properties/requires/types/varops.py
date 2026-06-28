@@ -14,6 +14,7 @@ class YPropertyVarOps(YRequirementTypeWithOpsBase):
 
     @property
     def input(self):
+        """ The input value operand for this varops property. """
         return self.content[0][0]
 
     @property

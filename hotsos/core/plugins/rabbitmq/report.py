@@ -112,6 +112,7 @@ class RabbitMQReport():
 
     @cached_property
     def queues_w_messages_no_consumers(self):
+        """ Return queues with unacked messages but no consumers. """
         _queues = []
         for vhost in self.vhosts:
             if not vhost.no_consumer_queues:
@@ -167,6 +168,7 @@ class RabbitMQReport():
 
     @cached_property
     def connections_searchdef(self):
+        """ Return search definition for connection sections. """
         start = SearchDef([r"^Connections:$",
                            r"^Listing connections ...$"])
         # Again, the user and protocol columns are inverted
@@ -179,6 +181,7 @@ class RabbitMQReport():
 
     @cached_property
     def memory_searchdef(self):
+        """ Return search definition for memory status sections. """
         start = SearchDef([r"^Status of node '([^']*)'$",
                            r"^Status of node ([^']*) ...$"])
         body = SearchDef(r"^\s+\[{total,([0-9]+)}.+")
@@ -188,11 +191,13 @@ class RabbitMQReport():
 
     @cached_property
     def cluster_partition_handling_searchdef(self):
+        """ Return search definition for partition handling. """
         return SearchDef(r"^\s*{cluster_partition_handling,([^}]*)}",
                          tag='cluster_partition_handling')
 
     @cached_property
     def connections(self):
+        """ Return per-host and per-client connection counts. """
         _connections = {'host': {}, 'client': {}}
         sd = self.connections_searchdef
         for results in self.results.find_sequence_sections(sd).values():
@@ -228,6 +233,7 @@ class RabbitMQReport():
 
     @cached_property
     def memory_used(self):
+        """ Return memory used per node in MiB. """
         sd = self.memory_searchdef
         _memory_used = {}
         for results in self.results.find_sequence_sections(sd).values():
@@ -244,6 +250,7 @@ class RabbitMQReport():
 
     @cached_property
     def partition_handling(self):
+        """ Return the cluster partition handling strategy. """
         results = self.results.find_by_tag("cluster_partition_handling")
         if not results:
             return None
@@ -259,6 +266,7 @@ class RabbitMQVhost():
         self.no_consumer_queues = {}
 
     def node_inc_queue_count(self, node):
+        """ Increment the queue count for the given node. """
         if node not in self._node_queues:
             self._node_queues[node] = 0
 
@@ -266,17 +274,21 @@ class RabbitMQVhost():
 
     @property
     def total_queues(self):
+        """ Return total number of queues across all nodes. """
         return sum(self.node_queues.values())
 
     @property
     def node_queues(self):
+        """ Return mapping of node names to queue counts. """
         return self._node_queues
 
     def node_queues_vhost_pcent(self, node):
+        """ Return percentage of vhost queues on the given node. """
         return float(100) / self.total_queues * self.node_queues[node]
 
     @property
     def node_queue_distributions(self):
+        """ Return queue count and percentage per node. """
         dists = {}
         for node, queues in self.node_queues.items():
             if queues:
@@ -288,4 +300,5 @@ class RabbitMQVhost():
         return dists
 
     def add_queue_no_consumer(self, queue, messages_unack):
+        """ Record a queue with unacked messages and no consumers. """
         self.no_consumer_queues[queue] = messages_unack

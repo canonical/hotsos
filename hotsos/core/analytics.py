@@ -44,6 +44,7 @@ class EventCollection():
 
     @property
     def incomplete_events(self):
+        """ Return events that have no calculated duration. """
         incomplete = {}
         for event_id, info in self._events.items():
             for item in info.get("heads", []):

@@ -47,11 +47,13 @@ class RabbitMQSummary(RabbitMQChecks):
 
     @summary_entry('config', get_min_available_entry_index())
     def summary_config(self):
+        """Return cluster partition handling setting."""
         setting = self.report.partition_handling or 'unknown'
         return {'cluster-partition-handling': setting}
 
     @summary_entry('resources', get_min_available_entry_index() + 1)
     def summary_resources(self):
+        """Return queue, connection, and memory resources."""
         resources = {}
         _queue_info = self.queue_info
         if _queue_info:

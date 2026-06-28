@@ -21,6 +21,7 @@ class TestPebbleHelper(utils.BaseTestCase):
     @utils.create_data_root({'sos_commands/pebble/pebble_services':
                              PEBBLE_SERVICES})
     def test_service_factory(self):
+        """Test pebble service state and missing service."""
         svc = getattr(host_pebble.ServiceFactory(), 'nova-conductor')
         self.assertEqual(svc.state, 'backoff')
 
@@ -30,6 +31,7 @@ class TestPebbleHelper(utils.BaseTestCase):
                              PEBBLE_SERVICES,
                              'ps': PEBBLE_PS})
     def test_pebble_helper(self):
+        """Test pebble helper summary with service exprs."""
         expected = {'ps': ['nova-conductor (1)'],
                     'pebble': {'backoff': ['nova-conductor']}}
         s = host_pebble.PebbleHelper([r'nova\S+'])

@@ -9,10 +9,12 @@ from .. import utils
 class TestSysctlHelper(utils.BaseTestCase):
     """ Unit tests for sysctl helper """
     def test_sysctlhelper(self):
+        """Test sysctl value lookup by key."""
         self.assertEqual(getattr(host_sysctl.SYSCtlFactory(),
                                  'net.core.somaxconn'), '4096')
 
     def test_sysctlconfhelper(self):
+        """Test sysctl.d conf file setters and unsetters."""
         path = os.path.join(HotSOSConfig.data_root, 'etc/sysctl.d')
         path = os.path.join(path, '50-nova-compute.conf')
         sysctl = host_sysctl.SYSCtlConfHelper(path)

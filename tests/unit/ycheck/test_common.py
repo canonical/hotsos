@@ -9,6 +9,7 @@ class TestYcheckCommon(utils.BaseTestCase):
     """
 
     def test_skip_filtered(self):
+        """ Test skip_filtered with various prefix/path combos. """
         pf = 'a.b.c'
         p = 'a.b.c.d'
         self.assertFalse(GlobalSearcherPreloaderBase.skip_filtered(pf, p))

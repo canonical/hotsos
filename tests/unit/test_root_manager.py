@@ -25,12 +25,14 @@ class TestRootManager(utils.BaseTestCase):
 
     @staticmethod
     def create_sosreport(sospath):
+        """Create a fake sosreport directory and tarball."""
         os.makedirs(os.path.join(sospath, 'sos_commands'))
         tarroot = os.path.basename(sospath)
         with tarfile.open(sospath + '.xz', 'w:xz') as tar:
             tar.add(name=sospath, arcname=tarroot)
 
     def test_sos_data_root(self):
+        """Test DataRootManager extracts sosreport correctly."""
         path = self.sospath_packed
         with hotsos.core.root_manager.DataRootManager(path) as drm:
             basename = os.path.basename(self.sospath_unpacked)
@@ -39,6 +41,7 @@ class TestRootManager(utils.BaseTestCase):
             self.assertEqual(drm.basename, basename)
 
     def test_fix_data_root(self):
+        """Test data_root normalization for various inputs."""
         drm = hotsos.core.root_manager.DataRootManager(None)
         self.assertEqual(drm.data_root, '/')
         drm = hotsos.core.root_manager.DataRootManager('/')
@@ -53,6 +56,7 @@ class TestRootManager(utils.BaseTestCase):
     @mock.patch('hotsos.core.root_manager.tarfile.is_tarfile',
                 lambda *args: False)
     def test_name(self):
+        """Test DataRootManager name for localhost and paths."""
         drm = hotsos.core.root_manager.DataRootManager('/')
         self.assertEqual(drm.name, 'localhost')
         path = os.path.join(self.tmpdir, 'foo/bar')
@@ -64,6 +68,7 @@ class TestRootManager(utils.BaseTestCase):
     @mock.patch('hotsos.core.root_manager.tarfile.is_tarfile',
                 lambda *args: False)
     def test_basename(self, mock_cli):
+        """Test DataRootManager basename resolution."""
         mock_cli.return_value.hostname.return_value = 'compute4'
         HotSOSConfig.data_root = '/'
         drm = hotsos.core.root_manager.DataRootManager('/')

@@ -26,6 +26,7 @@ class TestMicroCloudSummary(MicroCloudTestsBase):
 
     @utils.create_data_root({"sos_commands/snap/snap_list_--all": SNAPS})
     def test_summary_keys(self):
+        """Test that microcloud summary contains expected snaps."""
         expected = {
             "snaps": [
                 "lxd 5.21.3-75def3c (5.21/stable)",

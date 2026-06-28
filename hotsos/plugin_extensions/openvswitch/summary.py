@@ -25,6 +25,7 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
 
     @summary_entry('config', get_min_available_entry_index())
     def summary_ovsdb_config(self):
+        """Return OVSDB and OVN database configuration."""
         _config = {}
         if self.ovs.offload_enabled:
             _config['offload'] = 'enabled'
@@ -50,6 +51,7 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
 
     @summary_entry('bridges', get_min_available_entry_index() + 1)
     def summary_bridges(self):
+        """Return OVS bridge and port information."""
         bridges = {}
         for bridge in self.ovs.bridges:
             # filter patch/phy ports since they are not generally interesting
@@ -81,10 +83,12 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
 
     @summary_entry('tunnels', get_min_available_entry_index() + 2)
     def summary_tunnels(self):
+        """Return OVS tunnel information."""
         return self.ovs.tunnels or None
 
     @summary_entry('ovn', get_min_available_entry_index() + 3)
     def summary_ovn_resources(self):
+        """Return OVN northbound and southbound DB stats."""
         info = {}
         if self.ovn.nbdb:
             routers = self.ovn.nbdb.routers

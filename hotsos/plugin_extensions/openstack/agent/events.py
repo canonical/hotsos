@@ -93,6 +93,7 @@ class ApacheEventChecks(OpenstackEventHandlerBase):
 
     @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
+        """Return Apache event check results."""
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -138,6 +139,7 @@ class APIHTTPRequests(OpenstackEventHandlerBase):
 
     @summary_entry('api-info', get_min_available_entry_index() + 100)
     def summary_api_info(self):
+        """Return API HTTP request statistics."""
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -158,6 +160,7 @@ class APIHTTPStatusEventsCallback(OpenstackEventCallbackBase):
 
     @staticmethod
     def http_code_to_name(value):
+        """Resolve an HTTP status code to its name."""
         for s in http.HTTPStatus:
             if s.value == int(value):
                 return s.name
@@ -209,6 +212,7 @@ class APIHTTPStatusEvents(OpenstackEventHandlerBase):
 
     @summary_entry('api-info', get_min_available_entry_index() + 102)
     def summary_api_info(self):
+        """Return API HTTP status code statistics."""
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -343,6 +347,7 @@ class NeutronAgentEventChecks(OpenstackEventHandlerBase):
 
     @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
+        """Return Neutron agent event check results."""
         # NOTE: order is important here
         agents = ['neutron-server', 'neutron-l3-agent', 'neutron-ovs-agent']
         out = self.run() or {}
@@ -402,6 +407,7 @@ class OctaviaAgentEventChecks(OpenstackEventHandlerBase):
 
     @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
+        """Return Octavia agent event check results."""
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -448,6 +454,7 @@ class NovaComputeEventChecks(OpenstackEventHandlerBase):
 
     @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
+        """Return Nova Compute event check results."""
         out = self.run()
         if out:
             return {'nova': out}
@@ -485,6 +492,7 @@ class AgentApparmorChecks(OpenstackEventHandlerBase):
 
     @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
+        """Return Apparmor event check results."""
         out = self.run()
         if out:
             return {self.event_group: out}
@@ -499,6 +507,7 @@ class L3HACallback(OpenstackEventCallbackBase):
 
     @staticmethod
     def check_vrrp_transitions(transitions):
+        """Warn if routers exceed the VRRP transition threshold."""
         # there will likely be a large number of transitions if we look across
         # all time so dont run this check.
         if HotSOSConfig.use_all_logs:
@@ -567,6 +576,7 @@ class NeutronL3HAEventChecks(OpenstackEventHandlerBase):
 
     @summary_entry('agent-checks', get_min_available_entry_index() + 101)
     def summary_agent_checks(self):
+        """Return Neutron L3HA event check results."""
         out = self.run()
         if out:
             return {'neutron-l3ha': out}

@@ -149,11 +149,13 @@ class CephConfig(IniConfigBase):
     @property
     @csv_to_set
     def cluster_network_set(self):
+        """ Return cluster network addresses as a set. """
         return self.get('cluster network')
 
     @property
     @csv_to_set
     def public_network_set(self):
+        """ Return public network addresses as a set. """
         return self.get('public network')
 
 
@@ -343,6 +345,7 @@ class CephChecks(StorageBase):
 
     @cached_property
     def local_osds_devtypes(self):
+        """ Return device types for all local OSDs. """
         return [osd.devtype for osd in self.local_osds]
 
     @cached_property
@@ -486,6 +489,7 @@ class CephDaemonPerfDump():
 
     @property
     def bluefs(self):
+        """ Return bluefs perf data dict or empty dict. """
         try:
             return getattr(self.cmd, 'bluefs') or {}
         except AttributeError:

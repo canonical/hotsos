@@ -40,9 +40,11 @@ class LoggingManager():
 
     @cached_property
     def temp_log_path(self):
+        """ Return path to a temporary log file. """
         return tempfile.mktemp(suffix='hotsos.log')
 
     def setup_deps_loggers(self):
+        """ Configure log handlers and levels for dependencies. """
         # Set logging level for dependencies
         for dep in ['searchkit', 'propertree']:
             logger = logging.getLogger(dep)
@@ -54,6 +56,7 @@ class LoggingManager():
             logger.setLevel(level=level)
 
     def start(self, level=logging.DEBUG):
+        """ Initialise the root logger with handler and format. """
         log.setLevel(level)
         if log.hasHandlers():
             return
@@ -63,6 +66,7 @@ class LoggingManager():
         self.setup_deps_loggers()
 
     def stop(self):
+        """ Remove the temporary log file if configured. """
         if os.path.exists(self.temp_log_path) and self.delete_temp_file:
             log.debug("removing temporary log file %s", self.temp_log_path)
             os.remove(self.temp_log_path)

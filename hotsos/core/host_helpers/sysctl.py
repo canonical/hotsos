@@ -13,6 +13,7 @@ class SYSCtlFactory(FactoryBase):
 
     @cached_property
     def sysctl_all(self):
+        """ Return dict of all sysctl key-value pairs. """
         sysctl_all = {}
         for kv in CLIHelper().sysctl_all():
             k, _, v = kv.partition("=")

@@ -34,10 +34,12 @@ ISSUES_NEW_FORMAT = {
 class TestPluginTools(utils.BaseTestCase):
     """ Unit tests for plugintools code. """
     def test_summary_empty(self):
+        """Test empty summary produces empty JSON."""
         filtered = OutputManager().get_builder().to(fmt="json")
         self.assertEqual(filtered, '{}')
 
     def test_summary_mode_short_legacy(self):
+        """Test short mode minimisation of legacy format."""
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': [{
                             'type': 'MemoryWarning',
@@ -51,6 +53,7 @@ class TestPluginTools(utils.BaseTestCase):
         self.assertEqual(filtered, expected)
 
     def test_summary_mode_short(self):
+        """Test short mode minimisation of new format."""
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': {
                             'MemoryWarnings': ['a msg']}},
@@ -62,6 +65,7 @@ class TestPluginTools(utils.BaseTestCase):
         self.assertEqual(filtered, expected)
 
     def test_summary_mode_very_short_legacy(self):
+        """Test very-short mode minimisation of legacy format."""
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': {
                             'MemoryWarning': 1}},
@@ -72,6 +76,7 @@ class TestPluginTools(utils.BaseTestCase):
         self.assertEqual(filtered, expected)
 
     def test_summary_mode_very_short(self):
+        """Test very-short mode minimisation of new format."""
         expected = {IssuesManager.SUMMARY_OUT_ISSUES_ROOT: {
                         'testplugin': {
                             'MemoryWarnings': 1}},
@@ -83,12 +88,14 @@ class TestPluginTools(utils.BaseTestCase):
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_json(self):
+        """Test JSON output formatting."""
         summary = {'opt': 'value'}
         filtered = OutputManager(summary).get_builder().to("json")
         self.assertEqual(filtered, json.dumps(summary, indent=2,
                                               sort_keys=True))
 
     def test_apply_output_formatting_markdown(self):
+        """Test markdown output formatting."""
         summary = {
             'item-1':
                 {
@@ -127,6 +134,7 @@ plain value
         self.assertEqual(filtered, expected)
 
     def test_apply_output_formatting_html_1(self):
+        """Test HTML output formatting variant 1."""
         summary = {
             'item-1':
                 {
@@ -149,6 +157,7 @@ plain value
         self.assertIn('value-4', filtered)
 
     def test_apply_output_formatting_html_2(self):
+        """Test HTML output formatting variant 2."""
         summary = {
             'item-1':
                 {
@@ -167,6 +176,7 @@ plain value
         self.assertIn('Known issues/bugs', filtered)
 
     def test_apply_output_formatting_html_3(self):
+        """Test HTML output formatting variant 3."""
         summary = {
             'system':
                 {
@@ -194,6 +204,7 @@ class TestOutputManagerLogile(utils.BaseTestCase):
     """
 
     def test_compressed_logfile(self):
+        """Test log file compression in output directory."""
         with tempfile.NamedTemporaryFile(delete=False) as ftmp:
             with mock.patch('hotsos.client.log.handlers',
                             [logging.FileHandler(ftmp.name)]):

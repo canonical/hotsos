@@ -88,6 +88,7 @@ class UptimeHelper():
 
     @property
     def loadavg(self):
+        """ System load average, if available. """
         if self.subgroups:
             return self.subgroups['loadavg']['value']
 

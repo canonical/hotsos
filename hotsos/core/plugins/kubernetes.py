@@ -71,6 +71,7 @@ class KubernetesBase():
     """ Base class for Kubernetes checks. """
     @cached_property
     def flannel_ports(self):
+        """ Return list of host network ports matching flannel. """
         ports = []
         nethelp = HostNetworkingHelper()
         for port in nethelp.host_interfaces:
@@ -88,6 +89,7 @@ class KubernetesBase():
 
     @cached_property
     def pods(self):
+        """ Return sorted list of Kubernetes pod names from log dirs. """
         pods = []
         pods_path = os.path.join(HotSOSConfig.data_root,
                                  "var/log/pods")
@@ -102,6 +104,7 @@ class KubernetesBase():
 
     @cached_property
     def containers(self):
+        """ Return sorted list of container names from log dirs. """
         containers = []
         containers_path = os.path.join(HotSOSConfig.data_root,
                                        "var/log/containers")

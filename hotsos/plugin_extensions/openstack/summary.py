@@ -19,6 +19,7 @@ class OpenStackSummary(OpenstackBase, OpenStackChecks):
     @staticmethod
     @summary_entry('neutron-l3ha', get_min_available_entry_index())
     def summary_neutron_l3ha():
+        """Return Neutron L3HA router state counts."""
         routers = {}
         ha_info = NeutronHAInfo()
         for router in ha_info.ha_routers:

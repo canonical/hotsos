@@ -22,6 +22,7 @@ class KernelBase():
 
     @cached_property
     def isolcpus_enabled(self):
+        """ Return whether isolcpus is set in kernel config. """
         return KernelConfig().get('isolcpus') is not None
 
     @cached_property

@@ -54,6 +54,7 @@ class TestMAASSummary(MAASTestsBase):
     """ Unit tests for maas summary """
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': MAAS_DPKG})
     def test_dpkg(self):
+        """Test MAAS dpkg package list output."""
         inst = summary.MAASSummary()
         expected = {'dpkg': ['maas-cli 2.7.3-8291-g.384e521e6',
                              'maas-common 2.7.3-8291-g.384e521e6',
@@ -66,6 +67,7 @@ class TestMAASSummary(MAASTestsBase):
 
     @mock.patch('hotsos.core.host_helpers.systemd.CLIHelper')
     def test_services(self, mock_helper):
+        """Test MAAS services output with mocked systemd."""
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.systemctl_list_unit_files.return_value = \
             SYSTEMD_UNIT_FILES.splitlines(keepends=True)

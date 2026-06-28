@@ -54,6 +54,7 @@ class NovaBase(OSTServiceBase):
 
     @cached_property
     def nova_config(self):
+        """ Return the main Nova configuration object. """
         return self.project.config['main']
 
     def get_instances(self, identifiers):
@@ -99,8 +100,9 @@ class NovaBase(OSTServiceBase):
 
     @cached_property
     def instances(self):
-        return self.get_instances(NovaQemuProcessIdentifierx86) or \
-                   self.get_instances(NovaQemuProcessIdentifierARM)
+        """ Return Nova instances found via x86 or ARM identifiers. """
+        return (self.get_instances(NovaQemuProcessIdentifierx86) or
+                self.get_instances(NovaQemuProcessIdentifierARM))
 
     def get_nova_config_port(self, cfg_key):
         """
@@ -114,12 +116,14 @@ class NovaBase(OSTServiceBase):
 
     @cached_property
     def my_ip_port(self):
+        """ Return the network port for the Nova my_ip setting. """
         # NOTE: my_ip can be an address or fqdn, we currently only support
         # searching by address.
         return self.get_nova_config_port('my_ip')
 
     @cached_property
     def live_migration_inbound_addr_port(self):
+        """ Return the port for live_migration_inbound_addr. """
         return self.get_nova_config_port('live_migration_inbound_addr')
 
     @cached_property
@@ -144,6 +148,7 @@ class NovaLibvirt(NovaBase):
 
     @property
     def xmlpath(self):
+        """ Return path to libvirt qemu XML definitions. """
         return os.path.join(HotSOSConfig.data_root, 'etc/libvirt/qemu')
 
     @staticmethod
@@ -281,16 +286,19 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def cpu_dedicated_set(self):
+        """ Return the cpu_dedicated_set config as a list. """
         key = 'cpu_dedicated_set'
         return self.nova_cfg.get(key, expand_to_list=True) or []
 
     @cached_property
     def cpu_shared_set(self):
+        """ Return the cpu_shared_set config as a list. """
         key = 'cpu_shared_set'
         return self.nova_cfg.get(key, expand_to_list=True) or []
 
     @cached_property
     def cpu_dedicated_set_hex(self):
+        """ Return cpu_dedicated_set as a hex bitmask. """
         cores = self.cpu_dedicated_set
         if not cores:
             return 0
@@ -303,6 +311,7 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def cpu_shared_set_hex(self):
+        """ Return cpu_shared_set as a hex bitmask. """
         cores = self.cpu_shared_set
         if not cores:
             return 0
@@ -315,6 +324,7 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def vcpu_pin_set(self):
+        """ Return the vcpu_pin_set config as a list. """
         key = 'vcpu_pin_set'
         return self.nova_cfg.get(key, expand_to_list=True) or []
 
@@ -330,6 +340,7 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def cpu_dedicated_set_intersection_isolcpus(self):
+        """ Return CPUs in both dedicated set and isolcpus. """
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
         else:
@@ -339,6 +350,7 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def cpu_dedicated_set_intersection_cpuaffinity(self):
+        """ Return CPUs in both dedicated set and CPUAffinity. """
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
         else:
@@ -348,14 +360,17 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def cpu_shared_set_intersection_isolcpus(self):
+        """ Return CPUs in both shared set and isolcpus. """
         return list(set(self.cpu_shared_set).intersection(self.isolcpus))
 
     @cached_property
     def cpuaffinity_intersection_isolcpus(self):
+        """ Return CPUs in both CPUAffinity and isolcpus. """
         return list(self.cpuaffinity.intersection(self.isolcpus))
 
     @cached_property
     def cpu_shared_set_intersection_cpu_dedicated_set(self):
+        """ Return CPUs in both shared and dedicated sets. """
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
         else:
@@ -365,12 +380,14 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def num_unpinned_cpus(self):
+        """ Return number of CPUs not covered by pinning. """
         num_cpus = SystemBase().num_cpus
         total_isolated = len(self.isolcpus.union(self.cpuaffinity))
         return num_cpus - total_isolated
 
     @cached_property
     def unpinned_cpus_pcent(self):
+        """ Return percentage of CPUs that are unpinned. """
         num_cpus = SystemBase().num_cpus
         if num_cpus and self.num_unpinned_cpus:
             return int((float(100) / num_cpus) * self.num_unpinned_cpus)
@@ -379,6 +396,7 @@ class CPUPinning(NovaBase):
 
     @cached_property
     def nova_pinning_from_multi_numa_nodes(self):
+        """ Return True if pinning spans multiple NUMA nodes. """
         if self.vcpu_pin_set:
             pinset = set(self.vcpu_pin_set)
         else:
@@ -402,4 +420,5 @@ class NovaInstance():
         self.memory_mbytes = None
 
     def add_port(self, port):
+        """ Add a network port to this instance. """
         self.ports.append(port)

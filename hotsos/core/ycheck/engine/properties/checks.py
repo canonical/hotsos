@@ -21,6 +21,7 @@ from hotsos.core.exceptions import NotYetInitializedError, PreconditionError
 class CheckBase():
     """ Base class used with checks implementations. """
     def fetch_item_result(self, item):
+        """ Evaluate a single check item and return its boolean result. """
         log.debug("%s: fetch_item_result() %s", self.__class__.__name__,
                   item.__class__.__name__)
         check = self.context['check']  # pylint: disable=E1101
@@ -115,12 +116,14 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
     @property
     def name(self):
+        """ Name of the check once initialised, else None. """
         if self._initialised:
             return self.check_name
 
         return None
 
     def initialise(self, name):
+        """ Mark the check as initialised and record its name. """
         self._initialised = True
         self.check_name = name
 
@@ -151,6 +154,7 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
 
     @cached_property
     def result(self):
+        """ Boolean result of running this check. """
         # pylint: disable=duplicate-code
         try:
             # Pass this object down to descendants so that they have access to

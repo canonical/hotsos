@@ -322,6 +322,7 @@ class SystemdHelper(ServiceManagerBase):
         return bad
 
     def get_services_expanded(self, name):
+        """ Expand a service name pattern into matching units. """
         _expanded = []
         for line in self._systemctl_list_units:
             expr = rf'^\s*({name}(@\S*)?)\.service'

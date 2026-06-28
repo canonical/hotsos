@@ -27,18 +27,22 @@ class TestProperty():
     """ Test Property """
     @property
     def myattr(self):
+        """ Return test attribute value '123'. """
         return '123'
 
     @property
     def myotherattr(self):
+        """ Return test attribute value '456'. """
         return '456'
 
     @property
     def always_true(self):
+        """ Always returns True. """
         return True
 
     @property
     def always_false(self):
+        """ Always returns False. """
         return False
 
 
@@ -54,6 +58,7 @@ class TestYamlScenariosPreLoad(utils.BaseTestCase):
                               format(path='data.txt'))
     @utils.global_search_context
     def test_scenario_search_preload(self, global_searcher):
+        """ Test scenario search preloader discovers and loads. """
         spl = scenarios.ScenariosSearchPreloader(global_searcher)
         self.assertEqual(len(list(spl.scenarios)), 1)
         self.assertEqual([s.name for s in spl.scenarios], ['test'])
@@ -79,6 +84,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.create_data_root({'data.txt': 'hello x\n'})
     @utils.global_search_context
     def test_yaml_def_expr_list(self, global_searcher):
+        """ Test scenario with expression list search. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 3)
@@ -96,6 +102,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                                           "blah\nit's the end")})
     @utils.global_search_context
     def test_yaml_def_seq_search(self, global_searcher):
+        """ Test scenario with sequence search. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 1)
@@ -113,6 +120,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                                  'Thu Feb 10 16:19:17 UTC 2022'})
     @utils.global_search_context
     def test_yaml_def_scenario_checks_false(self, global_searcher):
+        """ Test scenario checks evaluate to false. """
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
@@ -128,6 +136,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.SCENARIO_CHECKS)
     @utils.global_search_context
     def test_yaml_def_scenario_checks_requires(self, global_searcher):
+        """ Test scenario requires checks for apt/snap/systemd. """
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
@@ -167,6 +176,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                                  'Thu Mar 31 16:19:17 UTC 2021'})
     @utils.global_search_context
     def test_yaml_def_scenario_checks_expr(self, global_searcher):
+        """ Test scenario checks with log match expression. """
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
@@ -185,6 +195,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
 
     @staticmethod
     def _create_search_results(path, contents=None):
+        """ Create search results from file contents. """
         if contents:
             with open(path, 'w', encoding='utf-8') as fd:
                 for line in contents:
@@ -195,6 +206,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
         return s.run().find_by_tag('all')
 
     def test_yaml_def_scenario_result_filters_by_period(self):
+        """ Test search result filtering by time period. """
         with tempfile.TemporaryDirectory() as dtmp:
             HotSOSConfig.set(plugin_yaml_defs=dtmp, data_root=dtmp,
                              plugin_name='myplugin')
@@ -247,6 +259,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.YDEF_NESTED_LOGIC)
     @utils.global_search_context
     def test_yaml_def_nested_logic(self, global_searcher):
+        """ Test nested logic in scenario conclusions. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual(sorted([issue['message'] for issue in issues]),
@@ -255,6 +268,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.YAML_DEF_REQUIRES_MAPPED)
     @utils.global_search_context
     def test_yaml_def_mapped_overrides(self, global_searcher):
+        """ Test mapped overrides in scenario checks. """
         checker = scenarios.YScenarioChecker(global_searcher)
         checker.load()
         self.assertEqual(len(checker.scenarios), 1)
@@ -275,6 +289,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     def test_failed_scenario_caught(self, global_searcher, mock_log1,
                                     mock_log2, _mock_log3,
                                     mock_log4, mock_log5, mock_log6):
+        """ Test failed scenario exceptions are caught/logged. """
         scenarios.YScenarioChecker(global_searcher).run()
 
         # Check caught exception logs
@@ -313,6 +328,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 101\n'})
     @utils.global_search_context
     def test_config_scenario_fail(self, global_searcher):
+        """ Test config scenario raises issue on bad value. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())[0]
         self.assertEqual([issue['message'] for issue in issues],
@@ -322,6 +338,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.create_data_root({'test.conf': '[DEFAULT]\nkey1 = 102\n'})
     @utils.global_search_context
     def test_config_scenario_pass(self, global_searcher):
+        """ Test config scenario produces no issues on good value. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
@@ -334,6 +351,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.global_search_context
     def test_raises_w_invalid_types(self, global_searcher, mock_exc, mock_log,
                                     mock_log2):
+        """ Test invalid bug type raises and logs correctly. """
         mock_exc.side_effect = Exception
         scenarios.YScenarioChecker(global_searcher).run()
 
@@ -362,6 +380,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.VARS)
     @utils.global_search_context
     def test_vars(self, global_searcher):
+        """ Test variable substitution in scenario messages. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues[0]), 4)
@@ -389,6 +408,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                                               mock_log2, _mock_log3, mock_log4,
                                               mock_log5, mock_log6,
                                               _mock_log7):
+        """ Test logical AND collection with failing property. """
         scenarios.YScenarioChecker(global_searcher).run()
         expected = [
             (mock_log1,
@@ -426,6 +446,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.NESTED_LOGIC_TEST_NO_ISSUE)
     @utils.global_search_context
     def test_logical_collection_nested_no_issue(self, global_searcher):
+        """ Test nested logic with no issue raised. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 0)
@@ -433,6 +454,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.NESTED_LOGIC_TEST_W_ISSUE)
     @utils.global_search_context
     def test_logical_collection_nested_w_issue(self, global_searcher):
+        """ Test nested logic with issue raised. """
         scenarios.YScenarioChecker(global_searcher).run()
         issues = list(IssuesStore().load().values())
         self.assertEqual(len(issues), 1)
@@ -441,6 +463,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                               'myscenario')
     @utils.global_search_context
     def test_scenarios_filter_none(self, global_searcher):
+        """ Test scenarios loaded without filter. """
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
         self.assertEqual([s.name for s in sc.scenarios], ['myscenario'])
@@ -449,6 +472,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                               'myscenario')
     @utils.global_search_context
     def test_scenarios_filter_myscenario(self, global_searcher):
+        """ Test scenario filter by exact name. """
         HotSOSConfig.scenario_filter = ('myplugin.scenariogroup.subgroup.'
                                         'myscenario')
         sc = scenarios.YScenarioChecker(global_searcher)
@@ -459,6 +483,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                               'myscenario')
     @utils.global_search_context
     def test_scenarios_filter_myscenario_regex(self, global_searcher):
+        """ Test scenario filter by wildcard pattern. """
         HotSOSConfig.scenario_filter = 'myplugin.scenariogroup.subgroup.*'
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
@@ -468,6 +493,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                               'myscenario')
     @utils.global_search_context
     def test_scenarios_filter_nonexistent(self, global_searcher):
+        """ Test scenario filter with no matches. """
         HotSOSConfig.scenario_filter = 'blahblah'
         sc = scenarios.YScenarioChecker(global_searcher)
         sc.load()
@@ -476,6 +502,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.CONCLUSION_PRIORITY_1, 'myscenario')
     @utils.global_search_context
     def test_conclusion_priority_exec_highest(self, global_searcher):
+        """ Test only highest priority conclusion executes. """
         called = []
 
         class YPropertyConclusionTest(YPropertyConclusion):
@@ -483,6 +510,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             override_autoregister = False
 
             def reached(self, *args, **kwargs):
+                """ Track call and delegate to parent. """
                 called.append(self.name)
                 return super().reached(*args, **kwargs)
 
@@ -499,6 +527,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
     @utils.init_test_scenario(test_data.CONCLUSION_PRIORITY_2, 'myscenario')
     @utils.global_search_context
     def test_conclusion_priority_exec_all_same(self, global_searcher):
+        """ Test all conclusions execute when same priority. """
         called = []
 
         class YPropertyConclusionTest(YPropertyConclusion):
@@ -506,6 +535,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             override_autoregister = False
 
             def reached(self, *args, **kwargs):
+                """ Track call and delegate to parent. """
                 called.append(self.name)
                 return super().reached(*args, **kwargs)
 

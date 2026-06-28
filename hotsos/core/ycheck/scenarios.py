@@ -23,6 +23,7 @@ class ScenariosSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
 
     @property
     def filter(self):
+        """Return the current scenario filter."""
         return HotSOSConfig.scenario_filter
 
     @cached_property
@@ -108,10 +109,12 @@ class Scenario():
 
     @property
     def checks(self):
+        """Return checks as a dict keyed by name."""
         return {c.name: c for c in self._checks}
 
     @property
     def conclusions(self):
+        """Return conclusions as a dict keyed by name."""
         return {c.name: c for c in self._conclusions}
 
 
@@ -142,9 +145,11 @@ class YScenarioChecker(YHandlerBase):
 
     @property
     def filter(self):
+        """Return the current scenario filter."""
         return HotSOSConfig.scenario_filter
 
     def load(self):
+        """ Load and run scenario definitions for the active plugin. """
         plugin_content = YDefsLoader('scenarios').plugin_defs
         if not plugin_content:
             return
@@ -191,6 +196,7 @@ class YScenarioChecker(YHandlerBase):
 
     @property
     def scenarios(self):
+        """Return the list of loaded scenarios."""
         return self._scenarios
 
     @staticmethod

@@ -21,6 +21,7 @@ class OpenstackInstanceChecks(OpenstackBase, OpenStackChecks):
 
     @summary_entry('vm-info', get_min_available_entry_index() + 1)
     def summary_vm_info(self):
+        """Return running VM, CPU model and vCPU info."""
         _info = {}
 
         instances = self.project_helpers.nova.instances.values()
@@ -209,4 +210,5 @@ class NovaServerMigrationAnalysis(OpenstackEventHandlerBase):
 
     @summary_entry('nova-migrations', get_min_available_entry_index() + 2)
     def summary_nova_migrations(self):
+        """Return Nova live-migration analysis results."""
         return self.run()

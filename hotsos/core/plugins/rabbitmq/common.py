@@ -46,6 +46,7 @@ class RabbitMQChecks(plugintools.PluginPartBase):
 
     @property
     def report(self):
+        """ Return a new RabbitMQ report instance. """
         return RabbitMQReport()
 
     @classmethod

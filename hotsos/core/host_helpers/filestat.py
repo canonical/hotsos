@@ -12,6 +12,7 @@ class FileObj():
 
     @property
     def exists(self):
+        """ Return True if the file exists on disk. """
         if os.path.exists(self.filename):
             return True
 
@@ -19,6 +20,7 @@ class FileObj():
 
     @property
     def mtime(self):
+        """ Return the file modification time, or 0 if missing. """
         if not self.exists:
             log.debug("mtime %s - file not found", self.filename)
             return 0
@@ -29,6 +31,7 @@ class FileObj():
 
     @property
     def size(self):
+        """ Return the file size in bytes, or -1 if missing. """
         if not os.path.exists(self.filename):
             log.debug("size %s - file not found", self.filename)
             return -1

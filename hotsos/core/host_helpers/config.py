@@ -70,6 +70,7 @@ class ConfigBase(abc.ABC):
 
     @property
     def exists(self):
+        """ Return True if the config file path exists. """
         if os.path.exists(self.path):
             return True
 
@@ -92,6 +93,7 @@ class IniConfigBase(ConfigBase):
 
     @staticmethod
     def bool_str(val):
+        """ Convert string 'true'/'false' to bool, else pass through. """
         if val.lower() == "true":
             return True
         if val.lower() == "false":
@@ -101,6 +103,7 @@ class IniConfigBase(ConfigBase):
 
     @classmethod
     def post_processing(cls, v, expand_to_list=False):
+        """ Sanitize config value and optionally expand ranges. """
         # Sanitize the string and perform
         # boolean type conversion if needed
         if isinstance(v, str):
@@ -116,10 +119,12 @@ class IniConfigBase(ConfigBase):
 
     @property
     def all_sections(self):
+        """ Return all config sections including DEFAULT. """
         return self.config.sections() + ["DEFAULT"]
 
     @property
     def all_keys(self):
+        """ Return a flat list of all config keys across sections. """
         return [x for option in self.config.items()
                 for x in list(option[1].keys())]
 

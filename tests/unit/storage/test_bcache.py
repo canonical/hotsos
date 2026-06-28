@@ -15,15 +15,18 @@ class BCacheTestsBase(utils.BaseTestCase):
 class TestBcachePlugin(BCacheTestsBase):
     """ Unit tests for bcache plugin code. """
     def test_bcache_enabled(self):
+        """Test bcache is detected as enabled."""
         b = bcache_core.BcacheBase()
         self.assertTrue(b.bcache_enabled)
 
     def test_get_cacheset_bdevs(self):
+        """Test backing devices are listed for cacheset."""
         b = bcache_core.BcacheBase()
         result = sorted([b.name for b in b.cachesets[0].bdevs])
         self.assertEqual(result, ['bdev0', 'bdev1'])
 
     def test_get_cachesets(self):
+        """Test cacheset uuid and available percent."""
         b = bcache_core.BcacheBase()
         expected = [{'cache_available_percent': 99,
                      'uuid': 'd7696818-1be9-4dea-9991-de95e24d7256'}]
@@ -33,6 +36,7 @@ class TestBcachePlugin(BCacheTestsBase):
         self.assertEqual(actual, expected)
 
     def test_udev_bcache_devs(self):
+        """Test udev bcache device names and uuids."""
         b = bcache_core.BcacheBase()
         expected = [{'by-uuid': '88244ad9-372d-427e-9d82-c411c73d900a',
                      'name': 'bcache0'},
@@ -42,6 +46,7 @@ class TestBcachePlugin(BCacheTestsBase):
         self.assertEqual(b.udev_bcache_devs, expected)
 
     def test_is_bcache_device(self):
+        """Test bcache device name detection variants."""
         b = bcache_core.BcacheBase()
         self.assertTrue(b.is_bcache_device('bcache0'))
         self.assertTrue(b.is_bcache_device('/dev/bcache0'))
@@ -52,16 +57,19 @@ class TestBcachePlugin(BCacheTestsBase):
 class TestBDevsInfo(BCacheTestsBase):
     """ Unit tests for bcache bdevs interface code. """
     def test_sequential_cutoff(self):
+        """Test bdev sequential cutoff values."""
         b = bcache_core.BDevsInfo()
         self.assertEqual(b.sequential_cutoff, ['4.0M', '4.0M'])
 
     def test_cache_mode(self):
+        """Test bdev cache mode values."""
         b = bcache_core.BDevsInfo()
         self.assertEqual(b.cache_mode,
                          ['writethrough [writeback] writearound none',
                           'writethrough [writeback] writearound none'])
 
     def test_writeback_percent(self):
+        """Test bdev writeback percent values."""
         b = bcache_core.BDevsInfo()
         self.assertEqual(b.writeback_percent, [10, 10])
 
@@ -69,14 +77,17 @@ class TestBDevsInfo(BCacheTestsBase):
 class TestCachesetsInfo(BCacheTestsBase):
     """ Unit tests for bcache cachesets interface code. """
     def test_congested_read_threshold_us(self):
+        """Test cacheset congested read threshold."""
         c = bcache_core.CachesetsInfo()
         self.assertEqual(c.congested_read_threshold_us, [2000])
 
     def test_congested_write_threshold_us(self):
+        """Test cacheset congested write threshold."""
         c = bcache_core.CachesetsInfo()
         self.assertEqual(c.congested_write_threshold_us, [20000])
 
     def test_cache_available_percent(self):
+        """Test cacheset cache available percentage."""
         c = bcache_core.CachesetsInfo()
         self.assertEqual(c.cache_available_percent, [99])
 
@@ -84,6 +95,7 @@ class TestCachesetsInfo(BCacheTestsBase):
 class TestBCacheSummary(BCacheTestsBase):
     """ Unit tests for bcache summary. """
     def test_get_cacheset_info(self):
+        """Test cacheset summary with bdev details."""
         cachesets = {'d7696818-1be9-4dea-9991-de95e24d7256': {
                        'cache_available_percent': 99,
                        'bdevs': {
@@ -101,6 +113,7 @@ class TestBCacheSummary(BCacheTestsBase):
         self.assertEqual(actual['cachesets'], cachesets)
 
     def test_resolve_bdev_from_dev(self):
+        """Test bdev resolution from device mapper path."""
         inst = bcache_summary.BcacheSummary()
         devpath = '/dev/mapper/crypt-88244ad9-372d-427e-9d82-c411c73d900a'
         bdev = inst.resolve_bdev_from_dev(devpath)

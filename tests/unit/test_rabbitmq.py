@@ -31,6 +31,7 @@ class TestRabbitmqBase(utils.BaseTestCase):
 class TestRabbitmqSummary(TestRabbitmqBase):
     """ Unit tests for RabbitMQ summary. """
     def test_get_summary(self):
+        """Test rabbitmq summary keys and service output."""
         inst = summary.RabbitMQSummary()
         self.assertTrue(inst.is_runnable())
         self.assertEqual(list(inst.output.keys()),
@@ -50,10 +51,12 @@ class TestRabbitmqSummary(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelperFile')
     def test_summary_bionic(self, mock_helper):
+        """Test rabbitmq summary for bionic report format."""
         class FakeCLIHelperFile(contextlib.AbstractContextManager):
             """ fake clihelper """
             @staticmethod
             def rabbitmqctl_report():
+                """Return path to bionic rabbitmqctl report."""
                 return os.path.join(HotSOSConfig.data_root,
                                     "sos_commands/rabbitmq/rabbitmqctl_report."
                                     "bionic")
@@ -113,6 +116,7 @@ class TestRabbitmqSummary(TestRabbitmqBase):
                          expected)
 
     def test_summary_focal(self):
+        """Test rabbitmq summary for focal report format."""
         expected = {
             'vhosts': [
                 '/',
@@ -140,11 +144,13 @@ class TestRabbitmqSummary(TestRabbitmqBase):
 
     @mock.patch('hotsos.core.plugins.rabbitmq.report.CLIHelperFile')
     def test_get_summary_no_report(self, mock_helper):
+        """Test summary output when report file is empty."""
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(contextlib.AbstractContextManager):
                 """ fake clihelper """
                 @staticmethod
                 def rabbitmqctl_report():
+                    """Return path to an empty temp file."""
                     return ftmp.name
 
                 @staticmethod
@@ -165,6 +171,7 @@ class TestRabbitMQEvents(TestRabbitmqBase):
     @utils.create_data_root({'var/log/rabbitmq/rabbit@node1.log':
                              RABBITMQ_ERROR_LOGS})
     def test_error_checks(self):
+        """Test rabbitmq error log event detection."""
         expected = {'connection-exception': {'2025-01-01': {
                                                 'internal_error': 3}},
                     'delivery-ack-timeout': {'2025-01-01': {'1800000': 1}},

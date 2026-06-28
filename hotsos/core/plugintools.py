@@ -206,15 +206,18 @@ class ApplicationSummaryBase(metaclass=PluginRegistryMeta):
 
     @classmethod
     def default_summary_entries(cls):
+        """Return names of base class summary entry methods."""
         return [e for e in dir(ApplicationSummaryBase)
                 if str(e).startswith('summary_')]
 
     @summary_entry('version', DefaultSummaryEntryIndexes.VERSION)
     def summary_version(self):
+        """Return application version for the summary."""
         return self.version
 
     @summary_entry('release', DefaultSummaryEntryIndexes.RELEASE)
     def summary_release(self):
+        """Return release name and days to EOL."""
         if not all([self.release_name is not None,
                     self.days_to_eol is not None]):
             return None
@@ -235,6 +238,7 @@ class ApplicationSummaryBase(metaclass=PluginRegistryMeta):
 
     @summary_entry('snaps', DefaultSummaryEntryIndexes.SNAPS)
     def summary_snaps(self):
+        """Return formatted snap package info."""
         if self.snaps is None:
             return None
 
@@ -242,6 +246,7 @@ class ApplicationSummaryBase(metaclass=PluginRegistryMeta):
 
     @summary_entry('dpkg', DefaultSummaryEntryIndexes.DPKG)
     def summary_dpkg(self):
+        """Return formatted dpkg package info."""
         # require at least one core package to be installed to include
         # this in the report.
         if self.apt is not None and self.apt.core:
@@ -251,6 +256,7 @@ class ApplicationSummaryBase(metaclass=PluginRegistryMeta):
 
     @summary_entry('docker-images', DefaultSummaryEntryIndexes.DOCKER_IMAGES)
     def summary_docker_images(self):
+        """Return formatted docker image info."""
         if self.docker is None:
             return None
 
@@ -300,6 +306,7 @@ class PartOutputManager():
 
     @property
     def indexes(self):
+        """Load and return part output index from YAML."""
         path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
         if os.path.exists(path):
             with open(path, encoding='utf-8') as fd:
@@ -308,6 +315,7 @@ class PartOutputManager():
         return {}
 
     def add_to_index(self, index, part):
+        """Add a part file path to the index at the given key."""
         indexes = self.indexes
         path = os.path.join(HotSOSConfig.plugin_tmp_dir, "index.yaml")
         with open(path, 'w', encoding='utf-8') as fd:
@@ -338,6 +346,7 @@ class PartOutputManager():
         existing.update(data)
 
     def all(self):
+        """Aggregate all indexed part outputs into one dict."""
         if not self.indexes:
             return {}
 
@@ -468,6 +477,7 @@ class PluginPartBase(ApplicationSummaryBase):
 
     @property
     def output(self):
+        """Collect all summary entries as SummaryEntry objects."""
         _output = {}
         if self.summary:
             for key, data in self.summary.items():
@@ -493,6 +503,7 @@ class PluginPartBase(ApplicationSummaryBase):
 
     @property
     def raw_output(self):
+        """Return summary output as plain data without wrappers."""
         out = self.output
         if not out:
             return {}

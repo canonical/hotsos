@@ -25,6 +25,7 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
 
     @property
     def valid_attributes(self):
+        """Return list of valid constraint attribute names."""
         return ['search-period-hours', 'search-result-age-hours',
                 'min-hours-since-last-boot', 'min-results']
 
@@ -112,6 +113,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
     @property
     def unique_search_tag(self):
+        """Return unique tag for this search property."""
         return self.override_path  # pylint: disable=E1101
 
     def _resolve_exprs(self, patterns):
@@ -130,10 +132,12 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
     @staticmethod
     def _is_import_path(value):
+        """Check if value is a Python import path starting with @."""
         return isinstance(value, str) and value.startswith('@')
 
     @property
     def search_pattern(self):
+        """Resolve and return the search expression pattern(s)."""
         try:
             if self.expr:
                 if isinstance(self, YPropertySearch):
@@ -175,11 +179,13 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
     @property
     def is_sequence_search(self):
+        """Return True if this is a sequence-type search."""
         seq_keys = YPropertySequencePart.get_override_keys_back_compat()
         return any(getattr(self, key) for key in seq_keys)
 
     @property
     def simple_search(self):
+        """Build and return a simple SearchDef if applicable."""
         if (self.is_sequence_search or not self.search_pattern or
                 self.passthrough_results):
             return None
@@ -205,6 +211,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
     @property
     def sequence_search(self):
+        """Build and return a SequenceSearchDef if applicable."""
         if not self.is_sequence_search or self.passthrough_results:
             return None
 
@@ -243,6 +250,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
 
     @property
     def sequence_passthrough_search(self):
+        """Build passthrough search defs for sequence start/end."""
         if not self.is_sequence_search or not self.passthrough_results:
             return None
 
@@ -324,6 +332,7 @@ class SeqPartSearchOptsBase():
 
     @property
     def expr(self):
+        """Return the search expression content."""
         if not isinstance(self.content, dict):  # pylint: disable=E1101
             return self.content  # pylint: disable=E1101
 
@@ -331,6 +340,7 @@ class SeqPartSearchOptsBase():
 
     @property
     def hint(self):
+        """Return the search hint string or None."""
         if not isinstance(self.content, dict):  # pylint: disable=E1101
             return None
 
@@ -338,6 +348,7 @@ class SeqPartSearchOptsBase():
 
     @property
     def passthrough_results(self):
+        """Return whether results are passed through directly."""
         if not isinstance(self.content, dict):  # pylint: disable=E1101
             return False
 

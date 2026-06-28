@@ -37,6 +37,7 @@ class ProcNetBase(abc.ABC):
         return round((count * 100.0) / total, 2)
 
     def process_file(self, fname):
+        """ Parse label-value pairs from a /proc/net file. """
         if not os.path.exists(fname):
             log.debug("file not found '%s' - skipping load", fname)
             return
@@ -527,6 +528,7 @@ class Lsof(STOVParserBase):
         return self._search_field_info
 
     def all_with_inode(self, inode):
+        """ Return all entries matching the given inode number. """
         return list(filter(lambda x: (x.NODE == inode), self.data))
 
 
@@ -605,6 +607,7 @@ class NetLink(STOVParserBase):
 
     @property
     def all_with_drops(self):
+        """ Return netlink sockets that have non-zero drops. """
         v = list(filter(lambda x: (x.sk_drops > 0), self.data))
         if v:
             # Correlate netlink sockets with process id's by inode
@@ -618,6 +621,7 @@ class NetLink(STOVParserBase):
 
     @property
     def all_with_drops_str(self):
+        """ Return formatted string of netlink sockets with drops. """
         if not self.all_with_drops:
             return None
 

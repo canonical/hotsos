@@ -97,6 +97,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def health_status(self):
+        """ Return the cluster health status string. """
         status = CLIHelper().ceph_status_json_decoded()
         if status:
             return status['health']['status']
@@ -113,6 +114,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def pg_dump(self):
+        """ Return decoded JSON from ceph pg dump. """
         return CLIHelper().ceph_pg_dump_json_decoded() or {}
 
     @cached_property
@@ -121,6 +123,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def mons(self):
+        """ Return a list of CephMon objects for the cluster. """
         _mons = []
         for mon in self._mon_dump.get('mons', {}):
             _mons.append(CephMon(mon['name']))
@@ -145,10 +148,12 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def osd_df_tree(self):
+        """ Return decoded JSON from ceph osd df tree. """
         return CLIHelper().ceph_osd_df_tree_json_decoded() or {}
 
     @cached_property
     def ceph_df(self):
+        """ Return decoded JSON from ceph df. """
         return CLIHelper().ceph_df_json_decoded() or {}
 
     @cached_property
@@ -225,6 +230,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def cluster_osds_without_v2_messenger_protocol(self):
+        """ Return list of OSD ids still using v1 messenger. """
         v1_osds = []
         for osd in self.osds:
             for key, val in osd.dump.items():
@@ -339,6 +345,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def require_osd_release(self):
+        """ Return the require_osd_release value from osd dump. """
         return self._osd_dump.get('require_osd_release')
 
     @cached_property
@@ -356,6 +363,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def laggy_pgs(self):
+        """ Return PGs in laggy or wait states. """
         if not self.pg_dump:
             return []
 
@@ -369,6 +377,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         return laggy_pgs
 
     def pool_id_to_name(self, pool_id):
+        """ Translate a numeric pool id to its pool name. """
         if not self._osd_dump:
             return None
 
@@ -381,6 +390,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def large_omap_pgs(self):
+        """ Return dict of PGs flagged with large omap objects. """
         _large_omap_pgs = {}
         if not self.pg_dump:
             return _large_omap_pgs
@@ -399,6 +409,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def large_omap_pgs_str(self):
+        """ Return comma-separated PG ids with large omap. """
         if not self.large_omap_pgs:
             return None
 
@@ -406,6 +417,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def bluefs_oversized_metadata_osds(self):
+        """ Return OSDs where BlueFS metadata exceeds threshold. """
         _bad_meta_osds = []
         if not self.osd_df_tree:
             return _bad_meta_osds
@@ -499,6 +511,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def ceph_versions_aligned(self):
+        """ Return True if all daemon types run the same version. """
         versions = self.ceph_daemon_versions_unique()
         if not versions:
             return True
@@ -536,6 +549,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def osdmaps_count(self):
+        """ Return the number of pinned OSD maps in the cluster. """
         report = CLIHelper().ceph_report_json_decoded()
         if not report:
             return 0
@@ -547,6 +561,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def osds_pgs(self):
+        """ Return dict mapping each OSD name to its PG count. """
         _osds_pgs = {}
         if not self.osd_df_tree:
             return _osds_pgs
@@ -559,6 +574,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def osds_pgs_above_max(self):
+        """ Return OSDs whose PG count exceeds the maximum limit. """
         _osds_pgs = {}
         for osd, num_pgs in self.osds_pgs.items():
             if num_pgs > self.osd_pg_max_limit:
@@ -568,6 +584,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def osds_pgs_suboptimal(self):
+        """ Return OSDs with PG counts outside the optimal range. """
         _osds_pgs = {}
         if not self.osd_df_tree:
             return _osds_pgs
@@ -593,6 +610,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def ssds_using_bcache(self):
+        """ Return SSD-backed OSD ids that use bcache devices. """
         report = CLIHelper().ceph_report_json_decoded()
         if not report:
             return []
@@ -627,6 +645,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
 
     @cached_property
     def osd_raw_usage_higher_than_data(self):
+        """ Return OSDs where raw usage exceeds tracked data. """
         _bad_osds = []
 
         if not self.osd_df_tree:

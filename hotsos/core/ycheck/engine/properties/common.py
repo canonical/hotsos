@@ -135,6 +135,7 @@ class PropertyCacheRefResolver():
 
     @property
     def check_name(self):
+        """ Name of the check referenced by this @checks ref. """
         if self.reftype != 'checks':
             raise MissingRequiredParameterError(
                 "ref does not have type 'checks'")
@@ -143,6 +144,7 @@ class PropertyCacheRefResolver():
 
     @property
     def property_name(self):
+        """ Property name from the check ref body, if type is checks. """
         if self.reftype != 'checks':
             return None
 
@@ -261,6 +263,7 @@ class PropertyCache(UserDict):
     property objects are recreated the caches are as well.
     """
     def merge(self, cache):
+        """ Merge another cache of the same type into this one. """
         if not isinstance(cache, self.__class__):
             log.error("attempt to merge cache failed - provided cache is not "
                       "a %s", type(self.__class__.__name__))
@@ -270,9 +273,11 @@ class PropertyCache(UserDict):
 
     @property
     def id(self):
+        """ Unique id of this cache instance. """
         return id(self)
 
     def set(self, key, data):
+        """ Store a value in the cache under the given key. """
         log.debug("%s: caching key=%s with value=%s", id(self), key, data)
         _current = self.data.get(key)
         if _current and isinstance(_current, dict) and isinstance(data, dict):
@@ -493,6 +498,7 @@ class ImportHelper:
 
     @staticmethod
     def get_attribute(import_str):
+        """ Import and return the attribute named by import_str. """
         log.debug("fetching attribute %s", import_str)
         mod = import_str.rpartition('.')[0]
         attr = import_str.rpartition('.')[2]

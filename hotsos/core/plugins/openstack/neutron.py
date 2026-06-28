@@ -23,6 +23,7 @@ class NeutronBase(OSTServiceBase):
 
     @cached_property
     def neutron_ovs_config(self):
+        """ Return the Neutron OVS agent configuration. """
         return self.project.config['openvswitch-agent']
 
     @cached_property
@@ -86,11 +87,13 @@ class NeutronHAInfo():
 
     @cached_property
     def state_path(self):
+        """ Return filesystem path to Neutron HA conf directory. """
         ha_confs = 'var/lib/neutron/ha_confs'
         return os.path.join(HotSOSConfig.data_root, ha_confs)
 
     @cached_property
     def ha_routers(self):
+        """ Return list of HA routers with state and vr_id. """
         if not os.path.exists(self.state_path):
             return []
 
@@ -125,6 +128,7 @@ class NeutronHAInfo():
         return _routers
 
     def find_router_with_vr_id(self, vr_id):
+        """ Find and return the HA router matching the given vr_id. """
         for r in self.ha_routers:
             if r.vr_id == vr_id:
                 return r

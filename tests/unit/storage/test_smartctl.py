@@ -40,6 +40,7 @@ class TestSmartctlSummary(SmartctlTestsBase):
         self.plugin = SmartctlSummary()
 
     def test_no_smartctl_output(self):
+        """Test empty result when no smartctl data exists."""
         # pylint: disable=protected-access
         self.plugin._search_sosreport = lambda directory: {}
         result = self.plugin.smartctl_summary()
@@ -54,6 +55,7 @@ class TestSmartctlSummary(SmartctlTestsBase):
                             copy_from_original=[
                                 'sos_commands/block/ls_-lanR_.sys.block'])
     def test_failed_disk(self):
+        """Test failed disk health status is detected."""
         result = self.plugin.smartctl_summary()
         self.assertIn('unhealthy-disks', result)
         self.assertIn('vda', result['unhealthy-disks'])
@@ -65,6 +67,7 @@ class TestSmartctlSummary(SmartctlTestsBase):
                             copy_from_original=[
                                 'sos_commands/block/ls_-lanR_.sys.block'])
     def test_failed_and_abnormal_counters(self):
+        """Test failed disk with abnormal SMART counters."""
         result = self.plugin.smartctl_summary()
         self.assertIn('unhealthy-disks', result)
         disk = result['unhealthy-disks']['vda']
@@ -79,6 +82,7 @@ class TestSmartctlSummary(SmartctlTestsBase):
                             copy_from_original=[
                                 'sos_commands/block/ls_-lanR_.sys.block'])
     def test_zero_error_counters(self):
+        """Test healthy disk with zero error counters."""
         result = self.plugin.smartctl_summary()
         self.assertNotIn('unhealthy-disks', result)
 
@@ -87,6 +91,7 @@ class TestSmartctlSummary(SmartctlTestsBase):
                             copy_from_original=[
                                 'sos_commands/block/ls_-lanR_.sys.block'])
     def test_abnormal_error_counters(self):
+        """Test disk with non-zero error counters."""
         result = self.plugin.smartctl_summary()
         self.assertIn('unhealthy-disks', result)
         disk = result['unhealthy-disks']['vda']
@@ -101,6 +106,7 @@ class TestSmartctlSummary(SmartctlTestsBase):
                             copy_from_original=[
                                 'sos_commands/block/ls_-lanR_.sys.block'])
     def test_all_disks_passed(self):
+        """Test no unhealthy disks when all pass."""
         result = self.plugin.smartctl_summary()
         self.assertEqual(result, {})
 

@@ -24,6 +24,7 @@ class SOSReportBase():
     """ SOSReport check helpers. """
     @property
     def data_root_is_sosreport(self):
+        """ Whether the data root is a sosreport. """
         path = os.path.join(HotSOSConfig.data_root, 'sos_commands')
         if os.path.isdir(path):
             return True
@@ -32,6 +33,7 @@ class SOSReportBase():
 
     @cached_property
     def version(self):
+        """ sosreport version string, if available. """
         if not self.data_root_is_sosreport:
             return None
 
@@ -50,6 +52,7 @@ class SOSReportBase():
 
     @cached_property
     def timed_out_plugins(self):
+        """ List of sosreport plugins that timed out. """
         timeouts = []
         if not os.path.exists(os.path.join(HotSOSConfig.data_root,
                                            'sos_logs')):

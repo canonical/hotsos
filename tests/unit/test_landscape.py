@@ -58,6 +58,7 @@ class TestLandscapeSummary(LandscapeTestsBase):
     """ Unit tests for Landscape summary """
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': LANDSCAPE_DPKG})
     def test_dpkg(self):
+        """Test landscape dpkg package list output."""
         inst = summary.LandscapeSummary()
         expected = {'dpkg': ['landscape-client 24.04-0landscape0',
                              'landscape-common 24.04-0landscape0',
@@ -71,6 +72,7 @@ class TestLandscapeSummary(LandscapeTestsBase):
                              'sos_commands/systemd/systemctl_list-units':
                              SYSTEMD_UNITS})
     def test_services(self):
+        """Test landscape services output."""
         with mock.patch('hotsos.core.plugins.landscape.LandscapeChecks',
                         'is_installed', lambda: True):
             expected = {'services': {

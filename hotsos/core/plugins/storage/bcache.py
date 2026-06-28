@@ -39,10 +39,12 @@ class BDev():
 
     @property
     def cfg(self):
+        """ Return a BcacheConfig for this backing device. """
         return BcacheConfig(self.path)
 
     @property
     def dev_to_dname(self):
+        """ Resolve udev by-dname symlink for this device. """
         for line in CLIHelper().udevadm_info_dev(device=self.dev):
             expr = r'.+\s+disk/by-dname/(.+)'
             ret = re.compile(expr).match(line)
@@ -53,11 +55,13 @@ class BDev():
 
     @property
     def dev(self):
+        """ Return the real block device name for this bdev. """
         return os.path.basename(os.path.realpath(os.path.join(self.path,
                                                               'dev')))
 
     @cached_property
     def name(self):
+        """ Return the basename of the bdev sysfs path. """
         return os.path.basename(self.path)
 
     def __getattr__(self, key):
@@ -81,6 +85,7 @@ class Cacheset():
 
     @cached_property
     def cfg(self):
+        """ Return a BcacheConfig for this cacheset. """
         return BcacheConfig(self.path)
 
     def __getattr__(self, key):

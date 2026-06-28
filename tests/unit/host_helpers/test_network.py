@@ -9,6 +9,7 @@ from .. import utils
 class TestHostNetworkingHelper(utils.BaseTestCase):
     """ Unit tests for networking helper. """
     def test_get_host_interfaces(self):
+        """Test host interface names are listed."""
         expected = ['lo', 'ens3', 'ens4', 'ens5', 'ens6', 'ens7', 'ens8',
                     'ens9', 'br-ens3', 'ovs-system', 'br-tun', 'br-int',
                     'br-ex', 'br-data', 'lxdbr0', 'veth1883dceb@if16',
@@ -22,6 +23,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         self.assertEqual(names, expected)
 
     def test_get_host_interfaces_w_ns(self):
+        """Test host interfaces include namespace ifaces."""
         expected = ['lo', 'ens3', 'ens4', 'ens5', 'ens6', 'ens7', 'ens8',
                     'ens9', 'br-ens3', 'ovs-system', 'br-tun', 'br-int',
                     'br-ex', 'br-data', 'lxdbr0', 'veth1883dceb@if16',
@@ -38,11 +40,13 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         self.assertEqual(names, expected)
 
     def test_get_interface_with_addr_not_exists(self):
+        """Test lookup returns None for unknown address."""
         helper = host_network.HostNetworkingHelper()
         iface = helper.get_interface_with_addr('1.2.3.4')
         self.assertIsNone(iface)
 
     def test_get_interface_with_addr_exists(self):
+        """Test lookup returns correct interface for address."""
         expected = {'br-ens3': {
                         'addresses': ['10.0.0.128'],
                         'hwaddr': '22:c2:7b:1c:12:1b',
@@ -55,6 +59,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
 
     @mock.patch.object(host_network, 'CLIHelper')
     def test_get_interface_with_speed_exists(self, mock_cli):
+        """Test interface speed from ethtool output."""
         cli = host_cli.CLIHelper()
         orig_ip_addr = cli.ip_addr()
         orig_ip_link = cli.ip_link()
@@ -72,6 +77,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         self.assertEqual(iface.to_dict(), expected)
 
     def test_get_interface_stats(self):
+        """Test interface rx/tx packet statistics."""
         expected = {'rx': {'dropped': 0,
                            'errors': 0,
                            'overrun': 0,
@@ -84,6 +90,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         self.assertEqual(iface.stats, expected)
 
     def test_get_interfaces_cached(self):
+        """Test interface data is cached and reused."""
         helper = host_network.HostNetworkingHelper()
         _ = helper.host_interfaces_all
         ifaces = helper.cache.get('interfaces')  # pylint: disable=E1111
@@ -161,6 +168,7 @@ class TestHostNetworkingHelper(utils.BaseTestCase):
         self.assertTrue(iface_found)
 
     def test_get_ns_interfaces(self):
+        """Test namespace interface listing."""
         expected = ['lo', 'rfp-984c22fd-6@if2', 'qr-3a70b31c-3f']
         helper = host_network.HostNetworkingHelper()
         ns = 'qrouter-984c22fd-64b3-4fa1-8ddd-87090f401ce5'

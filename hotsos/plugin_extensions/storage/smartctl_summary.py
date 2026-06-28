@@ -10,6 +10,7 @@ class SmartctlSummary(SmartctlChecks):
 
     @summary_entry('smartctl', index=get_min_available_entry_index())
     def smartctl_summary(self):
+        """Return unhealthy disk information."""
         summary = {}
         if self.abnormal_disks:
             summary['unhealthy-disks'] = self.abnormal_disks

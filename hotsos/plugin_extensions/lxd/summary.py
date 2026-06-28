@@ -18,4 +18,5 @@ class LXDSummary(LXDChecks):
     @staticmethod
     @summary_entry('instances', get_min_available_entry_index())
     def summary_instances():
+        """Return LXD instance information."""
         return LXD().instances or None

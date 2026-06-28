@@ -283,6 +283,7 @@ def print_output_summary(output_root, name):
 
 
 def init_config(arguments):
+    """Populate HotSOSConfig from CLI arguments."""
     cfg = {'repo_info': get_repo_info(),
            'force_mode': arguments.force,
            'hotsos_version': get_version(),
@@ -318,6 +319,7 @@ def set_tmpdir(tmpdir):
 
 
 def main():
+    """Entry point for the hotsos CLI."""
     @click.command(name='hotsos')
     @click.option('--event', default='',
                   help=('Filter a particular event name. Useful for '

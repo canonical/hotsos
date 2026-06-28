@@ -15,6 +15,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def main():
+    """Render the summary file given as argv[1] to an HTML preview."""
     if len(sys.argv) < 2:
         sys.stderr.write(f"usage: {sys.argv[0]} <summary.yaml>\n")
         raise SystemExit(2)

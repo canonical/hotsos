@@ -76,6 +76,7 @@ class NetworkPort(HostHelpersBase):
         self.cache.set(key, value)
 
     def to_dict(self):
+        """ Return a dict representation of this network port. """
         info = {'addresses': copy.deepcopy(self.addresses),
                 'hwaddr': self.hwaddr,
                 'mtu': self.mtu,
@@ -88,6 +89,7 @@ class NetworkPort(HostHelpersBase):
 
     @property
     def speed(self):
+        """Return interface speed from ethtool output."""
         # need to strip @* since sosreport does that too
         name = self.name.partition('@')[0]
         out = CLIHelper().ethtool(interface=name)
@@ -164,10 +166,12 @@ class HostNetworkingHelper(HostHelpersBase):
 
     @property
     def cache_type(self):
+        """Return cache type identifier."""
         return 'networks'
 
     @property
     def cache_name(self):
+        """Return global cache name for this helper."""
         # this is a global cache i.e. shared by all plugins
         return 'network-helper'
 
@@ -196,6 +200,7 @@ class HostNetworkingHelper(HostHelpersBase):
         return None
 
     def cache_save(self, key, value, all_namespaces=False, namespace=None):
+        """Save network helper info to cache."""
         log.debug("saving network helper info to cache (all_namespaces=%s, "
                   "namespaces=%s)", all_namespaces, namespace)
         if namespace is not None:
@@ -330,6 +335,7 @@ class HostNetworkingHelper(HostHelpersBase):
 
     @property
     def host_interfaces(self):
+        """ List of network interfaces in the host namespace. """
         if self._host_interfaces is not None:
             return self._host_interfaces
 
@@ -338,6 +344,7 @@ class HostNetworkingHelper(HostHelpersBase):
 
     @property
     def host_ns_interfaces(self):
+        """ List of network interfaces across all namespaces. """
         if self._host_ns_interfaces is not None:
             return self._host_ns_interfaces
 
@@ -347,6 +354,7 @@ class HostNetworkingHelper(HostHelpersBase):
 
     @property
     def host_interfaces_all(self):
+        """ All host interfaces including those in namespaces. """
         return self.host_interfaces + self.host_ns_interfaces
 
     def get_interface_with_hwaddr(self, hwaddr):
@@ -358,6 +366,7 @@ class HostNetworkingHelper(HostHelpersBase):
         return None
 
     def get_interface_with_addr(self, addr):
+        """Return first interface matching the given address."""
         for iface in self.host_interfaces_all:
             for _addr in iface.addresses:
                 if _addr.startswith(addr):
@@ -366,6 +375,7 @@ class HostNetworkingHelper(HostHelpersBase):
         return None
 
     def get_interface_with_name(self, name):
+        """Return first interface matching the given name."""
         for iface in self.host_interfaces_all:
             if iface.name == name:
                 return iface
@@ -373,6 +383,7 @@ class HostNetworkingHelper(HostHelpersBase):
         return None
 
     def host_interface_exists(self, name, check_namespaces=True):
+        """ Whether an interface with the given name exists. """
         names = [_iface.name for _iface in self.host_interfaces]
         if name in names:
             return True

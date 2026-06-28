@@ -13,6 +13,7 @@ class HTMLFormatter:
 
     @staticmethod
     def render(context, template):
+        """Render a Jinja2 template with the given context."""
         # jinja 2.10.x really needs this to be a str and e.g. not a PosixPath
         templates_dir = str(HotSOSConfig.templates_path)
         if not os.path.isdir(templates_dir):
@@ -24,10 +25,12 @@ class HTMLFormatter:
         return template.render(context)
 
     def header(self, hostname):
+        """Return rendered HTML header for the given hostname."""
         return self.render({'hostname': hostname}, 'header.html')
 
     @property
     def footer(self):
+        """Return raw HTML footer content."""
         with open(os.path.join(HotSOSConfig.templates_path,
                                'footer.html'), encoding='utf-8') as fd:
             return fd.read()

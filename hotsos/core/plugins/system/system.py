@@ -80,18 +80,22 @@ class SystemBase():
     """ Base class for system checks. """
     @cached_property
     def date(self):
+        """ Return the current system date string. """
         return CLIHelper().date(no_format=True)
 
     @cached_property
     def hostname(self):
+        """ Return the system hostname. """
         return CLIHelper().hostname()
 
     @cached_property
     def uptime(self):
+        """ Return the system uptime as a string. """
         return str(UptimeHelper())
 
     @cached_property
     def os_release_name(self):
+        """ Return the Ubuntu release codename from lsb-release. """
         data_source = os.path.join(HotSOSConfig.data_root, "etc/lsb-release")
         if not os.path.exists(data_source):
             return None
@@ -132,6 +136,7 @@ class SystemBase():
 
     @cached_property
     def unattended_upgrades_enabled(self):
+        """ Check if APT unattended upgrades are enabled. """
         apt_config_dump = CLIHelper().apt_config_dump()
         if not apt_config_dump:
             return None
@@ -230,6 +235,7 @@ class SystemBase():
 
     @cached_property
     def sysctl_all(self):
+        """ Return all sysctl key-value pairs. """
         return SYSCtlFactory().sysctl_all
 
 
@@ -242,6 +248,7 @@ class SSSD():
 
     @property
     def tokengroups_enabled_domains(self):
+        """ Return AD domains with tokengroups enabled in SSSD. """
         # If not explicitly closed
         if not self.sssd_config:
             return []

@@ -17,6 +17,7 @@ class SunbeamStatus(OpenstackBase, OpenStackChecks):
     @staticmethod
     @summary_entry('sunbeam', get_min_available_entry_index() + 10)
     def summary_sunbeam():
+        """Return Sunbeam pod and statefulset info."""
         sunbeam = SunbeamInfo()
         if sunbeam.pods:
             return {'pods': sunbeam.pods,

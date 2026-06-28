@@ -280,6 +280,7 @@ class DockerImageHelper(PackageHelperBase):
         self.cli = CLIHelper()
 
     def is_installed(self, pkg):
+        """ Return True if the image is in use by a running container. """
         return pkg in self.all
 
     def _match_image(self, image, entry):
@@ -291,6 +292,7 @@ class DockerImageHelper(PackageHelperBase):
         return None, None, None
 
     def get_container_images(self):
+        """ Return list of (name, tag) tuples from running containers. """
         images = []
         for line in self.cli.docker_ps():
             ret = re.compile(r"^\S+\s+(\S+):(\S+)\s+.+").match(line)

@@ -120,6 +120,7 @@ class JujuSummary(JujuChecks):
 
     @summary_entry('machine', get_min_available_entry_index())
     def summary_machine(self):
+        """Return the Juju machine ID."""
         if self.machine:
             return self.machine.id
 
@@ -127,6 +128,7 @@ class JujuSummary(JujuChecks):
 
     @summary_entry('units', get_min_available_entry_index() + 1)
     def summary_units(self):
+        """Return unit charm info and log error tallies."""
         if not self.units:
             return None
 

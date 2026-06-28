@@ -16,10 +16,12 @@ class NullCache():
 
     @staticmethod
     def get(*args, **kwargs):
+        """ No-op cache get. """
         log.debug("null cache get() op args=%s kwargs=%s", args, kwargs)
 
     @staticmethod
     def set(*args, **kwargs):
+        """ No-op cache set. """
         log.debug("null cache set() op args=%s kwargs=%s", args, kwargs)
 
 
@@ -184,6 +186,7 @@ class ServiceManagerBase(abc.ABC):
 
 
 def get_ps_axo_flags_available():
+    """ Path to the ps axo flags sosreport file, if present. """
     path = os.path.join(HotSOSConfig.data_root,
                         "sos_commands/process/ps_axo_flags_state_"
                         "uid_pid_ppid_pgid_sid_cls_pri_addr_sz_wchan*_lstart_"
@@ -215,6 +218,7 @@ class InstallInfoBase():
     systemd: None = None
 
     def mixin(self, _self):
+        """ Copy set install-info attributes onto the target object. """
         for attr in fields(self):
             val = getattr(self, attr.name)
             if val is None:

@@ -358,6 +358,7 @@ class EventsSearchPreloader(YHandlerBase, GlobalSearcherPreloaderBase):
 
     @property
     def filter(self):
+        """ Event filter from global config. """
         return HotSOSConfig.event_filter
 
     @cached_property
@@ -456,6 +457,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
     @property
     def filter(self):
+        """ Event filter from global config. """
         return HotSOSConfig.event_filter
 
     @staticmethod
@@ -476,6 +478,7 @@ class EventHandlerBase(YHandlerBase, EventProcessingUtils):
 
     @property
     def searcher(self):
+        """ Global searcher instance. """
         return self.global_searcher.searcher
 
     @cached_property

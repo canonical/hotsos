@@ -18,6 +18,7 @@ class TestSOSReportCore(TestSOSReportBase):
                              (" Plugin networking timed out\n"
                               " Plugin system timed out\n")})
     def test_plugin_timouts_some(self):
+        """Test detection of timed out sosreport plugins."""
         c = sosreport_core.SOSReportChecks()
         self.assertEqual(c.timed_out_plugins, ['networking', 'system'])
 
@@ -25,6 +26,7 @@ class TestSOSReportCore(TestSOSReportBase):
 class TestSOSReportSummary(TestSOSReportBase):
     """ Unit tests for sosreport summary. """
     def test_version(self):
+        """Test sosreport version and dpkg info in summary."""
         inst = summary.SOSReportSummary()
         expected = {'version': '4.2',
                     'dpkg': ['sosreport 4.2-1ubuntu0.20.04.1']}
@@ -32,6 +34,7 @@ class TestSOSReportSummary(TestSOSReportBase):
         self.assertEqual(actual, expected)
 
     def test_check_plugin_timouts_none(self):
+        """Test summary excludes timeouts when none occur."""
         inst = summary.SOSReportSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertNotIn('plugin-timeouts', actual)
@@ -40,6 +43,7 @@ class TestSOSReportSummary(TestSOSReportBase):
                              (" Plugin networking timed out\n"
                               " Plugin system timed out\n")})
     def test_check_plugin_timouts_some(self):
+        """Test summary includes timed out plugins."""
         inst = summary.SOSReportSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual['plugin-timeouts'],

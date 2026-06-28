@@ -29,10 +29,12 @@ class CephCrushMap():
 
     @cached_property
     def osd_crush_dump(self):
+        """ Return decoded JSON from ceph osd crush dump. """
         return CLIHelper().ceph_osd_crush_dump_json_decoded() or {}
 
     @cached_property
     def ceph_report(self):
+        """ Return decoded JSON from ceph report. """
         return CLIHelper().ceph_report_json_decoded() or {}
 
     @cached_property
@@ -124,6 +126,7 @@ class CephCrushMap():
 
     @cached_property
     def crushmap_mixed_buckets_str(self):
+        """ Return comma-separated names of mixed-type buckets. """
         return ','.join(self.crushmap_mixed_buckets)
 
     def _is_bucket_imbalanced(self, buckets, start_bucket_id, failure_domain,
@@ -201,6 +204,7 @@ class CephCrushMap():
 
     @cached_property
     def crushmap_equal_buckets_pretty(self):
+        """ Return human-readable string of unbalanced buckets. """
         unequal = self.crushmap_equal_buckets
         if unequal:
             return ", ".join(unequal)
@@ -343,6 +347,7 @@ class CephCrushMap():
 
     @cached_property
     def crushmap_osd_count_imbalanced_pretty(self):
+        """ Return human-readable string of imbalanced buckets. """
         imbalanced = self.crushmap_osd_count_imbalanced_buckets
         if imbalanced:
             return "; ".join(imbalanced)
@@ -397,6 +402,7 @@ class CephCrushMap():
 
     @cached_property
     def autoscaler_enabled_pools(self):
+        """ Return pools with pg_autoscale_mode set to on. """
         if not self.ceph_report:
             return []
 
@@ -405,6 +411,7 @@ class CephCrushMap():
 
     @cached_property
     def autoscaler_disabled_pools(self):
+        """ Return pools without pg_autoscale_mode on. """
         if not self.ceph_report:
             return []
 
@@ -413,6 +420,7 @@ class CephCrushMap():
 
     @cached_property
     def is_rgw_using_civetweb(self):
+        """ Check if any RGW daemon uses civetweb frontend. """
         if not self.ceph_report:
             return []
 

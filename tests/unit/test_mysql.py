@@ -47,6 +47,7 @@ class TestMySQLSummary(MySQLTestsBase):
                              SYSTEMD_UNIT_FILES,
                              'sos_commands/dpkg/dpkg_-l': DPKG_L})
     def test_summary(self):
+        """Test mysql summary output matches expected packages."""
         expected = {'dpkg': [
                         'mysql-client 5.7.36-0ubuntu0.18.04.1',
                         'mysql-common 5.8+1.0.4'],

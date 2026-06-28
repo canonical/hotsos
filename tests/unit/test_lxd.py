@@ -36,6 +36,7 @@ class LXDTestsBase(utils.BaseTestCase):
 class TestLXDSummary(LXDTestsBase):
     """ Unit tests for lxd summary """
     def test_summary_keys(self):
+        """Test that lxd summary output contains expected keys."""
         expected = {'dpkg': ['lxd-agent-loader 0.4'],
                     'instances': ['juju-04f1e3-1-lxd-0',
                                   'juju-04f1e3-1-lxd-1',
@@ -60,6 +61,7 @@ class TestLXDSummary(LXDTestsBase):
     @utils.create_data_root({'sos_commands/lxd/lxd.buginfo': LXD6X_BUGINFO,
                              'sos_commands/snap/snap_list_--all': LXD6X_SNAPS})
     def test_summary_keys_lxd_6x(self):
+        """Test that lxd 6.x summary output contains expected keys."""
         expected = {'instances': ['ctr2', 'testctr'],
                     'snaps': ['lxd 6.9-a34e1d7 (6/stable)']}
         inst = summary.LXDSummary()

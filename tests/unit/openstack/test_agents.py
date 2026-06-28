@@ -126,6 +126,7 @@ NOVA_LOCK_HELD = """
 class TestOpenstackAgentEvents(TestOpenstackBase):
     """ Unit tests for OpenStack agent event checks. """
     def test_process_rpc_loop_results(self):
+        """ Test neutron OVS agent RPC loop event parsing. """
         expected = {'rpc-loop': {
                         'stats': {
                             'avg': 0.0,
@@ -163,6 +164,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
             self.assertEqual(actual['agent-checks'][section_key], expected)
 
     def test_get_router_event_stats(self):
+        """ Test neutron L3 agent router event statistics. """
         expected = {'router-spawn-events': {
                         'stats': {
                             'avg': 72.09,
@@ -227,6 +229,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/octavia/octavia-health-manager.log':
                              EVENT_OCTAVIA_CHECKS})
     def test_run_octavia_checks(self):
+        """ Test octavia heartbeat and failover detection. """
         expected = {'amp-missed-heartbeats': {
                         '3604bf2a-ee51-4135-97e2-ec08ed9321db': {
                             '2022-06-01': 1}},
@@ -254,6 +257,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/apache2/error.log':
                              EVENT_APACHE_CONN_REFUSED_LOG})
     def test_run_apache_checks(self):
+        """ Test apache connection-refused event detection. """
         expected = {'connection-refused': {
                         '2021-10-26': {'127.0.0.1:8981': 3}}}
 
@@ -268,6 +272,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
 
     @utils.create_data_root({'var/log/kern.log': AA_MSGS})
     def test_run_apparmor_checks(self):
+        """ Test apparmor denial detection for neutron. """
         expected = {'denials': {
                         'neutron': {
                             '/usr/bin/neutron-dhcp-agent': {
@@ -285,6 +290,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
 
     @utils.create_data_root({'var/log/kern.log': AA_MSGS})
     def test_run_apparmor_checks_w_time_granularity(self):
+        """ Test apparmor denials with time-level granularity. """
         HotSOSConfig.event_tally_granularity = 'time'
         expected = {'denials': {
                         'neutron': {
@@ -310,6 +316,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/nova/nova-compute.log':
                              EVENT_PCIDEVNOTFOUND_LOG})
     def test_run_nova_checks(self):
+        """ Test nova PciDeviceNotFoundById event detection. """
         expected = {'PciDeviceNotFoundById': {
                         '2022-09-17': {'0000:3b:0f.7': 1,
                                        '0000:3b:10.0': 1}}}
@@ -321,6 +328,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
         self.assertEqual(actual['agent-checks']['nova'], expected)
 
     def test_run_neutron_l3ha_checks(self):
+        """ Test neutron L3HA keepalived transition events. """
         expected = {'keepalived': {
                      'transitions': {
                          '984c22fd-64b3-4fa1-8ddd-87090f401ce5': {
@@ -335,6 +343,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @mock.patch.object(agent.events, "VRRP_TRANSITION_WARN_THRESHOLD",
                        0)
     def test_run_neutron_l3ha_checks_w_issue(self):
+        """ Test L3HA transition warning above threshold. """
         HotSOSConfig.use_all_logs = False
         expected = {'keepalived': {
                      'transitions': {
@@ -354,6 +363,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              NEUTRON_HTTP})
     def test_api_events(self):
+        """ Test neutron API HTTP request tallying. """
         with GlobalSearcher() as searcher:
             inst = agent.events.APIHTTPRequests(searcher)
             inst.run()
@@ -379,6 +389,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              '\n'.join(NOVA_REST_API[3:])},
                             copy_from_original=['sos_commands/date/date'])
     def test_nova_http_return_codes(self):
+        """ Test nova HTTP return code parsing from logs. """
         expected = {}
         with GlobalSearcher() as searcher:
             inst = agent.events.APIHTTPStatusEvents(searcher)
@@ -407,6 +418,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              '\n'.join(NOVA_REST_API[3:])},
                             copy_from_original=['sos_commands/date/date'])
     def test_nova_http_requests(self):
+        """ Test nova HTTP request method tallying. """
         expected = {}
         with GlobalSearcher() as searcher:
             inst = agent.events.APIHTTPRequests(searcher)
@@ -429,6 +441,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              NOVA_LOCK_HELD},
                             copy_from_original=['sos_commands/date/date'])
     def test_nova_lock_held_times(self):
+        """ Test nova compute lock held time detection. """
         expected = {}
         with GlobalSearcher() as searcher:
             inst = agent.events.NovaComputeEventChecks(searcher)
@@ -448,6 +461,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              NOVA_VM_BUILD_TIME},
                             copy_from_original=['sos_commands/date/date'])
     def test_nova_vm_builds(self):
+        """ Test nova VM build time event parsing. """
         expected = {}
         with GlobalSearcher() as searcher:
             inst = agent.events.NovaComputeEventChecks(searcher)
@@ -470,6 +484,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVSDBAPP_LEADER_CHANGING})
     def test_server_ovsdbapp_events(self):
+        """ Test ovsdbapp leader reconnection events. """
         with GlobalSearcher() as searcher:
             inst = agent.events.NeutronAgentEventChecks(searcher)
             inst.run()
@@ -485,6 +500,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVN_RESOURCE_VERSION_BUMP_EVENTS})
     def test_server_ovn_resource_version_bump_events(self):
+        """ Test OVN resource revision bump event parsing. """
         with GlobalSearcher() as searcher:
             inst = agent.events.NeutronAgentEventChecks(searcher)
             inst.run()
@@ -500,6 +516,7 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
     @utils.create_data_root({'var/log/neutron/neutron-server.log':
                              OVN_OVSDB_ABORTED_TRANSACTIONS})
     def test_server_ovsdb_aborted_transactions(self):
+        """ Test OVSDB aborted transaction event detection. """
         with GlobalSearcher() as searcher:
             inst = agent.events.NeutronAgentEventChecks(searcher)
             inst.run()
@@ -516,6 +533,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
                             copy_from_original=['sos_commands/systemd',
                                                 'sos_commands/dpkg'])
     def test_agent_exception_checks_simple(self):
+        """ Test agent exception detection from nova logs. """
         expected = {'error': {
                         'nova': {
                             'nova-compute': {
@@ -553,6 +571,7 @@ class TestOpenstackAgentExceptions(TestOpenstackBase):
         self.assertEqual(actual['agent-warnings'], expected['warning'])
 
     def test_agent_exception_checks(self):
+        """ Test exception/warning tallying across agents. """
         neutron_error_exceptions = {
             'neutron-openvswitch-agent': {
                 'oslo_messaging.exceptions.MessagingTimeout': {

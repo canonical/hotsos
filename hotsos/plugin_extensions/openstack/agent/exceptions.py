@@ -272,6 +272,7 @@ class AgentExceptionChecks(OpenstackBase, OpenStackChecks):
 
     @property
     def agent_results(self):
+        """Return cached agent exception search results."""
         if self._agent_results is not None:
             return self._agent_results
 

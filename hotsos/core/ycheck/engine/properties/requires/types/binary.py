@@ -23,10 +23,12 @@ class BinCheckItems(PackageCheckItemsBase):
 
     @cached_property
     def packaging_helper(self):
+        """ Return the binary package handler instance. """
         return self.bin_handler()
 
     @cached_property
     def installed_versions(self):
+        """ Return versions for each installed binary package. """
         _versions = []
         for p in self.installed:
             _versions.append(self.packaging_helper.get_version(p))

@@ -7,6 +7,7 @@ class HOTSOSDumper(yaml.Dumper):  # pylint: disable=too-many-ancestors
         return super().increase_indent(flow, False)
 
     def represent_dict_preserve_order(self, data):
+        """ Represent a dict preserving its key insertion order. """
         return self.represent_dict(data.items())
 
 

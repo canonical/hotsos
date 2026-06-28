@@ -69,4 +69,5 @@ class NovaExternalEventChecks(OpenstackEventHandlerBase):
     @summary_entry('os-server-external-events',
                    get_min_available_entry_index() + 4)
     def summary_os_server_external_events(self):
+        """Return Nova external event check results."""
         return self.run()

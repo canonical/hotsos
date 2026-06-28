@@ -27,6 +27,7 @@ class CPU(SYSFSBase):
     """ Helper to get CPU information. """
     @property
     def model(self):
+        """ CPU model name from lscpu. """
         out = host_helpers.CLIHelper().lscpu()
         if out:
             for line in out:
@@ -39,6 +40,7 @@ class CPU(SYSFSBase):
 
     @property
     def vendor(self):
+        """ CPU vendor id from lscpu (lowercased). """
         out = host_helpers.CLIHelper().lscpu()
         if out:
             for line in out:
@@ -56,15 +58,18 @@ class CPU(SYSFSBase):
 
     @property
     def smt(self):
+        """ Whether simultaneous multithreading (SMT) is active. """
         smt = self.get('devices/system/cpu/smt/active')
         return smt == '1'
 
     def cpufreq_scaling_governor(self, cpu_id):
+        """ Scaling governor for the given cpu id. """
         return self.get(f'devices/system/cpu/cpu{cpu_id}/cpufreq/'
                         'scaling_governor')
 
     @property
     def cpufreq_scaling_governor_all(self):
+        """ Comma-separated string of scaling governors across all cpus. """
         governors = set()
         for cpu_id in range(SystemBase().num_cpus):
             cpu_governor = self.cpufreq_scaling_governor(cpu_id)

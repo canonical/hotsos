@@ -12,6 +12,7 @@ class IssueTypeBase():
 
     @property
     def name(self):
+        """ Return the class name as the issue type name. """
         return self.__class__.__name__
 
 
@@ -26,12 +27,12 @@ class BugTypeBase(abc.ABC, IssueTypeBase):
     @property
     @abc.abstractmethod
     def base_url(self):
-        pass
+        """ Return the base URL for the bug tracker. """
 
     @property
     @abc.abstractmethod
     def url(self):
-        pass
+        """ Return the full URL for this specific bug. """
 
 
 class CVETypeBase(BugTypeBase):

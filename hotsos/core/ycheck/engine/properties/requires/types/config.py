@@ -44,6 +44,7 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
 
     @cached_property
     def attrs(self):
+        """Build and return assertion attribute dict."""
         _attrs = {'key': str(self.key), 'allow_unset': False, 'value': None,  # noqa, pylint: disable=E1101
                   'section': None}
         if self.value is not None:  # pylint: disable=E1101
@@ -72,6 +73,7 @@ class YConfigAssertion(OpsUtils, YPropertyMappedOverrideBase):
 
     @property
     def result(self):
+        """Evaluate config assertion against handler values."""
         handlers = self.context.assertions_ctxt['cfg_handlers']
         if not handlers:
             log.debug("no handlers found, assuming paths do not exist - "
@@ -137,11 +139,13 @@ class AssertionsLogicalGrouping(PTreeLogicalGrouping):
         return False
 
     def get_items(self):
+        """Fetch assertion items for this logical group."""
         log.debug("%s: fetching assertion items", self.__class__.__name__)
         return super().get_items()
 
     @staticmethod
     def fetch_item_result(item):
+        """Get and log the result of an assertion item."""
         result = item.result
         log.debug("%s: %s result=%s", AssertionsLogicalGrouping.__name__,
                   item.__class__.__name__, result)
@@ -156,6 +160,7 @@ class YConfigAssertions(YPropertyMappedOverrideBase):
 
     @property
     def passes(self):
+        """Run all assertions and return combined result."""
         log.debug("running assertion set")
         try:
             results = []
@@ -190,10 +195,12 @@ class YRequirementTypeConfig(YRequirementTypeBase):
 
     @property
     def handler(self):
+        """ Resolved handler class for this config assertion. """
         return self.get_cls(self.context, self.content['handler'])
 
     @property
     def path(self):
+        """ Config path for this assertion, if specified. """
         return self.content.get('path')
 
     @property
@@ -234,6 +241,7 @@ class YRequirementTypeConfig(YRequirementTypeBase):
 
     @property
     def assertions(self):
+        """Build and evaluate config assertions."""
         _assertions = []
         ctxt = YDefsContext({'vars': self.context.vars})
         # make this available to all assertions
