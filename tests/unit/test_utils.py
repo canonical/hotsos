@@ -7,6 +7,7 @@ class TestUtils(utils.BaseTestCase):
     """ Tests core utils. """
 
     def test_sample_set_regressions(self):
+        """Test sample_set_regressions with various patterns."""
         samples = [1, 2, 3]
         self.assertEqual(core_utils.sample_set_regressions(samples), 0)
         samples = [1, 2, 3, 1]
@@ -36,6 +37,7 @@ class TestUtils(utils.BaseTestCase):
                                                            ascending=False), 1)
 
     def test_sort_suffixed_integers(self):
+        """Test sorting of integers with optional suffixes."""
         self.assertEqual(core_utils.sort_suffixed_integers(
                          [1, '300', 2]),
                          [1, 2, '300'])

@@ -33,18 +33,22 @@ class TestProperty(YPropertyBase):
 
     @cached_property
     def myattr(self):
+        """ Return test attribute value '123'. """
         return '123'
 
     @property
     def myotherattr(self):
+        """ Return test attribute value '456'. """
         return '456'
 
     @property
     def always_true(self):
+        """ Always returns True. """
         return True
 
     @property
     def always_false(self):
+        """ Always returns False. """
         return False
 
 
@@ -252,6 +256,7 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
 
     @utils.create_data_root({'sos_commands/dpkg/dpkg_-l': 'ii foo 123 amd64'})
     def test_single_item(self):
+        """ Test single apt requires item caches correctly. """
         mydef = YDefsSection('mydef', yaml.safe_load("chk1:\n  apt: foo"))
         for entry in mydef.leaf_sections:
             self.assertTrue(entry.requires.result)
@@ -445,6 +450,7 @@ class TestYamlProperties(utils.BaseTestCase):
     """ Miscellaneous tests for YAML properties. """
 
     def test_yaml_def_requires_grouped(self):
+        """ Test grouped requires with mixed pass/fail defs. """
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_GROUPED))
         tested = 0
@@ -465,6 +471,7 @@ class TestYamlProperties(utils.BaseTestCase):
         self.assertEqual(tested, 4)
 
     def test_get_datetime_from_result(self):
+        """ Test datetime parsing from search results. """
         result = mock.MagicMock()
         # The lambda is necessary here. _result is changing so
         # we can't bind result's get() function directly, otherwise
@@ -554,6 +561,7 @@ class TestYamlProperties(utils.BaseTestCase):
 
     @mock.patch('hotsos.core.plugins.openstack.OpenStackChecks')
     def test_requires_grouped(self, mock_plugin):  # pylint: disable=R0915
+        """ Test grouped requires with and/or/not logic. """
         mock_plugin.return_value = mock.MagicMock()
         r1 = {'property':
               'hotsos.core.plugins.openstack.OpenStackChecks.r1'}
@@ -649,12 +657,14 @@ class TestYamlProperties(utils.BaseTestCase):
         self.assertTrue(group.requires.result)
 
     def test_yaml_def_requires_bin_installed_only(self):
+        """ Test binary requires with install check only. """
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_BIN_SHORT))
         for entry in mydef.leaf_sections:
             self.assertTrue(entry.requires.result)
 
     def test_yaml_def_requires_bin_true(self):
+        """ Test binary requires within version range. """
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_BIN))
         for entry in mydef.leaf_sections:
@@ -662,6 +672,7 @@ class TestYamlProperties(utils.BaseTestCase):
 
     @mock.patch('hotsos.core.plugins.juju.JujuBinaryInterface')
     def test_yaml_def_requires_bin_false_lt(self, mock_bininterface):
+        """ Test binary requires fails when version too low. """
         mock_bininterface.return_value = mock.MagicMock()
         mock_bininterface.return_value.is_installed.return_value = True
         mock_bininterface.return_value.get_version.return_value = 2.8
@@ -672,6 +683,7 @@ class TestYamlProperties(utils.BaseTestCase):
 
     @mock.patch('hotsos.core.plugins.juju.JujuBinaryInterface')
     def test_yaml_def_requires_bin_false_gt(self, mock_bininterface):
+        """ Test binary requires fails when version too high. """
         mock_bininterface.return_value = mock.MagicMock()
         mock_bininterface.return_value.is_installed.return_value = True
         mock_bininterface.return_value.get_version.return_value = 3.1
@@ -683,6 +695,7 @@ class TestYamlProperties(utils.BaseTestCase):
     @mock.patch('hotsos.core.ycheck.engine.properties.requires.types.apt.'
                 'APTPackageHelper')
     def test_yaml_def_requires_apt(self, mock_apt):
+        """ Test apt requires with version ranges. """
         tested = 0
         expected = {'2.0': False,
                     '3.0': True,
@@ -705,18 +718,21 @@ class TestYamlProperties(utils.BaseTestCase):
         self.assertEqual(tested, len(expected))
 
     def test_yaml_def_requires_pebble_fail(self):
+        """ Test pebble requires fails with no pebble data. """
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_PEBBLE_FAIL))
         for entry in mydef.leaf_sections:
             self.assertFalse(entry.requires.result)
 
     def test_yaml_def_requires_systemd_pass(self):
+        """ Test systemd requires passes for enabled service. """
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_PASS_1))
         for entry in mydef.leaf_sections:
             self.assertTrue(entry.requires.result)
 
     def test_yaml_def_requires_systemd_fail(self):
+        """ Test systemd requires fails for disabled service. """
         mydef = YDefsSection('mydef',
                              yaml.safe_load(YAML_DEF_REQUIRES_SYSTEMD_FAIL_1))
         for entry in mydef.leaf_sections:
@@ -728,6 +744,7 @@ class TestYamlProperties(utils.BaseTestCase):
             self.assertFalse(entry.requires.result)
 
     def test_yaml_def_requires_systemd_started_after_pass(self):
+        """ Test started-after check passes with later start. """
         current = datetime.datetime.now()
         with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
                         FakeServiceObjectManager({
@@ -741,6 +758,7 @@ class TestYamlProperties(utils.BaseTestCase):
                 self.assertTrue(entry.requires.result)
 
     def test_yaml_def_requires_systemd_started_after_fail(self):
+        """ Test started-after check fails without enough gap. """
         current = datetime.datetime.now()
         with mock.patch('hotsos.core.host_helpers.systemd.SystemdService',
                         FakeServiceObjectManager({'neutron-openvswitch-agent':
@@ -763,6 +781,7 @@ class TestYamlProperties(utils.BaseTestCase):
                 self.assertFalse(entry.requires.result)
 
     def test_cache_resolver(self):
+        """ Test property cache ref resolver renderers. """
         self.assertFalse(PropertyCacheRefResolver.is_valid_cache_ref('foo'))
         with self.assertLogs(logger='hotsos', level='WARNING') as log:
             for test in [('foo', 'first', 'foo'),

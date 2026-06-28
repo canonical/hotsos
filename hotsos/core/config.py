@@ -38,6 +38,7 @@ class ConfigOptGroupBase(UserDict):
         return super().__getattribute__(name)
 
     def add(self, opt):
+        """ Add a config option to this group. """
         self.opts[opt.name] = opt
 
 

@@ -18,6 +18,7 @@ class CephSummary(CephChecks):
 
     @summary_entry('status', get_min_available_entry_index())
     def summary_status(self):
+        """Return the Ceph cluster health status."""
         return self.cluster.health_status or None
 
     @summary_entry('network', get_min_available_entry_index() + 1)
@@ -36,6 +37,7 @@ class CephSummary(CephChecks):
 
     @summary_entry('osd-pgs-near-limit', get_min_available_entry_index() + 2)
     def summary_osd_pgs_near_limit(self):
+        """Return OSDs with PG counts above the max."""
         if self.cluster.osds_pgs_above_max:
             return self.cluster.osds_pgs_above_max
 
@@ -43,6 +45,7 @@ class CephSummary(CephChecks):
 
     @summary_entry('osd-pgs-suboptimal', get_min_available_entry_index() + 3)
     def summary_osd_pgs_suboptimal(self):
+        """Return OSDs with suboptimal PG counts."""
         if self.cluster.osds_pgs_suboptimal:
             return self.cluster.osds_pgs_suboptimal
 
@@ -50,15 +53,18 @@ class CephSummary(CephChecks):
 
     @summary_entry('versions',  get_min_available_entry_index() + 4)
     def summary_versions(self):
+        """Return unique Ceph daemon versions."""
         versions = self.cluster.ceph_daemon_versions_unique()
         return versions or None
 
     @summary_entry('mgr-modules',  get_min_available_entry_index() + 5)
     def summary_mgr_modules(self):
+        """Return enabled Ceph manager modules."""
         return self.cluster.mgr_modules or None
 
     @summary_entry('local-osds', get_min_available_entry_index() + 6)
     def summary_local_osds(self):
+        """Return sorted dict of locally running OSDs."""
         if self.local_osds:
             osds = {}
             for osd in self.local_osds:
@@ -70,8 +76,10 @@ class CephSummary(CephChecks):
 
     @summary_entry('crush-rules', get_min_available_entry_index() + 7)
     def summary_crush_rules(self):
+        """Return the CRUSH map rules."""
         return self.cluster.crush_map.rules or None
 
     @summary_entry('large-omap-pgs', get_min_available_entry_index() + 8)
     def summary_large_omap_pgs(self):
+        """Return placement groups with large OMAP."""
         return self.cluster.large_omap_pgs or None

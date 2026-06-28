@@ -21,6 +21,7 @@ class CLIExecError(Exception):
 
 
 def catch_exceptions(*exc_types):
+    """ Decorator to catch and log the given exception types. """
     def catch_exceptions_inner1(f):
         def catch_exceptions_inner2(*args, **kwargs):
             try:

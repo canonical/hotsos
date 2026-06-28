@@ -39,6 +39,7 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
     """ Unit tests for OpenStack Sunbeam . """
 
     def test_not_controller(self):
+        """ Test non-controller returns empty pods/statefulsets. """
         HotSOSConfig.data_root = 'tests/unit/fake_data_root/openstack'
         sunbeaminfo = sunbeam.SunbeamInfo()
         self.assertFalse(sunbeaminfo.is_controller)
@@ -46,6 +47,7 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
         self.assertDictEqual(sunbeaminfo.statefulsets, {})
 
     def test_pods(self):
+        """ Test sunbeam pod listing. """
         sunbeaminfo = sunbeam.SunbeamInfo()
         expected = {'Running': ['certificate-authority-0',
                                 'cinder-0',
@@ -74,6 +76,7 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
         self.assertDictEqual(sunbeaminfo.pods, expected)
 
     def test_statefulsets(self):
+        """ Test sunbeam statefulset listing. """
         sunbeaminfo = sunbeam.SunbeamInfo()
         expected = {'complete': ['certificate-authority',
                                  'cinder',
@@ -108,6 +111,7 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
          '{"name": "traefik-public"},"status": '
          '{"readyReplicas": 1,"replicas": 1}}]}'})
     def test_statefulsets_w_complete(self):
+        """ Test statefulset detected as complete. """
         sunbeaminfo = sunbeam.SunbeamInfo()
         with mock.patch.object(sunbeaminfo, 'is_controller',
                                return_value=True):
@@ -122,6 +126,7 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
          '{"name": "traefik-public"},"status": '
          '{"readyReplicas": 0,"replicas": 1}}]}'})
     def test_statefulsets_w_incomplete(self):
+        """ Test statefulset detected as incomplete. """
         sunbeaminfo = sunbeam.SunbeamInfo()
         with mock.patch.object(sunbeaminfo, 'is_controller',
                                return_value=True):
@@ -136,6 +141,7 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
          '{"name": "traefik-public"},"status": '
          '{"replicas": 1}}]}'})
     def test_statefulsets_w_missing_readreplicas_key(self):
+        """ Test statefulset incomplete when readyReplicas missing. """
         sunbeaminfo = sunbeam.SunbeamInfo()
         with mock.patch.object(sunbeaminfo, 'is_controller',
                                return_value=True):
@@ -148,6 +154,7 @@ class TestOpenstackSunbeamPluginCore(TestOpenstackSunbeamBase):
     """ Unit tests for OpenStack Sunbeam plugin core. """
 
     def test_project_catalog_snap_packages(self):
+        """ Test sunbeam snap package catalog. """
         ost_base = openstack_core.OpenstackBase()
         core = {'openstack':
                 {'version': '2024.1', 'channel': '2024.1/stable'},
@@ -164,6 +171,7 @@ class TestOpenstackSunbeamAgentEvents(TestOpenstackSunbeamBase):
                                         'events/openstack'))
     @mock.patch('hotsos.core.host_helpers.cli.common.subprocess')
     def test_sunbeam_http_return_codes_bin(self, mock_subprocess):
+        """ Test sunbeam HTTP status from kubectl binary. """
         self.skipTest("this test passes locally but fails in GH so skipping "
                       "until find a way to resolve this.")
         HotSOSConfig.data_root = '/'
@@ -176,6 +184,7 @@ class TestOpenstackSunbeamAgentEvents(TestOpenstackSunbeamBase):
             returncode: int = 0
 
         def fake_exec(cmd, *_args, **_kwargs):
+            """ Return mock output based on command. """
             if cmd[0].startswith('date'):
                 stdout = b"2025-12-02 16:19:17\n"
             elif cmd[0].startswith('kubectl'):
@@ -209,6 +218,7 @@ class TestOpenstackSunbeamAgentEvents(TestOpenstackSunbeamBase):
                 new=utils.is_def_filter('http-status.yaml',
                                         'events/openstack'))
     def test_sunbeam_http_return_codes_sosreport(self):
+        """ Test sunbeam HTTP status from sosreport data. """
         expected = {}
         with GlobalSearcher() as searcher:
             summary = agent.events.APIHTTPStatusEvents(searcher)
@@ -253,6 +263,7 @@ class TestOpenstackSunbeamAgentEvents(TestOpenstackSunbeamBase):
                 new=utils.is_def_filter('http-requests.yaml',
                                         'events/openstack'))
     def test_sunbeam_http_requests_sosreport(self):
+        """ Test sunbeam HTTP requests from sosreport data. """
         expected = {}
         with GlobalSearcher() as searcher:
             summary = agent.events.APIHTTPRequests(searcher)

@@ -25,14 +25,17 @@ class KubernetesSummary(KubernetesChecks):
 
     @summary_entry('pods', get_min_available_entry_index())
     def summary_pods(self):
+        """Return discovered Kubernetes pods."""
         return self.pods or None
 
     @summary_entry('containers', get_min_available_entry_index() + 1)
     def summary_containers(self):
+        """Return discovered Kubernetes containers."""
         return self.containers or None
 
     @summary_entry('flannel', get_min_available_entry_index() + 2)
     def summary_flannel(self):
+        """Return flannel port and address info."""
         info = {}
         for port in self.flannel_ports:
             info[port.name] = port.encap_info

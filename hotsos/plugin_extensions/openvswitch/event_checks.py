@@ -77,6 +77,7 @@ class OVSEventCallbackPortStats(OpenvSwitchEventCallbackBase):
 
     @cached_property
     def ovs(self):
+        """Return the OpenvSwitchBase instance."""
         return OpenvSwitchBase()
 
     def _get_port_stats(self, section, sequence_def):
@@ -273,6 +274,7 @@ class OVSEventChecks(OpenvSwitchEventHandlerBase):
 
     @property
     def summary_subkey(self):
+        """Return the summary sub-key for OVS checks."""
         return 'ovs-checks'
 
 
@@ -331,4 +333,5 @@ class OVNEventChecks(OpenvSwitchEventHandlerBase):
 
     @property
     def summary_subkey(self):
+        """Return the summary sub-key for OVN checks."""
         return 'ovn-checks'

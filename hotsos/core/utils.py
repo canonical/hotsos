@@ -35,6 +35,7 @@ def mktemp_dump(data, prefix=None):
 
 
 def seconds_to_date(secs):
+    """ Convert seconds to a human-readable d:h:m:s string. """
     days = int(secs / 86400)
     hours = int(secs / 3600 % 24)
     mins = int(secs / 60 % 60)
@@ -70,6 +71,7 @@ def sample_set_regressions(samples, ascending=True):
 
 
 def string_to_int_or_float(value):
+    """ Parse a string as int, falling back to float. """
     try:
         return int(value)
     except ValueError:
@@ -129,6 +131,7 @@ class PathFinderBase:
         use when searching for a given subpath. """
 
     def resolve(self, subpath):
+        """ Resolve a subpath to a full path using affinity. """
         if self.PATH_AFFINITY:
             log.debug("using affinity path %s", self.PATH_AFFINITY)
 

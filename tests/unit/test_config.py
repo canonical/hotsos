@@ -24,12 +24,14 @@ class TestOptGroup(ConfigOptGroupBase):
 class TestHotSOSConfig(utils.BaseTestCase):
     """ Unit tests for HotSOSConfig """
     def test_optgroup(self):
+        """Test ConfigOptGroup creation and defaults."""
         tog = TestOptGroup()
         self.assertEqual(len(tog), 3)
         self.assertEqual(tog.name, 'testopts')
         self.assertEqual(tog, {'opt1': None, 'opt2': True, 'opt3': False})
 
     def test_optgroup_conflict_dup(self):
+        """Test that duplicate option names raise an exception."""
 
         class AltOptGroup(ConfigOptGroupBase):
             """ dummy alt group """
@@ -45,6 +47,7 @@ class TestHotSOSConfig(utils.BaseTestCase):
             RegisteredOpts(TestOptGroup, AltOptGroup)
 
     def test_optgroup_conflict_case(self):
+        """Test that case-insensitive duplicate opts raise."""
 
         class AltOptGroup(ConfigOptGroupBase):
             """ dummy alt group """
@@ -60,6 +63,7 @@ class TestHotSOSConfig(utils.BaseTestCase):
             RegisteredOpts(TestOptGroup, AltOptGroup)
 
     def test_restore_defaults(self):
+        """Test that HotSOSConfig.reset restores defaults."""
         path = 'tests/unit/fake_data_root/openstack'
         try:
             self.assertTrue(HotSOSConfig.data_root.endswith(path))

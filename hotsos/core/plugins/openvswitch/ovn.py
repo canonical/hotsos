@@ -68,10 +68,12 @@ class OVNSBDBChassis():
 
     @cached_property
     def ports(self):
+        """ Ports bound to this chassis. """
         return self._ports
 
     @cached_property
     def cr_ports(self):
+        """ Chassis-redirect (cr-lrp) ports bound to this chassis. """
         return [p for p in self._ports if p.port_type == 'cr-lrp']
 
 
@@ -90,12 +92,14 @@ class OVNDBBase():
 
     @cached_property
     def resources_sd(self):
+        """ Sequence search definition for OVN database resources. """
         start = SearchDef([r"^(\S+)\s+(\S+)\s*.*"])
         body = SearchDef(r"^\s+(\S+)\s+(.+)")
         return SequenceSearchDef(start=start, body=body, tag='resources')
 
     @cached_property
     def resources(self):
+        """ Dict of OVN resources parsed from the database show output. """
         _resources = {}
         resource = None
         rid = None
@@ -128,6 +132,7 @@ class OVNNBDB(OVNDBBase):
 
     @cached_property
     def routers(self):
+        """ List of logical router names in the Northbound DB. """
         _routers = []
         for r, v in self.resources.items():
             if r == 'router':
@@ -138,6 +143,7 @@ class OVNNBDB(OVNDBBase):
 
     @cached_property
     def switches(self):
+        """ List of logical switch names in the Northbound DB. """
         _switches = []
         for r, v in self.resources.items():
             if r == 'switch':
@@ -159,6 +165,7 @@ class OVNSBDB(OVNDBBase):
 
     @cached_property
     def chassis(self):
+        """ List of chassis registered in the Southbound DB. """
         _chassis = []
         for r, v in self.resources.items():
             if r == 'Chassis':
@@ -193,18 +200,22 @@ class OVNBase():
 
     @cached_property
     def is_microovn(self):
+        """ Whether this host is running MicroOVN. """
         return self._is_host_type('microovn', check_snap=True)
 
     @cached_property
     def is_ovn_central(self):
+        """ Whether this host is running ovn-central. """
         return self._is_host_type('ovn-central')
 
     @cached_property
     def is_ovn_controller(self):
+        """ Whether this host is running ovn-controller. """
         return self._is_host_type('ovn-controller')
 
     @cached_property
     def sbdb(self):
+        """ OVN Southbound DB interface for central/microovn hosts. """
         if self.is_ovn_central or self.is_microovn:
             return OVNSBDB()
 
@@ -212,6 +223,7 @@ class OVNBase():
 
     @cached_property
     def nbdb(self):
+        """ OVN Northbound DB interface for central/microovn hosts. """
         if self.is_ovn_central or self.is_microovn:
             return OVNNBDB()
 

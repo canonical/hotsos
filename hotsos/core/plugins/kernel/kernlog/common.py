@@ -36,6 +36,7 @@ class CallTraceStateBase():
         self._info = {}
 
     def add(self, key, value):
+        """ Store a key-value pair in the state dict. """
         self._info[key] = value
 
     def __getattr__(self, key):
@@ -142,6 +143,7 @@ class KernLogBase():
 
     @staticmethod
     def perform_search(searchdefs):
+        """ Run search definitions against kernlog sources. """
         try:
             constraint = SearchConstraintSearchSince(
                                          ts_matcher_cls=CommonTimestampMatcher)

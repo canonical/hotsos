@@ -19,6 +19,7 @@ class KernelSummary(KernelChecks):
 
     @property
     def cpu_info(self):
+        """Return CPU vendor, model, SMT and isolation info."""
         cpu = CPU()
         info = {}
         if cpu.vendor:
@@ -53,10 +54,12 @@ class KernelSummary(KernelChecks):
 
     @summary_entry("version", 0)
     def summary_version(self):
+        """Return the kernel version."""
         return self.version or None
 
     @summary_entry("boot", 1)
     def summary_boot(self):
+        """Return kernel boot parameters."""
         if self.boot_parameters:
             return ' '.join(self.boot_parameters)
 
@@ -65,6 +68,7 @@ class KernelSummary(KernelChecks):
     @staticmethod
     @summary_entry("systemd", 2)
     def summary_systemd():
+        """Return systemd CPUAffinity config if set."""
         cfg = SystemdConfig()
         if cfg.exists:
             if cfg.get('CPUAffinity'):
@@ -74,9 +78,11 @@ class KernelSummary(KernelChecks):
 
     @summary_entry("cpu", 3)
     def summary_cpu(self):
+        """Return CPU information."""
         return self.cpu_info or None
 
     @staticmethod
     @summary_entry("memory", 4)
     def summary_memory():
+        """Return nodes with limited high-order memory."""
         return MemoryChecks().nodes_with_limited_high_order_memory_full or None

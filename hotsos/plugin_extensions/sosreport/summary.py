@@ -17,6 +17,7 @@ class SOSReportSummary(SOSReportChecks):
 
     @summary_entry('plugin-timeouts', get_min_available_entry_index())
     def summary_plugin_timeouts(self):
+        """Return plugins that timed out during collection."""
         if self.timed_out_plugins:
             return self.timed_out_plugins
 

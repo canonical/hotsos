@@ -114,6 +114,7 @@ class TemplatedTest():
 
     @property
     def target_scenario_path(self):
+        """Return the full path to the target scenario file."""
         return os.path.join(
             DEFS_DIR,
             self.sub_root,
@@ -454,6 +455,7 @@ def create_data_root(files_to_create, copy_from_original=None):
 
 
 def global_search_context(f):
+    """Decorator that wraps a test with a GlobalSearcher context."""
     def global_search_context_inner(inst, *args, **kwargs):
         with GlobalSearcher() as searcher:
             return f(inst, searcher, *args, **kwargs)
@@ -507,6 +509,7 @@ class BaseTestCase(unittest.TestCase):
 
     @staticmethod
     def part_output_to_actual(output):
+        """Convert plugin output entries to plain dict."""
         actual = {}
         for key, entry in output.items():
             actual[key] = entry.data

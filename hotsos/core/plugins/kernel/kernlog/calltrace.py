@@ -132,6 +132,7 @@ class MemFieldsBase():
     """
 
     def extract(self, part, line):
+        """ Extract memory field values from a trace line. """
         for field in self.fields:
             ret = re.search(f'{field}:{self.expr}', line)
             if ret:
@@ -483,6 +484,7 @@ class CallTraceManager(KernLogBase):
         self.run()
 
     def run(self):
+        """ Search for call traces and apply matching trace types. """
         self.results = self.perform_search([t.searchdef
                                             for t in self.tracetypes])
         if not self.results:

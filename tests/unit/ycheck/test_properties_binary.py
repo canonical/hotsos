@@ -14,6 +14,7 @@ class TestYamlRequiresTypeBinary(utils.BaseTestCase):
     """ Tests requires type binary property. """
 
     def test_binary_check_comparison(self):
+        """ Test binary version range comparison checks. """
         items = binary.BinCheckItems({'juju': [{'min': '3.0', 'max': '3.2'}]},
                                      bin_handler=juju.JujuBinaryInterface)
         self.assertEqual(items.installed, ['juju'])

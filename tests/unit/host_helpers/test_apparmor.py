@@ -7,6 +7,7 @@ from .. import utils
 class TestApparmorHelper(utils.BaseTestCase):
     """ Unit tests for apparmor helper """
     def test_aa_status_profiles(self):
+        """Test apparmor profile counts and modes."""
         helper = host_apparmor.ApparmorHelper()
         profiles = helper.profiles
         num_profiles = 2
@@ -31,6 +32,7 @@ class TestApparmorHelper(utils.BaseTestCase):
         self.assertEqual(len(profiles), num_profiles)
 
     def test_aa_profile_factory(self):
+        """Test profile factory returns correct name and mode."""
         profile = getattr(host_apparmor.AAProfileFactory(),
                           'virt-aa-helper')
         self.assertEqual(profile.name, 'virt-aa-helper')

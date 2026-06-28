@@ -149,6 +149,7 @@ class CmdBase:
         """
 
     def get_original_attr_value(self, name):
+        """ Return the stored original value of the named field. """
         return getattr(self, 'original_' + name)
 
     def reset(self):
@@ -158,6 +159,7 @@ class CmdBase:
 
     @classmethod
     def safe_readlines(cls, path):
+        """ Read file lines using surrogateescape error handling. """
         with open(path, 'r', encoding='utf-8', errors="surrogateescape") as fd:
             return fd.readlines()
 

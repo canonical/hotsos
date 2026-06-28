@@ -14,6 +14,7 @@ class LXDTestsBase(utils.BaseTestCase):
 class TestLXDSummary(LXDTestsBase):
     """ Unit tests for lxd summary """
     def test_summary_keys(self):
+        """Test that lxd summary output contains expected keys."""
         expected = {'dpkg': ['lxd-agent-loader 0.4'],
                     'instances': ['juju-04f1e3-1-lxd-0',
                                   'juju-04f1e3-1-lxd-1',

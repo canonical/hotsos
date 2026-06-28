@@ -11,6 +11,7 @@ class SunbeamInfo():
 
     @cached_property
     def is_controller(self):
+        """ Return True if the openstack snap is installed. """
         return 'openstack' in SnapPackageHelper(core_snaps=['openstack']).core
 
     @cached_property

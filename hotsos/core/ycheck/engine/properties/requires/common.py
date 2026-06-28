@@ -56,6 +56,7 @@ class PackageCheckItemsBase(CheckItemsBase):
     """
     @cached_property
     def packages_to_check(self):
+        """Return list of package names from check items."""
         return [item[0] for item in self]
 
     @property
@@ -68,11 +69,13 @@ class PackageCheckItemsBase(CheckItemsBase):
 
     @cached_property
     def installed(self):
+        """Return list of installed packages."""
         return [p for p in self.packages_to_check
                 if self.packaging_helper.is_installed(p)]
 
     @cached_property
     def not_installed(self):
+        """Return set of packages that are not installed."""
         return set(self.packages_to_check).difference(self.installed)
 
 
@@ -180,6 +183,7 @@ class YRequirementTypeBase(YPropertyOverrideBase, OpsUtils):
 
     @property
     def result(self):
+        """ Cached boolean result of this requirement type. """
         try:
             return self._result
         except Exception:
@@ -204,10 +208,12 @@ class YRequirementTypeWithOpsBase(YRequirementTypeBase):
 
     @property
     def default_ops(self):
+        """Return default operations list."""
         return [['truth']]
 
     @property
     def ops(self):
+        """Return the operations list from content or defaults."""
         if not isinstance(self.content, dict):
             return self.default_ops
 
@@ -248,10 +254,12 @@ class ServiceCheckItemsBase(CheckItemsBase):
 
     @cached_property
     def not_installed(self):
+        """Return set of services that are not installed."""
         return set(self._svcs_all).difference(self.installed)
 
     @cached_property
     def installed(self):
+        """Return dict of installed services keyed by service name."""
         return self._svcs_info.services
 
     def processes_running(self, processes):

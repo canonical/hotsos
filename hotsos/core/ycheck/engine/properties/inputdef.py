@@ -15,6 +15,7 @@ class YPropertyInputBase(ImportHelper):
     """ Base class for input property implementations. """
     @property
     def options(self):
+        """ Options dict for this input, merged with defaults. """
         defaults = {'disable-all-logs': False,
                     'args': [],
                     'kwargs': {},
@@ -28,6 +29,7 @@ class YPropertyInputBase(ImportHelper):
 
     @property
     def command(self):
+        """ Command string defined for this input, if any. """
         if not isinstance(self.content, dict):  # pylint: disable=E1101
             return None
 
@@ -65,10 +67,12 @@ class YPropertyInputBase(ImportHelper):
 
     @property
     def path(self):
+        """ Not supported on the base class; use paths instead. """
         raise AttributeError("do not call this directly")
 
     @cached_property
     def paths(self):
+        """ Resolved filesystem paths for this input. """
         fs_path = None
         if isinstance(self.content, (str, list)):  # pylint: disable=E1101
             fs_path = self.content  # pylint: disable=E1101

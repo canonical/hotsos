@@ -21,6 +21,7 @@ class _BaseProcKeyValue():
 
     @property
     def path(self):
+        """ Path to the proc file read by this class. """
         raise NotImplementedError('Method "path" must be implemened in '
                                   f'{self.__class__.__name__}.')
 
@@ -64,6 +65,7 @@ class VMStat(_BaseProcKeyValue):
 
     @property
     def compaction_failures_percent(self):
+        """ Percentage of memory compaction attempts that failed. """
         if not os.path.exists(self.path):
             return 0
 
@@ -90,30 +92,37 @@ class MemInfo(_BaseProcKeyValue):
 
     @property
     def mem_total_gb(self):
+        """ Total system memory in GB. """
         return round(self.MemTotal / (1024 * 1024))
 
     @property
     def mem_available_gb(self):
+        """ Available system memory in GB. """
         return round(self.MemAvailable / (1024 * 1024))
 
     @property
     def hugetlb_gb(self):
+        """ Total hugepage memory in GB. """
         return round(self.Hugetlb / (1024 * 1024))
 
     @property
     def huge_pages_enabled(self):
+        """ Whether hugepages are enabled on the system. """
         return self.HugePages_Total > 0
 
     @property
     def hugetlb_to_mem_total_percentage(self):
+        """ Hugepage memory as a percentage of total memory. """
         return round((self.Hugetlb * 100) / self.MemTotal)
 
     @property
     def mem_avail_to_mem_total_percentage(self):
+        """ Available memory as a percentage of total memory. """
         return round((self.MemAvailable * 100) / self.MemTotal)
 
     @property
     def hugep_used_to_hugep_total_percentage(self):
+        """ Used hugepages as a percentage of total hugepages. """
         return round(100 - (self.HugePages_Free * 100) / self.HugePages_Total)
 
 
@@ -126,10 +135,12 @@ class SlabInfo():
 
     @property
     def path(self):
+        """ Path to the slabinfo proc file. """
         return os.path.join(HotSOSConfig.data_root, "proc/slabinfo")
 
     @property
     def contents(self):
+        """ Parsed contents of /proc/slabinfo. """
         return self._slab_info
 
     def _load_slab_info(self):
@@ -170,6 +181,7 @@ class SlabInfo():
 
     @property
     def major_consumers(self):
+        """ Top five slab caches by number of objects. """
         top5 = []
         top5_name = {}
         top5_num_objs = {}
@@ -210,6 +222,7 @@ class BuddyInfo():
 
     @property
     def path(self):
+        """ Path to the buddyinfo proc file. """
         return os.path.join(HotSOSConfig.data_root, "proc/buddyinfo")
 
     @property
@@ -228,6 +241,7 @@ class BuddyInfo():
         return self._numa_nodes
 
     def get_node_zones(self, zones_type, node):
+        """ Return the buddyinfo line for a given zone type and numa node. """
         with open(self.path, encoding='utf-8') as fd:
             for line in fd:
                 if line.split()[3] == zones_type and \
@@ -247,6 +261,7 @@ class MallocInfo():
 
     @property
     def block_sizes_available(self):
+        """ Mapping of block order to number of free blocks available. """
         if self._block_sizes:
             return self._block_sizes
 
@@ -263,6 +278,7 @@ class MallocInfo():
 
     @property
     def empty_order_tally(self):
+        """ Sum of block orders that have no free blocks available. """
         tally = 0
         for order, free in self.block_sizes_available.items():
             if not free:
@@ -294,11 +310,13 @@ class MemoryChecks():
     """ Memory checks implementation. """
     @property
     def max_unavailable_block_sizes(self):
+        """ Threshold for the tally of unavailable block sizes. """
         # 0+1+...10 is 55 so threshold is this minus the max order
         return 45
 
     @property
     def max_contiguous_unavailable_block_sizes(self):
+        """ Threshold for contiguous unavailable high-order block sizes. """
         # this implies that top 5 orders are unavailable
         return 5
 
