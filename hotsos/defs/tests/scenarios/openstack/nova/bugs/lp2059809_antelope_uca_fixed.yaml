@@ -1,0 +1,7 @@
+target-name: lp2059809.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-common                     3:27.1.0-0ubuntu1.2~cloud0       all          OpenStack Compute - common files
+raised-bugs: {}
+raised-issues: {}

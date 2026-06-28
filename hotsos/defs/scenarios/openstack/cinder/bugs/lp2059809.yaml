@@ -1,0 +1,54 @@
+vars:
+  cinder_version: '@hotsos.core.host_helpers.packaging.AptFactory.version:cinder-common'
+  openstack_release: '@hotsos.core.plugins.openstack.OpenstackBase.release_name'
+checks:
+  pkg_vulnerable_ussuri:
+    - varops: [[$openstack_release], [eq, ussuri]]
+    - apt:
+        cinder-common:
+          # focal / bionic-ussuri
+          - lt: '2:16.4.2-0ubuntu2.8~cloud0'
+  pkg_vulnerable_yoga:
+    - varops: [[$openstack_release], [eq, yoga]]
+    - apt:
+        cinder-common:
+          # jammy / focal-yoga
+          - lt: '2:20.3.1-0ubuntu1.4~cloud0'
+  pkg_vulnerable_antelope:
+    - varops: [[$openstack_release], [eq, antelope]]
+    - apt:
+        cinder-common:
+          # lunar / jammy-antelope
+          - lt: '2:22.1.1-0ubuntu1.3~cloud0'
+  pkg_vulnerable_bobcat:
+    - varops: [[$openstack_release], [eq, bobcat]]
+    - apt:
+        cinder-common:
+          # mantic / jammy-bobcat
+          - lt: '2:23.0.0-0ubuntu1.4~cloud0'
+  pkg_vulnerable_caracal:
+    - varops: [[$openstack_release], [eq, caracal]]
+    - apt:
+        cinder-common:
+          # noble / jammy-caracal
+          - lt: '2:24.0.0-0ubuntu1.2~cloud0'
+conclusions:
+  pkg_is_vulnerable:
+    decision:
+      or:
+        - pkg_vulnerable_ussuri
+        - pkg_vulnerable_yoga
+        - pkg_vulnerable_antelope
+        - pkg_vulnerable_bobcat
+        - pkg_vulnerable_caracal
+    raises:
+      type: UbuntuCVE
+      cve-id: CVE-2024-32498
+      message: >-
+        The version of Openstack Cinder ({version}) running on this host is
+        impacted by security vulnerability CVE-2024-32498 where a
+        malicious QCOW2 image with an external data file allows an
+        authenticated user to read arbitrary files from the host. There is a
+        fix available in the Ubuntu archives and upgrading is recommended.
+      format-dict:
+        version: $cinder_version

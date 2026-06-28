@@ -1,0 +1,12 @@
+target-name: lp2059809.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-common                     3:25.2.1-0ubuntu2.2              all          OpenStack Compute - common files
+raised-bugs:
+  https://ubuntu.com/security/CVE-2024-32498: >-
+    The version of Openstack Nova (3:25.2.1-0ubuntu2.2) running on this host is
+    impacted by security vulnerability CVE-2024-32498 where a
+    malicious QCOW2 image with an external data file allows an
+    authenticated user to read arbitrary files from the host. There is a
+    fix available in the Ubuntu archives and upgrading is recommended.

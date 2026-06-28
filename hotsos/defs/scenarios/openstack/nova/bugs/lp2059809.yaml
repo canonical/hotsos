@@ -1,0 +1,54 @@
+vars:
+  nova_version: '@hotsos.core.host_helpers.packaging.AptFactory.version:nova-common'
+  openstack_release: '@hotsos.core.plugins.openstack.OpenstackBase.release_name'
+checks:
+  pkg_vulnerable_ussuri:
+    - varops: [[$openstack_release], [eq, ussuri]]
+    - apt:
+        nova-common:
+          # focal / bionic-ussuri
+          - lt: '2:21.2.4-0ubuntu2.8~cloud0'
+  pkg_vulnerable_yoga:
+    - varops: [[$openstack_release], [eq, yoga]]
+    - apt:
+        nova-common:
+          # jammy / focal-yoga
+          - lt: '3:25.2.1-0ubuntu2.3~cloud0'
+  pkg_vulnerable_antelope:
+    - varops: [[$openstack_release], [eq, antelope]]
+    - apt:
+        nova-common:
+          # lunar / jammy-antelope
+          - lt: '3:27.1.0-0ubuntu1.2~cloud0'
+  pkg_vulnerable_bobcat:
+    - varops: [[$openstack_release], [eq, bobcat]]
+    - apt:
+        nova-common:
+          # mantic / jammy-bobcat
+          - lt: '3:28.0.1-0ubuntu1.3~cloud0'
+  pkg_vulnerable_caracal:
+    - varops: [[$openstack_release], [eq, caracal]]
+    - apt:
+        nova-common:
+          # noble / jammy-caracal
+          - lt: '3:29.0.1-0ubuntu1.3~cloud0'
+conclusions:
+  pkg_is_vulnerable:
+    decision:
+      or:
+        - pkg_vulnerable_ussuri
+        - pkg_vulnerable_yoga
+        - pkg_vulnerable_antelope
+        - pkg_vulnerable_bobcat
+        - pkg_vulnerable_caracal
+    raises:
+      type: UbuntuCVE
+      cve-id: CVE-2024-32498
+      message: >-
+        The version of Openstack Nova ({version}) running on this host is
+        impacted by security vulnerability CVE-2024-32498 where a
+        malicious QCOW2 image with an external data file allows an
+        authenticated user to read arbitrary files from the host. There is a
+        fix available in the Ubuntu archives and upgrading is recommended.
+      format-dict:
+        version: $nova_version

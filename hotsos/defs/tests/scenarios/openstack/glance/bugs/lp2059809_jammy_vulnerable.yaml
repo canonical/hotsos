@@ -1,0 +1,16 @@
+target-name: lp2059809.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  glance-common                   2:24.2.1-0ubuntu1.1              all          OpenStack Image Registry and Delivery Service - common files
+    etc/glance/glance-api.conf: |
+      [image_import_opts]
+      image_import_plugins = image_conversion
+raised-bugs:
+  https://ubuntu.com/security/CVE-2024-32498: >-
+    The version of Openstack Glance (2:24.2.1-0ubuntu1.1) running on this host is
+    impacted by security vulnerability CVE-2024-32498 where a
+    malicious QCOW2 image with an external data file allows an
+    authenticated user to read arbitrary files from the host. Glance is
+    affected when image conversion is enabled. There is a fix available in
+    the Ubuntu archives and upgrading is recommended.
