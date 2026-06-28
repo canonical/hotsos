@@ -97,6 +97,28 @@ class EventCallbackCRCErrors(CephEventCallbackBase):
         return ret
 
 
+class EventCallbackOSDLatency(CephEventCallbackBase):
+    """ Events callback for Ceph OSD Latency events """
+    event_group = 'ceph'
+    event_names = ['osd-latency']
+
+    def __call__(self, event):
+        c_expr = re.compile(CEPH_ID_FROM_LOG_PATH_EXPR)
+        results = []
+        for r in event.results:
+            ret = c_expr.match(event.searcher.resolve_source_id(r.source_id))
+            if ret:
+                key = f"osd.{ret.group(1)}"
+            else:
+                key = None
+
+            results.append({'date': r.get(1), 'key': key})
+
+        options = self.EventProcessingOptions(squash_if_none_keys=True,
+                                              key_by_date=False)
+        return self.categorise_events(event, results=results, options=options)
+
+
 class EventCallbackHeartbeatPings(CephEventCallbackBase):
     """ Events callback for Ceph Heartbeat events """
     event_group = 'ceph'
