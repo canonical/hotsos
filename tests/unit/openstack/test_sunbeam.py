@@ -4,7 +4,9 @@ from unittest import mock
 from hotsos.core.config import HotSOSConfig
 import hotsos.core.plugins.openstack as openstack_core
 from hotsos.core.plugins.openstack import sunbeam
+from hotsos.core.issues import IssuesManager
 from hotsos.plugin_extensions.openstack import agent
+from hotsos.plugin_extensions.openstack import sunbeam as sunbeam_ext
 from hotsos.core.ycheck.common import GlobalSearcher
 from tests.unit import utils
 from tests.unit.openstack.test_openstack import TestOpenstackBase
@@ -142,6 +144,37 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
             expected = {'complete': [],
                         'incomplete': ['traefik-public']}
             self.assertDictEqual(sunbeaminfo.statefulsets, expected)
+
+    def test_pods_kubectl_error(self):
+        sunbeaminfo = sunbeam.SunbeamInfo()
+        with mock.patch.object(sunbeam.SunbeamInfo, 'is_controller', True), \
+                mock.patch.object(sunbeam, 'CLIHelper') as mock_helper:
+            mock_helper.return_value.kubectl_get.return_value = {}
+            self.assertDictEqual(sunbeaminfo.pods, {})
+            self.assertDictEqual(sunbeaminfo.statefulsets, {})
+
+    def test_pods_kubectl_no_output(self):
+        sunbeaminfo = sunbeam.SunbeamInfo()
+        with mock.patch.object(sunbeam.SunbeamInfo, 'is_controller', True), \
+                mock.patch.object(sunbeam, 'CLIHelper') as mock_helper:
+            mock_helper.return_value.kubectl_get.return_value = None
+            self.assertDictEqual(sunbeaminfo.pods, {})
+            self.assertDictEqual(sunbeaminfo.statefulsets, {})
+
+    def test_summary_controller_no_kubectl_data_raises_issue(self):
+        with mock.patch.object(sunbeam.SunbeamInfo, 'is_controller', True), \
+                mock.patch.object(sunbeam, 'CLIHelper') as mock_helper:
+            mock_helper.return_value.kubectl_get.return_value = {}
+            inst = sunbeam_ext.SunbeamStatus()
+            self.part_output_to_actual(inst.output)
+            issues = {'potential-issues': [{
+                        'message': ('this host is a sunbeam controller but no '
+                                    'kubernetes data was found - kubectl may '
+                                    'have failed (does ~/.kube/config '
+                                    'exist?)'),
+                        'origin': 'openstack.testpart',
+                        'type': 'OpenstackWarning'}]}
+            self.assertEqual(IssuesManager().load_issues(), issues)
 
 
 class TestOpenstackSunbeamPluginCore(TestOpenstackSunbeamBase):
