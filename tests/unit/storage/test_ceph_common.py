@@ -97,6 +97,57 @@ class TestCephPluginDeps(CephCommonTestsBase):
         self.assertEqual(ceph.common.CephChecks().release_name, 'reef')
 
 
+class TestCephChecks(CephCommonTestsBase):
+    """ Unit tests for ceph checks. """
+    def test_mds_balancer_disabled_by_interval(self):
+        cases = [
+            ('mds config dump',
+             [{'name': 'mds_bal_interval',
+               'section': 'mds',
+               'value': '0'}], {}, True),
+            ('global config dump',
+             [{'name': 'mds_bal_interval',
+               'section': 'global',
+               'value': '0'}], {}, True),
+            ('mds overrides global',
+             [{'name': 'mds_bal_interval',
+               'section': 'global',
+               'value': '0'},
+              {'name': 'mds_bal_interval',
+               'section': 'mds',
+               'value': '10'}], {}, False),
+            ('ceph config fallback', [], {'mds_bal_interval': '0'}, True),
+        ]
+        for name, config_dump, ceph_config, expected in cases:
+            with self.subTest(name=name):
+                checks = ceph.common.CephChecks()
+                checks.cluster.ceph_config_dump = config_dump
+                checks.cluster.crush_map.ceph_report = {}
+                checks.ceph_config = ceph_config
+                self.assertEqual(checks.mds_balancer_disabled, expected)
+
+    def test_mds_balancer_disabled_by_balance_automate(self):
+        cases = [
+            ('disabled for all filesystems',
+             [{'mdsmap': {'flags_state': {'balance_automate': False}}},
+              {'mdsmap': {'flags_state': {'balance_automate': False}}}],
+             True),
+            ('enabled for one filesystem',
+             [{'mdsmap': {'flags_state': {'balance_automate': False}}},
+              {'mdsmap': {'flags_state': {'balance_automate': True}}}],
+             False),
+            ('flag unavailable', [{'mdsmap': {}}], False),
+        ]
+        for name, filesystems, expected in cases:
+            with self.subTest(name=name):
+                checks = ceph.common.CephChecks()
+                checks.cluster.ceph_config_dump = []
+                checks.cluster.crush_map.ceph_report = {
+                    'fsmap': {'filesystems': filesystems}}
+                checks.ceph_config = {}
+                self.assertEqual(checks.mds_balancer_disabled, expected)
+
+
 @utils.load_templated_tests('scenarios/storage/ceph/common')
 class TestCephCommonScenarios(CephCommonTestsBase):
     """

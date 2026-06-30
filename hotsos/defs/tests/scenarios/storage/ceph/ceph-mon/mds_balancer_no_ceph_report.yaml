@@ -1,0 +1,7 @@
+target-name: mds_balancer.yaml
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephCrushMap.ceph_report:
+      kwargs:
+        new: {}
+raised-bugs:  # none expected

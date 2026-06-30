@@ -81,6 +81,7 @@ class CommandCatalog(UserDict):
             'ceph_versions': ceph.CephVersionsCommands(),
             'ceph_volume_lvm_list': ceph.CephVolumeLVMListCommands(),
             'ceph_report_json_decoded': ceph.CephReportCommands(),
+            'ceph_config_dump_json_decoded': ceph.CephConfigDumpCommands(),
             'ceph_mgr_module_ls': ceph.CephMgrModuleLsCommands(),
             'date':
                 [DateBinCmd('date', singleline=True),

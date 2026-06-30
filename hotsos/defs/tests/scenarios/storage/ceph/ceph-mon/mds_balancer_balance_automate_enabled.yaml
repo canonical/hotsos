@@ -1,0 +1,26 @@
+target-name: mds_balancer.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_report: |
+      {
+        "fsmap": {
+          "filesystems": [
+            {
+              "id": 1,
+              "mdsmap": {
+                "flags_state": {
+                  "balance_automate": true
+                }
+              }
+            }
+          ]
+        }
+      }
+raised-bugs:
+  https://tracker.ceph.com/issues/61378: >-
+    This Ceph cluster has CephFS configured and the MDS balancer does not
+    appear to be disabled. The MDS balancer can introduce performance and
+    stability issues. Disable it with 'sudo ceph config set mds
+    mds_bal_interval 0' (reef and later also support 'sudo ceph fs set
+    <fs_name> balance_automate false'). This change takes effect immediately
+    and does not require service restarts.
