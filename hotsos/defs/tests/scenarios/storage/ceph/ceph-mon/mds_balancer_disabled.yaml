@@ -1,0 +1,21 @@
+target-name: mds_balancer.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_config_dump_--format_json-pretty: |
+      [
+        {
+          "section": "mds",
+          "mask": "",
+          "name": "mds_bal_interval",
+          "value": "0",
+          "level": "advanced",
+          "can_update_at_runtime": true,
+          "flags": []
+        }
+      ]
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephCluster.has_filesystems:
+      kwargs:
+        new: true
+raised-bugs:  # none expected

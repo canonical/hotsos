@@ -317,6 +317,22 @@ class CephReportCommands(UserList):
         super().__init__(cmds)
 
 
+class CephConfigDumpCommands(UserList):
+    """ Generate ceph config dump command variants. """
+
+    def __init__(self):
+        prefixes = [""] + CEPH_ALIASES
+        # binary
+        cmds = [CephJSONBinCmd(f'{prefix}ceph config dump --format '
+                               'json-pretty') for prefix in prefixes]
+        # file-based
+        cmds.extend([CephJSONFileCmd('sos_commands/ceph_mon/json_output/'
+                                     f'{prefix}ceph_config_dump_'
+                                     '--format_json-pretty')
+                     for prefix in prefixes])
+        super().__init__(cmds)
+
+
 class CephMgrModuleLsCommands(UserList):
     """ Generate ceph XXX command variants. """
 

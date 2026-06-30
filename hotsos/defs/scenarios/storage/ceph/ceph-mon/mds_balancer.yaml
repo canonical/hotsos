@@ -1,0 +1,29 @@
+vars:
+  msg_main: >-
+    This Ceph cluster has CephFS configured and the MDS balancer does not
+    appear to be disabled. The MDS balancer can introduce performance and
+    stability issues. Disable it with 'sudo ceph config set mds
+    mds_bal_interval 0' (reef and later also support 'sudo ceph fs set
+    <fs_name> balance_automate false'). This change takes effect immediately
+    and does not require service restarts.
+checks:
+  cephfs_configured:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.has_filesystems
+      ops: [[eq, true]]
+  mds_balancer_not_disabled:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephChecks.mds_balancer_disabled
+      ops: [[eq, false]]
+conclusions:
+  cephtracker61378_mds_balancer_not_disabled:
+    decision:
+      - cephfs_configured
+      - mds_balancer_not_disabled
+    raises:
+      type: CephTrackerBug
+      bug-id: 61378
+      message: >-
+        {msg_main}
+      format-dict:
+        msg_main: $msg_main

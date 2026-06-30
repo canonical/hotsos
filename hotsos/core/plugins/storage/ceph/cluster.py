@@ -297,6 +297,10 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         self.crush_map = CephCrushMap()
 
     @cached_property
+    def ceph_config_dump(self):
+        return CLIHelper().ceph_config_dump_json_decoded() or []
+
+    @cached_property
     def _osd_daemon_config(self):
         """
         Try to get daemon config from any local OSD. Returns a dict of config
@@ -365,6 +369,15 @@ class CephCluster():  # pylint: disable=too-many-public-methods
     @cached_property
     def _ceph_mgr_module_ls(self):
         return CLIHelper().ceph_mgr_module_ls() or {}
+
+    @cached_property
+    def filesystems(self):
+        report = CLIHelper().ceph_report_json_decoded() or {}
+        return report.get('fsmap', {}).get('filesystems') or []
+
+    @cached_property
+    def has_filesystems(self):
+        return bool(self.filesystems)
 
     @cached_property
     def mons(self):

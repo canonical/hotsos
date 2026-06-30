@@ -345,6 +345,72 @@ class CephChecks(StorageBase):
     def local_osds_devtypes(self):
         return [osd.devtype for osd in self.local_osds]
 
+    @staticmethod
+    def _is_zero_config_value(value):
+        try:
+            return int(value) == 0
+        except (TypeError, ValueError):
+            return False
+
+    @cached_property
+    def _mds_bal_interval_is_zero(self):
+        """
+        Returns True if mds_bal_interval is explicitly set to 0, which
+        disables the balancer on all releases.
+        """
+        mds_values = []
+        global_values = []
+        for item in self.cluster.ceph_config_dump:
+            if item.get('name') != 'mds_bal_interval':
+                continue
+
+            section = item.get('section') or item.get('who')
+            if section == 'mds':
+                mds_values.append(item.get('value'))
+            elif section == 'global':
+                global_values.append(item.get('value'))
+
+        values = mds_values or global_values
+        if values:
+            return all(self._is_zero_config_value(value) for value in values)
+
+        conf_value = self.ceph_config.get('mds_bal_interval')
+        if conf_value is not None:
+            return self._is_zero_config_value(conf_value)
+
+        return False
+
+    @staticmethod
+    def _fs_balance_automate(filesystem):
+        """
+        Returns the balance_automate flag for a filesystem, or None if the
+        flag is not present (releases before reef do not expose it).
+        """
+        flags_state = (filesystem or {}).get('mdsmap', {}).get('flags_state',
+                                                               {})
+        return flags_state.get('balance_automate')
+
+    @cached_property
+    def mds_balancer_disabled(self):
+        """
+        Returns True if the CephFS MDS balancer is disabled.
+
+        The balancer can be turned off cluster-wide by setting
+        mds_bal_interval to 0 (all releases), or per-filesystem via the
+        balance_automate flag which reef and later expose and disable by
+        default.
+        """
+        if self._mds_bal_interval_is_zero:
+            return True
+
+        automate = [self._fs_balance_automate(fs)
+                    for fs in self.cluster.filesystems]
+        automate = [state for state in automate if state is not None]
+        if automate and all(state is False for state in automate):
+            return True
+
+        return False
+
     @cached_property
     def local_osds_with_oversized_bluefs_log(self):
         """
