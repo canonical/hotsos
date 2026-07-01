@@ -29,7 +29,7 @@ jobs:
             ls -R dist
             mv dist/*/*.whl dist/
 
-      - name: Publish a Python distribution to PyPI
+      - name: Publish a Python distribution to PyPI (Python ${{ matrix.python-version }})
         uses: pypa/gh-action-pypi-publish@release/v1.14
         if: github.event_name == 'push' && github.ref_name == 'main' && matrix.python-version == '3.8'
         with:
