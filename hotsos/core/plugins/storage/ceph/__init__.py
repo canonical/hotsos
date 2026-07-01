@@ -4,7 +4,8 @@ from .common import (
     CephDaemonAllOSDsFactory,
     PathFinder,
 )
-from .cluster import CephCluster, CephCrushMap
+from .cluster import CephCluster
+from .crushmap import CephCrushMap
 
 __all__ = [
     CephChecks.__name__,
