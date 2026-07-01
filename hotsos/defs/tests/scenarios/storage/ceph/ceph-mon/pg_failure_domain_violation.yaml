@@ -1,0 +1,82 @@
+target-name: pg_failure_domain_violation.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_pg_dump_--format_json-pretty: |
+      {"pg_map": {"pg_stats": [
+        {"pgid": "1.0", "up": [0, 1, 2], "state": "active+clean",
+         "stat_sum": {"num_large_omap_objects": 0},
+         "last_scrub_stamp": "2021-09-16T21:26:00.00",
+         "last_deep_scrub_stamp": "2021-09-16T21:26:00.00"},
+        {"pgid": "1.1", "up": [0, 1, 3], "state": "active+clean",
+         "stat_sum": {"num_large_omap_objects": 0},
+         "last_scrub_stamp": "2021-09-16T21:26:00.00",
+         "last_deep_scrub_stamp": "2021-09-16T21:26:00.00"}
+      ]}}
+    sos_commands/ceph_mon/json_output/ceph_osd_dump_--format_json-pretty: |
+      {"pools": [{"pool": 1, "pool_name": "rbd", "crush_rule": 0, "size": 3}],
+       "osds": []}
+    sos_commands/ceph_mon/ceph_osd_crush_dump: |
+      {
+        "devices": [
+          {"id": 0, "name": "osd.0", "class": "ssd"},
+          {"id": 1, "name": "osd.1", "class": "ssd"},
+          {"id": 2, "name": "osd.2", "class": "ssd"},
+          {"id": 3, "name": "osd.3", "class": "ssd"}
+        ],
+        "types": [
+          {"type_id": 0, "name": "osd"},
+          {"type_id": 1, "name": "host"},
+          {"type_id": 11, "name": "root"}
+        ],
+        "buckets": [
+          {
+            "id": -1, "name": "default", "type_id": 11, "type_name": "root",
+            "weight": 25000, "alg": "straw2", "hash": "rjenkins1",
+            "items": [
+              {"id": -3, "weight": 12500, "pos": 0},
+              {"id": -5, "weight": 12500, "pos": 1}
+            ]
+          },
+          {
+            "id": -3, "name": "host1", "type_id": 1, "type_name": "host",
+            "weight": 12500, "alg": "straw2", "hash": "rjenkins1",
+            "items": [
+              {"id": 0, "weight": 6250, "pos": 0},
+              {"id": 1, "weight": 6250, "pos": 1}
+            ]
+          },
+          {
+            "id": -5, "name": "host2", "type_id": 1, "type_name": "host",
+            "weight": 12500, "alg": "straw2", "hash": "rjenkins1",
+            "items": [
+              {"id": 2, "weight": 6250, "pos": 0},
+              {"id": 3, "weight": 6250, "pos": 1}
+            ]
+          }
+        ],
+        "rules": [
+          {
+            "rule_id": 0, "rule_name": "replicated_rule", "type": 1,
+            "min_size": 1, "max_size": 10,
+            "steps": [
+              {"op": "take", "item": -1, "item_name": "default"},
+              {"op": "chooseleaf_firstn", "num": 0, "type": "host"},
+              {"op": "emit"}
+            ]
+          }
+        ],
+        "tunables": {},
+        "choose_args": {}
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephCrushWarning: >-
+    Found placement groups with OSDs that violate failure domain
+    separation. This means some PGs have multiple OSDs in the same
+    failure domain bucket (e.g. same host), reducing data redundancy.
+    Affected pools: rbd (2 PGs). Check the CRUSH map and consider
+    running 'ceph osd crush reweight-subtree' or adjusting CRUSH
+    rules.
