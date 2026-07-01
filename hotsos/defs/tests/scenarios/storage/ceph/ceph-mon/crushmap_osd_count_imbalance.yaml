@@ -1,0 +1,153 @@
+# yamllint disable rule:line-length
+target-name: crushmap_osd_count_imbalance.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_osd_crush_dump: |
+        {
+            "devices": [
+                {"id": 0, "name": "osd.0", "class": "ssd"},
+                {"id": 1, "name": "osd.1", "class": "ssd"},
+                {"id": 2, "name": "osd.2", "class": "ssd"},
+                {"id": 3, "name": "osd.3", "class": "ssd"},
+                {"id": 4, "name": "osd.4", "class": "ssd"},
+                {"id": 5, "name": "osd.5", "class": "ssd"},
+                {"id": 6, "name": "osd.6", "class": "ssd"},
+                {"id": 7, "name": "osd.7", "class": "ssd"},
+                {"id": 8, "name": "osd.8", "class": "ssd"},
+                {"id": 9, "name": "osd.9", "class": "ssd"},
+                {"id": 10, "name": "osd.10", "class": "ssd"},
+                {"id": 11, "name": "osd.11", "class": "ssd"}
+            ],
+            "types": [
+                {"type_id": 0, "name": "osd"},
+                {"type_id": 1, "name": "host"},
+                {"type_id": 3, "name": "rack"},
+                {"type_id": 10, "name": "root"}
+            ],
+            "buckets": [
+                {
+                    "id": -1,
+                    "name": "default",
+                    "type_id": 10,
+                    "type_name": "root",
+                    "weight": 5723040,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {"id": -10, "weight": 3815360, "pos": 0},
+                        {"id": -20, "weight": 1907680, "pos": 1}
+                    ]
+                },
+                {
+                    "id": -10,
+                    "name": "rack1",
+                    "type_id": 3,
+                    "type_name": "rack",
+                    "weight": 3815360,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {"id": -2, "weight": 1907680, "pos": 0},
+                        {"id": -3, "weight": 1907680, "pos": 1}
+                    ]
+                },
+                {
+                    "id": -20,
+                    "name": "rack2",
+                    "type_id": 3,
+                    "type_name": "rack",
+                    "weight": 1907680,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {"id": -4, "weight": 1907680, "pos": 0}
+                    ]
+                },
+                {
+                    "id": -2,
+                    "name": "host-a",
+                    "type_id": 1,
+                    "type_name": "host",
+                    "weight": 1907680,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {"id": 0, "weight": 476920, "pos": 0},
+                        {"id": 1, "weight": 476920, "pos": 1},
+                        {"id": 2, "weight": 476920, "pos": 2},
+                        {"id": 3, "weight": 476920, "pos": 3}
+                    ]
+                },
+                {
+                    "id": -3,
+                    "name": "host-b",
+                    "type_id": 1,
+                    "type_name": "host",
+                    "weight": 1907680,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {"id": 4, "weight": 476920, "pos": 0},
+                        {"id": 5, "weight": 476920, "pos": 1},
+                        {"id": 6, "weight": 476920, "pos": 2},
+                        {"id": 7, "weight": 476920, "pos": 3}
+                    ]
+                },
+                {
+                    "id": -4,
+                    "name": "host-c",
+                    "type_id": 1,
+                    "type_name": "host",
+                    "weight": 1907680,
+                    "alg": "straw2",
+                    "hash": "rjenkins1",
+                    "items": [
+                        {"id": 8, "weight": 476920, "pos": 0},
+                        {"id": 9, "weight": 476920, "pos": 1},
+                        {"id": 10, "weight": 476920, "pos": 2},
+                        {"id": 11, "weight": 476920, "pos": 3}
+                    ]
+                }
+            ],
+            "rules": [
+                {
+                    "rule_id": 0,
+                    "rule_name": "replicated_rule",
+                    "ruleset": 0,
+                    "type": 1,
+                    "min_size": 1,
+                    "max_size": 10,
+                    "steps": [
+                        {"op": "take", "item": -1, "item_name": "default"},
+                        {"op": "chooseleaf_firstn", "num": 0, "type": "rack"},
+                        {"op": "emit"}
+                    ]
+                }
+            ],
+            "tunables": {},
+            "choose_args": {}
+        }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+    - sos_commands/ceph_mon/ceph_report
+mock:
+  patch:
+    hotsos.core.plugins.storage.ceph.CephCrushMap.autoscaler_disabled_pools:
+      kwargs:
+        new: true
+    hotsos.core.plugins.storage.ceph.CephCluster.cluster_has_non_empty_pools:
+      kwargs:
+        new: true
+raised-issues:
+  CephCrushWarning: >-
+    Significant OSD count imbalance detected across failure domain
+    buckets (racks/AZs). One or more buckets have >= 1.33x
+    the OSD count of another bucket at the same level. This can
+    result in uneven data distribution and reduced fault tolerance
+    if an AZ with the majority of OSDs is lost. Consider
+    rebalancing by adding OSDs to the smaller buckets or
+    redistributing hosts across AZs. Affected: tree 'default' at
+    the 'rack' level for device class 'ssd' (OSD counts:
+    rack1=8, rack2=4).
