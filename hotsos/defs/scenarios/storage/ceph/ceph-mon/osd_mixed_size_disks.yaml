@@ -1,0 +1,21 @@
+checks:
+  osds_have_mixed_sizes:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.mixed_size_osd_device_classes
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  osds-mixed-size-disks:
+    decision: osds_have_mixed_sizes
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Mixed size OSD disks detected within the same device class:
+        {affected_classes}. Mixed size OSDs can cause data distribution
+        imbalance if the CRUSH weights are not set proportionally to
+        disk size. Verify that crush weights reflect the actual disk sizes
+        using 'ceph osd crush reweight-all' or by manually setting weights
+        with 'ceph osd crush reweight <osd> <weight>'. If mixed sizes are
+        intentional (e.g. during a migration), ensure CRUSH weights are
+        correct to avoid overloading smaller OSDs.
+      format-dict:
+        affected_classes: hotsos.core.plugins.storage.ceph.CephCluster.mixed_size_osd_device_classes:comma_join

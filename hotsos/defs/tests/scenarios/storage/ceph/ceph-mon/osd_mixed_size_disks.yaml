@@ -1,0 +1,205 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_osd_df_tree_--format_json-pretty: |
+      {
+          "nodes": [
+              {
+                  "id": -1,
+                  "name": "default",
+                  "type": "root",
+                  "type_id": 11,
+                  "children": [
+                      -3,
+                      -5,
+                      -7
+                  ]
+              },
+              {
+                  "id": -3,
+                  "name": "host1",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      0,
+                      3
+                  ]
+              },
+              {
+                  "id": 0,
+                  "device_class": "hdd",
+                  "name": "osd.0",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 3.492920,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 3662109440,
+                  "kb_used": 1048984,
+                  "kb_used_data": 400,
+                  "kb_used_omap": 5,
+                  "kb_used_meta": 1048570,
+                  "kb_avail": 3661060456,
+                  "utilization": 0.03,
+                  "var": 1,
+                  "pgs": 100,
+                  "status": "up"
+              },
+              {
+                  "id": 3,
+                  "device_class": "ssd",
+                  "name": "osd.3",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 0.931030,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 976562500,
+                  "kb_used": 524288,
+                  "kb_used_data": 200,
+                  "kb_used_omap": 3,
+                  "kb_used_meta": 524080,
+                  "kb_avail": 976038212,
+                  "utilization": 0.05,
+                  "var": 1,
+                  "pgs": 50,
+                  "status": "up"
+              },
+              {
+                  "id": -5,
+                  "name": "host2",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      1,
+                      4
+                  ]
+              },
+              {
+                  "id": 1,
+                  "device_class": "hdd",
+                  "name": "osd.1",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 7.275390,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 7630885888,
+                  "kb_used": 2097152,
+                  "kb_used_data": 800,
+                  "kb_used_omap": 10,
+                  "kb_used_meta": 2096330,
+                  "kb_avail": 7628788736,
+                  "utilization": 0.03,
+                  "var": 1,
+                  "pgs": 200,
+                  "status": "up"
+              },
+              {
+                  "id": 4,
+                  "device_class": "ssd",
+                  "name": "osd.4",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 0.931030,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 976562500,
+                  "kb_used": 524288,
+                  "kb_used_data": 200,
+                  "kb_used_omap": 3,
+                  "kb_used_meta": 524080,
+                  "kb_avail": 976038212,
+                  "utilization": 0.05,
+                  "var": 1,
+                  "pgs": 50,
+                  "status": "up"
+              },
+              {
+                  "id": -7,
+                  "name": "host3",
+                  "type": "host",
+                  "type_id": 1,
+                  "pool_weights": {},
+                  "children": [
+                      2,
+                      5
+                  ]
+              },
+              {
+                  "id": 2,
+                  "device_class": "hdd",
+                  "name": "osd.2",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 3.492920,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 3662109440,
+                  "kb_used": 1048984,
+                  "kb_used_data": 400,
+                  "kb_used_omap": 5,
+                  "kb_used_meta": 1048570,
+                  "kb_avail": 3661060456,
+                  "utilization": 0.03,
+                  "var": 1,
+                  "pgs": 100,
+                  "status": "up"
+              },
+              {
+                  "id": 5,
+                  "device_class": "ssd",
+                  "name": "osd.5",
+                  "type": "osd",
+                  "type_id": 0,
+                  "crush_weight": 0.931030,
+                  "depth": 2,
+                  "pool_weights": {},
+                  "reweight": 1,
+                  "kb": 976562500,
+                  "kb_used": 524288,
+                  "kb_used_data": 200,
+                  "kb_used_omap": 3,
+                  "kb_used_meta": 524080,
+                  "kb_avail": 976038212,
+                  "utilization": 0.05,
+                  "var": 1,
+                  "pgs": 50,
+                  "status": "up"
+              }
+          ],
+          "stray": [],
+          "summary": {
+              "total_kb": 17884791768,
+              "total_kb_used": 5243696,
+              "total_kb_used_data": 2000,
+              "total_kb_used_omap": 29,
+              "total_kb_used_meta": 5241590,
+              "total_kb_avail": 17879548072,
+              "average_utilization": 0.03,
+              "min_var": 1,
+              "max_var": 1,
+              "dev": 0,
+              "total_pgs": 550
+          }
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    Mixed size OSD disks detected within the same device class: 'hdd'
+    (3.41 TiB - 7.11 TiB). Mixed size OSDs can cause data distribution
+    imbalance if the CRUSH weights are not set proportionally to disk size.
+    Verify that crush weights reflect the actual disk sizes using 'ceph osd
+    crush reweight-all' or by manually setting weights with 'ceph osd crush
+    reweight <osd> <weight>'. If mixed sizes are intentional (e.g. during a
+    migration), ensure CRUSH weights are correct to avoid overloading smaller
+    OSDs.
