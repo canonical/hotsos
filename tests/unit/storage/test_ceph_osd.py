@@ -263,6 +263,33 @@ class TestCephOSDEvents(StorageCephOSDTestsBase):
             for key, value in result.items():
                 self.assertEqual(actual[key], value)
 
+    @utils.create_data_root(
+        {'var/log/ceph/ceph-osd.0.log': (
+            '2022-02-10T16:20:23.226+0000 7fc33ca06700  0 '
+            'bluestore(/var/lib/ceph/osd/ceph-0) log_latency slow operation '
+            'observed for submit_transact, latency = 6.402924154s\n'
+            '2022-02-10T16:20:23.310+0000 7fc34e229700  0 '
+            'bluestore(/var/lib/ceph/osd/ceph-0) log_latency_fn slow '
+            'operation observed for _txc_committed_kv, latency = '
+            '6.485089964s, txc = 0x55d96303af00\n'
+            '2022-02-10T16:20:31.998+0000 7fc33ea0a700  0 '
+            'bluestore(/var/lib/ceph/osd/ceph-0) log_latency slow operation '
+            'observed for submit_transact, latency = 5.894541264s\n')})
+    @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
+                new=utils.is_def_filter('osd/osdlogs.yaml',
+                                        'events/storage/ceph'))
+    @mock.patch('hotsos.core.search.CLIHelper')
+    def test_ceph_daemon_osd_latency(self, mock_cli):
+        mock_cli.return_value = mock.MagicMock()
+        mock_cli.return_value.date.return_value = "2021-01-01 00:00:00"
+        result = {'osd-latency': {'osd.0': {'2022-02-10': 3}}}
+
+        with GlobalSearcher() as global_searcher:
+            inst = ceph_event_checks.CephEventHandler(global_searcher)
+            actual = self.part_output_to_actual(inst.output)
+            for key, value in result.items():
+                self.assertEqual(actual[key], value)
+
 
 @utils.load_templated_tests('scenarios/storage/ceph/ceph-osd')
 class TestCephOSDScenarios(StorageCephOSDTestsBase):
