@@ -211,6 +211,7 @@ class ExtraSearchConstraints():
         return [r[1] for r in results]
 
     def apply(self, results, search_period_hours=None, min_results=None):
+        """ Filter results by time period and minimum count. """
         if results:
             results = self.filter_by_period(results, search_period_hours)
 

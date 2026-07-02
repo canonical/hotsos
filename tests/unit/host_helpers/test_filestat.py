@@ -10,6 +10,7 @@ class TestFileStatHelper(utils.BaseTestCase):
     """ Unit tests for filesstat helper """
     @utils.create_data_root({'foo': 'bar'})
     def test_filestat_factory(self):
+        """Test file mtime and missing file handling."""
         fpath = os.path.join(HotSOSConfig.data_root, 'foo')
         fileobj = host_file.FileFactory().foo
         self.assertEqual(fileobj.mtime, os.path.getmtime(fpath))

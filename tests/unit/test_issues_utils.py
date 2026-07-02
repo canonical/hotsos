@@ -19,6 +19,7 @@ class TestIssuesUtils(utils.BaseTestCase):
         HotSOSConfig.machine_readable = False
 
     def test_get_issues(self):
+        """Test loading issues from an empty yaml file."""
         raised_issues = {}
         with open(os.path.join(self.plugin_tmp_dir, 'yaml'),
                   'w', encoding='utf-8') as fd:
@@ -29,6 +30,7 @@ class TestIssuesUtils(utils.BaseTestCase):
         self.assertEqual(ret, raised_issues)
 
     def test_issue_not_machine_readable(self):
+        """Test issue format in non-machine-readable mode."""
         mgr = IssuesManager()
         mgr.add(MemoryWarning("test"))
         ret = mgr.load_issues()
@@ -37,6 +39,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                           {'MemoryWarnings': ['test']}})
 
     def test_issue_machine_readable(self):
+        """Test issue format in machine-readable mode."""
         HotSOSConfig.machine_readable = True
         mgr = IssuesManager()
         mgr.add(MemoryWarning("test"))
@@ -48,6 +51,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                             'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_w_empty_context(self):
+        """Test adding issue with empty IssueContext."""
         HotSOSConfig.machine_readable = True
         ctxt = IssueContext()
         mgr = IssuesManager()
@@ -60,6 +64,7 @@ class TestIssuesUtils(utils.BaseTestCase):
                             'origin': 'testplugin.testpart'}]})
 
     def test_add_issue_empty_context(self):
+        """Test adding issue with populated IssueContext."""
         HotSOSConfig.machine_readable = True
         ctxt = IssueContext()
         ctxt.set(linenumber=123, path='/foo/bar')
@@ -77,6 +82,7 @@ class TestIssuesUtils(utils.BaseTestCase):
 class TestKnownBugsUtils(utils.BaseTestCase):
     """ Unit tests for known bugs utils. """
     def test_get_known_bugs(self):
+        """Test loading known bugs from yaml file."""
         known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
                         'message': None,
@@ -90,10 +96,12 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         self.assertEqual(ret, known_bugs)
 
     def test_get_known_bugs_none(self):
+        """Test loading bugs returns empty when no file exists."""
         ret = IssuesManager().load_bugs()
         self.assertEqual(ret, {})
 
     def test_add_issue_first(self):
+        """Test adding a bug when no prior bugs exist."""
         mgr = IssuesManager()
         mgr.add(LaunchpadBug(1, None))
         ret = mgr.load_bugs()
@@ -105,6 +113,7 @@ class TestKnownBugsUtils(utils.BaseTestCase):
                            ]})
 
     def test_add_issue(self):
+        """Test adding a bug to existing known bugs."""
         known_bugs = {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                       [{'id': 'https://bugs.launchpad.net/bugs/1',
                         'message': None,

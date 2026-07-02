@@ -13,31 +13,38 @@ class TestCLI(utils.BaseTestCase):
     """ Unit tests for HotSOS cli. """
 
     def test_get_hotsos_root(self):
+        """Test hotsos root path extraction from sys.argv."""
         with mock.patch.object(sys, 'argv', ['/usr/bin/hotsos', '1', '2']):
             self.assertEqual(hotsos.cli.get_hotsos_root(), '/usr/bin')
 
     def test_get_version_exists(self):
+        """Test version retrieval from SNAP_REVISION env var."""
         with mock.patch.dict(os.environ,
                              {'SNAP_REVISION': 'edge'}):
             self.assertEqual(hotsos.cli.get_version(), 'edge')
 
     def test_is_not_snap(self):
+        """Test is_snap returns False without SNAP_NAME."""
         self.assertFalse(hotsos.cli.is_snap())
 
     def test_is_snap(self):
+        """Test is_snap returns True with SNAP_NAME set."""
         with mock.patch.dict(os.environ, {'SNAP_NAME': 'hotsos'}):
             self.assertTrue(hotsos.cli.is_snap())
 
     def test_get_os_id(self):
+        """Test OS id retrieval via distro module."""
         with mock.patch.object(distro, 'id', return_value='ubuntu-test'):
             self.assertEqual(hotsos.cli.get_os_id(), 'ubuntu-test')
 
     def test_get_os_version(self):
+        """Test OS version retrieval via distro module."""
         with mock.patch.object(distro, 'version', return_value='22.04'):
             self.assertEqual(hotsos.cli.get_os_version(), 22.04)
 
     @staticmethod
     def test_is_os_version_supported_in_snap():
+        """Test OS version check exits for unsupported snaps."""
         with mock.patch.object(sys, 'exit') as mock_exit:
             with mock.patch.dict(os.environ, {'SNAP_NAME': 'hotsos'}):
                 with mock.patch.object(distro, 'id',
@@ -54,6 +61,7 @@ class TestCLI(utils.BaseTestCase):
             mock_exit.assert_has_calls([mock.call(1), mock.call(2)])
 
     def test_get_templates_path_pypi(self):
+        """Test templates path resolution for pypi install."""
         with tempfile.TemporaryDirectory() as workdir:
             d_templates_path = os.path.join(workdir, 'templates')
             os.makedirs(d_templates_path)
@@ -64,6 +72,7 @@ class TestCLI(utils.BaseTestCase):
             self.assertEqual(templates_path, d_templates_path)
 
     def test_get_defs_path_pypi(self):
+        """Test defs path resolution for pypi install."""
         with tempfile.TemporaryDirectory() as workdir:
             d_defs_path = os.path.join(workdir, 'defs')
             os.makedirs(d_defs_path)
@@ -74,6 +83,7 @@ class TestCLI(utils.BaseTestCase):
             self.assertEqual(defs_path, d_defs_path)
 
     def test_get_repo_info_snap(self):
+        """Test repo info retrieval from REPO_INFO_PATH."""
         with tempfile.TemporaryDirectory() as workdir:
             f_repo_info = os.path.join(workdir, 'repo-info')
             with open(f_repo_info, 'w', encoding='utf-8') as fd:
@@ -85,6 +95,7 @@ class TestCLI(utils.BaseTestCase):
         self.assertEqual(repo_info, 'some version')
 
     def test_get_repo_info_pypi(self):
+        """Test repo info retrieval for pypi install."""
         with tempfile.TemporaryDirectory() as workdir:
             f_repo_info = os.path.join(workdir, 'repo-info')
             with open(f_repo_info, 'w', encoding='utf-8') as fd:

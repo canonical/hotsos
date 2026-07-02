@@ -17,6 +17,7 @@ class TestConfigHelper(utils.BaseTestCase):
     """ Unit tests for config helper """
     @utils.create_data_root({'test.conf': DUMMY_CONFIG})
     def test_iniconfig_base(self):
+        """Test INI config key lookup and list expansion."""
         conf = os.path.join(HotSOSConfig.data_root, 'test.conf')
         cfg = host_config.IniConfigBase(conf)
         self.assertTrue(cfg.exists)
@@ -35,6 +36,7 @@ class TestConfigHelper(utils.BaseTestCase):
 
     @utils.create_data_root({'test.conf': DUMMY_CONFIG})
     def test_squash_int_range(self):
+        """Test integer list to range string conversion."""
         self.assertEqual(host_config.ConfigBase.squash_int_range([]), '')
         expanded = list(range(2, 9))
         self.assertEqual(host_config.ConfigBase.squash_int_range(expanded),

@@ -124,6 +124,7 @@ class DecisionBase():
     """ base class for decision property. """
 
     def get_check_item(self, name):
+        """ Look up a check by name from the context checks dict. """
         checks = self.context.checks  # pylint: disable=E1101
         try:
             log.debug("%s: get_check_item() %s", self.__class__.__name__,
@@ -140,6 +141,7 @@ class DecisionLogicalGrouping(DecisionBase, PTreeLogicalGrouping):
     override_autoregister = False
 
     def get_items(self):
+        """ Resolve literal items to check objects and return list. """
         items = []
         for item in super().get_items():
             if isinstance(item, PTreeOverrideLiteralType):
@@ -160,6 +162,7 @@ class YPropertyDecision(DecisionBase, YPropertyMappedOverrideBase):
 
     @property
     def result(self):
+        """ Evaluate all decision members and return combined result. """
         # pylint: disable=duplicate-code
         results = []
         try:
@@ -208,6 +211,7 @@ class YPropertyConclusion(YPropertyMappedOverrideBase):
 
     @property
     def name(self):
+        """ Return the conclusion name if set, otherwise None. """
         if hasattr(self, 'conclusion_name'):
             return getattr(self, 'conclusion_name')
 

@@ -29,10 +29,12 @@ class HotSOSSummary(plugintools.PluginPartBase):
 
     @classmethod
     def is_runnable(cls):
+        """Return True since this plugin always runs."""
         return True
 
     @property
     def summary(self):
+        """Return hotsos version and repo info."""
         out = {'version': HotSOSConfig.hotsos_version,
                'repo-info': HotSOSConfig.repo_info}
         if HotSOSConfig.force_mode:
@@ -129,17 +131,20 @@ class OutputBuilder:
         return filtered
 
     def filter(self, plugin_name=None):
+        """Filter content to a single plugin."""
         if plugin_name:
             self.content = {plugin_name: self.content[plugin_name]}
         return self
 
     def minimal(self, mode=None):
+        """Apply minimal output mode."""
         if mode:
             self.content = self._minimise(self.content, mode)
         return self
 
     def to(self, fmt: Literal[SUPPORTED_SUMMARY_FORMATS],
            **kwargs):
+        """Convert content to the specified format."""
         if fmt == "html":
             return self.to_html(**kwargs)
         if fmt == "json":
@@ -152,6 +157,7 @@ class OutputBuilder:
         raise UnsupportedFormatError(fmt)
 
     def to_html(self, *, max_level=2, html_escape=False):
+        """Render content as HTML."""
         hostname = CLIHelper().hostname() or ""
         result = plugintools.HTMLFormatter(
             hostname=hostname,
@@ -161,12 +167,15 @@ class OutputBuilder:
         return result if not html_escape else html.escape(result)
 
     def to_json(self):
+        """Render content as JSON."""
         return json.dumps(self.content, indent=2, sort_keys=True)
 
     def to_yaml(self):
+        """Render content as YAML."""
         return plugintools.yaml_dump(self.content)
 
     def to_markdown(self):
+        """Render content as Markdown."""
         return plugintools.MarkdownFormatter().dump(self.content)
 
 
@@ -177,6 +186,7 @@ class OutputManager():
         self._summary = initial or {}
 
     def get_builder(self):
+        """Return an OutputBuilder for the current summary."""
         return OutputBuilder(self._summary)
 
     @staticmethod
@@ -262,6 +272,7 @@ class OutputManager():
         return output_root
 
     def update(self, plugin, content):
+        """Add or replace a plugin's content."""
         self._summary[plugin] = content
 
 
@@ -287,6 +298,7 @@ class HotSOSClient():
 
     @staticmethod
     def teardown_global_env():
+        """Remove global temporary directory."""
         log.debug("tearing down global env")
         if os.path.exists(HotSOSConfig.global_tmp_dir):
             shutil.rmtree(HotSOSConfig.global_tmp_dir)
@@ -303,6 +315,7 @@ class HotSOSClient():
 
     @property
     def summary(self):
+        """Return the output manager."""
         return self._summary
 
     def run(self):

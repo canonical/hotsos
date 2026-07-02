@@ -110,6 +110,7 @@ class SystemTestsBase(utils.BaseTestCase):
 class TestSystemSummary(SystemTestsBase):
     """ Unit tests for system summary """
     def test_get_service_info(self):
+        """Test system summary output contents."""
         expected = {'date': 'Thu Feb 10 16:19:17 UTC 2022',
                     'load': '3.58, 3.27, 2.58',
                     'hostname': 'compute4',
@@ -130,6 +131,7 @@ class TestNUMAInfo(SystemTestsBase):
     """ Unit tests for numa info """
     @mock.patch('hotsos.core.plugins.system.system.CLIHelper')
     def test_numainfo(self, mock_helper):
+        """Test NUMA node and core info parsing."""
         mock_helper.return_value = mock.MagicMock()
         mock_helper.return_value.numactl.return_value = NUMACTL
         nodes = {0: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30,
@@ -146,6 +148,7 @@ class TestNUMAInfo(SystemTestsBase):
 class TestSYSCtlChecks(SystemTestsBase):
     """ Unit tests for sysctl checks """
     def test_sysctl_checks(self):
+        """Test sysctl mismatch detection."""
         expected = {'juju-charm-sysctl-mismatch': {
                         'kernel.pid_max': {
                             'conf': '50-ceph-osd-charm.conf',
@@ -156,6 +159,7 @@ class TestSYSCtlChecks(SystemTestsBase):
         self.assertEqual(actual, expected)
 
     def test_sysctl_checks_w_issue(self):
+        """Test sysctl mismatch with custom config files."""
         expected = {'sysctl-mismatch': {
                         'kernel.pid_max': {
                             'actual': '4194304',
@@ -216,11 +220,13 @@ class TestUbuntuPro(SystemTestsBase):
     """ Unit tests for ubuntu pro checks """
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_pro_attached(self, mock_helper):
+        """Test Ubuntu Pro attached status parsing."""
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(contextlib.AbstractContextManager):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
+                    """Write Ubuntu Pro attached output."""
                     with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UBUNTU_PRO_ATTACHED))
 
@@ -263,11 +269,13 @@ class TestUbuntuPro(SystemTestsBase):
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_pro_not_attached(self, mock_helper):
+        """Test Ubuntu Pro not-attached status parsing."""
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(contextlib.AbstractContextManager):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
+                    """Write Ubuntu Pro not-attached output."""
                     with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UBUNTU_PRO_NOT_ATTACHED))
 
@@ -286,11 +294,13 @@ class TestUbuntuPro(SystemTestsBase):
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_advantage_attached(self, mock_helper):
+        """Test Ubuntu Advantage attached status parsing."""
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(contextlib.AbstractContextManager):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
+                    """Write UA attached output."""
                     with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UA_ATTACHED))
 
@@ -338,11 +348,13 @@ class TestUbuntuPro(SystemTestsBase):
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_advantage_attached_with_notice(self, mock_helper):
+        """Test UA attached status with notice section."""
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(contextlib.AbstractContextManager):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
+                    """Write UA attached-with-notice output."""
                     with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UA_ATTACHED_WITH_NOTICE))
 
@@ -379,11 +391,13 @@ class TestUbuntuPro(SystemTestsBase):
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_advantage_not_attached(self, mock_helper):
+        """Test UA not-attached status parsing."""
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(contextlib.AbstractContextManager):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
+                    """Write UA not-attached output."""
                     with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write(''.join(UA_NOT_ATTACHED))
 
@@ -402,11 +416,13 @@ class TestUbuntuPro(SystemTestsBase):
 
     @mock.patch('hotsos.core.plugins.system.system.CLIHelperFile')
     def test_ubuntu_pro_invalid(self, mock_helper):
+        """Test Ubuntu Pro invalid output handling."""
         with tempfile.NamedTemporaryFile() as ftmp:
             class FakeCLIHelperFile(contextlib.AbstractContextManager):
                 """ fake clihelper """
                 @staticmethod
                 def pro_status():
+                    """Write invalid Ubuntu Pro output."""
                     with open(ftmp.name, 'w', encoding='utf-8') as fd:
                         fd.write('M' + ''.join(UBUNTU_PRO_ATTACHED[1:]))
 

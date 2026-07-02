@@ -24,6 +24,7 @@ class CephDaemonBase():
 
     @classmethod
     def get_date_secs(cls, datestring=None):
+        """ Convert a date string to epoch seconds, or return now. """
         if datestring:
             cmd = ["date", "--utc", f"--date={datestring}", "+%s"]
             date_in_secs = subprocess.check_output(cmd)
@@ -132,6 +133,7 @@ class CephOSD(CephDaemonBase):
         self.dump = dump
 
     def to_dict(self):
+        """ Serialise OSD metadata to a dictionary. """
         d = {self.id: {
              'fsid': self.fsid,
              'dev': self.device}}
@@ -149,6 +151,7 @@ class CephOSD(CephDaemonBase):
 
     @cached_property
     def devtype(self):
+        """ Return the device class of this OSD from the OSD tree. """
         osd_tree = CLIHelper().ceph_osd_df_tree_json_decoded()
         if not osd_tree:
             return None

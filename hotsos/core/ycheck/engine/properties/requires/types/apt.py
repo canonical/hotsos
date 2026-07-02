@@ -22,6 +22,7 @@ class APTCheckItems(PackageCheckItemsBase):
 
     @cached_property
     def installed_versions(self):
+        """ Return versions of all installed checked packages. """
         return [self.packaging_helper.get_version(p) for p in self.installed]
 
 

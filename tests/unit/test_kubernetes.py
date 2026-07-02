@@ -38,6 +38,7 @@ class KubernetesTestsBase(utils.BaseTestCase):
 class TestKubernetesSummary(KubernetesTestsBase):
     """ Unit tests for kubernetes summary. """
     def test_services(self):
+        """Test kubernetes services summary output."""
         expected = {'systemd': {
                         'enabled': [
                             'calico-node',
@@ -62,6 +63,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
                          expected)
 
     def test_snaps(self):
+        """Test kubernetes snaps summary output."""
         result = ['cdk-addons 1.23.0 (latest/stable)',
                   'core 16-2.54.2 (latest/stable)',
                   'core18 20211215 (latest/stable)',
@@ -77,6 +79,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
 
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')
     def test_snaps_no_k8s(self, mock_helper):
+        """Test summary is not runnable without k8s snaps."""
         mock_helper.return_value.snap_list_all.return_value = \
             SNAP_LIST_ALL_NO_K8S.splitlines()
         inst = summary.KubernetesSummary()
@@ -84,6 +87,7 @@ class TestKubernetesSummary(KubernetesTestsBase):
         self.assertNotIn('snaps', inst.output)
 
     def test_network_info(self):
+        """Test kubernetes flannel network info output."""
         expected = {'flannel.1': {'addr': '10.1.84.0',
                                   'vxlan': {'dev': 'ens3',
                                             'id': '1',
@@ -94,8 +98,9 @@ class TestKubernetesSummary(KubernetesTestsBase):
 
     @mock.patch.object(host_helpers.packaging, 'CLIHelper')
     def test_snaps_microk8s(self, mock_helper):
+        """Test summary with microk8s snap installed."""
         mock_helper.return_value.snap_list_all.return_value = \
-                SNAP_LIST_ALL_MICROK8S.splitlines()
+            SNAP_LIST_ALL_MICROK8S.splitlines()
         inst = summary.KubernetesSummary()
         result = ['core18 20230320 (latest/stable)',
                   'core20 20230308 (latest/stable)',

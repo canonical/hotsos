@@ -121,10 +121,12 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
         self._loaded_searches.append(label)
 
     def is_loaded(self, label):
+        """ Check whether a search label has been registered. """
         return label in self._loaded_searches
 
     @property
     def searcher(self):
+        """ Return the global FileSearcher instance. """
         return self._searcher
 
     @property
@@ -177,6 +179,7 @@ class GlobalSearcher(contextlib.AbstractContextManager, UserDict):
                               allow_global_constraints=True)
 
     def run(self):
+        """ Trigger search execution and cache the results. """
         _ = self.results
 
 
@@ -236,6 +239,7 @@ class GlobalSearcherPreloaderBase():
 
     @staticmethod
     def skip_filtered(path_filter, path):
+        """ Return True if path does not match the filter regex. """
         if not path_filter:
             return False
 
@@ -292,6 +296,7 @@ class GlobalSearcherAutoRegisterBase(metaclass=GlobalSearcherAutoRegisterMeta):
 
     @property
     def passthrough_results(self):
+        """ Return whether results bypass post-processing. """
         return False
 
     @classmethod

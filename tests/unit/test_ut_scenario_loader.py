@@ -12,10 +12,12 @@ class FakeTemplatedTestGenerator():
     """ Fake templated test generator. """
     @property
     def test_method_name(self):
+        """Return a random UUID as the test method name."""
         return str(uuid.uuid4())
 
     @property
     def test_method(self):
+        """Return a dummy test method value."""
         return 'can be anything'
 
 
@@ -56,6 +58,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
     """ Tests for automated templated scenarios unit test loader. """
     @staticmethod
     def create_scenarios(path, levels=1):
+        """Create fake scenario yaml files at given depth."""
         _path = os.path.join(path, 'scenarios', HotSOSConfig.plugin_name)
         for lvl in range(1, levels + 1):
             _path = os.path.join(_path, str(lvl))
@@ -76,6 +79,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
 
     @staticmethod
     def create_tests(path, levels=1):
+        """Create fake test yaml files at given depth."""
         _path = os.path.join(path, 'tests/scenarios', HotSOSConfig.plugin_name)
         for lvl in range(1, levels + 1):
             _path = os.path.join(_path, str(lvl))
@@ -104,6 +108,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                     fd.write(FAKE_TEST_W_TARGET)
 
     def test_check_test_names(self):
+        """Test generated test method names from templates."""
         with tempfile.TemporaryDirectory() as dtmp:
             self.create_tests(dtmp, levels=1)
             self.create_scenarios(dtmp, levels=1)
@@ -126,6 +131,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                                 in tests)
 
     def test_find_all_templated_tests(self):
+        """Test discovery of all templated test files."""
         with tempfile.TemporaryDirectory() as dtmp:
             paths = []
             self.create_tests(dtmp, levels=3)
@@ -155,6 +161,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
 
     @mock.patch.object(utils, 'TemplatedTestGenerator')
     def test_load_templated_tests_single(self, mock_test_gen):
+        """Test loading a single templated test."""
         mock_test_gen.return_value = FakeTemplatedTestGenerator()
         with tempfile.TemporaryDirectory() as dtmp:
             self.create_tests(dtmp)
@@ -165,7 +172,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                     @utils.load_templated_tests('scenarios/testplugin/1')
                     @staticmethod
                     def faketest():
-                        pass
+                        """Dummy test for template loading."""
 
                 FakeTests().faketest()
                 plugin_path = 'tests/scenarios/testplugin'
@@ -175,6 +182,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
 
     @mock.patch.object(utils, 'TemplatedTestGenerator')
     def test_load_templated_tests_multi(self, mock_test_gen):
+        """Test loading multiple nested templated tests."""
         mock_test_gen.return_value = FakeTemplatedTestGenerator()
         with tempfile.TemporaryDirectory() as dtmp:
             self.create_tests(dtmp, levels=3)
@@ -212,6 +220,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                 mock_test_gen.assert_has_calls(calls, any_order=True)
 
     def test_is_def_filter(self):
+        """Test is_def_filter with a standalone scenario."""
         with tempfile.TemporaryDirectory() as dtmp:
             self.create_scenarios(dtmp, levels=3)
             self.create_tests(dtmp, levels=3)
@@ -227,6 +236,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                 )()(self)
 
     def test_scenarios(self):
+        """Test running loaded scenarios at multiple levels."""
         with tempfile.TemporaryDirectory() as dtmp, \
              mock.patch.object(utils, 'DEFS_DIR', dtmp), \
              mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
@@ -264,6 +274,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                 HotSOSConfig.set(**orig_config)
 
     def test_scenarios_deep(self):
+        """Test running scenarios from a deep nested path."""
         with tempfile.TemporaryDirectory() as dtmp, \
              mock.patch.object(utils, 'DEFS_DIR', dtmp), \
              mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):
@@ -294,6 +305,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                 HotSOSConfig.set(**orig_config)
 
     def test_scenarios_no_such_target(self):
+        """Test FileNotFoundError for missing scenario dir."""
         with tempfile.TemporaryDirectory() as dtmp, \
              mock.patch.object(utils, 'DEFS_DIR', dtmp), \
              mock.patch.object(utils, 'DEFS_TESTS_DIR', dtmp + '/tests'):

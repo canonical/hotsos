@@ -46,6 +46,7 @@ class SystemdConfig(host_helpers.IniConfigBase):
 
     @property
     def cpuaffinity_enabled(self):
+        """ Whether CPUAffinity is set in systemd config. """
         if self.get('CPUAffinity'):
             return True
 

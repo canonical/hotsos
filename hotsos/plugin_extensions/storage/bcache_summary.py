@@ -17,6 +17,7 @@ class BcacheSummary(BcacheChecks):
 
     @summary_entry('cachesets', get_min_available_entry_index())
     def summary_cachesets(self):
+        """Return bcache cacheset state and backing devices."""
         _state = {}
         for cset in self.cachesets:
             _cset = {'cache_available_percent':

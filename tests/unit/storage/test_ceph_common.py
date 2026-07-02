@@ -45,6 +45,7 @@ class TestCephConfig(CephCommonTestsBase):
     """ Test for ceph config class """
 
     def test_config(self):
+        """Test ceph config keys are parsed correctly."""
         conf = ceph.common.CephConfig()
         expected = ['auth cluster required',
                     'auth service required',
@@ -72,6 +73,7 @@ class TestCephConfig(CephCommonTestsBase):
     @utils.create_data_root(files_to_create={
         'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF})
     def test_microceph_config(self):
+        """Test microceph snap config keys are parsed."""
         conf = ceph.common.CephConfig()
         expected = ['run dir',
                     'fsid',
@@ -88,11 +90,13 @@ class TestCephConfig(CephCommonTestsBase):
 class TestCephPluginDeps(CephCommonTestsBase):
     """ Unit tests for ceph plugin deps. """
     def test_ceph_dep_dpkg(self):
+        """Test ceph is runnable via dpkg packages."""
         self.assertTrue(ceph.common.CephChecks().is_runnable())
 
     @utils.create_data_root({'sos_commands/snap/snap_list_--all':
                              SNAP_LIST_MICROCEPH})
     def test_ceph_dep_snap(self):
+        """Test ceph is runnable via microceph snap."""
         self.assertTrue(ceph.common.CephChecks().is_runnable())
         self.assertEqual(ceph.common.CephChecks().release_name, 'reef')
 

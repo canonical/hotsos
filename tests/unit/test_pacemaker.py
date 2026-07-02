@@ -17,6 +17,7 @@ class TestPacemakerBase(utils.BaseTestCase):
 class TestPacemakerSummary(TestPacemakerBase):
     """ Unit tests for pacemaker summary """
     def test_dpkg(self):
+        """Test pacemaker dpkg package list output."""
         expected = ['corosync 3.0.3-2ubuntu2.1',
                     'crmsh 4.2.0-2ubuntu1',
                     'pacemaker 2.0.3-3ubuntu4.3',
@@ -28,6 +29,7 @@ class TestPacemakerSummary(TestPacemakerBase):
         self.assertEqual(actual["dpkg"], expected)
 
     def test_services(self):
+        """Test pacemaker services output."""
         expected = {'ps': ['corosync (1)', 'pacemakerd (1)'],
                     'systemd': {
             'enabled': [
@@ -39,12 +41,14 @@ class TestPacemakerSummary(TestPacemakerBase):
         self.assertEqual(actual["services"], expected)
 
     def test_offline_nodes(self):
+        """Test pacemaker offline nodes detection."""
         expected = ['node1']
         inst = summary.PacemakerSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["nodes"]["offline"], expected)
 
     def test_online_nodes(self):
+        """Test pacemaker online nodes detection."""
         expected = ['juju-04f1e3-0-lxd-5',
                     'juju-04f1e3-1-lxd-6',
                     'juju-04f1e3-2-lxd-6']

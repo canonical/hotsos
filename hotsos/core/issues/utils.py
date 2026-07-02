@@ -16,12 +16,14 @@ class IssueContext():
         self.set(**kwargs)
 
     def set(self, **kwargs):
+        """Update the context store with keyword arguments."""
         self.context.update(kwargs)
 
     def __len__(self):
         return len(self.context)
 
     def to_dict(self):
+        """Return the context as a plain dictionary."""
         return self.context
 
 
@@ -43,6 +45,7 @@ class IssueEntry:
 
     @property
     def content(self):
+        """Build and return issue entry content dict."""
         _content = {self.key: self.ref,
                     'message': self.message,
                     'origin': self.origin}
@@ -63,21 +66,22 @@ class IssuesStoreBase(abc.ABC):
     @property
     @abc.abstractmethod
     def store_path(self):
-        pass
+        """ Return path to the backend issue store file. """
 
     @abc.abstractmethod
     def load(self):
-        pass
+        """ Load and return stored issues from the backend. """
 
     @abc.abstractmethod
     def add(self, issue):
-        pass
+        """ Add a new issue to the backend store. """
 
 
 class KnownBugsStore(IssuesStoreBase):
     """ Known bug backend store """
     @property
     def store_path(self):
+        """Return path to the known bugs YAML store."""
         return os.path.join(HotSOSConfig.plugin_tmp_dir, 'known_bugs.yaml')
 
     def load(self):
@@ -96,6 +100,7 @@ class KnownBugsStore(IssuesStoreBase):
         return {}
 
     def add(self, issue, context=None):
+        """Add a known bug entry to the store."""
         #  def __init__(self, ref, message, key, context=None):
         entry = IssueEntry(
             ref=issue.url,
@@ -117,6 +122,7 @@ class IssuesStore(IssuesStoreBase):
     """ Potential issue backend store """
     @property
     def store_path(self):
+        """Return path to the issues YAML store."""
         return os.path.join(HotSOSConfig.plugin_tmp_dir, 'issues.yaml')
 
     def load(self):
@@ -165,6 +171,7 @@ class IssuesManager():
         self.issuestore = IssuesStore()
 
     def load_bugs(self):
+        """Load and format known bugs from the store."""
         bugs = self.bugstore.load()
         if bugs and not HotSOSConfig.machine_readable:
             urls = {}
@@ -176,6 +183,7 @@ class IssuesManager():
         return bugs
 
     def load_issues(self):
+        """Load and format potential issues from the store."""
         issues = self.issuestore.load()
         if issues and not HotSOSConfig.machine_readable:
             types = {}
@@ -196,6 +204,7 @@ class IssuesManager():
         return issues
 
     def add(self, issue, context=None):
+        """Route an issue to the appropriate backend store."""
         if issue.ISSUE_TYPE in ('bug', 'cve'):
             log.debug("issue is a %s", issue.ISSUE_TYPE)
             self.bugstore.add(issue, context=context)

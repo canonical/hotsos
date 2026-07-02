@@ -27,6 +27,7 @@ class DataRootManager():
 
     @cached_property
     def tmpdir(self):
+        """ Return path used for temporary sosreport extraction. """
         if self.sos_unpack_dir is None:
             return tempfile.mkdtemp()
 
@@ -112,6 +113,7 @@ class DataRootManager():
 
     @property
     def type(self):
+        """ Return the type of this data root (host or sosreport). """
         return self._type(self.data_root)
 
     @property
@@ -124,6 +126,7 @@ class DataRootManager():
 
     @property
     def basename(self):
+        """ Return the hostname or sosreport directory basename. """
         path = self.data_root
         if path == '/':
             if HotSOSConfig.data_root != self.data_root:

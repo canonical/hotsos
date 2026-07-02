@@ -21,6 +21,7 @@ class JujuTestsBase(utils.BaseTestCase):
 class TestJujuResources(JujuTestsBase):
     """ Unit tests for Juju resources. """
     def test_charm(self):
+        """Test charm names and versions are parsed correctly."""
         charms = JujuBase().charms
         self.assertEqual(sorted(list(charms.keys())),
                          sorted(['nova-compute', 'neutron-openvswitch',
@@ -32,6 +33,7 @@ class TestJujuResources(JujuTestsBase):
                             copy_from_original=[
                                     'var/lib/juju/agents/unit-nova-compute-0'])
     def test_charm_w_version_history(self):
+        """Test charm version from deployment manifests."""
         path = os.path.join(HotSOSConfig.data_root,
                             ('var/lib/juju/agents/unit-nova-compute-0/state/'
                              'deployer/manifests'))
@@ -49,6 +51,7 @@ class TestJujuResources(JujuTestsBase):
     @utils.create_data_root({'var/lib/juju/agents/machine-0/agent.conf':
                              'upgradedToVersion: 2.9.49'})
     def test_machine_version_bin_noexist(self):
+        """Test machine version fallback to agent.conf."""
         self.assertEqual(JujuBase().machine.version, '2.9.49')
 
     @mock.patch('hotsos.core.plugins.juju.resources.subprocess.check_output')
@@ -56,6 +59,7 @@ class TestJujuResources(JujuTestsBase):
                              'upgradedToVersion: xxx',
                              'var/lib/juju/tools/machine-0/jujud': ''})
     def test_machine_version_bin_exists(self, mock_check_output):
+        """Test machine version from jujud binary output."""
         mock_check_output.return_value = b'2.9.49\n'
         self.assertEqual(JujuBase().machine.version, '2.9.49')
 
@@ -64,6 +68,7 @@ class TestJujuResources(JujuTestsBase):
                              'upgradedToVersion: xxx',
                              'var/lib/juju/tools/machine-0/jujud': ''})
     def test_machine_version_bin_error(self, mock_check_output):
+        """Test version fallback when jujud binary errors."""
 
         def fake_check_output(*args):
             raise subprocess.CalledProcessError(1, '')
@@ -75,6 +80,7 @@ class TestJujuResources(JujuTestsBase):
 class TestJujuSummary(JujuTestsBase):
     """ Unit tests for Juju summary. """
     def test_summary_keys(self):
+        """Test juju summary contains expected top-level keys."""
         inst = summary.JujuSummary()
         self.assertEqual(list(inst.output.keys()),
                          ['version',
@@ -83,6 +89,7 @@ class TestJujuSummary(JujuTestsBase):
                           'units'])
 
     def test_service_info(self):
+        """Test juju service info output."""
         expected = {'ps': ['jujud (1)'],
                     'systemd': {
                         'enabled': ['jujud-machine-1']}
@@ -92,6 +99,7 @@ class TestJujuSummary(JujuTestsBase):
                          expected)
 
     def test_machine_info(self):
+        """Test juju machine version and id output."""
         inst = summary.JujuSummary()
         self.assertTrue(inst.is_runnable())
         actual = self.part_output_to_actual(inst.output)
@@ -100,6 +108,7 @@ class TestJujuSummary(JujuTestsBase):
 
     @mock.patch('hotsos.core.plugins.juju.resources.JujuMachine')
     def test_get_lxd_machine_info(self, mock_machine):
+        """Test juju machine info for LXD containers."""
         mock_machine.return_value = mock.MagicMock()
         mock_machine.return_value.id = '0-lxd-11'
         mock_machine.return_value.version = '2.9.9'
@@ -109,6 +118,7 @@ class TestJujuSummary(JujuTestsBase):
         self.assertEqual(actual['machine'], '0-lxd-11')
 
     def test_get_unit_info(self):
+        """Test juju unit info with charms and log counts."""
         expected = {'ceph-osd/0': {
                         'charm': {
                             'name': 'ceph-osd',
@@ -190,6 +200,7 @@ class TestJujuSummary(JujuTestsBase):
           'state/deployer/manifests/'
           'ch_3a_amd64_2f_jammy_2f_sunbeam-machine-32'): ''})
     def test_get_unit_info_no_repo_info(self):
+        """Test unit info output when repo-info is absent."""
         expected = {'sunbeam-machine/1':
                     {'charm': {'name': 'sunbeam-machine', 'version': 32}}}
         inst = summary.JujuSummary()

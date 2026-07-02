@@ -131,6 +131,7 @@ class TestOpenvswitchBase(utils.BaseTestCase):
 class TestCoreOpenvSwitch(TestOpenvswitchBase):
     """ Unit tests for core ovs plugin code. """
     def test_base_offload_disabled(self):
+        """Test that hw-offload is disabled by default."""
         enabled = OpenvSwitchBase().offload_enabled
         self.assertFalse(enabled)
 
@@ -138,6 +139,7 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
                               'Open_vSwitch_._other_config'):
                              '{hw-offload="true", max-idle="30000"}'})
     def test_base_offload_enabled(self):
+        """Test hw-offload detection when enabled."""
         enabled = OpenvSwitchBase().offload_enabled
         self.assertTrue(enabled)
 
@@ -145,6 +147,7 @@ class TestCoreOpenvSwitch(TestOpenvswitchBase):
 class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
     """ Unit tests for ovs service code. """
     def test_get_package_checks(self):
+        """Test OVS dpkg package list output."""
         expected = ['libc-bin 2.31-0ubuntu9.2',
                     'openssl 1.1.1f-1ubuntu2.10',
                     'openvswitch-common 2.13.3-0ubuntu0.20.04.2',
@@ -157,6 +160,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                          expected)
 
     def test_get_resource_checks(self):
+        """Test OVS services summary output."""
         expected = {'systemd': {
                         'enabled': [
                             'openvswitch-switch'],
@@ -170,6 +174,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                          expected)
 
     def test_summary_bridges(self):
+        """Test OVS bridge info summary output."""
         expected = {'br-data': [
                         {'ens7': {
                             'addresses': [],
@@ -187,6 +192,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                          expected)
 
     def test_summary_tunnels(self):
+        """Test OVS vxlan tunnel info summary output."""
         expected = {'vxlan': {
                         'iface': {
                             'br-ens3': {
@@ -208,6 +214,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                                 'Open_vSwitch',
                                 'sos_commands/networking'])
     def test_summary_ovs_tunnels_no_remotes(self):
+        """Test OVS tunnel omitted when no remotes exist."""
         inst = summary.OpenvSwitchSummary()
         self.assertFalse('tunnels' in self.part_output_to_actual(inst.output))
 
@@ -216,6 +223,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                              'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
                              'Open_vSwitch': OVS_DB_GENEVE_ENCAP})
     def test_summary_ovn_tunnels_no_remotes(self):
+        """Test OVN geneve tunnel with zero remotes."""
         with mock.patch(
             "hotsos.core.host_helpers.HostNetworkingHelper."
             "host_interfaces_all",
@@ -250,6 +258,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                              OVNDB_TABLE_CONNECTION})
     @mock.patch.object(OVNBase, 'is_ovn_central', True)
     def test_summary_ovn_central_db(self):
+        """Test OVN central database config summary."""
         expected = {'config': {
                         'nbdb': {'inactivity_probe': '[]',
                                  'max_backoff': '[]'},
@@ -269,6 +278,7 @@ class TestOpenvswitchServiceInfo(TestOpenvswitchBase):
                              'sos_commands/openvswitch/ovs-vsctl_-t_5_list_'
                              'Open_vSwitch': OVS_DB_GENEVE_ENCAP})
     def test_summary_tunnels_ovn(self):
+        """Test OVN geneve tunnel with remotes present."""
         with mock.patch(
             "hotsos.core.host_helpers.HostNetworkingHelper."
             "host_interfaces_all",
@@ -304,6 +314,7 @@ class TestOVSFDBStats(TestOpenvswitchBase):
                              ('sos_commands/openvswitch/'
                               'ovs-vsctl_-t_5_list-br'): 'br-ex'})
     def test_ovs_fdb_full(self):
+        """Test detection of FDB overflow on a bridge."""
         fdbstats = OVSFDBStats()
         self.assertEqual(fdbstats.bridges_with_fdb_overflow, ['br-ex'])
 
@@ -313,6 +324,7 @@ class TestOVSFDBStats(TestOpenvswitchBase):
                              ('sos_commands/openvswitch/'
                               'ovs-vsctl_-t_5_list-br'): 'br-ex'})
     def test_ovs_fdb_not_full(self):
+        """Test no FDB overflow when under limit."""
         fdbstats = OVSFDBStats()
         self.assertEqual(fdbstats.bridges_with_fdb_overflow, [])
 
@@ -320,6 +332,7 @@ class TestOVSFDBStats(TestOpenvswitchBase):
 class TestOpenvswitchDB(TestOpenvswitchBase):
     """ Unit tests for ovsdb code. """
     def test_ovsdb_other_config(self):
+        """Test OVSDB other_config is empty by default."""
         expected = {}
         self.assertEqual(OVSDB().Open_vSwitch.other_config, expected)
 
@@ -332,6 +345,7 @@ class TestOpenvswitchDB(TestOpenvswitchBase):
                               'dpdk-socket-mem="8192,8192", '
                               'vlan-limit="0"}')})
     def test_ovsdb_other_config_loaded(self):
+        """Test OVSDB other_config parsed with DPDK settings."""
         expected = {'dpdk-extra':
                     ('-a 0000:56:00.0 -a 0000:58:00.1 '
                      '-a 0000:56:00.1 -a 0000:58:00.0'),
@@ -342,6 +356,7 @@ class TestOpenvswitchDB(TestOpenvswitchBase):
         self.assertEqual(OVSDB().Open_vSwitch.other_config, expected)
 
     def test_ovsdb_external_ids(self):
+        """Test OVSDB external_ids parsing."""
         expected = {'hostname': 'compute4.mylab.home',
                     'rundir': '/var/run/openvswitch',
                     'system-id': '3c98ecc6-adbc-4647-853b-d4c2b38e49ac'}
@@ -354,6 +369,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovs-vswitchd.yaml',
                                         'events/openvswitch'))
     def test_ovs_vswitchd_checks(self):
+        """Test ovs-vswitchd event detection."""
         expected = {
             'ovs-vswitchd': {
                 'unreasonably-long-poll-interval':
@@ -373,6 +389,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                               'ovs-vswitchd.log'):
                              VSWITCHD_LOG})
     def test_ovs_vswitchd_assertion_failures(self):
+        """Test ovs-vswitchd assertion failure detection."""
         # TODO(haleyb): combine with above code to have all checks in one place
         expected = {
             'ovs-vswitchd': {
@@ -386,6 +403,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 new=utils.is_def_filter('errors-and-warnings.yaml',
                                         'events/openvswitch'))
     def test_ovs_common_log_checks(self):
+        """Test OVS common log WARN event counts."""
         expected = {
             'errors-and-warnings': {
                 'ovs-vswitchd': {
@@ -411,6 +429,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                               'ovs-vswitchd.log'):
                              VSWITCHD_LOG})
     def test_ovs_emer_log_checks(self):
+        """Test OVS emergency log event detection."""
         # TODO(haleyb): combine with above code to have all checks in one place
         expected = {
             'errors-and-warnings': {
@@ -430,6 +449,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                              ('sos_commands/openvswitch/'
                               'ovs-vsctl_-t_5_list-br'): 'br-int'})
     def test_ovs_dp_checks(self):
+        """Test OVS datapath port stats checks."""
         expected = {'datapath-checks-port-stats': {
                         'qr-aa623763-fd': {
                             'RX': {
@@ -443,6 +463,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovn-central.yaml',
                                         'events/openvswitch'))
     def test_ovn_central_checks(self):
+        """Test OVN central event checks."""
         expected = {'ovn-northd': {
                         'leadership-acquired': {
                             '2022-02-16': 1, '2022-02-17': 2}},
@@ -473,6 +494,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovn-controller.yaml',
                                         'events/openvswitch'))
     def test_ovn_controller_checks(self):
+        """Test OVN controller event checks."""
         expected = {'ovn-controller':
                     {'unreasonably-long-poll-interval': {
                         '2022-02-16': 1,
@@ -494,6 +516,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                 new=utils.is_def_filter('errors-and-warnings.yaml',
                                         'events/openvswitch'))
     def test_ovn_common_log_checks(self):
+        """Test OVN common log error and warning counts."""
         expected = {'errors-and-warnings': {
                         'ovn-controller': {
                             'ERR': {'2022-02-16': 2},
@@ -520,6 +543,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                              BFD_STATE_CHANGES},
                             copy_from_original=['sos_commands/date/date'])
     def test_ovs_bfd_state_changes(self):
+        """Test OVS BFD state change event detection."""
         expected = {'ovs-vswitchd': {
                     'bfd': {
                         'state-change-stats': {
@@ -542,6 +566,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                              LEADERSHIP_TRANSFERS},
                             copy_from_original=['sos_commands/date/date'])
     def test_ovn_ovsdb_leadership_changes(self):
+        """Test OVN OVSDB leadership transfer detection."""
         expected = {'ovsdb-server-nb': {'leadership-transfers': {
                                             '2022-07-27': 2}},
                     'ovsdb-server-sb': {'leadership-transfers': {
@@ -557,6 +582,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                              NORTHD_LEADER_CHANGE},
                             copy_from_original=['sos_commands/date/date'])
     def test_ovn_northd_leadership_changes(self):
+        """Test OVN northd leadership acquisition detection."""
         expected = {'ovn-northd': {'leadership-acquired': {
                                             '2023-12-13': 2}}}
         with GlobalSearcher() as searcher:
@@ -572,6 +598,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                              SBDB_COMPACTION},
                             copy_from_original=['sos_commands/date/date'])
     def test_ovn_ovsdb_compactions(self):
+        """Test OVN OVSDB compaction event detection."""
         expected = {'ovsdb-server-nb': {'compactions': {
                                             '2022-07-13': 3}},
                     'ovsdb-server-sb': {'compactions': {
@@ -585,6 +612,7 @@ class TestOpenvswitchEvents(TestOpenvswitchBase):
                                         'events/openvswitch'))
     @utils.create_data_root({'var/log/kern.log': DA_MSGS})
     def test_ovs_defferred_action_limit_reached(self):
+        """Test OVS deferred action limit detection."""
         expected = {
             'datapath-checks': {
                 'deferred-action-limit-reached': {
@@ -611,6 +639,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                 new=utils.is_def_filter('ovn_central_services.yaml',
                                         'scenarios/openvswitch'))
     def test_ovn_northd_running(self, mock_systemd):
+        """Test issue raised when ovn-northd is not running."""
         # pylint: disable-next=too-few-public-methods
         class FakeSystemdHelper():
             """ fake systemd helper """
@@ -641,6 +670,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_ssl_certs_svcs_no_error(self):
+        """Test no issue when services restarted after certs."""
         mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 
@@ -673,6 +703,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_ssl_certs_svcs_w_error(self):
+        """Test issue raised when certs newer than services."""
         mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 
@@ -709,6 +740,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_chassis_ssl_certs_svcs_no_error(self):
+        """Test no issue for chassis certs when restarted."""
         mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 
@@ -736,6 +768,7 @@ class TestOpenvswitchScenarios(TestOpenvswitchBase):
                             copy_from_original=['sos_commands/date/date',
                                                 'uptime'])
     def test_ovn_chassis_ssl_certs_svcs_w_error(self):
+        """Test issue for chassis certs not restarted."""
         mtime = os.path.getmtime(os.path.join(HotSOSConfig.data_root,
                                               'etc/ovn/cert_host'))
 

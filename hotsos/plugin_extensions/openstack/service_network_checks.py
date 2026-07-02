@@ -29,6 +29,7 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
 
     @property
     def summary_subkey(self):
+        """Return the summary sub-key name."""
         return 'network'
 
     @staticmethod
@@ -56,6 +57,7 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
         return stats
 
     def get_config_info(self):
+        """Return bind interface config per project."""
         config_info = {}
         for project in [f.name for f in fields(self.project_helpers)]:
             _project = getattr(self.project_helpers, project)
@@ -91,6 +93,7 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
 
     @summary_entry('config', get_min_available_entry_index() + 5)
     def summary_config(self):
+        """Return network bind interface configuration."""
         config_info = self.get_config_info()
         if config_info:
             return config_info
@@ -99,6 +102,7 @@ class OpenstackNetworkChecks(OpenstackBase, OpenStackChecks):
 
     @summary_entry('phy-port-health', get_min_available_entry_index() + 6)
     def summary_phy_port_health(self):
+        """Return physical port health outliers."""
         port_health_info = self.get_phy_port_health_info()
         if port_health_info:
             return port_health_info

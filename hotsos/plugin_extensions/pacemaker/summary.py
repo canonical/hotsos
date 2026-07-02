@@ -17,6 +17,7 @@ class PacemakerSummary(PacemakerChecks):
 
     @summary_entry('nodes', get_min_available_entry_index())
     def summary_nodes(self):
+        """Return online and offline cluster nodes."""
         nodes = {}
         if self.online_nodes:
             nodes["online"] = self.online_nodes

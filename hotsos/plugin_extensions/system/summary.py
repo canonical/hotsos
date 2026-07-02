@@ -11,28 +11,34 @@ class SystemSummary(SystemChecks):
 
     @summary_entry('hostname', 0)
     def summary_hostname(self):
+        """Return the system hostname."""
         return self.hostname
 
     @summary_entry('os', 1)
     def summary_os(self):
+        """Return the OS release name."""
         return self.os_release_name or None
 
     @summary_entry('num-cpus', 2)
     def summary_num_cpus(self):
+        """Return the number of CPUs."""
         return self.num_cpus or None
 
     @staticmethod
     @summary_entry('load', 3)
     def summary_load():
+        """Return the system load average."""
         return UptimeHelper().loadavg or None
 
     @summary_entry('virtualisation', 4)
     def summary_virtualisation(self):
+        """Return the virtualisation type."""
         return self.virtualisation_type or None
 
     @staticmethod
     @summary_entry('rootfs', 5)
     def summary_rootfs():
+        """Return the root filesystem info from df output."""
         df_output = CLIHelper().df()
         if df_output:
             for line in df_output:
@@ -44,18 +50,22 @@ class SystemSummary(SystemChecks):
 
     @summary_entry('unattended-upgrades', 6)
     def summary_unattended_upgrades(self):
+        """Return unattended-upgrades status."""
         if self.unattended_upgrades_enabled:
             return "ENABLED"
         return "disabled"
 
     @summary_entry('date', 7)
     def summary_date(self):
+        """Return the current system date."""
         return self.date
 
     @summary_entry('ubuntu-pro', 8)
     def summary_ubuntu_pro(self):
+        """Return Ubuntu Pro subscription status."""
         return self.ubuntu_pro_status
 
     @summary_entry('uptime', 9)
     def summary_uptime(self):
+        """Return the system uptime."""
         return self.uptime

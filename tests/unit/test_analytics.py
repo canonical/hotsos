@@ -59,6 +59,7 @@ class TestAnalytics(utils.BaseTestCase):
 
     @utils.create_data_root({'atestfile': SEQ_TEST_1})
     def test_ordered_complete(self):
+        """Test ordered complete event sequence stats."""
         fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         start0 = '2021-07-19 09:01:58.498000'
         end0 = '2021-07-19 09:02:58.498000'
@@ -83,6 +84,7 @@ class TestAnalytics(utils.BaseTestCase):
 
     @utils.create_data_root({'atestfile': SEQ_TEST_2})
     def test_unordered_complete(self):
+        """Test unordered complete event sequence stats."""
         fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         start0 = '2021-07-19 09:03:58.498000'
         end0 = '2021-07-19 09:04:58.498000'
@@ -107,6 +109,7 @@ class TestAnalytics(utils.BaseTestCase):
 
     @utils.create_data_root({'atestfile': SEQ_TEST_3})
     def test_ordered_complete_clobbered(self):
+        """Test ordered event stats with clobbered entries."""
         fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         start0 = '2021-07-19 09:05:58.498000'
         end0 = '2021-07-19 09:06:58.498000'
@@ -134,6 +137,7 @@ class TestAnalytics(utils.BaseTestCase):
 
     @utils.create_data_root({'atestfile': SEQ_TEST_4})
     def test_ordered_incomplete_clobbered(self):
+        """Test ordered incomplete clobbered event stats."""
         fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         start0 = '2021-07-19 09:06:58.498000'
         end0 = '2021-07-19 09:07:58.498000'
@@ -162,6 +166,7 @@ class TestAnalytics(utils.BaseTestCase):
 
     @utils.create_data_root({'atestfile': SEQ_TEST_5})
     def test_ordered_incomplete_clobbered2(self):
+        """Test second variant of incomplete clobbered stats."""
         fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         start0 = '2021-07-19 09:05:58.498000'
         end0 = '2021-07-19 09:07:58.498000'
@@ -186,6 +191,7 @@ class TestAnalytics(utils.BaseTestCase):
 
     @utils.create_data_root({'atestfile': SEQ_TEST_6})
     def test_ordered_multiple(self):
+        """Test event stats with multiple ordered sequences."""
         fname = os.path.join(HotSOSConfig.data_root, 'atestfile')
         start0 = '2021-07-19 09:08:58.498000'
         end0 = '2021-07-19 09:09:58.498000'

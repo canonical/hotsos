@@ -79,11 +79,13 @@ class ApacheInfo:
 
     @cached_property
     def ssl_config_file(self):
+        """ Return path to the OpenStack HTTPS frontend config. """
         return os.path.join(HotSOSConfig.data_root,
                             'etc/apache2/sites-enabled',
                             'openstack_https_frontend.conf')
 
     def project_ssl_enabled(self, project):
+        """ Return True if SSL is enabled for the given project. """
         if not os.path.exists(self.ssl_config_file):
             return False
 
@@ -114,6 +116,7 @@ class ApacheInfo:
 
     @cached_property
     def certificates_expiring(self):
+        """ Return list of SSL certificate paths expiring soon. """
         _certificates_expiring = []
         max_days = self.certificate_expire_days
         for path in self._certificates:
@@ -164,9 +167,11 @@ class OpenstackBase():  # pylint: disable=too-many-instance-attributes
 
     @cached_property
     def apt_source_path(self):
+        """ Return path to apt sources.list.d directory. """
         return os.path.join(HotSOSConfig.data_root, 'etc/apt/sources.list.d')
 
     def _get_apt_relnames(self):
+        """ Determine OpenStack release names from APT packages. """
         relnames = set()
         for pkg, values in OST_REL_INFO.items():
             if pkg in self.apt.core:
@@ -209,6 +214,7 @@ class OpenstackBase():  # pylint: disable=too-many-instance-attributes
 
     @cached_property
     def release_name(self):
+        """ Determine the OpenStack release name from packages or UCA. """
         relnames = self.installed_pkg_release_names
         if relnames:
             if len(relnames) > 1:
@@ -253,6 +259,7 @@ class OpenstackBase():  # pylint: disable=too-many-instance-attributes
 
     @cached_property
     def days_to_eol(self):
+        """ Return days remaining until end-of-life for this release. """
         if self.release_name != 'unknown':
             eol = OST_EOL_INFO.get(self.release_name)
             if eol is not None:

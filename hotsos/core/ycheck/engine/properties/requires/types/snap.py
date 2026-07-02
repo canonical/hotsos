@@ -16,18 +16,22 @@ class SnapCheckItems(PackageCheckItemsBase):
     """ Contains set of checks to run on snap check items. """
     @cached_property
     def packaging_helper(self):
+        """ Return a SnapPackageHelper for tracked snaps. """
         return SnapPackageHelper(core_snaps=self.packages_to_check)
 
     @cached_property
     def installed_revisions(self):
+        """ Return list of revisions for installed snaps. """
         return [self.packaging_helper.get_revision(p) for p in self.installed]
 
     @cached_property
     def installed_versions(self):
+        """ Return list of versions for installed snaps. """
         return [self.packaging_helper.get_version(p) for p in self.installed]
 
     @cached_property
     def installed_channels(self):
+        """ Return list of channels for installed snaps. """
         return [self.packaging_helper.get_channel(p) for p in self.installed]
 
     def package_info_matches(self, pkg, pkg_infos):
@@ -92,6 +96,7 @@ class YRequirementTypeSnap(YRequirementTypeBase):
 
     @property
     def channel(self):
+        """ Return the channel filter from the requirement spec. """
         return self.content.get('channel')
 
     @property

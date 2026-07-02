@@ -20,6 +20,7 @@ class JujuMachine():
 
     @property
     def id(self):
+        """ Machine id derived from the agent service name. """
         name = self.agent_service_name
         if name:
             return name.partition("jujud-machine-")[2]
@@ -28,6 +29,7 @@ class JujuMachine():
 
     @cached_property
     def config(self):
+        """ Parsed contents of the machine agent.conf file. """
         path = glob.glob(os.path.join(self.juju_lib_path,
                                       "agents/machine-*/agent.conf"))
         if not path:
@@ -57,6 +59,7 @@ class JujuMachine():
 
     @cached_property
     def agent_service_name(self):
+        """ Name of the machine's jujud agent service. """
         return self.config.get("values", {}).get("AGENT_SERVICE_NAME")
 
     @property
@@ -105,6 +108,7 @@ class JujuMachine():
 
     @cached_property
     def deployed_units(self):
+        """ List of units deployed on this machine. """
         units = []
         # requires >= 2.9.x
         _units = self.config.get("values", {}).get("deployed-units", "")
@@ -182,10 +186,12 @@ class JujuBase():
 
     @staticmethod
     def get_juju_lib_path():
+        """ Path to the juju library directory under the data root. """
         return os.path.join(HotSOSConfig.data_root, "var/lib/juju")
 
     @cached_property
     def machine(self):
+        """ JujuMachine for this host, or None if not identified. """
         machine = JujuMachine(self.get_juju_lib_path())
         if not machine.config:
             log.debug("no juju machine identified")
@@ -195,6 +201,7 @@ class JujuBase():
 
     @property
     def version(self):
+        """ Installed juju version on this host. """
         return self.machine.version
 
     @cached_property
@@ -254,6 +261,7 @@ class JujuBase():
 
     @cached_property
     def charm_names(self):
+        """ List of charm names used by units on this host. """
         if not self.charms:
             return []
 
@@ -264,10 +272,13 @@ class JujuBinaryInterface(JujuBase):
     """ Interface to juju binary. """
     @property
     def bin_names(self):
+        """ List of juju binary names. """
         return ['juju']
 
     def is_installed(self, name):
+        """ Whether the named juju binary is installed. """
         return self.machine is not None and name in self.bin_names
 
     def get_version(self, _):
+        """ Return the installed juju version. """
         return self.version
