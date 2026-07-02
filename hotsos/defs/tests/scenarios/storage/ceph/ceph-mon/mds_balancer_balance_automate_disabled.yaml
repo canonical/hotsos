@@ -1,0 +1,19 @@
+target-name: mds_balancer.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_report: |
+      {
+        "fsmap": {
+          "filesystems": [
+            {
+              "id": 1,
+              "mdsmap": {
+                "flags_state": {
+                  "balance_automate": false
+                }
+              }
+            }
+          ]
+        }
+      }
+raised-bugs:  # none expected
