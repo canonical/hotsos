@@ -1,4 +1,6 @@
 import abc
+import glob
+import json
 import os
 import re
 import sys
@@ -214,6 +216,14 @@ class CephChecks(StorageBase):
         if ceph.apt.core or ceph.snaps.core:
             return True
 
+        # Fallback: detect microceph from its config or data files when
+        # snap list is unavailable (e.g. minimal sosreport).
+        microceph_conf = os.path.join(HotSOSConfig.data_root,
+                                      'var/snap/microceph/current/conf/'
+                                      'ceph.conf')
+        if os.path.exists(microceph_conf):
+            return True
+
         return False
 
     @cached_property
@@ -303,6 +313,18 @@ class CephChecks(StorageBase):
         """
         Returns a list of CephOSD objects for osds found on the local host.
         """
+        osds = self._local_osds_from_ceph_volume()
+        if not osds:
+            osds = self._local_osds_from_microceph()
+
+        return osds
+
+    @staticmethod
+    def _local_osds_from_ceph_volume():
+        """
+        Returns a list of CephOSD objects parsed from ceph-volume lvm list
+        output.
+        """
         osds = []
 
         s = FileSearcher()
@@ -327,6 +349,67 @@ class CephChecks(StorageBase):
                             dev = result.get(2)
 
                 osds.append(CephOSD(osdid, fsid, dev))
+
+        return osds
+
+    @staticmethod
+    def _local_osds_from_microceph():
+        """
+        Returns a list of CephOSD objects parsed from microceph daemon socket
+        status and list_devices files. Used as a fallback when ceph-volume is
+        not available (microceph deployments).
+        """
+        osds = []
+        ceph_osd_dir = os.path.join(HotSOSConfig.data_root,
+                                    'sos_commands/ceph_osd')
+        if not os.path.isdir(ceph_osd_dir):
+            return osds
+
+        status_pattern = os.path.join(
+            ceph_osd_dir,
+            'ceph_daemon_'
+            '.var.snap.microceph.current.run.ceph-osd.*.asok_status')
+        osd_re = re.compile(
+            r'ceph_daemon_'
+            r'\.var\.snap\.microceph\.current\.run\.ceph-osd\.'
+            r'(\d+)\.asok_status$')
+
+        for status_path in sorted(glob.glob(status_pattern)):
+            match = osd_re.search(os.path.basename(status_path))
+            if not match:
+                continue
+
+            osd_id = int(match.group(1))
+            fsid = None
+            dev = None
+
+            try:
+                with open(status_path, encoding='utf-8') as fd:
+                    status = json.load(fd)
+                    fsid = status.get('osd_fsid')
+            except (OSError, json.JSONDecodeError):
+                log.debug("failed to read microceph osd status for osd.%s",
+                          osd_id)
+
+            devices_path = status_path.replace('_status', '_list_devices')
+            if os.path.exists(devices_path):
+                try:
+                    with open(devices_path, encoding='utf-8') as fd:
+                        devices_data = json.load(fd)
+                        # Handle both formats: a bare list or a dict with
+                        # a "devices" key.
+                        if isinstance(devices_data, list):
+                            devices = devices_data
+                        else:
+                            devices = devices_data.get('devices', [])
+                        if devices:
+                            dev = (devices[0].get('devnode') or
+                                   devices[0].get('device'))
+                except (OSError, json.JSONDecodeError):
+                    log.debug("failed to read microceph osd devices for "
+                              "osd.%s", osd_id)
+
+            osds.append(CephOSD(osd_id, fsid, dev))
 
         return osds
 
