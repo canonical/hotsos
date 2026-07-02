@@ -12,6 +12,12 @@ vars:
   msg_ondemand: >-
     You will also need to stop and disable the ondemand systemd service in
     order for changes to persist.
+  message_unknown: >-
+    The cpufreq scaling governor could not be determined which typically means
+    frequency scaling is disabled in the BIOS. Please check that the BIOS
+    power management is set to "OS Control" or equivalent and reboot. If
+    already set correctly, install cpufrequtils, set "GOVERNOR=performance"
+    in /etc/default/cpufrequtils and run systemctl restart cpufrequtils.
   scaling_governor: '@hotsos.core.plugins.kernel.sysfs.CPU.cpufreq_scaling_governor_all'
 checks:
   cpufreq_governor_not_performance:
@@ -19,6 +25,8 @@ checks:
     - varops: [[$scaling_governor], [ne, unknown]]
     # does it have the expected value
     - varops: [[$scaling_governor], [ne, performance]]
+  cpufreq_governor_unknown:
+    varops: [[$scaling_governor], [eq, unknown]]
   is_neutron_gateway:
     # i.e. neutron-l3-agent but no nova == neutron gateway
     - not:
@@ -30,6 +38,32 @@ checks:
     systemd:
       ondemand: enabled
 conclusions:
+  cpufreq-unknown-n-cpu:
+    priority: 3
+    decision:
+      - cpufreq_governor_unknown
+      - is_nova_compute
+    raises:
+      type: OpenstackWarning
+      message: >-
+        {msg_pt1} (actual={governor}). {msg_unknown}
+      format-dict:
+        msg_pt1: $message_pt1_nova_compute
+        msg_unknown: $message_unknown
+        governor: $scaling_governor
+  cpufreq-unknown-n-gw:
+    priority: 3
+    decision:
+      - cpufreq_governor_unknown
+      - is_neutron_gateway
+    raises:
+      type: OpenstackWarning
+      message: >-
+        {msg_pt1} (actual={governor}). {msg_unknown}
+      format-dict:
+        msg_pt1: $message_pt1_neutron_gateway
+        msg_unknown: $message_unknown
+        governor: $scaling_governor
   cpufreq-not-performance-n-cpu:
     priority: 1
     decision:
