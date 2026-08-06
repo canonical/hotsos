@@ -4,6 +4,7 @@ import uuid
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.ycheck.engine.common import YDefsLoader
 
 from . import utils
 
@@ -87,8 +88,7 @@ class TestScenarioTestLoader(utils.BaseTestCase):
 
             test_files_without_target = [
                 'myscenario{}.yaml',
-                'myscenario.with.many.dots.{}.yaml',
-                'myscenario_noextension{}'
+                'myscenario.with.many.dots.{}.yaml'
             ]
 
             test_files_with_target = [
@@ -121,21 +121,19 @@ class TestScenarioTestLoader(utils.BaseTestCase):
 
                 a = MyTests()
                 tests = [x for x in dir(a) if x.startswith("test_")]
-                self.assertEqual(len(tests), 4)
+                self.assertEqual(len(tests), 3)
 
                 self.assertTrue("test_yscenario_1_myscenario_with_many_dots_1"
                                 in tests)
                 self.assertTrue("test_yscenario_1_myscenario1" in tests)
                 self.assertTrue("test_yscenario_1_myscenario1alt" in tests)
-                self.assertTrue("test_yscenario_1_myscenario_noextension1"
-                                in tests)
 
     def test_find_all_templated_tests(self):
         """Test discovery of all templated test files."""
         with tempfile.TemporaryDirectory() as dtmp:
             paths = []
             self.create_tests(dtmp, levels=3)
-            for path in utils.find_all_templated_tests(dtmp):
+            for path in YDefsLoader.find_files_recursively(dtmp):
                 paths.append(path)
 
             plugin_path = 'tests/scenarios/testplugin'
@@ -144,15 +142,12 @@ class TestScenarioTestLoader(utils.BaseTestCase):
                 '1/myscenario1.yaml',
                 '1/myscenario1alt.yaml',
                 '1/myscenario.with.many.dots.1.yaml',
-                '1/myscenario_noextension1',
                 '1/2/myscenario2.yaml',
                 '1/2/myscenario2alt.yaml',
                 '1/2/myscenario.with.many.dots.2.yaml',
-                '1/2/myscenario_noextension2',
                 '1/2/3/myscenario3.yaml',
                 '1/2/3/myscenario3alt.yaml',
-                '1/2/3/myscenario.with.many.dots.3.yaml',
-                '1/2/3/myscenario_noextension3'
+                '1/2/3/myscenario.with.many.dots.3.yaml'
             ]
 
             expected = [os.path.join(dtmp, plugin_path, x) for x in expected]

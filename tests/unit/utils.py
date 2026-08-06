@@ -15,6 +15,7 @@ from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log, logging, LoggingManager
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.ycheck.engine.common import YDefsLoader
 from hotsos.core.exceptions import (
     NameAlreadyRegisteredError,
     ExpectationNotMetError,
@@ -42,27 +43,6 @@ class FakeOut:
     returncode: int
 
 
-def find_all_templated_tests(path):
-    """
-    Generator to recursively find all templates (files) under path.
-
-    @return: path to test.
-    """
-    if not os.path.exists(path):
-        log.info("templated tests dir not found: %s", path)
-        return
-
-    for testdef in os.listdir(path):
-        if testdef.endswith(('.disabled', '.swp')):
-            continue
-
-        defpath = os.path.join(path, testdef)
-        if os.path.isdir(defpath):
-            yield from find_all_templated_tests(defpath)
-        else:
-            yield defpath
-
-
 def load_templated_tests(path):
     """ Add templated tests to the runner.
 
@@ -72,7 +52,7 @@ def load_templated_tests(path):
     def _inner(cls):
         count = 0
         _path = os.path.join(DEFS_TESTS_DIR, path)
-        for testdef in find_all_templated_tests(_path):
+        for testdef in YDefsLoader.find_files_recursively(_path):
             tg = TemplatedTestGenerator(path, testdef)
             if hasattr(cls, tg.test_method_name):
                 raise NameAlreadyRegisteredError(

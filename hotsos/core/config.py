@@ -178,7 +178,11 @@ class RegisteredOpts(UserDict):
     def __setitem__(self, key, item):
         for group in self.optsgroups:
             if key in group.opts:
-                item = group.opts[key].value_type(item)
+                # avoid casting None to str
+                # unlike str, int/bool options already have
+                # the default values defined and are not affected
+                if item is not None:
+                    item = group.opts[key].value_type(item)
                 break
         else:
             raise KeyError(

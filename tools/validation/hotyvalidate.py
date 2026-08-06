@@ -1,5 +1,4 @@
 import os
-import glob
 import json
 from unittest import TestCase
 import logging
@@ -7,6 +6,8 @@ import sys
 
 import yaml
 from tests.unit import utils
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.ycheck.engine.common import YDefsLoader
 
 
 class HotYValidate(TestCase):
@@ -14,8 +15,6 @@ class HotYValidate(TestCase):
 
     @staticmethod
     def _discover_tests():
-        tests_root_path = os.path.join(utils.DEFS_TESTS_DIR, 'scenarios')
-
         # This list contains the full paths to all scenario test cases.
         # This information is used for reporting the number of avaliable
         # test cases.
@@ -26,38 +25,43 @@ class HotYValidate(TestCase):
         # with the scenario.
         test_scenario_mappings = {}
 
-        # Iterate over all subdirectories of `hotsos/defs/tests` and try to
-        # discover all the available test cases.
-        for subdir in os.listdir(tests_root_path):
-            logging.info("processing directory [%s/%s]", tests_root_path,
-                         subdir)
-            tests = utils.find_all_templated_tests(
-                os.path.join(tests_root_path, subdir))
+        # Base directory that contains per-plugin scenario test trees. Used
+        # to recover the plugin sub-root (e.g. 'kernel') from each yielded
+        # absolute test path so that TemplatedTestGenerator receives the
+        # correct test_defs_root value ('scenarios/<plugin>').
+        tests_root_path = os.path.join(utils.DEFS_TESTS_DIR, 'scenarios')
 
-            # Load the scenario tests one by one
-            for testdef in tests:
-                # Add the discovered test to list of
-                # all tests
-                all_tests.append(testdef)
+        # Load the scenario tests one by one
+        for testdef in YDefsLoader.get_scenario_test_files('scenarios'):
+            logging.info("processing test definition file: %s", testdef)
 
-                # Load the test. The code needs to access some attributes
-                # stored in the templated test class in order to be able to
-                # determine the associated scenario.
-                tg = utils.TemplatedTestGenerator(
-                    f'scenarios/{subdir}', testdef)
+            # Add the discovered test to list of
+            # all tests
+            all_tests.append(testdef)
 
-                # Determine the test's target scenario path.
-                target_scenario_path = os.path.join(utils.DEFS_DIR,
-                                                    tg.test_defs_root,
-                                                    tg.target_path)
+            # Recover the plugin sub-root from the absolute test path,
+            # e.g. /.../defs/tests/scenarios/kernel/foo.yaml -> 'kernel'.
+            rel = os.path.relpath(testdef, tests_root_path)
+            subdir = rel.split(os.sep, 1)[0]
 
-                # Add the test case's name to tests associated with the
-                # scenario.
-                if target_scenario_path in test_scenario_mappings:
-                    test_scenario_mappings[target_scenario_path].append(
-                        testdef)
-                else:
-                    test_scenario_mappings[target_scenario_path] = [testdef]
+            # Load the test. The code needs to access some attributes
+            # stored in the templated test class in order to be able to
+            # determine the associated scenario.
+            tg = utils.TemplatedTestGenerator(
+                f'scenarios/{subdir}', testdef)
+
+            # Determine the test's target scenario path.
+            target_scenario_path = os.path.join(utils.DEFS_DIR,
+                                                tg.test_defs_root,
+                                                tg.target_path)
+
+            # Add the test case's name to tests associated with the
+            # scenario.
+            if target_scenario_path in test_scenario_mappings:
+                test_scenario_mappings[target_scenario_path].append(
+                    testdef)
+            else:
+                test_scenario_mappings[target_scenario_path] = [testdef]
 
         return all_tests, test_scenario_mappings
 
@@ -66,15 +70,17 @@ class HotYValidate(TestCase):
         every scenario has at least one test.
         """
 
-        scenarios_root_path = os.path.join(utils.DEFS_DIR, 'scenarios')
-
         # At this point, we have all the names of the scenarios which actually
         # have at least one test for it. Now, we're going to grab a list of all
         # scenario YAML files to compare them. We'll also check for a few
         # essential things we require in scenarios (e.g. having `checks` and
         # `conclusions` sections) as well.
-        scenario_files = glob.glob(scenarios_root_path + '/**/*.yaml',
-                                   recursive=True)
+        # Ensure the defs root is configured for YDefsLoader discovery.
+        if not HotSOSConfig.plugin_yaml_defs:
+            HotSOSConfig.plugin_yaml_defs = utils.DEFS_DIR
+
+        # Use YDefsLoader to find all scenario YAML files
+        scenario_files = list(YDefsLoader.get_scenario_files())
 
         all_tests, test_scenario_mappings = self._discover_tests()
 
