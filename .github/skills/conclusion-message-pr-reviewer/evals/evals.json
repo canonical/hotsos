@@ -1,0 +1,23 @@
+{
+  "skill_name": "conclusion-message-pr-reviewer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "/conclusion-message-pr-reviewer review the conclusion messages added or changed in this PR and tell me which ones don't meet the criteria. Don't change anything.",
+      "expected_output": "Markdown review listing only in-scope, failing messages; no files modified",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I'm reviewing a PR that adds hotsos/defs/scenarios/openstack/nova/bugs/lpNEW.yaml with a conclusion message 'known nova bug identified'. Does the conclusion message meet our quality bar?",
+      "expected_output": "Flags the message as failing: no short problem description and not actionable",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Check the raises messages in the scenarios changed on this branch against origin/main and flag any that are non-actionable. Read-only review.",
+      "expected_output": "Markdown review scoped to the branch diff; only added/modified messages are evaluated; passing messages and messages whose text is unchanged (even if their check logic changed) are not reported",
+      "files": []
+    }
+  ]
+}
