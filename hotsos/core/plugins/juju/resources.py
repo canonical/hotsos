@@ -107,6 +107,16 @@ class JujuMachine():
         return self.config.get("upgradedToVersion", "unknown")
 
     @cached_property
+    def is_controller(self):
+        """
+        Check if this machine is a Juju controller.
+
+        Controllers have JobManageModel in their jobs list.
+        """
+        jobs = self.config.get("jobs", [])
+        return "JobManageModel" in jobs
+
+    @cached_property
     def deployed_units(self):
         """ List of units deployed on this machine. """
         units = []

@@ -51,6 +51,10 @@ class JujuChecks(plugintools.PluginPartBase, JujuBase):
 
         return "unknown"
 
+    @property
+    def is_controller(self):
+        return self.machine and self.machine.is_controller
+
     @classmethod
     def is_runnable(cls):
         """
