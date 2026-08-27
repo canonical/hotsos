@@ -17,4 +17,5 @@ raised-bugs:
    One or more Nova service(s) on this host are affected by this bug which is
    triggered when a non-wsgi service that uses greenthreads and oslo.messaging
    with heartbeat_in_pthread=True tries to send a heartbeat message
-   to rabbitmq.
+   to rabbitmq. Please upgrade python3-oslo.messaging to the latest version
+   to resolve this issue.

@@ -12,4 +12,6 @@ mock:
         new: true
 raised-bugs:
   https://bugs.launchpad.net/bugs/1907686: >-
-    Known neutron-ovn bug identified that impacts OVN db connections.
+    A known neutron-ovn bug (LP1907686) is impacting OVN database
+    connections on this host. Please upgrade openvswitch to the latest version
+    to resolve this issue.

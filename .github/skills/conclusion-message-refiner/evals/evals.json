@@ -1,0 +1,9 @@
+{
+  "skill_name": "conclusion-message-refiner",
+  "evals": [
+    {
+        "id": 1, "prompt": "/conclusion-message-refiner identify conclusion messages that don't meet the criteria in this repository. Fix those that need it, and the corresponding tests files.  Do just a dry-run. Don't change anything but show me proposed changes. Open the final report for my review.",
+        "expected_output": "Markdown report, no files changed",
+        "files": [] }
+  ]
+}

@@ -7,4 +7,7 @@ data-root:
     - uptime
 raised-bugs:
   https://bugs.launchpad.net/bugs/1896506: >-
-    Known neutron l3-agent bug identified that critically impacts keepalived.
+    A known neutron l3-agent bug (LP1896506) is critically impacting
+    keepalived on this host (an unsupported 'no_track' configuration entry
+    is being emitted). Please upgrade neutron to the latest version to
+    resolve this issue.

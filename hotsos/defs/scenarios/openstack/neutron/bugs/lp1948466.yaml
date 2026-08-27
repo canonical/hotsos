@@ -11,5 +11,6 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1948466
       message: >-
-        Known neutron-server bug identified that impacts deletion of neutron
-        subnets from the OVN database via the maintenance task.
+        A known neutron-server bug (LP1948466) is impacting deletion of neutron
+        subnets from the OVN database via the maintenance task on this host.
+        Please upgrade neutron to the latest version to resolve this issue.

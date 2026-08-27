@@ -10,4 +10,6 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1928031
       message: >-
-        Known neutron-ovn bug identified that impacts OVN sbdb connections.
+        A known neutron-ovn bug (LP1928031) is impacting OVN southbound
+        database connections on this host. Please upgrade neutron and
+        openvswitch to the latest version to resolve this issue.

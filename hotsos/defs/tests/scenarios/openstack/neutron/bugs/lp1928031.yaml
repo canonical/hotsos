@@ -7,4 +7,6 @@ data-root:
     - uptime
 raised-bugs:
   https://bugs.launchpad.net/bugs/1928031: >-
-    Known neutron-ovn bug identified that impacts OVN sbdb connections.
+    A known neutron-ovn bug (LP1928031) is impacting OVN southbound
+    database connections on this host. Please upgrade neutron and
+    openvswitch to the latest version to resolve this issue.

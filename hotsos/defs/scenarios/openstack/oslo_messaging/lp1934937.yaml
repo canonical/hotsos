@@ -4,6 +4,9 @@ vars:
     service(s) on this host are affected by this bug which is triggered when
     a non-wsgi service that uses greenthreads and oslo.messaging with
     heartbeat_in_pthread=True tries to send a heartbeat message to rabbitmq
+  msg_action_common: >-
+    Please upgrade python3-oslo.messaging to the latest version to resolve
+    this issue.
 checks:
   has_fix:
     apt:
@@ -39,9 +42,10 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1934937
       message: >-
-        One or more Nova {msg_part_common}.
+        One or more Nova {msg_part_common}. {msg_action_common}
       format-dict:
         msg_part_common: $msg_part_common
+        msg_action_common: $msg_action_common
   neutron_1934937:
     priority: 3
     decision: neutron_has_1934937
@@ -49,9 +53,10 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1934937
       message: >-
-        One or more Neutron {msg_part_common}.
+        One or more Neutron {msg_part_common}. {msg_action_common}
       format-dict:
         msg_part_common: $msg_part_common
+        msg_action_common: $msg_action_common
   cinder_1934937:
     priority: 3
     decision: cinder_has_1934937
@@ -59,9 +64,10 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1934937
       message: >-
-        One or more Cinder {msg_part_common}.
+        One or more Cinder {msg_part_common}. {msg_action_common}
       format-dict:
         msg_part_common: $msg_part_common
+        msg_action_common: $msg_action_common
   gnocchi_1934937:
     priority: 3
     decision: gnocchi_has_1934937
@@ -69,9 +75,10 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1934937
       message: >-
-        One or more Gnocchi {msg_part_common}.
+        One or more Gnocchi {msg_part_common}. {msg_action_common}
       format-dict:
         msg_part_common: $msg_part_common
+        msg_action_common: $msg_action_common
   syslog_1934937:
     priority: 2
     decision:
@@ -84,15 +91,17 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1934937
       message: >-
-        One or more {msg_part_common}.
+        One or more {msg_part_common}. {msg_action_common}
       format-dict:
         msg_part_common: $msg_part_common
+        msg_action_common: $msg_action_common
   journalctl_1934937:
     decision: journalctl_has_1934937
     raises:
       type: LaunchpadBug
       bug-id: 1934937
       message: >-
-        One or more {msg_part_common}.
+        One or more {msg_part_common}. {msg_action_common}
       format-dict:
         msg_part_common: $msg_part_common
+        msg_action_common: $msg_action_common

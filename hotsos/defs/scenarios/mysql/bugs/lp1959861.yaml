@@ -23,8 +23,7 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1959861
       message: >-
-          This host is running MySQL Router and
-          has client_ssl_mode configured
-          but client_ssl_cert is not set.
-          This will cause mysql-router to error
-          when restarted.
+          This host is running MySQL Router with client_ssl_mode configured
+          but client_ssl_cert is not set, which will cause mysql-router to
+          error on restart (LP1959861). Please set client_ssl_cert (or unset
+          client_ssl_mode) before restarting mysql-router.

@@ -12,5 +12,6 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1993628
       message: >-
-        Neutron has some DuplicateRecordSet exceptions which could be a result of this bug where zones are not
-        being updated properly when ports are deleted.
+        Neutron has DuplicateRecordSet exceptions which indicate this bug
+        (LP1993628) where external DNS zones are not updated properly when ports
+        are deleted. Please see the bug for details.

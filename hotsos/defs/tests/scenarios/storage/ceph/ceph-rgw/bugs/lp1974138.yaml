@@ -25,6 +25,8 @@ data-root:
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/1974138: >-
-    In multisite S3 RGW environments, objects containing prefixes (/),
-    do not sync from primary to secondary sites if AllowEncodedSlashes
-    Apache directive is missing or set to OFF.
+    In multisite S3 RGW environments, objects containing prefixes (/)
+    do not sync from primary to secondary sites when the Apache
+    AllowEncodedSlashes directive is missing or set to OFF (LP1974138).
+    Please upgrade charm-ceph-radosgw to the latest version to resolve
+    this issue.

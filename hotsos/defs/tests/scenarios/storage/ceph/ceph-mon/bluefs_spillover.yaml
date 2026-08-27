@@ -50,7 +50,6 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 raised-bugs:
   https://tracker.ceph.com/issues/38745: >-
-    Identified known Ceph bug. RocksDB needs more space than the
-    leveled space available. See
-    www.mail-archive.com/ceph-users@ceph.io/msg05782.html
+    Identified known Ceph bug. RocksDB needs more space than the leveled
+    space available. See www.mail-archive.com/ceph-users@ceph.io/msg05782.html
     for more background information.

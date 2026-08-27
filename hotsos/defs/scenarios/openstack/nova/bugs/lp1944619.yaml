@@ -10,4 +10,8 @@ conclusions:
     raises:
       type: LaunchpadBug
       bug-id: 1944619
-      message: known nova bug identified
+      message: >-
+        This host is affected by a known OpenStack Nova bug (LP1944619) where
+        attaching a network adapter to an instance fails with a libvirt error
+        ('Requested operation is not valid: PCI device'). Please upgrade nova
+        to the latest version to resolve this issue.

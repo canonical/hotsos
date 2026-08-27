@@ -7,4 +7,6 @@ data-root:
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/1917475: >-
-    known ovn bug identified - db rbac errors
+    A known OVN bug (LP1917475) is causing database RBAC permission errors
+    in the ovn-controller logs on this host. Please upgrade OVN to the
+    latest version to resolve this issue.

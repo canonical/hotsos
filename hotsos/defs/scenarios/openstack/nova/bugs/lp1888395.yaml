@@ -21,4 +21,9 @@ conclusions:
     raises:
       type: LaunchpadBug
       bug-id: 1888395
-      message: known nova bug identified
+      message: >-
+        This host is affected by a known OpenStack Nova bug (LP1888395) that
+        causes instance live migration to fail with a 'NotImplementedError:
+        Cannot load vif_type' on neutron backends that do not support multiple
+        port bindings. Please upgrade nova to the latest version to resolve
+        this issue.

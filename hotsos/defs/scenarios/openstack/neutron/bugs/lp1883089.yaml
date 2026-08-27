@@ -11,4 +11,6 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1883089
       message: >-
-        Known neutron l3-agent bug identified that affects dvr floating ips.
+        A known neutron l3-agent bug (LP1883089) is affecting DVR floating IPs
+        on this host. Please upgrade neutron to the latest version to resolve
+        this issue.

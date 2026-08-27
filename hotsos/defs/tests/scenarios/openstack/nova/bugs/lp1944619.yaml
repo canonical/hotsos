@@ -10,4 +10,7 @@ data-root:
     - sos_commands/date/date
 raised-bugs:
   https://bugs.launchpad.net/bugs/1944619: >-
-   known nova bug identified
+    This host is affected by a known OpenStack Nova bug (LP1944619) where
+    attaching a network adapter to an instance fails with a libvirt error
+    ('Requested operation is not valid: PCI device'). Please upgrade nova
+    to the latest version to resolve this issue.

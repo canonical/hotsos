@@ -14,4 +14,6 @@ conclusions:
       type: LaunchpadBug
       bug-id: 1907686
       message: >-
-        Known neutron-ovn bug identified that impacts OVN db connections.
+        A known neutron-ovn bug (LP1907686) is impacting OVN database
+        connections on this host. Please upgrade openvswitch to the latest version
+        to resolve this issue.

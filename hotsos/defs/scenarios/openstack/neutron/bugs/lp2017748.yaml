@@ -16,4 +16,8 @@ conclusions:
       type: LaunchpadBug
       bug-id: 2017748
       message: >-
-        neutron-ovn-metadata-agent is impacted by a known bug.
+        neutron-ovn-metadata-agent on this host is affected by a known bug
+        (LP2017748) where, under heavy load, metadata namespaces are torn down
+        because the metadata port has not yet propagated to the OVN Southbound
+        database, leaving affected instances without metadata access. Please
+        upgrade neutron to the latest version to resolve this issue.

@@ -7,4 +7,6 @@ data-root:
     - uptime
 raised-bugs:
   https://bugs.launchpad.net/bugs/1929832: >-
-    Known neutron l3-agent bug identified that impacts deletion of neutron routers.
+    A known neutron l3-agent bug (LP1929832) is impacting deletion of
+    neutron routers on this host. Please upgrade neutron to the latest
+    version to resolve this issue.
