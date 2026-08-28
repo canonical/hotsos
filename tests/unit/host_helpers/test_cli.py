@@ -369,6 +369,7 @@ class TestCommandAffinity(utils.BaseTestCase):
         # set for he command source.
         expected = set(['apt_config_dump',
                         'apparmor_status',
+                        'blockdev_report',
                         'ceph_volume_lvm_list',
                         'date',
                         'df',
@@ -381,6 +382,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'ip_addr',
                         'ip_link',
                         'ls_lanR_sys_block',
+                        'lsblk_O_P',
                         'lscpu',
                         'lsof_Mnlc',
                         'lxd_buginfo',
