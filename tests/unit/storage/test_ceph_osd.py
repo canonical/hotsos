@@ -121,6 +121,15 @@ class TestCephOSDChecks(StorageCephOSDTestsBase):
         perf = ceph.common.CephDaemonPerfDump(osd_id=100)
         self.assertEqual(perf.bluefs, {})
 
+    @utils.create_data_root(
+        {'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.snap.microceph.current.run.ceph-osd.0.'
+         'asok_perf_dump': '{"bluefs": {"db_total_bytes": 1073741824}}'})
+    def test_daemon_osd_perf_dump_microceph(self):
+        """Test MicroCeph OSD perf dump values are accessible."""
+        perf = ceph.common.CephDaemonPerfDump(osd_id=0)
+        self.assertEqual(perf.bluefs.get('db_total_bytes'), 1073741824)
+
     def test_oversized_bluefs_log_no_issue(self):
         """Test no oversized bluefs log with healthy data."""
         checks = ceph.common.CephChecks()

@@ -103,6 +103,27 @@ class TestCephPluginDeps(CephCommonTestsBase):
 
 class TestCephChecks(CephCommonTestsBase):
     """ Unit tests for ceph checks. """
+    @utils.create_data_root(
+        {'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.run.ceph.ceph-osd.0.asok_perf_dump': (
+             '{"bluefs": {"db_total_bytes": 1073741824}}'),
+         'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.run.ceph.ceph-osd.1.asok_perf_dump': (
+             '{"bluefs": {"db_total_bytes": 10737418240}}'),
+         'sos_commands/ceph_osd/ceph-volume_lvm_list': (
+             '====== osd.0 =======\n'
+             '  osd fsid                  test-osd-fsid-0\n'
+             '  devices                   /dev/mapper/ceph-osd-0\n'
+             '====== osd.1 =======\n'
+             '  osd fsid                  test-osd-fsid-1\n'
+             '  devices                   /dev/mapper/ceph-osd-1\n')})
+    def test_local_osds_with_small_bluestore_db(self):
+        """Test BlueStore DB devices at or below the minimum size are found."""
+        checks = ceph.common.CephChecks()
+
+        self.assertEqual(checks.local_osds_with_small_bluestore_db,
+                         ['osd.0'])
+
     def test_mds_balancer_disabled_by_interval(self):
         """Test mds balancer disabled by interval."""
         cases = [
