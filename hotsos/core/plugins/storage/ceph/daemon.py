@@ -125,11 +125,14 @@ class CephRGW(CephDaemonBase):
 
 class CephOSD(CephDaemonBase):
     """ Representation of a Ceph OSD """
-    def __init__(self, ceph_id, fsid=None, device=None, dump=None):
+    # pylint: disable-next=too-many-arguments,too-many-positional-arguments
+    def __init__(self, ceph_id, fsid=None, device=None, dump=None,
+                 block_device=None):
         super().__init__('osd')
         self.id = ceph_id
         self.fsid = fsid
         self.device = device
+        self.block_device = block_device
         self.dump = dump
 
     def to_dict(self):
