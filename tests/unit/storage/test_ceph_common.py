@@ -142,6 +142,52 @@ class TestMicrocephLocalOSDs(CephCommonTestsBase):
         self.assertEqual(osds[0].device, '/dev/vdb')
 
     @utils.create_data_root({
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_status':
+            json.dumps({"osd_fsid": "831fa05a-3901-4206-a850-ac38d26327d2"}),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_list_devices':
+            json.dumps({"devices": [{"devnode": "/dev/vdb"}]}),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_perf_dump':
+            json.dumps({"bluefs": {"db_total_bytes": 4294967295}}),
+        'sos_commands/block/lsblk_-O_-P': (
+            'PATH="/dev/vdb" KNAME="vdb"\n'),
+        'sos_commands/block/blockdev_--report': (
+            'RO RA SSZ BSZ StartSec Size Device\n'
+            'rw 0 512 4096 0 107374182400 /dev/vdb\n'),
+    })
+    def test_microceph_osd_with_small_bluestore_db(self):
+        """Test the small DB check uses a MicroCeph OSD device."""
+        checks = ceph.common.CephChecks()
+
+        self.assertEqual(checks.local_osds_with_small_bluestore_db,
+                         ['osd.2'])
+
+    @utils.create_data_root({
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_status':
+            json.dumps({"osd_fsid": "831fa05a-3901-4206-a850-ac38d26327d2"}),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_list_devices':
+            json.dumps([{"device": "/dev/disk/by-id/ceph-osd-2"}]),
+        'sos_commands/ceph_osd/ceph_daemon_'
+        '.var.snap.microceph.current.run.ceph-osd.2.asok_perf_dump':
+            json.dumps({"bluefs": {"db_total_bytes": 4294967295}}),
+        'sos_commands/block/lsblk_-O_-P': (
+            'ID-LINK="ceph-osd-2" PATH="/dev/vdb" KNAME="vdb"\n'),
+        'sos_commands/block/blockdev_--report': (
+            'RO RA SSZ BSZ StartSec Size Device\n'
+            'rw 0 512 4096 0 107374182400 /dev/vdb\n'),
+    })
+    def test_microceph_osd_with_persistent_device_path(self):
+        """Test persistent device paths resolve through lsblk ID-LINK."""
+        checks = ceph.common.CephChecks()
+
+        self.assertEqual(checks.local_osds_with_small_bluestore_db,
+                         ['osd.2'])
+
+    @utils.create_data_root({
         'sos_commands/snap/snap_list_--all': SNAP_LIST_MICROCEPH,
         'var/snap/microceph/current/conf/ceph.conf': CEPH_CONF,
         'sos_commands/ceph_osd/ceph_daemon_'
@@ -291,6 +337,82 @@ class TestMicrocephProcesses(CephCommonTestsBase):
 
 class TestCephChecks(CephCommonTestsBase):
     """ Unit tests for ceph checks. """
+    @utils.create_data_root(
+        {'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.run.ceph.ceph-osd.0.asok_perf_dump': (
+             '{"bluefs": {"db_total_bytes": 1073741824}}'),
+         'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.run.ceph.ceph-osd.1.asok_perf_dump': (
+             '{"bluefs": {"db_total_bytes": 4294967296}}'),
+         'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.run.ceph.ceph-osd.2.asok_perf_dump': (
+             '{"bluefs": {"db_total_bytes": 4294967297}}'),
+         'sos_commands/ceph_osd/ceph-volume_lvm_list': (
+             '====== osd.0 =======\n'
+             '  [block]       /dev/ceph/osd-block-0\n'
+             '  block device              /dev/ceph/osd-block-0\n'
+             '  osd fsid                  test-osd-fsid-0\n'
+             '  devices                   /dev/mapper/ceph-backing-0\n'
+             '====== osd.1 =======\n'
+             '  [block]       /dev/ceph/osd-block-1\n'
+             '  block device              /dev/ceph/osd-block-1\n'
+             '  osd fsid                  test-osd-fsid-1\n'
+             '  devices                   /dev/mapper/ceph-backing-1\n'
+             '====== osd.2 =======\n'
+             '  [block]       /dev/ceph/osd-block-2\n'
+             '  block device              /dev/ceph/osd-block-2\n'
+             '  osd fsid                  test-osd-fsid-2\n'
+             '  devices                   /dev/mapper/ceph-backing-2\n'
+             '====== osd.3 =======\n'
+             '  [block]       /dev/ceph-0123-4567/osd-block-0123-4567\n'
+             '  osd fsid                  test-osd-fsid-3\n'
+             '  devices                   /dev/mapper/ceph-backing-3\n'),
+         'sos_commands/block/lsblk_-O_-P': (
+             'PATH="/dev/ceph/osd-block-0" KNAME="dm-0"\n'
+             'PATH="/dev/ceph/osd-block-1" KNAME="dm-1"\n'
+             'PATH="/dev/ceph/osd-block-2" KNAME="dm-2"\n'
+             'PATH="/dev/mapper/ceph--0123--4567-osd--block--0123--4567" '
+             'KNAME="dm-3"\n'
+             'PATH="/dev/mapper/ceph-backing-0" KNAME="dm-4"\n'
+             'PATH="/dev/mapper/ceph-backing-1" KNAME="dm-5"\n'
+             'PATH="/dev/mapper/ceph-backing-2" KNAME="dm-6"\n'
+             'PATH="/dev/mapper/ceph-backing-3" KNAME="dm-7"\n'),
+         'sos_commands/block/blockdev_--report': (
+             'RO RA SSZ BSZ StartSec Size Device\n'
+             'rw 0 512 4096 0 107374182400 /dev/dm-0\n'
+             'rw 0 512 4096 0 107374182400 /dev/dm-1\n'
+             'rw 0 512 4096 0 107374182400 /dev/dm-2\n'
+             'rw 0 512 4096 0 107374182400 /dev/dm-3\n'
+             'rw 0 512 4096 0 1099511627776 /dev/dm-4\n'
+             'rw 0 512 4096 0 1099511627776 /dev/dm-5\n'
+             'rw 0 512 4096 0 1099511627776 /dev/dm-6\n'
+             'rw 0 512 4096 0 1099511627776 /dev/dm-7\n'),
+         'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.run.ceph.ceph-osd.3.asok_perf_dump': (
+             '{"bluefs": {"db_total_bytes": 4294967295}}')})
+    def test_local_osds_with_small_bluestore_db(self):
+        """Test DB boundaries and standard LVM block-device aliases."""
+        checks = ceph.common.CephChecks()
+
+        self.assertEqual(checks.local_osds_with_small_bluestore_db,
+                         ['osd.0', 'osd.3'])
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_osd/'
+         'ceph_daemon_.var.run.ceph.ceph-osd.0.asok_perf_dump': (
+             '{"bluefs": {"db_total_bytes": 1073741824}}'),
+         'sos_commands/ceph_osd/ceph-volume_lvm_list': (
+             '====== osd.0 =======\n'
+             '  [block]       /dev/ceph/osd-block-0\n'
+             '  block device              /dev/ceph/osd-block-0\n'
+             '  osd fsid                  test-osd-fsid-0\n'
+             '  devices                   /dev/mapper/ceph-osd-0\n')})
+    def test_small_bluestore_db_without_block_inventory(self):
+        """Test no warning is raised without block device size data."""
+        checks = ceph.common.CephChecks()
+
+        self.assertEqual(checks.local_osds_with_small_bluestore_db, [])
+
     def test_mds_balancer_disabled_by_interval(self):
         """Test mds balancer disabled by interval."""
         cases = [
