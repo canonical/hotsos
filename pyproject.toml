@@ -12,8 +12,8 @@ requires-python = ">=3.8"
 dynamic = ["version", "dependencies"]
 
 [tool.setuptools.packages.find]
-include = ["hotsos*"]
-exclude = ["tests*"]
+include = ["hotsos*", "cos*"]
+exclude = ["tests*", "cos.tests*"]
 
 [tool.setuptools-git-versioning]
 enabled = true
@@ -32,3 +32,4 @@ dependencies = {file = ["requirements.txt"]}
 
 [project.scripts]
 hotsos = "hotsos.cli:main"
+cos = "cos.cli:main"
