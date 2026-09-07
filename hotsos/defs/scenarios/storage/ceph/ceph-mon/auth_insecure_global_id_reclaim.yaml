@@ -1,0 +1,20 @@
+checks:
+  insecure_reclaim_clients:
+    input:
+      command: ceph_health_detail_json_decoded
+    expr: '.+"AUTH_INSECURE_GLOBAL_ID_RECLAIM":'
+conclusions:
+  insecure-reclaim-clients:
+    decision: insecure_reclaim_clients
+    raises:
+      type: MitreCVE
+      cve-id: CVE-2021-20288
+      message: >-
+        This Ceph cluster has one or more clients or daemons that are not
+        securely reclaiming their global_id (AUTH_INSECURE_GLOBAL_ID_RECLAIM).
+        These are typically clients that have not yet been upgraded to a
+        version patched against CVE-2021-20288. If
+        auth_allow_insecure_global_id_reclaim is later disabled to harden the
+        cluster, these clients will fail to (re)authenticate until they are
+        upgraded. Check 'ceph health detail' for the affected clients and
+        upgrade them before disabling insecure global_id reclaim.
