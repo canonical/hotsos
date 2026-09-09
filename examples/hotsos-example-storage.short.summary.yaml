@@ -17,6 +17,10 @@ potential-issues:
         for details.
 bugs-detected:
   storage:
+    https://ubuntu.com/security/CVE-2025-30156: Ceph version 15.2.14-0ubuntu0.20.04.2
+      is affected by CVE-2025-30156, an authentication bypass in CephX that can allow
+      an attacker to forge privileged credentials and gain cluster-wide access. Please
+      upgrade Ceph to the latest version and follow the CephX key-rotation procedure.
     https://tracker.ceph.com/issues/53729: This Ceph cluster is vulnerable to a bug
       in which OSDs can consume considerable amounts of memory and eventually be OOM
       killed due to potentially millions of duplicate PG entries. If affected, it
