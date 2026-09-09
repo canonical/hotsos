@@ -315,7 +315,14 @@ class OVSDPDK(OpenvSwitchBase):
     @cached_property
     def config(self):
         """ Return the OVSDB Open_vSwitch other_config dict. """
-        return self.ovsdb.Open_vSwitch.other_config or {}
+        config = self.ovsdb.Open_vSwitch.other_config
+        if not config:
+            return {}
+
+        if not isinstance(config, dict):
+            return {}
+
+        return config
 
     @property
     def enabled(self):
