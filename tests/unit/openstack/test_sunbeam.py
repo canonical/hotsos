@@ -225,6 +225,51 @@ class TestOpenstackSunbeamPluginCore(TestOpenstackSunbeamBase):
             self.assertEqual(ost_base.installed_pkg_release_names,
                              ['caracal'])
 
+    @utils.create_data_root(
+        {'sos_commands/snap/snap_list_--all':
+         'openstack                 2024.1-e69efaea         1101   '
+         '2024.1/stable  canonical✓  held'})
+    def test_release_name_from_snap_controller(self):
+        """ Test that we properly detect sunbeam controller snap. """
+        ost_base = openstack_core.OpenstackBase()
+        self.assertEqual(ost_base.installed_pkg_release_names, ['caracal'])
+
+    @utils.create_data_root(
+        {'sos_commands/snap/snap_list_--all':
+         'openstack-hypervisor      2024.1-5b344519         694    '
+         '2024.1/stable  canonical✓  held'})
+    def test_release_name_from_snap_hypervisor(self):
+        """ Test that we properly detect sunbeam hypervisor snap. """
+        ost_base = openstack_core.OpenstackBase()
+        self.assertEqual(ost_base.installed_pkg_release_names, ['caracal'])
+
+    @utils.create_data_root(
+        {'sos_commands/snap/snap_list_--all':
+         'openstack-network-agents  2024.1-ccb154a1         109    '
+         '2024.1/stable  canonical✓  held'})
+    def test_release_name_from_snap_network_agent(self):
+        """ Test that we properly detect sunbeam network agent snap. """
+        ost_base = openstack_core.OpenstackBase()
+        self.assertEqual(ost_base.installed_pkg_release_names, ['caracal'])
+
+    @utils.create_data_root(
+        {'sos_commands/snap/snap_list_--all':
+         'cinder-volume             2024.1-4c94ab3f         137    '
+         '2024.1/stable  canonical✓  held'})
+    def test_release_name_from_snap_cinder_volume(self):
+        """ Test that we properly detect sunbeam cinder-volume snap. """
+        ost_base = openstack_core.OpenstackBase()
+        self.assertEqual(ost_base.installed_pkg_release_names, ['caracal'])
+
+    @utils.create_data_root(
+        {'sos_commands/snap/snap_list_--all':
+         'epa-orchestrator          2024.1-1f4d0353         43     '
+         '2024.1/stable  canonical✓  held'})
+    def test_release_name_from_snap_orchestrator(self):
+        """ Test that we properly detect sunbeam orchestrator snap. """
+        ost_base = openstack_core.OpenstackBase()
+        self.assertEqual(ost_base.installed_pkg_release_names, ['caracal'])
+
 
 class TestOpenstackSunbeamAgentEvents(TestOpenstackSunbeamBase):
     """ Unit tests for OpenStack Sunbeam agent event checks. """

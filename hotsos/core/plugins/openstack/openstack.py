@@ -344,7 +344,13 @@ OST_REL_INFO = {
         'stein': '1.0.0'}
 }
 
-OST_SUNBEAM_SNAP_NAMES = ['openstack', 'openstack-hypervisor']
+OST_SUNBEAM_SNAP_NAMES = [
+    'openstack',
+    'openstack-hypervisor',
+    'openstack-network-agents',
+    'epa-orchestrator',
+    'cinder-volume',
+]
 
 OST_SUNBEAM_REL_INFO = {
     '2026.1': 'gazpacho',
@@ -568,7 +574,7 @@ class OSTProjectCatalog():
                        ]
 
     # ref: https://github.com/orgs/canonical/repositories?q=%22snap-open%22
-    SNAP_DEPS_SUNBEAM = [r'openstack\S*']
+    SNAP_DEPS_SUNBEAM = [r'openstack\S*'] + OST_SUNBEAM_SNAP_NAMES
 
     def __init__(self):
         self._projects = {}

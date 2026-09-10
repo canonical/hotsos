@@ -354,6 +354,7 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         """ Test project catalog snap core expressions. """
         c = openstack_core.openstack.OSTProjectCatalog()
         core = [r'openstack\S*']
+        core.extend(openstack_core.openstack.OST_SUNBEAM_SNAP_NAMES)
         self.assertEqual(sorted(c.snap_core_exprs), sorted(core))
 
     def test_project_catalog_packages(self):
