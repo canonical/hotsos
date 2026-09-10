@@ -31,11 +31,11 @@ class OpenvSwitchSummary(OpenvSwitchChecks):
             _config['offload'] = 'enabled'
 
         _other_config = self.ovs.ovsdb.Open_vSwitch.other_config
-        if _other_config:
+        if _other_config and isinstance(_other_config, dict):
             _config['other-config'] = _other_config
 
         _external_ids = self.ovs.ovsdb.Open_vSwitch.external_ids
-        if _external_ids:
+        if _external_ids and isinstance(_external_ids, dict):
             _config['external-ids'] = _external_ids
 
         db_keys = ['inactivity_probe', 'max_backoff']
