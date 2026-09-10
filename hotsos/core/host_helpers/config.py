@@ -120,11 +120,17 @@ class IniConfigBase(ConfigBase):
     @property
     def all_sections(self):
         """ Return all config sections including DEFAULT. """
+        if self.config is None:
+            return []
+
         return self.config.sections() + ["DEFAULT"]
 
     @property
     def all_keys(self):
         """ Return a flat list of all config keys across sections. """
+        if self.config is None:
+            return []
+
         return [x for option in self.config.items()
                 for x in list(option[1].keys())]
 
