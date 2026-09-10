@@ -10,7 +10,7 @@ from hotsos.core.host_helpers import (
     SnapPackageHelper,
     SystemdHelper,
 )
-from hotsos.core.plugins.openstack.openstack import OST_SUNBEAM_SNAP_NAMES
+from hotsos.core.plugins.openstack import openstack
 from hotsos.core.ycheck.events import EventCallbackBase, EventHandlerBase
 from hotsos.core.ycheck.common import GlobalSearcherAutoRegisterBase
 from hotsos.core.utils import PathFinderBase, sorted_dict
@@ -35,7 +35,8 @@ _OVS_PKGS_DEPS = ['libc-bin',
 OVS_PKGS_DEPS = _OVS_PKGS_DEPS + \
                 [PY_CLIENT_PREFIX.format(p) for p in _OVS_PKGS_DEPS]
 
-OVS_SNAPS_CORE = ['microovn'] + OST_SUNBEAM_SNAP_NAMES
+# Include OpenStack Sunbeam snaps that contain OVS/OVN components
+OVS_SNAPS_CORE = ['microovn'] + openstack.OST_SUNBEAM_NETWORKING_SNAPS
 
 
 class PathFinder(PathFinderBase):

@@ -344,13 +344,16 @@ OST_REL_INFO = {
         'stein': '1.0.0'}
 }
 
-OST_SUNBEAM_SNAP_NAMES = [
-    'openstack',
+OST_SUNBEAM_NETWORKING_SNAPS = [
     'openstack-hypervisor',
     'openstack-network-agents',
+]
+
+OST_SUNBEAM_SNAP_NAMES = [
+    'openstack',
     'epa-orchestrator',
     'cinder-volume',
-]
+] + OST_SUNBEAM_NETWORKING_SNAPS
 
 OST_SUNBEAM_REL_INFO = {
     '2026.1': 'gazpacho',
