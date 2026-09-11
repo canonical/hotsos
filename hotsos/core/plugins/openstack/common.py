@@ -327,6 +327,12 @@ class OpenStackChecks(plugintools.PluginPartBase):
         """
         ost_common = OpenstackBase()
         if ost_common.apt.core or ost_common.snaps.core:
+            # If the only core package detected is the openstackclients snap
+            # don't count that as enough to run the plugin.
+            if not ost_common.apt.core and len(ost_common.snaps.core) == 1:
+                if list(ost_common.snaps.core)[0] == 'openstackclients':
+                    return False
+
             return True
 
         return False

@@ -247,8 +247,8 @@ class TestOpenstackSunbeamPluginCore(TestOpenstackSunbeamBase):
         {'sos_commands/snap/snap_list_--all':
          'openstack-network-agents  2024.1-ccb154a1         109    '
          '2024.1/stable  canonical✓  held'})
-    def test_release_name_from_snap_network_agent(self):
-        """ Test that we properly detect sunbeam network agent snap. """
+    def test_release_name_from_snap_network_agents(self):
+        """ Test that we properly detect sunbeam network-agents snap. """
         ost_base = openstack_core.OpenstackBase()
         self.assertEqual(ost_base.installed_pkg_release_names, ['caracal'])
 
@@ -269,6 +269,15 @@ class TestOpenstackSunbeamPluginCore(TestOpenstackSunbeamBase):
         """ Test that we properly detect sunbeam orchestrator snap. """
         ost_base = openstack_core.OpenstackBase()
         self.assertEqual(ost_base.installed_pkg_release_names, ['caracal'])
+
+    @utils.create_data_root(
+        {'sos_commands/snap/snap_list_--all':
+         'openstackclients  2024.1                  360    2024.1/stable  '
+         'canonical**  -'})
+    def test_release_name_not_from_clients_snap(self):
+        """ Test that we ignore the openstackclients snap. """
+        ost_base = openstack_core.OpenstackBase()
+        self.assertEqual(ost_base.installed_pkg_release_names, [])
 
 
 class TestOpenstackSunbeamAgentEvents(TestOpenstackSunbeamBase):

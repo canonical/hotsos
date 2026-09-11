@@ -434,8 +434,22 @@ class TestOpenstackPluginCore(TestOpenstackBase):
         ost_base = openstack_core.OpenStackChecks()
         self.assertFalse(ost_base.is_runnable())
 
+    @utils.create_data_root(
+        {'sos_commands/snap/snap_list_--all':
+         'openstackclients  2024.1                  360    2024.1/stable  '
+         'canonical**  -'})
+    def test_is_runnable_openstackclients_only(self):
+        """
+        Test plugin is not runnable if only openstackclients installed.
+        """
+        ost_base = openstack_core.OpenStackChecks()
+        self.assertFalse(ost_base.is_runnable())
+
     def test_is_runnable(self):
-        """ Test plugin is runnable with services installed. """
+        """ Test plugin is runnable with services installed.
+
+        NOTE: this will be using the packages in the DATA_ROOT.
+        """
         ost_base = openstack_core.OpenStackChecks()
         self.assertTrue(ost_base.is_runnable())
 
