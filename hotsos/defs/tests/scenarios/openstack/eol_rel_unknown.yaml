@@ -1,0 +1,17 @@
+target-name: eol.yaml
+mock:
+  patch:
+    hotsos.core.plugins.openstack.common.log:
+      args: []
+      kwargs: {}
+  patch.object:
+    hotsos.core.plugins.openstack.common.OpenstackBase:
+      args: [release_name]
+      kwargs:
+        new: unknown
+data-root:
+  copy-from-original:
+    - sos_commands/dpkg/dpkg_-l
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
