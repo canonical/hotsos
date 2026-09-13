@@ -181,6 +181,9 @@ class CephInstallInfo(InstallInfoBase):
 
 class CephChecks(StorageBase):
     """ Ceph Checks. """
+    # A 1 GiB BlueStore DB is the ceph-volume default and is generally too
+    # small for production OSDs.
+    BLUESTORE_DB_SIZE_MIN = 5 * 1024 * 1024 * 1024
     # Threshold above which an OSD's bluefs log is considered oversized.
     # Healthy OSDs keep this well under 50 GiB; sustained growth past this
     # point indicates that bluefs log compaction has failed and the log is
@@ -531,6 +534,29 @@ class CephChecks(StorageBase):
                 bad.append(f'osd.{osd.id}')
 
         return sorted(bad)
+
+    @cached_property
+    def local_osds_with_small_bluestore_db(self):
+        """Return local OSDs with a BlueStore DB device at most 5 GiB."""
+        bad = []
+        for osd in self.local_osds:
+            try:
+                bluefs = CephDaemonPerfDump(osd_id=osd.id).bluefs
+            except Exception:  # pylint: disable=broad-except
+                continue
+
+            try:
+                db_size = int(bluefs['db_total_bytes'])
+            except (KeyError, TypeError, ValueError):
+                continue
+
+            if db_size <= 0:
+                continue
+
+            if db_size <= self.BLUESTORE_DB_SIZE_MIN:
+                bad.append(f'osd.{osd.id}')
+
+        return sorted(set(bad))
 
     @cached_property
     def bluestore_enabled(self):

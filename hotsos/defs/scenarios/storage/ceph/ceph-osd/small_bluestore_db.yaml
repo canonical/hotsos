@@ -1,0 +1,16 @@
+checks:
+  osds_with_small_bluestore_db:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephChecks.local_osds_with_small_bluestore_db
+      ops: [[length_hint], [gt, 0]]
+conclusions:
+  osds-have-small-bluestore-db:
+    decision: osds_with_small_bluestore_db
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Found OSD(s) {bad_osds} with a BlueStore DB device of 5 GiB or smaller. A small
+        DB device can cause metadata to spill over to the main OSD device and degrade
+        performance. Review the OSD device layout and provision a larger fast DB device.
+      format-dict:
+        bad_osds: '@checks.osds_with_small_bluestore_db.requires.value_actual:comma_join'
