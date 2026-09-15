@@ -1,4 +1,5 @@
 from functools import cached_property
+from itertools import combinations
 
 from hotsos.core.host_helpers import CLIHelper
 
@@ -179,6 +180,72 @@ class CephCrushMap():
                     taken = fdomain = 0
         return to_check
 
+    @staticmethod
+    def _collect_leaf_osd_ids(buckets, bucket_id):
+        """Recursively collect leaf OSD ids reachable from a bucket."""
+        bucket = buckets.get(bucket_id)
+        if bucket is None:
+            return set()
+
+        osd_ids = set()
+        for item in bucket["items"]:
+            item_id = item["id"]
+            if item_id >= 0:
+                osd_ids.add(item_id)
+            else:
+                osd_ids.update(
+                    CephCrushMap._collect_leaf_osd_ids(buckets, item_id))
+
+        return osd_ids
+
+    @cached_property
+    def crushmap_overlapping_roots(self):
+        """
+        Report distinct CRUSH "take" roots - in use by pools' crush
+        rules - whose reachable OSDs overlap.
+
+        This mirrors what the ceph-mgr PG autoscaler considers an
+        "overlapping root": e.g. one pool's rule takes the plain root
+        (all device classes) while another pool's rule takes a
+        device-class-restricted shadow root descending from the same
+        root, so their OSD sets are not disjoint. When this happens,
+        ceph-mgr cannot unambiguously attribute available capacity to
+        each pool and skips autoscaling for the affected pools.
+
+        Note this is *not* the same as a root simply containing OSDs
+        of more than one device class, which is normal and expected
+        wherever device classes are used with a single shared root.
+        """
+        if not self.osd_crush_dump:
+            return []
+
+        buckets = {b['id']: b for b in self.osd_crush_dump["buckets"]}
+        used_roots = {taken for _, taken, _ in
+                      self._get_in_use_trees_and_fdomains()}
+        if len(used_roots) < 2:
+            return []
+
+        osd_sets = {root: self._collect_leaf_osd_ids(buckets, root)
+                    for root in used_roots}
+
+        overlaps = []
+        for root_a, root_b in combinations(sorted(osd_sets), 2):
+            if osd_sets[root_a] & osd_sets[root_b]:
+                name_a = buckets.get(root_a, {}).get('name', str(root_a))
+                name_b = buckets.get(root_b, {}).get('name', str(root_b))
+                overlaps.append(f"{name_a} <-> {name_b}")
+
+        return overlaps
+
+    @cached_property
+    def crushmap_overlapping_roots_pretty(self):
+        """ Return human-readable string of overlapping CRUSH roots. """
+        overlaps = self.crushmap_overlapping_roots
+        if overlaps:
+            return ", ".join(overlaps)
+
+        return None
+
     @cached_property
     def crushmap_equal_buckets(self):
         """
@@ -358,47 +425,6 @@ class CephCrushMap():
     def osd_count_imbalance_threshold(self):
         """Return the configured OSD count imbalance threshold."""
         return CEPH_OSD_COUNT_IMBALANCE_THRESHOLD
-
-    @staticmethod
-    def collect_osd_classes(node_id, nodes):
-        """Recursively collect device classes of all OSDs under a node."""
-        node = nodes.get(node_id)
-        if node is None:
-            return set()
-        if node.get('type') == 'osd':
-            dc = node.get('device_class')
-            return {dc} if dc else set()
-        classes = set()
-        for child_id in node.get('children', []):
-            classes.update(
-                CephCrushMap.collect_osd_classes(child_id, nodes))
-        return classes
-
-    @cached_property
-    def crush_tree_has_overlapping_roots(self):
-        """
-        Detect overlapping roots from ceph osd crush tree --show-shadow.
-
-        A non-shadow root has overlapping roots when it contains OSDs from
-        multiple device classes.
-        """
-        crush_tree = CLIHelper().ceph_osd_crush_tree_json_decoded()
-        if not crush_tree:
-            return False
-
-        nodes = {n['id']: n for n in crush_tree.get('nodes', [])}
-
-        for node in crush_tree.get('nodes', []):
-            if node.get('type') != 'root':
-                continue
-            # Skip shadow roots (their names contain '~')
-            if '~' in node.get('name', ''):
-                continue
-            classes = self.collect_osd_classes(node['id'], nodes)
-            if len(classes) > 1:
-                return True
-
-        return False
 
     @cached_property
     def autoscaler_enabled_pools(self):
