@@ -13,19 +13,27 @@ checks:
       - '.* pool (\w+) scale due to overlapping roots:.*'
       - '.* pool (\w+) has overlapping roots: .*'
       - '.* pool (\w+) contains an overlapping root .*'
-  overlapping_roots_crush_tree:
-    property: hotsos.core.plugins.storage.ceph.CephCrushMap.crush_tree_has_overlapping_roots
+  overlapping_roots_crush_dump:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_overlapping_roots
+      ops: [[length_hint], [gt, 0]]
 conclusions:
-  overlapping-roots-from-crush-tree:
+  overlapping-roots-from-crush-dump:
     priority: 1
-    decision: overlapping_roots_crush_tree
+    decision: overlapping_roots_crush_dump
     raises:
       type: CephMgrError
       message: >-
-        Overlapping CRUSH roots detected via ceph osd crush tree
-        --show-shadow. {common}
+        Overlapping CRUSH roots detected: {roots}. This prevents the PG
+        autoscaler from scaling the affected pools. Please run `ceph osd
+        pool autoscale-status` and `ceph osd crush rule dump` to identify
+        pools whose rules use overlapping roots, then assign each affected
+        pool a CRUSH rule that targets a disjoint root with `ceph osd pool
+        set <pool-name> crush_rule <rule-name>`. See the Ceph documentation
+        for further guidance:
+        https://docs.ceph.com/en/latest/rados/operations/placement-groups/#viewing-pg-scaling-recommendations.
       format-dict:
-        common: $overlap_common_msg
+        roots: hotsos.core.plugins.storage.ceph.CephCrushMap.crushmap_overlapping_roots_pretty
   overlapping-roots-with-pools:
     priority: 2
     decision: overlapping_roots
