@@ -1,0 +1,53 @@
+target-name: autoscaler_overlap_roots.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/ceph_report: |
+      {
+        "crushmap": {
+          "rules": [
+            {"rule_id": 0, "rule_name": "replicated_rule", "type": 1},
+            {"rule_id": 1, "rule_name": "ssd_rule", "type": 1}
+          ]
+        },
+        "osdmap": {
+          "pools": [
+            {"pool": 1, "pool_name": "pool1", "crush_rule": 0},
+            {"pool": 2, "pool_name": "pool2", "crush_rule": 1}
+          ]
+        }
+      }
+    sos_commands/ceph_mon/ceph_osd_crush_dump: |
+      {
+        "buckets": [
+          {"id": -1, "name": "default",
+           "items": [{"id": -3}, {"id": -5}]},
+          {"id": -2, "name": "default~ssd", "items": [{"id": -4}]},
+          {"id": -3, "name": "host1", "items": [{"id": 0}]},
+          {"id": -4, "name": "host1~ssd", "items": [{"id": 0}]},
+          {"id": -5, "name": "host2", "items": [{"id": 1}]}
+        ],
+        "rules": [
+          {"rule_id": 0, "steps": [
+            {"op": "take", "item": -1, "item_name": "default"},
+            {"op": "chooseleaf_firstn", "num": 0, "type": "host"},
+            {"op": "emit"}]},
+          {"rule_id": 1, "steps": [
+            {"op": "take", "item": -2, "item_name": "default~ssd"},
+            {"op": "chooseleaf_firstn", "num": 0, "type": "host"},
+            {"op": "emit"}]}
+        ]
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephMgrError: >-
+    Overlapping CRUSH roots detected: default~ssd <-> default. This
+    prevents the PG autoscaler from scaling the affected pools. Please
+    run `ceph osd pool autoscale-status` and `ceph osd crush rule dump`
+    to identify pools whose rules use overlapping roots, then assign each
+    affected pool a CRUSH rule that targets a disjoint root with `ceph osd
+    pool set <pool-name> crush_rule <rule-name>`. See the Ceph documentation
+    for further guidance:
+    https://docs.ceph.com/en/latest/rados/operations/placement-groups/#viewing-pg-scaling-recommendations.
