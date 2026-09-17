@@ -246,11 +246,11 @@ def create_constraint(search_result_age_hours=None,
         hours = min(hours,
                     max(uptime_etime_hours - min_hours_since_last_boot, 0))
 
-        try:
-            return SearchConstraintSearchSince(
-                                        ts_matcher_cls=CommonTimestampMatcher,
-                                        hours=hours)
-        except ValueError as exc:
-            log.warning("failed to create search constraint: %s", exc)
+    try:
+        return SearchConstraintSearchSince(
+                                    ts_matcher_cls=CommonTimestampMatcher,
+                                    hours=hours)
+    except ValueError as exc:
+        log.warning("failed to create search constraint: %s", exc)
 
     return None

@@ -1,0 +1,16 @@
+target-name: maas_regiond_db_connection.yaml
+data-root:
+  files:
+    var/snap/maas/common/log/regiond.log: |
+      Sep 13 01:45:35 juju-43b62a-0 maas-regiond[2113684]: django.db.utils.OperationalError: connection to server at "10.0.0.1", port 5432 failed: Connection refused
+      Sep 16 01:45:35 juju-43b62a-0 maas-regiond[2113684]: django.db.utils.OperationalError: connection to server at "10.1.2.3", port 5432 failed: Connection refused
+      Sep 16 01:46:35 juju-43b62a-0 maas-regiond[2113684]: django.db.utils.OperationalError: connection to server at "10.2.3.4", port 5432 failed: Connection refused
+    sos_commands/date/date: |
+      Thu Sep 17 16:19:17 UTC 2026
+  copy-from-original:
+    - uptime
+raised-issues:
+  MAASError: >-
+    maas-regiond is unable to reach the database backend (e.g. at 10.1.2.3, 10.2.3.4).
+    Check that the PostgreSQL server is running and reachable from the region
+    controller.

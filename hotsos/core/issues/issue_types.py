@@ -192,6 +192,10 @@ class MAASWarning(IssueTypeBase):
     """ Issue for MAAS warnings. """
 
 
+class MAASError(IssueTypeBase):
+    """ Issue for MAAS errors. """
+
+
 class MicroCloudWarning(IssueTypeBase):
     """ Issue for MicroCloud warnings. """
 

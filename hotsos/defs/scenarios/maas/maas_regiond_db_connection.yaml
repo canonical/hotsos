@@ -1,0 +1,41 @@
+checks:
+  # works with MAAS < 3.5
+  has_db_connection_issue_logfile:
+    input:
+      - 'var/snap/maas/common/log/regiond.log'
+      - 'var/log/maas/regiond.log'
+    search:
+      expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+)\S+ \S+ maas-regiond\[\d+\]: django\.db\.utils\.OperationalError: connection to server at "(\S+)", port \d+ failed'
+      constraints:
+        search-result-age-hours: 48
+  # works with MAAS >= 3.5
+  has_db_connection_issue_journalctl:
+    input:
+      command: journalctl
+      kwargs:
+        unit: snap.maas.pebble
+    search:
+      expr: '([\d-]+)T([\d:]+)[+-][\d:]+ \S+ maas-regiond\[\d+\]: \S+\.OperationalError: connection to server at "(\S+)", port \d+ failed: Connection refused'
+      constraints:
+        search-result-age-hours: 48
+conclusions:
+  maas_lt_35_db_connection_error:
+    decision: has_db_connection_issue_logfile
+    raises:
+      type: MAASError
+      message: >-
+        maas-regiond is unable to reach the database backend (e.g. at
+        {destinations}). Check that the PostgreSQL server is running and
+        reachable from the region controller.
+      format-dict:
+        destinations: '@checks.has_db_connection_issue_logfile.search.results_group_2:unique_comma_join'
+  maas_ge_35_db_connection_error:
+    decision: has_db_connection_issue_journalctl
+    raises:
+      type: MAASError
+      message: >-
+        maas-regiond is unable to reach the database backend (e.g. at
+        {destinations}). Check that the PostgreSQL server is running and
+        reachable from the region controller.
+      format-dict:
+        destinations: '@checks.has_db_connection_issue_journalctl.search.results_group_3:unique_comma_join'
