@@ -1,12 +1,22 @@
+vars:
+  expr: '.+ TAG_NONE/503 \d+ CONNECT (\S+)'
 checks:
-  has_proxy_issue:
+  # works with MAAS < 3.5
+  has_proxy_issue_logfile:
     input:
       - 'var/snap/maas/common/log/proxy/access.log'
       - 'var/log/maas/proxy/access.log'
-    expr: '.+ TAG_NONE/503 \d+ CONNECT (\S+)'
+    expr: $expr
+  # works with MAAS >= 3.5
+  has_proxy_issue_journalctl:
+    input:
+      command: journalctl
+      kwargs:
+        unit: snap.maas.pebble
+    expr: $expr
 conclusions:
-  possible_issues:
-    decision: has_proxy_issue
+  maas_lt_35_proxy_error:
+    decision: has_proxy_issue_logfile
     raises:
       type: MAASWarning
       message: >-
@@ -15,4 +25,15 @@ conclusions:
         setting client_persistent_connections off,
         server_persistent_connections off to alleviate the problem.
       format-dict:
-        destinations: '@checks.has_proxy_issue.search.results_group_1:unique_comma_join'
+        destinations: '@checks.has_proxy_issue_logfile.search.results_group_1:unique_comma_join'
+  maas_ge_35_proxy_error:
+    decision: has_proxy_issue_journalctl
+    raises:
+      type: MAASWarning
+      message: >-
+        maas-proxy is reporting failure to forward requests (e.g. to
+        {destinations}). You can try increasing forward_max_tries to 50 or
+        setting client_persistent_connections off,
+        server_persistent_connections off to alleviate the problem.
+      format-dict:
+        destinations: '@checks.has_proxy_issue_journalctl.search.results_group_1:unique_comma_join'

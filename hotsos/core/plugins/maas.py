@@ -13,6 +13,8 @@ MAAS_APT_DEPS = ['isc-dhcp', 'bind9', 'postgres']
 MAAS_CORE_SNAPS = MAAS_CORE_APT
 
 SERVICE_EXPRS = [s + '[A-Za-z0-9-]*' for s in MAAS_CORE_APT + MAAS_APT_DEPS]
+# MAAS >= 3.5 uses the pebble service manager to manage subcomponents
+SERVICE_EXPRS += ['maas.pebble']
 
 
 @dataclass
