@@ -1,0 +1,47 @@
+target-name: dns_resolution_failures.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  keystone                             2:21.0.0-0ubuntu1~cloud0                             all          OpenStack identity service - Django web application
+      ii  nova-common                          3:25.2.1-0ubuntu2.7~cloud0                           all          OpenStack Compute - common files
+      ii  neutron-common                       2:20.3.0-0ubuntu1~cloud0                             all          Neutron is a virtual network service for Openstack - common
+    var/log/keystone/keystone.log: |
+      2022-02-09 22:38:16.123 1234 ERROR keystone.server [req-abc] Failed to resolve 'keystone.acme.net' ([Errno -2] Name or service not known)
+    var/log/nova/nova-compute.log: |
+      2022-02-09 22:38:16.123 1234 ERROR nova.compute.manager [req-abc] Failed to resolve 'nova.acme.net' ([Errno -2] Name or service not known)
+    var/log/neutron/neutron-server.log: |
+      2022-02-09 22:38:16.123 1234 ERROR neutron.server [req-abc] Failed to resolve 'neutron.acme.net' ([Errno -2] Name or service not known)
+    var/log/heat/heat-engine.log: |
+      2022-02-09 22:38:16.123 1234 ERROR heat.engine [req-abc] Failed to resolve 'heat.acme.net' ([Errno -2] Name or service not known)
+    var/log/octavia/octavia-worker.log: |
+      2022-02-09 22:38:16.123 1234 ERROR octavia.worker [req-abc] Failed to resolve 'octavia.acme.net' ([Errno -2] Name or service not known)
+    var/log/glance/glance-api.log: |
+      2022-02-09 22:38:16.123 1234 ERROR glance.api [req-abc] Failed to resolve 'glance.acme.net' ([Errno -2] Name or service not known)
+    var/log/aodh/aodh-evaluator.log: |
+      2022-02-09 22:38:16.123 1234 ERROR aodh.evaluator [req-abc] Failed to resolve 'aodh.acme.net' ([Errno -2] Name or service not known)
+    var/log/cinder/cinder-volume.log: |
+      2022-02-09 22:38:16.123 1234 ERROR cinder.volume.manager [req-abc] Failed to resolve 'cinder.acme.net' ([Errno -2] Name or service not known)
+    var/log/ceilometer/ceilometer-agent-notification.log: |
+      2022-02-09 22:38:16.123 1234 ERROR ceilometer.notification [req-abc] Failed to resolve 'ceilometer.acme.net' ([Errno -2] Name or service not known)
+    var/log/barbican/barbican-api.log: |
+      2022-02-09 22:38:16.123 1234 ERROR barbican.api [req-abc] Failed to resolve 'barbican.acme.net' ([Errno -2] Name or service not known)
+    var/log/designate/designate-central.log: |
+      2022-02-09 22:38:16.123 1234 ERROR designate.central [req-abc] Failed to resolve 'designate.acme.net' ([Errno -2] Name or service not known)
+    var/log/manila/manila-share.log: |
+      2022-02-09 22:38:16.123 1234 ERROR manila.share.manager [req-abc] Failed to resolve 'manila.acme.net' ([Errno -2] Name or service not known)
+    var/log/masakari/masakari-engine.log: |
+      2022-02-09 22:38:16.123 1234 ERROR masakari.engine.manager [req-abc] Failed to resolve 'masakari.acme.net' ([Errno -2] Name or service not known)
+    var/log/watcher/watcher-decision-engine.log: |
+      2022-02-09 22:38:16.123 1234 ERROR watcher.decision_engine [req-abc] Failed to resolve 'watcher.acme.net' ([Errno -2] Name or service not known)
+    var/log/apache2/placement_error.log: |
+      2022-02-09 22:38:16.123 1234 ERROR placement [req-abc] Failed to resolve 'placement.acme.net' ([Errno -2] Name or service not known)
+raised-issues:
+  OpenstackWarning: >-
+    One or more OpenStack services on this host have name resolution failures
+    ("Name or service not known") for the following hosts: aodh.acme.net,
+    barbican.acme.net, ceilometer.acme.net, cinder.acme.net, designate.acme.net,
+    glance.acme.net, heat.acme.net, keystone.acme.net, manila.acme.net,
+    masakari.acme.net, neutron.acme.net, nova.acme.net, octavia.acme.net,
+    placement.acme.net, watcher.acme.net. This will cause API and RPC operations
+    that depend on these hosts to fail and should be investigated (check DNS
+    configuration and reachability).
