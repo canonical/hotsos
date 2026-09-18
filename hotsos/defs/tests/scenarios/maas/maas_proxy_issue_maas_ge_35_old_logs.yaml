@@ -1,0 +1,17 @@
+target-name: maas_proxy_issue.yaml
+mock:
+  patch.object:
+    hotsos.core.ycheck.engine.properties.inputdef.CLIHelperFile:
+      kwargs:
+        create: true
+        attribute: journalctl
+        return_value: /tmp/hotsos-unittest-maaslog.txt
+data-root:
+  files:
+    /tmp/hotsos-unittest-maaslog.txt: |
+      2026-09-10T17:33:43+00:00 juju-43b62a-0 snap.maas.pebble[2113684]: 1666854189.800 68 xx.xx.xx.xx. TAG_NONE/503 0 CONNECT api.snapcraft.io:443 - HIER_NONE/- -
+    sos_commands/date/date: |
+      Thu Sep 17 16:19:17 UTC 2026
+  copy-from-original:
+    - uptime
+raised-issues:

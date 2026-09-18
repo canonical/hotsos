@@ -1,0 +1,11 @@
+target-name: lp1996594.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-ovn-metadata-agent.log: |
+      2022-01-28 12:30:36.103 75556 ERROR ovsdbapp.backend.ovs_idl.transaction [-] OVSDB Error: no error details available
+    sos_commands/dpkg/dpkg_-l: |
+      ii  openvswitch-common             2.16.0-0ubuntu2.1~cloud0          amd64        Open vSwitch common components
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:

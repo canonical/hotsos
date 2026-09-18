@@ -1,0 +1,6 @@
+target-name: nova_cc_ssh_known_hosts_fail.yaml
+data-root:
+  files:
+    var/log/juju/unit-nova-cloud-controller-*.log: |
+      2022-01-28 13:27:37 ERROR unit.nova-cloud-controller/0.juju-log server.go:316 Could not obtain SSH host key from 10.11.12.2: reason: Command '['ssh-keyscan', '-H', '-t', 'rsa', '10.11.12.2']' returned non-zero exit status 1.
+raised-issues:
