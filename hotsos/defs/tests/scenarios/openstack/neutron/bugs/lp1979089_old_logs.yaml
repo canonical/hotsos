@@ -1,0 +1,18 @@
+target-name: lp1979089.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-l3-agent.log: |
+      2022-01-28 06:26:13.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:26:23.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:26:33.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:26:43.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:26:53.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:26:03.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:27:13.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:27:23.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:27:33.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+      2022-01-28 06:27:43.116 30127 ERROR neutron.agent.linux.utils [-] Exit code: 1; Stdin: ; Stdout: ; Stderr: Cannot open network namespace "qrouter-57837a95-ed3b-4a1b-9393-1374a8c744c3": No such file or directory
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
