@@ -181,6 +181,7 @@ class CephInstallInfo(InstallInfoBase):
 
 class CephChecks(StorageBase):
     """ Ceph Checks. """
+    BLUESTORE_DB_SIZE_MIN_PERCENT = 4
     # Threshold above which an OSD's bluefs log is considered oversized.
     # Healthy OSDs keep this well under 50 GiB; sustained growth past this
     # point indicates that bluefs log compaction has failed and the log is
@@ -323,7 +324,9 @@ class CephChecks(StorageBase):
 
         s = FileSearcher()
         sd = SequenceSearchDef(start=SearchDef(r"^=+\s+osd\.(\d+)\s+=+.*"),
-                               body=SearchDef([r"\s+osd\s+(fsid)\s+(\S+)\s*",
+                               body=SearchDef([r"\s+\[(block)\]\s+(\S+)\s*",
+                                               r"\s+osd\s+(fsid)\s+(\S+)\s*",
+                                               r"\s+(block device)\s+(\S+)\s*",
                                                r"\s+(devices)\s+([\S]+)\s*"]),
                                tag="ceph-lvm")
         with CLIHelperFile() as cli:
@@ -333,16 +336,22 @@ class CephChecks(StorageBase):
                 osdid = None
                 fsid = None
                 dev = None
+                block_dev = None
                 for result in results:
                     if result.tag == sd.start_tag:
                         osdid = int(result.get(1))
                     elif result.tag == sd.body_tag:
-                        if result.get(1) == "fsid":
+                        if result.get(1) == "block":
+                            block_dev = result.get(2)
+                        elif result.get(1) == "fsid":
                             fsid = result.get(2)
+                        elif result.get(1) == "block device" and not block_dev:
+                            block_dev = result.get(2)
                         elif result.get(1) == "devices":
                             dev = result.get(2)
 
-                osds.append(CephOSD(osdid, fsid, dev))
+                osds.append(CephOSD(osdid, fsid, dev,
+                                    block_device=block_dev))
 
         return osds
 
@@ -531,6 +540,127 @@ class CephChecks(StorageBase):
                 bad.append(f'osd.{osd.id}')
 
         return sorted(bad)
+
+    @staticmethod
+    def _block_inventory_output():
+        """Return the lsblk and blockdev output needed for size lookups."""
+        if HotSOSConfig.data_root == '/':
+            try:
+                return (CLIHelper().lsblk_O_P(),
+                        CLIHelper().blockdev_report())
+            except Exception:  # pylint: disable=broad-except
+                return None, None
+
+        lsblk_path = os.path.join(HotSOSConfig.data_root,
+                                  'sos_commands/block/lsblk_-O_-P')
+        blockdev_path = os.path.join(
+            HotSOSConfig.data_root, 'sos_commands/block/blockdev_--report')
+        if not os.path.exists(lsblk_path) or not os.path.exists(blockdev_path):
+            return None, None
+
+        with open(lsblk_path, encoding='utf-8') as fd:
+            lsblk_output = fd.read()
+        with open(blockdev_path, encoding='utf-8') as fd:
+            blockdev_output = fd.read()
+
+        return lsblk_output, blockdev_output
+
+    @staticmethod
+    def _blockdev_sizes(output):
+        """Return exact byte sizes keyed by blockdev device path."""
+        if isinstance(output, str):
+            output = output.splitlines()
+
+        sizes = {}
+        for line in output:
+            fields = line.split()
+            if len(fields) != 7 or not fields[-1].startswith('/dev/'):
+                continue
+
+            try:
+                size_bytes = int(fields[-2])
+            except ValueError:
+                continue
+
+            if size_bytes > 0:
+                sizes[fields[-1]] = size_bytes
+
+        return sizes
+
+    @cached_property
+    def _block_device_sizes(self):
+        """Return a mapping of lsblk device paths to their sizes in bytes."""
+        lsblk_output, blockdev_output = self._block_inventory_output()
+        if not lsblk_output or not blockdev_output:
+            return {}
+
+        if isinstance(lsblk_output, str):
+            lsblk_output = lsblk_output.splitlines()
+
+        blockdev_sizes = self._blockdev_sizes(blockdev_output)
+        sizes = {}
+        for line in lsblk_output:
+            device_path = re.search(r'\bPATH="([^"]+)"', line)
+            kname = re.search(r'\bKNAME="([^"]+)"', line)
+            if not device_path or not kname:
+                continue
+
+            size = blockdev_sizes.get(f'/dev/{kname.group(1)}')
+            if size:
+                sizes[device_path.group(1)] = size
+                id_link = re.search(r'\bID-LINK="([^"]+)"', line)
+                if id_link:
+                    sizes[f'/dev/disk/by-id/{id_link.group(1)}'] = size
+
+        return sizes
+
+    @staticmethod
+    def _block_device_size(device, sizes):
+        """Return a block device size, resolving LVM's mapper path alias."""
+        if not device:
+            return None
+
+        size = sizes.get(device)
+        if size:
+            return size
+
+        match = re.fullmatch(r'/dev/([^/]+)/([^/]+)', device)
+        if not match:
+            return None
+
+        vg_name, lv_name = match.groups()
+        mapper_path = (f'/dev/mapper/{vg_name.replace("-", "--")}-'
+                       f'{lv_name.replace("-", "--")}')
+        return sizes.get(mapper_path)
+
+    @cached_property
+    def local_osds_with_small_bluestore_db(self):
+        """Return local OSDs with a DB device smaller than 4% of block."""
+        bad = []
+        for osd in self.local_osds:
+            block_size = self._block_device_size(
+                osd.block_device or osd.device, self._block_device_sizes)
+            if not block_size:
+                continue
+
+            try:
+                bluefs = CephDaemonPerfDump(osd_id=osd.id).bluefs
+            except Exception:  # pylint: disable=broad-except
+                continue
+
+            try:
+                db_size = int(bluefs['db_total_bytes'])
+            except (KeyError, TypeError, ValueError):
+                continue
+
+            if db_size <= 0:
+                continue
+
+            if db_size * 100 < (block_size *
+                                self.BLUESTORE_DB_SIZE_MIN_PERCENT):
+                bad.append(f'osd.{osd.id}')
+
+        return sorted(set(bad))
 
     @cached_property
     def bluestore_enabled(self):

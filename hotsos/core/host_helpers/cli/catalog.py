@@ -74,6 +74,14 @@ class CommandCatalog(UserDict):
             'ceph_daemon_osd_perf_dump':
                 [BinCmd('ceph daemon osd.{osd_id} perf dump',
                         json_decode=True),
+                 FileCmd('sos_commands/ceph_osd/'
+                         'ceph_daemon_.var.run.ceph.'
+                         'ceph-osd.{osd_id}.asok_perf_dump',
+                         json_decode=True),
+                 FileCmd('sos_commands/ceph_osd/'
+                         'ceph_daemon_.var.snap.microceph.current.run.'
+                         'ceph-osd.{osd_id}.asok_perf_dump',
+                         json_decode=True),
                  # requires sosreport 4.3 or above
                  FileCmd('sos_commands/ceph_osd/'
                          'ceph_daemon_osd.{osd_id}_perf_dump',
@@ -140,6 +148,12 @@ class CommandCatalog(UserDict):
             'ls_lanR_sys_block':
                 [BinCmd('ls -lanR /sys/block/'),
                  FileCmd('sos_commands/block/ls_-lanR_.sys.block')],
+            'lsblk_O_P':
+                [BinCmd('lsblk -O -P'),
+                 FileCmd('sos_commands/block/lsblk_-O_-P')],
+            'blockdev_report':
+                [BinCmd('blockdev --report'),
+                 FileCmd('sos_commands/block/blockdev_--report')],
             'lscpu':
                 [BinCmd('lscpu'),
                  FileCmd('sos_commands/processor/lscpu')],
