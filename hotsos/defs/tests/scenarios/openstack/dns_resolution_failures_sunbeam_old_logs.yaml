@@ -1,0 +1,20 @@
+target-name: dns_resolution_failures.yaml
+data-root:
+  files:
+    sos_commands/snap/snap_list_--all: |
+      Name                  Version         Rev    Tracking       Publisher    Notes
+      core24                20250318        888    latest/stable  canonical**  base
+      openstack             2024.1          727    2024.1/stable  canonical**  -
+    sos_commands/kubernetes/cluster-info/openstack/podlogs/keystone-0/kubectl_--namespace_openstack_logs_keystone-0_-c_keystone: |
+      2022-02-07 22:38:16.123 1 ERROR keystone.server [req-abc] Failed to resolve 'sbkeystone.acme.net' ([Errno -2] Name or service not known)
+    sos_commands/kubernetes/cluster-info/openstack/podlogs/nova-0/kubectl_--namespace_openstack_logs_nova-0_-c_nova-api: |
+      2022-02-07 22:38:16.123 1 ERROR nova.api [req-abc] Failed to resolve 'sbnova.acme.net' ([Errno -2] Name or service not known)
+    sos_commands/kubernetes/cluster-info/openstack/podlogs/neutron-0/kubectl_--namespace_openstack_logs_neutron-0_-c_neutron-server: |
+      2022-02-07 22:38:16.123 1 ERROR neutron.server [req-abc] Failed to resolve 'sbneutron.acme.net' ([Errno -2] Name or service not known)
+    sos_commands/kubernetes/cluster-info/openstack/podlogs/cinder-0/kubectl_--namespace_openstack_logs_cinder-0_-c_cinder-api: |
+      2022-02-07 22:38:16.123 1 ERROR cinder.api [req-abc] Failed to resolve 'sbcinder.acme.net' ([Errno -2] Name or service not known)
+    sos_commands/kubernetes/cluster-info/openstack/podlogs/glance-0/kubectl_--namespace_openstack_logs_glance-0_-c_glance-api: |
+      2022-02-07 22:38:16.123 1 ERROR glance.api [req-abc] Failed to resolve 'sbglance.acme.net' ([Errno -2] Name or service not known)
+    sos_commands/kubernetes/cluster-info/openstack/podlogs/placement-0/kubectl_--namespace_openstack_logs_placement-0_-c_placement-api: |
+      2022-02-07 22:38:16.123 1 ERROR placement [req-abc] Failed to resolve 'sbplacement.acme.net' ([Errno -2] Name or service not known)
+raised-issues:

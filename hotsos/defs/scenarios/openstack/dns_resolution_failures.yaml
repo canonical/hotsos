@@ -1,0 +1,193 @@
+vars:
+  expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Failed to resolve ''(\S+)'' \(\[Errno -\d+\] (?:Name or service not known|Temporary failure in name resolution)\).*'
+  sunbeam_msg_template_pt1: >-
+    The Sunbeam
+  sunbeam_msg_template_pt2: >-
+    pod on this host has name resolution failures
+    ("Name or service not known") for the following hosts:
+  sunbeam_msg_template_pt3_api: >-
+    This will cause API operations that depend on
+    these hosts to fail and should be investigated (check
+    DNS/CoreDNS configuration and reachability).
+  sunbeam_msg_template_pt3_api_rpc: >-
+    This will cause API and RPC operations that depend on
+    these hosts to fail and should be investigated (check
+    DNS/CoreDNS configuration and reachability).
+checks:
+  is_sunbeam_controller:
+    property: hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.is_controller
+  has_dns_failures:
+    input:
+      path:
+        - var/log/keystone/*.log
+        - var/log/nova/*.log
+        - var/log/neutron/*.log
+        - var/log/heat/*.log
+        - var/log/octavia/*.log
+        - var/log/glance/*.log
+        - var/log/aodh/*.log
+        - var/log/cinder/*.log
+        - var/log/ceilometer/*.log
+        - var/log/barbican/*.log
+        - var/log/designate/*.log
+        - var/log/manila/*.log
+        - var/log/masakari/*.log
+        - var/log/watcher/*.log
+        - var/log/apache2/keystone_error.log
+        - var/log/apache2/cinder_error.log
+        - var/log/apache2/placement_error.log
+        - var/log/apache2/masakari_error.log
+    expr: $expr
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_keystone_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: keystone-0
+          subopts: -c keystone
+    expr: $expr
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_nova_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: nova-0
+          subopts: -c nova-api
+    expr: $expr
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_neutron_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: neutron-0
+          subopts: -c neutron-server
+    expr: $expr
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_cinder_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: cinder-0
+          subopts: -c cinder-api
+    expr: $expr
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_glance_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: glance-0
+          subopts: -c glance-api
+    expr: $expr
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_placement_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: placement-0
+          subopts: -c placement-api
+    expr: $expr
+    constraints:
+      search-result-age-hours: 48
+conclusions:
+  openstack_has_dns_failures:
+    decision: has_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: >-
+        One or more OpenStack services on this host have name resolution
+        failures ("Name or service not known") for the following hosts:
+        {names}. This will cause API and RPC operations that depend on these
+        hosts to fail and should be investigated (check DNS configuration and
+        reachability).
+      format-dict:
+        names: '@checks.has_dns_failures.search.results_group_3:unique_comma_join'
+  sunbeam_keystone_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_keystone_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: '{pt1} keystone {pt2} {names}. {pt3}'
+      format-dict:
+        pt1: $sunbeam_msg_template_pt1
+        pt2: $sunbeam_msg_template_pt2
+        pt3: $sunbeam_msg_template_pt3_api_rpc
+        names: '@checks.has_sunbeam_keystone_dns_failures.search.results_group_3:unique_comma_join'
+  sunbeam_nova_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_nova_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: '{pt1} nova {pt2} {names}. {pt3}'
+      format-dict:
+        pt1: $sunbeam_msg_template_pt1
+        pt2: $sunbeam_msg_template_pt2
+        pt3: $sunbeam_msg_template_pt3_api_rpc
+        names: '@checks.has_sunbeam_nova_dns_failures.search.results_group_3:unique_comma_join'
+  sunbeam_neutron_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_neutron_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: '{pt1} neutron {pt2} {names}. {pt3}'
+      format-dict:
+        pt1: $sunbeam_msg_template_pt1
+        pt2: $sunbeam_msg_template_pt2
+        pt3: $sunbeam_msg_template_pt3_api_rpc
+        names: '@checks.has_sunbeam_neutron_dns_failures.search.results_group_3:unique_comma_join'
+  sunbeam_cinder_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_cinder_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: '{pt1} cinder {pt2} {names}. {pt3}'
+      format-dict:
+        pt1: $sunbeam_msg_template_pt1
+        pt2: $sunbeam_msg_template_pt2
+        pt3: $sunbeam_msg_template_pt3_api_rpc
+        names: '@checks.has_sunbeam_cinder_dns_failures.search.results_group_3:unique_comma_join'
+  sunbeam_glance_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_glance_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: '{pt1} glance {pt2} {names}. {pt3}'
+      format-dict:
+        pt1: $sunbeam_msg_template_pt1
+        pt2: $sunbeam_msg_template_pt2
+        pt3: $sunbeam_msg_template_pt3_api_rpc
+        names: '@checks.has_sunbeam_glance_dns_failures.search.results_group_3:unique_comma_join'
+  sunbeam_placement_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_placement_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: '{pt1} placement {pt2} {names}. {pt3}'
+      format-dict:
+        pt1: $sunbeam_msg_template_pt1
+        pt2: $sunbeam_msg_template_pt2
+        pt3: $sunbeam_msg_template_pt3_api
+        names: '@checks.has_sunbeam_placement_dns_failures.search.results_group_3:unique_comma_join'
