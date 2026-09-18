@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from unittest import TestCase
 import logging
@@ -8,6 +9,140 @@ import yaml
 from tests.unit import utils
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.ycheck.engine.common import YDefsLoader
+
+
+# Recognised leading timestamp capture patterns, matched against the regex
+# source of a search expression (after stripping an optional '^' anchor). Each
+# alternative captures the date (and usually time) at the start of the line as
+# the first result group(s). Examples of expressions each alternative accepts:
+#   ([\d-]+)T([\d:]+)...                 journalctl ISO 8601
+#   ([\d-]+) ([\d:]+)...                 file log, space separated
+#   ([\d-]+ [\d:]+.\d{3})...             combined date+time single group
+#   (\d{4}-\d{2}-\d{2}) ...              explicit year
+#   (\w{3,5}\s+\d{1,2}\s+[\d:]+) ...     syslog/kern.log style
+#   (\S+) (\S+) ...                      loose date/time tokens
+LEADING_TIMESTAMP_RE = re.compile(
+    r"(?:"
+    r"\(\[\\d-\]\+ \[\\d:\]"       # ([\d-]+ [\d:]   (combined date+time group)
+    r"|\(\[\\d-\]\+\)"             # ([\d-]+)
+    r"|\(\[\\d/-\]\+\)"            # ([\d/-]+)
+    r"|\(\\d\{4\}"                 # (\d{4}
+    r"|\(\\w\{\d+,\d*\}\\s"        # (\w{3,5}\s      (syslog month)
+    r"|\(\\S\+\)[ T]\("            # (\S+) (         (loose token then group)
+    r")"
+)
+
+
+class SearchExpressionValidator:
+    """
+    Evaluate search expressions that use constraints to make sure they are
+    matching the required timestamps.
+    """
+
+    @staticmethod
+    def is_compliant(pattern):
+        """Return True if the regex source starts with a leading timestamp
+        capture.
+        """
+        if not isinstance(pattern, str):
+            return False
+        candidate = pattern[1:] if pattern.startswith("^") else pattern
+        return bool(LEADING_TIMESTAMP_RE.match(candidate))
+
+    def resolve_expr(self, expr, variables):
+        """Resolve a check 'expr' value into a flat list of pattern strings.
+
+        Handles list expressions (boolean searches) and simple '$name'
+        references
+        into the scenario's file level 'vars:' block. Values that cannot be
+        resolved are returned as-is so the caller can report them.
+        """
+        resolved = []
+        if isinstance(expr, list):
+            for item in expr:
+                resolved.extend(self.resolve_expr(item, variables))
+        elif isinstance(expr, str):
+            if expr.startswith("$"):
+                value = variables.get(expr[1:])
+                if value is None:
+                    # unresolved, keep literal for reporting
+                    resolved.append(expr)
+                else:
+                    resolved.extend(self.resolve_expr(value, variables))
+            else:
+                resolved.append(expr)
+        return resolved
+
+    def iter_constrained_exprs(self, node):
+        """Yield 'expr' values for mappings under node that have
+        'constraints:'.
+
+        Works for the direct form (expr + constraints as siblings on the
+        check) and the nested 'search:' form (expr + constraints under
+        'search').
+        """
+        if isinstance(node, dict):
+            if "constraints" in node:
+                yield node.get("expr")
+            for value in node.values():
+                yield from self.iter_constrained_exprs(value)
+        elif isinstance(node, list):
+            for item in node:
+                yield from self.iter_constrained_exprs(item)
+
+    def check_scenario_file(self, path):
+        """Return a list of non-compliant findings for a single scenario file.
+
+        Each finding is a dict: {check, expr, reason}.
+        """
+        try:
+            with open(path, encoding="utf-8") as fd:
+                data = yaml.safe_load(fd)
+        except (yaml.YAMLError, OSError) as exc:
+            logging.warning("skipping %s: failed to parse (%s)", path, exc)
+            return []
+
+        if not isinstance(data, dict) or "checks" not in data:
+            return []
+
+        variables = data.get("vars") or {}
+        findings = []
+        for check_name, check_body in (data.get("checks") or {}).items():
+            for expr in self.iter_constrained_exprs(check_body):
+                if expr is None:
+                    findings.append({
+                        "check": check_name,
+                        "expr": None,
+                        "reason": "constraints present but no 'expr' found",
+                    })
+                    continue
+
+                patterns = self.resolve_expr(expr, variables)
+                unresolved = [p for p in patterns if isinstance(p, str)
+                              and p.startswith("$")]
+                if unresolved:
+                    findings.append({
+                        "check": check_name,
+                        "expr": expr,
+                        "reason": f"could not resolve variable(s): "
+                                  f"{', '.join(unresolved)}",
+                    })
+                    continue
+
+                # A boolean (list) search is compliant if any of its patterns
+                # captures the leading timestamp.
+                for p in patterns:
+                    if self.is_compliant(p):
+                        continue
+
+                    findings.append({
+                        "check": check_name,
+                        "expr": expr,
+                        "reason": "search expression does not start with a "
+                                  "timestamp capture group",
+                    })
+
+        return findings
 
 
 class HotYValidate(TestCase):
@@ -33,7 +168,7 @@ class HotYValidate(TestCase):
 
         # Load the scenario tests one by one
         for testdef in YDefsLoader.get_scenario_test_files('scenarios'):
-            logging.info("processing test definition file: %s", testdef)
+            logging.info("validating scenario test %s", testdef)
 
             # Add the discovered test to list of
             # all tests
@@ -76,6 +211,9 @@ class HotYValidate(TestCase):
         # essential things we require in scenarios (e.g. having `checks` and
         # `conclusions` sections) as well.
         # Ensure the defs root is configured for YDefsLoader discovery.
+        total_failed_expressions = 0
+        expr_validator = SearchExpressionValidator()
+
         if not HotSOSConfig.plugin_yaml_defs:
             HotSOSConfig.plugin_yaml_defs = utils.DEFS_DIR
 
@@ -132,6 +270,13 @@ class HotYValidate(TestCase):
                     logging.debug("\tlint:no_conclusions [%s] has no "
                                   "`conclusions` section!", scenario_file)
 
+            findings = expr_validator.check_scenario_file(scenario_file)
+            for finding in findings:
+                total_failed_expressions += 1
+                logging.error("%s :: check '%s' :: %s\n    expr: %s",
+                              scenario_file, finding["check"],
+                              finding["reason"], finding["expr"])
+
             # We expect every single scenario to have at least one test
             # file. If there's none, store the scenario name for further
             # reporting.
@@ -163,13 +308,71 @@ class HotYValidate(TestCase):
             "The following scenario(s) does not have a test file:"
             f" {json.dumps(scenarios_without_test, indent=4)}")
 
-        logging.info("processed [%d] scenarios and [%d] tests, all OK!",
+        logging.info("results:")
+        logging.info("checked %d scenarios and %d tests, all OK!",
                      len(scenario_files), len(all_tests))
+        logging.info("checked search expressions from %d scenario(s); "
+                     "%d non-compliant expression(s) found",
+                     len(scenario_files),
+                     total_failed_expressions)
+
+    def scenarios_check_data_root_files(self):
+        """Check that scenario tests which define a data-root do not share an
+        absolute path in their `files:` section with any other test.
+
+        Absolute paths in a test's `data-root.files` are written to the real
+        filesystem location (they bypass the per-test temporary data root), so
+        two tests sharing the same absolute path can clobber each other's data,
+        particularly when tests run in parallel.
+        """
+
+        # Ensure the defs root is configured for YDefsLoader discovery.
+        if not HotSOSConfig.plugin_yaml_defs:
+            HotSOSConfig.plugin_yaml_defs = utils.DEFS_DIR
+
+        # Mapping of absolute file path -> list of test files that define it in
+        # their data-root `files:` section.
+        abspath_to_tests = {}
+
+        for testdef in YDefsLoader.get_scenario_test_files('scenarios'):
+            with open(testdef, encoding='utf-8') as fd:
+                ty = yaml.safe_load(fd) or {}
+
+            data_root = ty.get('data-root')
+            if not data_root:
+                continue
+
+            files = data_root.get('files')
+            if not files:
+                continue
+
+            for path in files:
+                if not os.path.isabs(path):
+                    continue
+
+                abspath_to_tests.setdefault(path, []).append(testdef)
+
+        # An absolute path shared by more than one test is a conflict.
+        shared = {path: sorted(tests)
+                  for path, tests in abspath_to_tests.items()
+                  if len(tests) > 1}
+
+        self.assertEqual(
+            len(shared), 0,
+            msg="The following absolute path(s) are shared in the `files:` "
+            "section of more than one scenario test data-root. Each test must "
+            "use a unique absolute path (or a relative path) to avoid "
+            f"conflicts:{json.dumps(shared, indent=4)}")
+
+        logging.info("checked data-root files for absolute path conflicts, "
+                     "all OK!")
 
 
 if __name__ == "__main__":
     lvl = os.environ["HOTSOS_VALIDATE_YSCENARIOS_LOGLEVEL"] \
         if "HOTSOS_VALIDATE_YSCENARIOS_LOGLEVEL" in os.environ else "INFO"
 
-    logging.basicConfig(level=lvl, stream=sys.stdout)
+    logging.basicConfig(level=lvl, stream=sys.stdout,
+                        format="%(levelname)s: %(message)s")
     HotYValidate().scenarios_check_mappings()
+    HotYValidate().scenarios_check_data_root_files()

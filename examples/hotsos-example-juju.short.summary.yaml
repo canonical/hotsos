@@ -6,6 +6,9 @@ potential-issues:
         unattended upgrades.
   juju:
     JujuWarnings:
+      - Juju logs for unit(s) 'ceph-osd/0' contain 3 Traceback(s) from the last 48
+        hours - please check. Note that these tracebacks are logged as INFO but they
+        may still be worth investigating.
       - Juju logs for unit(s) 'nova-compute/0' contain 24 Traceback(s) from the last
         48 hours - please check.
 bugs-detected:

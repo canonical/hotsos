@@ -1,19 +1,20 @@
-vars:
-  expr: '.+ TAG_NONE/503 \d+ CONNECT (\S+)'
 checks:
   # works with MAAS < 3.5
   has_proxy_issue_logfile:
     input:
       - 'var/snap/maas/common/log/proxy/access.log'
       - 'var/log/maas/proxy/access.log'
-    expr: $expr
+    expr: '.+ TAG_NONE/503 \d+ CONNECT (\S+)'
   # works with MAAS >= 3.5
   has_proxy_issue_journalctl:
     input:
       command: journalctl
       kwargs:
         unit: snap.maas.pebble
-    expr: $expr
+    search:
+      expr: '([\d-]+)T([\d:]+)[+-][\d:]+ .+ TAG_NONE/503 \d+ CONNECT (\S+)'
+      constraints:
+        search-result-age-hours: 48
 conclusions:
   maas_lt_35_proxy_error:
     decision: has_proxy_issue_logfile
@@ -36,4 +37,4 @@ conclusions:
         setting client_persistent_connections off,
         server_persistent_connections off to alleviate the problem.
       format-dict:
-        destinations: '@checks.has_proxy_issue_journalctl.search.results_group_1:unique_comma_join'
+        destinations: '@checks.has_proxy_issue_journalctl.search.results_group_3:unique_comma_join'
