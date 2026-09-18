@@ -1,0 +1,10 @@
+target-name: dns_resolution_failures.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  neutron-common                       2:20.3.0-0ubuntu1~cloud0                             all          Neutron is a virtual network service for Openstack - common
+      ii  neutron-server                       2:20.3.0-0ubuntu1~cloud0                             all          Neutron is a virtual network service for Openstack - server
+    var/log/neutron/neutron-server.log: |
+      2022-02-05 22:38:16.123 1590 ERROR neutron.server [req-abc] Failed to resolve 'meganode.acme.net' ([Errno -2] Name or service not known)
+      2022-02-05 22:39:16.456 1590 ERROR neutron.server [req-def] Failed to resolve 'rabbit.acme.net' ([Errno -2] Name or service not known)
+raised-issues: {}

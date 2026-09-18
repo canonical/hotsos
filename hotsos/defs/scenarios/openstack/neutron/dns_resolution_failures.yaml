@@ -1,0 +1,56 @@
+checks:
+  is_neutron:
+    apt: neutron-common
+  is_sunbeam_controller:
+    property: hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.is_controller
+  has_dns_failures:
+    input:
+      path:
+        - var/log/neutron/neutron-server.log
+        - var/log/neutron/neutron-openvswitch-agent.log
+        - var/log/neutron/neutron-ovn-metadata-agent.log
+        - var/log/neutron/neutron-dhcp-agent.log
+        - var/log/neutron/neutron-l3-agent.log
+        - var/log/neutron/neutron-metadata-agent.log
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Failed to resolve ''(\S+)'' \(\[Errno -\d+\] (?:Name or service not known|Temporary failure in name resolution)\).*'
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: neutron-0
+          subopts: -c neutron-server
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Failed to resolve ''(\S+)'' \(\[Errno -\d+\] (?:Name or service not known|Temporary failure in name resolution)\).*'
+    constraints:
+      search-result-age-hours: 48
+conclusions:
+  neutron_has_dns_failures:
+    decision:
+      - is_neutron
+      - has_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The neutron service on this host has name resolution failures ("Name or
+        service not known") for the following hosts: {names}. This will cause
+        API and RPC operations that depend on these hosts to fail and should be
+        investigated (check DNS configuration and reachability).
+      format-dict:
+        names: '@checks.has_dns_failures.search.results_group_3:unique_comma_join'
+  neutron_sunbeam_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The Sunbeam neutron pod on this host has name resolution failures
+        ("Name or service not known") for the following hosts: {names}. This
+        will cause API and RPC operations that depend on these hosts to fail
+        and should be investigated (check DNS/CoreDNS configuration and
+        reachability).
+      format-dict:
+        names: '@checks.has_sunbeam_dns_failures.search.results_group_3:unique_comma_join'

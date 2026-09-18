@@ -1,0 +1,16 @@
+target-name: dns_resolution_failures.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  nova-common                          3:25.2.1-0ubuntu2.7~cloud0                           all          OpenStack Compute - common files
+      ii  nova-compute                         3:25.2.1-0ubuntu2.7~cloud0                           all          OpenStack Compute - compute node
+    var/log/nova/nova-compute.log: |
+      2022-02-09 22:38:16.123 53085 ERROR nova.compute.manager [req-abc] Failed to resolve 'meganode.acme.net' ([Errno -2] Name or service not known)
+      2022-02-09 22:39:16.456 53085 ERROR nova.compute.manager [req-def] Failed to resolve 'rabbit.acme.net' ([Errno -2] Name or service not known)
+raised-issues:
+  OpenstackWarning: >-
+    The nova service on this host has name resolution failures ("Name or
+    service not known") for the following hosts: meganode.acme.net,
+    rabbit.acme.net. This will cause API and RPC operations that depend on
+    these hosts to fail and should be investigated (check DNS configuration and
+    reachability).

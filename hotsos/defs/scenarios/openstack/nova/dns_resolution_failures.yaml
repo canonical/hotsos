@@ -1,0 +1,54 @@
+checks:
+  is_nova:
+    apt: nova-common
+  is_sunbeam_controller:
+    property: hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.is_controller
+  has_dns_failures:
+    input:
+      path:
+        - var/log/nova/nova-api-wsgi.log
+        - var/log/nova/nova-compute.log
+        - var/log/nova/nova-conductor.log
+        - var/log/nova/nova-scheduler.log
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Failed to resolve ''(\S+)'' \(\[Errno -\d+\] (?:Name or service not known|Temporary failure in name resolution)\).*'
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: nova-0
+          subopts: -c nova-api
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Failed to resolve ''(\S+)'' \(\[Errno -\d+\] (?:Name or service not known|Temporary failure in name resolution)\).*'
+    constraints:
+      search-result-age-hours: 48
+conclusions:
+  nova_has_dns_failures:
+    decision:
+      - is_nova
+      - has_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The nova service on this host has name resolution failures ("Name or
+        service not known") for the following hosts: {names}. This will cause
+        API and RPC operations that depend on these hosts to fail and should be
+        investigated (check DNS configuration and reachability).
+      format-dict:
+        names: '@checks.has_dns_failures.search.results_group_3:unique_comma_join'
+  nova_sunbeam_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The Sunbeam nova pod on this host has name resolution failures ("Name
+        or service not known") for the following hosts: {names}. This will
+        cause API and RPC operations that depend on these hosts to fail and
+        should be investigated (check DNS/CoreDNS configuration and
+        reachability).
+      format-dict:
+        names: '@checks.has_sunbeam_dns_failures.search.results_group_3:unique_comma_join'

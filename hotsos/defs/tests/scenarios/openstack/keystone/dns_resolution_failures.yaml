@@ -1,0 +1,16 @@
+target-name: dns_resolution_failures.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  keystone                             2:21.0.0-0ubuntu1~cloud0                             all          OpenStack identity service - Django web application
+      ii  keystone-common                      2:21.0.0-0ubuntu1~cloud0                             all          OpenStack identity service - common files
+    var/log/keystone/keystone.log: |
+      2022-02-09 22:38:16.123 1234 ERROR keystone.server [req-abc] Failed to resolve 'meganode.acme.net' ([Errno -2] Name or service not known)
+      2022-02-09 22:39:16.456 1234 ERROR keystone.server [req-def] Failed to resolve 'ldap.acme.net' ([Errno -2] Name or service not known)
+raised-issues:
+  OpenstackWarning: >-
+    The keystone service on this host has name resolution failures ("Name or
+    service not known") for the following hosts: ldap.acme.net,
+    meganode.acme.net. This will cause authentication and API operations that
+    depend on these hosts to fail and should be investigated (check DNS
+    configuration and reachability).
