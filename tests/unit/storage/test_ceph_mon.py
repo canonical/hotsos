@@ -374,6 +374,68 @@ class TestCoreCephCluster(  # pylint: disable=too-many-public-methods
         # With a single OSD, there's nothing to compare, so no imbalance
         self.assertEqual(buckets, [])
 
+    def test_crushmap_overlapping_roots_none_with_single_used_rule(self):
+        """
+        A root spanning multiple device classes is not itself an
+        overlap - only one rule/root is actually in use here, even
+        though the plain root has both ssd and hdd shadow trees.
+        """
+        cluster = ceph.CephCluster()
+        cluster.crush_map.ceph_report = {
+            'crushmap': {'rules': [
+                {'rule_id': 0, 'rule_name': 'replicated_rule', 'type': 1}]},
+            'osdmap': {'pools': [
+                {'pool': 1, 'pool_name': 'pool1', 'crush_rule': 0}]}}
+        cluster.crush_map.osd_crush_dump = {
+            'buckets': [
+                {'id': -1, 'name': 'default',
+                 'items': [{'id': -3}, {'id': -5}]},
+                {'id': -2, 'name': 'default~ssd', 'items': [{'id': -4}]},
+                {'id': -3, 'name': 'host1', 'items': [{'id': 0}]},
+                {'id': -4, 'name': 'host1~ssd', 'items': [{'id': 0}]},
+                {'id': -5, 'name': 'host2', 'items': [{'id': 1}]}],
+            'rules': [
+                {'rule_id': 0, 'steps': [
+                    {'op': 'take', 'item': -1, 'item_name': 'default'},
+                    {'op': 'chooseleaf_firstn', 'num': 0, 'type': 'host'},
+                    {'op': 'emit'}]}]}
+        self.assertEqual(cluster.crush_map.crushmap_overlapping_roots, [])
+
+    def test_crushmap_overlapping_roots_detected(self):
+        """
+        Two pools using different, but overlapping, take-roots (an
+        unrestricted root and a device-class-restricted shadow root
+        descending from it) should be flagged.
+        """
+        cluster = ceph.CephCluster()
+        cluster.crush_map.ceph_report = {
+            'crushmap': {'rules': [
+                {'rule_id': 0, 'rule_name': 'replicated_rule', 'type': 1},
+                {'rule_id': 1, 'rule_name': 'ssd_rule', 'type': 1}]},
+            'osdmap': {'pools': [
+                {'pool': 1, 'pool_name': 'pool1', 'crush_rule': 0},
+                {'pool': 2, 'pool_name': 'pool2', 'crush_rule': 1}]}}
+        cluster.crush_map.osd_crush_dump = {
+            'buckets': [
+                {'id': -1, 'name': 'default',
+                 'items': [{'id': -3}, {'id': -5}]},
+                {'id': -2, 'name': 'default~ssd', 'items': [{'id': -4}]},
+                {'id': -3, 'name': 'host1', 'items': [{'id': 0}]},
+                {'id': -4, 'name': 'host1~ssd', 'items': [{'id': 0}]},
+                {'id': -5, 'name': 'host2', 'items': [{'id': 1}]}],
+            'rules': [
+                {'rule_id': 0, 'steps': [
+                    {'op': 'take', 'item': -1, 'item_name': 'default'},
+                    {'op': 'chooseleaf_firstn', 'num': 0, 'type': 'host'},
+                    {'op': 'emit'}]},
+                {'rule_id': 1, 'steps': [
+                    {'op': 'take', 'item': -2,
+                     'item_name': 'default~ssd'},
+                    {'op': 'chooseleaf_firstn', 'num': 0, 'type': 'host'},
+                    {'op': 'emit'}]}]}
+        self.assertEqual(cluster.crush_map.crushmap_overlapping_roots,
+                         ['default~ssd <-> default'])
+
     def test_mixed_size_osd_same_size(self):
         """Default data has all same-size OSDs - no mixed size warning."""
         cluster = ceph.CephCluster()
