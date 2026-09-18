@@ -5,10 +5,10 @@ mock:
       kwargs:
         create: true
         attribute: journalctl
-        return_value: /tmp/hotsos-unit-test-ovs-service-restarts.txt
+        return_value: /tmp/hotsos-unit-test-ovs-service-restarts-dpdk.txt
 data-root:
   files:
-    /tmp/hotsos-unit-test-ovs-service-restarts.txt: |
+    /tmp/hotsos-unit-test-ovs-service-restarts-dpdk.txt: |
       2022-02-10T17:52:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...
       2022-02-10T17:53:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...
       2022-02-10T17:54:37+0100 juju-9c28ce-ubuntu-11 systemd[1]: Starting Open vSwitch Forwarding Unit...

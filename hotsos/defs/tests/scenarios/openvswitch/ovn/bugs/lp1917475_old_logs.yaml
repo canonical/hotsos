@@ -1,0 +1,9 @@
+target-name: lp1917475.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-01-28T01:13:33.307Z|00266|ovsdb_idl|WARN|transaction error: {"details":"RBAC rules for client \"compute5\" role \"ovn-controller\" prohibit row insertion into table \"IGMP_Group\".","error":"permission error"}
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:

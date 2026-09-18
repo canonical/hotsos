@@ -7,11 +7,14 @@ checks:
       expr: '(\S+) (\S+) .+ERROR cannot write leadership settings: cannot write settings: failed to merge leadership settings: application "(\S+)"'
       constraints:
         search-result-age-hours: 168  # 7 days
-  units_have_tracebacks:
+  units_have_tracebacks_err_wrn:
     search:
-      expr:
-        - Traceback \('
-        - '(\S+) (\S+) (?:ERROR|WARNING) unit\.([^\.]+)\.\S+ .+ Traceback \('
+      expr: '([\d-]+) ([\d:]+) (?:ERROR|WARNING) unit\.([^\.]+)\.\S+ .+ Traceback \('
+      constraints:
+        search-result-age-hours: 48
+  units_have_tracebacks_info:
+    search:
+      expr: '([\d-]+) ([\d:]+) INFO unit\.([^\.]+)\.\S+ .+ Traceback \('
       constraints:
         search-result-age-hours: 48
 conclusions:
@@ -24,13 +27,24 @@ conclusions:
         the last 7 days. Please investigate.
       format-dict:
         units: '@checks.units_have_leadership_errors.search.results_group_3:unique_comma_join'
-  units-have-tracebacks:
-    decision: units_have_tracebacks
+  units-have-tracebacks-err-wrn:
+    decision: units_have_tracebacks_err_wrn
     raises:
       type: JujuWarning
       message: >-
         Juju logs for unit(s) '{units}' contain {num_tracebacks} Traceback(s) from
         the last 48 hours - please check.
       format-dict:
-        units: '@checks.units_have_tracebacks.search.results_group_3:unique_comma_join'
-        num_tracebacks: '@checks.units_have_tracebacks.search.num_results'
+        units: '@checks.units_have_tracebacks_err_wrn.search.results_group_3:unique_comma_join'
+        num_tracebacks: '@checks.units_have_tracebacks_err_wrn.search.num_results'
+  units-have-tracebacks-info:
+    decision: units_have_tracebacks_info
+    raises:
+      type: JujuWarning
+      message: >-
+        Juju logs for unit(s) '{units}' contain {num_tracebacks} Traceback(s) from
+        the last 48 hours - please check. Note that these tracebacks are logged as INFO
+        but they may still be worth investigating.
+      format-dict:
+        units: '@checks.units_have_tracebacks_info.search.results_group_3:unique_comma_join'
+        num_tracebacks: '@checks.units_have_tracebacks_info.search.num_results'

@@ -1,7 +1,7 @@
 checks:
   has_error_log:
     input: var/log/juju/unit-nova-cloud-controller-*.log
-    expr: '[\d-]+ [\d:]+ ERROR .+ Could not obtain SSH host key from \S+: reason: Command ''\[''ssh-keyscan'', ''-H'', ''-t'', ''rsa'', ''([\d.:\[\]]+)''\]'' returned non-zero exit status 1.'
+    expr: '([\d-]+ [\d:]+) ERROR .+ Could not obtain SSH host key from \S+: reason: Command ''\[''ssh-keyscan'', ''-H'', ''-t'', ''rsa'', ''([\d.:\[\]]+)''\]'' returned non-zero exit status 1.'
     constraints:
       search-result-age-hours: 168  # 7 days
 conclusions:
@@ -16,4 +16,4 @@ conclusions:
         which it is trying to add the host/address. Please check
         that this host is able to reach host {remote}.
       format-dict:
-        remote: '@checks.has_error_log.requires.results_group_1:comma_join'
+        remote: '@checks.has_error_log.requires.results_group_2:comma_join'

@@ -1,0 +1,11 @@
+target-name: lp1895040.yaml
+data-root:
+  files:
+    var/log/juju/unit-keystone-2.log: |
+      2022-01-28 09:03:38 ERROR juju.worker.uniter agent.go:31 resolver loop error: unknown relation: 24
+      2022-01-28 09:03:38 INFO juju.worker.uniter uniter.go:309 unit "ams/0" shutting down: unknown relation: 24
+      2022-01-28 09:03:38 ERROR juju.worker.dependency engine.go:671 "uniter" manifold worker returned unexpected error: unknown relation: 24
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:

@@ -1,0 +1,9 @@
+{
+  "skill_name": "search-constraint-timestamp-checker",
+  "evals": [
+    {
+        "id": 1, "prompt": "/search-constraint-timestamp-checker use this skill to check that all scenarios using search constraints are using search expressions that match required timestamps, fix any that are not compliant and ensure that the scenario has tests covering both negative and positive matches of input data. Also use to update the validation script.",
+        "expected_output": "non-compliant scenarios fixed, tests ensured and validation script updated",
+        "files": [] }
+  ]
+}
