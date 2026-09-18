@@ -1,0 +1,53 @@
+checks:
+  is_keystone:
+    apt: keystone
+  is_sunbeam_controller:
+    property: hotsos.core.plugins.openstack.sunbeam.SunbeamInfo.is_controller
+  has_dns_failures:
+    input:
+      path:
+        - var/log/keystone/keystone.log
+        - var/log/apache2/keystone_error.log
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Failed to resolve ''(\S+)'' \(\[Errno -\d+\] (?:Name or service not known|Temporary failure in name resolution)\).*'
+    constraints:
+      search-result-age-hours: 48
+  has_sunbeam_dns_failures:
+    input:
+      command: kubectl_logs
+      options:
+        kwargs:
+          namespace: openstack
+          opt: keystone-0
+          subopts: -c keystone
+    expr: '([\d-]+) ([\d:]+)\.\d{3} .+ Failed to resolve ''(\S+)'' \(\[Errno -\d+\] (?:Name or service not known|Temporary failure in name resolution)\).*'
+    constraints:
+      search-result-age-hours: 48
+conclusions:
+  keystone_has_dns_failures:
+    decision:
+      - is_keystone
+      - has_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The keystone service on this host has name resolution failures ("Name
+        or service not known") for the following hosts: {names}. This will
+        cause authentication and API operations that depend on these hosts to
+        fail and should be investigated (check DNS configuration and
+        reachability).
+      format-dict:
+        names: '@checks.has_dns_failures.search.results_group_3:unique_comma_join'
+  keystone_sunbeam_has_dns_failures:
+    decision:
+      - is_sunbeam_controller
+      - has_sunbeam_dns_failures
+    raises:
+      type: OpenstackWarning
+      message: >-
+        The Sunbeam keystone pod on this host has name resolution failures
+        ("Name or service not known") for the following hosts: {names}. This
+        will cause authentication and API operations that depend on these hosts
+        to fail and should be investigated (check DNS/CoreDNS configuration and
+        reachability).
+      format-dict:
+        names: '@checks.has_sunbeam_dns_failures.search.results_group_3:unique_comma_join'

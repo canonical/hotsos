@@ -1,0 +1,11 @@
+target-name: dns_resolution_failures.yaml
+data-root:
+  files:
+    sos_commands/snap/snap_list_--all: |
+      Name                  Version         Rev    Tracking       Publisher    Notes
+      core24                20250318        888    latest/stable  canonical**  base
+      openstack             2024.1          727    2024.1/stable  canonical**  -
+    sos_commands/kubernetes/cluster-info/openstack/podlogs/keystone-0/kubectl_--namespace_openstack_logs_keystone-0_-c_keystone: |
+      2022-02-05 22:38:16.123 1 ERROR keystone.server [req-abc] Failed to resolve 'meganode.acme.net' ([Errno -2] Name or service not known)
+      2022-02-05 22:39:16.456 1 ERROR keystone.server [req-def] Failed to resolve 'ldap.acme.net' ([Errno -2] Name or service not known)
+raised-issues: {}
