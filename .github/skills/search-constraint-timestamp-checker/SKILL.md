@@ -30,7 +30,7 @@ Check all files under hotsos/defs/scenarios. Tests live under hotsos/defs/tests/
    - The authoritative list of supported formats is `CommonTimestampMatcher.patterns` in `hotsos/core/search.py`. At time of writing these are: openstack (`YYYY-MM-DD HH:MM:SS`), ceph/openvswitch/juju (`YYYY-MM-DD[ T]HH:MM:SS`), kernlog/syslog (`Mon DD HH:MM:SS`, string month, no year) and apache (`IP - [DD/Mon/YYYY:HH:MM:SS +ZZZZ]`).
    - For each of those formats, the validator's `LEADING_TIMESTAMP_RE` must accept a scenario search expression whose leading capture group(s) yield the log line date (result group 1, and optionally time as group 2) that `ExtraSearchConstraints._get_datetime_from_result` feeds back into `CommonTimestampMatcher`.
    - If `CommonTimestampMatcher.patterns` has gained, lost or changed a format, update `LEADING_TIMESTAMP_RE` (and its explanatory comment listing accepted expression shapes) to match, so a compliant expression for every supported format is recognised and no unsupported shape is silently accepted.
-   - Re-run the validator over the whole tree to confirm it still passes: `python3 tools/validation/hotyvalidate.py --path .` (or `tox -e validate-check-definitions`).
+   - Re-run the validator over the whole tree to confirm it still passes: `python3 tools/validation/hotyvalidate.py --path .` (or `tox -e hotyvalidate`).
 
 
 ## Output
