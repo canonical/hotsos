@@ -193,6 +193,7 @@ openstack:
     nova:
       main:
         debug: true
+        default_availability_zone: nova
         live_migration_permit_auto_converge: false
         live_migration_permit_post_copy: false
   agent-checks:

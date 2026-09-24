@@ -28,7 +28,7 @@ FEATURES = {'neutron': {
                     'ML2': ['path_mtu']}},
             'nova': {
                 'main': {
-                    'DEFAULT': ['vcpu_pin_set'],
+                    'DEFAULT': ['vcpu_pin_set', 'default_availability_zone'],
                     'compute': [
                                 'cpu_shared_set',
                                 'cpu_dedicated_set'],
