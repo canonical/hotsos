@@ -18,8 +18,14 @@ conclusions:
         If these OSDs appear full or misbehave please restart them.
 
         If the problem persists (i.e. OSD restarts do not help) you should disable
-        bdev_async_discard for OSDs. For charmed Ceph, this option is controlled
-        via the bdev-enable-discard flag which should be set to 'disable'.
+        bdev_async_discard for OSDs. Please check its current value with 'ceph
+        tell osd.* config get bdev_async_discard' and, if it is not already
+        'false', disable it with 'ceph config set osd bdev_async_discard false'.
+        For charmed Ceph, this is instead controlled by the ceph-osd
+        application's bdev-enable-discard config option. Please check its
+        current value with 'juju config ceph-osd bdev-enable-discard' and, if it
+        is not already 'disable', set it with 'juju config ceph-osd
+        bdev-enable-discard=disable'.
       format-dict:
         bad_osds: '@checks.osds_have_unusual_raw_usage.requires.value_actual:comma_join'
         limit: hotsos.core.plugins.storage.ceph.CephCluster.OSD_DISCREPANCY_ALLOWED
