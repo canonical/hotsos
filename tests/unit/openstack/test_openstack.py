@@ -783,6 +783,7 @@ class TestOpenstackServiceFeatures(TestOpenstackBase):
                                     'firewall_driver': 'openvswitch'}},
                     'nova': {'main': {
                                 'debug': True,
+                                'default_availability_zone': 'nova',
                                 'live_migration_permit_auto_converge': False,
                                 'live_migration_permit_post_copy': False}}}
         actual = self.part_output_to_actual(inst.output)
