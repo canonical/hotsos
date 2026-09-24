@@ -1,0 +1,21 @@
+checks:
+  has_2127934:
+    input: 'openvswitch:ovn/ovn-controller.log'
+    search:
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|ovsdb_idl\|WARN\|transaction error:.+Learned_Route.+constraint violation'
+      constraints:
+        search-result-age-hours: 24
+conclusions:
+  lp2127934:
+    decision: has_2127934
+    raises:
+      type: LaunchpadBug
+      bug-id: 2127934
+      message: >-
+        The ovn-controller on this host is logging OVSDB "constraint violation"
+        errors while inserting routes into the Southbound Learned_Route table,
+        which happens when it learns two routes with the same destination and
+        next-hop from different protocols. This is a known bug (LP2127934) that
+        puts ovn-controller into a tight retry loop, pinning a CPU at 100% and
+        preventing it from applying any further Southbound database updates.
+        Please upgrade OVN to the latest version to resolve this issue.

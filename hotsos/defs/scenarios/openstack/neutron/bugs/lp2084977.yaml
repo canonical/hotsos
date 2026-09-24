@@ -1,0 +1,22 @@
+checks:
+  has_2084977:
+    input: var/log/neutron/neutron-server.log
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+Cannot find Port_Group with name=pg_[0-9a-f_]+'
+      constraints:
+        search-result-age-hours: 168  # max 7 days
+conclusions:
+  lp2084977:
+    decision: has_2084977
+    raises:
+      type: LaunchpadBug
+      bug-id: 2084977
+      message: >-
+        neutron-server is failing to delete security groups with "Cannot find
+        Port_Group" errors. This is a known bug (LP2084977) triggered when the
+        OVN NB/SB ovsdb-server drops the neutron-server connection on an
+        inactivity-probe timeout, leaving the local OVSDB IDL cache without the
+        Port_Group at deletion time. As a workaround, please increase the OVN
+        ovsdb-server inactivity probe interval (and the neutron [ovn]
+        ovsdb_probe_interval) to avoid the disconnects, and upgrade neutron to
+        the latest version to resolve this issue.

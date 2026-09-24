@@ -228,3 +228,73 @@ class OVNBase():
             return OVNNBDB()
 
         return None
+
+
+class OVNHAChassisPriorityChecks():
+    """ Provides an interface to NBDB chassis information. """
+
+    @staticmethod
+    def _parse_list_records(lines):
+        """ Parse 'ovn-nbctl list <table>' output into per-record dicts.
+
+        Records are separated by blank lines and each line is a 'key : value'
+        pair.
+        """
+        records = []
+        current = {}
+        for line in lines or []:
+            stripped = line.strip()
+            if not stripped:
+                if current:
+                    records.append(current)
+                    current = {}
+                continue
+
+            key, sep, val = stripped.partition(':')
+            if not sep:
+                continue
+
+            current[key.strip()] = val.strip().strip('"')
+
+        if current:
+            records.append(current)
+
+        return records
+
+    def _list_records(self, table):
+        return self._parse_list_records(
+            CLIHelper().ovn_nbctl_list(table=table))
+
+    @staticmethod
+    def _highest_priority_chassis(records):
+        """ Return the chassis_name with the highest priority. """
+        best_name = None
+        best_prio = None
+        for record in records:
+            name = record.get('chassis_name')
+            prio = record.get('priority')
+            if not name or prio is None:
+                continue
+
+            try:
+                prio = int(prio)
+            except (TypeError, ValueError):
+                continue
+
+            if best_prio is None or prio > best_prio:
+                best_prio = prio
+                best_name = name
+
+        return best_name
+
+    @cached_property
+    def active_gateway_chassis(self):
+        """ Chassis with the highest priority in the Gateway_Chassis table. """
+        return self._highest_priority_chassis(
+            self._list_records('Gateway_Chassis'))
+
+    @cached_property
+    def active_ha_chassis(self):
+        """ Chassis with the highest priority in the HA_Chassis table. """
+        return self._highest_priority_chassis(
+            self._list_records('HA_Chassis'))

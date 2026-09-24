@@ -1,0 +1,16 @@
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-02-10T01:13:33.307Z|00054|ovsdb_idl|WARN|transaction error: {"details":"Transaction causes multiple rows in \"Learned_Route\" table to have identical values (0a89be80-21eb-4302-a6a0-ba5b54daa598, e07683a0-961f-44ce-88b1-88f2a9f068f4, \"::/0\", and \"fe80::216:3eff:fe9f:a39\") for index on columns \"datapath\", \"logical_port\", \"ip_prefix\", and \"nexthop\". First row, with UUID 8abd01e3-9204-443a-979f-60c466aa51c6, was inserted by this transaction. Second row, with UUID 90044a45-cb3c-40f9-b217-1892e816bd75, existed in the database before this transaction and was not modified by the transaction.","error":"constraint violation"}
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2127934: >-
+    The ovn-controller on this host is logging OVSDB "constraint violation"
+    errors while inserting routes into the Southbound Learned_Route table,
+    which happens when it learns two routes with the same destination and
+    next-hop from different protocols. This is a known bug (LP2127934) that
+    puts ovn-controller into a tight retry loop, pinning a CPU at 100% and
+    preventing it from applying any further Southbound database updates.
+    Please upgrade OVN to the latest version to resolve this issue.

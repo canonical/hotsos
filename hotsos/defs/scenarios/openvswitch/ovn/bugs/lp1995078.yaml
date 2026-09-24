@@ -1,0 +1,32 @@
+vars:
+  active_gateway_chassis:
+    '@hotsos.core.plugins.openvswitch.ovn.OVNHAChassisPriorityChecks.active_gateway_chassis'
+  active_ha_chassis:
+    '@hotsos.core.plugins.openvswitch.ovn.OVNHAChassisPriorityChecks.active_ha_chassis'
+checks:
+  is_ovn_central:
+    apt: ovn-central
+  has_priority_mismatch:
+    - varops: [[$active_gateway_chassis], [ne, null]]
+    - varops: [[$active_ha_chassis], [ne, null]]
+    - varops: [[$active_ha_chassis], [ne, $active_gateway_chassis]]
+conclusions:
+  lp1995078:
+    decision:
+      - is_ovn_central
+      - has_priority_mismatch
+    raises:
+      type: LaunchpadBug
+      bug-id: 1995078
+      message: >-
+        The active (highest priority) OVN gateway chassis '{gw}' does not match
+        the active chassis '{ha}' of the HA chassis group used by external
+        ports. When these differ, baremetal and external VLAN ports scheduled
+        on the HA chassis lose connectivity to their router gateway. This is a
+        known bug (LP1995078). Please align the Gateway_Chassis priorities with
+        the HA_Chassis_Group priorities so the same chassis is active for both
+        (for example 'ovn-nbctl set gateway_chassis <uuid> priority=<n>') and
+        verify baremetal/external port connectivity is restored.
+      format-dict:
+        gw: $active_gateway_chassis
+        ha: $active_ha_chassis

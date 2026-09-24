@@ -1,0 +1,9 @@
+target-name: lp2084977.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-01-28 13:08:40.791 76846 ERROR neutron.plugins.ml2.managers [None req-290a49d3-5ab3-4954-8b6f-6936bf2cf779 - - - - - -] Callback neutron.plugins.ml2.drivers.ovn.mech_driver.mech_driver.OVNMechanismDriver._delete_security_group_precommit-623828 failed with "Cannot find Port_Group with name=pg_0d20c3b7_d0cd_4339_988c_ac3b2a49bde1".
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:

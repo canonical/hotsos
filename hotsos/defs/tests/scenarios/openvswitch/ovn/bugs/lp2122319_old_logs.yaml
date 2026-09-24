@@ -1,0 +1,9 @@
+target-name: lp2122319.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-01-28T13:17:22.943Z|298514|vif_plug|WARN|Attempt of incompatible change to existing port detected, please recreate port: f97481cb-9fde-441a-903c-17e25d11e701
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
