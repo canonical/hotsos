@@ -1,0 +1,9 @@
+target-name: lp2094842.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-01-28 22:30:18.600 62569 ERROR ovsdbapp.backend.ovs_idl.vlog [-] attempting to write bad value to column networks (ovsdb error: 0 values when type requires between 1 and 9223372036854775807): ovs.db.error.Error: ovsdb error: 0 values when type requires between 1 and 9223372036854775807
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:

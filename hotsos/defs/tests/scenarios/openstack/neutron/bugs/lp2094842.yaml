@@ -1,0 +1,16 @@
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-02-08 22:30:18.600 62569 ERROR ovsdbapp.backend.ovs_idl.vlog [-] attempting to write bad value to column networks (ovsdb error: 0 values when type requires between 1 and 9223372036854775807): ovs.db.error.Error: ovsdb error: 0 values when type requires between 1 and 9223372036854775807
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2094842: >-
+    neutron-server is logging OVSDB "bad value to column networks" errors
+    (0 values when type requires between 1 and ...) which occur when a
+    router gateway is set to an external network that has no subnets, so
+    OVN rejects the empty networks list on the logical router port and the
+    gateway port is not created. This is a known bug (LP2094842). As a
+    workaround, please ensure external networks used as router gateways
+    have at least one subnet before attaching them.

@@ -1,0 +1,43 @@
+target-name: lp1995078.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-central                     22.03.0-0ubuntu0.22.04.1          amd64        OVN central components
+      ii  ovn-common                      22.03.0-0ubuntu0.22.04.1          amd64        OVN common components
+    sos_commands/ovn_central/ovn-nbctl_--no-leader-only_list_Gateway_Chassis: |
+      _uuid               : eaf33035-3bc1-45b8-85f9-6e251dd99d3c
+      chassis_name        : osc4
+      external_ids        : {}
+      name                : lrp-e2138195-d4ef-4c69-a59e-9d56c2f697c6_osc4
+      options             : {}
+      priority            : 3
+
+      _uuid               : d330d371-fb21-4beb-87ac-6bbc0c9a4103
+      chassis_name        : osc5
+      external_ids        : {}
+      name                : lrp-e2138195-d4ef-4c69-a59e-9d56c2f697c6_osc5
+      options             : {}
+      priority            : 2
+
+      _uuid               : c5ebe89f-8dc6-4d0f-83b0-bcf95509c32e
+      chassis_name        : osc3
+      external_ids        : {}
+      name                : lrp-e2138195-d4ef-4c69-a59e-9d56c2f697c6_osc3
+      options             : {}
+      priority            : 1
+    sos_commands/ovn_central/ovn-nbctl_--no-leader-only_list_HA_Chassis: |
+      _uuid               : 7fa38a26-91f3-4bac-9435-20ae120c3b91
+      chassis_name        : osc4
+      external_ids        : {}
+      priority            : 32767
+
+      _uuid               : 4b17607b-85c9-4661-a3e1-e87e4446ae58
+      chassis_name        : osc3
+      external_ids        : {}
+      priority            : 32766
+
+      _uuid               : e9a94171-5960-491d-bf26-a93457ac0ba5
+      chassis_name        : osc5
+      external_ids        : {}
+      priority            : 32765
+raised-bugs:

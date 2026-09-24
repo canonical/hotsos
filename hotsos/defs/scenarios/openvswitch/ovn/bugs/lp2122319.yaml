@@ -1,0 +1,21 @@
+checks:
+  has_2122319:
+    input: 'openvswitch:ovn/ovn-controller.log'
+    search:
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|vif_plug\|WARN\|Attempt of incompatible change to existing port detected, please recreate port:'
+      constraints:
+        search-result-age-hours: 24
+conclusions:
+  lp2122319:
+    decision: has_2122319
+    raises:
+      type: LaunchpadBug
+      bug-id: 2122319
+      message: >-
+        The ovn-controller on this host is logging vif_plug "Attempt of
+        incompatible change to existing port detected" warnings, which occur
+        when a remote-managed (SmartNIC/DPU offloaded) port is reused after the
+        VM that used it was deleted and recreated. This is a known bug
+        (LP2122319) that causes ovn-controller to stop processing further
+        updates on this host. As an immediate workaround, delete the re-used
+        port. Please upgrade OVN to the latest version to resolve this issue.
