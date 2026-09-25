@@ -119,6 +119,12 @@ storage:
       of Octopus it is possible to do offline trimming using ceph-objectstore-tool.
       Please disable PG autoscaler for all pools (set them to 'warn' mode) as PG splitting/merging
       can exacerbate the possibility of hitting this bug.
+    https://ubuntu.com/security/CVE-2025-30156: Ceph version 15.2.14-0ubuntu0.20.04.2
+      is affected by CVE-2025-30156, an authentication bypass in CephX that can allow
+      an attacker to forge privileged credentials and gain cluster-wide access. Please
+      upgrade Ceph to the latest version. See
+      https://docs.ceph.com/en/latest/security/CVE-2025-30156/ for more
+      information.
   potential-issues:
     CephOSDWarnings:
       - Found the osd(s) [0, 1, 2] using bcache and their underlying block device
