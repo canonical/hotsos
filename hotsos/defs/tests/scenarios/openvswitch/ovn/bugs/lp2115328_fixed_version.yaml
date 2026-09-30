@@ -1,0 +1,12 @@
+target-name: lp2115328.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-02-10T06:14:46.085Z|00025|lflow|WARN|error parsing actions "ct_commit_nat;": Syntax error at `ct_commit_nat' expecting action.
+      2022-02-10T06:14:46.089Z|00026|lflow|WARN|error parsing match "flags.from_ctrl && udp.src == 53": Syntax error at `flags.from_ctrl' expecting field name.
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-common 23.09.3-0ubuntu0.23.10.1~cloud1 amd64
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:

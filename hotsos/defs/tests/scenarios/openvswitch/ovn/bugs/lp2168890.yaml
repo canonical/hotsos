@@ -1,0 +1,17 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-common                      23.09.3-0ubuntu0.23.10.1~cloud1          amd64        OVN common components
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2168890: >-
+    The installed OVN packages (Antelope/Bobcat UCA) are missing the
+    FDP-620 fix (LP2168890). Without it, multichassis ports can learn the
+    wrong MAC into the OVN FDB, causing instances to lose network
+    connectivity during live migration or evacuation. There is currently
+    no fixed package available. Please track LP2168890 and upgrade OVN to
+    the latest version once a fix is released; in the meantime, clear the
+    incorrectly learned MAC from the OVN FDB or recreate the affected port
+    to restore connectivity.
