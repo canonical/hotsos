@@ -1,0 +1,22 @@
+checks:
+  has_1990978:
+    input: 'var/log/ovn/ovsdb-server-*.log'
+    search:
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|raft\|INFO\|Transferring leadership'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+        min-results: 5
+conclusions:
+  lp1990978:
+    decision: has_1990978
+    raises:
+      type: LaunchpadBug
+      bug-id: 1990978
+      message: >-
+        This host is affected by a known Open vSwitch Raft bug where the OVSDB
+        server transfers cluster leadership every 10-20 minutes after
+        compaction ({count} transfers found in the OVN OVSDB logs), which
+        destabilises the OVN control plane. Please upgrade Open vSwitch to the
+        latest version to resolve this issue.
+      format-dict:
+        count: '@checks.has_1990978.search.num_results'
