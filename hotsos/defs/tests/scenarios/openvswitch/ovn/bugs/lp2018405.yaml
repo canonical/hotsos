@@ -1,0 +1,18 @@
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-02-10 06:14:46.026 2146189 ERROR ovsdbapp.backend.ovs_idl.connection [req-302f6be6 - - - - -] [Errno 107] Transport endpoint is not connected: OSError: [Errno 107] Transport endpoint is not connected
+    sos_commands/dpkg/dpkg_-l: |
+      ii  openvswitch-common                    2.17.5-0ubuntu0.22.04.2                              amd64        Open vSwitch common components
+      ii  openvswitch-switch                    2.17.5-0ubuntu0.22.04.2                              amd64        Open vSwitch switch implementations
+      ii  openvswitch-switch-dpdk               2.17.5-0ubuntu0.22.04.2                              amd64        DPDK enabled Open vSwitch switch implementation
+      ii  python3-openvswitch                   2.17.5-0ubuntu0.22.04.2                              all          Python 3 bindings for Open vSwitch
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2018405: >-
+    This host is affected by a known bug where terminated SSL connections
+    between OpenStack agents and the ovn-central OVSDB servers are not
+    handled correctly, leaving ovsdbapp stuck in an OSError loop
+    ("Transport endpoint is not connected"). Please upgrade Open vSwitch to
+    a version >= 2.17.7-0ubuntu0.22.04.1~cloud0 to resolve this issue.
