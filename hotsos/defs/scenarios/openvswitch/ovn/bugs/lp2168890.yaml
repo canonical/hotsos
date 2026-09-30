@@ -1,0 +1,26 @@
+checks:
+  # No fixed OVN package exists yet for LP2168890 so every version in the
+  # affected Antelope (23.03.x) and Bobcat (23.09.x) UCA ranges is broken.
+  # Lower the max bounds once fixed versions are released.
+  ovn_affected_version:
+    apt:
+      ovn-common:
+        - min: 23.03.0
+          max: 23.03.999
+        - min: 23.09.0
+          max: 23.09.999
+conclusions:
+  lp2168890:
+    decision: ovn_affected_version
+    raises:
+      type: LaunchpadBug
+      bug-id: 2168890
+      message: >-
+        The installed OVN packages (Antelope/Bobcat UCA) are missing the
+        FDP-620 fix (LP2168890). Without it, multichassis ports can learn the
+        wrong MAC into the OVN FDB, causing instances to lose network
+        connectivity during live migration or evacuation. There is currently
+        no fixed package available. Please track LP2168890 and upgrade OVN to
+        the latest version once a fix is released; in the meantime, clear the
+        incorrectly learned MAC from the OVN FDB or recreate the affected port
+        to restore connectivity.

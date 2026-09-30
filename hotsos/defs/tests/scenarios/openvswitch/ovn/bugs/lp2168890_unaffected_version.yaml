@@ -1,0 +1,9 @@
+target-name: lp2168890.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-common                      22.03.2-0ubuntu0.22.04.1          amd64        OVN common components
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
