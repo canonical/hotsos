@@ -1,0 +1,36 @@
+vars:
+  fixed_version: 2.17.7-0ubuntu0.22.04.1~cloud0
+checks:
+  pkg_has_bug:
+    apt:
+      python3-openvswitch:
+        - lt: 2.17.7-0ubuntu0.22.04.1~cloud0
+        - min: 3.0.0
+          # NOTE: not fixed in UCA zed
+          lt: 3.0.5
+        - min: 3.1.0
+          lt: 3.1.2-0ubuntu0.23.04.1~cloud0
+  has_2018405:
+    input:
+      - var/log/neutron/neutron-server.log
+      - var/log/neutron/neutron-ovn-metadata-agent.log
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+ovsdbapp\.backend\.ovs_idl\.connection .+Transport endpoint is not connected'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  lp2018405:
+    decision:
+      - has_2018405
+      - pkg_has_bug
+    raises:
+      type: LaunchpadBug
+      bug-id: 2018405
+      message: >-
+        This host is affected by a known bug where terminated SSL connections
+        between OpenStack agents and the ovn-central OVSDB servers are not
+        handled correctly, leaving ovsdbapp stuck in an OSError loop
+        ("Transport endpoint is not connected"). Please upgrade Open vSwitch to
+        a version >= {fixed_version} to resolve this issue.
+      format-dict:
+        fixed_version: '$fixed_version'

@@ -1,0 +1,9 @@
+target-name: lp2018405.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-02-01 06:14:46.026 2146189 ERROR ovsdbapp.backend.ovs_idl.connection [req-302f6be6 - - - - -] [Errno 107] Transport endpoint is not connected: OSError: [Errno 107] Transport endpoint is not connected
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/dpkg/dpkg_-l
+raised-bugs:
