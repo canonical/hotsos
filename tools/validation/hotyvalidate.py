@@ -6,9 +6,12 @@ import logging
 import sys
 
 import yaml
-from tests.unit import utils
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.ycheck.engine.common import YDefsLoader
+from hotsos.core.ycheck.engine.common import (
+    YDefsLoader,
+    load_test_def,
+    resolve_target_scenario_path,
+)
 
 
 # Recognised leading timestamp capture patterns, matched against the regex
@@ -31,6 +34,21 @@ LEADING_TIMESTAMP_RE = re.compile(
     r"|\(\\S\+\)[ T]\("            # (\S+) (         (loose token then group)
     r")"
 )
+
+
+def configure_defs_dir():
+    """Preserve configured defs, else use HOTSOS_DEFS_DIR or HOTSOS_ROOT."""
+    if HotSOSConfig.plugin_yaml_defs:
+        return
+
+    defs_dir = os.environ.get('HOTSOS_DEFS_DIR')
+    if not defs_dir:
+        hotsos_root = os.environ.get('HOTSOS_ROOT')
+        if not hotsos_root:
+            raise RuntimeError("HOTSOS_ROOT or HOTSOS_DEFS_DIR must be set")
+        defs_dir = os.path.join(hotsos_root, 'defs')
+
+    HotSOSConfig.plugin_yaml_defs = defs_dir
 
 
 class SearchExpressionValidator:
@@ -160,43 +178,23 @@ class HotYValidate(TestCase):
         # with the scenario.
         test_scenario_mappings = {}
 
-        # Base directory that contains per-plugin scenario test trees. Used
-        # to recover the plugin sub-root (e.g. 'kernel') from each yielded
-        # absolute test path so that TemplatedTestGenerator receives the
-        # correct test_defs_root value ('scenarios/<plugin>').
-        tests_root_path = os.path.join(utils.DEFS_TESTS_DIR, 'scenarios')
-
         # Load the scenario tests one by one
-        for testdef in YDefsLoader.get_scenario_test_files('scenarios'):
-            logging.info("validating scenario test %s", testdef)
+        for testdef_path in YDefsLoader.get_scenario_test_files('scenarios'):
+            logging.info("processing test definition file: %s", testdef_path)
 
-            # Add the discovered test to list of
-            # all tests
-            all_tests.append(testdef)
+            # Add the discovered test to list of all tests
+            all_tests.append(testdef_path)
 
-            # Recover the plugin sub-root from the absolute test path,
-            # e.g. /.../defs/tests/scenarios/kernel/foo.yaml -> 'kernel'.
-            rel = os.path.relpath(testdef, tests_root_path)
-            subdir = rel.split(os.sep, 1)[0]
-
-            # Load the test. The code needs to access some attributes
-            # stored in the templated test class in order to be able to
-            # determine the associated scenario.
-            tg = utils.TemplatedTestGenerator(
-                f'scenarios/{subdir}', testdef)
-
-            # Determine the test's target scenario path.
-            target_scenario_path = os.path.join(utils.DEFS_DIR,
-                                                tg.test_defs_root,
-                                                tg.target_path)
+            # Load the test yaml (validates the top-level schema) and
+            # resolve the absolute path of the scenario it targets.
+            testdef = load_test_def(testdef_path)
+            target_scenario_path = resolve_target_scenario_path(
+                testdef_path, testdef=testdef)
 
             # Add the test case's name to tests associated with the
             # scenario.
-            if target_scenario_path in test_scenario_mappings:
-                test_scenario_mappings[target_scenario_path].append(
-                    testdef)
-            else:
-                test_scenario_mappings[target_scenario_path] = [testdef]
+            test_scenario_mappings.setdefault(
+                target_scenario_path, []).append(testdef_path)
 
         return all_tests, test_scenario_mappings
 
@@ -210,12 +208,10 @@ class HotYValidate(TestCase):
         # scenario YAML files to compare them. We'll also check for a few
         # essential things we require in scenarios (e.g. having `checks` and
         # `conclusions` sections) as well.
-        # Ensure the defs root is configured for YDefsLoader discovery.
         total_failed_expressions = 0
         expr_validator = SearchExpressionValidator()
 
-        if not HotSOSConfig.plugin_yaml_defs:
-            HotSOSConfig.plugin_yaml_defs = utils.DEFS_DIR
+        configure_defs_dir()
 
         # Use YDefsLoader to find all scenario YAML files
         scenario_files = list(YDefsLoader.get_scenario_files())
@@ -326,9 +322,7 @@ class HotYValidate(TestCase):
         particularly when tests run in parallel.
         """
 
-        # Ensure the defs root is configured for YDefsLoader discovery.
-        if not HotSOSConfig.plugin_yaml_defs:
-            HotSOSConfig.plugin_yaml_defs = utils.DEFS_DIR
+        configure_defs_dir()
 
         # Mapping of absolute file path -> list of test files that define it in
         # their data-root `files:` section.
@@ -374,5 +368,11 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=lvl, stream=sys.stdout,
                         format="%(levelname)s: %(message)s")
+
+    try:
+        configure_defs_dir()
+    except RuntimeError as exc:
+        sys.exit(str(exc))
+
     HotYValidate().scenarios_check_mappings()
     HotYValidate().scenarios_check_data_root_files()
