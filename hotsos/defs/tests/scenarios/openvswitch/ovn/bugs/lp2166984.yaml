@@ -1,0 +1,22 @@
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-02-09T06:14:46.085Z|00123|binding|INFO|Claiming virtual lport 8c621518-9cb9-49d3-b060-0199255bc027 for this chassis with the virtual parent 4a58d95c-8fbd-4ebd-8349-0fadb2284ded
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-common 24.03.2-0ubuntu0.24.04.1 amd64
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2166984: >-
+    This host is running an OVN version affected by LP2166984 and its
+    ovn-controller logs show virtual ports with virtual-parents being
+    claimed, which is the keepalived VIP failover pattern that triggers the
+    bug. After a VIP fails over to a new virtual parent, OVN's Southbound
+    Mac_Binding table is not refreshed to the new owning MAC, so traffic to
+    the VIP is sent to the wrong chassis and the VIP becomes unreachable
+    until keepalived is restarted. There is currently no fixed OVN package
+    available. Please track LP2166984 and upgrade OVN to the latest version
+    once a fix is released; in the meantime, configure keepalived to send
+    periodic gratuitous ARPs (for example vrrp_garp_master_refresh > 0) so
+    the Mac_Binding is refreshed after failover.

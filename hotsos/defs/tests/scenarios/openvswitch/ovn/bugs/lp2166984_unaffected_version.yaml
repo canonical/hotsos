@@ -1,0 +1,11 @@
+target-name: lp2166984.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2022-02-09T06:14:46.085Z|00123|binding|INFO|Claiming virtual lport 8c621518-9cb9-49d3-b060-0199255bc027 for this chassis with the virtual parent 4a58d95c-8fbd-4ebd-8349-0fadb2284ded
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-common 24.09.0-0ubuntu0.24.10.1 amd64
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
