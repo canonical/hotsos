@@ -1,0 +1,36 @@
+checks:
+  # LP2166984 has no fixed OVN package yet, so every Caracal (24.03.x) release
+  # is affected. Lower the max bound once a fixed version is released.
+  ovn_affected_version:
+    apt:
+      ovn-common:
+        - min: 24.03.0
+          max: 24.03.999
+  # The claim log proves virtual ports with virtual-parents (the keepalived VIP
+  # failover pattern that triggers the stale Mac_Binding) are in use here.
+  claims_virtual_lport:
+    input: 'openvswitch:ovn/ovn-controller.log'
+    search:
+      expr: '([\d-]+)T([\d:]+)\.\d+Z.+\|binding\|INFO\|Claiming virtual lport \S+ for this chassis with the virtual parent \S+'
+      constraints:
+        search-result-age-hours: 48
+conclusions:
+  lp2166984:
+    decision:
+      - ovn_affected_version
+      - claims_virtual_lport
+    raises:
+      type: LaunchpadBug
+      bug-id: 2166984
+      message: >-
+        This host is running an OVN version affected by LP2166984 and its
+        ovn-controller logs show virtual ports with virtual-parents being
+        claimed, which is the keepalived VIP failover pattern that triggers the
+        bug. After a VIP fails over to a new virtual parent, OVN's Southbound
+        Mac_Binding table is not refreshed to the new owning MAC, so traffic to
+        the VIP is sent to the wrong chassis and the VIP becomes unreachable
+        until keepalived is restarted. There is currently no fixed OVN package
+        available. Please track LP2166984 and upgrade OVN to the latest version
+        once a fix is released; in the meantime, configure keepalived to send
+        periodic gratuitous ARPs (for example vrrp_garp_master_refresh > 0) so
+        the Mac_Binding is refreshed after failover.
