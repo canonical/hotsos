@@ -1,0 +1,8 @@
+target-name: lp1982284.yaml
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2022-02-01 06:14:46.123 12345 ERROR nova.virt.libvirt.driver [req-abc - - - - -] Live Migration failure: libvirt.libvirtError: internal error: migration was active, but no RAM info was set
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

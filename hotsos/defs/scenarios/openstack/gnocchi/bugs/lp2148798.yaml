@@ -1,0 +1,19 @@
+checks:
+  has_2148798:
+    input: var/log/gnocchi/gnocchi-metricd.log*
+    search:
+      expr: '([\d-]+) ([\d:]+)[\.,]\d{3} .+gnocchi\.cli\.metricd .*Unexpected error during processing job: lz4\.block\.LZ4BlockError'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  lp2148798:
+    decision: has_2148798
+    raises:
+      type: LaunchpadBug
+      bug-id: 2148798
+      message: >-
+        This host is affected by a known bug where a truncated Carbonara
+        object makes gnocchi-metricd raise an uncaught lz4.block.LZ4BlockError
+        and enter a permanent crash loop, blocking the entire telemetry
+        pipeline because metricd retries the same object every cycle. Please
+        upgrade Gnocchi to the latest version to resolve this issue.

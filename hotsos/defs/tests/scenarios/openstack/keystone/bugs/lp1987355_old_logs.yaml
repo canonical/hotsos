@@ -1,0 +1,10 @@
+target-name: lp1987355.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-keystonemiddleware           9.0.0-0ubuntu1                                       all          Middleware for OpenStack Identity (Keystone) - Python 3.x
+    var/log/cinder/cinder-api.log: |
+      2022-02-01 06:14:46.123 12345 WARNING keystonemiddleware.auth_token [req-abc - - - - -] Error validating X-Service-Token: keystoneauth1.exceptions.http.NotFound
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

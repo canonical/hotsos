@@ -1,0 +1,33 @@
+checks:
+  package_not_fixed:
+    apt:
+      cinder-common:
+        - min: 2:20.3.1
+          lt: 2:20.3.1-0ubuntu1.4~cloud0
+        - min: 2:22.1.1
+          lt: 2:22.1.1-0ubuntu1.3~cloud0
+        - min: 2:23.0.0
+          lt: 2:23.0.0-0ubuntu1.2~cloud0
+  has_1988942:
+    input:
+      - var/log/cinder/cinder-api.log
+      - var/log/apache2/cinder_error.log
+    search:
+      expr: '([\d-]+) ([\d:]+)[\.,]\d{3,6} .+Invalid input for field/attribute .+ is too long'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  lp1988942:
+    decision:
+      - package_not_fixed
+      - has_1988942
+    raises:
+      type: LaunchpadBug
+      bug-id: 1988942
+      message: >-
+        This host is affected by a known Cinder bug where setting a volume
+        image-metadata value longer than 255 characters is rejected ("Invalid
+        input for field/attribute ... is too long"), even though such values
+        can be stored from Glance, which breaks backup/restore workflows that
+        need to restore the original metadata. Please upgrade Cinder to the
+        latest version to resolve this issue.

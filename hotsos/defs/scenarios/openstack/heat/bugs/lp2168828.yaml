@@ -1,0 +1,26 @@
+checks:
+  # At the time of writing this bug is not fixed in Ubuntu. Once a fix is
+  # released we should update this to only trigger if not running a fixed
+  # package.
+  has_2168828:
+    input:
+      path: 'var/log/heat/heat-engine.log'
+    search:
+      # Match the two-line signature from LP#2168828: the eventlet blocking
+      # AssertionError raised while the QueuePool connection is reset, followed
+      # by the resulting pool-exhaustion TimeoutError.
+      start: '([\d-]+) ([\d:]+)\.\d{3} \d+ ERROR sqlalchemy\.pool\.\S+ .+Exception during reset or similar: AssertionError: do not call blocking functions from the mainloop'
+      end: '([\d-]+) ([\d:]+)\.\d{3} \d+ ERROR heat\.engine\.service .+sqlalchemy\.exc\.TimeoutError: QueuePool limit of size \d+ overflow \d+ reached, connection timed out'
+conclusions:
+  lp2168828:
+    decision: has_2168828
+    raises:
+      type: LaunchpadBug
+      bug-id: 2168828
+      message: >-
+        This host is affected by a known bug where heat-engine leaks database
+        connections when listing stack snapshots or deleting a stack (the
+        garbage collector hits "AssertionError: do not call blocking functions
+        from the mainloop" under eventlet), permanently exhausting the DB
+        connection pool until heat-engine is restarted. Please upgrade Heat to
+        the latest version to resolve this issue.
