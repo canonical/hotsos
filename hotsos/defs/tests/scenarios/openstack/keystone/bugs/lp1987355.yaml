@@ -1,0 +1,19 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-keystonemiddleware           9.0.0-0ubuntu1                                       all          Middleware for OpenStack Identity (Keystone) - Python 3.x
+    var/log/cinder/cinder-api.log: |
+      2022-02-10 06:14:46.123 12345 WARNING keystonemiddleware.auth_token [req-abc - - - - -] Error validating X-Service-Token: keystoneauth1.exceptions.http.NotFound
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1987355: >-
+    This host is running a version of python3-keystonemiddleware that is
+    affected by a known bug where a valid service token is rejected
+    ("Error validating X-Service-Token") when the associated user token
+    expires mid-request. The expired user token is cached as invalid, so a
+    subsequent request that reuses it fails even when accompanied by a
+    valid service token, which can leave Cinder volumes stuck in the
+    "detaching" state for long-running clients that reuse tokens (e.g. the
+    Kubernetes Cinder CSI plugin). Please upgrade python3-keystonemiddleware
+    to the latest version available for your release to resolve this issue.

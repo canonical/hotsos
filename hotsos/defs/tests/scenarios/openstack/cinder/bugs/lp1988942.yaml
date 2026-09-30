@@ -1,0 +1,20 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  cinder-api                      2:20.3.1-0ubuntu1.1              all          Cinder storage service - API server
+      ii  cinder-common                   2:20.3.1-0ubuntu1.1              all          Cinder storage service - common files
+      ii  cinder-scheduler                2:20.3.1-0ubuntu1.1              all          Cinder storage service - Scheduler server
+      ii  cinder-volume                   2:20.3.1-0ubuntu1.1              all          Cinder storage service - Volume server
+      ii  python3-cinder                  2:20.3.1-0ubuntu1.1              all          Cinder Python 3 libraries
+    var/log/cinder/cinder-api.log: |
+      2022-02-10 06:14:46.123 12345 INFO cinder.api.middleware.fault [req-abc - - - - -] Invalid input for field/attribute longprop. Value: 12345678901234567890 is too long (HTTP 400)
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1988942: >-
+    This host is affected by a known Cinder bug where setting a volume
+    image-metadata value longer than 255 characters is rejected ("Invalid
+    input for field/attribute ... is too long"), even though such values
+    can be stored from Glance, which breaks backup/restore workflows that
+    need to restore the original metadata. Please upgrade Cinder to the
+    latest version to resolve this issue.

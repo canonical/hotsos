@@ -1,0 +1,21 @@
+checks:
+  has_2098892:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+TypeError: virNodeDeviceLookupByName\(\) argument 2 must be str or None, not Proxy'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  lp2098892:
+    decision: has_2098892
+    raises:
+      type: LaunchpadBug
+      bug-id: 2098892
+      message: >-
+        This host is affected by a known Nova regression (introduced by the
+        fix for LP2091033) where the nova-compute update_available_resource
+        periodic task fails with "TypeError: virNodeDeviceLookupByName()
+        argument 2 must be str or None, not Proxy" when mdevs are in use,
+        preventing the resource tracker from updating. Please upgrade Nova to
+        the latest version to resolve this issue.

@@ -1,0 +1,20 @@
+checks:
+  has_1982284:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+libvirt\.libvirtError: internal error: migration was active, but no RAM info was set'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  lp1982284:
+    decision: has_1982284
+    raises:
+      type: LaunchpadBug
+      bug-id: 1982284
+      message: >-
+        This host is affected by a known bug where a race in the Nova live
+        migration monitoring thread makes libvirt raise "internal error:
+        migration was active, but no RAM info was set", causing Nova to treat
+        an otherwise successful live migration as failed. Please upgrade Nova
+        to the latest version to resolve this issue.

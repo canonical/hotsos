@@ -1,0 +1,13 @@
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-02-10 06:14:46.123 456 ERROR neutron.api.v2.resource [req-abc - - - - -] delete failed: TypeError: unhashable type: 'list'
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2091071: >-
+    This host is affected by a known bug where deleting an OVN agent fails
+    in neutron-server with "TypeError: unhashable type: 'list'", leaving
+    decommissioned agents as zombies in the agent list that cannot be
+    removed. Please upgrade Neutron to the latest version to resolve this
+    issue.

@@ -1,0 +1,8 @@
+target-name: lp2148798.yaml
+data-root:
+  files:
+    var/log/gnocchi/gnocchi-metricd.log: |
+      2022-02-01 06:14:46,123 [12345] ERROR gnocchi.cli.metricd Unexpected error during processing job: lz4.block.LZ4BlockError: Decompression failed: corrupt input or insufficient space in destination buffer
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

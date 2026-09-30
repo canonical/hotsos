@@ -1,0 +1,10 @@
+target-name: lp2168828.yaml
+# The blocking-function AssertionError on its own, without the subsequent
+# QueuePool exhaustion TimeoutError, must not raise the bug.
+data-root:
+  files:
+    var/log/heat/heat-engine.log: |
+      2022-02-10 06:14:46.123 517667 ERROR sqlalchemy.pool.impl.QueuePool [-] Exception during reset or similar: AssertionError: do not call blocking functions from the mainloop
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

@@ -1,0 +1,8 @@
+target-name: lp2098892.yaml
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2022-02-01 06:14:46.462 2 ERROR nova.compute.manager [req-abc - - - - -] Error updating resources for node compute1.: TypeError: virNodeDeviceLookupByName() argument 2 must be str or None, not Proxy
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

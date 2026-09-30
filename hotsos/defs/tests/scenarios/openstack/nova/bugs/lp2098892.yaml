@@ -1,0 +1,14 @@
+data-root:
+  files:
+    var/log/nova/nova-compute.log: |
+      2022-02-10 06:14:46.462 2 ERROR nova.compute.manager [req-abc - - - - -] Error updating resources for node compute1.: TypeError: virNodeDeviceLookupByName() argument 2 must be str or None, not Proxy
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2098892: >-
+    This host is affected by a known Nova regression (introduced by the
+    fix for LP2091033) where the nova-compute update_available_resource
+    periodic task fails with "TypeError: virNodeDeviceLookupByName()
+    argument 2 must be str or None, not Proxy" when mdevs are in use,
+    preventing the resource tracker from updating. Please upgrade Nova to
+    the latest version to resolve this issue.
