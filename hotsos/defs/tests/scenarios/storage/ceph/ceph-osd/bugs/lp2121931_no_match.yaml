@@ -1,0 +1,12 @@
+target-name: lp2121931.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Thu Feb 10 12:00:00 UTC 2022
+    var/log/ceph/ceph-osd.0.log: |
+      2022-02-10T01:34:19.123+0000 7e821b800640  0 osd.0 456 boot
+      2022-02-10T01:34:19.127+0000 7e821b800640 -1  3: (OSD::some_other_function()+0x4ac) [0x5e326eb66c6c]
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:

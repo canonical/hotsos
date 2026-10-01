@@ -1,0 +1,20 @@
+checks:
+  mgr_service_map_epoch_assert:
+    input: 'storage.ceph:ceph-mgr*.log'
+    search:
+      expr: '^([\d-]+)[T ]([\d:]+)\S+ .+ FAILED ceph_assert\(pending_service_map\.epoch > service_map\.epoch\)'
+      constraints:
+        min-results: 1
+conclusions:
+  lp2019293:
+    decision: mgr_service_map_epoch_assert
+    raises:
+      type: LaunchpadBug
+      bug-id: 2019293
+      message: >-
+        The Ceph manager on this host hit the assertion
+        'pending_service_map.epoch > service_map.epoch' and crashed during an
+        mgr fail-over after the newly active mgr received multiple service map
+        updates (LP2019293, observed from Octopus onwards). This can crash the
+        newly active mgr and delay fail-over. Please upgrade Ceph to the latest
+        version to resolve this issue.

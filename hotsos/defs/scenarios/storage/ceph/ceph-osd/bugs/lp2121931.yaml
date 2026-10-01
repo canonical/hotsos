@@ -1,0 +1,20 @@
+checks:
+  osd_crash_tick_without_osd_lock:
+    input: 'storage.ceph:ceph-osd*.log'
+    search:
+      expr: '^([\d-]+)[T ]([\d:]+)\S+ .+ \(OSD::tick_without_osd_lock\(\)\+'
+      constraints:
+        min-results: 1
+conclusions:
+  lp2121931:
+    decision: osd_crash_tick_without_osd_lock
+    raises:
+      type: LaunchpadBug
+      bug-id: 2121931
+      message: >-
+        One or more Ceph OSDs on this host crashed with a segmentation fault
+        in OSD::tick_without_osd_lock(), caused by a race condition where the
+        OSD epoch maps are accessed without a lock from multiple threads
+        (LP2121931, affecting Squid 19.2.x). This can repeatedly crash OSDs.
+        Please upgrade Ceph to the latest version to resolve this issue and
+        check 'ceph crash ls' for the affected daemons.

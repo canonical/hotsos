@@ -1,0 +1,19 @@
+target-name: lp2019293.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Thu Feb 10 12:00:00 UTC 2022
+    var/log/ceph/ceph-mgr.log: |
+      2022-02-10T09:04:00.100+0000 7f641f7e3700  0 mgr handle_mgr_map starting new handler
+      2022-02-10T09:05:10.236+0000 7f641f7e3700 -1 log_channel(cluster) FAILED ceph_assert(pending_service_map.epoch > service_map.epoch)
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2019293: >-
+    The Ceph manager on this host hit the assertion
+    'pending_service_map.epoch > service_map.epoch' and crashed during an
+    mgr fail-over after the newly active mgr received multiple service map
+    updates (LP2019293, observed from Octopus onwards). This can crash the
+    newly active mgr and delay fail-over. Please upgrade Ceph to the latest
+    version to resolve this issue.
