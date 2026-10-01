@@ -173,7 +173,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                              'uptime': (' 16:19:19 up 17:41,  2 users, '
                                         ' load average: 3.58, 3.27, 2.58'),
                              'sos_commands/date/date':
-                                 'Thu Mar 31 16:19:17 UTC 2021'})
+                                 'Wed Mar 31 16:19:17 UTC 2021'})
     @utils.global_search_context
     def test_yaml_def_scenario_checks_expr(self, global_searcher):
         """ Test scenario checks with log match expression. """
