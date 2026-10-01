@@ -1,0 +1,22 @@
+target-name: lp2121931.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Thu Feb 10 12:00:00 UTC 2022
+    var/log/ceph/ceph-osd.0.log: |
+      2022-02-10T01:34:19.123+0000 7e821b800640  0 osd.0 456 boot
+      2022-02-10T01:34:19.124+0000 7e821b800640 -1 *** Caught signal (Segmentation fault) **
+      2022-02-10T01:34:19.125+0000 7e821b800640 -1  in thread 7e821b800640 thread_name:safe_timer
+      2022-02-10T01:34:19.126+0000 7e821b800640 -1  ceph version 19.2.0 (16063ff2022298c9300e49a547a16ffda59baf13) squid (stable)
+      2022-02-10T01:34:19.127+0000 7e821b800640 -1  3: (OSD::tick_without_osd_lock()+0x4ac) [0x5e326eb66c6c]
+  copy-from-original:
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2121931: >-
+    One or more Ceph OSDs on this host crashed with a segmentation fault
+    in OSD::tick_without_osd_lock(), caused by a race condition where the
+    OSD epoch maps are accessed without a lock from multiple threads
+    (LP2121931, affecting Squid 19.2.x). This can repeatedly crash OSDs.
+    Please upgrade Ceph to the latest version to resolve this issue and
+    check 'ceph crash ls' for the affected daemons.
