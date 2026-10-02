@@ -89,13 +89,21 @@ class YPropertySearchConstraints(YPropertyOverrideBase):
 class YPropertySearchBase(YPropertyOverrideBase):
     """ Base class for search properties. """
 
-    def apply_extra_constraints(self, results):
+    def apply_extra_constraints(self, results, skip_min_results=False):
         """
         Apply further constraints filtering to search results.
 
         These are constraints supported by the constraints property that
         are not/cannot be applied by the search engine itself using
         SearchConstraintSearchSince.
+
+        @param results: list of one or more search results.
+        @param skip_min_results: boolean value which when True will
+                                 mean that the min_results constraint is
+                                 skipped. This can be useful if we are
+                                 applying constraints to part of a
+                                 set of results e.g. a single
+                                 SequenceSearchDef section.
         """
         if not self.constraints:
             log.debug("no extra search constraints to apply")
@@ -106,7 +114,7 @@ class YPropertySearchBase(YPropertyOverrideBase):
         results = ExtraSearchConstraints().apply(
                     results,
                     self.constraints.search_period_hours,
-                    self.constraints.min_results)
+                    None if skip_min_results else self.constraints.min_results)
         log.debug("applying extra search constraints reduced results from %s "
                   "to %s", count, len(results))
         return results
@@ -235,10 +243,16 @@ class YPropertySearchBase(YPropertyOverrideBase):
             if seq_body:
                 sd_body = SearchDef(seq_body.search_pattern)
 
+            constraints = None
+            if (self.constraints and
+                    self.constraints.filesearch_constraints_obj):
+                constraints = [self.constraints.filesearch_constraints_obj]
+
             # NOTE: we don't use hints here
             tag = self.unique_search_tag
             sdef = SequenceSearchDef(start=sd_start, body=sd_body,
-                                     end=sd_end, tag=tag)
+                                     end=sd_end, tag=tag,
+                                     constraints=constraints)
             self.cache.set('sequence_search', sdef)
             return sdef
 

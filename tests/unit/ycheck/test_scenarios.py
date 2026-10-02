@@ -112,6 +112,109 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             msg = "yay seq searches worked!"
             self.assertEqual(issue['message'], msg)
 
+    @utils.init_test_scenario(test_data.SCENARIO_W_SEQ_SEARCH_CONSTRAINT.
+                              format(path=os.path.basename('data.txt')))
+    @utils.create_data_root({'data.txt': ("2021-04-01 12:00:00 the start\n"
+                                          "2021-04-01 12:00:01 the end\n"
+                                          "2021-04-01 12:30:00 the start\n"
+                                          "2021-04-01 12:30:01 the end\n"),
+                             'sos_commands/date/date':
+                                 'Thu Apr  1 13:00:00 UTC 2021'})
+    @utils.global_search_context
+    def test_yaml_def_seq_search_constraint_within_period(self,
+                                                          global_searcher):
+        """ Test sequence search with constraints satisfied.
+
+        Both sections are within search-period-hours (1h) of each other and
+        satisfy min-results (2) so the issue must be raised. This proves extra
+        search constraints are now applied to sequence searches.
+        """
+        scenarios.YScenarioChecker(global_searcher).run()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues[0]), 1)
+        self.assertEqual(issues[0][0]['message'],
+                         "yay seq constraint applied!")
+
+    @utils.init_test_scenario(test_data.SCENARIO_W_SEQ_SEARCH_CONSTRAINT.
+                              format(path=os.path.basename('data.txt')))
+    @utils.create_data_root({'data.txt': ("2021-04-01 00:00:00 the start\n"
+                                          "2021-04-01 00:00:01 the end\n"
+                                          "2021-04-01 12:30:00 the start\n"
+                                          "2021-04-01 12:30:01 the end\n"),
+                             'sos_commands/date/date':
+                                 'Thu Apr  1 13:00:00 UTC 2021'})
+    @utils.global_search_context
+    def test_yaml_def_seq_search_constraint_filtered(self, global_searcher):
+        """ Test sequence search constraints filter out-of-period results.
+
+        Both sections are within the global search window but are more than
+        search-period-hours (1h) apart so the period filter reduces matches
+        below min-results (2) and no issue must be raised.
+        """
+        scenarios.YScenarioChecker(global_searcher).run()
+        self.assertEqual(IssuesManager().load_issues(), {})
+
+    @utils.init_test_scenario(test_data.SCENARIO_W_SEQ_SEARCH_CONSTRAINT.
+                              format(path=os.path.basename('data.txt')))
+    @utils.create_data_root({'data.txt': ("2021-04-01 12:00:00 the start\n"
+                                          "2021-04-01 12:00:01 the end\n"
+                                          "2021-04-01 12:30:00 the start\n"
+                                          "2021-04-01 13:45:00 the end\n"),
+                             'sos_commands/date/date':
+                                 'Thu Apr  1 14:00:00 UTC 2021'})
+    @utils.global_search_context
+    def test_yaml_def_seq_search_constraint_end_out_of_period(self,
+                                                              global_searcher):
+        """ Test that the end of a section must also fall within the window.
+
+        Both section starts are within search-period-hours (1h) of each other
+        but the second section's end is more than 1h after its start
+        so applying the constraint reduces matches below min-results (2) and
+        no issue must be raised. Under the previous
+        start-only logic this would have raised an issue.
+        """
+        scenarios.YScenarioChecker(global_searcher).run()
+        self.assertEqual(IssuesManager().load_issues(), {})
+
+    @utils.init_test_scenario(test_data.SCENARIO_W_SEQ_SEARCH_AGE_CONSTRAINT.
+                              format(path=os.path.basename('data.txt')))
+    @utils.create_data_root({'data.txt': ("2021-04-01 12:30:00 the start\n"
+                                          "2021-04-01 12:30:01 the end\n"),
+                             'sos_commands/date/date':
+                                 'Thu Apr  1 13:00:00 UTC 2021'})
+    @utils.global_search_context
+    def test_yaml_def_seq_search_age_constraint_within_age(self,
+                                                           global_searcher):
+        """ Test sequence search with search-result-age-hours satisfied.
+
+        The section occurred 30 minutes before the current date which is
+        within the search-result-age-hours (1h) window so the issue must be
+        raised. This proves age constraints are applied to sequence searches.
+        """
+        scenarios.YScenarioChecker(global_searcher).run()
+        issues = list(IssuesStore().load().values())
+        self.assertEqual(len(issues[0]), 1)
+        self.assertEqual(issues[0][0]['message'],
+                         "yay seq age constraint applied!")
+
+    @utils.init_test_scenario(test_data.SCENARIO_W_SEQ_SEARCH_AGE_CONSTRAINT.
+                              format(path=os.path.basename('data.txt')))
+    @utils.create_data_root({'data.txt': ("2021-04-01 06:00:00 the start\n"
+                                          "2021-04-01 06:00:01 the end\n"),
+                             'sos_commands/date/date':
+                                 'Thu Apr  1 13:00:00 UTC 2021'})
+    @utils.global_search_context
+    def test_yaml_def_seq_search_age_constraint_filtered(self,
+                                                         global_searcher):
+        """ Test sequence search search-result-age-hours filters old results.
+
+        The section occurred 7 hours before the current date which is older
+        than the search-result-age-hours (1h) window so no issue must be
+        raised, even though it is within the global search window.
+        """
+        scenarios.YScenarioChecker(global_searcher).run()
+        self.assertEqual(IssuesManager().load_issues(), {})
+
     @utils.init_test_scenario(test_data.SCENARIO_CHECKS)
     @utils.create_data_root({'foo.log': '2021-04-01 00:31:00.000 an event\n',
                              'uptime': (' 16:19:19 up 17:41,  2 users, '

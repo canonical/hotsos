@@ -1,6 +1,7 @@
 target-name: lp2168828.yaml
 # The blocking-function AssertionError on its own, without the subsequent
 # QueuePool exhaustion TimeoutError, must not raise the bug.
+# NOTE: current date is 2022-02-10 16:19:17
 data-root:
   files:
     var/log/heat/heat-engine.log: |
