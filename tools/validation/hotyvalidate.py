@@ -78,12 +78,19 @@ class SearchExpressionValidator:
         'constraints:'.
 
         Works for the direct form (expr + constraints as siblings on the
-        check) and the nested 'search:' form (expr + constraints under
-        'search').
+        check), the nested 'search:' form (expr + constraints under
+        'search') and sequence searches where constraints apply to the
+        'start' pattern (the period filter anchors on the start match
+        timestamp).
         """
         if isinstance(node, dict):
             if "constraints" in node:
-                yield node.get("expr")
+                if node.get("expr") is not None:
+                    yield node.get("expr")
+                elif node.get("start") is not None:
+                    yield node.get("start")
+                else:
+                    yield None
             for value in node.values():
                 yield from self.iter_constrained_exprs(value)
         elif isinstance(node, list):

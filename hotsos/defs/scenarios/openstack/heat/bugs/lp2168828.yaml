@@ -11,6 +11,9 @@ checks:
       # by the resulting pool-exhaustion TimeoutError.
       start: '([\d-]+) ([\d:]+)\.\d{3} \d+ ERROR sqlalchemy\.pool\.\S+ .+Exception during reset or similar: AssertionError: do not call blocking functions from the mainloop'
       end: '([\d-]+) ([\d:]+)\.\d{3} \d+ ERROR heat\.engine\.service .+sqlalchemy\.exc\.TimeoutError: QueuePool limit of size \d+ overflow \d+ reached, connection timed out'
+      constraints:
+        search-period-hours: 1
+        search-result-age-hours: 24
 conclusions:
   lp2168828:
     decision: has_2168828
