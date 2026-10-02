@@ -32,7 +32,7 @@ jobs:
           python -m build
       - name: Upload Python package as CI artifact ( version=${{matrix.python-version}} )
         uses: actions/upload-artifact@v4
-        if: matrix.python-version == '3.8'
+        if: matrix.python-version == '3.12'
         with:
           name: Python Package (${{ matrix.python-version }})
           path: dist/*whl
