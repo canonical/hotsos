@@ -235,10 +235,16 @@ class YPropertySearchBase(YPropertyOverrideBase):
             if seq_body:
                 sd_body = SearchDef(seq_body.search_pattern)
 
+            constraints = None
+            if (self.constraints and
+                    self.constraints.filesearch_constraints_obj):
+                constraints = [self.constraints.filesearch_constraints_obj]
+
             # NOTE: we don't use hints here
             tag = self.unique_search_tag
             sdef = SequenceSearchDef(start=sd_start, body=sd_body,
-                                     end=sd_end, tag=tag)
+                                     end=sd_end, tag=tag,
+                                     constraints=constraints)
             self.cache.set('sequence_search', sdef)
             return sdef
 

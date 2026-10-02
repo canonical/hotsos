@@ -95,24 +95,66 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         if search_info['sequence_search'] is None:
             return results
 
-        # Not try for sequence search results
-        sections = global_results.find_sequence_by_tag(tag).values()
+        # Now try for sequence search results
+        sections = global_results.find_sequence_by_tag(tag)
         log.debug("check %s has %s sequence search results with tag %s",
                   self.check_name, len(sections), tag)
         if not sections:
             return results
 
-        # Use the result of the first section start as the final
-        # result. This is enough for now because the section is guaranteed
-        # to be complete i.e. a full match and the result is ultimately
-        # True/False based on whether or not a result was found.
-        for result in list(sections)[0]:
-            if result.tag == search_info['sequence_search'].start_tag:
-                # NOTE: we don't yet support applying extra constraints here
-                results.append(result)
-                break
-
+        results.extend(self._filter_sequence_sections(
+            sections, search_info['sequence_search']))
         return results
+
+    def _filter_sequence_sections(self, sections, sequence_search):
+        """
+        Apply extra search constraints to matched sequence sections.
+
+        A section is guaranteed to be complete (a full match) so it is
+        represented by its start result. The same constraints (e.g.
+        search-period-hours, min-results) that are applied to simple searches
+        are applied to both the start and end result of each section so that a
+        section is only kept when both its start and end fall within the
+        constraint window.
+
+        @param sections: dict of section id to list of SearchResult objects.
+        @param sequence_search: searchkit SequenceSearchDef for these results.
+        """
+        start_tag = sequence_search.start_tag
+        end_tag = sequence_search.end_tag
+        section_starts = {}
+        section_ends = {}
+        for section_id, section in sections.items():
+            for result in section:
+                if result.tag == start_tag:
+                    section_starts[section_id] = result
+                elif result.tag == end_tag:
+                    section_ends[section_id] = result
+
+        # Filter on the section start results and remember which sections
+        # survived.
+        surviving = self._sections_within_constraints(section_starts)
+
+        # Apply the same constraints to the end results of the surviving
+        # sections so that both the start and end fall within the window.
+        if section_ends:
+            ends = {sid: section_ends[sid] for sid in surviving
+                    if sid in section_ends}
+            surviving = self._sections_within_constraints(ends)
+
+        return [r for sid, r in section_starts.items() if sid in surviving]
+
+    def _sections_within_constraints(self, section_results):
+        """
+        Return the ids of sections whose result survives extra search
+        constraints.
+
+        @param section_results: dict of section id to a single SearchResult.
+        """
+        by_id = {id(r): sid for sid, r in section_results.items()}
+        filtered = self.search.apply_extra_constraints(  # noqa, pylint: disable=no-member
+            list(section_results.values()))
+        return {by_id[id(r)] for r in filtered}
 
     @property
     def name(self):
