@@ -14,12 +14,18 @@ from hotsos.core.ycheck.engine.common import YDefsLoader
 # Recognised leading timestamp capture patterns, matched against the regex
 # source of a search expression (after stripping an optional '^' anchor). Each
 # alternative captures the date (and usually time) at the start of the line as
-# the first result group(s). Examples of expressions each alternative accepts:
+# the first result group(s) so that ExtraSearchConstraints hands them back to
+# core.search.CommonTimestampMatcher. The alternatives below cover every format
+# in CommonTimestampMatcher.patterns: openstack/ceph/openvswitch/juju
+# (YYYY-MM-DD[ T]HH:MM:SS), kernlog/syslog (Mon DD HH:MM:SS, string month) and
+# apache (IP - - [DD/Mon/YYYY:HH:MM:SS +ZZZZ]). Examples of expressions each
+# alternative accepts:
 #   ([\d-]+)T([\d:]+)...                 journalctl ISO 8601
 #   ([\d-]+) ([\d:]+)...                 file log, space separated
 #   ([\d-]+ [\d:]+.\d{3})...             combined date+time single group
 #   (\d{4}-\d{2}-\d{2}) ...              explicit year
 #   (\w{3,5}\s+\d{1,2}\s+[\d:]+) ...     syslog/kern.log style
+#   ([\d.]+[\s-]+\[\d{2}/\w{3,5}/...)  apache access log (IP + bracketed date)
 #   (\S+) (\S+) ...                      loose date/time tokens
 LEADING_TIMESTAMP_RE = re.compile(
     r"(?:"
@@ -28,6 +34,7 @@ LEADING_TIMESTAMP_RE = re.compile(
     r"|\(\[\\d/-\]\+\)"            # ([\d/-]+)
     r"|\(\\d\{4\}"                 # (\d{4}
     r"|\(\\w\{\d+,\d*\}\\s"        # (\w{3,5}\s      (syslog month)
+    r"|\(\[\\d\.\]\+"              # ([\d.]+      (apache access-log IP prefix)
     r"|\(\\S\+\)[ T]\("            # (\S+) (         (loose token then group)
     r")"
 )
@@ -78,12 +85,23 @@ class SearchExpressionValidator:
         'constraints:'.
 
         Works for the direct form (expr + constraints as siblings on the
-        check) and the nested 'search:' form (expr + constraints under
-        'search').
+        check), the nested 'search:' form (expr + constraints under
+        'search') and sequence searches where constraints apply to the
+        'start' pattern (the period filter anchors on the start match
+        timestamp).
         """
         if isinstance(node, dict):
             if "constraints" in node:
-                yield node.get("expr")
+                if node.get("expr") is not None:
+                    yield node.get("expr")
+                else:
+                    for part in ("start", "end"):
+                        expr = node.get(part)
+                        if isinstance(expr, dict):
+                            expr = expr.get("expr")
+                        if expr is not None:
+                            yield expr
+
             for value in node.values():
                 yield from self.iter_constrained_exprs(value)
         elif isinstance(node, list):

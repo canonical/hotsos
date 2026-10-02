@@ -184,6 +184,9 @@ class ExtraSearchConstraints():
     @classmethod
     def filter_by_period(cls, results, period_hours):
         """ Return the most recent period_hours worth of results. """
+        if not results:
+            return results
+
         if not period_hours:
             log.debug("period filter not specified - skipping")
             return results
@@ -207,22 +210,17 @@ class ExtraSearchConstraints():
 
             results.append(r)
 
-        log.debug("%s results remain after applying filter", len(results))
+        log.debug("%s result(s) remain after applying filter", len(results))
         return [r[1] for r in results]
 
     def apply(self, results, search_period_hours=None, min_results=None):
         """ Filter results by time period and minimum count. """
-        if results:
-            results = self.filter_by_period(results, search_period_hours)
-
-        if min_results is None:
-            return results
-
+        results = self.filter_by_period(results, search_period_hours)
         count = len(results)
-        if count < min_results:
+        if min_results is not None and count < min_results:
             log.debug("search does not have enough matches (%s) to "
                       "satisfy min of %s", count, min_results)
-            return []
+            results = []
 
         log.debug("applying extra search constraints reduced results from %s "
                   "to %s", count, len(results))

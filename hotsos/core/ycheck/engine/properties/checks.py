@@ -86,33 +86,109 @@ class YPropertyCheck(CheckBase, YPropertyMappedOverrideBase):
         tag = self.search.unique_search_tag  # pylint: disable=E1101
 
         # first get simple search results
-        simple_results = global_results.find_by_tag(tag)
+        results = global_results.find_by_tag(tag)
         log.debug("check %s has %s simple search results with tag %s",
-                  self.check_name, len(simple_results), tag)
-        results = self.search.apply_extra_constraints(simple_results)  # noqa, pylint: disable=no-member
+                  self.check_name, len(results), tag)
+        if results:
+            results = self.search.apply_extra_constraints(results)  # noqa, pylint: disable=no-member
 
         search_info = self.context.global_searcher[tag]
-        if search_info['sequence_search'] is None:
+        sequence_search = search_info['sequence_search']
+        if sequence_search is None:
             return results
 
-        # Not try for sequence search results
-        sections = global_results.find_sequence_by_tag(tag).values()
+        # Now try for sequence search results
+        sections = global_results.find_sequence_by_tag(tag)
         log.debug("check %s has %s sequence search results with tag %s",
                   self.check_name, len(sections), tag)
         if not sections:
             return results
 
-        # Use the result of the first section start as the final
-        # result. This is enough for now because the section is guaranteed
-        # to be complete i.e. a full match and the result is ultimately
-        # True/False based on whether or not a result was found.
-        for result in list(sections)[0]:
-            if result.tag == search_info['sequence_search'].start_tag:
-                # NOTE: we don't yet support applying extra constraints here
-                results.append(result)
-                break
-
+        filtered = self._filter_sequence_sections(sections, sequence_search)
+        # Only include section start results since the length of the returned
+        # list is treated as the number of search matches.
+        results.extend(self._get_sequence_start_results(
+                            filtered, sequence_search.start_tag))
         return results
+
+    @staticmethod
+    def _get_section_start_end_tuple(sequence_search, section):
+        start = end = None
+        for result in section:
+            if result.tag == sequence_search.start_tag:
+                start = result
+            elif result.tag == sequence_search.end_tag:
+                end = result
+
+        return (start, end)
+
+    @staticmethod
+    def _get_sequence_start_results(results, start_tag):
+        """
+        Return all the section start results for a given set of sequence
+        results.
+        """
+        return [r for r in results if r.tag == start_tag]
+
+    def _filter_sequence_sections(self, sections, sequence_search):
+        """
+        Apply extra search constraints to matched sequence sections.
+
+        A section is guaranteed to be complete (a full match) so it is
+        represented by its start result. Constraints are applied in two
+        stages: first to the individual results in each matched section
+        (typically the start result and optional end result), and then across
+        the collected set of section start results. This means aggregate
+        constraints such as min-results are evaluated against section
+        starts only.
+
+        @param sections: dict of section id to list of SearchResult objects.
+        @param sequence_search: searchkit SequenceSearchDef for these results.
+        @return: list of remaining sequence search results
+        """
+        total_results = []
+        log.debug("applying extra constraints to sequence %s results",
+                  sequence_search.id)
+        for results in sections.values():
+            start, end = self._get_section_start_end_tuple(sequence_search,
+                                                           results)
+            # NOTE: remember end is optional
+            if start is None:
+                continue
+
+            results = [start] if end is None else [start, end]
+            before = len(results)
+            # Apply constraints to this sequence section. Note that in
+            # reality this is only applying search-period-hours so that
+            # if a window is provided both start and end fall within
+            # that window.
+            results = self.search.apply_extra_constraints(  # noqa pylint: disable=no-member
+                        results, skip_min_results=True)
+            # If length of results is the same as before then we are good
+            # to use the sequence.
+            if len(results) == before:
+                total_results.extend(results)
+
+        # Now apply all/any constraints to the full set of start results.
+        # Note that for search-period-hours we are allowing this to
+        # be applied to start results only which means that technically
+        # speaking the end result could be outside of that window.
+        starts = self._get_sequence_start_results(total_results,
+                                                  sequence_search.start_tag)
+        before = len(starts)
+        results = self.search.apply_extra_constraints(starts)  # noqa, pylint: disable=no-member
+        if not results:
+            total_results = []
+        elif before != len(results):
+            remaining = [r.section_id for r in results]
+            # Filter start and end (if available) for remaining results
+            total_results = [r for r in total_results
+                             if r.section_id in remaining]
+
+        remaining = (len({r.section_id for r in total_results})
+                     if total_results else 0)
+        log.debug("%s sequence(s) remain after filtering", remaining)
+        return total_results
 
     @property
     def name(self):

@@ -180,6 +180,45 @@ conclusions:
 """  # noqa
 
 
+SCENARIO_W_SEQ_SEARCH_CONSTRAINT = r"""
+input:
+  path: {path}
+checks:
+  seqsearch_constrained:
+    search:
+      start: '([\d-]+) ([\d:]+) the start'
+      end: '([\d-]+) ([\d:]+) the end'
+      constraints:
+        search-period-hours: 1
+        min-results: 2
+conclusions:
+  seqconstraintworked:
+    decision: seqsearch_constrained
+    raises:
+      type: SystemWarning
+      message: yay seq constraint applied!
+"""  # noqa
+
+
+SCENARIO_W_SEQ_SEARCH_AGE_CONSTRAINT = r"""
+input:
+  path: {path}
+checks:
+  seqsearch_age_constrained:
+    search:
+      start: '([\d-]+) ([\d:]+) the start'
+      end: '([\d-]+) ([\d:]+) the end'
+      constraints:
+        search-result-age-hours: 1
+conclusions:
+  seqageconstraintworked:
+    decision: seqsearch_age_constrained
+    raises:
+      type: SystemWarning
+      message: yay seq age constraint applied!
+"""  # noqa
+
+
 SCENARIO_W_ERROR = r"""
 scenarioA:
   checks:

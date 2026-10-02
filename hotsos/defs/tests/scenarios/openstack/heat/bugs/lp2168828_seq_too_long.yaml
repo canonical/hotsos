@@ -1,0 +1,13 @@
+target-name: lp2168828.yaml
+# The two-line signature is present and the log entries fall within the
+# search-result-age-hours constraint window but the time between start
+# and end is greater than search-period-hours so the bug must not be raised.
+# NOTE: current date is 2022-02-10 16:19:17
+data-root:
+  files:
+    var/log/heat/heat-engine.log: |
+      2022-02-10 06:14:46.123 517667 ERROR sqlalchemy.pool.impl.QueuePool [-] Exception during reset or similar: AssertionError: do not call blocking functions from the mainloop
+      2022-02-10 07:15:47.028 517667 ERROR heat.engine.service [None req-9046d18e-5da7-409c-94e5-0526ef170d75 - - - - - -] Service 133afc47-b5a4-4a48-817b-7366a171c5aa update failed: QueuePool limit of size 5 overflow 64 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/14/3o7r): sqlalchemy.exc.TimeoutError: QueuePool limit of size 5 overflow 64 reached, connection timed out, timeout 30.00 (Background on this error at: https://sqlalche.me/e/14/3o7r)
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
