@@ -62,7 +62,7 @@ test_plugin ()
     # NOTE: we remove repo-info, date and INFO from hotsos and system plugin
     #       output since they are liable to change.
     test_out=$dtmp/$plugin/result$label
-    ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
+    ./scripts/hotsos --debug --${plugin} ${args[@]} $data_root | \
         egrep -v "^\s*(repo-info|date|INFO|version):" > $test_out
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
     ref_out=$dtmp/$plugin/litmus$label
