@@ -277,6 +277,33 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
             for check in scenario.checks.values():
                 self.assertTrue(check.result)
 
+    @utils.global_search_context
+    def test_scenarios_with_same_subgroup_name_requirements(
+            self, global_searcher):
+        """Test requirements in same-named subgroups are independent."""
+        scenario_template = test_data.SCENARIO_W_REQUIREMENTS
+        with tempfile.TemporaryDirectory() as dtmp:
+            HotSOSConfig.plugin_yaml_defs = dtmp
+            HotSOSConfig.plugin_name = 'myplugin'
+            for group, name, requirement in (
+                    ('group-a', 'first', 'always_false'),
+                    ('group-b', 'second', 'always_true')):
+                scenario_dir = os.path.join(
+                    dtmp, 'scenarios', 'myplugin', group, 'subgroup')
+                os.makedirs(scenario_dir)
+                scenario_path = os.path.join(
+                    scenario_dir, f'{name}.yaml')
+                with open(scenario_path, 'w',
+                          encoding='utf-8') as fd:
+                    fd.write(
+                        scenario_template.format(requirement=requirement))
+
+            checker = scenarios.YScenarioChecker(global_searcher)
+            checker.load()
+
+        self.assertEqual(
+            [scenario.name for scenario in checker.scenarios], ['second'])
+
     @mock.patch('hotsos.core.ycheck.scenarios.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.checks.log')
     @mock.patch('hotsos.core.ycheck.engine.properties.conclusions.log')
