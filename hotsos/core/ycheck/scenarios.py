@@ -177,13 +177,16 @@ class YScenarioChecker(YHandlerBase):
                 continue
 
             # Only register scenarios if requirements are satisfied.
-            group_name = scenario.parent.name
+            # NOTE: this path must be absolute to avoid conflicts but
+            # propertree does not expose one for parent objects so we
+            # have to do this way for now.
+            group_path = scenario.parent._path  # noqa pylint: disable=protected-access
             if (not HotSOSConfig.force_mode and
-                    (group_name in to_skip or
+                    (group_path in to_skip or
                         (scenario.requires and not scenario.requires.result))):
                 log.debug("%s requirements not met - skipping scenario %s",
-                          group_name, scenario.name)
-                to_skip.add(group_name)
+                          group_path, scenario.name)
+                to_skip.add(group_path)
                 continue
 
             scenario.checks.initialise(scenario.vars)
