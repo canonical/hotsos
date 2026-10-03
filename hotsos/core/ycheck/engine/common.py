@@ -1,5 +1,6 @@
 import abc
 import os
+from collections import OrderedDict
 
 import yaml
 from hotsos.core.config import HotSOSConfig
@@ -68,9 +69,9 @@ class YDefsLoader():
     def _get_defs_recursive(self, path):
         """ Recursively load yaml files beneath a directory into
         a nested dict. """
-        defs = {}
+        defs = OrderedDict()
         # Process immediate children first
-        for entry in os.listdir(path):
+        for entry in sorted(os.listdir(path)):
             abs_path = os.path.join(path, entry)
             if os.path.isdir(abs_path):
                 subdefs = self._get_defs_recursive(abs_path)
