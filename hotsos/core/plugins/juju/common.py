@@ -51,6 +51,17 @@ class JujuChecks(plugintools.PluginPartBase, JujuBase):
 
         return "unknown"
 
+    @property
+    def is_controller(self):
+        """
+        Determines if the current instance is functioning as a controller.
+
+        Returns:
+            bool: True if the machine is set and is a controller, False
+            otherwise.
+        """
+        return self.machine and self.machine.is_controller
+
     @classmethod
     def is_runnable(cls):
         """

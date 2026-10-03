@@ -177,7 +177,9 @@ class YScenarioChecker(YHandlerBase):
                 continue
 
             # Only register scenarios if requirements are satisfied.
-            group_name = scenario.parent.name
+            # Use the full path since group names (e.g. "bugs") are not
+            # unique across the tree.
+            group_name = scenario.resolve_path.rpartition('.')[0]
             if (not HotSOSConfig.force_mode and
                     (group_name in to_skip or
                         (scenario.requires and not scenario.requires.result))):
