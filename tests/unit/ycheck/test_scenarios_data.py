@@ -540,3 +540,13 @@ conclusions:
       type: SystemWarning
       message:
 """
+
+
+SCENARIO_W_REQUIREMENTS = """
+requires:
+  property: tests.unit.ycheck.test_scenarios.TestProperty.{requirement}
+checks:
+  checkx:
+    property: tests.unit.ycheck.test_scenarios.TestProperty.always_true
+conclusions: {{}}
+"""
