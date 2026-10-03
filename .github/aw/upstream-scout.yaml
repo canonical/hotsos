@@ -1,0 +1,79 @@
+# Sources watched by the upstream-bug-scout agentic workflow.
+# Each target maps an upstream tracker to the hotsos scenarios directory
+# (relative to hotsos/defs/scenarios) a new check would most likely live in.
+defaults:
+  lookback_days: 14
+  max_candidates: 40
+
+launchpad:
+  statuses:
+    - New
+    - Confirmed
+    - Triaged
+    - In Progress
+    - Fix Committed
+    - Fix Released
+  importances:
+    - Critical
+    - High
+  # Bugs with any of these tags qualify regardless of importance.
+  tags:
+    - sts
+    - seg
+    - field-high
+    - field-critical
+  # Bugs with any of these tags are dropped as they rarely have a runtime
+  # signature hotsos could detect.
+  exclude_tags:
+    - gate-failure
+    - unittest
+    - functional-tests
+    - tempest
+    - grenade
+    - doc
+    - docs
+    - documentation
+  targets:
+    nova: openstack/nova
+    neutron: openstack/neutron
+    cinder: openstack/cinder
+    glance: openstack/glance
+    keystone: openstack/keystone
+    octavia: openstack/octavia
+    barbican: openstack/barbican
+    designate: openstack
+    heat: openstack
+    manila: openstack
+    masakari: openstack/masakari
+    ubuntu/+source/ovn: openvswitch/ovn
+    ubuntu/+source/openvswitch: openvswitch
+    ubuntu/+source/ceph: storage/ceph
+    charm-nova-compute: openstack/openstack_charms
+    charm-nova-cloud-controller: openstack/openstack_charms
+    charm-neutron-api: openstack/openstack_charms
+    charm-neutron-openvswitch: openstack/openstack_charms
+    charm-neutron-gateway: openstack/openstack_charms
+    charm-cinder: openstack/openstack_charms
+    charm-cinder-ceph: openstack/openstack_charms
+    charm-glance: openstack/openstack_charms
+    charm-keystone: openstack/openstack_charms
+    charm-octavia: openstack/openstack_charms
+    charm-rabbitmq-server: rabbitmq
+    charm-mysql-innodb-cluster: mysql
+    charm-ovn-central: openvswitch/ovn
+    charm-ovn-chassis: openvswitch/ovn
+    charm-ceph-osd: storage/ceph
+    charm-ceph-mon: storage/ceph
+    charm-ceph-radosgw: storage/ceph
+    snap-openstack: openstack/sunbeam
+    sunbeam-charms: openstack/sunbeam
+
+github:
+  issues:
+    - repo: juju/juju
+      plugin: juju
+      labels:
+        - kind/bug
+  advisories:
+    - repo: juju/juju
+      plugin: juju
