@@ -8,18 +8,19 @@ import unittest
 from unittest import mock
 from dataclasses import dataclass, field
 
-import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import IssuesManager
 # disable for stestr otherwise output is much too verbose
 from hotsos.core.log import log, logging, LoggingManager
 from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.core.ycheck.common import GlobalSearcher
-from hotsos.core.ycheck.engine.common import YDefsLoader
+from hotsos.core.ycheck.engine.common import (
+    YDefsLoader,
+    load_test_def,
+)
 from hotsos.core.exceptions import (
     NameAlreadyRegisteredError,
     ExpectationNotMetError,
-    InvalidFileFormatError
 )
 
 # Must be set prior to other imports
@@ -29,8 +30,6 @@ DEFS_DIR = os.path.join(HOTSOS_ROOT, 'defs')
 DEFS_TESTS_DIR = os.path.join(DEFS_DIR, 'tests')
 DEFAULT_FAKE_ROOT = 'fake_data_root/openstack'
 HotSOSConfig.data_root = os.path.join(TESTS_DIR, DEFAULT_FAKE_ROOT)
-TEST_TEMPLATE_SCHEMA = set(['target-name', 'data-root', 'mock',
-                            'raised-issues', 'raised-bugs'])
 
 
 @dataclass
@@ -233,22 +232,7 @@ class TemplatedTestGenerator():
         """
         self.test_defs_root = test_defs_root
         self.test_def_path = test_def_path
-
-        if not os.path.exists(test_def_path):
-            raise FileNotFoundError(f"{test_def_path} does not exist")
-
-        with open(test_def_path, encoding='utf-8') as fd:
-            self.testdef = yaml.safe_load(fd) or {}
-
-        if not self.testdef:
-            raise InvalidFileFormatError(
-                f"invalid test template at {test_def_path}")
-
-        _diff = set(self.testdef.keys()).difference(TEST_TEMPLATE_SCHEMA)
-        if _diff:
-            raise KeyError("invalid keys found in test template "
-                           f"{test_def_path}: {_diff}")
-
+        self.testdef = load_test_def(test_def_path)
         self.test_method = self._generate()
 
     @property
