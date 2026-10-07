@@ -4,10 +4,15 @@ from collections import OrderedDict
 
 import yaml
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.exceptions import InvalidFileFormatError
 from hotsos.core.log import log
 
 SCENARIOS_SUBDIR = 'scenarios'
 TESTS_SUBDIR = 'tests'
+
+# Set of keys allowed at the top level of a templated scenario test yaml.
+TEST_TEMPLATE_SCHEMA = frozenset({'target-name', 'data-root', 'mock',
+                                  'raised-issues', 'raised-bugs'})
 
 
 def get_defs_dir():
@@ -30,6 +35,90 @@ def get_defs_tests_dir():
     """
     defs = get_defs_dir()
     return os.path.join(defs, TESTS_SUBDIR) if defs else None
+
+
+def load_test_def(abs_path):
+    """
+    Load a templated-test yaml file and validate its top-level schema.
+
+    @param abs_path: absolute path to the test yaml.
+    @return: parsed dict.
+    @raises FileNotFoundError: if abs_path does not exist.
+    @raises InvalidFileFormatError: if the yaml is not a non-empty mapping.
+    @raises yaml.YAMLError: if the file contains malformed yaml.
+    @raises KeyError: if the yaml contains unknown top-level keys.
+    """
+    if not os.path.exists(abs_path):
+        raise FileNotFoundError(f"{abs_path} does not exist")
+
+    with open(abs_path, encoding='utf-8') as fd:
+        testdef = yaml.safe_load(fd)
+
+    if not isinstance(testdef, dict) or not testdef:
+        raise InvalidFileFormatError(
+            f"invalid test template at {abs_path}: expected a non-empty "
+            "mapping")
+
+    diff = set(testdef).difference(TEST_TEMPLATE_SCHEMA)
+    if diff:
+        raise KeyError(
+            f"invalid keys found in test template {abs_path}: {diff}")
+
+    return testdef
+
+
+def resolve_target_scenario_path(test_abs_path, testdef=None):
+    """
+    Return the absolute path of the scenario yaml targeted by a templated
+    test file.
+
+    The mapping is:
+      <defs>/tests/scenarios/<rel>  ->  <defs>/scenarios/<rel>
+    where <rel> is the test path relative to <defs>/tests/scenarios,
+    with the basename optionally replaced by the test's 'target-name'
+    field, which must be a non-empty basename (not a path).
+
+    @param test_abs_path: absolute path to the test yaml (must live under
+                          <defs>/tests/scenarios).
+    @param testdef: optionally the already-loaded test dict, to avoid
+                    reading the file twice.
+    @raises ValueError: if the test path is not absolute or is outside the
+                        scenario-test directory, or target-name is invalid.
+    """
+    tests_root = get_defs_tests_dir()
+    defs_dir = get_defs_dir()
+    if not tests_root or not defs_dir:
+        raise RuntimeError(
+            "HotSOSConfig.plugin_yaml_defs is not set; cannot resolve "
+            "target scenario path")
+
+    tests_scenarios_root = os.path.join(tests_root, SCENARIOS_SUBDIR)
+    if not os.path.isabs(test_abs_path):
+        raise ValueError(f"test path must be absolute: {test_abs_path}")
+
+    test_abs_path = os.path.normpath(test_abs_path)
+    if (os.path.commonpath([tests_scenarios_root, test_abs_path])
+            != tests_scenarios_root
+            or test_abs_path == tests_scenarios_root):
+        raise ValueError(
+            f"test path must be under {tests_scenarios_root}: {test_abs_path}")
+
+    rel = os.path.relpath(test_abs_path, tests_scenarios_root)
+
+    if testdef is None:
+        testdef = load_test_def(test_abs_path)
+
+    target_name = testdef.get('target-name')
+    if target_name is not None:
+        if (not isinstance(target_name, str)
+                or target_name in ('', '.', '..')
+                or '/' in target_name or '\\' in target_name
+                or '\0' in target_name):
+            raise ValueError(
+                f"target-name must be a non-empty basename: {target_name!r}")
+        rel = os.path.join(os.path.dirname(rel), target_name)
+
+    return os.path.join(defs_dir, SCENARIOS_SUBDIR, rel)
 
 
 class YDefsLoader():
