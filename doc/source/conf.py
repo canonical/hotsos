@@ -30,6 +30,10 @@ extensions = [
 # documentation was reorganised.
 autosectionlabel_prefix_document = False
 
+# The scenario catalog intentionally repeats subsection titles (e.g. "Common")
+# across plugins, so silence autosectionlabel's duplicate-label warnings.
+suppress_warnings = ["autosectionlabel.*"]
+
 templates_path = ["_templates"]
 exclude_patterns = []
 
