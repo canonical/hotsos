@@ -47,8 +47,9 @@ class ApacheEventCallback(OpenstackEventCallbackBase):
             else:
                 context[path] = [result.linenumber]
 
-            month = datetime.datetime.strptime(result.get(1), '%b').month
-            day = result.get(2)
+            month = str(datetime.datetime.strptime(result.get(1),
+                                                   '%b').month).zfill(2)
+            day = result.get(2).zfill(2)
             year = result.get(3)
             addr = result.get(4)
             port = result.get(5)

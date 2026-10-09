@@ -9,7 +9,7 @@
 </dl>
 {%- endif %}
 {%- if branches %}
-<ul class="p-list hs-tree hs-tree--level-{{ level }} hs-list--compact">
+<ul class="p-list hs-tree hs-list--compact">
 {%- for element in branches %}
 <li class="p-list__item hs-tree__item{% if element.tone %} hs-tree__item--{{ element.tone }}{% endif %}">
 <details class="hs-tree__details"{% if element.open %} open{% endif %}>

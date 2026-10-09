@@ -1,0 +1,41 @@
+<div class="hs-chart hs-chart--stack{% if single %} hs-chart--line{% endif %}">
+<div class="hs-chart__plot">
+<ul class="hs-chart__yaxis p-list hs-list--compact">
+{%- for tick in yticks %}
+<li class="hs-chart__ytick">{{ tick }}</li>
+{%- endfor %}
+</ul>
+<svg class="hs-chart__stack-svg" viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-hidden="true">
+{%- for s in series %}
+{%- if single %}
+<polyline points="{{ s.line }}" fill="none" stroke="{{ s.colour }}" stroke-width="1.5" vector-effect="non-scaling-stroke"></polyline>
+{%- else %}
+<polygon class="hs-chart__area" data-series="{{ loop.index0 }}" points="{{ s.points }}" fill="{{ s.colour }}" fill-opacity="0.85"></polygon>
+<polyline class="hs-chart__isolate" data-series="{{ loop.index0 }}" points="{{ s.own }}" fill="none" stroke="{{ s.colour }}" stroke-width="1.5" vector-effect="non-scaling-stroke"></polyline>
+{%- endif %}
+{%- endfor %}
+</svg>
+<ul class="hs-chart__axis hs-chart__axis--x p-list hs-list--compact">
+{%- for tick in axis %}
+<li class="hs-chart__axis-label" style="left: {{ tick.x }}%;">{{ tick.label }}</li>
+{%- endfor %}
+</ul>
+</div>
+<ul class="hs-chart__legend p-list hs-list--compact">
+{%- for s in series %}
+<li class="hs-chart__legend-row">
+{%- if single %}
+<span class="hs-chart__swatch" style="background: {{ s.colour }};"></span>
+<span class="hs-chart__label" title="{{ s.label }}">{{ s.label }}</span>
+<span class="hs-chart__figure" title="{{ s.label }}: {{ s.total }}">{{ s.total }}</span>
+{%- else %}
+<button type="button" class="hs-chart__legend-btn" data-series="{{ loop.index0 }}" aria-pressed="false" title="Isolate {{ s.label }}">
+<span class="hs-chart__swatch" style="background: {{ s.colour }};"></span>
+<span class="hs-chart__label" title="{{ s.label }}">{{ s.label }}</span>
+<span class="hs-chart__figure" title="{{ s.label }}: {{ s.total }}">{{ s.total }}</span>
+</button>
+{%- endif %}
+</li>
+{%- endfor %}
+</ul>
+</div>

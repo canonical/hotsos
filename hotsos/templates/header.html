@@ -237,58 +237,104 @@
         .hs-severity .is-selected .hs-severity__count {
             background: rgba(255, 255, 255, 0.28);
         }
-        .hs-findings__empty { margin: 0.5rem 0 0; }
-        .hs-finding {
-            display: grid;
-            grid-template-columns: auto 1fr;
-            gap: 0.35rem 1rem;
-            align-items: start;
-            margin: 0 0 0.75rem;
-            padding: 0.9rem 1.1rem;
-            border-radius: 0.5rem;
-            background: var(--hs-surface);
-            border: 1px solid var(--hs-border);
-            border-left: 4px solid var(--hs-muted);
-            box-shadow: 0 6px 14px rgba(44, 0, 30, 0.05);
-        }
-        .hs-finding--high { border-left-color: var(--hs-negative); }
-        .hs-finding--medium { border-left-color: var(--hs-caution); }
-        .hs-finding--low { border-left-color: var(--hs-muted); }
-        .hs-finding__tag {
-            grid-row: 1 / span 2;
-            align-self: center;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 3.25rem;
-            padding: 0.3rem 0.5rem;
-            border-radius: 0.3rem;
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-            color: #4a4a4a;
-            background: #e8e8e8;
-        }
-        .hs-finding--high .hs-finding__tag { color: #fff; background: var(--hs-negative); }
-        .hs-finding--medium .hs-finding__tag { color: #8a6d00; background: #fdf4d4; }
-        .hs-finding--low .hs-finding__tag { color: #4a4a4a; background: #e8e8e8; }
-        .hs-finding__head {
+        .hs-findings__empty { margin: 0.75rem 0 0; }
+        .hs-findings__list {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .hs-finding-group {
+            border: 1px solid var(--hs-border);
+            border-radius: 0.6rem;
+            overflow: hidden;
+            background: var(--hs-surface);
+            box-shadow: 0 6px 16px rgba(44, 0, 30, 0.05);
+        }
+        .hs-finding-group__title {
+            display: flex;
             align-items: center;
             gap: 0.5rem;
-        }
-        .hs-finding__plugin {
-            font-size: 0.72rem;
-            font-weight: 600;
+            margin: 0;
+            padding: 0.25rem 1rem;
+            background: #e4e1de;
+            border-bottom: 1px solid var(--hs-border);
+            font-size: 0.78rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--hs-orange-dark);
+            letter-spacing: 0.06em;
+            color: var(--hs-aubergine);
         }
-        .hs-finding__category { font-weight: 600; color: var(--hs-ink); word-break: break-word; }
-        .hs-finding__category a { color: var(--hs-orange-dark); }
-        .hs-finding__message { margin: 0; color: #33383f; font-size: 0.92rem; }
+        .hs-finding-group__name {
+            margin-right: auto;
+            font-size: 0.95rem;
+            text-transform: capitalize;
+            color: var(--hs-aubergine);
+        }
+        .hs-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.05rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            text-transform: none;
+        }
+        .hs-pill--bug { color: #fff; background: var(--hs-negative); }
+        .hs-pill--issue { color: #8a6d00; background: #fdf4d4; border: 1px solid #f2dd9a; }
+        .hs-finding-group__list { list-style: none; margin: 0; padding: 0; }
+        .hs-finding {
+            display: flex;
+            align-items: baseline;
+            gap: 0.7rem;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid #f1ecea;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        .hs-finding:first-child { border-top: none; }
+        .hs-finding__text { flex: 1 1 auto; min-width: 0; }
+        .hs-finding__category { font-weight: 700; color: var(--hs-muted); }
+        .hs-finding--high .hs-finding__category { color: var(--hs-negative); }
+        .hs-finding--medium .hs-finding__category { color: #8a6d00; }
+        .hs-finding--low .hs-finding__category { color: var(--hs-ink); }
+        .hs-finding__category a { color: inherit; word-break: break-word; }
+        .hs-finding__bug-label { margin-right: 0.4rem; vertical-align: baseline; }
+        .hs-finding__category--inline:not(:empty)::after {
+            content: "\00b7";
+            margin: 0 0.4rem;
+            color: var(--hs-muted);
+            font-weight: 400;
+        }
+        .hs-finding__count {
+            display: inline-block;
+            margin-left: 0.4rem;
+            padding: 0.02rem 0.4rem;
+            border-radius: 1rem;
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--hs-muted);
+            background: #f0ece9;
+        }
+        .hs-finding__messages { list-style: none; margin: 0.3rem 0 0; padding: 0; }
+        .hs-finding__messages > li {
+            position: relative;
+            margin: 0.18rem 0;
+            padding-left: 0.85rem;
+            color: #33383f;
+            word-break: break-word;
+        }
+        .hs-finding__messages > li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55em;
+            width: 0.3rem;
+            height: 0.3rem;
+            border-radius: 50%;
+            background: #c9c3bf;
+        }
+        .hs-finding__message { color: #33383f; word-break: break-word; }
 
         /* ---------- Layout ---------- */
         .hs-toolbar {
@@ -394,7 +440,7 @@
             display: flex;
             align-items: center;
             gap: 0.9rem;
-            padding: 1.1rem 1.25rem;
+            padding: 1rem 1.25rem;
             border-bottom: 1px solid var(--hs-border);
             background: linear-gradient(180deg, #fffaf7 0%, #fff 100%);
         }
@@ -410,20 +456,50 @@
             color: #fff;
             background: linear-gradient(135deg, var(--hs-orange) 0%, var(--hs-aubergine-mid) 130%);
         }
-        .hs-section__titles { flex: 1 1 auto; min-width: 0; }
+        .hs-section__titles {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
         .hs-section__name {
             margin: 0;
             font-size: 1.35rem;
             font-weight: 400;
+            line-height: 1.2;
             color: var(--hs-aubergine);
             text-transform: capitalize;
         }
         .hs-section__meta {
-            margin: 0.15rem 0 0;
+            margin: 0.2rem 0 0;
             font-size: 0.82rem;
+            line-height: 1.2;
             color: var(--hs-muted);
         }
-        .hs-section__badges { display: flex; gap: 0.4rem; flex: none; flex-wrap: wrap; justify-content: flex-end; }
+        .hs-section__badges {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex: none;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .hs-section__badges .hs-badge { padding: 0.2rem 0.6rem; line-height: 1.2; }
+        .hs-section__collapse {
+            flex: none;
+            align-self: center;
+            cursor: pointer;
+            padding: 0.2rem 0.6rem;
+            border: 1px solid var(--hs-border);
+            border-radius: 1rem;
+            background: var(--hs-surface);
+            color: var(--hs-orange-dark);
+            font-size: 0.72rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .hs-section__collapse:hover { background: #fff3ee; border-color: var(--hs-orange); }
         .hs-section__body { padding: 0.75rem 1.25rem 1.1rem; }
         .hs-section--alert { border-color: #f0b5a6; }
         .hs-section--alert .hs-section__header {
@@ -452,11 +528,15 @@
         /* ---------- Tree ---------- */
         .hs-tree { margin: 0; padding: 0; list-style: none; }
         .hs-tree__item { margin: 0; }
+        /* Cancel the framework's default bottom margin on <details>. */
+        .hs-tree__details { margin: 0; }
         .hs-tree__details > summary {
+            margin: 0.5rem;
             cursor: pointer;
-            padding: 0.25rem 0.35rem;
+            padding: 0.1rem 0.35rem;
             border-radius: 0.3rem;
             font-weight: 500;
+            line-height: 1;
             color: #1f2937;
             list-style: none;
             display: flex;
@@ -477,12 +557,10 @@
         .hs-tree__details > summary:hover { background: #fff3ee; color: var(--hs-orange-dark); }
         .hs-tree__key { font-weight: 500; }
         .hs-list-bullet { color: var(--hs-orange-dark); font-weight: 700; margin-right: 0.25rem; }
-        .hs-tree--level-2 { border-left: 2px solid #f4ddd1; padding-left: 0.85rem; margin-left: 0.15rem; }
-        .hs-tree--level-3,
-        .hs-tree--level-4,
-        .hs-tree--level-5 { border-left: 1px solid #efe6e0; padding-left: 0.85rem; margin-left: 0.15rem; }
-        .hs-tree__item--issue { border-left: 3px solid var(--hs-caution); padding-left: 0.5rem; }
-        .hs-tree__item--bug { border-left: 3px solid var(--hs-negative); padding-left: 0.5rem; }
+        /* An item's contents are indented by two characters. */
+        .hs-tree__details > *:not(summary) { padding-left: 2ch; }
+        .hs-tree__item--issue { border-left: 3px solid var(--hs-caution); }
+        .hs-tree__item--bug { border-left: 3px solid var(--hs-negative); }
         .hs-tree__item--issue > .hs-tree__details > summary .hs-tree__key { color: #8a6d00; }
         .hs-tree__item--bug > .hs-tree__details > summary .hs-tree__key { color: #a01b16; }
 
@@ -502,7 +580,7 @@
         .hs-field__key,
         .hs-field__value {
             margin: 0;
-            padding: 0.4rem 0.75rem;
+            padding: 0.2rem 0.75rem;
             border-top: 1px solid var(--hs-border);
         }
         .hs-field:first-child > .hs-field__key,
@@ -521,6 +599,183 @@
         }
         /* Nested field tables sit flush inside their disclosure group. */
         .hs-tree .hs-fields--compact { margin-top: 0; }
+
+        /* Time series distributions are rendered as horizontal bar charts. */
+        .hs-chart {
+            padding: 0.6rem 0.25rem;
+        }
+        .hs-chart__bars {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .hs-chart__bar-row {
+            display: grid;
+            grid-template-columns: minmax(6rem, 12rem) minmax(0, 1fr) auto;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+        .hs-chart__label {
+            color: #33383f;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .hs-chart__track {
+            display: block;
+            width: 100%;
+            height: 0.95rem;
+            background: #f1ece9;
+            border-radius: 0.25rem;
+            overflow: hidden;
+        }
+        .hs-chart__bar {
+            display: block;
+            height: 100%;
+            min-width: 2px;
+            border-radius: 0.25rem;
+        }
+        .hs-chart__figure {
+            color: var(--hs-muted);
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+        }
+
+        /* Some distributions are rendered as pie charts with a legend. */
+        .hs-chart--pie {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+        }
+        .hs-chart__pie {
+            flex: 0 0 auto;
+            width: 8rem;
+            height: 8rem;
+            border-radius: 50%;
+        }
+        .hs-chart__legend {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            min-width: 0;
+        }
+        .hs-chart__legend-row {
+            display: grid;
+            grid-template-columns: auto minmax(6rem, 14rem) auto;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.9rem;
+        }
+        .hs-chart__swatch {
+            display: block;
+            width: 0.8rem;
+            height: 0.8rem;
+            border-radius: 0.2rem;
+        }
+        /* Clickable legend entry used to isolate a single stackplot series. */
+        .hs-chart__legend-btn {
+            display: grid;
+            grid-template-columns: auto minmax(6rem, 14rem) auto;
+            align-items: center;
+            gap: 0.6rem;
+            width: 100%;
+            margin: 0;
+            padding: 0.1rem 0.25rem;
+            border: 1px solid transparent;
+            border-radius: 0.2rem;
+            background: transparent;
+            font: inherit;
+            font-size: 0.9rem;
+            text-align: left;
+            cursor: pointer;
+        }
+        .hs-chart__legend-btn:hover {
+            background: #f1ece9;
+        }
+        .hs-chart__legend-btn.is-selected {
+            border-color: var(--hs-border);
+            background: #f1ece9;
+            font-weight: 500;
+        }
+        /* Dim the non-selected entries once a series has been isolated. */
+        .hs-chart--isolated .hs-chart__legend-btn:not(.is-selected) {
+            opacity: 0.55;
+        }
+        /* Each series' standalone line is only shown when it is isolated. */
+        .hs-chart__isolate {
+            display: none;
+        }
+
+        /* Timestamped {label: count} data is rendered as a stacked area
+           chart (stackplot) over time. */
+        .hs-chart--stack {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        /* Plot area: value (y) axis | svg, with the time (x) axis beneath the
+           svg so both axes stay aligned to the plot. */
+        .hs-chart__plot {
+            display: grid;
+            grid-template-columns: auto minmax(0, 1fr);
+            grid-template-rows: 10rem auto;
+            column-gap: 0.4rem;
+            row-gap: 0.25rem;
+        }
+        .hs-chart__yaxis {
+            grid-column: 1;
+            grid-row: 1;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            text-align: right;
+            font-size: 0.7rem;
+            color: var(--hs-muted);
+            font-variant-numeric: tabular-nums;
+        }
+        .hs-chart__ytick {
+            white-space: nowrap;
+            line-height: 1;
+        }
+        .hs-chart__stack-svg {
+            grid-column: 2;
+            grid-row: 1;
+            width: 100%;
+            height: 10rem;
+            background: #f1ece9;
+            border-radius: 0.25rem;
+        }
+        .hs-chart__axis {
+            margin: 0;
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--hs-muted);
+            font-variant-numeric: tabular-nums;
+        }
+        .hs-chart__axis--x {
+            grid-column: 2;
+            grid-row: 2;
+            /* Labels are positioned absolutely by sample x coordinate so they
+               align with the plotted points rather than being spaced evenly. */
+            position: relative;
+            display: block;
+            min-height: 1rem;
+        }
+        .hs-chart__axis-label {
+            white-space: nowrap;
+        }
+        .hs-chart__axis--x .hs-chart__axis-label {
+            position: absolute;
+            transform: translateX(-50%);
+        }
 
         .hs-empty {
             margin-top: 1rem;

@@ -83,21 +83,44 @@
           </div>
         </div>
       </div>
-      <div id="hs-findings-list">
-      {% for finding in findings %}
-      <div class="hs-finding hs-finding--{{ finding.severity }}{% if finding.tone == 'bug' %} hs-finding--bug{% endif %}" data-tone="{{ finding.tone }}" data-severity="{{ finding.severity }}">
-        <span class="hs-finding__tag">{{ finding.severity | capitalize }}</span>
-        <div class="hs-finding__head">
-          <span class="hs-finding__plugin">{{ finding.plugin }}</span>
-          <span class="hs-finding__category">
-            {%- if finding.category.startswith('http') -%}
-            <a href="{{ finding.category }}" rel="noopener noreferrer" target="_blank">{{ finding.category }}</a>
-            {%- else -%}
-            {{ finding.category }}
-            {%- endif -%}
-          </span>
+      <div id="hs-findings-list" class="hs-findings__list">
+      {% for group in finding_groups %}
+      <div class="hs-finding-group" data-plugin="{{ group.plugin | lower }}">
+        <div class="hs-finding-group__title">
+          <span class="hs-finding-group__name">{{ group.label }}</span>
+          {% if group.bugs %}<span class="hs-pill hs-pill--bug">{{ group.bugs }} bug{{ 's' if group.bugs != 1 }}</span>{% endif %}
+          {% if group.issues %}<span class="hs-pill hs-pill--issue">{{ group.issues }} issue{{ 's' if group.issues != 1 }}</span>{% endif %}
         </div>
-        <p class="hs-finding__message">{{ finding.message }}</p>
+        <ul class="hs-finding-group__list">
+          {% for cluster in group.clusters %}
+          <li class="hs-finding hs-finding--{{ cluster.severity }}{% if cluster.multiple %} hs-finding--grouped{% endif %}" data-tone="{{ cluster.tone }}" data-severity="{{ cluster.severity }}">
+            <span class="hs-finding__text">
+              <span class="hs-finding__category{% if not cluster.multiple %} hs-finding__category--inline{% endif %}" title="{{ cluster.severity | capitalize }} severity{% if cluster.tone == 'bug' %} &middot; known bug{% endif %}">
+                {%- if cluster.category.startswith('http') -%}
+                {%- if cluster.tone == 'bug' -%}
+                <span class="hs-pill hs-pill--bug hs-finding__bug-label">BUG</span>
+                {%- else -%}
+                <span class="hs-pill hs-pill--issue hs-finding__bug-label">LINK</span>
+                {%- endif -%}
+                <a href="{{ cluster.category }}" rel="noopener noreferrer" target="_blank">{{ cluster.category }}</a>
+                {%- else -%}
+                {{ cluster.category }}
+                {%- endif -%}
+                {% if cluster.multiple %}<span class="hs-finding__count" title="{{ cluster.count }} occurrences">&times;{{ cluster.count }}</span>{% endif %}
+              </span>
+              {% if cluster.multiple %}
+              <ul class="hs-finding__messages">
+                {% for message in cluster.messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+              </ul>
+              {% else %}
+              <span class="hs-finding__message">{{ cluster.messages[0] }}</span>
+              {% endif %}
+            </span>
+          </li>
+          {% endfor %}
+        </ul>
       </div>
       {% endfor %}
       </div>
@@ -175,6 +198,7 @@
           {% if section.bugs %}<span class="hs-badge hs-badge--bug">{{ section.bugs }} bug(s)</span>{% endif %}
           {% if section.warnings %}<span class="hs-badge hs-badge--issue">{{ section.warnings }} issue(s)</span>{% endif %}
         </div>
+        <button type="button" class="hs-section__collapse" aria-expanded="true">Collapse all</button>
       </div>
       <div class="hs-section__body">
         {{ section.content | safe }}
@@ -253,6 +277,8 @@
     if (!buttons.length) { return; }
     var findings = Array.prototype.slice.call(
       document.querySelectorAll('#hs-findings-list .hs-finding'));
+    var groups = Array.prototype.slice.call(
+      document.querySelectorAll('#hs-findings-list .hs-finding-group'));
     var empty = document.getElementById('hs-findings-empty');
 
     function applySeverity(severity) {
@@ -262,6 +288,11 @@
         var match = severity === 'all' || value === severity;
         finding.hidden = !match;
         if (match) { visible += 1; }
+      });
+      // Hide plugin groups that have no visible findings.
+      groups.forEach(function (group) {
+        var shown = group.querySelectorAll('.hs-finding:not([hidden])');
+        group.hidden = shown.length === 0;
       });
       if (empty) { empty.hidden = visible !== 0; }
     }
@@ -275,6 +306,66 @@
           other.setAttribute('aria-pressed', selected ? 'true' : 'false');
         });
         applySeverity(button.getAttribute('data-severity') || 'all');
+      });
+    });
+  })();
+
+  // Per-plugin collapse/expand all toggle for nested disclosure groups.
+  (function () {
+    document.querySelectorAll('.hs-section__collapse').forEach(function (btn) {
+      var section = btn.closest('.hs-section');
+      if (!section) { return; }
+      btn.addEventListener('click', function () {
+        var collapse = btn.getAttribute('aria-expanded') !== 'false';
+        section.querySelectorAll('.hs-tree__details').forEach(function (d) {
+          d.open = !collapse;
+        });
+        btn.setAttribute('aria-expanded', collapse ? 'false' : 'true');
+        btn.textContent = collapse ? 'Expand all' : 'Collapse all';
+      });
+    });
+  })();
+
+  // Isolate a single series in a multi-series stackplot. Clicking a legend
+  // entry hides the stack and draws just that series' own line; clicking the
+  // active entry again restores the full stack.
+  (function () {
+    var charts = Array.prototype.slice.call(
+      document.querySelectorAll('.hs-chart--stack:not(.hs-chart--line)'));
+    charts.forEach(function (chart) {
+      var buttons = Array.prototype.slice.call(
+        chart.querySelectorAll('.hs-chart__legend-btn'));
+      if (buttons.length < 2) { return; }
+      var areas = Array.prototype.slice.call(
+        chart.querySelectorAll('.hs-chart__area'));
+      var lines = Array.prototype.slice.call(
+        chart.querySelectorAll('.hs-chart__isolate'));
+      var active = null;
+
+      function apply() {
+        areas.forEach(function (area) {
+          area.style.display = active === null ? '' : 'none';
+        });
+        lines.forEach(function (line) {
+          var on = active !== null &&
+            line.getAttribute('data-series') === active;
+          line.style.display = on ? 'block' : '';
+        });
+        buttons.forEach(function (btn) {
+          var selected = active !== null &&
+            btn.getAttribute('data-series') === active;
+          btn.classList.toggle('is-selected', selected);
+          btn.setAttribute('aria-pressed', selected ? 'true' : 'false');
+        });
+        chart.classList.toggle('hs-chart--isolated', active !== null);
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var series = btn.getAttribute('data-series');
+          active = active === series ? null : series;
+          apply();
+        });
       });
     });
   })();
