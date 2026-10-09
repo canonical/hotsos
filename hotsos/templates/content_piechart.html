@@ -1,0 +1,12 @@
+<div class="hs-chart hs-chart--pie">
+<span class="hs-chart__pie" style="background: {{ gradient }};" aria-hidden="true"></span>
+<ul class="hs-chart__legend p-list hs-list--compact">
+{%- for slice in slices %}
+<li class="hs-chart__legend-row">
+<span class="hs-chart__swatch" style="background: {{ slice.colour }};"></span>
+<span class="hs-chart__label" title="{{ slice.label }}">{{ slice.label }}</span>
+<span class="hs-chart__figure" title="{{ slice.label }}: {{ slice.value }}">{{ slice.value }} ({{ slice.percent }}%)</span>
+</li>
+{%- endfor %}
+</ul>
+</div>

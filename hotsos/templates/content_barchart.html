@@ -1,0 +1,13 @@
+<div class="hs-chart">
+<ul class="hs-chart__bars p-list hs-list--compact">
+{%- for row in rows %}
+<li class="hs-chart__bar-row">
+<span class="hs-chart__label" title="{{ row.label }}">{{ row.label }}</span>
+<span class="hs-chart__track">
+<span class="hs-chart__bar" style="width: {{ row.width }}%; background: {{ row.colour }};" title="{{ row.label }}: {{ row.value }}"></span>
+</span>
+<span class="hs-chart__figure">{{ row.value }}</span>
+</li>
+{%- endfor %}
+</ul>
+</div>
