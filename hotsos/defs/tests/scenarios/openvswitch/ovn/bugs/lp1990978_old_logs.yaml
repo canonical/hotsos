@@ -1,0 +1,15 @@
+# Logs are more than the default window size of 7 days old so even though they
+# satisy the constraints they are not used.
+target-name: lp1990978.yaml
+data-root:
+  files:
+    var/log/ovn/ovsdb-server-sb.log: |
+      2022-02-01T06:14:46.085Z|00025|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-01T06:29:12.101Z|00031|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-01T06:43:58.220Z|00037|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-01T06:58:41.330Z|00042|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-01T07:12:03.440Z|00048|raft|INFO|Transferring leadership to write a snapshot.
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:

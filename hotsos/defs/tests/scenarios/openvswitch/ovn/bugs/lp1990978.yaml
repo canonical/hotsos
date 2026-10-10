@@ -1,0 +1,19 @@
+data-root:
+  files:
+    var/log/ovn/ovsdb-server-sb.log: |
+      2022-02-10T06:10:46.085Z|00022|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-10T06:14:46.085Z|00025|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-10T06:29:12.101Z|00031|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-10T06:43:58.220Z|00037|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-10T06:58:41.330Z|00042|raft|INFO|Transferring leadership to write a snapshot.
+      2022-02-10T07:12:03.440Z|00048|raft|INFO|Transferring leadership to write a snapshot.
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/1990978: >-
+    This host is affected by a known Open vSwitch Raft bug where the OVSDB
+    server transfers cluster leadership every 10-20 minutes after
+    compaction (5 transfers found in the space of an hour in the OVN
+    OVSDB logs), which destabilises the OVN control plane. Please upgrade
+    Open vSwitch to the latest version to resolve this issue.
