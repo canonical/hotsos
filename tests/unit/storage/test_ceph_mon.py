@@ -10,6 +10,23 @@ from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
 
 from .. import utils
 
+CEPH_VERSIONS_TENTACLE = """
+{
+    "mon": {
+        "ceph version 20.2.4 (7f793731f1b39eb4f465e960113d2363c311b964) tentacle (stable - RelWithDebInfo)": 3
+    },
+    "mgr": {
+        "ceph version 20.2.4 (7f793731f1b39eb4f465e960113d2363c311b964) tentacle (stable - RelWithDebInfo)": 7
+    },
+    "osd": {
+        "ceph version 20.2.4 (7f793731f1b39eb4f465e960113d2363c311b964) tentacle (stable - RelWithDebInfo)": 63
+    },
+    "overall": {
+        "ceph version 20.2.4 (7f793731f1b39eb4f465e960113d2363c311b964) tentacle (stable - RelWithDebInfo)": 73
+    }
+}
+"""  # noqa
+
 CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED = """
 {
     "mon": {
@@ -343,6 +360,26 @@ class TestCoreCephCluster(  # pylint: disable=too-many-public-methods
         self.assertEqual(cluster.ceph_daemon_versions_unique(), result)
         self.assertFalse(cluster.ceph_versions_aligned)
         self.assertFalse(cluster.mon_versions_aligned_with_cluster)
+
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
+                             CEPH_VERSIONS_MISMATCHED_MINOR_MONS_UNALIGNED})
+    def test_ceph_daemon_versions_multi_digit_count(self):
+        """Test daemon counts with more than one digit are not truncated."""
+        cluster = ceph.CephCluster()
+        self.assertEqual(cluster.daemon_versions('osd'),
+                         {'15.2.11': 208, '15.2.13': 16})
+
+    @utils.create_data_root({'sos_commands/ceph_mon/ceph_versions':
+                             CEPH_VERSIONS_TENTACLE})
+    def test_ceph_daemon_versions_tentacle(self):
+        """Test Tentacle version strings with a build type are parsed."""
+        cluster = ceph.CephCluster()
+        self.assertEqual(cluster.daemon_versions('osd'), {'20.2.4': 63})
+        self.assertEqual(cluster.daemon_release_names('osd'),
+                         {'tentacle': 63})
+        self.assertEqual(cluster.daemon_release_names('mon'),
+                         {'tentacle': 3})
+        self.assertTrue(cluster.ceph_versions_aligned)
 
     def test_crushmap_equal_buckets(self):
         """Test no imbalance for equal CRUSH buckets."""
