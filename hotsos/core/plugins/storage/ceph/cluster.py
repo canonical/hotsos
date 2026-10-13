@@ -257,7 +257,7 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         versions = {}
         s = FileSearcher()
         body = SearchDef(r"\s+\"ceph version (\S+) .+ (\S+) "
-                         r"\(\S+\)\":\s+(\d)+,?$")
+                         r"\([^)]+\)\":\s+(\d+),?$")
         if daemon_type is None:
             # all/any - start matches any so no seq ending needed
             sd = SequenceSearchDef(start=SearchDef(r"^\s+\"(\S+)\":\s+{"),

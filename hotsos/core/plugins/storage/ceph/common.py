@@ -56,6 +56,7 @@ CEPH_SNAPS_CORE = [r'microceph']
 # versions for Ubuntu page:
 # https://ubuntu.com/ceph/docs/supported-ceph-versions
 CEPH_EOL_INFO = {
+    'tentacle': datetime(2038, 4, 30),
     'squid': datetime(2036, 4, 30),
     'reef': datetime(2025, 4, 30),
     'quincy': datetime(2032, 4, 30),
@@ -69,6 +70,7 @@ CEPH_EOL_INFO = {
 
 CEPH_REL_INFO = {
     'ceph-common': {
+        'tentacle': '20.0',
         'squid': '19.0',
         'reef': '18.0',
         'quincy': '17.0',
