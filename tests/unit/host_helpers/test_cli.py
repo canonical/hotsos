@@ -386,6 +386,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'lscpu',
                         'lsof_Mnlc',
                         'lxd_buginfo',
+                        'multipath_ll',
                         'numactl',
                         'ns_ip_addr',
                         'ovs_appctl',
