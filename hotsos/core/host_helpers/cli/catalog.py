@@ -154,6 +154,9 @@ class CommandCatalog(UserDict):
             'blockdev_report':
                 [BinCmd('blockdev --report'),
                  FileCmd('sos_commands/block/blockdev_--report')],
+            'multipath_ll':
+                [BinCmd('multipath -ll'),
+                 FileCmd('sos_commands/multipath/multipath_-ll')],
             'lscpu':
                 [BinCmd('lscpu'),
                  FileCmd('sos_commands/processor/lscpu')],
