@@ -58,16 +58,11 @@ class DiskChecks(StorageBase):
                     devs.add(f"/dev/{dev_name}")
         return devs
 
-    @cached_property
-    def unused_disks(self):
-        """
-        Return list of entirely un-used disk paths and sizes formatted as
-        strings, e.g. ['/dev/sdb (100G)'].
-        """
-        helper = self.lsblk
-        unused = []
-        for dev in helper.parsed_devices:
-            if not helper.is_disk_entirely_unused(dev):
+    def _get_matching_devices(self, predicate):
+        """Return sorted list of '<dev_path> (<size>)' matching predicate."""
+        matched = []
+        for dev in self.lsblk.parsed_devices:
+            if not predicate(dev):
                 continue
 
             kname = dev.get('KNAME') or dev.get('NAME')
@@ -86,6 +81,22 @@ class DiskChecks(StorageBase):
             else:
                 desc = dev_path
 
-            unused.append(desc)
+            matched.append(desc)
 
-        return sorted(unused)
+        return sorted(matched)
+
+    @cached_property
+    def unused_disks(self):
+        """
+        Return list of entirely un-used disk paths and sizes formatted as
+        strings, e.g. ['/dev/sdb (100G)'].
+        """
+        return self._get_matching_devices(self.lsblk.is_disk_entirely_unused)
+
+    @cached_property
+    def empty_partitions(self):
+        """
+        Return list of empty partition paths and sizes formatted as
+        strings, e.g. ['/dev/sdb1 (50G)'].
+        """
+        return self._get_matching_devices(self.lsblk.is_partition_unused)

@@ -102,6 +102,56 @@ class TestDiskChecks(StorageDisksTestsBase):
             checks = DiskChecks()
             self.assertEqual(checks.unused_disks, [])
 
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="1M" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vda" PARTTYPENAME="BIOS boot"\n'
+            'NAME="vda2" KNAME="vda2" PATH="/dev/vda2" TYPE="part" '
+            'SIZE="50G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/" PKNAME="vda"\n'
+            'NAME="vda3" KNAME="vda3" PATH="/dev/vda3" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vda"\n'
+        )})
+    def test_empty_partitions_detection(self):
+        """Test detecting empty partitions and ignoring used or boot parts."""
+        checks = DiskChecks()
+        self.assertEqual(checks.empty_partitions, ['/dev/vda3 (40G)'])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="50G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" '
+            'ID-LINK="ceph-osd-part-0" TYPE="part" SIZE="25G" RO="0" '
+            'PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME="vdb"\n'
+            'NAME="vdb2" KNAME="vdb2" PATH="/dev/vdb2" TYPE="part" '
+            'SIZE="25G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vdb"\n'
+        )})
+    def test_empty_partitions_ignore_ceph_osd(self):
+        """Test partitions configured as Ceph OSD are not marked empty."""
+        osd1 = mock.MagicMock()
+        osd1.device = '/dev/disk/by-id/ceph-osd-part-0'
+        osd1.block_device = None
+        osd2 = mock.MagicMock()
+        osd2.device = None
+        osd2.block_device = '/dev/vdb2'
+        patch_runnable = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.is_runnable',
+            return_value=True)
+        patch_osds = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock, return_value=[osd1, osd2])
+        with patch_runnable, patch_osds:
+            checks = DiskChecks()
+            self.assertEqual(checks.empty_partitions, [])
+
 
 @utils.load_templated_tests('scenarios/storage/disks')
 class TestStorageDisksScenarios(StorageDisksTestsBase):

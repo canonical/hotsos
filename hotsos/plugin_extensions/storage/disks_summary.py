@@ -14,5 +14,7 @@ class DisksSummary(DiskChecks):
         summary = {}
         if self.unused_disks:
             summary['unused-disks'] = self.unused_disks
+        if self.empty_partitions:
+            summary['empty-partitions'] = self.empty_partitions
 
         return summary

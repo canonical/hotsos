@@ -56,3 +56,46 @@ class TestLsblkHelper(utils.BaseTestCase):
         self.assertFalse(helper.is_disk_entirely_unused(dev_map['loop0']))
         # vdb has no partition table, no fs, no children -> unused
         self.assertTrue(helper.is_disk_entirely_unused(dev_map['vdb']))
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="1M" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vda" PARTTYPENAME="BIOS boot"\n'
+            'NAME="vda2" KNAME="vda2" PATH="/dev/vda2" TYPE="part" '
+            'SIZE="50G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/" PKNAME="vda"\n'
+            'NAME="vda3" KNAME="vda3" PATH="/dev/vda3" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vda"\n'),
+        'sos_commands/block/ls_-lanR_.sys.block': (
+            '/sys/block:\n'
+            'lrwxrwxrwx 1 0 0 0 Feb 10 09:38 vda -> '
+            '../devices/pci0000:00/00:0b.0/virtio7/block/vda\n')})
+    def test_is_partition_unused(self):
+        """Test empty partition detection and filtering of boot partitions."""
+        helper = LsblkHelper()
+        dev_map = {d['KNAME']: d for d in helper.parsed_devices}
+        # vda is a disk -> not unused partition
+        self.assertFalse(helper.is_partition_unused(dev_map['vda']))
+        # vda1 is BIOS boot partition (1M) -> not unused partition
+        self.assertFalse(helper.is_partition_unused(dev_map['vda1']))
+        # vda2 has ext4 filesystem -> not unused partition
+        self.assertFalse(helper.is_partition_unused(dev_map['vda2']))
+        # vda3 has no fs, no mount, size 40G -> empty unused partition
+        self.assertTrue(helper.is_partition_unused(dev_map['vda3']))
+
+    def test_parse_size_bytes(self):
+        """Test parsing human-readable size strings to bytes."""
+        self.assertEqual(LsblkHelper.parse_size_bytes(''), 0)
+        self.assertEqual(LsblkHelper.parse_size_bytes(None), 0)
+        self.assertEqual(LsblkHelper.parse_size_bytes('invalid'), 0)
+        self.assertEqual(LsblkHelper.parse_size_bytes('512B'), 512)
+        self.assertEqual(LsblkHelper.parse_size_bytes('10M'), 10 * 1024**2)
+        self.assertEqual(LsblkHelper.parse_size_bytes('1,5G'),
+                         int(1.5 * 1024**3))
+        self.assertEqual(LsblkHelper.parse_size_bytes('2GiB'), 2 * 1024**3)
+        self.assertEqual(LsblkHelper.parse_size_bytes('1E'), 1024**6)

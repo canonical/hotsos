@@ -1,0 +1,20 @@
+requires:
+  property:
+    path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
+    ops: [[ne, lxc]]
+vars:
+  empty_partitions: '@hotsos.core.plugins.storage.disks.DiskChecks.empty_partitions'
+checks:
+  has_empty_partitions:
+    varops: [[$empty_partitions], [length_hint], [gt, 0]]
+conclusions:
+  empty_partitions:
+    decision: has_empty_partitions
+    raises:
+      type: StorageWarning
+      message: >-
+        The following partition(s) are created but have not been used with
+        any filesystem or volume configuration: {partitions}. Please format
+        and mount them, configure them for use, or remove the unused partition(s).
+      format-dict:
+        partitions: '$empty_partitions:comma_join'
