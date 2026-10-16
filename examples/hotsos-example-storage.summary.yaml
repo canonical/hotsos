@@ -109,6 +109,9 @@ storage:
           - glance (2)
           - cinder-ceph (3)
           - nova (4)
+  disks:
+    unused-disks:
+      - /dev/vdc (100G)
   bugs-detected:
     https://tracker.ceph.com/issues/53729: This Ceph cluster is vulnerable to a bug
       in which OSDs can consume considerable amounts of memory and eventually be OOM
