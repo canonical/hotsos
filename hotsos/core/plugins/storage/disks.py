@@ -58,7 +58,7 @@ class DiskChecks(StorageBase):
                     devs.add(f"/dev/{dev_name}")
         return devs
 
-    def _get_matching_devices(self, predicate):
+    def _get_matching_devices(self, predicate, size_fn=None):
         """Return sorted list of '<dev_path> (<size>)' matching predicate."""
         matched = []
         for dev in self.lsblk.parsed_devices:
@@ -75,7 +75,7 @@ class DiskChecks(StorageBase):
                     dev_path in self.multipath_devices):
                 continue
 
-            size = dev.get('SIZE')
+            size = size_fn(dev) if size_fn else dev.get('SIZE')
             if size:
                 desc = f"{dev_path} ({size})"
             else:
@@ -100,3 +100,16 @@ class DiskChecks(StorageBase):
         strings, e.g. ['/dev/sdb1 (50G)'].
         """
         return self._get_matching_devices(self.lsblk.is_partition_unused)
+
+    @cached_property
+    def unallocated_disks(self):
+        """
+        Return list of partitioned disks that have unallocated space formatted
+        as strings, e.g. ['/dev/sdb (50G)'].
+        """
+        return self._get_matching_devices(
+            lambda dev: self.lsblk.get_disk_unallocated_bytes(dev) > 0,
+            size_fn=lambda dev: self.lsblk.format_size_bytes(
+                self.lsblk.get_disk_unallocated_bytes(dev)
+            ),
+        )

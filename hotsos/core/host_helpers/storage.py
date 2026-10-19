@@ -126,6 +126,8 @@ class LsblkHelper():
     VIRTUAL_DEV_PREFIXES = (
         'loop', 'ram', 'zram', 'dm-', 'md', 'sr', 'fd', 'nbd', 'rbd', 'bcache'
     )
+    UNALLOCATED_MIN_BYTES = 10 * 1024 * 1024
+    UNALLOCATED_MIN_PERCENT = 5
     RESERVED_PART_TYPES = frozenset({
         '21686148-6449-6e6f-744e-656564454649',  # BIOS boot
         'c12a7328-f81f-11d2-ba4b-00a0c93ec93b',  # EFI System Partition
@@ -138,6 +140,20 @@ class LsblkHelper():
         '5ce17fce-4087-4169-b7ff-056cc58473f9',  # Ceph block.wal
         '0x5', '0xf', '0x85', '0xef', '0x41',
     })
+
+    @cached_property
+    def blockdev_sizes(self):
+        """Return exact byte sizes keyed by blockdev device path."""
+        sizes = {}
+        for line in CLIHelper().blockdev_report():
+            parts = line.rsplit(None, 2)
+            if len(parts) < 3 or not parts[-1].startswith('/dev/'):
+                continue
+
+            if parts[-2].isdigit() and int(parts[-2]) > 0:
+                sizes[parts[-1]] = int(parts[-2])
+
+        return sizes
 
     @staticmethod
     def parse_size_bytes(size_str):
@@ -157,6 +173,22 @@ class LsblkHelper():
             return int(float(val) * multipliers.get(unit, 1))
         except ValueError:
             return 0
+
+    @staticmethod
+    def format_size_bytes(size_bytes):
+        """Convert byte count to a human-readable size string (e.g. '50G')."""
+        if not size_bytes or size_bytes <= 0:
+            return '0B'
+
+        units = (('E', 1024**6), ('P', 1024**5), ('T', 1024**4),
+                 ('G', 1024**3), ('M', 1024**2), ('K', 1024))
+        for unit, factor in units:
+            if size_bytes >= factor:
+                val = size_bytes / factor
+                formatted = f"{val:.1f}".rstrip('0').rstrip('.')
+                return f"{formatted}{unit}"
+
+        return f"{int(size_bytes)}B"
 
     def is_partition_unused(self, dev):
         """
@@ -211,3 +243,63 @@ class LsblkHelper():
         has_mounts = bool(dev.get('MOUNTPOINT') or dev.get('MOUNTPOINTS'))
 
         return not (has_children or has_fs or has_mounts)
+
+    @staticmethod
+    def _is_extended_container(part):
+        """Return True if partition is an MBR extended container partition."""
+        parttype = part.get('PARTTYPE', '').lower()
+        parttypename = part.get('PARTTYPENAME', '').lower()
+        return (parttype in ('0x5', '0xf', '0x85') or
+                'extended' in parttypename)
+
+    def _get_tree_size_bytes(self, devices):
+        """Return sizes in bytes for devices using a consistent source."""
+        paths = [
+            dev.get('PATH') or f"/dev/{dev.get('KNAME') or dev.get('NAME')}"
+            for dev in devices
+        ]
+        if all(p in self.blockdev_sizes for p in paths):
+            return [self.blockdev_sizes[p] for p in paths]
+
+        return [self.parse_size_bytes(dev.get('SIZE')) for dev in devices]
+
+    def get_disk_unallocated_bytes(self, dev):
+        """
+        Return unallocated bytes on a partitioned disk, or 0 if not applicable
+        or below threshold (>= 5% of disk size and >= 10MB).
+        """
+        kname = dev.get('KNAME') or dev.get('NAME')
+        if dev.get('TYPE') != 'disk' or dev.get('RO') == '1' or not kname:
+            return 0
+
+        is_virtual = (
+            (kname not in self.non_virtual_devices)
+            if self.non_virtual_devices is not None
+            else kname.startswith(self.VIRTUAL_DEV_PREFIXES)
+        )
+        if is_virtual:
+            return 0
+
+        name = dev.get('NAME')
+        children = (self.children_by_parent.get(kname) or
+                    (self.children_by_parent.get(name) if name else None) or
+                    [])
+        part_children = [
+            c for c in children
+            if c.get('TYPE') == 'part' and not self._is_extended_container(c)
+        ]
+        if not children or not any(c.get('TYPE') == 'part' for c in children):
+            return 0
+
+        sizes = self._get_tree_size_bytes([dev] + part_children)
+        disk_bytes = sizes[0]
+        if disk_bytes <= 0:
+            return 0
+
+        unallocated = disk_bytes - sum(sizes[1:])
+        if (unallocated >= self.UNALLOCATED_MIN_BYTES and
+                unallocated * 100 >=
+                disk_bytes * self.UNALLOCATED_MIN_PERCENT):
+            return unallocated
+
+        return 0

@@ -152,6 +152,52 @@ class TestDiskChecks(StorageDisksTestsBase):
             checks = DiskChecks()
             self.assertEqual(checks.empty_partitions, [])
 
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="98G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/" PKNAME="vda"\n'
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-2" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/data" PKNAME="vdb"\n'
+            'NAME="vdc" KNAME="vdc" PATH="/dev/vdc" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+        )})
+    def test_unallocated_disks_detection(self):
+        """Test detecting partitioned disks with unallocated space."""
+        checks = DiskChecks()
+        self.assertEqual(checks.unallocated_disks, ['/dev/vdb (60G)'])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" ID-LINK="ceph-osd-0" '
+            'TYPE="disk" SIZE="100G" RO="0" PTTYPE="gpt" PTUUID="uuid-1" '
+            'FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+            'NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/data" PKNAME="vdb"\n'
+        )})
+    def test_unallocated_disks_ignore_ceph_osd(self):
+        """Test Ceph OSD disks are not reported in unallocated_disks."""
+        osd1 = mock.MagicMock()
+        osd1.device = '/dev/disk/by-id/ceph-osd-0'
+        osd1.block_device = None
+        patch_runnable = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.is_runnable',
+            return_value=True)
+        patch_osds = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock, return_value=[osd1])
+        with patch_runnable, patch_osds:
+            checks = DiskChecks()
+            self.assertEqual(checks.unallocated_disks, [])
+
 
 @utils.load_templated_tests('scenarios/storage/disks')
 class TestStorageDisksScenarios(StorageDisksTestsBase):

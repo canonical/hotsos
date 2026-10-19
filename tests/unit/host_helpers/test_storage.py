@@ -99,3 +99,59 @@ class TestLsblkHelper(utils.BaseTestCase):
                          int(1.5 * 1024**3))
         self.assertEqual(LsblkHelper.parse_size_bytes('2GiB'), 2 * 1024**3)
         self.assertEqual(LsblkHelper.parse_size_bytes('1E'), 1024**6)
+
+    def test_format_size_bytes(self):
+        """Test formatting byte counts into human-readable size strings."""
+        self.assertEqual(LsblkHelper.format_size_bytes(0), '0B')
+        self.assertEqual(LsblkHelper.format_size_bytes(-10), '0B')
+        self.assertEqual(LsblkHelper.format_size_bytes(512), '512B')
+        self.assertEqual(LsblkHelper.format_size_bytes(2048), '2K')
+        self.assertEqual(LsblkHelper.format_size_bytes(10 * 1024**2), '10M')
+        self.assertEqual(LsblkHelper.format_size_bytes(int(1.5 * 1024**3)),
+                         '1.5G')
+        self.assertEqual(LsblkHelper.format_size_bytes(60 * 1024**3), '60G')
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="1M" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vda" PARTTYPENAME="BIOS boot"\n'
+            'NAME="vda2" KNAME="vda2" PATH="/dev/vda2" TYPE="part" '
+            'SIZE="98G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/" PKNAME="vda"\n'
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-2" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/data" PKNAME="vdb"\n'
+            'NAME="vdc" KNAME="vdc" PATH="/dev/vdc" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="dos" PTUUID="uuid-3" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vdc1" KNAME="vdc1" PATH="/dev/vdc1" TYPE="part" '
+            'SIZE="100G" RO="0" PTTYPE="dos" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vdc" PARTTYPE="0x5" '
+            'PARTTYPENAME="Extended"\n'
+            'NAME="vdc5" KNAME="vdc5" PATH="/dev/vdc5" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="dos" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/srv" PKNAME="vdc"\n'),
+        'sos_commands/block/blockdev_--report': (
+            'RO    RA   SSZ   BSZ   StartSec            Size   Device\n'
+            'rw   256   512  4096          0    107374182400   /dev/vdb\n'
+            'rw   256   512  4096       2048     42949672960   /dev/vdb1\n')})
+    def test_get_disk_unallocated_bytes(self):
+        """Test detecting unallocated space on partitioned disks."""
+        helper = LsblkHelper()
+        dev_map = {d['KNAME']: d for d in helper.parsed_devices}
+        # vda has 98G+1M allocated out of 100G (< 5% unallocated) -> 0
+        self.assertEqual(helper.get_disk_unallocated_bytes(dev_map['vda']), 0)
+        # vdb has 40G allocated out of 100G -> 60G unallocated
+        self.assertEqual(helper.get_disk_unallocated_bytes(dev_map['vdb']),
+                         60 * 1024**3)
+        # vdc has extended container vdc1 (100G, ignored) + logical vdc5 (40G)
+        # -> 60G unallocated
+        self.assertEqual(helper.get_disk_unallocated_bytes(dev_map['vdc']),
+                         60 * 1024**3)
