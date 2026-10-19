@@ -198,6 +198,28 @@ class TestDiskChecks(StorageDisksTestsBase):
             checks = DiskChecks()
             self.assertEqual(checks.unallocated_disks, [])
 
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="100G" RO="0" PTTYPE="" PTUUID="" FSTYPE="LVM2_member" '
+            'MOUNTPOINT="" PKNAME="vda"\n'
+        ),
+        'sos_commands/lvm2/vgs_-v_-o_'
+        'vg_mda_count_vg_mda_free_vg_mda_size_vg_mda_used_count_'
+        'vg_tags_systemid_--config_global_metadata_read_only_1_'
+        '--nolocking_--foreign': (
+            '  VG    Attr   Ext   #PV #LV #SN VSize    VFree   VG UUID\n'
+            '  vg0   wz--n- 4.00m   1   1   0 <100.00g <60.00g uuid-0\n'
+            '  vg1   wz--n- 4.00m   1   1   0  100.00g       0 uuid-1\n'
+        )})
+    def test_unallocated_volume_groups_detection(self):
+        """Test detecting volume groups with unallocated free space."""
+        checks = DiskChecks()
+        self.assertEqual(checks.unallocated_volume_groups, ['vg0 (60G)'])
+
 
 @utils.load_templated_tests('scenarios/storage/disks')
 class TestStorageDisksScenarios(StorageDisksTestsBase):

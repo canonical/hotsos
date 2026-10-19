@@ -161,7 +161,7 @@ class LsblkHelper():
         if not size_str:
             return 0
 
-        normalized = size_str.strip().upper().replace(',', '.')
+        normalized = size_str.strip().lstrip('<>').upper().replace(',', '.')
         match = re.match(r'^([\d.]+)\s*([BKMGTPE]?)(?:IB)?$', normalized)
         if not match:
             return 0
@@ -303,3 +303,39 @@ class LsblkHelper():
             return unallocated
 
         return 0
+
+    @cached_property
+    def unallocated_volume_groups(self):
+        """
+        Return list of LVM volume groups that have significant free space
+        (>= 5% of VSize and >= 10MB) formatted as '<vg_name> (<free_size>)'.
+        """
+        vgs = []
+        vsize_idx = None
+        vfree_idx = None
+        vg_idx = 0
+        for line in CLIHelper().vgs():
+            fields = line.split()
+            if not fields:
+                continue
+
+            if fields[0] == 'VG' and 'VSize' in fields and 'VFree' in fields:
+                vg_idx = 0
+                vsize_idx = fields.index('VSize')
+                vfree_idx = fields.index('VFree')
+                continue
+
+            if vsize_idx is None or len(fields) <= max(vsize_idx, vfree_idx):
+                continue
+
+            vg_name = fields[vg_idx]
+            vsize = self.parse_size_bytes(fields[vsize_idx])
+            vfree = self.parse_size_bytes(fields[vfree_idx])
+            if vsize <= 0 or vfree < self.UNALLOCATED_MIN_BYTES:
+                continue
+
+            if vfree * 100 >= vsize * self.UNALLOCATED_MIN_PERCENT:
+                free_str = self.format_size_bytes(vfree)
+                vgs.append(f"{vg_name} ({free_str})")
+
+        return sorted(vgs)

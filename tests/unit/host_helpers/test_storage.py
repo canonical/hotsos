@@ -97,6 +97,8 @@ class TestLsblkHelper(utils.BaseTestCase):
         self.assertEqual(LsblkHelper.parse_size_bytes('10M'), 10 * 1024**2)
         self.assertEqual(LsblkHelper.parse_size_bytes('1,5G'),
                          int(1.5 * 1024**3))
+        self.assertEqual(LsblkHelper.parse_size_bytes('<99.98g'),
+                         int(99.98 * 1024**3))
         self.assertEqual(LsblkHelper.parse_size_bytes('2GiB'), 2 * 1024**3)
         self.assertEqual(LsblkHelper.parse_size_bytes('1E'), 1024**6)
 
@@ -155,3 +157,19 @@ class TestLsblkHelper(utils.BaseTestCase):
         # -> 60G unallocated
         self.assertEqual(helper.get_disk_unallocated_bytes(dev_map['vdc']),
                          60 * 1024**3)
+
+    @utils.create_data_root({
+        'sos_commands/lvm2/vgs_-v_-o_'
+        'vg_mda_count_vg_mda_free_vg_mda_size_vg_mda_used_count_'
+        'vg_tags_systemid_--config_global_metadata_read_only_1_'
+        '--nolocking_--foreign': (
+            '  Reloading config files\n'
+            '  WARNING: File locking is disabled.\n'
+            '  VG    Attr   Ext   #PV #LV #SN VSize    VFree   VG UUID\n'
+            '  vg0   wz--n- 4.00m   1   1   0 <100.00g <60.00g uuid-0\n'
+            '  vg1   wz--n- 4.00m   1   1   0  100.00g   2.00g uuid-1\n'
+            '  vg2   wz--n- 4.00m   1   1   0   50.00m   4.00m uuid-2\n')})
+    def test_unallocated_volume_groups(self):
+        """Test detecting LVM volume groups with significant free space."""
+        helper = LsblkHelper()
+        self.assertEqual(helper.unallocated_volume_groups, ['vg0 (60G)'])

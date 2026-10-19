@@ -254,4 +254,16 @@ class CommandCatalog(UserDict):
             'uptime':
                 [BinCmd('uptime', singleline=True),
                  FileCmd('uptime', singleline=True)],
+            'vgs':
+                [BinCmd('vgs -v'),
+                 FileCmd('sos_commands/lvm2/vgs_-v_-o_'
+                         'vg_mda_count_vg_mda_free_vg_mda_size_'
+                         'vg_mda_used_count_vg_tags_systemid_'
+                         '--config_global_metadata_read_only_1_'
+                         '--nolocking_--foreign'),
+                 FileCmd('sos_commands/lvm2/vgs_-v_-o_'
+                         'vg_mda_count_vg_mda_free_vg_mda_size_'
+                         'vg_mda_used_count_vg_tags_systemid_'
+                         '--config_global_locking_type_0_'
+                         'metadata_read_only_1_--foreign')],
         }

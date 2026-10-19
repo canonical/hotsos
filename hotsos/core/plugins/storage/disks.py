@@ -113,3 +113,11 @@ class DiskChecks(StorageBase):
                 self.lsblk.get_disk_unallocated_bytes(dev)
             ),
         )
+
+    @cached_property
+    def unallocated_volume_groups(self):
+        """
+        Return list of LVM volume groups that have significant free space
+        formatted as strings, e.g. ['vg0 (50G)'].
+        """
+        return self.lsblk.unallocated_volume_groups

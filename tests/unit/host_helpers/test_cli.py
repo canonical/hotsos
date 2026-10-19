@@ -402,7 +402,8 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'systemctl_list_unit_files',
                         'udevadm_info_exportdb',
                         'uname',
-                        'uptime'])
+                        'uptime',
+                        'vgs'])
         self.assertEqual(cmds, expected.union(set(['ovs_ofctl'])))
 
         affinity = set()

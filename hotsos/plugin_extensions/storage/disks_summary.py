@@ -18,5 +18,9 @@ class DisksSummary(DiskChecks):
             summary['empty-partitions'] = self.empty_partitions
         if self.unallocated_disks:
             summary['unallocated-disks'] = self.unallocated_disks
+        if self.unallocated_volume_groups:
+            summary['unallocated-volume-groups'] = (
+                self.unallocated_volume_groups
+            )
 
         return summary
