@@ -13,7 +13,9 @@ class DiskChecks(StorageBase):
     @classmethod
     def is_runnable(cls):
         """Determine whether disk checks should run."""
-        return bool(LsblkHelper().parsed_devices)
+        helper = LsblkHelper()
+        return bool(helper.parsed_devices or
+                    helper.unallocated_volume_groups)
 
     @cached_property
     def lsblk(self):
@@ -22,14 +24,19 @@ class DiskChecks(StorageBase):
 
     @cached_property
     def ceph_osd_devices(self):
-        """Return set of kernel paths for local Ceph OSD devices."""
+        """
+        Return set of kernel paths for local Ceph OSD devices, or None if
+        Ceph is runnable on this host but OSD device discovery fails.
+        """
+        if not CephChecks.is_runnable():
+            return set()
         try:
-            if not CephChecks.is_runnable():
-                return set()
             ceph = CephChecks()
             osd_devices = set()
             lsblk_paths = self.lsblk.path_to_kernel_path
             for osd in ceph.local_osds:
+                if not (osd.device or osd.block_device):
+                    return None
                 for dev in (osd.device, osd.block_device):
                     if not dev:
                         continue
@@ -37,29 +44,61 @@ class DiskChecks(StorageBase):
                     kernel_path = lsblk_paths.get(dev)
                     if kernel_path:
                         osd_devices.add(kernel_path)
+                    elif dev.startswith('/dev/disk/'):
+                        return None
             return osd_devices
         except Exception:  # pylint: disable=broad-except
-            return set()
+            return None
+
+    @staticmethod
+    def _add_device_names(target_set, dev):
+        """Add KNAME, NAME, PATH and /dev/<name> for dev into target_set."""
+        for key in ('KNAME', 'NAME', 'PATH'):
+            val = dev.get(key)
+            if val:
+                target_set.add(val)
+                if not val.startswith('/dev/'):
+                    target_set.add(f"/dev/{val}")
 
     @cached_property
     def multipath_devices(self):
-        """Return set of device names that are members of multipath maps."""
+        """
+        Return set of device names and paths that belong to multipath maps,
+        including any descendant block devices (e.g. multipath partitions).
+        """
         out = CLIHelper().multipath_ll()
-        if not out:
-            return set()
-
         devs = set()
-        for line in out:
+        for line in out or []:
             ret = re.search(r'\s(\S+)\s+\d+:\d+(?:\s|$)', line)
             if ret:
                 dev_name = ret.group(1)
                 devs.add(dev_name)
                 if not dev_name.startswith('/dev/'):
                     devs.add(f"/dev/{dev_name}")
+
+        for dev in self.lsblk.parsed_devices:
+            if (dev.get('TYPE') == 'mpath' or
+                    dev.get('FSTYPE') == 'mpath_member'):
+                self._add_device_names(devs, dev)
+
+        queue = list(devs)
+        while queue:
+            parent = queue.pop()
+            for child in self.lsblk.children_by_parent.get(parent, []):
+                before = len(devs)
+                self._add_device_names(devs, child)
+                if len(devs) > before:
+                    kname = child.get('KNAME') or child.get('NAME')
+                    if kname:
+                        queue.append(kname)
+
         return devs
 
     def _get_matching_devices(self, predicate, size_fn=None):
         """Return sorted list of '<dev_path> (<size>)' matching predicate."""
+        if not self.lsblk.parsed_devices or self.ceph_osd_devices is None:
+            return []
+
         matched = []
         for dev in self.lsblk.parsed_devices:
             if not predicate(dev):
@@ -71,8 +110,10 @@ class DiskChecks(StorageBase):
             if dev_path in self.ceph_osd_devices:
                 continue
 
+            pkname = dev.get('PKNAME')
             if (kname in self.multipath_devices or
-                    dev_path in self.multipath_devices):
+                    dev_path in self.multipath_devices or
+                    (pkname and pkname in self.multipath_devices)):
                 continue
 
             size = size_fn(dev) if size_fn else dev.get('SIZE')

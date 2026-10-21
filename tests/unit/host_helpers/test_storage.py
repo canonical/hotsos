@@ -11,13 +11,15 @@ class TestLsblkHelper(utils.BaseTestCase):
             'PATH="/dev/vda" KNAME="vda"\n'
             'PATH="/dev/broken KNAME="broken"\n'
             'PATH="/dev/missing-kname"\n'
-            'PATH="/dev/vdb" KNAME="vdb" ID-LINK="ceph-osd-0"\n')})
+            'PATH="/dev/vdb" KNAME="vdb" '
+            'ID-LINK="ceph-osd-0\\x0awnn-0x5000"\n')})
     def test_path_to_kernel_path(self):
         """Test valid device and persistent aliases map to kernel paths."""
         self.assertEqual(LsblkHelper().path_to_kernel_path,
                          {'/dev/vda': '/dev/vda',
                           '/dev/vdb': '/dev/vdb',
-                          '/dev/disk/by-id/ceph-osd-0': '/dev/vdb'})
+                          '/dev/disk/by-id/ceph-osd-0': '/dev/vdb',
+                          '/dev/disk/by-id/wnn-0x5000': '/dev/vdb'})
 
     @utils.create_data_root({
         'sos_commands/block/lsblk_-O_-P': (
@@ -102,6 +104,15 @@ class TestLsblkHelper(utils.BaseTestCase):
         self.assertEqual(LsblkHelper.parse_size_bytes('2GiB'), 2 * 1024**3)
         self.assertEqual(LsblkHelper.parse_size_bytes('1E'), 1024**6)
 
+    def test_parse_size_uncertainty_bytes(self):
+        """Test computing rounding uncertainty for human-readable sizes."""
+        self.assertEqual(LsblkHelper.parse_size_uncertainty_bytes(''), 0)
+        self.assertEqual(LsblkHelper.parse_size_uncertainty_bytes(None), 0)
+        self.assertEqual(LsblkHelper.parse_size_uncertainty_bytes('512B'), 0)
+        self.assertEqual(
+            LsblkHelper.parse_size_uncertainty_bytes('1.8T'),
+            54975581389)
+
     def test_format_size_bytes(self):
         """Test formatting byte counts into human-readable size strings."""
         self.assertEqual(LsblkHelper.format_size_bytes(0), '0B')
@@ -139,7 +150,16 @@ class TestLsblkHelper(utils.BaseTestCase):
             'PARTTYPENAME="Extended"\n'
             'NAME="vdc5" KNAME="vdc5" PATH="/dev/vdc5" TYPE="part" '
             'SIZE="40G" RO="0" PTTYPE="dos" PTUUID="" FSTYPE="ext4" '
-            'MOUNTPOINT="/srv" PKNAME="vdc"\n'),
+            'MOUNTPOINT="/srv" PKNAME="vdc"\n'
+            'NAME="vdd" KNAME="vdd" PATH="/dev/vdd" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-4" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vde" KNAME="vde" PATH="/dev/vde" TYPE="disk" SIZE="1.8T" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-5" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vde1" KNAME="vde1" PATH="/dev/vde1" TYPE="part" '
+            'SIZE="1.7T" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/srv2" PKNAME="vde"\n'),
         'sos_commands/block/blockdev_--report': (
             'RO    RA   SSZ   BSZ   StartSec            Size   Device\n'
             'rw   256   512  4096          0    107374182400   /dev/vdb\n'
@@ -157,6 +177,12 @@ class TestLsblkHelper(utils.BaseTestCase):
         # -> 60G unallocated
         self.assertEqual(helper.get_disk_unallocated_bytes(dev_map['vdc']),
                          60 * 1024**3)
+        # vdd has GPT partition table but 0 partitions -> 100G unallocated
+        self.assertEqual(helper.get_disk_unallocated_bytes(dev_map['vdd']),
+                         100 * 1024**3)
+        # vde has rounded 1.8T disk and 1.7T partition without blockdev report
+        # -> within rounding uncertainty of < 5%, so do not false-positive
+        self.assertEqual(helper.get_disk_unallocated_bytes(dev_map['vde']), 0)
 
     @utils.create_data_root({
         'sos_commands/lvm2/vgs_-v_-o_'

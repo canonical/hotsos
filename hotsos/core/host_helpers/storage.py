@@ -1,3 +1,4 @@
+import math
 import re
 import shlex
 from functools import cached_property
@@ -49,8 +50,11 @@ class LsblkHelper():
 
             kernel_path = f'/dev/{kname}'
             paths[path] = kernel_path
-            if fields.get('ID-LINK'):
-                paths[f"/dev/disk/by-id/{fields['ID-LINK']}"] = kernel_path
+            id_link = fields.get('ID-LINK')
+            if id_link:
+                for link in id_link.replace('\\x0a', '\n').splitlines():
+                    if link:
+                        paths[f'/dev/disk/by-id/{link}'] = kernel_path
 
         return paths
 
@@ -77,9 +81,11 @@ class LsblkHelper():
             return None
 
         virtual = '../devices/virtual'
-        matches = (re.search(r'\s(\S+)\s->', line) for line in out
-                   if virtual not in line)
-        return {m.group(1) for m in matches if m}
+        matches = (re.search(r'\s(\S+)\s->\s*(\S+)', line) for line in out)
+        return {
+            m.group(1) for m in matches
+            if m and virtual not in m.group(2)
+        }
 
     def is_disk_entirely_unused(self, dev):
         """
@@ -110,18 +116,23 @@ class LsblkHelper():
         if self.non_virtual_devices is not None:
             if kname not in self.non_virtual_devices:
                 return False
-        elif kname.startswith(('loop', 'ram', 'zram', 'dm-', 'md', 'sr',
-                               'fd', 'nbd', 'rbd', 'bcache')):
+        elif kname.startswith(self.VIRTUAL_DEV_PREFIXES):
             return False
 
         name = dev.get('NAME')
         has_children = (kname in self.children_by_parent or
                         (name and name in self.children_by_parent))
         has_pt = bool(dev.get('PTTYPE') or dev.get('PTUUID'))
-        has_fs = bool(dev.get('FSTYPE'))
+        has_fs = self._has_fs(dev)
         has_mounts = bool(dev.get('MOUNTPOINT') or dev.get('MOUNTPOINTS'))
 
         return not (has_children or has_pt or has_fs or has_mounts)
+
+    @staticmethod
+    def _has_fs(dev):
+        """Return True if device has a filesystem signature or usage info."""
+        return bool(dev.get('FSTYPE') or dev.get('UUID') or
+                    dev.get('FSUSED') or dev.get('FSSIZE'))
 
     VIRTUAL_DEV_PREFIXES = (
         'loop', 'ram', 'zram', 'dm-', 'md', 'sr', 'fd', 'nbd', 'rbd', 'bcache'
@@ -173,6 +184,35 @@ class LsblkHelper():
             return int(float(val) * multipliers.get(unit, 1))
         except ValueError:
             return 0
+
+    @staticmethod
+    def parse_size_uncertainty_bytes(size_str):
+        """
+        Return half-ULP rounding uncertainty in bytes for a human-readable
+        size string (e.g. '1.8T' -> 0.05 TiB). Exact byte sizes return 0.
+        """
+        if not size_str:
+            return 0
+
+        normalized = size_str.strip().lstrip('<>').upper().replace(',', '.')
+        match = re.match(r'^([\d.]+)\s*([BKMGTPE]?)(?:IB)?$', normalized)
+        if not match:
+            return 0
+
+        val, unit = match.groups()
+        if unit in ('', 'B'):
+            return 0
+
+        multipliers = {'K': 1024, 'M': 1024**2, 'G': 1024**3,
+                       'T': 1024**4, 'P': 1024**5, 'E': 1024**6}
+        try:
+            float(val)
+        except ValueError:
+            return 0
+
+        decimals = len(val.partition('.')[2]) if '.' in val else 0
+        ulp = 10 ** (-max(1, decimals))
+        return math.ceil(0.5 * ulp * multipliers[unit])
 
     @staticmethod
     def format_size_bytes(size_bytes):
@@ -238,8 +278,7 @@ class LsblkHelper():
         name = dev.get('NAME')
         has_children = (kname in self.children_by_parent or
                         (name and name in self.children_by_parent))
-        has_fs = bool(dev.get('FSTYPE') or dev.get('UUID') or
-                      dev.get('FSUSED') or dev.get('FSSIZE'))
+        has_fs = self._has_fs(dev)
         has_mounts = bool(dev.get('MOUNTPOINT') or dev.get('MOUNTPOINTS'))
 
         return not (has_children or has_fs or has_mounts)
@@ -252,16 +291,20 @@ class LsblkHelper():
         return (parttype in ('0x5', '0xf', '0x85') or
                 'extended' in parttypename)
 
-    def _get_tree_size_bytes(self, devices):
-        """Return sizes in bytes for devices using a consistent source."""
-        paths = [
-            dev.get('PATH') or f"/dev/{dev.get('KNAME') or dev.get('NAME')}"
-            for dev in devices
-        ]
-        if all(p in self.blockdev_sizes for p in paths):
-            return [self.blockdev_sizes[p] for p in paths]
+    def _get_device_size_bytes(self, dev):
+        """
+        Return (size_bytes, uncertainty_bytes) for a block device, preferring
+        exact byte sizes from blockdev --report when available.
+        """
+        path = dev.get('PATH') or f"/dev/{dev.get('KNAME') or dev.get('NAME')}"
+        if path in self.blockdev_sizes:
+            return self.blockdev_sizes[path], 0
 
-        return [self.parse_size_bytes(dev.get('SIZE')) for dev in devices]
+        size_str = dev.get('SIZE')
+        return (
+            self.parse_size_bytes(size_str),
+            self.parse_size_uncertainty_bytes(size_str),
+        )
 
     def get_disk_unallocated_bytes(self, dev):
         """
@@ -288,18 +331,33 @@ class LsblkHelper():
             c for c in children
             if c.get('TYPE') == 'part' and not self._is_extended_container(c)
         ]
-        if not children or not any(c.get('TYPE') == 'part' for c in children):
+        has_pt = bool(dev.get('PTTYPE') or dev.get('PTUUID'))
+        has_fs_or_mounts = bool(
+            self._has_fs(dev) or dev.get('MOUNTPOINT') or
+            dev.get('MOUNTPOINTS')
+        )
+        has_non_part_children = any(
+            c.get('TYPE') != 'part' for c in children
+        )
+        if (has_fs_or_mounts or has_non_part_children or
+                (not part_children and not has_pt)):
             return 0
 
-        sizes = self._get_tree_size_bytes([dev] + part_children)
-        disk_bytes = sizes[0]
+        size_info = [
+            self._get_device_size_bytes(d) for d in [dev] + part_children
+        ]
+        disk_bytes, disk_uncertainty = size_info[0]
         if disk_bytes <= 0:
             return 0
 
-        unallocated = disk_bytes - sum(sizes[1:])
-        if (unallocated >= self.UNALLOCATED_MIN_BYTES and
-                unallocated * 100 >=
-                disk_bytes * self.UNALLOCATED_MIN_PERCENT):
+        unallocated = disk_bytes - sum(s for s, _ in size_info[1:])
+        min_unallocated = (
+            unallocated - disk_uncertainty - sum(u for _, u in size_info[1:])
+        )
+        if (min_unallocated >= self.UNALLOCATED_MIN_BYTES and
+                min_unallocated * 100 >=
+                (disk_bytes + disk_uncertainty) *
+                self.UNALLOCATED_MIN_PERCENT):
             return unallocated
 
         return 0

@@ -255,7 +255,9 @@ class CommandCatalog(UserDict):
                 [BinCmd('uptime', singleline=True),
                  FileCmd('uptime', singleline=True)],
             'vgs':
-                [BinCmd('vgs -v'),
+                [BinCmd(
+                    'vgs -v --config=global{metadata_read_only=1} '
+                    '--nolocking --foreign'),
                  FileCmd('sos_commands/lvm2/vgs_-v_-o_'
                          'vg_mda_count_vg_mda_free_vg_mda_size_'
                          'vg_mda_used_count_vg_tags_systemid_'
