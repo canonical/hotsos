@@ -84,6 +84,14 @@ The html output format uses the [Canonical Vanilla Framework](https://github.com
 ## Development Workflow
 
 ### Running Tests
+
+**Always use `tox` to run tests and linters in this project — never invoke `stestr`, `pytest`, `python -m unittest`, `flake8`, or `pylint` directly.** The `tox` environments provide the correct virtualenv, dependencies, and configuration; running the underlying tools directly will give unreliable or incorrect results. Use these canonical commands:
+
+- Run unit tests: `tox -e py3`
+- Run everything (all linters + unit tests): `tox`
+
+When asked to "run the tests" (or similar), default to `tox -e py3` without waiting for further instruction.
+
 ```bash
 # All linting and unit tests
 tox
@@ -126,7 +134,7 @@ Coverage must stay above **84%**.
 - YAML files linted with `yamllint` (see `yamllintrc`)
 - Shell scripts linted with `bashate`
 - Do **not** print to stdout; use `log` (`hotsos/core/log.py`) for logging and `IssuesManager` for issues.
-- Tests use `stestr` (unittest-compatible); fake data roots live in `tests/unit/fake_data_root/`.
+- Tests use `stestr` (unittest-compatible) under the hood, but always run them via `tox` (e.g. `tox -e py3`), never by calling `stestr` directly; fake data roots live in `tests/unit/fake_data_root/`.
 
 ---
 
