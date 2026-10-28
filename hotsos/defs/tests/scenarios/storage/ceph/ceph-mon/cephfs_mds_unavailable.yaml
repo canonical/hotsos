@@ -1,0 +1,40 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_status_--format_json-pretty: |
+      {
+          "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+          "health": {
+              "status": "HEALTH_ERR"
+          }
+      }
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_ERR",
+          "checks": {
+              "MDS_ALL_DOWN": {
+                  "severity": "HEALTH_ERR",
+                  "summary": {
+                      "message": "1 filesystem is offline",
+                      "count": 1
+                  },
+                  "detail": [
+                      {
+                          "message": "fs cephfs is offline because no MDS is active for it."
+                      }
+                  ],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephDaemonWarning: >-
+    Ceph health detail reported MDS_ALL_DOWN: at least one CephFS
+    filesystem had no active MDS and was offline when this data was
+    collected. Please check 'ceph fs status' and make sure MDS daemons are
+    running with standbys available. See
+    https://docs.ceph.com/en/latest/cephfs/health-messages/#mds-all-down
