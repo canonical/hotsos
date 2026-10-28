@@ -1,0 +1,35 @@
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_status_--format_json-pretty: |
+      {
+          "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+          "health": {
+              "status": "HEALTH_WARN"
+          }
+      }
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "BLUESTORE_NO_COMPRESSION": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1 OSD(s) have broken BlueStore compression"
+                  },
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    Ceph health detail reports BLUESTORE_NO_COMPRESSION: one or more OSDs
+    could not load a BlueStore compression plugin, so compression may not
+    be working on them. Please check 'ceph health detail' for the affected
+    OSDs, verify the ceph packages on their hosts and restart those OSDs.
+    See
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-no-compression
