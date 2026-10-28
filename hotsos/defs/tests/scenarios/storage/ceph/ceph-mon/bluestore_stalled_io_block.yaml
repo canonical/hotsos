@@ -1,0 +1,36 @@
+target-name: bluestore_stalled_io.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_status_--format_json-pretty: |
+      {
+          "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+          "health": {
+              "status": "HEALTH_WARN"
+          }
+      }
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "BLOCK_DEVICE_STALLED_READ_ALERT": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1 OSD(s) experiencing stalled read in block device of BlueStore"
+                  },
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    Ceph health detail reports BLUESTORE_SLOW_OP_ALERT or a
+    *_DEVICE_STALLED_READ_ALERT: one or more OSDs see slow BlueStore
+    operations or stalled reads on their block, WAL or DB devices. Please
+    check 'ceph health detail' for the affected OSDs and the health of
+    their underlying devices. See
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-slow-op-alert

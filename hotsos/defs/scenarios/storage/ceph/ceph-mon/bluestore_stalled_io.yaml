@@ -1,0 +1,34 @@
+checks:
+  slow_op_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, BLUESTORE_SLOW_OP_ALERT]]
+  block_stalled_read_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, BLOCK_DEVICE_STALLED_READ_ALERT]]
+  wal_stalled_read_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, WAL_DEVICE_STALLED_READ_ALERT]]
+  db_stalled_read_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, DB_DEVICE_STALLED_READ_ALERT]]
+conclusions:
+  bluestore-stalled-io:
+    decision:
+      or:
+        - slow_op_reported
+        - block_stalled_read_reported
+        - wal_stalled_read_reported
+        - db_stalled_read_reported
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Ceph health detail reports BLUESTORE_SLOW_OP_ALERT or a
+        *_DEVICE_STALLED_READ_ALERT: one or more OSDs see slow
+        BlueStore operations or stalled reads on their block, WAL or DB
+        devices. Please check 'ceph health detail' for the affected
+        OSDs and the health of their underlying devices. See
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-slow-op-alert
