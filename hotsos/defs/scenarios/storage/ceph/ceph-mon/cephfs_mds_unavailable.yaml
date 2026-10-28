@@ -1,0 +1,16 @@
+checks:
+  mds_all_down_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, MDS_ALL_DOWN]]
+conclusions:
+  cephfs-mds-unavailable:
+    decision: mds_all_down_reported
+    raises:
+      type: CephDaemonWarning
+      message: >-
+        Ceph health detail reported MDS_ALL_DOWN: at least one CephFS
+        filesystem had no active MDS and was offline when this data was
+        collected. Please check 'ceph fs status' and make sure MDS
+        daemons are running with standbys available. See
+        https://docs.ceph.com/en/latest/cephfs/health-messages/#mds-all-down
