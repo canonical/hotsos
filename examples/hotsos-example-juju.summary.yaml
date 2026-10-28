@@ -86,3 +86,6 @@ juju:
         may still be worth investigating.
       - Juju logs for unit(s) 'nova-compute/0' contain 24 Traceback(s) from the last
         48 hours - please check.
+      - 'Juju unit logs contain 6 hook failure log entries for: update-status. Please
+        check ''juju status'' and the preceding unit log entries; if a unit is in
+        error, fix the cause and run ''juju resolved <unit>''.'

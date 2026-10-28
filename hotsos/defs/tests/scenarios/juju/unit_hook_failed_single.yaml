@@ -1,0 +1,13 @@
+target-name: unit_hook_failed.yaml
+data-root:
+  files:
+    var/log/juju/unit-foo-0.log: |
+      2022-02-10 10:28:35 ERROR juju.worker.uniter.operation runhook.go:180 hook "config-changed" (via hook dispatching script: dispatch) failed: exit status 1
+      2022-02-10 10:29:35 INFO juju.worker.uniter.operation runhook.go:158 ran "config-changed" hook (via hook dispatching script: dispatch)
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  JujuWarning: >-
+    Juju unit logs contain 1 hook failure log entries for: config-changed. Please check 'juju status' and the preceding unit log
+    entries; if a unit is in error, fix the cause and run 'juju resolved
+    <unit>'.
