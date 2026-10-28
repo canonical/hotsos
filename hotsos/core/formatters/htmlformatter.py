@@ -39,6 +39,10 @@ class HTMLFormatter:
     # than bar charts (e.g. the OpenStack API http request/status breakdowns).
     PIE_CHART_KEYS = frozenset({'http-requests', 'http-status'})
 
+    # Keys whose descendant counts are not distributions and so must be
+    # rendered as plain values rather than charts (e.g. hotsos defs counts).
+    NO_CHART_KEYS = frozenset({'scenarios', 'events'})
+
     # Matches labels that begin with an ISO-style date (optionally followed by
     # a time), used to recognise the timestamp keys of a time series.
     TIMESTAMP_RE = re.compile(r'^\d{4}-\d{2}-\d{2}([ T]\d{2}:\d{2})?')
@@ -249,7 +253,8 @@ class HTMLFormatter:
         """ Return the chart style to use for the value of the given key. """
         key = str(key)
         # Never render the contents of a top-N (e.g. top5) result as a plot.
-        if chart_type == 'none' or self.TOP_N_RE.match(key):
+        if (chart_type == 'none' or self.TOP_N_RE.match(key) or
+                key in self.NO_CHART_KEYS):
             return 'none'
         if key in self.PIE_CHART_KEYS:
             return 'pie'
