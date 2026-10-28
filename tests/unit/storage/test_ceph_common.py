@@ -353,6 +353,37 @@ class TestMicrocephProcesses(CephCommonTestsBase):
 
 class TestCephChecks(CephCommonTestsBase):
     """ Unit tests for ceph checks. """
+
+    @utils.create_data_root({
+        'sos_commands/ceph_mon/json_output/'
+        'ceph_health_detail_--format_json-pretty': json.dumps({
+            'checks': {
+                'MDS_ALL_DOWN': {'muted': False},
+                'BLUESTORE_NO_COMPRESSION': {},
+                'MDS_DAMAGE': {'muted': True},
+            },
+            'mutes': [{'code': 'DB_DEVICE_STALLED_READ_ALERT'}],
+        })})
+    def test_health_checks_unmuted(self):
+        """Return sorted active check codes, excluding muted checks."""
+        self.assertEqual(ceph.CephCluster().health_checks_unmuted,
+                         ['BLUESTORE_NO_COMPRESSION', 'MDS_ALL_DOWN'])
+
+    @utils.create_data_root({})
+    def test_health_checks_missing(self):
+        """Missing health output supplies no check codes."""
+        self.assertEqual(ceph.CephCluster().health_checks_unmuted, [])
+
+    @utils.create_data_root({
+        'sos_commands/ceph_mon/json_output/'
+        'ceph_health_detail_--format_json-pretty': json.dumps({
+            'status': 'HEALTH_OK', 'checks': {},
+            'mutes': [{'code': 'BLUESTORE_NO_COMPRESSION'}],
+        })})
+    def test_health_checks_cleared(self):
+        """A retained mute entry alone is not an active check."""
+        self.assertEqual(ceph.CephCluster().health_checks_unmuted, [])
+
     @utils.create_data_root(
         {'sos_commands/ceph_osd/'
          'ceph_daemon_.var.run.ceph.ceph-osd.0.asok_perf_dump': (
