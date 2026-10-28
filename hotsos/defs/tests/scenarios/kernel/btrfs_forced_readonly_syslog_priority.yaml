@@ -1,0 +1,12 @@
+target-name: btrfs_forced_readonly.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      <6>Feb 09 16:19:18 host kernel: BTRFS info (device sda1: state E): forced readonly
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  KernelError: >-
+    Btrfs forced the filesystem(s) on sda1 read-only after an error.
+    Please inspect preceding kernel errors and verify the current
+    filesystem state.

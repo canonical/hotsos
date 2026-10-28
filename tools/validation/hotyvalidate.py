@@ -19,7 +19,8 @@ from hotsos.core.ycheck.engine.common import (
 # alternative captures the date (and usually time) at the start of the line as
 # the first result group(s) so that ExtraSearchConstraints hands them back to
 # core.search.CommonTimestampMatcher. The alternatives below cover every format
-# in CommonTimestampMatcher.patterns: openstack/ceph/openvswitch/juju
+# in CommonTimestampMatcher.patterns: timezone-qualified ISO (optionally
+# prefixed with a syslog priority), openstack/ceph/openvswitch/juju
 # (YYYY-MM-DD[ T]HH:MM:SS), kernlog/syslog (Mon DD HH:MM:SS, string month) and
 # apache (IP - - [DD/Mon/YYYY:HH:MM:SS +ZZZZ]). Examples of expressions each
 # alternative accepts:
@@ -73,6 +74,9 @@ class SearchExpressionValidator:
         if not isinstance(pattern, str):
             return False
         candidate = pattern[1:] if pattern.startswith("^") else pattern
+        priority = r'(?:<\d+>)?'
+        if candidate.startswith(priority):
+            candidate = candidate[len(priority):]
         return bool(LEADING_TIMESTAMP_RE.match(candidate))
 
     def resolve_expr(self, expr, variables):
