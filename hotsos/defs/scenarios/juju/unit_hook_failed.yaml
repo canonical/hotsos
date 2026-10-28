@@ -10,8 +10,8 @@ conclusions:
     raises:
       type: JujuWarning
       message: >-
-        Juju unit logs contain {count} hook failure log entries for:
-        {hooks}. Please check 'juju status' and the preceding unit log
+        Juju unit logs report hook failures for {hooks} (log entry count:
+        {count}). Please check 'juju status' and the preceding unit log
         entries; if a unit is in error, fix the cause and run 'juju
         resolved <unit>'.
       format-dict:
