@@ -36,5 +36,5 @@ raised-issues:
     Ceph health detail reported MDS_ALL_DOWN: at least one CephFS
     filesystem had no active MDS and was offline when this data was
     collected. Please check 'ceph fs status' and make sure MDS daemons are
-    running with standbys available. See
+    running with standbys available. Please see
     https://docs.ceph.com/en/latest/cephfs/health-messages/#mds-all-down
