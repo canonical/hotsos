@@ -1,0 +1,8 @@
+target-name: unit_hook_failed.yaml
+data-root:
+  files:
+    var/log/juju/unit-foo-0.log: |
+      2022-02-10 10:29:35 INFO juju.worker.uniter.operation runhook.go:158 ran "config-changed" hook (via hook dispatching script: dispatch)
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
