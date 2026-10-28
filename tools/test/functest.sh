@@ -59,14 +59,16 @@ test_plugin ()
         args+=( --short )
         label=".short"
     fi
+    FIELDS_RM="repo-info|date|INFO|version|events|scenarios"
+    DATA_RM="propertree|searchkit"
     # NOTE: we remove repo-info, date and INFO from hotsos and system plugin
     #       output since they are liable to change.
     test_out=$dtmp/$plugin/result$label
     ./scripts/hotsos --${plugin} ${args[@]} $data_root 2>/dev/null| \
-        egrep -v "^\s*(repo-info|date|INFO|version):" > $test_out
+        egrep -v "^\s*(${FIELDS_RM}):"| egrep -v "\s($DATA_RM)" > $test_out
     litmus=examples/hotsos-example-${plugin}${label}.summary.yaml
     ref_out=$dtmp/$plugin/litmus$label
-    egrep -v "^\s*(repo-info|date|INFO|version):" $litmus > $ref_out
+    egrep -v "^\s*(${FIELDS_RM}):" $litmus| egrep -v "\s($DATA_RM)" > $ref_out
     diffout=$dtmp/$plugin/fail$label
     if diff $ref_out $test_out &> $diffout; then
         echo -e "$msg [${F_GRN}PASS${RES}]"

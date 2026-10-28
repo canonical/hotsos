@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import gzip
 import html
+import importlib.metadata
 import json
 import logging
 import os
@@ -12,11 +13,13 @@ from typing import Literal
 import hotsos.plugin_extensions  # noqa: F401, pylint: disable=W0611
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.cli import CLIHelper
+from hotsos.core.host_helpers import APTPackageHelper
 from hotsos.core.issues import IssuesManager
 from hotsos.core.log import log
 from hotsos.core import plugintools
 from hotsos.core import formatters
 from hotsos.core.exceptions import UnsupportedFormatError
+from hotsos.core.ycheck.engine.common import YDefsLoader
 
 
 class HotSOSSummary(plugintools.PluginPartBase):
@@ -33,11 +36,58 @@ class HotSOSSummary(plugintools.PluginPartBase):
         """Return True since this plugin always runs."""
         return True
 
+    @staticmethod
+    def _count_defs(ytype):
+        """ Count yaml definition files by plugin, excluding
+        directory-level globals files. """
+        if not HotSOSConfig.plugin_yaml_defs:
+            return {}
+
+        path = os.path.join(HotSOSConfig.plugin_yaml_defs, ytype)
+        counts = {}
+        for abs_path in YDefsLoader.find_files_recursively(path):
+            name = os.path.basename(abs_path)[:-len('.yaml')]
+            if name != os.path.basename(os.path.dirname(abs_path)):
+                plugin = os.path.relpath(abs_path, path).split(os.sep)[0]
+                counts[plugin] = counts.get(plugin, 0) + 1
+
+        return dict(sorted(counts.items()))
+
+    @staticmethod
+    def _get_dependency_versions():
+        """
+        Seach apt/dpk first like other plugins then resort to importlib to
+        cover the case where the package was installed from pypi.
+        """
+        deps = []
+        pkgs = ['propertree', 'searchkit']
+        apt = APTPackageHelper(core_pkgs=[f'python3-{pkg}' for pkg in pkgs])
+        for pkg in pkgs:
+            apt_pkg = f'python3-{pkg}'
+            if apt.is_installed(apt_pkg):
+                deps.append(f"{apt_pkg} {apt.get_version(apt_pkg)}")
+                continue
+
+            try:
+                deps.append(f"{pkg} {importlib.metadata.version(pkg)}")
+            except importlib.metadata.PackageNotFoundError:
+                log.debug("unable to determine version of %s", pkg)
+
+        return deps
+
     @property
     def summary(self):
-        """Return hotsos version and repo info."""
+        """Return hotsos version, repo info, defs stats and dependency
+        versions."""
         out = {'version': HotSOSConfig.hotsos_version,
                'repo-info': HotSOSConfig.repo_info}
+        deps = self._get_dependency_versions()
+        if deps:
+            out['dpkg'] = deps
+
+        out['events'] = self._count_defs('events')
+        out['scenarios'] = self._count_defs('scenarios')
+
         if HotSOSConfig.force_mode:
             out['force'] = True
 

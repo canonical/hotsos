@@ -4,7 +4,7 @@ import logging
 import tempfile
 from unittest import mock
 
-from hotsos.client import OutputManager, OutputBuilder
+from hotsos.client import HotSOSSummary, OutputManager, OutputBuilder
 from hotsos.core.host_helpers.cli import CLIHelper
 from hotsos.core.issues import IssuesManager
 
@@ -331,6 +331,23 @@ plain value
         }
         filtered = OutputManager(summary).get_builder().to(fmt="html")
         self.assertNotIn('class="hs-chart__bars', filtered)
+
+    @mock.patch.object(HotSOSSummary, '_get_dependency_versions',
+                       staticmethod(lambda: []))
+    @mock.patch.object(HotSOSSummary, '_count_defs',
+                       staticmethod(lambda ytype: {
+                           'events': {'openstack': 120},
+                           'scenarios': {'openstack': 250}}[ytype]))
+    def test_apply_output_formatting_html_defs_not_barchart(self):
+        """hotsos defs counts must not be rendered as a bar chart."""
+        hotsos_summary = HotSOSSummary().summary
+        self.assertNotIn('defs', hotsos_summary)
+        self.assertEqual(hotsos_summary['events'], {'openstack': 120})
+        self.assertEqual(hotsos_summary['scenarios'], {'openstack': 250})
+        summary = {'hotsos': hotsos_summary}
+        filtered = OutputManager(summary).get_builder().to(fmt="html")
+        self.assertNotIn('class="hs-chart__bars', filtered)
+        self.assertIn('250', filtered)
 
     def test_apply_output_formatting_html_single_date_scalar_barchart(self):
         """A single date/time scalar value is graphed as a bar chart."""
