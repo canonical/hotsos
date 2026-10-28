@@ -31,5 +31,5 @@ raised-issues:
     *_DEVICE_STALLED_READ_ALERT: one or more OSDs see slow BlueStore
     operations or stalled reads on their block, WAL or DB devices. Please
     check 'ceph health detail' for the affected OSDs and the health of
-    their underlying devices. See
+    their underlying devices. Please see
     https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-slow-op-alert
