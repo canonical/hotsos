@@ -11,9 +11,9 @@ potential-issues:
         may still be worth investigating.
       - Juju logs for unit(s) 'nova-compute/0' contain 24 Traceback(s) from the last
         48 hours - please check.
-      - 'Juju unit logs contain 6 hook failure log entries for: update-status. Please
-        check ''juju status'' and the preceding unit log entries; if a unit is in
-        error, fix the cause and run ''juju resolved <unit>''.'
+      - 'Juju unit logs report hook failures for update-status (log entry count: 6).
+        Please check ''juju status'' and the preceding unit log entries; if a unit
+        is in error, fix the cause and run ''juju resolved <unit>''.'
 bugs-detected:
   juju:
     https://www.cve.org/CVERecord?id=CVE-2024-3250: 2.9.22 is the running version

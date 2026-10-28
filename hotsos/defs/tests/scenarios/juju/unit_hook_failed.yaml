@@ -8,6 +8,7 @@ data-root:
     - sos_commands/date/date
 raised-issues:
   JujuWarning: >-
-    Juju unit logs contain 3 hook failure log entries for: config-changed, install. Please check 'juju status' and the preceding unit
-    log entries; if a unit is in error, fix the cause and run 'juju
-    resolved <unit>'.
+    Juju unit logs report hook failures for config-changed, install (log
+    entry count: 3). Please check 'juju status' and the preceding unit log
+    entries; if a unit is in error, fix the cause and run 'juju resolved
+    <unit>'.
