@@ -1,0 +1,29 @@
+checks:
+  has_session_closed_panic:
+    input:
+      path: 'var/log/juju/machine-*.log'
+    expr: '^([\d-]+) ([\d:]+) CRITICAL juju\.rpc \S+ panic running request .+: Session already closed'
+    constraints:
+      search-result-age-hours: 48
+  has_affected_juju_version:
+    binary:
+      handler: hotsos.core.plugins.juju.JujuBinaryInterface
+      juju:
+        - min: '2.9.0'
+          max: '3.6.26'
+conclusions:
+  gh22706:
+    decision:
+      - has_session_closed_panic
+      - has_affected_juju_version
+    raises:
+      type: GitHubBug
+      bug-id: 'juju/juju#22706'
+      message: >-
+        The Juju {version} controller on this host has panicked handling API
+        requests because a mongo session was already closed (log entry count:
+        {count}). This can leave the controller unresponsive until it is
+        restarted. Please upgrade Juju to the latest version.
+      format-dict:
+        version: '@checks.has_affected_juju_version.requires.version'
+        count: '@checks.has_session_closed_panic.search.num_results'

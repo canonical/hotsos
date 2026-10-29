@@ -1,0 +1,19 @@
+data-root:
+  files:
+    var/lib/juju/agents/machine-0/agent.conf: |
+      upgradedToVersion: 3.6.24
+      values:
+        AGENT_SERVICE_NAME: jujud-machine-0
+        PROVIDER_TYPE: maas
+mock:
+  patch:
+    hotsos.core.plugins.juju.resources.JujuBinaryInterface.get_version:
+      kwargs:
+        return_value: 3.6.24
+raised-bugs:
+  https://github.com/juju/juju/issues/22691: >-
+    Juju 3.6.24 is running on this MAAS-backed host and is affected by
+    a bug where removing machines (e.g. destroy-model or a failed
+    deployment) deletes MAAS machines instead of releasing them. Please
+    upgrade Juju to the latest version before removing any machines or
+    models.

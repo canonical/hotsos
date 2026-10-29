@@ -1,0 +1,17 @@
+target-name: gh22706.yaml
+data-root:
+  files:
+    var/lib/juju/agents/machine-0/agent.conf: |
+      upgradedToVersion: 3.6.23
+      values:
+        AGENT_SERVICE_NAME: jujud-machine-0
+    var/log/juju/machine-0.log: |
+      2022-02-05 08:38:10 CRITICAL juju.rpc server.go:604 panic running request {MethodCaller:0xc048251470 hdr:{RequestId:18 Request:{Type:CAASAgent Version:2 Id: Action:CloudSpec}}} with arg {Entities:[{Tag:model-de423d93-2b61-4358-81a4-82b482869b9f}]}: Session already closed
+  copy-from-original:
+    - sos_commands/date/date
+mock:
+  patch:
+    hotsos.core.plugins.juju.resources.JujuBinaryInterface.get_version:
+      kwargs:
+        return_value: 3.6.23
+raised-bugs:

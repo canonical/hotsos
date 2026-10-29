@@ -19,6 +19,11 @@ class FileObj():
         return False
 
     @property
+    def is_symlink(self):
+        """ Return True if the path is a symbolic link. """
+        return os.path.islink(self.filename)
+
+    @property
     def mtime(self):
         """ Return the file modification time, or 0 if missing. """
         if not self.exists:

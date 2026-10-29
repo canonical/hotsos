@@ -3,6 +3,7 @@ import os
 import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.issues import (
+    GitHubBug,
     LaunchpadBug,
     MemoryWarning,
     IssueContext,
@@ -108,6 +109,18 @@ class TestKnownBugsUtils(utils.BaseTestCase):
         self.assertEqual(ret,
                          {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
                           [{'id': 'https://bugs.launchpad.net/bugs/1',
+                            'message': None,
+                            'origin': 'testplugin.testpart'}
+                           ]})
+
+    def test_add_github_bug(self):
+        """Test GitHub bug id is converted to an issue URL."""
+        mgr = IssuesManager()
+        mgr.add(GitHubBug('juju/juju#22691', None))
+        ret = mgr.load_bugs()
+        self.assertEqual(ret,
+                         {IssuesManager.SUMMARY_OUT_BUGS_ROOT:
+                          [{'id': 'https://github.com/juju/juju/issues/22691',
                             'message': None,
                             'origin': 'testplugin.testpart'}
                            ]})

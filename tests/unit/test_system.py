@@ -126,6 +126,15 @@ class TestSystemSummary(SystemTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual, expected)
 
+    def test_os_release_version(self):
+        """Test Ubuntu release version is read from lsb-release."""
+        self.assertEqual(SystemBase().os_release_version, '20.04')
+
+    @utils.create_data_root({})
+    def test_os_release_version_no_lsb_release(self):
+        """Test Ubuntu release version is None without lsb-release."""
+        self.assertIsNone(SystemBase().os_release_version)
+
 
 class TestNUMAInfo(SystemTestsBase):
     """ Unit tests for numa info """

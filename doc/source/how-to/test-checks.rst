@@ -52,10 +52,15 @@ for the purpose the test using the following.:
         somepath: content
       copy-from-original:
         - anotherpath
+      symlinks:
+        linkpath: target
 
 The optional *copy-from-original* stanza is a list of files that will be copied
 into the temporary data root from the test default data root (so the files need
 to exist).
+
+The optional *symlinks* stanza creates symbolic links in the temporary data
+root, where each target is used verbatim (e.g. a relative path).
 
 Tests may also want to mock some code and to achieve this we have the following
 which provides a way to define mock.patch() and mock.patch.object() calls for
