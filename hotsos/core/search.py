@@ -1,5 +1,5 @@
 import os
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 from functools import cached_property
 
 from searchkit import (
@@ -130,11 +130,25 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         return None
 
     @property
+    def strptime(self):
+        """Normalise ISO timestamps to UTC with whole-second precision."""
+        timestamp = self.result.groupdict().get('timestamp')
+        if timestamp:
+            offset = self.result.group('timezone').replace('Z', '+00:00')
+            parsed = datetime.fromisoformat(timestamp + offset)
+            return parsed.astimezone(timezone.utc).replace(tzinfo=None)
+
+        return super().strptime
+
+    @property
     def patterns(self):
         """
         This needs to contain timestamp patterns for any/all types of file
         we want to analyse where SearchConstraintsSince is to be applied.
         """
+        iso8601 = (r'^(?:<\d+>)?(?P<timestamp>\d{4}-\d{2}-\d{2}T'
+                   r'\d{2}:\d{2}:\d{2})(?:\.\d+)?'
+                   r'(?P<timezone>Z|[+-]\d{2}:\d{2})')
         # should match plugins.openstack.openstack.OpenstackDateTimeMatcher
         openstack = (r'^(?P<year>\d{4})-(?P<month>\d{2})-(?P<day>\d{2})+\s+'
                      r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d+)')
@@ -150,9 +164,9 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         # since they are identical we wont add but leaving in case we want to
         # edit later.
         # openvswitch = ceph
-        kernlog = (r'^(?P<month>\w{3,5})\s+(?P<day>\d{1,2})\s+'
+        kernlog = (r'^(?:<\d+>)?(?P<month>\w{3,5})\s+(?P<day>\d{1,2})\s+'
                    r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d{2})')
-        return [openstack, ceph, kernlog, apache]
+        return [iso8601, openstack, ceph, kernlog, apache]
 
 
 class ExtraSearchConstraints():

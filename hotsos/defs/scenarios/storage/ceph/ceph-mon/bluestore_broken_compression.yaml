@@ -1,0 +1,17 @@
+checks:
+  broken_compression_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, BLUESTORE_NO_COMPRESSION]]
+conclusions:
+  bluestore-broken-compression:
+    decision: broken_compression_reported
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Ceph health detail reports BLUESTORE_NO_COMPRESSION: one or
+        more OSDs could not load a BlueStore compression plugin, so
+        compression may not be working on them. Please check 'ceph
+        health detail' for the affected OSDs, verify the ceph packages
+        on their hosts and restart those OSDs. See
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-no-compression
