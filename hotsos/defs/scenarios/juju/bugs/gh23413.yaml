@@ -1,0 +1,21 @@
+checks:
+  has_fanconfigurer_panic:
+    input:
+      path: 'var/log/juju/machine-*.log'
+    expr: '^([\d-]+) ([\d:]+) ERROR juju\.worker\.dependency \S+ "fan-configurer" manifold worker returned unexpected error: panic resulted in: runtime error: invalid memory address or nil pointer dereference'
+    constraints:
+      search-result-age-hours: 48
+conclusions:
+  gh23413:
+    decision: has_fanconfigurer_panic
+    raises:
+      type: GitHubBug
+      bug-id: 'juju/juju#23413'
+      message: >-
+        The Juju machine agent on this host has panicked in the fan-configurer
+        worker (log entry count: {count}), most likely because 'fanatic' took
+        longer than 5s; this can crash-loop the agent and stop unit hooks from
+        running. Please run 'juju model-config --reset fan-config' if Fan
+        networking is not in use, otherwise see the bug for a workaround.
+      format-dict:
+        count: '@checks.has_fanconfigurer_panic.search.num_results'

@@ -1,0 +1,12 @@
+target-name: gh22713.yaml
+data-root:
+  files:
+    etc/lsb-release: |
+      DISTRIB_ID=Ubuntu
+      DISTRIB_RELEASE=24.04
+      DISTRIB_CODENAME=noble
+    sbin/remove-juju-services: |
+      #!/bin/bash
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

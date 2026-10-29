@@ -1,0 +1,27 @@
+checks:
+  is_maas_provider:
+    input:
+      path: 'var/lib/juju/agents/machine-*/agent.conf'
+    expr: '^\s+PROVIDER_TYPE: maas'
+  has_affected_juju_version:
+    binary:
+      handler: hotsos.core.plugins.juju.JujuBinaryInterface
+      juju:
+        - min: '3.6.24'
+          max: '3.6.24'
+conclusions:
+  gh22691:
+    decision:
+      - is_maas_provider
+      - has_affected_juju_version
+    raises:
+      type: GitHubBug
+      bug-id: 'juju/juju#22691'
+      message: >-
+        Juju {version} is running on this MAAS-backed host and is affected by
+        a bug where removing machines (e.g. destroy-model or a failed
+        deployment) deletes MAAS machines instead of releasing them. Please
+        upgrade Juju to the latest version before removing any machines or
+        models.
+      format-dict:
+        version: '@checks.has_affected_juju_version.requires.version'

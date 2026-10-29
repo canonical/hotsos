@@ -76,6 +76,7 @@ Bug/CVE types map to an online resource that supplies remediation context:
 - `Bugzilla` + `bug-id` -> `https://bugzilla.redhat.com/show_bug.cgi?id=<bug-id>`
 - `StoryBoardBug` + `bug-id` -> `https://storyboard.openstack.org/#!/story/<bug-id>`
 - `CephTrackerBug` + `bug-id` -> `https://tracker.ceph.com/issues/<bug-id>`
+- `GitHubBug` + `bug-id` (`<owner>/<repo>#<num>`) -> `https://github.com/<owner>/<repo>/issues/<num>`
 - `UbuntuCVE` + `cve-id` -> `https://ubuntu.com/security/<cve-id>`
 - `MitreCVE` + `cve-id` -> `https://www.cve.org/CVERecord?id=<cve-id>`
 

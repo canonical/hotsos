@@ -109,6 +109,22 @@ class SystemBase():
         return None
 
     @cached_property
+    def os_release_version(self):
+        """ Return the Ubuntu release version (e.g. 24.04) from lsb-release.
+        """
+        data_source = os.path.join(HotSOSConfig.data_root, "etc/lsb-release")
+        if not os.path.exists(data_source):
+            return None
+
+        with open(data_source, encoding='utf-8') as fd:
+            for line in fd.read().split():
+                ret = re.compile(r"^DISTRIB_RELEASE=(.+)").match(line)
+                if ret:
+                    return ret[1]
+
+        return None
+
+    @cached_property
     def virtualisation_type(self):
         """
         @return: virt type e.g. kvm or lxc if host is virtualised otherwise

@@ -17,3 +17,11 @@ class TestFileStatHelper(utils.BaseTestCase):
 
         fileobj = host_file.FileFactory().noexist
         self.assertEqual(fileobj.mtime, 0)
+
+    @utils.create_data_root({'usr/sbin/foo': 'bar', 'bin/foo': 'bar'},
+                            symlinks={'sbin': 'usr/sbin'})
+    def test_filestat_is_symlink(self):
+        """Test symlink detection for symlinks, dirs and missing paths."""
+        self.assertTrue(host_file.FileFactory().sbin.is_symlink)
+        self.assertFalse(host_file.FileFactory().bin.is_symlink)
+        self.assertFalse(host_file.FileFactory().noexist.is_symlink)

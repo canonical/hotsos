@@ -1,0 +1,15 @@
+data-root:
+  files:
+    var/log/juju/machine-3.log: |
+      2022-02-10 10:01:02 INFO juju.util.exec exec.go:209 run result: signal: terminated
+      2022-02-10 10:01:02 ERROR juju.worker.dependency engine.go:695 "fan-configurer" manifold worker returned unexpected error: panic resulted in: runtime error: invalid memory address or nil pointer dereference
+      2022-02-10 10:05:12 ERROR juju.worker.dependency engine.go:695 "fan-configurer" manifold worker returned unexpected error: panic resulted in: runtime error: invalid memory address or nil pointer dereference
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://github.com/juju/juju/issues/23413: >-
+    The Juju machine agent on this host has panicked in the fan-configurer
+    worker (log entry count: 2), most likely because 'fanatic' took
+    longer than 5s; this can crash-loop the agent and stop unit hooks from
+    running. Please run 'juju model-config --reset fan-config' if Fan
+    networking is not in use, otherwise see the bug for a workaround.

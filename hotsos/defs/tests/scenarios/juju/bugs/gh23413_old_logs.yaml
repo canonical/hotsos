@@ -1,0 +1,10 @@
+target-name: gh23413.yaml
+data-root:
+  files:
+    var/log/juju/machine-3.log: |
+      2022-02-05 10:01:02 INFO juju.util.exec exec.go:209 run result: signal: terminated
+      2022-02-05 10:01:02 ERROR juju.worker.dependency engine.go:695 "fan-configurer" manifold worker returned unexpected error: panic resulted in: runtime error: invalid memory address or nil pointer dereference
+      2022-02-05 10:05:12 ERROR juju.worker.dependency engine.go:695 "fan-configurer" manifold worker returned unexpected error: panic resulted in: runtime error: invalid memory address or nil pointer dereference
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

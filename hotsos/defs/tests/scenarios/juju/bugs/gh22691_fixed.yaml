@@ -1,0 +1,7 @@
+target-name: gh22691.yaml
+mock:
+  patch:
+    hotsos.core.plugins.juju.resources.JujuBinaryInterface.get_version:
+      kwargs:
+        return_value: 3.6.25
+raised-bugs:

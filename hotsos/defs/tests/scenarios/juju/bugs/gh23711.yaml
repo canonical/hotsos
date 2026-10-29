@@ -1,0 +1,18 @@
+data-root:
+  files:
+    var/snap/juju-db/common/juju-db.config: |
+      replSet = juju
+      dbpath = /var/snap/juju-db/common/db
+      port = 37017
+      sslMode = requireSSL
+      sslPEMKeyFile = /var/snap/juju-db/common/server.pem
+      sslCAFile = '/var/snap/juju-db/common/ca.crt'
+      auth = true
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://github.com/juju/juju/issues/23711: >-
+    The juju-db (mongodb 4.0) config on this Juju controller has a quoted
+    sslCAFile path which stops mongod from starting, leaving the controller
+    down (typically seen after upgrading to Juju 2.9.60). Please see the
+    bug for the workaround and check that snap.juju-db.daemon is running.

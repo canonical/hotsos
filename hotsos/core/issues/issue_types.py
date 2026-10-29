@@ -276,3 +276,15 @@ class CephTrackerBug(BugTypeBase):
     @property
     def url(self):
         return f"{self.base_url}{self.id}"
+
+
+class GitHubBug(BugTypeBase):
+    """ GitHub issue bug type. The bug-id format is <owner>/<repo>#<num>. """
+    @property
+    def base_url(self):
+        return 'https://github.com/'
+
+    @property
+    def url(self):
+        repo, _, num = str(self.id).partition('#')
+        return f"{self.base_url}{repo}/issues/{num}"
