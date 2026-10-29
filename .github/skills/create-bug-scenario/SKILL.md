@@ -41,6 +41,8 @@ Before starting, gather (ask the user if not provided):
    - Launchpad bug -> `type: LaunchpadBug`, `bug-id: <id>`.
    - Bugzilla -> `type: Bugzilla`, `bug-id: <id>`.
    - StoryBoard -> `type: StoryBoardBug`, `bug-id: <id>`.
+   - GitHub issue -> `type: GitHubBug`, `bug-id: '<owner>/<repo>#<num>'`
+     (name the scenario `gh<num>.yaml`).
    - Ceph tracker -> `type: CephTrackerBug`, `bug-id: <id>`.
    - Ubuntu CVE -> `type: UbuntuCVE`, `cve-id: <id>`.
    - Mitre CVE -> `type: MitreCVE`, `cve-id: <id>`.

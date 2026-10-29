@@ -170,7 +170,8 @@ class TemplatedTest():
 
     def __call__(self):
         @create_data_root(self.data_root.get('files'),
-                          self.data_root.get('copy-from-original'))
+                          self.data_root.get('copy-from-original'),
+                          self.data_root.get('symlinks'))
         @mock.patch('hotsos.core.ycheck.engine.YDefsLoader._is_def',
                     new=is_def_filter(self.target_path,
                                       self.sub_root))
@@ -355,7 +356,7 @@ def is_def_filter(def_path, sub_root):
     return inner
 
 
-def create_data_root(files_to_create, copy_from_original=None):
+def create_data_root(files_to_create, copy_from_original=None, symlinks=None):
     """
     Decorator helper to create any number of files with provided content within
     a temporary data_root.
@@ -363,6 +364,7 @@ def create_data_root(files_to_create, copy_from_original=None):
     @param files_to_create: a dictionary of <filename>: <contents> pairs.
     @param copy_from_original: a list of files to copy from the original
                                      data root into this test one.
+    @param symlinks: a dictionary of <link path>: <target> pairs.
     """
 
     def create_files_inner1(f):
@@ -406,6 +408,11 @@ def create_data_root(files_to_create, copy_from_original=None):
 
                     with open(path, 'w', encoding='utf-8') as fd:
                         fd.write(content)
+
+                for link, target in (symlinks or {}).items():
+                    link = os.path.join(dtmp, link)
+                    os.makedirs(os.path.dirname(link), exist_ok=True)
+                    os.symlink(target, link)
 
                 orig_data_root = HotSOSConfig.data_root
                 HotSOSConfig.data_root = dtmp

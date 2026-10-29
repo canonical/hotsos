@@ -1,0 +1,14 @@
+target-name: gh22691.yaml
+data-root:
+  files:
+    var/lib/juju/agents/machine-0/agent.conf: |
+      upgradedToVersion: 3.6.24
+      values:
+        AGENT_SERVICE_NAME: jujud-machine-0
+        PROVIDER_TYPE: openstack
+mock:
+  patch:
+    hotsos.core.plugins.juju.resources.JujuBinaryInterface.get_version:
+      kwargs:
+        return_value: 3.6.24
+raised-bugs:

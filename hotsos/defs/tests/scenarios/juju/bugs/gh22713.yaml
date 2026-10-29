@@ -1,0 +1,17 @@
+data-root:
+  files:
+    etc/lsb-release: |
+      DISTRIB_ID=Ubuntu
+      DISTRIB_RELEASE=26.04
+      DISTRIB_CODENAME=resolute
+    sbin/remove-juju-services: |
+      #!/bin/bash
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://github.com/juju/juju/issues/22713: >-
+    /sbin on this Ubuntu 26.04 host is a real directory containing the
+    Juju remove-juju-services script instead of a symlink to /usr/sbin,
+    which breaks the merged-usr layout causing snapd failures and LXC
+    containers failing to restart. Please upgrade Juju to the latest
+    version and restore the /sbin -> usr/sbin symlink.

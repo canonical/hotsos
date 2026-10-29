@@ -1,0 +1,33 @@
+vars:
+  ubuntu_version: '@hotsos.core.plugins.system.SystemBase.os_release_version'
+  sbin_script_exists: '@hotsos.core.host_helpers.filestat.FileFactory.exists:sbin/remove-juju-services'
+  # sosreport preserves symlinked leading path components so this is valid there too.
+  sbin_is_symlink: '@hotsos.core.host_helpers.filestat.FileFactory.is_symlink:sbin'
+checks:
+  has_ubuntu_version:
+    varops: [[$ubuntu_version], [ne, null]]
+  is_ubuntu_26_04_or_later:
+    # String compare is valid for Ubuntu YY.MM versions.
+    varops: [[$ubuntu_version], [ge, '26.04']]
+  script_in_sbin:
+    varops: [[$sbin_script_exists], [truth]]
+  sbin_is_symlink:
+    varops: [[$sbin_is_symlink], [truth]]
+conclusions:
+  gh22713:
+    decision:
+      - has_ubuntu_version
+      - is_ubuntu_26_04_or_later
+      - script_in_sbin
+      - not: sbin_is_symlink
+    raises:
+      type: GitHubBug
+      bug-id: 'juju/juju#22713'
+      message: >-
+        /sbin on this Ubuntu {version} host is a real directory containing the
+        Juju remove-juju-services script instead of a symlink to /usr/sbin,
+        which breaks the merged-usr layout causing snapd failures and LXC
+        containers failing to restart. Please upgrade Juju to the latest
+        version and restore the /sbin -> usr/sbin symlink.
+      format-dict:
+        version: $ubuntu_version
