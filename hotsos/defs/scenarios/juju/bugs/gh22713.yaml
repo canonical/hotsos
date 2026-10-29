@@ -1,0 +1,23 @@
+vars:
+  sbin_script_exists: '@hotsos.core.host_helpers.filestat.FileFactory.exists:sbin/remove-juju-services'
+  usr_sbin_script_exists: '@hotsos.core.host_helpers.filestat.FileFactory.exists:usr/sbin/remove-juju-services'
+checks:
+  script_in_sbin:
+    varops: [[$sbin_script_exists], [truth]]
+  script_in_usr_sbin:
+    varops: [[$usr_sbin_script_exists], [truth]]
+conclusions:
+  gh22713:
+    # If /sbin were a symlink to /usr/sbin the script would be visible at both paths.
+    decision:
+      - script_in_sbin
+      - not: script_in_usr_sbin
+    raises:
+      type: GitHubBug
+      bug-id: 'juju/juju#22713'
+      message: >-
+        /sbin on this host is a real directory containing the Juju
+        remove-juju-services script instead of a symlink to /usr/sbin, which
+        breaks merged-usr systems (e.g. Ubuntu 26.04) causing snapd failures
+        and LXC containers failing to restart. Please upgrade Juju to the
+        latest version and restore the /sbin -> usr/sbin symlink.

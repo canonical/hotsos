@@ -1,0 +1,10 @@
+target-name: gh22713.yaml
+data-root:
+  files:
+    sbin/remove-juju-services: |
+      #!/bin/bash
+    usr/sbin/remove-juju-services: |
+      #!/bin/bash
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

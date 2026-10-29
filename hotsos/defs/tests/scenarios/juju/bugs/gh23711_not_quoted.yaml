@@ -1,0 +1,14 @@
+target-name: gh23711.yaml
+data-root:
+  files:
+    var/snap/juju-db/common/juju-db.config: |
+      replSet = juju
+      dbpath = /var/snap/juju-db/common/db
+      port = 37017
+      tlsMode = requireTLS
+      tlsCertificateKeyFile = /var/snap/juju-db/common/server.pem
+      tlsCAFile = /var/snap/juju-db/common/ca.crt
+      auth = true
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
