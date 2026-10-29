@@ -72,6 +72,19 @@ class TestCLIHelper(utils.BaseTestCase):
         HotSOSConfig.data_root = '/'
         self.assertEqual(type(host_cli.CLIHelper().date()), str)
 
+    @mock.patch.object(cli_common.subprocess, 'run')
+    def test_vgs_live_read_only_args(self, mock_run):
+        """Test LVM config is passed without literal shell quotes."""
+        HotSOSConfig.data_root = '/'
+        mock_run.return_value = subprocess.CompletedProcess(
+            [], 0, stdout=b'VG VSize VFree\n', stderr=b'')
+        self.assertEqual(host_cli.CLIHelper().vgs(), ['VG VSize VFree\n'])
+        mock_run.assert_called_once_with(
+            ['vgs', '-v', '--config=global{metadata_read_only=1}',
+             '--nolocking', '--foreign'],
+            timeout=HotSOSConfig.command_timeout,
+            capture_output=True, check=False)
+
     def test_get_date(self):
         """Test date returns epoch from fake data root."""
         self.assertEqual(host_cli.CLIHelper().date(), '1644509957')
@@ -386,6 +399,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'lscpu',
                         'lsof_Mnlc',
                         'lxd_buginfo',
+                        'multipath_ll',
                         'numactl',
                         'ns_ip_addr',
                         'ovs_appctl',
@@ -401,7 +415,8 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'systemctl_list_unit_files',
                         'udevadm_info_exportdb',
                         'uname',
-                        'uptime'])
+                        'uptime',
+                        'vgs'])
         self.assertEqual(cmds, expected.union(set(['ovs_ofctl'])))
 
         affinity = set()

@@ -1,0 +1,17 @@
+data-root:
+  files:
+    sos_commands/block/lsblk_-O_-P: |
+      NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" PKNAME=""
+      NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" SIZE="100G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" MOUNTPOINT="/" PKNAME="vda"
+      NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="100G" RO="0" PTTYPE="gpt" PTUUID="uuid-2" FSTYPE="" MOUNTPOINT="" PKNAME=""
+      NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" TYPE="part" SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" MOUNTPOINT="/data" PKNAME="vdb"
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  StorageWarning: >-
+    The following partitioned disk(s) have significant unallocated free
+    space not assigned to any partition: /dev/vdb (60G). Please inspect the
+    partition layout and extend existing partitions or create new
+    partitions to utilize the remaining space if intended, or ignore
+    this warning if the space is intentionally left unallocated.

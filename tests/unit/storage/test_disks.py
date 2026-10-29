@@ -1,0 +1,305 @@
+from unittest import mock
+
+from hotsos.core.config import HotSOSConfig
+from hotsos.core.plugins.storage.ceph.daemon import CephOSD
+from hotsos.core.plugins.storage.disks import DiskChecks
+from hotsos.plugin_extensions.storage.disks_summary import DisksSummary
+
+from .. import utils
+
+
+class StorageDisksTestsBase(utils.BaseTestCase):
+    """Custom test case that sets the storage plugin context."""
+
+    def setUp(self):
+        super().setUp()
+        HotSOSConfig.plugin_name = 'storage'
+
+
+class TestDiskChecks(StorageDisksTestsBase):
+    """Unit tests for DiskChecks."""
+
+    @utils.create_data_root({})
+    def test_not_runnable_no_data(self):
+        """Test is_runnable is False when no lsblk data exists."""
+        self.assertFalse(DiskChecks.is_runnable())
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="100G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/" PKNAME="vda"\n'
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="50G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+            'NAME="vdc" KNAME="vdc" PATH="/dev/vdc" TYPE="disk" SIZE="200G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="LVM2_member" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vdd" KNAME="vdd" PATH="/dev/vdd" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" MOUNTPOINT="/mnt/data" '
+            'PKNAME=""\n'
+            'NAME="vde" KNAME="vde" PATH="/dev/vde" TYPE="disk" SIZE="100G" '
+            'RO="1" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+            'NAME="loop0" KNAME="loop0" PATH="/dev/loop0" TYPE="loop" '
+            'SIZE="50M" RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+        )})
+    def test_unused_disks_detection(self):
+        """Test detecting unused disks while ignoring configured/used disks."""
+        checks = DiskChecks()
+        self.assertTrue(checks.is_runnable())
+        self.assertEqual(checks.unused_disks, ['/dev/vdb (50G)'])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="sda" KNAME="sda" PATH="/dev/sda" TYPE="disk" SIZE="1T" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+            'NAME="sdb" KNAME="sdb" PATH="/dev/sdb" TYPE="disk" SIZE="1T" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+            'NAME="sdb1" KNAME="sdb1" PATH="/dev/sdb1" TYPE="part" '
+            'SIZE="500G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="sdb"\n'
+            'NAME="dasda" KNAME="dasda" PATH="/dev/dasda" TYPE="disk" '
+            'SIZE="10G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME=""\n'
+        ),
+        'sos_commands/multipath/multipath_-ll': (
+            'mpatha (3600507630081010) dm-0 IBM,2107900\n'
+            'size=1.0T features=\'1 queue_if_no_path\' hwhandler=\'0\' wp=rw\n'
+            '`-+- policy=\'service-time 0\' prio=1 status=active\n'
+            '  |- 1:0:0:0 sda 8:0  active ready running\n'
+            '  `- 2:0:0:0 sdb 8:16 active ready running\n'
+            'mpathb (3600507630081011) dm-1 IBM,2107900\n'
+            'size=10G features=\'1 queue_if_no_path\' hwhandler=\'0\' wp=rw\n'
+            '`-+- policy=\'service-time 0\' prio=1 status=active\n'
+            '  `- 0.0.0100 dasda 94:0 active ready running\n'
+        )})
+    def test_unused_disks_ignore_multipath(self):
+        """Test disks and descendants in multipath maps are not flagged."""
+        checks = DiskChecks()
+        self.assertEqual(checks.unused_disks, [])
+        self.assertEqual(checks.empty_partitions, [])
+        self.assertEqual(checks.unallocated_disks, [])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="50G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+        )})
+    def test_ceph_osd_discovery_failure_fails_closed(self):
+        """Test disk checks fail closed if Ceph OSD discovery raises error."""
+        patch_runnable = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.is_runnable',
+            return_value=True)
+        patch_osds = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock,
+            side_effect=RuntimeError('failed to query ceph-volume'))
+        with patch_runnable, patch_osds:
+            checks = DiskChecks()
+            self.assertEqual(checks.unused_disks, [])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="50G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+        )})
+    def test_ceph_osd_incomplete_metadata_fails_closed(self):
+        """Test disk checks fail closed when a known OSD lacks device paths."""
+        osd = CephOSD(5, 'some-fsid-value', None, block_device=None)
+        patch_runnable = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.is_runnable',
+            return_value=True)
+        patch_osds = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock,
+            return_value=[osd])
+        with patch_runnable, patch_osds:
+            checks = DiskChecks()
+            self.assertIsNone(checks.ceph_osd_devices)
+            self.assertEqual(checks.unused_disks, [])
+            self.assertEqual(checks.empty_partitions, [])
+            self.assertEqual(checks.unallocated_disks, [])
+
+        unresolved_osd = CephOSD(
+            6, 'other-fsid', '/dev/disk/by-id/missing-link',
+            block_device=None)
+        patch_unresolved = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock,
+            return_value=[unresolved_osd])
+        with patch_runnable, patch_unresolved:
+            checks = DiskChecks()
+            self.assertIsNone(checks.ceph_osd_devices)
+            self.assertEqual(checks.unused_disks, [])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" ID-LINK="ceph-osd-0" '
+            'TYPE="disk" SIZE="50G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME=""\n'
+            'NAME="vdc" KNAME="vdc" PATH="/dev/vdc" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+        )})
+    def test_unused_disks_ignore_ceph_osd(self):
+        """Test disks configured as Ceph OSD devices are not marked unused."""
+        osd1 = mock.MagicMock()
+        osd1.device = '/dev/disk/by-id/ceph-osd-0'
+        osd1.block_device = None
+        osd2 = mock.MagicMock()
+        osd2.device = None
+        osd2.block_device = '/dev/vdc'
+        patch_runnable = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.is_runnable',
+            return_value=True)
+        patch_osds = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock, return_value=[osd1, osd2])
+        with patch_runnable, patch_osds:
+            checks = DiskChecks()
+            self.assertEqual(checks.unused_disks, [])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="1M" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vda" PARTTYPENAME="BIOS boot"\n'
+            'NAME="vda2" KNAME="vda2" PATH="/dev/vda2" TYPE="part" '
+            'SIZE="50G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/" PKNAME="vda"\n'
+            'NAME="vda3" KNAME="vda3" PATH="/dev/vda3" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vda"\n'
+        )})
+    def test_empty_partitions_detection(self):
+        """Test detecting empty partitions and ignoring used or boot parts."""
+        checks = DiskChecks()
+        self.assertEqual(checks.empty_partitions, ['/dev/vda3 (40G)'])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="50G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" '
+            'ID-LINK="ceph-osd-part-0" TYPE="part" SIZE="25G" RO="0" '
+            'PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME="vdb"\n'
+            'NAME="vdb2" KNAME="vdb2" PATH="/dev/vdb2" TYPE="part" '
+            'SIZE="25G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" '
+            'MOUNTPOINT="" PKNAME="vdb"\n'
+        )})
+    def test_empty_partitions_ignore_ceph_osd(self):
+        """Test partitions configured as Ceph OSD are not marked empty."""
+        osd1 = mock.MagicMock()
+        osd1.device = '/dev/disk/by-id/ceph-osd-part-0'
+        osd1.block_device = None
+        osd2 = mock.MagicMock()
+        osd2.device = None
+        osd2.block_device = '/dev/vdb2'
+        patch_runnable = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.is_runnable',
+            return_value=True)
+        patch_osds = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock, return_value=[osd1, osd2])
+        with patch_runnable, patch_osds:
+            checks = DiskChecks()
+            self.assertEqual(checks.empty_partitions, [])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="98G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/" PKNAME="vda"\n'
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-2" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/data" PKNAME="vdb"\n'
+            'NAME="vdc" KNAME="vdc" PATH="/dev/vdc" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+        )})
+    def test_unallocated_disks_detection(self):
+        """Test detecting partitioned disks with unallocated space."""
+        checks = DiskChecks()
+        self.assertEqual(checks.unallocated_disks, ['/dev/vdb (60G)'])
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vdb" KNAME="vdb" PATH="/dev/vdb" ID-LINK="ceph-osd-0" '
+            'TYPE="disk" SIZE="100G" RO="0" PTTYPE="gpt" PTUUID="uuid-1" '
+            'FSTYPE="" MOUNTPOINT="" PKNAME=""\n'
+            'NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" TYPE="part" '
+            'SIZE="40G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" '
+            'MOUNTPOINT="/data" PKNAME="vdb"\n'
+        )})
+    def test_unallocated_disks_ignore_ceph_osd(self):
+        """Test Ceph OSD disks are not reported in unallocated_disks."""
+        osd1 = mock.MagicMock()
+        osd1.device = '/dev/disk/by-id/ceph-osd-0'
+        osd1.block_device = None
+        patch_runnable = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.is_runnable',
+            return_value=True)
+        patch_osds = mock.patch(
+            'hotsos.core.plugins.storage.ceph.common.CephChecks.local_osds',
+            new_callable=mock.PropertyMock, return_value=[osd1])
+        with patch_runnable, patch_osds:
+            checks = DiskChecks()
+            self.assertEqual(checks.unallocated_disks, [])
+
+    @utils.create_data_root({
+        'sos_commands/lvm2/vgs_-v_-o_'
+        'vg_mda_count_vg_mda_free_vg_mda_size_vg_mda_used_count_'
+        'vg_tags_systemid_--config_global_metadata_read_only_1_'
+        '--nolocking_--foreign': (
+            '  VG    Attr   Ext   #PV #LV #SN VSize    VFree   VG UUID\n'
+            '  vg0   wz--n- 4.00m   1   1   0 <100.00g <60.00g uuid-0\n'
+        )})
+    def test_vgs_without_lsblk_is_runnable(self):
+        """Test DisksSummary is runnable with vgs data and no lsblk data."""
+        self.assertTrue(DiskChecks.is_runnable())
+        summary = DisksSummary()
+        self.assertTrue(summary.is_runnable())
+        self.assertEqual(summary.unused_disks, [])
+        self.assertEqual(summary.empty_partitions, [])
+        self.assertEqual(summary.unallocated_disks, [])
+        self.assertEqual(
+            self.part_output_to_actual(summary.output),
+            {'disks': {'unallocated-volume-groups': ['vg0 (60G)']}})
+
+    @utils.create_data_root({
+        'sos_commands/block/lsblk_-O_-P': (
+            'NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" '
+            'RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" '
+            'PKNAME=""\n'
+            'NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" '
+            'SIZE="100G" RO="0" PTTYPE="" PTUUID="" FSTYPE="LVM2_member" '
+            'MOUNTPOINT="" PKNAME="vda"\n'
+        ),
+        'sos_commands/lvm2/vgs_-v_-o_'
+        'vg_mda_count_vg_mda_free_vg_mda_size_vg_mda_used_count_'
+        'vg_tags_systemid_--config_global_metadata_read_only_1_'
+        '--nolocking_--foreign': (
+            '  VG    Attr   Ext   #PV #LV #SN VSize    VFree   VG UUID\n'
+            '  vg0   wz--n- 4.00m   1   1   0 <100.00g <60.00g uuid-0\n'
+            '  vg1   wz--n- 4.00m   1   1   0  100.00g       0 uuid-1\n'
+        )})
+    def test_unallocated_volume_groups_detection(self):
+        """Test detecting volume groups with unallocated free space."""
+        checks = DiskChecks()
+        self.assertEqual(checks.unallocated_volume_groups, ['vg0 (60G)'])
+
+
+@utils.load_templated_tests('scenarios/storage/disks')
+class TestStorageDisksScenarios(StorageDisksTestsBase):
+    """Scenario tests for unused disks."""
