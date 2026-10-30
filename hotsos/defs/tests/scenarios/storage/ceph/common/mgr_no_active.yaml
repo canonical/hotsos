@@ -1,0 +1,38 @@
+data-root:
+  files:
+    sos_commands/systemd/systemctl_list-units: |
+      UNIT LOAD ACTIVE SUB DESCRIPTION
+      ceph-osd@0.service loaded active running Ceph object storage daemon
+    sos_commands/systemd/systemctl_list-unit-files: |
+      UNIT FILE STATE VENDOR PRESET
+      ceph-mon.service disabled enabled
+      ceph-mon@.service disabled enabled
+      ceph-osd@.service enabled enabled
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-common  19.2.6-0ubuntu0.24.04.1  arm64  Ceph utilities
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "MGR_DOWN": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "no active mgr",
+                      "count": 0
+                  },
+                  "detail": [],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  CephWarning: >-
+    Collected Ceph health detail reports MGR_DOWN: no manager daemon is
+    active, impairing management APIs and metrics reporting. Please check
+    the manager daemons and whether activation was intentionally disabled
+    with 'ceph mgr set down'. Please follow
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#mgr-down
+    for recovery guidance.

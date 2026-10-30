@@ -1,0 +1,6 @@
+target-name: mgr_no_active.yaml
+data-root:
+  files: {}
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: {}

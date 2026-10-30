@@ -2,7 +2,10 @@ import json
 import os
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.issues import IssuesManager
 from hotsos.core.plugins.storage import ceph
+from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.storage import ceph_summary
 
 from .. import utils
@@ -10,6 +13,9 @@ from .. import utils
 
 CEPH_MON_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')
+
+MGR_NO_ACTIVE_HEALTH = utils.load_test_def(os.path.join(
+    utils.DEFS_TESTS_DIR, 'scenarios/storage/ceph/common/mgr_no_active.yaml'))
 
 SNAP_LIST_MICROCEPH = """
 Name       Version                Rev    Tracking       Publisher   Notes
@@ -520,3 +526,18 @@ class TestCephCommonScenarios(CephCommonTestsBase):
     required. See https://hotsos.readthedocs.io/en/latest/contrib/testing.html
     for more information.
     """
+
+    @utils.create_data_root(
+        MGR_NO_ACTIVE_HEALTH['data-root']['files'],
+        copy_from_original=MGR_NO_ACTIVE_HEALTH['data-root'][
+            'copy-from-original'])
+    def test_mgr_health_without_local_mon(self):
+        """Run with real directory globals and no enabled monitor."""
+        HotSOSConfig.force_mode = False
+        HotSOSConfig.scenario_filter = 'storage.ceph.common.mgr_no_active'
+        with GlobalSearcher() as searcher:
+            YScenarioChecker(searcher).run()
+
+        utils.TemplatedTest.check_raised_issues(
+            self, MGR_NO_ACTIVE_HEALTH['raised-issues'],
+            IssuesManager().load_issues())
