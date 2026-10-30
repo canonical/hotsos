@@ -1,0 +1,46 @@
+target-name: auth_insecure_service_keys.yaml
+data-root:
+  files:
+    # The service daemon keys have been rotated but the service ticket
+    # cipher has not been switched yet.
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_ERR",
+          "checks": {
+              "AUTH_INSECURE_CLIENT_KEY_TYPE": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1 auth client entities with insecure key types",
+                      "count": 1
+                  },
+                  "detail": [
+                      {
+                          "message": "entity client.admin using insecure key type: aes"
+                      }
+                  ],
+                  "muted": false
+              },
+              "AUTH_INSECURE_SERVICE_TICKETS": {
+                  "severity": "HEALTH_ERR",
+                  "summary": {
+                      "message": "Monitors are configured to issue insecure service tickets",
+                      "count": 1
+                  },
+                  "detail": [],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://www.cve.org/CVERecord?id=CVE-2025-30156: >-
+    Collected Ceph health detail reports AUTH_INSECURE_SERVICE_TICKETS: the
+    monitors issue insecure service tickets, leaving the cluster exposed to
+    CVE-2025-30156. Please upgrade all service daemons to the latest
+    version. Please follow
+    https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/#cephx-upgrade
+    to change the service-ticket cipher.
