@@ -1,0 +1,29 @@
+target-name: mgr_no_active.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_ERR",
+          "checks": {
+              "MGR_DOWN": {
+                  "severity": "HEALTH_ERR",
+                  "summary": {
+                      "message": "no active mgr",
+                      "count": 0
+                  },
+                  "detail": [],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  CephWarning: >-
+    Collected Ceph health detail reports MGR_DOWN: no manager daemon is
+    active, impairing management APIs and metrics reporting. Please check
+    the manager daemons and whether activation was intentionally disabled
+    with 'ceph mgr set down'. Please follow
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#mgr-down
+    for recovery guidance.

@@ -1,0 +1,23 @@
+target-name: mgr_no_active.yaml
+data-root:
+  files:
+    # Synthetic unrelated code tests membership, not a native capture.
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "OTHER_CHECK": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "unrelated health check",
+                      "count": 1
+                  },
+                  "detail": [],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: {}
