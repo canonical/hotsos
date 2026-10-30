@@ -1,0 +1,52 @@
+# CephX upgrade rotates service entity keys before changing the ticket cipher.
+# Muting a check does not remove the underlying insecure credentials.
+checks:
+  insecure_service_key_type:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks
+      ops: [[contains, AUTH_INSECURE_SERVICE_KEY_TYPE]]
+  insecure_service_tickets:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks
+      ops: [[contains, AUTH_INSECURE_SERVICE_TICKETS]]
+conclusions:
+  auth-insecure-service-keys-and-tickets:
+    priority: 3
+    decision:
+      - insecure_service_key_type
+      - insecure_service_tickets
+    raises:
+      type: MitreCVE
+      cve-id: CVE-2025-30156
+      message: >-
+        Collected Ceph health detail reports AUTH_INSECURE_SERVICE_KEY_TYPE
+        and AUTH_INSECURE_SERVICE_TICKETS: service keys and tickets use
+        insecure CephX cryptography (CVE-2025-30156). Please upgrade the
+        affected daemons to the latest version, then follow
+        https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/#cephx-upgrade
+        to rotate service keys before changing the service-ticket cipher.
+  auth-insecure-service-key-type:
+    priority: 2
+    decision: insecure_service_key_type
+    raises:
+      type: MitreCVE
+      cve-id: CVE-2025-30156
+      message: >-
+        Collected Ceph health detail reports AUTH_INSECURE_SERVICE_KEY_TYPE:
+        service credentials use insecure CephX key types and remain exposed
+        to CVE-2025-30156. Please upgrade the affected daemons to the latest
+        version. Please follow
+        https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/#cephx-upgrade
+        to rotate their keys.
+  auth-insecure-service-tickets:
+    decision: insecure_service_tickets
+    raises:
+      type: MitreCVE
+      cve-id: CVE-2025-30156
+      message: >-
+        Collected Ceph health detail reports AUTH_INSECURE_SERVICE_TICKETS:
+        the monitors issue insecure service tickets, leaving the cluster
+        exposed to CVE-2025-30156. Please upgrade all service daemons to the
+        latest version. Please follow
+        https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/#cephx-upgrade
+        to change the service-ticket cipher.

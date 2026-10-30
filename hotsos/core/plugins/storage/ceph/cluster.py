@@ -110,17 +110,22 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         return None
 
     @cached_property
+    def health_checks(self):
+        """Return collected health checks, including muted checks."""
+        detail = CLIHelper().ceph_health_detail_json_decoded()
+        if not detail:
+            return {}
+
+        return detail.get('checks', {})
+
+    @cached_property
     def health_checks_unmuted(self):
         """
         Return list of health check codes from 'ceph health detail' that are
         not muted. Muted checks are still listed by ceph but do not affect
         the overall health status.
         """
-        detail = CLIHelper().ceph_health_detail_json_decoded()
-        if not detail:
-            return []
-
-        return sorted(code for code, check in detail.get('checks', {}).items()
+        return sorted(code for code, check in self.health_checks.items()
                       if not check.get('muted', False))
 
     @cached_property

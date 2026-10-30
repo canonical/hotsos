@@ -2,7 +2,10 @@ import json
 import os
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.issues import IssuesManager
 from hotsos.core.plugins.storage import ceph
+from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.storage import ceph_summary
 
 from .. import utils
@@ -10,6 +13,10 @@ from .. import utils
 
 CEPH_MON_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')
+
+AUTH_SERVICE_KEYS_NO_MON = utils.load_test_def(os.path.join(
+    utils.DEFS_TESTS_DIR, 'scenarios/storage/ceph/common/'
+    'auth_insecure_service_keys_no_mon.yaml'))
 
 SNAP_LIST_MICROCEPH = """
 Name       Version                Rev    Tracking       Publisher   Notes
@@ -366,13 +373,21 @@ class TestCephChecks(CephCommonTestsBase):
         })})
     def test_health_checks_unmuted(self):
         """Return sorted active check codes, excluding muted checks."""
-        self.assertEqual(ceph.CephCluster().health_checks_unmuted,
+        cluster = ceph.CephCluster()
+        self.assertEqual(cluster.health_checks, {
+            'MDS_ALL_DOWN': {'muted': False},
+            'BLUESTORE_NO_COMPRESSION': {},
+            'MDS_DAMAGE': {'muted': True},
+        })
+        self.assertEqual(cluster.health_checks_unmuted,
                          ['BLUESTORE_NO_COMPRESSION', 'MDS_ALL_DOWN'])
 
     @utils.create_data_root({})
     def test_health_checks_missing(self):
         """Missing health output supplies no check codes."""
-        self.assertEqual(ceph.CephCluster().health_checks_unmuted, [])
+        cluster = ceph.CephCluster()
+        self.assertEqual(cluster.health_checks, {})
+        self.assertEqual(cluster.health_checks_unmuted, [])
 
     @utils.create_data_root({
         'sos_commands/ceph_mon/json_output/'
@@ -382,7 +397,9 @@ class TestCephChecks(CephCommonTestsBase):
         })})
     def test_health_checks_cleared(self):
         """A retained mute entry alone is not an active check."""
-        self.assertEqual(ceph.CephCluster().health_checks_unmuted, [])
+        cluster = ceph.CephCluster()
+        self.assertEqual(cluster.health_checks, {})
+        self.assertEqual(cluster.health_checks_unmuted, [])
 
     @utils.create_data_root(
         {'sos_commands/ceph_osd/'
@@ -520,3 +537,19 @@ class TestCephCommonScenarios(CephCommonTestsBase):
     required. See https://hotsos.readthedocs.io/en/latest/contrib/testing.html
     for more information.
     """
+
+    @utils.create_data_root(
+        AUTH_SERVICE_KEYS_NO_MON['data-root']['files'],
+        copy_from_original=AUTH_SERVICE_KEYS_NO_MON['data-root'][
+            'copy-from-original'])
+    def test_auth_service_keys_without_local_mon(self):
+        """Read inherited requirements as well as the scenario itself."""
+        HotSOSConfig.force_mode = False
+        HotSOSConfig.scenario_filter = (
+            'storage.ceph.common.auth_insecure_service_keys')
+        with GlobalSearcher() as searcher:
+            YScenarioChecker(searcher).run()
+
+        utils.TemplatedTest.check_raised_bugs(
+            self, AUTH_SERVICE_KEYS_NO_MON['raised-bugs'],
+            IssuesManager().load_bugs())

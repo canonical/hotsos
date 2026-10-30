@@ -1,0 +1,65 @@
+target-name: auth_insecure_service_keys.yaml
+data-root:
+  files:
+    # Neither target check is active. Other authentication checks alone
+    # do not trigger this scenario or establish complete CVE mitigation.
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "AUTH_INSECURE_CLIENT_KEY_TYPE": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1 auth client entities with insecure key types",
+                      "count": 1
+                  },
+                  "detail": [
+                      {
+                          "message": "entity client.admin using insecure key type: aes"
+                      }
+                  ],
+                  "muted": false
+              },
+              "AUTH_INSECURE_KEYS_ALLOWED": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "Monitors are configured to allow auth using insecure key types",
+                      "count": 1
+                  },
+                  "detail": [
+                      {
+                          "message": "insecure cipher aes allowed for auth"
+                      }
+                  ],
+                  "muted": false
+              },
+              "AUTH_INSECURE_KEYS_CREATABLE": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "Monitors are configured to allow creation of insecure key types",
+                      "count": 1
+                  },
+                  "detail": [],
+                  "muted": false
+              },
+              "AUTH_INSECURE_ROTATING_SERVICE_KEY_TYPE": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1 rotating auth service keys using insecure key types",
+                      "count": 1
+                  },
+                  "detail": [
+                      {
+                          "message": "rotating service keys for osd using insecure key type: aes"
+                      }
+                  ],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:

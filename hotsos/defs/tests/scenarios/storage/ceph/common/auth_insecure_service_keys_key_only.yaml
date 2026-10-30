@@ -1,0 +1,30 @@
+target-name: auth_insecure_service_keys.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_ERR",
+          "checks": {
+              "AUTH_INSECURE_SERVICE_KEY_TYPE": {
+                  "severity": "HEALTH_ERR",
+                  "summary": {
+                      "message": "1 auth service entities with insecure key types",
+                      "count": 1
+                  },
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-bugs:
+  https://www.cve.org/CVERecord?id=CVE-2025-30156: >-
+    Collected Ceph health detail reports AUTH_INSECURE_SERVICE_KEY_TYPE:
+    service credentials use insecure CephX key types and remain exposed to
+    CVE-2025-30156. Please upgrade the affected daemons to the latest
+    version. Please follow
+    https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/#cephx-upgrade
+    to rotate their keys.
