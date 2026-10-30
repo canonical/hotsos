@@ -59,6 +59,6 @@ raised-bugs:
     Collected Ceph health detail reports AUTH_INSECURE_SERVICE_KEY_TYPE and
     AUTH_INSECURE_SERVICE_TICKETS: service keys and tickets use insecure
     CephX cryptography (CVE-2025-30156). Please upgrade the affected daemons
-    to the latest version, then follow
+    to the latest version, then please follow
     https://docs.ceph.com/en/latest/rados/configuration/auth-config-ref/#cephx-upgrade
     to rotate service keys before changing the service-ticket cipher.
