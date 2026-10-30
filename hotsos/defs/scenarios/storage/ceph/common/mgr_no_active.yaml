@@ -1,0 +1,17 @@
+checks:
+  mgr_down_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, MGR_DOWN]]
+conclusions:
+  mgr-no-active:
+    decision: mgr_down_reported
+    raises:
+      type: CephWarning
+      message: >-
+        Collected Ceph health detail reports MGR_DOWN: no manager daemon is
+        active, impairing management APIs and metrics reporting. Please
+        check the manager daemons and whether activation was intentionally
+        disabled with 'ceph mgr set down'. Please follow
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#mgr-down
+        for recovery guidance.
