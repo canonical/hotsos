@@ -4,8 +4,10 @@ from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import cli
+from hotsos.core.issues import IssuesManager
 from hotsos.core.plugins.storage import ceph
 from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.storage import ceph_summary, ceph_event_checks
 
 from .. import utils
@@ -223,6 +225,9 @@ PG_DUMP_JSON_DECODED = {
 
 CEPH_MON_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')
+
+OBJECT_UNFOUND_NO_MON = utils.load_test_def(os.path.join(
+    utils.DEFS_TESTS_DIR, 'scenarios/storage/ceph/common/object_unfound.yaml'))
 
 
 class CephMonTestsBase(utils.BaseTestCase):
@@ -791,3 +796,16 @@ class TestCephMonScenarios(CephMonTestsBase):
     required. See https://hotsos.readthedocs.io/en/latest/contrib/testing.html
     for more information.
     """
+
+    @utils.create_data_root(OBJECT_UNFOUND_NO_MON['data-root']['files'])
+    def test_object_unfound_without_local_mon(self):
+        """Report collected cluster health without an enabled local MON."""
+        HotSOSConfig.force_mode = False
+        HotSOSConfig.scenario_filter = 'storage.ceph.common.object_unfound'
+        self.assertTrue(ceph.common.CephChecks.is_runnable())
+        with GlobalSearcher() as searcher:
+            YScenarioChecker(searcher).run()
+
+        utils.TemplatedTest.check_raised_issues(
+            self, OBJECT_UNFOUND_NO_MON['raised-issues'],
+            IssuesManager().load_issues())

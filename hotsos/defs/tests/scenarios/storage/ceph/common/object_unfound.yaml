@@ -1,0 +1,39 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-common  19.2.6-0ubuntu0.24.04.1  amd64  Ceph utilities
+    sos_commands/systemd/systemctl_list-unit-files: |
+      UNIT FILE STATE VENDOR PRESET
+      ceph-mon.service disabled enabled
+      ceph-mon@.service disabled enabled
+      ceph-mon.target enabled enabled
+      ceph-osd@.service enabled enabled
+    sos_commands/systemd/systemctl_list-units: |
+      UNIT LOAD ACTIVE SUB DESCRIPTION
+      ceph-osd@0.service loaded active running Ceph object storage daemon
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "OBJECT_UNFOUND": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1/12345 objects unfound (0.008%)",
+                      "count": 1
+                  },
+                  "detail": [
+                      {"message": "pg 1.0 has 1 unfound objects"}
+                  ],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+raised-issues:
+  CephOSDWarning: >-
+    Ceph health detail reported OBJECT_UNFOUND when this data was
+    collected: required up-to-date copies of some objects were not
+    found on online OSDs, blocking I/O to those objects. Please check
+    'ceph pg <pgid> list_unfound' and please recover any down OSDs that may
+    hold the data. Please see
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#object-unfound

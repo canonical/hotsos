@@ -1,0 +1,10 @@
+target-name: object_unfound.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_OK",
+          "checks": {},
+          "mutes": []
+      }
+raised-issues: {}

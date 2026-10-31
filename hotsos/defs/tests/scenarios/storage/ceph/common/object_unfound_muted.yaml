@@ -1,0 +1,40 @@
+target-name: object_unfound.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "OBJECT_UNFOUND": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1/12345 objects unfound (0.008%)",
+                      "count": 1
+                  },
+                  "detail": [
+                      {"message": "pg 1.0 has 1 unfound objects"}
+                  ],
+                  "muted": true
+              },
+              "PG_DEGRADED": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "Degraded data redundancy: 1/37035 objects degraded (0.003%), 1 pg degraded",
+                      "count": 1
+                  },
+                  "detail": [
+                      {"message": "pg 2.0 is active+undersized+degraded, acting [0,1]"}
+                  ],
+                  "muted": false
+              }
+          },
+          "mutes": [
+              {
+                  "code": "OBJECT_UNFOUND",
+                  "sticky": false,
+                  "summary": "1/12345 objects unfound (0.008%)",
+                  "count": 1
+              }
+          ]
+      }
+raised-issues: {}

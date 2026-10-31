@@ -1,0 +1,17 @@
+checks:
+  object_unfound_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, OBJECT_UNFOUND]]
+conclusions:
+  object-unfound:
+    decision: object_unfound_reported
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Ceph health detail reported OBJECT_UNFOUND when this data was
+        collected: required up-to-date copies of some objects were not
+        found on online OSDs, blocking I/O to those objects. Please check
+        'ceph pg <pgid> list_unfound' and please recover any down OSDs that may
+        hold the data. Please see
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#object-unfound
