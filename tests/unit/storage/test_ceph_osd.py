@@ -1,10 +1,14 @@
+import os
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.issues import IssuesManager
 from hotsos.core import host_helpers
 from hotsos.core.host_helpers.cli.common import CmdOutput
 from hotsos.core.plugins.storage import ceph
 from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.ycheck.engine.common import load_test_def
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.storage import (
     ceph_summary,
     ceph_event_checks,
@@ -334,3 +338,48 @@ class TestCephOSDScenarios(StorageCephOSDTestsBase):
     required. See https://hotsos.readthedocs.io/en/latest/contrib/testing.html
     for more information.
     """
+
+    def _check_tracepoint_issues(self, expected):
+        HotSOSConfig.scenario_filter = (
+            r'storage.ceph.ceph-osd.'
+            r'(tracepoint_provider_load_assertion|osd_crashes)$')
+        with GlobalSearcher() as searcher:
+            YScenarioChecker(searcher).run()
+
+        utils.TemplatedTest.check_raised_issues(
+            self, expected, IssuesManager().load_issues())
+
+    def _check_tracepoint_role(self, unit_files, enabled, suffix=''):
+        test_dir = os.path.join(HotSOSConfig.plugin_yaml_defs,
+                                'tests/scenarios/storage/ceph/ceph-osd')
+        testdef = load_test_def(os.path.join(
+            test_dir, f'tracepoint_provider_load_assertion{suffix}.yaml'))
+        files = testdef['data-root']['files']
+        files['sos_commands/systemd/systemctl_list-unit-files'] = unit_files
+        expected = {}
+        if enabled:
+            generic = load_test_def(os.path.join(
+                test_dir, 'osd_crash_signal_only.yaml'))
+            expected = {'CephOSDError': [
+                testdef['raised-issues']['CephOSDError'],
+                generic['raised-issues']['CephOSDError']]}
+
+        utils.create_data_root(files)(self._check_tracepoint_issues)(expected)
+
+    def test_tracepoint_enabled_osd_and_generic_crash(self):
+        """Check inherited OSD requirements and both diagnostic outputs."""
+        self._check_tracepoint_role('ceph-osd.service enabled\n', True)
+
+    def test_tracepoint_enabled_microceph_and_generic_crash(self):
+        """Check the inherited snap service requirement and log root."""
+        self._check_tracepoint_role('snap.microceph.osd.service enabled\n',
+                                    True, suffix='_microceph')
+
+    def test_tracepoint_disabled_osd(self):
+        """An installed but disabled OSD must fail the parent requirement."""
+        self._check_tracepoint_role('ceph-osd.service disabled\n'
+                                    'ceph-mon.service enabled\n', False)
+
+    def test_tracepoint_no_osd_service(self):
+        """Stale OSD logs alone must not satisfy the parent requirement."""
+        self._check_tracepoint_role('', False)
