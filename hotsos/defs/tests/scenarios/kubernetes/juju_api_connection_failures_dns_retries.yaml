@@ -1,0 +1,13 @@
+target-name: juju_api_connection_failures.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Fri Oct 30 12:00:00 UTC 2026
+    sos_commands/kubernetes/cluster-info/model-a/podlogs/database-0/kubectl_--namespace_model-a_logs_database-0_-c_charm: |
+      2026-10-30T10:00:00.001Z [container-agent] 2026-10-30 10:00:00 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [09b810] "unit-database-0" cannot open api: cannot resolve "controller-a.example": lookup controller-a.example on 192.0.2.53:53: read udp 192.0.2.20:51234->192.0.2.53:53: i/o timeout
+      2026-10-30T10:01:00.001Z [container-agent] 2026-10-30 10:01:00 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [09b810] "unit-database-0" cannot open api: cannot resolve "controller-a.example": lookup controller-a.example on 192.0.2.53:53: read udp 192.0.2.20:51235->192.0.2.53:53: i/o timeout
+      2026-10-30T10:02:00.001Z [container-agent] 2026-10-30 10:02:00 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [09b810] "unit-database-0" cannot open api: cannot resolve "controller-b.example": lookup controller-b.example on 192.0.2.53:53: read udp 192.0.2.20:51236->192.0.2.53:53: i/o timeout
+raised-issues:
+  KubernetesWarning:
+    - >-
+      Juju API connection attempts failed in collected Kubernetes charm-agent logs: [09b810] "unit-database-0" cannot open api: cannot resolve "controller-a.example", [09b810] "unit-database-0" cannot open api: cannot resolve "controller-b.example". Please check the corresponding charm pod logs for the endpoint errors and subsequent connection attempts.

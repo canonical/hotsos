@@ -1,0 +1,19 @@
+checks:
+  api_connection_failed:
+    input:
+      path: sos_commands/kubernetes/cluster-info/*/podlogs/*/*_logs_*_-c_charm
+      options:
+        disable-all-logs: true
+    expr: '^([\d-]+)T([\d:]+)\.\d{3}Z \[container-agent\] [\d-]+ [\d:]+ ERROR juju\.worker\.dependency engine\.go:\d+ "api-caller" manifold worker returned unexpected error: (\[[0-9a-f]{6}\] "unit-[^"]+" cannot open api: (?:unable to connect to API: dial tcp \S+: .+|cannot resolve "[^"]+"(?=: .+))).*$'
+    hint: cannot open api
+conclusions:
+  juju-api-connection-failures:
+    decision: api_connection_failed
+    raises:
+      type: KubernetesWarning
+      message: >-
+        Juju API connection attempts failed in collected Kubernetes charm-agent
+        logs: {failures}. Please check the corresponding charm pod logs for the
+        endpoint errors and subsequent connection attempts.
+      format-dict:
+        failures: '@checks.api_connection_failed.search.results_group_3:unique_comma_join'
