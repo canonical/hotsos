@@ -1,0 +1,17 @@
+target-name: tracepoint_provider_load_assertion.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Fri Oct 30 03:00:00 UTC 2026
+    var/log/ceph/ceph-osd.0.log: |
+      2026-10-30T01:00:00.123456+0000 7f346aa64700 -1 /build/ceph/src/common/TracepointProvider.cc: In function 'void TracepointProvider::verify_config(const ConfigProxy&)' thread 7f346aa64700 time 2026-10-30T01:00:00.123456+0000
+      /build/ceph/src/common/TracepointProvider.cc: 43: FAILED ceph_assert(m_handle)
+
+      2026-10-30T01:00:00.123456+0000 7f346aa64700 -1 *** Caught signal (Aborted) **
+       in thread 7f346aa64700 thread_name:ceph-osd
+      2026-10-30T02:00:00.123456+0000 7f346aa64700  0 starting osd.0 osd_data /var/lib/ceph/osd/ceph-0 (no journal)
+raised-issues:
+  CephOSDError: >-
+    The OSD logs record a failed tracing provider load
+    (TracepointProvider m_handle assertion). Please inspect the assertion
+    backtrace and tracing configuration for each affected OSD.

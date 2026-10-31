@@ -1,0 +1,6 @@
+target-name: tracepoint_provider_load_assertion.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Fri Oct 30 03:00:00 UTC 2026
+raised-issues:

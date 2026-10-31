@@ -1,0 +1,13 @@
+checks:
+  provider_load_assertion:
+    input: 'storage.ceph:ceph-osd*.log'
+    search: '^(?:\S*/)?TracepointProvider\.cc: \d+: FAILED ceph_assert\((m_handle)\)$'
+conclusions:
+  tracepoint_provider_load_assertion:
+    decision: provider_load_assertion
+    raises:
+      type: CephOSDError
+      message: >-
+        The OSD logs record a failed tracing provider load
+        (TracepointProvider m_handle assertion). Please inspect the assertion
+        backtrace and tracing configuration for each affected OSD.
