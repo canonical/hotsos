@@ -1,0 +1,12 @@
+target-name: tracepoint_provider_load_assertion.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Fri Oct 30 03:00:00 UTC 2026
+    var/log/ceph/ceph-osd.0.log: |
+      2026-10-30T01:00:00.123456+0000 7f346aa64700 -1 /build/ceph/src/common/assert.cc: In function 'void ceph::register_assert_context(CephContext*)' thread 7f346aa64700 time 2026-10-30T01:00:00.123456+0000
+      /build/ceph/src/common/assert.cc: 34: FAILED ceph_assert(!g_assert_context)
+
+      2026-10-30T01:00:00.123456+0000 7f346aa64700 -1 *** Caught signal (Aborted) **
+       in thread 7f346aa64700 thread_name:ceph-osd
+raised-issues:
