@@ -1,0 +1,17 @@
+checks:
+  disk_size_mismatch_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, BLUESTORE_DISK_SIZE_MISMATCH]]
+conclusions:
+  bluestore-disk-size-mismatch:
+    decision: disk_size_mismatch_reported
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Collected Ceph health detail reports BLUESTORE_DISK_SIZE_MISMATCH:
+        one or more BlueStore OSDs have an internal size inconsistency that
+        may cause future OSD crashes. Please identify affected OSDs with
+        'ceph health detail', then please destroy and reprovision them one
+        at a time to limit data-loss risk. Please see
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-disk-size-mismatch
