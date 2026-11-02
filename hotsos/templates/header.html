@@ -557,6 +557,8 @@
         .hs-tree__details > summary:hover { background: #fff3ee; color: var(--hs-orange-dark); }
         .hs-tree__key { font-weight: 500; }
         .hs-list-bullet { color: var(--hs-orange-dark); font-weight: 700; margin-right: 0.25rem; }
+        /* Indent list items one character further than dict items. */
+        .hs-tree--list > .hs-tree__item { padding-left: 1ch; }
         /* An item's contents are indented by two characters. */
         .hs-tree__details > *:not(summary) { padding-left: 2ch; }
         .hs-tree__item--issue { border-left: 3px solid var(--hs-caution); }
