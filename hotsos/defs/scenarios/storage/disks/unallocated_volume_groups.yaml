@@ -1,0 +1,22 @@
+requires:
+  property:
+    path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
+    ops: [[ne, lxc]]
+vars:
+  unallocated_vgs: '@hotsos.core.plugins.storage.disks.DiskChecks.unallocated_volume_groups'
+checks:
+  has_unallocated_vgs:
+    varops: [[$unallocated_vgs], [length_hint], [gt, 0]]
+conclusions:
+  unallocated_volume_groups:
+    decision: has_unallocated_vgs
+    raises:
+      type: StorageWarning
+      message: >-
+        The following LVM volume group(s) have significant unallocated free
+        space: {vgs}. Please inspect the volume group layout and extend
+        existing logical volumes or create new logical volumes to utilize
+        the remaining space if intended, or ignore this warning if the free
+        space is intentionally reserved.
+      format-dict:
+        vgs: '$unallocated_vgs:comma_join'

@@ -1,0 +1,15 @@
+data-root:
+  files:
+    sos_commands/lvm2/vgs_-v_-o_vg_mda_count_vg_mda_free_vg_mda_size_vg_mda_used_count_vg_tags_systemid_--config_global_metadata_read_only_1_--nolocking_--foreign: |
+      VG    Attr   Ext   #PV #LV #SN VSize   VFree   VG UUID
+      vg0   wz--n- 4.00m   1   1   0 <100.00g <60.00g uuid-vg0
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  StorageWarning: >-
+    The following LVM volume group(s) have significant unallocated free
+    space: vg0 (60G). Please inspect the volume group layout and extend
+    existing logical volumes or create new logical volumes to utilize
+    the remaining space if intended, or ignore this warning if the free
+    space is intentionally reserved.

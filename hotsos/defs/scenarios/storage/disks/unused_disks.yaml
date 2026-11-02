@@ -1,0 +1,21 @@
+requires:
+  property:
+    path: hotsos.core.plugins.system.system.SystemBase.virtualisation_type
+    ops: [[ne, lxc]]
+vars:
+  unused_disks: '@hotsos.core.plugins.storage.disks.DiskChecks.unused_disks'
+checks:
+  has_unused_disks:
+    varops: [[$unused_disks], [length_hint], [gt, 0]]
+conclusions:
+  unused_disks:
+    decision: has_unused_disks
+    raises:
+      type: StorageWarning
+      message: >-
+        The following disk(s) appear entirely unused with no partition table,
+        filesystem, or LVM configuration: {disks}. Please inspect these devices
+        and partition, format, or configure them for use if intended, or ignore
+        this warning if they are intentionally unconfigured.
+      format-dict:
+        disks: '$unused_disks:comma_join'

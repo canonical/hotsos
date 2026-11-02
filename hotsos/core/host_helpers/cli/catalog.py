@@ -154,6 +154,9 @@ class CommandCatalog(UserDict):
             'blockdev_report':
                 [BinCmd('blockdev --report'),
                  FileCmd('sos_commands/block/blockdev_--report')],
+            'multipath_ll':
+                [BinCmd('multipath -ll'),
+                 FileCmd('sos_commands/multipath/multipath_-ll')],
             'lscpu':
                 [BinCmd('lscpu'),
                  FileCmd('sos_commands/processor/lscpu')],
@@ -251,4 +254,18 @@ class CommandCatalog(UserDict):
             'uptime':
                 [BinCmd('uptime', singleline=True),
                  FileCmd('uptime', singleline=True)],
+            'vgs':
+                [BinCmd(
+                    'vgs -v --config=global{metadata_read_only=1} '
+                    '--nolocking --foreign'),
+                 FileCmd('sos_commands/lvm2/vgs_-v_-o_'
+                         'vg_mda_count_vg_mda_free_vg_mda_size_'
+                         'vg_mda_used_count_vg_tags_systemid_'
+                         '--config_global_metadata_read_only_1_'
+                         '--nolocking_--foreign'),
+                 FileCmd('sos_commands/lvm2/vgs_-v_-o_'
+                         'vg_mda_count_vg_mda_free_vg_mda_size_'
+                         'vg_mda_used_count_vg_tags_systemid_'
+                         '--config_global_locking_type_0_'
+                         'metadata_read_only_1_--foreign')],
         }

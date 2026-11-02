@@ -120,6 +120,10 @@ class BcacheWarning(IssueTypeBase):
     """ Issue for Bcache warnings. """
 
 
+class StorageWarning(IssueTypeBase):
+    """ Issue for storage warnings. """
+
+
 class NeutronL3HAWarning(IssueTypeBase):
     """ Issue for Neutron L3HA warnings. """
 
