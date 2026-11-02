@@ -1,0 +1,42 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-common  19.2.6-0ubuntu0.24.04.1  amd64  Ceph utilities
+    sos_commands/systemd/systemctl_list-units: |
+      UNIT LOAD ACTIVE SUB DESCRIPTION
+    sos_commands/systemd/systemctl_list-unit-files: |
+      UNIT FILE STATE VENDOR PRESET
+      ceph-mon.service disabled enabled
+      ceph-mon@.service disabled enabled
+      snap.microceph.mon.service disabled enabled
+    sos_commands/ceph_mon/json_output/ceph_status_--format_json-pretty: |
+      {
+          "fsid": "eccf3d48-859f-11ec-9de2-d72b3e8a3058",
+          "health": {
+              "status": "HEALTH_WARN"
+          }
+      }
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "BLUESTORE_DISK_SIZE_MISMATCH": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "1 OSD(s) have dangerous mismatch between BlueStore block device and free list sizes"
+                  },
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  CephOSDWarning: >-
+    Collected Ceph health detail reports BLUESTORE_DISK_SIZE_MISMATCH:
+    one or more BlueStore OSDs have an internal size inconsistency that
+    may cause future OSD crashes. Please identify affected OSDs with
+    'ceph health detail', then please destroy and reprovision them one at
+    a time to limit data-loss risk. Please see
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-disk-size-mismatch

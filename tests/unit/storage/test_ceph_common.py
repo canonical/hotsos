@@ -2,7 +2,10 @@ import json
 import os
 
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.issues import IssuesManager
 from hotsos.core.plugins.storage import ceph
+from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.storage import ceph_summary
 
 from .. import utils
@@ -40,6 +43,11 @@ ms bind ipv6 = false
 # https://tracker.ceph.com/issues/70390
 bluestore_elastic_shared_blobs = false
 """
+
+
+BLUESTORE_DISK_SIZE_MISMATCH_NO_MON = utils.load_test_def(os.path.join(
+    utils.DEFS_TESTS_DIR,
+    'scenarios/storage/ceph/common/bluestore_disk_size_mismatch.yaml'))
 
 
 class CephCommonTestsBase(utils.BaseTestCase):
@@ -520,3 +528,19 @@ class TestCephCommonScenarios(CephCommonTestsBase):
     required. See https://hotsos.readthedocs.io/en/latest/contrib/testing.html
     for more information.
     """
+    @utils.create_data_root(
+        BLUESTORE_DISK_SIZE_MISMATCH_NO_MON['data-root']['files'],
+        copy_from_original=BLUESTORE_DISK_SIZE_MISMATCH_NO_MON['data-root'][
+            'copy-from-original'])
+    def test_bluestore_disk_size_mismatch_without_local_mon(self):
+        """Run the collected health check without an enabled local MON."""
+        HotSOSConfig.force_mode = False
+        HotSOSConfig.scenario_filter = (
+            'storage.ceph.common.bluestore_disk_size_mismatch')
+        self.assertTrue(ceph.common.CephChecks().is_runnable())
+        with GlobalSearcher() as searcher:
+            YScenarioChecker(searcher).run()
+
+        utils.TemplatedTest.check_raised_issues(
+            self, BLUESTORE_DISK_SIZE_MISMATCH_NO_MON['raised-issues'],
+            IssuesManager().load_issues())
