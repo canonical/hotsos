@@ -16,7 +16,11 @@ conclusions:
       type: NetworkWarning
       message: >-
         {numreports} reports of 'nf_conntrack: table full' detected in
-        kern.log - please check.
+        kern.log. The connection tracking table is too small for the number of
+        connections or is filling up with stale entries. Please check the
+        conntrack usage and timeouts and consider increasing
+        net.netfilter.nf_conntrack_max. See network.conntrack in the kernel
+        summary for the current usage, per-protocol entries and tcp states.
       format-dict:
         numreports: '@checks.has_nf_conntrack_full.search.num_results'
   over-mtu-dropped-packets:

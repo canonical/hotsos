@@ -1,0 +1,33 @@
+vars:
+  rpfilterd: '@hotsos.core.plugins.kernel.net.NetStatTCP.IPReversePathFilter'
+  minttld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPMinTTLDrop'
+checks:
+  rpfilterd:
+    varops: [[$rpfilterd], [gt, 500]]
+  minttld:
+    varops: [[$minttld], [gt, 500]]
+conclusions:
+  minttld:
+    decision: minttld
+    raises:
+      type: KernelWarning
+      message: >-
+        IP TTL below minimum (drops={count}). Please check that the peers are
+        within the expected number of hops and that the minimum TTL set by
+        local applications (e.g. BGP/BFD) is correct. See
+        network.reverse-path-filter.routing-daemons in the kernel summary to
+        identify routing daemons that may set a minimum TTL.
+      format-dict:
+        count: $minttld
+  rpfilterd:
+    decision: rpfilterd
+    raises:
+      type: KernelWarning
+      message: >-
+        Failed reverse path filter test (drops={count}). Please check for
+        asymmetric routing and consider relaxing rp_filter on the affected
+        interfaces. See network.reverse-path-filter.strict-interfaces and the
+        net.ipv4.conf.*.rp_filter values under network.sysctl in the kernel
+        summary to identify the interfaces using strict mode.
+      format-dict:
+        count: $rpfilterd

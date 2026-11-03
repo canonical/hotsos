@@ -1,0 +1,22 @@
+target-name: nic_interrupts.yaml
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: TCPBacklogDrop
+      TcpExt: 600
+    proc/net/snmp: |
+      Udp: InDatagrams RcvbufErrors
+      Udp: 1000 600
+    proc/interrupts: |2
+                 CPU0       CPU1       CPU2       CPU3
+       25:      90000          0          0          0   PCI-MSI 524288-edge      virtio0-input.0
+       26:       5000          0          0          0   PCI-MSI 524289-edge      virtio0-output.0
+raised-issues:
+  KernelWarning: >-
+    Network device interrupts (/proc/interrupts): cpu0 handles 100% of 95000
+    interrupts; IRQ 25 virtio0-input.0: 90000 (cpu0 100%); IRQ 26
+    virtio0-output.0: 5000 (cpu0 100%). Interrupt handling is not spread
+    across CPUs. Please check that irqbalance is running, the smp_affinity
+    of the IRQs above and whether the NIC is using multiple queues
+    (ethtool -l). See network.interrupts.nic-irqs in the kernel summary for
+    the per-IRQ distribution.

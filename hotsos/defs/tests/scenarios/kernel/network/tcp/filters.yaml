@@ -1,4 +1,3 @@
-target-name: tcp.yaml
 data-root:
   files:
     proc/net/netstat: |
@@ -31,4 +30,8 @@ data-root:
       net.ipv4.tcp_mem = 189864	253153	379728
 raised-issues:
   KernelWarning: >-
-    Failed reverse path filter test (drops=2124).
+    Failed reverse path filter test (drops=2124). Please check for asymmetric
+    routing and consider relaxing rp_filter on the affected interfaces. See
+    network.reverse-path-filter.strict-interfaces and the
+    net.ipv4.conf.*.rp_filter values under network.sysctl in the kernel
+    summary to identify the interfaces using strict mode.

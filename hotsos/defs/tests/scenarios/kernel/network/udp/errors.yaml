@@ -31,8 +31,15 @@ data-root:
 raised-issues:
   KernelWarning:
     - >-
-      UDP ingress errors are at 1234 (72.42% of total datagrams).
+      UDP ingress errors are at 1234 (72.42% of total datagrams). Please
+      check the UDP sockets with queued data or drops, the receive buffer
+      sizes and the interface error counters. See
+      network.udp-sockets.receive-queue and network.interfaces.rx-errors in
+      the kernel summary to identify the affected sockets and interfaces.
     - >-
       UDP ingress checksum errors are at 22 (1.29% of total
       datagrams). This could mean that one or more interfaces are
-      experiencing hardware errors.
+      experiencing hardware errors. Please check the NIC, cable and
+      checksum offload settings of the interfaces with errors. See
+      network.interfaces.rx-errors in the kernel summary to identify the
+      interfaces reporting errors.

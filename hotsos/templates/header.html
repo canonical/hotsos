@@ -569,7 +569,12 @@
         /* ---------- Fields (key/value description list) ---------- */
         .hs-fields {
             display: grid;
-            grid-template-columns: minmax(8rem, 15rem) minmax(0, 1fr);
+            /* Size the key column to its content so keys such as long sysctl
+               names avoid wrapping where there is room, but cap it relative to
+               the available width so the value column keeps a usable width in
+               narrow or nested panels (otherwise it can be squeezed to zero
+               and clipped by overflow: hidden). */
+            grid-template-columns: fit-content(60%) minmax(0, 1fr);
             margin: 0.35rem 0 0.75rem;
             border: 1px solid var(--hs-border);
             border-radius: 0.4rem;

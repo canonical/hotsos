@@ -7,9 +7,6 @@ vars:
   sndbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.SndbufErrorsPcentOutDatagrams'
   incsumerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrors'
   incsumerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InCsumErrorsPcentInDatagrams'
-  memusage_pages_inuse: '@hotsos.core.plugins.kernel.net.SockStat.GlobUdpSocksTotalMemPages'
-  memusage_pages_max: '@hotsos.core.plugins.kernel.net.SockStat.SysctlUdpMemMax'
-  memusage_pct: '@hotsos.core.plugins.kernel.net.SockStat.UDPMemUsagePct'
 checks:
   rcvbuferrors_high:
     or:
@@ -27,17 +24,17 @@ checks:
     or:
       - varops: [[$incsumerrors], [gt, 500]]
       - varops: [[$incsumerrors_pcent], [gt, 1]]
-  memusage_pct_high:
-    varops: [[$memusage_pct], [gt, 85]]
-  memusage_pct_exhausted:
-    varops: [[$memusage_pct], [ge, 100]]
 conclusions:
   inerrs_high_pcent_or_above_limit:
     decision: inerrs_high_pcent_or_above_limit
     raises:
       type: KernelWarning
       message: >-
-        UDP ingress errors are at {count} ({pcent}% of total datagrams).
+        UDP ingress errors are at {count} ({pcent}% of total datagrams). Please
+        check the UDP sockets with queued data or drops, the receive buffer
+        sizes and the interface error counters. See
+        network.udp-sockets.receive-queue and network.interfaces.rx-errors in
+        the kernel summary to identify the affected sockets and interfaces.
       format-dict:
         count: $inerrors
         pcent: $inerrors_pcent
@@ -48,6 +45,9 @@ conclusions:
       message: >-
         UDP ingress checksum errors are at {count} ({pcent}% of total datagrams). This could
         mean that one or more interfaces are experiencing hardware errors.
+        Please check the NIC, cable and checksum offload settings of the
+        interfaces with errors. See network.interfaces.rx-errors in the kernel
+        summary to identify the interfaces reporting errors.
       format-dict:
         count: $incsumerrors
         pcent: $incsumerrors_pcent
@@ -57,6 +57,11 @@ conclusions:
       type: KernelWarning
       message: >-
         UDP receive buffer errors are at {count} ({pcent}% of total rx).
+        Receivers are not reading datagrams fast enough or their receive
+        buffer is too small. Please check the receiving applications and
+        net.core.rmem_max. See network.udp-sockets.receive-queue and
+        net.core.rmem_max under network.sysctl in the kernel summary to
+        identify the sockets with queued data.
       format-dict:
         count: $rcvbuferrors
         pcent: $rcvbuferrors_pcent
@@ -65,31 +70,12 @@ conclusions:
     raises:
       type: KernelWarning
       message: >-
-        UDP send buffer errors are at {count} ({pcent}% of total tx).
+        UDP send buffer errors are at {count} ({pcent}% of total tx). Senders
+        are producing datagrams faster than they can be transmitted or their
+        send buffer is too small. Please check the sending applications,
+        net.core.wmem_max and the interface error counters. See
+        network.udp-sockets.send-queue and network.interfaces.tx-errors in the
+        kernel summary to identify the affected sockets and interfaces.
       format-dict:
         count: $sndbuferrors
         pcent: $sndbuferrors_pcent
-  memusage_pct_high:
-    decision:
-      - memusage_pct_high
-      - not: memusage_pct_exhausted
-    raises:
-      type: KernelWarning
-      message: >-
-        UDP memory page usage is high ({pct}%), ({pa} out of {pm} mem pages are in use).
-        Kernel will start to drop UDP frames if all pages are exhausted.
-      format-dict:
-        pa: $memusage_pages_inuse
-        pm: $memusage_pages_max
-        pct: $memusage_pct
-  memusage_pct_exhausted:
-    decision: memusage_pct_exhausted
-    raises:
-      type: KernelWarning
-      message: >-
-        All UDP memory pages are exhausted! ({pa} out of {pm} mem pages are in use).
-        Kernel will drop UDP packets, expect packet losses on ALL UDP transport!
-      format-dict:
-        pa: $memusage_pages_inuse
-        pm: $memusage_pages_max
-        pct: $memusage_pct

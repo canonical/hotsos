@@ -1,0 +1,17 @@
+target-name: receive.yaml
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: TCPBacklogDrop
+      TcpExt: 600
+    proc/interrupts: |2
+                 CPU0
+        25:      90000   PCI-MSI 524288-edge      virtio0-input.0
+        26:       5000   PCI-MSI 524289-edge      virtio0-output.0
+raised-issues:
+  KernelWarning: >-
+    tcp socket backlog queue full (drops=600). Packets are arriving faster
+    than the owning processes can read them. Please check the processes with
+    unread data and the CPU load they are under. See
+    network.tcp-sockets.unread-connections and socket-count-consumers in the
+    kernel summary to identify the processes not reading their sockets.

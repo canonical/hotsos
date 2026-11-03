@@ -798,3 +798,10 @@ class TestYamlProperties(utils.BaseTestCase):
                 if test[0] == test[2]:
                     self.assertEqual(len(log.output), 1)
                     self.assertIn('attempted to apply', log.output[0])
+
+    def test_cache_resolver_semicolon_join(self):
+        """ Test the semicolon_join renderer. """
+        self.assertEqual(PropertyCacheRefResolver.apply_renderer(
+            ['a, b', 'c'], 'semicolon_join'), 'a, b; c')
+        self.assertEqual(PropertyCacheRefResolver.apply_renderer(
+            [], 'semicolon_join'), '')

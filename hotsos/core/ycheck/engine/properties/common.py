@@ -194,6 +194,10 @@ class PropertyCacheRefResolver():
                     'requirements': [lambda value: isinstance(value, list),
                                      lambda value: isinstance(value, dict)],
                     'action': lambda value: ', '.join(sorted(set(value)))},
+                  'semicolon_join': {
+                    'requirements': [lambda value: isinstance(value, list),
+                                     lambda value: isinstance(value, dict)],
+                    'action': '; '.join},
                   'first': {
                     'requirements': [lambda value: isinstance(value, list)],
                     'action': lambda value: value[0]},
