@@ -2,10 +2,7 @@ import json
 import os
 
 from hotsos.core.config import HotSOSConfig
-from hotsos.core.issues import IssuesManager
 from hotsos.core.plugins.storage import ceph
-from hotsos.core.ycheck.common import GlobalSearcher
-from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.storage import ceph_summary
 
 from .. import utils
@@ -13,10 +10,6 @@ from .. import utils
 
 CEPH_MON_DATA_ROOT = os.path.join(utils.TESTS_DIR,
                                   'fake_data_root/storage/ceph-mon')
-
-AUTH_SERVICE_KEYS_NO_MON = utils.load_test_def(os.path.join(
-    utils.DEFS_TESTS_DIR, 'scenarios/storage/ceph/common/'
-    'auth_insecure_service_keys_no_mon.yaml'))
 
 SNAP_LIST_MICROCEPH = """
 Name       Version                Rev    Tracking       Publisher   Notes
@@ -537,19 +530,3 @@ class TestCephCommonScenarios(CephCommonTestsBase):
     required. See https://hotsos.readthedocs.io/en/latest/contrib/testing.html
     for more information.
     """
-
-    @utils.create_data_root(
-        AUTH_SERVICE_KEYS_NO_MON['data-root']['files'],
-        copy_from_original=AUTH_SERVICE_KEYS_NO_MON['data-root'][
-            'copy-from-original'])
-    def test_auth_service_keys_without_local_mon(self):
-        """Read inherited requirements as well as the scenario itself."""
-        HotSOSConfig.force_mode = False
-        HotSOSConfig.scenario_filter = (
-            'storage.ceph.common.auth_insecure_service_keys')
-        with GlobalSearcher() as searcher:
-            YScenarioChecker(searcher).run()
-
-        utils.TemplatedTest.check_raised_bugs(
-            self, AUTH_SERVICE_KEYS_NO_MON['raised-bugs'],
-            IssuesManager().load_bugs())
