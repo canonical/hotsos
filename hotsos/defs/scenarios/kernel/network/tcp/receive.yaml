@@ -1,0 +1,66 @@
+vars:
+  backlogd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPBacklogDrop'
+  ofod: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
+  zwind: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPZeroWindowDrop'
+  rcvqd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDrop'
+  rcvqd_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDropPcentInSegs'
+checks:
+  backlogd:
+    varops: [[$backlogd], [gt, 500]]
+  ofod:
+    varops: [[$ofod], [gt, 500]]
+  zwind:
+    varops: [[$zwind], [gt, 500]]
+  rcvqd:
+    or:
+      - varops: [[$rcvqd], [gt, 500]]
+      - varops: [[$rcvqd_pcent], [gt, 1]]
+conclusions:
+  backlogd:
+    decision: backlogd
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp socket backlog queue full (drops={count}). Packets are arriving
+        faster than the owning processes can read them. Please check the
+        processes with unread data and the CPU load they are under. See
+        network.tcp-sockets.unaccepted-connections and socket-count-consumers in
+        the kernel summary to identify the processes not reading their sockets.
+      format-dict:
+        count: $backlogd
+  ofod:
+    decision: ofod
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp no rmem adding to OFO recv queue (drops={count}). Out-of-order
+        packets are being dropped because receive memory is exhausted. Please
+        check receive buffer sizes and the processes with unread data. See
+        network.tcp-sockets.unaccepted-connections and net.ipv4.tcp_rmem under
+        network.sysctl in the kernel summary.
+      format-dict:
+        count: $ofod
+  zwind:
+    decision: zwind
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp receive window full (drops={count}). The receiving applications are
+        not reading data fast enough. Please check the processes with unread
+        data and the CPU load they are under. See
+        network.tcp-sockets.unaccepted-connections in the kernel summary to
+        identify the applications not reading their sockets.
+      format-dict:
+        count: $zwind
+  rcvqd:
+    decision: rcvqd
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp no rmem adding to recv queue (drops={count}, {pcent}% of total rx).
+        Please check receive buffer sizes and the processes with unread data.
+        See network.tcp-sockets.unaccepted-connections and net.ipv4.tcp_rmem under
+        network.sysctl in the kernel summary.
+      format-dict:
+        count: $rcvqd
+        pcent: $rcvqd_pcent

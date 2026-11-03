@@ -1,0 +1,14 @@
+target-name: nic_interrupts.yaml
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: TCPBacklogDrop
+      TcpExt: 0
+    proc/net/snmp: |
+      Udp: InDatagrams RcvbufErrors
+      Udp: 1000 0
+    proc/interrupts: |2
+                 CPU0       CPU1       CPU2       CPU3
+       25:      90000          0          0          0   PCI-MSI 524288-edge      virtio0-input.0
+       26:       5000          0          0          0   PCI-MSI 524289-edge      virtio0-output.0
+raised-issues:

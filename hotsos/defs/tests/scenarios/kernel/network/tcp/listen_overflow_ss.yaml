@@ -1,0 +1,17 @@
+target-name: listen.yaml
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: ListenOverflows ListenDrops TCPReqQFullDrop
+      TcpExt: 0 1000 0
+raised-issues:
+  KernelWarning: >-
+    tcp incoming connect request catch-all (drops=1000). Connection requests
+    are being dropped because a listen queue is full or memory is short. Please
+    check the listening applications and net.core.somaxconn. Related TcpExt
+    counters: ListenOverflows=0, ListenDrops=1000, TCPReqQFullDrop=0 (see
+    network.proc-net-counters.tcp in the kernel summary, or view live with
+    'nstat -az' or 'netstat -s'). See the net.core.somaxconn and
+    net.ipv4.tcp_max_syn_backlog settings under network.sysctl in the kernel
+    summary; network.tcp-sockets.queued-listeners lists any listening sockets
+    currently backing up.

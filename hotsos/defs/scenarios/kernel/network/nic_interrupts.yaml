@@ -1,0 +1,66 @@
+vars:
+  # TCP and UDP receive-error counters; any of these exceeding its threshold
+  # makes concentrated interrupt handling worth reporting.
+  tcp_backlogd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPBacklogDrop'
+  tcp_ofod: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
+  tcp_rcvqd: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDrop'
+  tcp_rcvqd_pcent: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvQDropPcentInSegs'
+  udp_inerrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrors'
+  udp_inerrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.InErrorsPcentInDatagrams'
+  udp_rcvbuferrors: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrors'
+  udp_rcvbuferrors_pcent: '@hotsos.core.plugins.kernel.net.SNMPUdp.RcvbufErrorsPcentInDatagrams'
+  irq_total: '@hotsos.core.plugins.kernel.netdata.HostData.nic_interrupt_total'
+  irq_cpu: '@hotsos.core.plugins.kernel.netdata.HostData.nic_interrupt_busiest_cpu'
+  irq_pcent: '@hotsos.core.plugins.kernel.netdata.HostData.nic_interrupt_busiest_pcent'
+  irqs: '@hotsos.core.plugins.kernel.netdata.HostData.nic_irqs'
+  online_cpus: '@hotsos.core.plugins.kernel.netdata.HostData.online_cpus'
+checks:
+  tcp_receive_errors:
+    or:
+      - varops: [[$tcp_backlogd], [gt, 500]]
+      - varops: [[$tcp_ofod], [gt, 500]]
+      - varops: [[$tcp_rcvqd], [gt, 500]]
+      - varops: [[$tcp_rcvqd_pcent], [gt, 1]]
+  udp_receive_errors:
+    or:
+      - varops: [[$udp_inerrors], [gt, 500]]
+      - varops: [[$udp_inerrors_pcent], [gt, 1]]
+      - varops: [[$udp_rcvbuferrors], [gt, 500]]
+      - varops: [[$udp_rcvbuferrors_pcent], [gt, 1]]
+  irq_concentrated:
+    and:
+      # Spreading interrupts only helps when there is more than one CPU.
+      - varops: [[$online_cpus], [gt, 1]]
+      - varops: [[$irq_total], [ge, 1000]]
+      - varops: [[$irq_cpu], [ne, null]]
+      - varops: [[$irqs], [truth]]
+      - varops: [[$irq_pcent], [ge, 80]]
+conclusions:
+  irq_concentrated:
+    decision:
+      and:
+        - irq_concentrated
+        - or: [tcp_receive_errors, udp_receive_errors]
+    raises:
+      type: KernelWarning
+      message: >-
+        Network device interrupts (/proc/interrupts): {cpu} handles
+        {pcent}% of {total} interrupts; {irqs}. Interrupt handling is not
+        spread across CPUs. Please check that irqbalance is running, the
+        smp_affinity of the IRQs above and whether the NIC is using multiple
+        queues (ethtool -l). See network.interrupts.nic-irqs in the kernel
+        summary for the per-IRQ distribution. Hard-IRQ handling for these
+        interrupts runs on {cpu}, but RPS/RFS may steer the subsequent receive
+        processing to other CPUs, so check the RPS CPU masks in
+        /sys/class/net/<iface>/queues/rx-*/rps_cpus (and, for RFS, the
+        per-queue rps_flow_cnt together with net.core.rps_sock_flow_entries)
+        and see network.softnet-drops (packets lost because
+        net.core.netdev_max_backlog was full) and
+        network.softnet-time-squeeze (receive work deferred because
+        net.core.netdev_budget ran out, no loss) to identify the CPUs actually
+        affected.
+      format-dict:
+        cpu: $irq_cpu
+        pcent: $irq_pcent
+        total: $irq_total
+        irqs: $irqs:semicolon_join

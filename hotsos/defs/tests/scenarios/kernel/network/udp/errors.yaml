@@ -1,4 +1,3 @@
-target-name: tcp.yaml
 data-root:
   files:
     proc/net/netstat: |
@@ -16,7 +15,7 @@ data-root:
       Tcp: RtoAlgorithm RtoMin RtoMax MaxConn ActiveOpens PassiveOpens AttemptFails EstabResets CurrEstab InSegs OutSegs RetransSegs InErrs OutRsts InCsumErrors
       Tcp: 1 200 120000 -1 18023 7525 1344 71 83 2146484 6113424 153 0 30562 0
       Udp: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
-      Udp: 1704 0 1234 253 0 0 22 427
+      Udp: 1704 0 1234 253 0 0 600 427
       UdpLite: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti
       UdpLite: 0 0 0 0 0 0 0 0
     proc/net/sockstat: |
@@ -30,5 +29,17 @@ data-root:
       net.ipv4.udp_mem = 379728	506307	762456
       net.ipv4.tcp_mem = 189864	253153	379728
 raised-issues:
-  KernelWarning: >-
-    Failed reverse path filter test (drops=2124).
+  KernelWarning:
+    - >-
+      UDP ingress errors are at 1234 (72.42% of total datagrams). Please
+      check the UDP sockets with queued data or drops, the receive buffer
+      sizes and the interface error counters. See
+      network.udp-sockets.receive-queue and network.interfaces.rx-errors in
+      the kernel summary to identify the affected sockets and interfaces.
+    - >-
+      UDP ingress checksum errors are at 600 (35.21% of total
+      datagrams). This could mean that one or more interfaces are
+      experiencing hardware errors. Please check the NIC, cable and
+      checksum offload settings of the interfaces with errors. See
+      network.interfaces.rx-errors in the kernel summary to identify the
+      interfaces reporting errors.

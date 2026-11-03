@@ -19,6 +19,11 @@ class ProcNetBase(abc.ABC):
     hdr2: label3 label4 ...
     hdr2: value3 value4 ...
     """
+    # Subclasses set this to the error/drop counters worth surfacing for
+    # diagnostics (these are the counters the kernel network scenarios key off
+    # and name in their raised issues).
+    NOTABLE_COUNTERS = ()
+
     def __init__(self):
         self._data = {}
 
@@ -100,6 +105,11 @@ class ProcNetBase(abc.ABC):
 
         raise AttributeError(f"{fld} not found in {self.__class__.__name__}")
 
+    @property
+    def notable_counters(self):
+        """ Mapping of NOTABLE_COUNTERS names to their current values. """
+        return {name: getattr(self, name) for name in self.NOTABLE_COUNTERS}
+
 
 class SNMPBase(ProcNetBase):
     """ Base class for /proc/net/snmp interface implementations. """
@@ -111,6 +121,11 @@ class SNMPBase(ProcNetBase):
 
 class SNMPTcp(SNMPBase):
     """ /proc/net/snmp interface implementation to extract TCP information. """
+    NOTABLE_COUNTERS = (
+        'InCsumErrors',
+        'RetransSegs',
+    )
+
     def _percent_in_segs(self, field):
         """
         The value of a field can be provided as a percentage of the total rx
@@ -156,6 +171,13 @@ class SNMPTcp(SNMPBase):
 
 class SNMPUdp(SNMPBase):
     """ /proc/net/snmp interface implementation to extract UDP information. """
+    NOTABLE_COUNTERS = (
+        'InErrors',
+        'RcvbufErrors',
+        'SndbufErrors',
+        'InCsumErrors',
+    )
+
     @property
     def _header(self):
         return 'Udp'
@@ -212,6 +234,24 @@ class NetStatTCP(NetStatBase):
     """
     /proc/net/netstat interface implementation to extract TCP information.
     """
+    NOTABLE_COUNTERS = (
+        'ListenOverflows',
+        'ListenDrops',
+        'TCPReqQFullDrop',
+        'TCPReqQFullDoCookies',
+        'TCPBacklogDrop',
+        'OfoPruned',
+        'TCPZeroWindowDrop',
+        'TCPRcvQDrop',
+        'IPReversePathFilter',
+        'TCPMinTTLDrop',
+        'TCPSpuriousRtxHostQueues',
+        'PruneCalled',
+        'TCPRcvCollapsed',
+        'RcvPruned',
+        'PFMemallocDrop',
+    )
+
     @property
     def _header(self):
         return 'TcpExt'

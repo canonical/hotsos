@@ -1,0 +1,7 @@
+# Some drops and squeezes but below the thresholds.
+target-name: softnet.yaml
+data-root:
+  files:
+    proc/net/softnet_stat: |
+      00989680 00000064 00000258
+raised-issues:

@@ -1,0 +1,14 @@
+target-name: errors.yaml
+data-root:
+  files:
+    proc/net/snmp: |
+      Udp: InDatagrams RcvbufErrors
+      Udp: 1000 600
+raised-issues:
+  KernelWarning: >-
+    UDP receive buffer errors are at 600 (60.0% of total rx). Receivers are
+    not reading datagrams fast enough or their receive buffer is too small.
+    Please check the receiving applications and net.core.rmem_max. See
+    network.udp-sockets.receive-queue and net.core.rmem_max under
+    network.sysctl in the kernel summary to identify the sockets with queued
+    data.

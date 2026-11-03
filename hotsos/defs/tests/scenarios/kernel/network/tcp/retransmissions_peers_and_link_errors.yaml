@@ -1,0 +1,13 @@
+target-name: retransmissions.yaml
+data-root:
+  files:
+    proc/net/snmp: |
+      Tcp: OutSegs RetransSegs
+      Tcp: 1000 50
+raised-issues:
+  KernelWarning: >-
+    tcp retransmissions (50) are at 5.0% of tx segments (1000). Please check
+    the network path to the busiest peers and the interface error counters.
+    See network.tcp-sockets.retransmitting-connections and
+    network.interfaces.tx-errors in the kernel summary to identify the busiest
+    peers and any interfaces with errors.

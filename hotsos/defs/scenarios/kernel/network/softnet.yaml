@@ -1,0 +1,45 @@
+vars:
+  processed: '@hotsos.core.plugins.kernel.netdata.HostData.softnet_processed_total'
+  dropped: '@hotsos.core.plugins.kernel.netdata.HostData.softnet_dropped_total'
+  squeezed: '@hotsos.core.plugins.kernel.netdata.HostData.softnet_time_squeeze_total'
+  squeezed_pcent: '@hotsos.core.plugins.kernel.netdata.HostData.softnet_time_squeeze_pcent'
+checks:
+  backlog_dropped:
+    varops: [[$dropped], [gt, 500]]
+  budget_exhausted:
+    and:
+      - varops: [[$squeezed], [gt, 500]]
+      # One squeeze per 1000 packets means many runs exhaust the budget.
+      - varops: [[$squeezed_pcent], [ge, 0.1]]
+conclusions:
+  backlog_dropped:
+    decision: backlog_dropped
+    raises:
+      type: KernelWarning
+      message: >-
+        Network backlog drops (/proc/net/softnet_stat): {count} packets were
+        dropped because a CPU's receive backlog (net.core.netdev_max_backlog)
+        was full. This is real packet loss caused by packets arriving faster
+        than the CPU can process them. Please check that NIC interrupts and
+        RPS are spread across CPUs and consider increasing
+        net.core.netdev_max_backlog. See network.softnet-drops and
+        network.interrupts in the kernel summary for the affected CPUs.
+      format-dict:
+        count: $dropped
+  budget_exhausted:
+    decision: budget_exhausted
+    raises:
+      type: KernelWarning
+      message: >-
+        Network receive processing budget exhausted (/proc/net/softnet_stat):
+        time_squeeze={count} ({pcent}% of {processed} packets processed). The
+        kernel is deferring receive work because net.core.netdev_budget or
+        net.core.netdev_budget_usecs ran out. No packets are lost but receive
+        latency increases and the backlog can overflow if this persists.
+        Please check the CPU load of the CPUs listed under
+        network.softnet-time-squeeze in the kernel summary and consider
+        increasing net.core.netdev_budget and net.core.netdev_budget_usecs.
+      format-dict:
+        count: $squeezed
+        pcent: $squeezed_pcent
+        processed: $processed
