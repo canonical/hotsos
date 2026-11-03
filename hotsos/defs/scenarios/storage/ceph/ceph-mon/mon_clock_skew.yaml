@@ -1,0 +1,15 @@
+checks:
+  mon_clock_skew_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, MON_CLOCK_SKEW]]
+conclusions:
+  mon-clock-skew:
+    decision: mon_clock_skew_reported
+    raises:
+      type: CephMonWarning
+      message: >-
+        Ceph health detail reports MON_CLOCK_SKEW: monitor host clocks
+        are not synchronized within mon_clock_drift_allowed. Please
+        synchronize the clocks using chrony or ntpd. Please see
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#mon-clock-skew
