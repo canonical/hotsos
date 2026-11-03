@@ -1,0 +1,26 @@
+checks:
+  affected_package:
+    apt:
+      neutron-openvswitch-agent:
+      python3-neutron:
+        # Inspected Resolute and Gazpacho builds; other revisions are unverified.
+        - eq: 2:28.0.0-0ubuntu1
+        - eq: 2:28.0.0-0ubuntu1~cloud0
+        - eq: 2:28.0.0-0ubuntu1.1
+        - eq: 2:28.0.0-0ubuntu1.1~cloud0
+  startup_exception:
+    input: var/log/neutron/neutron-openvswitch-agent.log
+    search: '^(\d{4}-\d{2}-\d{2}) [\d:]+\.\d{3} \d+ ERROR neutron(?:\.\S+)? .*AttributeError: ''NoneType'' object has no attribute ''get_flood_to_tun_ofports''$'
+conclusions:
+  lp2156566:
+    decision:
+      - affected_package
+      - startup_exception
+    raises:
+      type: LaunchpadBug
+      bug-id: 2156566
+      message: >-
+        Neutron OVS agent logs record a startup failure while restoring VLAN
+        mappings with tunneling disabled: 'NoneType' has no attribute
+        'get_flood_to_tun_ofports'. Please upgrade Neutron to the latest version
+        and please verify that the agent starts successfully.

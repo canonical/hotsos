@@ -1,0 +1,18 @@
+target-name: lp2156566.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii neutron-openvswitch-agent 2:28.0.0-0ubuntu1.1~cloud0 all
+      ii python3-neutron 2:28.0.0-0ubuntu1.1~cloud0 all
+    etc/neutron/plugins/ml2/openvswitch_agent.ini: |
+      [AGENT]
+      tunnel_types = vxlan
+    var/log/neutron/neutron-openvswitch-agent.log: |
+      2026-08-07 09:00:00.123 4242 ERROR neutron AttributeError: 'NoneType' object has no attribute 'get_flood_to_tun_ofports'
+      2026-08-07 10:00:00.123 4343 INFO neutron.plugins.ml2.drivers.openvswitch.agent.ovs_neutron_agent Agent initialized successfully, now running...
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2156566: >-
+    Neutron OVS agent logs record a startup failure while restoring VLAN
+    mappings with tunneling disabled: 'NoneType' has no attribute
+    'get_flood_to_tun_ofports'. Please upgrade Neutron to the latest version
+    and please verify that the agent starts successfully.
