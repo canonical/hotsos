@@ -1,0 +1,28 @@
+checks:
+  has_2169231:
+    input: var/log/neutron/neutron-server.log
+    search:
+      expr: '([\d-]+) ([\d:]+)\.\d{3} .+ neutron\.db\.ovn_hash_ring_db .+ Nodes from host ".+" and group "mechanism_driver" removed from the Hash Ring created at'
+      hint: 'ovn_hash_ring_db'
+      constraints:
+        # when hit, workers re-init the hash ring in a tight loop so this is
+        # logged repeatedly in a short space of time
+        min-results: 10
+        search-period-hours: 1
+        search-result-age-hours: 48
+conclusions:
+  lp2169231:
+    decision: has_2169231
+    raises:
+      type: LaunchpadBug
+      bug-id: 2169231
+      message: >-
+        neutron-server OVN API workers on this host appear to be stuck in a loop
+        re-initialising the OVN hash ring, repeatedly logging "Nodes from host
+        ... removed from the Hash Ring created at <stale time>" (LP2169231). In
+        containerised deployments where the parent PID is reused after a
+        restart, get_start_time() reads a stale /tmp/neutron_start_time<ppid>
+        file so the workers never finish initialising and the neutron API stops
+        responding. As an immediate workaround, please remove the stale
+        /tmp/neutron_start_time* files and restart neutron-server, then upgrade
+        neutron to the latest version to resolve this issue.

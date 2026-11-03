@@ -1,0 +1,19 @@
+target-name: lp2169231.yaml
+data-root:
+  files:
+    var/log/neutron/neutron-server.log: |
+      2022-01-28 06:26:03.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000001 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:26:13.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000002 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:26:23.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000003 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:26:33.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000004 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:26:43.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000005 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:26:53.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000006 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:27:03.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000007 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:27:13.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000008 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:27:23.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000009 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:27:33.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000010 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+      2022-01-28 06:27:43.116 25 INFO neutron.db.ovn_hash_ring_db [None req-00000000-0000-0000-0000-000000000011 - - - - -] Nodes from host "controller-1" and group "mechanism_driver" removed from the Hash Ring created at 2022-01-18 14:34:15+00:00
+  copy-from-original:
+    - uptime
+    - sos_commands/date/date
+raised-bugs:
