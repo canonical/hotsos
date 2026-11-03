@@ -1,0 +1,30 @@
+checks:
+  mon_disk_low_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, MON_DISK_LOW]]
+  mon_disk_crit_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, MON_DISK_CRIT]]
+conclusions:
+  mon-disk-space-low:
+    decision: mon_disk_low_reported
+    raises:
+      type: CephMonWarning
+      message: >-
+        Ceph health detail reported MON_DISK_LOW: one or more monitors
+        had low available space when this data was collected. Please
+        free space or please extend the filesystems containing the affected
+        monitors' configured mon_data directories. Please see
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#mon-disk-low
+  mon-disk-space-critical:
+    decision: mon_disk_crit_reported
+    raises:
+      type: CephMonWarning
+      message: >-
+        Ceph health detail reported MON_DISK_CRIT: one or more monitors
+        had critically low available space when this data was collected.
+        Please free space or please extend the filesystems containing the affected
+        monitors' configured mon_data directories. Please see
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#mon-disk-crit

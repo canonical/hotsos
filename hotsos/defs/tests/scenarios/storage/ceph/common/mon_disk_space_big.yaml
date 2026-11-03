@@ -1,0 +1,24 @@
+target-name: mon_disk_space.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "MON_DISK_BIG": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "mon a is using a lot of disk space",
+                      "count": 1
+                  },
+                  "detail": [{
+                      "message": "mon.a is 16 GiB >= mon_data_size_warn (15 GiB)"
+                  }],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: {}

@@ -1,0 +1,40 @@
+target-name: mon_disk_space.yaml
+data-root:
+  files:
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_ERR",
+          "checks": {
+              "MON_DISK_LOW": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "mon a is low on available space",
+                      "count": 1
+                  },
+                  "detail": [{"message": "mon.a has 20% avail"}],
+                  "muted": true
+              },
+              "MON_DISK_CRIT": {
+                  "severity": "HEALTH_ERR",
+                  "summary": {
+                      "message": "mon b is very low on available space",
+                      "count": 1
+                  },
+                  "detail": [{"message": "mon.b has 4% avail"}],
+                  "muted": false
+              }
+          },
+          "mutes": [{
+              "code": "MON_DISK_LOW", "sticky": false,
+              "summary": "mon a is low on available space", "count": 1
+          }]
+      }
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  CephMonWarning: >-
+    Ceph health detail reported MON_DISK_CRIT: one or more monitors
+    had critically low available space when this data was collected.
+    Please free space or please extend the filesystems containing the affected
+    monitors' configured mon_data directories. Please see
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#mon-disk-crit

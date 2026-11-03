@@ -1,0 +1,36 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-common  19.2.6-0ubuntu0.24.04.1  amd64  Ceph utilities
+    sos_commands/systemd/systemctl_list-units: |
+      UNIT LOAD ACTIVE SUB DESCRIPTION
+    sos_commands/systemd/systemctl_list-unit-files: |
+      UNIT FILE STATE VENDOR PRESET
+      ceph-mon.service disabled enabled
+      ceph-mon@.service disabled enabled
+      snap.microceph.mon.service disabled enabled
+    sos_commands/ceph_mon/json_output/ceph_health_detail_--format_json-pretty: |
+      {
+          "status": "HEALTH_WARN",
+          "checks": {
+              "MON_DISK_LOW": {
+                  "severity": "HEALTH_WARN",
+                  "summary": {
+                      "message": "mon a is low on available space",
+                      "count": 1
+                  },
+                  "detail": [{"message": "mon.a has 20% avail"}],
+                  "muted": false
+              }
+          },
+          "mutes": []
+      }
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  CephMonWarning: >-
+    Ceph health detail reported MON_DISK_LOW: one or more monitors
+    had low available space when this data was collected. Please
+    free space or please extend the filesystems containing the affected
+    monitors' configured mon_data directories. Please see
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#mon-disk-low
