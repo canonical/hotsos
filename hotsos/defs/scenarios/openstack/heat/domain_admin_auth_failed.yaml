@@ -1,0 +1,28 @@
+vars:
+  # Group 1 is the date and group 2 the time. The logger name is not
+  # matched: it was heat.common.heat_keystoneclient up to 6.0.0 (Mitaka)
+  # and heat.engine.clients.os.keystone.heat_keystoneclient from 7.0.0
+  # (Newton).
+  expr_domain_admin_auth_failed: '([\d-]+) ([\d:]+)\.\d{3,6} .+ ERROR \S+ .+ Domain admin client authentication failed'
+checks:
+  domain_admin_auth_failed:
+    input:
+      path:
+        - var/log/heat/heat-engine.log
+    expr: $expr_domain_admin_auth_failed
+    hint: 'Domain admin client authentication failed'
+    constraints:
+      search-result-age-hours: 24
+conclusions:
+  heat-domain-admin-auth-failed:
+    decision: domain_admin_auth_failed
+    raises:
+      type: OpenstackWarning
+      message: >-
+        heat-engine logged 'Domain admin client authentication failed' {count}
+        time(s) on {dates}. Authentication of the stack domain admin or trustee
+        failed, which may have affected stack operations. Please check the Heat
+        credentials and Keystone logs for the failure; it may have been resolved.
+      format-dict:
+        count: '@checks.domain_admin_auth_failed.search.num_results'
+        dates: '@checks.domain_admin_auth_failed.search.results_group_1:unique_comma_join'
