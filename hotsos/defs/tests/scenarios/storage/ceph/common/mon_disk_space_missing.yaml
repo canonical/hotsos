@@ -1,0 +1,6 @@
+target-name: mon_disk_space.yaml
+data-root:
+  files: {}
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: {}
