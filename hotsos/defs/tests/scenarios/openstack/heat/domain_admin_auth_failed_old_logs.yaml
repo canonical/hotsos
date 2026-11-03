@@ -1,0 +1,18 @@
+target-name: domain_admin_auth_failed.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  keystone                             2:21.0.0-0ubuntu1~cloud0                             all          OpenStack identity service - Django web application
+      ii  nova-common                          3:25.2.1-0ubuntu2.7~cloud0                           all          OpenStack Compute - common files
+      ii  neutron-common                       2:20.3.0-0ubuntu1~cloud0                             all          Neutron is a virtual network service for Openstack - common
+      ii  cinder-common                        2:20.3.0-0ubuntu1~cloud0                             all          Cinder storage service - common files
+    # The positive lines on Feb 7: more than 24 hours before the sosreport
+    # date but inside the 7 day --all-logs window used by the unit tests.
+    var/log/heat/heat-engine.log: |
+      2022-02-07 10:28:35.123 1234 ERROR heat.engine.clients.os.keystone.heat_keystoneclient [req-1 - - - - -] Domain admin client authentication failed
+      2022-02-07 10:29:35.123 1234 ERROR heat.common.heat_keystoneclient [req-2 - - - - -] Domain admin client authentication failed
+      2022-02-07 10:30:35.123 1234 ERROR heat.engine.clients.os.keystone.heat_keystoneclient [req-3 - - - - -] Keystone client authentication failed
+      2022-02-07 10:31:35.123 1234 ERROR heat.engine.clients.os.keystone.heat_keystoneclient [req-4 - - - - -] Trust impersonation failed
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
