@@ -671,6 +671,20 @@
             align-items: center;
             gap: 0.6rem;
             font-size: 0.9rem;
+            text-align: left;
+        }
+        /* Pie legends share one grid so keys and figures line up in common
+           columns instead of each row sizing its own (which made them float). */
+        .hs-chart--pie .hs-chart__legend {
+            display: grid;
+            grid-template-columns: auto minmax(6rem, 14rem) auto;
+            align-items: center;
+            column-gap: 0.6rem;
+            row-gap: 0.4rem;
+            text-align: left;
+        }
+        .hs-chart--pie .hs-chart__legend-row {
+            display: contents;
         }
         .hs-chart__swatch {
             display: block;
