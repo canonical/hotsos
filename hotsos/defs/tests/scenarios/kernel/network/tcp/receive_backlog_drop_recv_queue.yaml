@@ -1,0 +1,13 @@
+target-name: receive.yaml
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: TCPBacklogDrop
+      TcpExt: 600
+raised-issues:
+  KernelWarning: >-
+    tcp socket backlog queue full (drops=600). Packets are arriving faster
+    than the owning processes can read them. Please check the processes with
+    unread data and the CPU load they are under. See
+    network.tcp-sockets.unaccepted-connections and socket-count-consumers in the
+    kernel summary to identify the processes not reading their sockets.

@@ -1,0 +1,15 @@
+target-name: softnet.yaml
+data-root:
+  files:
+    proc/net/softnet_stat: |
+      000186a0 00000258 00000000
+      000186a0 00000000 00000000
+raised-issues:
+  KernelWarning: >-
+    Network backlog drops (/proc/net/softnet_stat): 600 packets were dropped
+    because a CPU's receive backlog (net.core.netdev_max_backlog) was full.
+    This is real packet loss caused by packets arriving faster than the CPU
+    can process them. Please check that NIC interrupts and RPS are spread
+    across CPUs and consider increasing net.core.netdev_max_backlog. See
+    network.softnet-drops and network.interrupts in the kernel summary for
+    the affected CPUs.

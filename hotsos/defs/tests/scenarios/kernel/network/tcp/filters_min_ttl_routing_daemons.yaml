@@ -1,0 +1,13 @@
+target-name: filters.yaml
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: TCPMinTTLDrop
+      TcpExt: 600
+raised-issues:
+  KernelWarning: >-
+    IP TTL below minimum (drops=600). Please check that the peers are within
+    the expected number of hops and that the minimum TTL set by local
+    applications (e.g. BGP/BFD) is correct. See
+    network.reverse-path-filter.routing-daemons in the kernel summary to
+    identify routing daemons that may set a minimum TTL.

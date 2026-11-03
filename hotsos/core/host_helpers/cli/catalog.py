@@ -211,6 +211,9 @@ class CommandCatalog(UserDict):
             'rabbitmqctl_report':
                 [BinCmd('rabbitmqctl report'),
                  FileCmd('sos_commands/rabbitmq/rabbitmqctl_report')],
+            'ss_peaonmi':
+                [BinCmd('ss -peaonmi'),
+                 FileCmd('sos_commands/networking/ss_-peaonmi')],
             'sunbeam_cluster_list':
                 [BinCmd('sunbeam cluster list'),
                  FileCmd('sos_commands/sunbeam/sunbeam_cluster_list')],

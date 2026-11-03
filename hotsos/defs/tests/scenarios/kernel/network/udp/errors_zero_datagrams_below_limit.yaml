@@ -1,0 +1,7 @@
+target-name: errors.yaml
+data-root:
+  files:
+    proc/net/snmp: |
+      Udp: InDatagrams InErrors OutDatagrams RcvbufErrors SndbufErrors
+      Udp: 0 500 0 500 500
+raised-issues:  # none expected

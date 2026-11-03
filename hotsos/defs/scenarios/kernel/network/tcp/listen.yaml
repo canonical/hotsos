@@ -1,0 +1,85 @@
+vars:
+  ldrop: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenDrops'
+  listenovf: '@hotsos.core.plugins.kernel.net.NetStatTCP.ListenOverflows'
+  rqfulld: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDrop'
+  rqfullcook: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPReqQFullDoCookies'
+checks:
+  listenovf:
+    varops: [[$listenovf], [gt, 500]]
+  ldrop:
+    varops: [[$ldrop], [gt, 500]]
+  rqfulld:
+    varops: [[$rqfulld], [gt, 500]]
+  rqfullcook:
+    varops: [[$rqfullcook], [gt, 500]]
+conclusions:
+  listenovf:
+    decision: listenovf
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp accept queue overflow (drops={count}). Applications are not
+        accepting connections fast enough or their listen backlog is too
+        small. Please check the listening applications and net.core.somaxconn.
+        Related TcpExt counters: ListenOverflows={listenovf},
+        ListenDrops={ldrop}, TCPReqQFullDrop={rqfulld} (see
+        network.proc-net-counters.tcp in the kernel summary, or view live with
+        'nstat -az' or 'netstat -s'). See the net.core.somaxconn and
+        net.ipv4.tcp_max_syn_backlog settings under network.sysctl in the
+        kernel summary; network.tcp-sockets.queued-listeners lists any
+        listening sockets currently backing up.
+      format-dict:
+        count: $listenovf
+        listenovf: $listenovf
+        ldrop: $ldrop
+        rqfulld: $rqfulld
+  ldrop:
+    decision: ldrop
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp incoming connect request catch-all (drops={count}). Connection
+        requests are being dropped because a listen queue is full or memory
+        is short. Please check the listening applications and net.core.somaxconn.
+        Related TcpExt counters: ListenOverflows={listenovf},
+        ListenDrops={ldrop}, TCPReqQFullDrop={rqfulld} (see
+        network.proc-net-counters.tcp in the kernel summary, or view live with
+        'nstat -az' or 'netstat -s'). See the net.core.somaxconn and
+        net.ipv4.tcp_max_syn_backlog settings under network.sysctl in the
+        kernel summary; network.tcp-sockets.queued-listeners lists any
+        listening sockets currently backing up.
+      format-dict:
+        count: $ldrop
+        listenovf: $listenovf
+        ldrop: $ldrop
+        rqfulld: $rqfulld
+  rqfulld:
+    decision: rqfulld
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp request queue full, syncookies off (drops={count}). Please check
+        whether the listed ports are under a SYN flood and consider enabling
+        net.ipv4.tcp_syncookies or increasing net.ipv4.tcp_max_syn_backlog.
+        Related TcpExt counters: ListenOverflows={listenovf},
+        ListenDrops={ldrop}, TCPReqQFullDrop={rqfulld} (see
+        network.proc-net-counters.tcp in the kernel summary, or view live with
+        'nstat -az' or 'netstat -s'). See network.tcp-sockets.half-open-ports
+        in the kernel summary to identify the ports receiving SYNs.
+      format-dict:
+        count: $rqfulld
+        listenovf: $listenovf
+        ldrop: $ldrop
+        rqfulld: $rqfulld
+  rqfullcook:
+    decision: rqfullcook
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp request queue full, syncookies on (cookies={count}). Syncookies
+        protect the host but disable some TCP options. Please check whether the
+        listed ports are under a SYN flood or if the services need a larger
+        net.ipv4.tcp_max_syn_backlog. See network.tcp-sockets.half-open-ports
+        in the kernel summary to identify the ports receiving SYNs.
+      format-dict:
+        count: $rqfullcook

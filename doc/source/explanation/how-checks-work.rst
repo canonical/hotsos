@@ -138,6 +138,7 @@ retrieved. Supported functions are:
 
 * comma_join - takes a list or dict as input and returns ', '.join(input)
 * unique_comma_join - takes a list or dict as input and returns ', '.join(set(input))
+* semicolon_join - takes a list or dict as input and returns '; '.join(input)
 * first - takes a list as input and returns input[0]
 
 LogicalGroupings

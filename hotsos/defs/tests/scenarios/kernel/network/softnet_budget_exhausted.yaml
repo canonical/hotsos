@@ -1,0 +1,16 @@
+target-name: softnet.yaml
+data-root:
+  files:
+    proc/net/softnet_stat: |
+      000186a0 00000000 000001f4
+      000186a0 00000000 00000064
+raised-issues:
+  KernelWarning: >-
+    Network receive processing budget exhausted (/proc/net/softnet_stat):
+    time_squeeze=600 (0.3% of 200000 packets processed). The kernel is
+    deferring receive work because net.core.netdev_budget or
+    net.core.netdev_budget_usecs ran out. No packets are lost but receive
+    latency increases and the backlog can overflow if this persists. Please
+    check the CPU load of the CPUs listed under network.softnet-time-squeeze
+    in the kernel summary and consider increasing net.core.netdev_budget and
+    net.core.netdev_budget_usecs.

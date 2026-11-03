@@ -1,0 +1,15 @@
+target-name: misc.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      Jun  8 10:48:13 compute4 kernel: [1694413.621694] nf_conntrack: nf_conntrack: table full, dropping packet
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  NetworkWarning: >-
+    1 reports of 'nf_conntrack: table full' detected in kern.log. The
+    connection tracking table is too small for the number of connections or
+    is filling up with stale entries. Please check the conntrack usage and
+    timeouts and consider increasing net.netfilter.nf_conntrack_max. See
+    network.conntrack in the kernel summary for the current usage, per-protocol
+    entries and tcp states.
