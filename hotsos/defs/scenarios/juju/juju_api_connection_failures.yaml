@@ -10,7 +10,7 @@ conclusions:
   juju-api-connection-failures:
     decision: api_connection_failed
     raises:
-      type: KubernetesWarning
+      type: JujuWarning
       message: >-
         Juju API connection attempts failed in collected Kubernetes charm-agent
         logs: {failures}. Please check the corresponding charm pod logs for the

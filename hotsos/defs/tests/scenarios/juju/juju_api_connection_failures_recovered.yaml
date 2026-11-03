@@ -7,6 +7,6 @@ data-root:
       2026-10-30T10:00:00.001Z [container-agent] 2026-10-30 10:00:00 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: [09b810] "unit-database-0" cannot open api: unable to connect to API: dial tcp 192.0.2.10:17070: connect: connection refused
       2026-10-30T10:01:00.001Z [container-agent] 2026-10-30 10:01:00 INFO juju.worker.apicaller connect.go:163 [09b810] "unit-database-0" successfully connected to "wss://192.0.2.10:17070"
 raised-issues:
-  KubernetesWarning:
+  JujuWarning:
     - >-
       Juju API connection attempts failed in collected Kubernetes charm-agent logs: [09b810] "unit-database-0" cannot open api: unable to connect to API: dial tcp 192.0.2.10:17070: connect: connection refused. Please check the corresponding charm pod logs for the endpoint errors and subsequent connection attempts.
