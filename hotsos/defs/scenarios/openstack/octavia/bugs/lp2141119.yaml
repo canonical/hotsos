@@ -1,0 +1,67 @@
+vars:
+  # Common tail of the octavia-api provider driver load failure message.
+  expr_common: '([\d-]+) ([\d:]+)\.\d{3} \d+ ERROR octavia.api.drivers.driver_factory .+ Unable to load provider driver .+ due to:'
+  # When running under apache/mod_wsgi the same message is prefixed with the
+  # apache error log timestamp e.g. [Thu Feb 10 06:14:46.123456 2022].
+  expr_apache: '(\[\w{3,9}\s+\w{3,5}\s+\d{1,2}\s+[\d:]+\.\d+\s+\d{4}\]) \[[^]]+\] \[pid [^]]+\] ([\d-]+) ([\d:]+)\.\d{3} \d+ ERROR octavia.api.drivers.driver_factory .+ Unable to load provider driver .+ due to:'
+checks:
+  pkg_vulnerable:
+    apt:
+      octavia-common:
+        # yoga (UCA) and jammy archive
+        - min: '1:10.1.1'
+          lt: '1:10.1.1-0ubuntu1.4~cloud0'
+        # zed (UCA)
+        - min: '1:11.0.1'
+          lt: '1:11.0.1-0ubuntu1~cloud1'
+        # antelope (UCA)
+        - min: '1:12.0.0'
+          lt: '1:12.0.0-0ubuntu1.1~cloud2'
+        # bobcat (UCA)
+        - min: '1:13.0.0'
+          lt: '1:13.0.0-0ubuntu1~cloud3'
+        # caracal (UCA) and noble archive
+        - min: '1:14.0.0'
+          lt: '1:14.0.0-0ubuntu1.4~cloud0'
+        # dalmatian (UCA)
+        - min: '1:15.0.0'
+          lt: '1:15.0.0-0ubuntu1~cloud1'
+        # epoxy (UCA)
+        - min: '1:16.0.0'
+          lt: '1:16.0.0-0ubuntu1~cloud1'
+        # flamingo (UCA) and questing archive
+        - min: '1:17.0.0'
+          lt: '1:17.0.0-0ubuntu1.1~cloud0'
+  # The apache error log timestamp format is now supported by
+  # CommonTimestampMatcher so the same age constraint used for the API log can
+  # be applied here.
+  has_2141119_apache:
+    input: var/log/apache2/octavia_error.log
+    search:
+      expr: $expr_apache
+      constraints:
+        search-result-age-hours: 168  # 7 days
+  has_2141119_api:
+    input: var/log/octavia/octavia-api.log
+    search:
+      expr: $expr_common
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  lp2141119:
+    decision:
+      and:
+        - pkg_vulnerable
+        - or:
+            - has_2141119_apache
+            - has_2141119_api
+    raises:
+      type: LaunchpadBug
+      bug-id: 2141119
+      message: >-
+        Octavia is unable to load one or more enabled provider drivers and, on
+        an affected version of the octavia package, this prevents the Octavia
+        API from starting, leaving it unavailable (HTTP 503). A misconfigured
+        or failing driver in enabled_provider_drivers is enough to trigger the
+        failure. Please upgrade octavia packages to the latest version for your
+        release to resolve this issue.

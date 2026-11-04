@@ -1,0 +1,12 @@
+target-name: lp2141119.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  octavia-common                       1:14.0.0-0ubuntu1.3                           all          OpenStack Load Balancer as a Service - Common files
+    var/log/apache2/octavia_error.log: |
+      [Thu Jan 20 06:14:46.123456 2022] [wsgi:error] [pid 19692:tid 140252996032064] 2022-01-20 06:14:46.123 19692 ERROR octavia.api.drivers.driver_factory [-] Unable to load provider driver dne due to: NoMatches: No 'octavia.api.drivers' driver found, looking for 'dne'
+      [Thu Jan 20 06:14:46.124276 2022] [wsgi:error] [pid 19692:tid 140252996032064] mod_wsgi (pid=19692): Failed to exec Python script file '/usr/bin/octavia-wsgi'.
+      [Thu Jan 20 06:14:46.125683 2022] [wsgi:error] [pid 19692:tid 140252996032064] [remote 127.0.0.1:35370] octavia.common.exceptions.ProviderNotFound: Provider 'dne' was not found.
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
