@@ -1,0 +1,21 @@
+checks:
+  btrfs_forced_readonly:
+    input:
+      path: 'var/log/kern.log'
+    search:
+      expr:
+        - '(?:<\d+>)?(\w{3,5}\s+\d{1,2}\s+[\d:]+)\s+\S+ kernel:\s+(?:\[[\d. ]+\]\s+)?BTRFS info \(device (\S+?)(?::? state [A-Z]+)?\): forced readonly$'
+        - '(?:<\d+>)?(\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|[+-]\d{2}:\d{2}))\s+\S+ kernel:\s+(?:\[[\d. ]+\]\s+)?BTRFS info \(device (\S+?)(?::? state [A-Z]+)?\): forced readonly$'
+      constraints:
+        search-result-age-hours: 24
+conclusions:
+  btrfs-forced-readonly:
+    decision: btrfs_forced_readonly
+    raises:
+      type: KernelError
+      message: >-
+        Btrfs forced the filesystem(s) on {devices} read-only after an error.
+        Please inspect preceding kernel errors and verify the current
+        filesystem state.
+      format-dict:
+        devices: '@checks.btrfs_forced_readonly.search.results_group_2:unique_comma_join'

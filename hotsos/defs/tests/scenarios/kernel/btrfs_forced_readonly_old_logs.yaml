@@ -1,0 +1,11 @@
+target-name: btrfs_forced_readonly.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      Feb 08 10:18:14 host kernel: [  725.797102] BTRFS info (device sda1): forced readonly
+      Feb 08 10:19:14 host kernel: [  785.797102] BTRFS info (device dm-0: state E): forced readonly
+      Feb 08 10:20:14 host kernel: BTRFS info (device nvme0n1p2 state EA): forced readonly
+      Feb 08 10:21:14 host kernel: BTRFS info (device sda1): forced readonly
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
