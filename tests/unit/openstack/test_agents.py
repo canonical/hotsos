@@ -255,7 +255,11 @@ class TestOpenstackAgentEvents(TestOpenstackBase):
                              expected[section_key])
 
     @utils.create_data_root({'var/log/apache2/error.log':
-                             EVENT_APACHE_CONN_REFUSED_LOG})
+                             EVENT_APACHE_CONN_REFUSED_LOG,
+                             # Keep the sosreport date consistent with the log
+                             # dates so the log falls within the search window.
+                             'sos_commands/date/date':
+                             'Tue Oct 26 18:00:00 UTC 2021'})
     def test_run_apache_checks(self):
         """ Test apache connection-refused event detection. """
         expected = {'connection-refused': {
