@@ -1,3 +1,7 @@
+import datetime
+from unittest import mock
+
+import pytz
 from hotsos.core.host_helpers import systemd as host_systemd
 from hotsos.core.plugins.storage.ceph.common import CEPH_SERVICES_EXPRS
 
@@ -25,6 +29,12 @@ snap.microceph.osd.service                    enabled         enabled
 snap.microceph.rbd-mirror.service             disabled        enabled
 snap.microceph.rgw.service                    disabled        enabled
 """  # noqa
+
+
+# Europe/London falls back from BST to GMT at 01:00 UTC on this day so this
+# naive time is ambiguous there.
+DST_FALL_BACK_NOW = datetime.datetime(2026, 10, 25, 1, 30,
+                                      tzinfo=datetime.timezone.utc)
 
 
 class TestSystemdHelper(utils.BaseTestCase):
@@ -138,6 +148,69 @@ Feb 09 22:38:17 compute4 systemd[1]: Starting System Logging Service...
         svc = host_systemd.ServiceFactory().rsyslog
         self.assertEqual(svc.start_time_secs, 1644412097.0)
         self.assertIsNone(host_systemd.ServiceFactory().noexist)
+
+    def test_get_tz_abbreviations_dst_fall_back(self):
+        """Test tz abbreviations when now is a fall-back hour in a zone."""
+        naive_now = DST_FALL_BACK_NOW.replace(tzinfo=None)
+        with self.assertRaises(pytz.AmbiguousTimeError):
+            pytz.timezone('Europe/London').localize(naive_now, is_dst=None)
+
+        tzinfos = host_systemd.get_tz_abbreviations(DST_FALL_BACK_NOW)
+        for abbrev in ['UTC', 'GMT', 'BST', 'CET', 'CEST']:
+            self.assertIn(abbrev, tzinfos)
+
+        summer = datetime.datetime(2026, 7, 1, 12, 0, tzinfo=tzinfos['BST'])
+        self.assertEqual(summer.utcoffset(), datetime.timedelta(hours=1))
+
+    def test_get_tz_abbreviations_dst_and_standard(self):
+        """Test both standard and DST tz abbreviations are found."""
+        cases = {
+            # Europe/London springs forward, no other zone uses BST.
+            datetime.datetime(2026, 3, 29, 1, 30): ['GMT', 'BST'],
+            # New Zealand and Alaska have just changed to DST.
+            datetime.datetime(2026, 10, 1, 12, 0): ['NZST', 'NZDT'],
+            datetime.datetime(2026, 3, 20, 12, 0): ['AKST', 'AKDT'],
+            # New Zealand has just changed back to standard time.
+            datetime.datetime(2026, 4, 6, 12, 0): ['NZST', 'NZDT'],
+        }
+        for now, abbrevs in cases.items():
+            now = now.replace(tzinfo=datetime.timezone.utc)
+            with self.subTest(now=now):
+                tzinfos = host_systemd.get_tz_abbreviations(now)
+                for abbrev in abbrevs:
+                    self.assertIn(abbrev, tzinfos)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("GMT")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    @mock.patch.object(host_systemd, 'datetime')
+    def test_service_factory_no_journal_dst_fall_back_now(self,
+                                                          mock_datetime):
+        """Test start time when now is a fall-back hour in a zone."""
+        mock_datetime.now.return_value = DST_FALL_BACK_NOW
+        svc = host_systemd.ServiceFactory().rsyslog
+        # 2022-02-09 22:38:17 GMT is 2022-02-09 22:38:17 UTC
+        self.assertEqual(svc.start_time_secs, 1644446297.0)
+
+    @utils.create_data_root(
+        {'sos_commands/systemd/systemctl_status_--all':
+         rsyslog_systemctl_status_template.format("NZDT")},
+        copy_from_original=['sos_commands/systemd/systemctl_list-units',
+                            'sos_commands/systemd/systemctl_list-unit-files',
+                            'sys/fs/cgroup/memory/system.slice'])
+    @mock.patch.object(host_systemd, 'datetime')
+    def test_service_factory_no_journal_previous_dst_abbrev(self,
+                                                            mock_datetime):
+        """Test start time logged with an abbreviation no longer in use."""
+        # Started in New Zealand summer, sosreport taken in winter (NZST).
+        mock_datetime.now.return_value = datetime.datetime(
+            2022, 7, 1, 12, 0, tzinfo=datetime.timezone.utc)
+        svc = host_systemd.ServiceFactory().rsyslog
+        # 2022-02-09 22:38:17 NZDT (UTC+13) is 2022-02-09 09:38:17 UTC
+        self.assertEqual(svc.start_time_secs, 1644399497.0)
 
     def test_systemd_helper(self):
         """Test systemd helper summary with service exprs."""

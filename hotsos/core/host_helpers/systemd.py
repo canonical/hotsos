@@ -1,7 +1,7 @@
 import glob
 import os
 import re
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from functools import cached_property
 
 import dateutil
@@ -20,6 +20,41 @@ from hotsos.core.host_helpers import CLIHelper, CLIHelperFile
 from hotsos.core.host_helpers.common import ServiceManagerBase
 from hotsos.core.log import log
 
+# Days before now at which timezone abbreviations are sampled so that both
+# the standard and daylight saving time names of each zone are found.
+TZ_ABBREVIATION_SAMPLE_DAYS = (273, 182, 91, 0)
+
+
+def get_tz_abbreviations(now):
+    """ Generates timezone abbreviation to tzinfo mappings for common
+    timezones.
+
+    See https://dateutil.readthedocs.io/en/stable/parser.html#functions for
+    how it is consumed. dateutil needs timezone abbreviated to timezone
+    full name mappings in order to be able to parse timestamps with tz
+    abbreviations.
+
+    An aware time is converted into each zone, which unlike localising a
+    naive time cannot fail when it falls in a DST change hour. Abbreviations
+    in use at now take precedence when zones share a name.
+
+    @param now: timezone aware datetime.datetime
+    @return: dictionary of name: timezone mappings.
+    """
+    zones = []
+    for name in pytz.common_timezones:
+        tzinfo = dateutil.tz.gettz(name)
+        if tzinfo:
+            zones.append((pytz.timezone(name), tzinfo))
+
+    tzinfos = {}
+    for days_ago in TZ_ABBREVIATION_SAMPLE_DAYS:
+        when = now - timedelta(days=days_ago)
+        for zone, tzinfo in zones:
+            tzinfos[when.astimezone(zone).tzname()] = tzinfo
+
+    return tzinfos
+
 
 class SystemdService():
     """ Representation of systemd service. """
@@ -30,28 +65,9 @@ class SystemdService():
 
     @cached_property
     def _tzinfos(self):
-        """ Generates timezone name to zone mappings for common timezones.
-
-        See https://dateutil.readthedocs.io/en/stable/parser.html#functions for
-        how it is consumed. dateutil needs timezone abbreviated to timezone
-        full name mappings in order to be able to parse timestamps with tz
-        abbreviations.
-
-        @return: dictionary of name: timezone mappings.
-        """
-        def fetch():
-            for zone in pytz.common_timezones:
-                try:
-                    tzdate = pytz.timezone(zone).localize(datetime.utcnow(),
-                                                          is_dst=None)
-                except pytz.NonExistentTimeError:
-                    pass
-                else:
-                    tzinfo = dateutil.tz.gettz(zone)
-                    if tzinfo:
-                        yield tzdate.tzname(), tzinfo
-
-        return dict(fetch())
+        """ Timezone abbreviation to tzinfo mappings used to parse the start
+        time from service status. See get_tz_abbreviations(). """
+        return get_tz_abbreviations(datetime.now(timezone.utc))
 
     @cached_property
     def start_time(self):
