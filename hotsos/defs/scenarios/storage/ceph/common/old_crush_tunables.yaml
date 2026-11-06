@@ -10,9 +10,9 @@ conclusions:
       type: CephCrushWarning
       message: >-
         Ceph reports OLD_CRUSH_TUNABLES: the CRUSH map's tunables require an
-        older client release than `mon_crush_min_required_version`, which may
-        give less optimal data placement. Please verify all clients support
-        the `optimal` CRUSH tunables profile before applying it; changing
-        tunables can trigger significant data movement.
-        Please see
+        older release than `mon_crush_min_required_version`, which may give
+        less optimal data placement. Please mute this warning if older clients
+        require the existing profile; otherwise, please verify client support
+        before applying the `optimal` profile, which can trigger significant
+        data movement. Please see
         https://docs.ceph.com/en/latest/rados/operations/crush-map/#tunables
