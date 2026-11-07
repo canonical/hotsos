@@ -34,3 +34,66 @@ kernel:
     model: intel core processor (skylake, ibrs)
     smt: disabled
     cpufreq-scaling-governor: unknown
+  network:
+    interfaces:
+      rx-errors:
+        - 'br-data: dropped=5801'
+        - 'br-int: dropped=1533'
+    interrupts:
+      total: 48722643
+      busiest-cpu: cpu0
+      busiest-cpu-pcent: 50
+      nic-irqs:
+        - 'IRQ 25 virtio0-input.0: 24389523 (cpu0 100%)'
+        - 'IRQ 26 virtio0-output.0: 24106239 (cpu1 100%)'
+        - 'IRQ 47 virtio6-input.0: 38479 (cpu1 97%)'
+        - 'IRQ 41 virtio4-input.0: 37832 (cpu1 97%)'
+        - 'IRQ 30 virtio1-input.0: 37532 (cpu1 97%)'
+    conntrack:
+      usage-pcent: 0.1
+    sysctl:
+      net.core.somaxconn: '4096'
+      net.core.netdev_max_backlog: '1000'
+      net.core.netdev_budget: '300'
+      net.core.rmem_default: '212992'
+      net.core.rmem_max: '212992'
+      net.core.wmem_default: '212992'
+      net.core.wmem_max: '212992'
+      net.ipv4.tcp_max_syn_backlog: '1024'
+      net.ipv4.tcp_abort_on_overflow: '0'
+      net.ipv4.tcp_syncookies: '1'
+      net.ipv4.tcp_rmem: 4096 131072 6291456
+      net.ipv4.tcp_mem: 189864 253153 379728
+      net.ipv4.udp_mem: 379728 506307 759456
+      net.ipv4.udp_rmem_min: '4096'
+      net.ipv4.udp_wmem_min: '4096'
+      net.netfilter.nf_conntrack_buckets: '204800'
+      net.netfilter.nf_conntrack_tcp_timeout_established: '432000'
+      vm.min_free_kbytes: '67584'
+      vm.swappiness: '60'
+      net.ipv4.conf.all.rp_filter: '2'
+      net.ipv4.conf.br-data.rp_filter: '2'
+      net.ipv4.conf.br-ens3.rp_filter: '2'
+      net.ipv4.conf.br-ex.rp_filter: '2'
+      net.ipv4.conf.br-int.rp_filter: '2'
+      net.ipv4.conf.br-tun.rp_filter: '2'
+      net.ipv4.conf.default.rp_filter: '2'
+      net.ipv4.conf.ens3.rp_filter: '2'
+      net.ipv4.conf.ens4.rp_filter: '2'
+      net.ipv4.conf.ens5.rp_filter: '2'
+      net.ipv4.conf.ens6.rp_filter: '2'
+      net.ipv4.conf.ens7.rp_filter: '2'
+      net.ipv4.conf.ens8.rp_filter: '2'
+      net.ipv4.conf.ens9.rp_filter: '2'
+      net.ipv4.conf.lo.rp_filter: '0'
+      net.ipv4.conf.lxdbr0.rp_filter: '2'
+      net.ipv4.conf.ovs-system.rp_filter: '2'
+      net.ipv4.conf.tap0e778df8-ca.rp_filter: '2'
+      net.ipv4.conf.veth0d284c32.rp_filter: '2'
+      net.ipv4.conf.veth1883dceb.rp_filter: '2'
+      net.ipv4.conf.veth396824c3.rp_filter: '2'
+      net.ipv4.conf.veth59e22e6f.rp_filter: '2'
+      net.ipv4.conf.veth5cc250bc.rp_filter: '2'
+      net.ipv4.conf.veth8aa19e05.rp_filter: '2'
+      net.ipv4.conf.vethe7aaf6c3.rp_filter: '2'
+      net.ipv4.conf.vxlan_sys_4789.rp_filter: '2'

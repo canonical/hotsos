@@ -361,6 +361,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'ceph_df_json_decoded',
                         'kubectl_logs',
                         'smartctl_all',
+                        'ss_peaonmi',
                         ])
         self.assertEqual(cmd_no_output, expected)
         self.assertEqual(skipped, set())

@@ -1,0 +1,79 @@
+vars:
+  prunec: '@hotsos.core.plugins.kernel.net.NetStatTCP.PruneCalled'
+  rcvcoll: '@hotsos.core.plugins.kernel.net.NetStatTCP.TCPRcvCollapsed'
+  rcvpr: '@hotsos.core.plugins.kernel.net.NetStatTCP.RcvPruned'
+  ofopr: '@hotsos.core.plugins.kernel.net.NetStatTCP.OfoPruned'
+  pfmemd: '@hotsos.core.plugins.kernel.net.NetStatTCP.PFMemallocDrop'
+  memusage_pages_inuse: '@hotsos.core.plugins.kernel.net.SockStat.GlobTcpSocksTotalMemPages'
+  memusage_pages_max: '@hotsos.core.plugins.kernel.net.SockStat.SysctlTcpMemMax'
+  memusage_pct: '@hotsos.core.plugins.kernel.net.SockStat.TCPMemUsagePct'
+checks:
+  mem_pressure_prunec:
+    varops: [[$prunec], [gt, 500]]
+  pfmemd:
+    varops: [[$pfmemd], [gt, 500]]
+  memusage_pct_high:
+    varops: [[$memusage_pct], [gt, 85]]
+  memusage_pct_exhausted:
+    varops: [[$memusage_pct], [ge, 100]]
+conclusions:
+  mem_pressure_prunec:
+    decision: mem_pressure_prunec
+    raises:
+      type: KernelWarning
+      message: >-
+        tcp pruned {prunec} times: collapsed={rcvcoll} recv={rcvpr}
+        ofo={ofopr}. The kernel is short of receive buffer memory. Please check
+        for applications that are not reading from their sockets and for
+        overall TCP memory usage. See network.tcp-sockets.memory-consumers and
+        net.ipv4.tcp_mem under network.sysctl in the kernel summary to identify
+        the processes holding the most socket memory.
+      format-dict:
+        prunec: $prunec
+        rcvcoll: $rcvcoll
+        rcvpr: $rcvpr
+        ofopr: $ofopr
+  pfmemd:
+    decision: pfmemd
+    raises:
+      type: KernelWarning
+      message: >-
+        PFMEMALLOC skb to non-MEMALLOC socket (drops={count}). This happens
+        when the host is critically low on memory. Please check memory usage
+        and vm.min_free_kbytes. See vm.min_free_kbytes and vm.swappiness under
+        network.sysctl in the kernel summary and investigate overall host
+        memory pressure.
+      format-dict:
+        count: $pfmemd
+  memusage_pct_high:
+    decision:
+      - memusage_pct_high
+      - not: memusage_pct_exhausted
+    raises:
+      type: KernelWarning
+      message: >-
+        TCP memory page usage is high ({pct}%), ({pa} out of {pm} mem pages are in use).
+        Kernel will start to drop TCP frames if all pages are exhausted. Please
+        check which processes hold the most socket memory and raise
+        net.ipv4.tcp_mem if the usage is legitimate. See
+        network.tcp-sockets.memory-consumers in the kernel summary to identify
+        the processes holding the most socket memory.
+      format-dict:
+        pa: $memusage_pages_inuse
+        pm: $memusage_pages_max
+        pct: $memusage_pct
+  memusage_pct_exhausted:
+    decision: memusage_pct_exhausted
+    raises:
+      type: KernelWarning
+      message: >-
+        All TCP memory pages are exhausted! ({pa} out of {pm} mem pages are in use).
+        Kernel will drop TCP packets, expect packet losses on ALL TCP transport!
+        Please check which processes hold the most socket memory and raise
+        net.ipv4.tcp_mem if the usage is legitimate. See
+        network.tcp-sockets.memory-consumers in the kernel summary to identify
+        the processes holding the most socket memory.
+      format-dict:
+        pa: $memusage_pages_inuse
+        pm: $memusage_pages_max
+        pct: $memusage_pct

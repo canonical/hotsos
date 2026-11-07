@@ -1,0 +1,19 @@
+target-name: filters.yaml
+data-root:
+  files:
+    proc/net/netstat: |
+      TcpExt: IPReversePathFilter
+      TcpExt: 600
+    sos_commands/kernel/sysctl_-a: |
+      net.ipv4.conf.all.rp_filter = 0
+      net.ipv4.conf.default.rp_filter = 0
+      net.ipv4.conf.eth0.rp_filter = 1
+      net.ipv4.conf.eth1.rp_filter = 0
+      net.ipv4.conf.eth2.rp_filter = 2
+raised-issues:
+  KernelWarning: >-
+    Failed reverse path filter test (drops=600). Please check for asymmetric
+    routing and consider relaxing rp_filter on the affected interfaces. See
+    network.reverse-path-filter.strict-interfaces and the
+    net.ipv4.conf.*.rp_filter values under network.sysctl in the kernel
+    summary to identify the interfaces using strict mode.
