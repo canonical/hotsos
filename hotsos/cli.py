@@ -29,6 +29,18 @@ If you want to analyse a host you need to use an alternative installation
 method e.g. debian package - see https://hotsos.readthedocs.io/en/latest/install/index.html for more information."
 """ # noqa
 
+ROOT_WARNING_BANNER = r"""
+ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\
+ +---------------------------------------------------------+
+ |                        WARNING                          |
+ |                                                         |
+ |   hotsos should be run as root to analyse a live host.  |
+ |              Please run it with sudo.                   |
+ +---------------------------------------------------------+
+ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\ /!\
+
+"""
+
 
 def is_snap():
     """
@@ -318,6 +330,14 @@ def set_tmpdir(tmpdir):
     tempfile.tempdir = tmpdir
 
 
+def check_root_permissions(arguments):
+    """Require root privileges for live-host analysis."""
+    if (not arguments.list_plugins and
+            os.path.realpath(arguments.data_root or '/') == '/' and
+            os.geteuid() != 0):
+        sys.stderr.write(ROOT_WARNING_BANNER)
+
+
 def main():
     """Entry point for the hotsos CLI."""
     @click.command(name='hotsos')
@@ -451,6 +471,8 @@ def main():
         if arguments.version:
             print(get_version())
             return
+
+        check_root_permissions(arguments)
 
         try:
             set_tmpdir(arguments.tmp_dir)
