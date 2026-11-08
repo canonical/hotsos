@@ -1,3 +1,5 @@
+import contextlib
+import io
 import os
 import sys
 import tempfile
@@ -5,12 +7,72 @@ from unittest import mock
 
 import distro
 import hotsos.cli
+from hotsos.core.config import HotSOSConfig
 
 from . import utils
 
 
 class TestCLI(utils.BaseTestCase):
     """ Unit tests for HotSOS cli. """
+
+    def _run_cli(self, args, euid, exit_code=0):
+        stdout = io.StringIO()
+        stderr = io.StringIO()
+        with mock.patch.object(sys, 'argv', ['hotsos'] + args), \
+                mock.patch('hotsos.cli.os.geteuid', return_value=euid), \
+                mock.patch('hotsos.cli.init_config') as init_config, \
+                mock.patch('hotsos.cli.run_client') as run_client, \
+                contextlib.redirect_stdout(stdout), \
+                contextlib.redirect_stderr(stderr):
+            builder = run_client.return_value.get_builder.return_value
+            builder.to.return_value = ''
+            with self.assertRaises(SystemExit) as exc:
+                hotsos.cli.main()
+
+            self.assertEqual(exc.exception.code, exit_code)
+
+        return stdout.getvalue(), stderr.getvalue(), init_config, run_client
+
+    def test_live_host_without_root_warns(self):
+        """Warn but proceed with non-root live-host analysis."""
+        for args in ([], ['/'], ['/.'], ['--quiet'], ['--force']):
+            with self.subTest(args=args):
+                with mock.patch('hotsos.cli.is_snap', return_value=False):
+                    _, stderr, init_config, run_client = self._run_cli(
+                        args, euid=1000)
+                self.assertIn('WARNING', stderr)
+                self.assertIn('should be run as root', stderr)
+                self.assertIn('sudo', stderr)
+                init_config.assert_called_once()
+                run_client.assert_called_once()
+
+    def test_live_host_as_root(self):
+        """Allow live-host analysis with effective root privileges."""
+        with mock.patch('hotsos.cli.is_snap', return_value=False):
+            _, stderr, init_config, run_client = self._run_cli(
+                ['--quiet'], euid=0)
+        self.assertEqual(stderr, '')
+        init_config.assert_called_once()
+        run_client.assert_called_once()
+
+    def test_sosreport_without_root(self):
+        """Allow sosreport analysis without root privileges."""
+        _, stderr, init_config, run_client = self._run_cli(
+            ['--quiet', HotSOSConfig.data_root], euid=1000)
+        self.assertEqual(stderr, '')
+        init_config.assert_called_once()
+        run_client.assert_called_once()
+
+    def test_informational_options_without_root(self):
+        """Allow informational options without root privileges."""
+        for option in ('--help', '--version', '--list-plugins'):
+            with self.subTest(option=option):
+                with mock.patch('hotsos.cli.is_snap', return_value=False):
+                    stdout, stderr, _, run_client = self._run_cli(
+                        [option], euid=1000)
+                self.assertTrue(stdout)
+                self.assertEqual(stderr, '')
+                run_client.assert_not_called()
 
     def test_get_hotsos_root(self):
         """Test hotsos root path extraction from sys.argv."""

@@ -9,6 +9,11 @@ results of any analysis that identified issues or known bugs. For more
 information on how analysis and extensions are implemented see the
 :doc:`../explanation/architecture` and :doc:`write-checks`.
 
+Live-host analysis requires root privileges to read restricted resources. Run
+it as root, for example with ``sudo hotsos``. Analysing a sosreport does not
+require root privileges. The informational options ``--help``, ``--version``
+and ``--list-plugins`` also remain available without root.
+
 Let's say for example that you are running an Openstack Cloud and one of your
 hypervisor nodes that is also running part of a Ceph storage cluster
 is experiencing a problem with network connectivity to workloads. Simply
@@ -16,7 +21,7 @@ run hotsos on the node or against a sosreport generated from that node e.g.
 
 .. code-block:: bash
 
-    ubuntu@ncpu1$ hotsos --save
+    ubuntu@ncpu1$ sudo hotsos --save
     INFO: analysing localhost /
     INFO: output saved to hotsos-output-1673868979
 
@@ -64,4 +69,3 @@ Example outputs
 ---------------
 
 Some example outputs for each plugin can be found `here <https://github.com/canonical/hotsos/tree/main/examples>`_. The *\*.short.\** summary files were generated using the `\-\-short` option. Note that if using the `\-\-save` option, all formats are saved automatically so this option would have no effect.
-

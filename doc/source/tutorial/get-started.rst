@@ -24,11 +24,13 @@ Run your first analysis
 
 hotsos runs all of its plugins by default. Each plugin inspects an application
 or subsystem, runs its associated checks, and contributes a section to the
-summary. Run hotsos against the local machine and save the results:
+summary. Live-host analysis requires root privileges to read restricted
+resources; sosreport analysis does not. Run hotsos against the local machine
+and save the results:
 
 .. code-block:: bash
 
-    ubuntu@node1$ hotsos --save
+    ubuntu@node1$ sudo hotsos --save
     INFO: analysing localhost /
     INFO: output saved to hotsos-output-1673868979
     INFO: available output formats:
