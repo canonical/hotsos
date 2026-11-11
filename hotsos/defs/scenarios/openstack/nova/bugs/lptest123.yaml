@@ -1,0 +1,14 @@
+checks:
+  has_1234567:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: '([\d-]+) [\d:]+\.\d{3} .+attaching network adapter failed.: libvirt.libvirtError: Requested operation is not valid: PCI device'
+    hint: 'libvirtError'
+conclusions:
+  lp1234567:
+    decision: has_1234567
+    raises:
+      type: LaunchpadBug
+      bug-id: 1234567
+      message: >-
+        This host is affected by a known OpenStack Nova bug.
