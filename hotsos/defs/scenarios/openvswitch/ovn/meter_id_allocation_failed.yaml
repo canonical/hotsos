@@ -11,9 +11,11 @@ conclusions:
     raises:
       type: OVNWarning
       message: >-
-        OVN could not allocate meter-table IDs on {dates}. This log does not
-        show whether the datapath has no meter capacity or all available IDs
-        are already allocated. Please check datapath meter support and the
-        configured meter rules.
+        OVN could not allocate meter-table IDs on {dates}. Affected rate
+        limits or ACL logging may be missing. Please check capacity with
+        `ovs-ofctl -O OpenFlow13 meter-features BRIDGE` and installed
+        meters with `ovs-ofctl -O OpenFlow13 dump-meters BRIDGE` on the
+        affected host, substituting the integration bridge name and your
+        deployment's ovs-ofctl command.
       format-dict:
         dates: '@checks.meter_id_allocation_failed.search.results_group_1:unique_comma_join'
