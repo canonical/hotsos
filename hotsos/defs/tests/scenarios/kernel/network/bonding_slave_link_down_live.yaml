@@ -1,0 +1,14 @@
+target-name: bonding_slave_link_down.yaml
+data-root:
+  files:
+    # Kernel log line without an uptime prefix.
+    var/log/kern.log: |
+      Feb 10 10:48:13 compute4 kernel: bond0: (slave eno1): link status definitely down, disabling slave
+raised-issues:
+  NetworkWarning: >-
+    The bonding driver disabled slave(s) eno1 of bond0 after their link
+    went down (1 'link status definitely down' line(s)) on Feb 10. A bond
+    may have failed over or lost connectivity, and the links may have come
+    back since. Please check /proc/net/bonding for those bonds, ethtool for
+    those slaves, the switch ports and, if the bond uses arp_interval,
+    whether the ARP targets answer.

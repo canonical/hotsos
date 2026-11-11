@@ -1,0 +1,19 @@
+target-name: bonding_slave_link_down.yaml
+data-root:
+  files:
+    # A slave went down and came back a minute later. The slave disable is
+    # still reported with its date.
+    var/log/kern.log: |
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] bond0: (slave eno1): link status definitely down, disabling slave
+      Feb 10 10:49:14 compute4 kernel: [1694474.621694] bond0: (slave eno1): link status definitely up, 10000 Mbps full duplex
+      Feb 10 10:49:14 compute4 kernel: [1694474.621700] bond0: (slave eno1): making interface the new active one
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  NetworkWarning: >-
+    The bonding driver disabled slave(s) eno1 of bond0 after their link
+    went down (1 'link status definitely down' line(s)) on Feb 10. A bond
+    may have failed over or lost connectivity, and the links may have come
+    back since. Please check /proc/net/bonding for those bonds, ethtool for
+    those slaves, the switch ports and, if the bond uses arp_interval,
+    whether the ARP targets answer.

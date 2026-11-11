@@ -1,0 +1,14 @@
+target-name: bonding_slave_link_down.yaml
+data-root:
+  files:
+    # The positive lines moved to Feb 9, more than 24 hours before the
+    # sosreport date but inside the 7 day --all-logs window used by the
+    # unit tests, so only search-result-age-hours filters them.
+    var/log/kern.log: |
+      Feb  9 10:48:13 compute4 kernel: [1694413.621694] bond0: (slave eno1): link status definitely down, disabling slave
+      Feb  9 10:48:14 compute4 kernel: [1694414.621694] bond0: (slave eno1): link status definitely up, 10000 Mbps full duplex
+      Feb  9 10:50:13 compute4 kernel: [1694533.621694] bond1: link status definitely down for interface enp3s0f1, disabling it
+      2022-02-09T11:02:44.123456+00:00 compute4 kernel: bond0: (slave eno2): link status definitely down, disabling slave
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:

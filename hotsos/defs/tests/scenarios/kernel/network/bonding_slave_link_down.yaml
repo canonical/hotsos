@@ -1,0 +1,18 @@
+data-root:
+  files:
+    var/log/kern.log: |
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] bond0: (slave eno1): link status definitely down, disabling slave
+      Feb 10 10:48:14 compute4 kernel: [1694414.621694] bond0: (slave eno1): link status definitely up, 10000 Mbps full duplex
+      Feb 10 10:50:13 compute4 kernel: [1694533.621694] bond1: link status definitely down for interface enp3s0f1, disabling it
+      2022-02-10T11:02:44.123456+00:00 compute4 kernel: bond0: (slave eno2): link status definitely down, disabling slave
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  NetworkWarning: >-
+    The bonding driver disabled slave(s) eno1, eno2, enp3s0f1 of bond0,
+    bond1 after their link went down (3 'link status definitely down'
+    line(s)) on 2022-02-10, Feb 10. A bond may have failed over or lost
+    connectivity, and the links may have come back since. Please check
+    /proc/net/bonding for those bonds, ethtool for those slaves, the switch
+    ports and, if the bond uses arp_interval, whether the ARP targets
+    answer.
