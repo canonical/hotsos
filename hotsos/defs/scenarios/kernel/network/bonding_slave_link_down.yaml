@@ -1,0 +1,39 @@
+vars:
+  # 'link status definitely down, disabling slave' from the bonding MII
+  # monitor and the active-backup ARP monitor (bond_miimon_commit(),
+  # bond_ab_arp_commit()), logged as '<bond>: (slave <name>): ...' by
+  # slave_info(); kernels such as v4.15 log 'link status definitely down
+  # for interface <name>, disabling it'. The load-balancing ARP monitor
+  # (all modes but active-backup) logs 'interface is now down' and is not
+  # matched.
+  # kern.log lines start with the legacy syslog timestamp or the RFC3339
+  # one used by rsyslog on Ubuntu 24.04 and later, where the kernel uptime
+  # may be absent. Group 1 is the date, group 2 the time, group 3 the
+  # bond and group 4 the slave (captured by a lookahead for both forms).
+  expr_slave_down: '(\w{3,5}\s+\d{1,2}|\d{4}-\d{2}-\d{2})[T ]([\d:]+)\S* \S+ kernel: (?:\[[^\]]*\] )?(\S+): (?=(?:\(slave |link status definitely down for interface )([^\s),]+))(?:\(slave \S+\): )?link status definitely down(?: for interface \S+)?, disabling (?:slave|it)'
+checks:
+  bond_slave_down:
+    input:
+      path: 'var/log/kern.log'
+    search:
+      expr: $expr_slave_down
+      hint: 'link status definitely down'
+      constraints:
+        search-result-age-hours: 24
+conclusions:
+  kernel-bonding-slave-link-down:
+    decision: bond_slave_down
+    raises:
+      type: NetworkWarning
+      message: >-
+        The bonding driver disabled slave(s) {slaves} of {bonds} after their
+        link went down ({count} 'link status definitely down' line(s)) on
+        {dates}. A bond may have failed over or lost connectivity, and the
+        links may have come back since. Please check /proc/net/bonding for
+        those bonds, ethtool for those slaves, the switch ports and, if the
+        bond uses arp_interval, whether the ARP targets answer.
+      format-dict:
+        count: '@checks.bond_slave_down.search.num_results'
+        bonds: '@checks.bond_slave_down.search.results_group_3:unique_comma_join'
+        slaves: '@checks.bond_slave_down.search.results_group_4:unique_comma_join'
+        dates: '@checks.bond_slave_down.search.results_group_1:unique_comma_join'

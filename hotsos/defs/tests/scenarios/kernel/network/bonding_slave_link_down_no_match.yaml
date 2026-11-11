@@ -1,0 +1,13 @@
+target-name: bonding_slave_link_down.yaml
+data-root:
+  files:
+    # Recent bonding lines that do not disable a slave, including the
+    # load-balancing ARP monitor's 'interface is now down'.
+    var/log/kern.log: |
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] bond0: (slave eno1): link status down for interface, disabling it in 200 ms
+      Feb 10 10:48:14 compute4 kernel: [1694414.621694] bond0: (slave eno1): link status up again after 100 ms
+      Feb 10 10:48:15 compute4 kernel: [1694415.621694] bond0: (slave eno1): link status definitely up, 10000 Mbps full duplex
+      Feb 10 10:49:15 compute4 kernel: [1694475.621694] bond2: (slave eno3): interface is now down
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
