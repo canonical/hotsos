@@ -1,0 +1,19 @@
+vars:
+  expr_meter_id_allocation_failed: '([\d-]+)T([\d:]+)\.\d+Z\|\d+\|extend_table\|ERR\|table meter-table: out of table ids\.'
+checks:
+  meter_id_allocation_failed:
+    input: 'openvswitch:ovn/ovn-controller.log'
+    search:
+      expr: $expr_meter_id_allocation_failed
+conclusions:
+  meter_id_allocation_failed:
+    decision: meter_id_allocation_failed
+    raises:
+      type: OVNWarning
+      message: >-
+        OVN could not allocate meter-table IDs on {dates}. This log does not
+        show whether the datapath has no meter capacity or all available IDs
+        are already allocated. Please check datapath meter support and the
+        configured meter rules.
+      format-dict:
+        dates: '@checks.meter_id_allocation_failed.search.results_group_1:unique_comma_join'
