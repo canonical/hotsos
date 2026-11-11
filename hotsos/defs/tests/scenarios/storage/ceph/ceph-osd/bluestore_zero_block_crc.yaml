@@ -1,0 +1,25 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-osd  19.2.6-0ubuntu0.24.04.1  amd64
+    sos_commands/systemd/systemctl_list-unit-files: |
+      UNIT FILE STATE VENDOR PRESET
+      ceph-osd@.service enabled enabled
+    sos_commands/systemd/systemctl_list-units: |
+      UNIT LOAD ACTIVE SUB DESCRIPTION
+      ceph-osd@1.service loaded active running Ceph object storage daemon
+    sos_commands/date/date: |
+      Thu Feb 10 18:20:00 UTC 2022
+    var/log/ceph/ceph-osd.1.log: |
+      2022-02-10T18:18:32.791+0000 7faf9d3bb700 -1 bluestore(/var/lib/ceph/osd/ceph-1) _verify_csum bad crc32c/0x1000 checksum at blob offset 0x0, got 0x6706be76, expected 0xc939ea08, device location [0x41822f0000~1000], logical extent 0x200000~1000, object #2:4a3b1c2d:::rbd_data.1f2e3d4c5b6a.0000000000000a1b:head#
+raised-issues:
+  CephOSDWarning: >-
+    ceph-osd logged 1 BlueStore CRC32C errors for OSD 1 on 2022-02-10,
+    reporting got 0x6706be76 for 4 KiB. This checksum does not prove the
+    read data was zero or identify the cause. With
+    bluestore_ignore_data_csum disabled, repeated mismatches can return I/O
+    error after configured retries. Please inspect kernel, device and Ceph
+    logs. Please review BLUESTORE_SPURIOUS_READ_ERRORS in 'ceph health
+    detail'. Please consult
+    https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-spurious-read-errors
+    for possible causes.
