@@ -1,0 +1,7 @@
+target-name: juju_api_connection_failures.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Fri Oct 30 12:00:00 UTC 2026
+    sos_commands/kubernetes/cluster-info/model-a/podlogs/database-0/kubectl_--namespace_model-a_logs_database-0_-c_charm: |
+raised-issues:
