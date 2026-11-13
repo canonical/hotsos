@@ -198,7 +198,7 @@
           {% if section.bugs %}<span class="hs-badge hs-badge--bug">{{ section.bugs }} bug(s)</span>{% endif %}
           {% if section.warnings %}<span class="hs-badge hs-badge--issue">{{ section.warnings }} issue(s)</span>{% endif %}
         </div>
-        <button type="button" class="hs-section__collapse" aria-expanded="true">Collapse all</button>
+        <button type="button" class="hs-section__collapse" aria-expanded="{{ 'false' if section.collapsed else 'true' }}">{{ 'Expand all' if section.collapsed else 'Collapse all' }}</button>
       </div>
       <div class="hs-section__body">
         {{ section.content | safe }}

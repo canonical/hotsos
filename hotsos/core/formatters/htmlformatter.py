@@ -75,15 +75,15 @@ class HTMLFormatter:
                                'footer.html'), encoding='utf-8') as fd:
             return fd.read()
 
-    def _expand_list(self, data, level, chart_type='bar'):
+    def _expand_list(self, data, level, chart_type='bar', open_default=True):
         context = {'list_elements': [], 'indent': '    '}
         for item in data:
             context['list_elements'].append(
-                self._expand(item, level, chart_type))
+                self._expand(item, level, chart_type, open_default))
 
         return self.render(context, 'content_list.html')
 
-    def _expand_dict(self, data, level, chart_type='bar'):
+    def _expand_dict(self, data, level, chart_type='bar', open_default=True):
         # Split entries into plain key/value fields (rendered as a compact
         # description list) and nested branches (rendered as collapsible
         # disclosure groups). This makes each section far easier to scan than
@@ -105,10 +105,10 @@ class HTMLFormatter:
                 branches.append({
                     'key': key,
                     'content': self._expand(value, level + 1,
-                                            child_chart_type),
+                                            child_chart_type, open_default),
                     'tone': tone,
                     'count': self._count_leaf_nodes(value),
-                    'open': True,
+                    'open': open_default,
                 })
             else:
                 fields.append({
@@ -123,7 +123,7 @@ class HTMLFormatter:
 
         return self.render(context, 'content_dict.html')
 
-    def _expand(self, data, level, chart_type='bar'):
+    def _expand(self, data, level, chart_type='bar', open_default=True):
         """Expand the data object.
 
         @param data: The data object. This can be a dict, list, or a flat type
@@ -131,16 +131,18 @@ class HTMLFormatter:
         @param level: The current header level
         @param chart_type: Chart style to use for numeric distributions ('bar'
                            or 'pie').
+        @param open_default: Whether nested disclosure branches default to
+                             open (expanded) or closed (collapsed).
         @return: A string expansion formatted in HTML of the data object.
         """
         if isinstance(data, dict):
-            return self._expand_mapping(data, level, chart_type)
+            return self._expand_mapping(data, level, chart_type, open_default)
         if isinstance(data, list):
-            return self._expand_list(data, level, chart_type)
+            return self._expand_list(data, level, chart_type, open_default)
 
         return data
 
-    def _expand_mapping(self, data, level, chart_type):
+    def _expand_mapping(self, data, level, chart_type, open_default=True):
         """ Expand a dict, choosing a plot or plain structure as appropriate.
 
         Pie charts always plot (even for a single date/time). Time series count
@@ -169,7 +171,7 @@ class HTMLFormatter:
                 chart = self._graph_timeseries(data, timeseries)
                 if chart is not None:
                     return chart
-                return self._expand_dict(data, level, 'none')
+                return self._expand_dict(data, level, 'none', open_default)
             if self._is_numeric_distribution(data):
                 return self._expand_distribution(data, chart_type)
             # A per-date top-N result plots its daily totals over time with the
@@ -179,9 +181,11 @@ class HTMLFormatter:
                 chart = self._graph_timeseries(totals,
                                                self._timeseries_data(totals))
                 if chart is not None:
-                    return chart + self._expand_dict(data, level, 'none')
+                    return (chart +
+                            self._expand_dict(data, level, 'none',
+                                              open_default))
 
-        return self._expand_dict(data, level, chart_type)
+        return self._expand_dict(data, level, chart_type, open_default)
 
     def _graph_timeseries(self, data, timeseries):
         """ Render normalised time series as a chart.
@@ -848,6 +852,10 @@ class HTMLFormatter:
         sections = []
         for key, value in data.items():
             findings = self._extract_findings(key, value)
+            # The 'hotsos' plugin reports on the hotsos run itself (version,
+            # repo info, defs stats, dependencies) rather than the analysed
+            # host, so collapse it by default to keep focus on the findings.
+            open_default = key != 'hotsos'
             sections.append({
                 'name': key,
                 'id': self._anchor_id(key),
@@ -857,7 +865,8 @@ class HTMLFormatter:
                 'issues': self._section_issue_count(key, value),
                 'bugs': sum(1 for f in findings if f['tone'] == 'bug'),
                 'warnings': sum(1 for f in findings if f['tone'] == 'issue'),
-                'content': self._expand(value, 2),
+                'content': self._expand(value, 2, open_default=open_default),
+                'collapsed': not open_default,
             })
 
         return sections
