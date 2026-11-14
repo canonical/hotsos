@@ -166,6 +166,14 @@ class TestCephOSDChecks(StorageCephOSDTestsBase):
         checks = ceph.common.CephChecks()
         self.assertEqual(checks.local_osds_with_oversized_bluefs_log, [])
 
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_osd_df_tree_--format_json-pretty':
+         '{"nodes": [{"id": 0, "name": "osd.0", "type": "osd"}]}'})
+    def test_osd_devtype_no_device_class(self):
+        """Test OSD devtype when the OSD has no device class."""
+        self.assertIsNone(ceph.daemon.CephOSD(0).devtype)
+
 
 class TestCephOSDSummary(StorageCephOSDTestsBase):
     """ Unit tests for Ceph osd summary. """
