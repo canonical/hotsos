@@ -1,0 +1,13 @@
+target-name: keepalived_vrrp_fault.yaml
+data-root:
+  files:
+    var/log/syslog: |
+      Feb 10 10:28:35 node1 Keepalived_vrrp[2345]: (VR_1) Entering FAULT STATE
+      2022-02-10T10:30:35.123456+00:00 node1 Keepalived_vrrp[2345]: VRRP_Instance(VR_1) Entering FAULT STATE
+raised-issues:
+  OpenstackWarning: >-
+    keepalived logged 2 time(s) that VRRP instance(s) VR_1 entered FAULT state,
+    so redundancy for their virtual IPs was reduced while they were in FAULT
+    state. Please check the interface, tracked interface and track
+    script messages logged just before the FAULT line, and which node currently
+    holds MASTER.

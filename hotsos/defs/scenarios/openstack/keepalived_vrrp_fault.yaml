@@ -1,0 +1,26 @@
+checks:
+  vrrp_fault:
+    input:
+      path:
+        - var/log/syslog
+    # NOTE: syslog timestamps may be legacy "Jun  8 10:48:13 host" or
+    #       RFC3339 "2024-06-08T10:48:13.123456+00:00 host".
+    # "Entering FAULT STATE (init)" is logged when an instance starts up in
+    # FAULT and is not matched.
+    expr: '(\w{3,5}\s+\d{1,2}\s+[\d:]+|\d{4}-\d{2}-\d{2}T[\d:]+)\S* \S+ Keepalived_vrrp\[\d+\]: (?:VRRP_Instance)?\((\S+)\) Entering FAULT STATE(?! \(init\))'
+    constraints:
+      min-results: 1
+conclusions:
+  openstack-keepalived-vrrp-fault:
+    decision: vrrp_fault
+    raises:
+      type: OpenstackWarning
+      message: >-
+        keepalived logged {count} time(s) that VRRP instance(s)
+        {instances} entered FAULT state, so redundancy for their
+        virtual IPs was reduced while they were in FAULT state. Please check the
+        interface, tracked interface and track script messages logged just
+        before the FAULT line, and which node currently holds MASTER.
+      format-dict:
+        count: '@checks.vrrp_fault.search.num_results'
+        instances: '@checks.vrrp_fault.search.results_group_2:unique_comma_join'
