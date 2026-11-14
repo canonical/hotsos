@@ -1,0 +1,13 @@
+target-name: meter_id_allocation_failed.yaml
+data-root:
+  files:
+    var/log/ovn/ovn-controller.log: |
+      2024-09-16T20:28:49.013Z|00526|extend_table|ERR|table meter-table: out of table ids.
+raised-issues:
+  OVNWarning: >-
+    OVN could not allocate meter-table IDs on 2024-09-16. Affected rate
+    limits or ACL logging may be missing. Please check capacity with
+    `ovs-ofctl -O OpenFlow13 meter-features BRIDGE` and installed meters
+    with `ovs-ofctl -O OpenFlow13 dump-meters BRIDGE` on the affected
+    host, substituting the integration bridge name and your deployment's
+    ovs-ofctl command.
