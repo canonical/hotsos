@@ -29,6 +29,7 @@ from hotsos.core.ycheck.engine.common import (
 #   (\d{4}-\d{2}-\d{2}) ...              explicit year
 #   (\w{3,5}\s+\d{1,2}\s+[\d:]+) ...     syslog/kern.log style
 #   ([\d.]+[\s-]+\[\d{2}/\w{3,5}/...)  apache access log (IP + bracketed date)
+#   (\[\w{3,9}\s+\w{3,5}\s+\d{1,2}...)  apache error log
 #   (\S+) (\S+) ...                      loose date/time tokens
 LEADING_TIMESTAMP_RE = re.compile(
     r"(?:"
@@ -38,6 +39,7 @@ LEADING_TIMESTAMP_RE = re.compile(
     r"|\(\\d\{4\}"                 # (\d{4}
     r"|\(\\w\{\d+,\d*\}\\s"        # (\w{3,5}\s      (syslog month)
     r"|\(\[\\d\.\]\+"              # ([\d.]+      (apache access-log IP prefix)
+    r"|\(\\\[\\w\{\d+,\d\}\\s"     # (\[\w{3,9}\s  (apache error-log timestamp)
     r"|\(\\S\+\)[ T]\("            # (\S+) (         (loose token then group)
     r")"
 )
