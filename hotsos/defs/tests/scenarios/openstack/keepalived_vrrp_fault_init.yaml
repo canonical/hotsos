@@ -1,0 +1,17 @@
+target-name: keepalived_vrrp_fault.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  keystone                             2:21.0.0-0ubuntu1~cloud0                             all          OpenStack identity service - Django web application
+      ii  nova-common                          3:25.2.1-0ubuntu2.7~cloud0                           all          OpenStack Compute - common files
+      ii  neutron-common                       2:20.3.0-0ubuntu1~cloud0                             all          Neutron is a virtual network service for Openstack - common
+      ii  cinder-common                        2:20.3.0-0ubuntu1~cloud0                             all          Cinder storage service - common files
+    # An instance that starts up in FAULT (here because its interface is
+    # still down) logs 'Entering FAULT STATE (init)', which is not matched.
+    var/log/syslog: |
+      Feb 10 10:28:30 node1 Keepalived_vrrp[2345]: (VR_1) Entering FAULT STATE (init)
+      2022-02-10T10:30:35.123456+00:00 node1 Keepalived_vrrp[2346]: (VR_2) Entering FAULT STATE (init)
+      Feb 10 10:31:35 node1 Keepalived_vrrp[2345]: (VR_1) Entering BACKUP STATE
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
