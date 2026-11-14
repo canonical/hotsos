@@ -1,0 +1,15 @@
+target-name: osd_init_failed.yaml
+data-root:
+  files:
+    var/log/ceph/ceph-osd.3.log: "2022-02-10T10:20:30.119+0000 7f5e8f2a1f00 -1 osd.3 0 OSD::init() : unable to read osd superblock\n2022-02-10T10:20:30.123+0000 7f5e8f2a1f00 -1 \u001b[0;31m ** ERROR: osd init failed: (22) Invalid argument\u001b[0m\n"
+  copy-from-original:
+    - sos_commands/date/date
+    - sos_commands/systemd/systemctl_list-units
+    - sos_commands/systemd/systemctl_list-unit-files
+raised-issues:
+  CephOSDWarning: >-
+    ceph-osd on this host failed to start 1 time(s) on 2022-02-10 after
+    logging 'osd init failed' with error(s) (22) Invalid argument, so the OSD(s) logging it
+    exited at startup. Please search the ceph-osd.*.log files for 'osd init
+    failed' to find the OSD id(s) and the lines logged before the error, and
+    please check with 'ceph osd tree' whether those OSDs are up now.
