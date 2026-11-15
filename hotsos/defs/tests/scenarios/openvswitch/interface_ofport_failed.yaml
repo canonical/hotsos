@@ -1,0 +1,17 @@
+data-root:
+  files:
+    sos_commands/openvswitch/ovs-vsctl_-t_5_list_interface: |
+      _uuid               : 25cb1280-e8f7-4dac-92fd-c6478fa2f6cc
+      error               : "could not open network device hotsos-missing (No such device)"
+      name                : hotsos-missing
+      ofport              : -1
+
+      _uuid               : 12fcfc26-e733-4e34-8b5b-e352bd339be5
+      error               : []
+      name                : br-hotsos
+      ofport              : 65534
+raised-issues:
+  OpenvSwitchWarning: The OVS Interface table reports 1 interface(s) with ofport=-1,
+    indicating failed port configuration. Affected interfaces cannot forward traffic
+    through their OpenFlow ports. Please check the interface names and error fields
+    in 'ovs-vsctl list interface'.

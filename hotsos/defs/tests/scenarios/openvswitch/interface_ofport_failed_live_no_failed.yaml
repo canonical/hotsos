@@ -1,0 +1,21 @@
+target-name: interface_ofport_failed.yaml
+data-root:
+  files:
+    /tmp/hotsos-unit-test-interface_ofport_failed_live_no_failed.txt: |
+      _uuid               : 25cb1280-e8f7-4dac-92fd-c6478fa2f6cc
+      error               : "could not open network device hotsos-missing (No such device)"
+      name                : hotsos-missing
+      ofport              : []
+
+      _uuid               : 12fcfc26-e733-4e34-8b5b-e352bd339be5
+      error               : []
+      name                : br-hotsos
+      ofport              : 65534
+raised-issues: null
+mock:
+  patch.object:
+    hotsos.core.ycheck.engine.properties.inputdef.CLIHelperFile:
+      kwargs:
+        attribute: ovs_vsctl_list
+        create: true
+        return_value: /tmp/hotsos-unit-test-interface_ofport_failed_live_no_failed.txt
