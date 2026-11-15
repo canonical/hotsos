@@ -1,0 +1,57 @@
+vars:
+  # timer_function_scheduler_timeout() in corosync exec/main.c e.g.
+  #   Corosync main process was not scheduled for 2652.4536 ms (threshold is 800.0000 ms). Consider token timeout increase.  (2.4, 3.0.0-3.0.3)
+  #   Corosync main process was not scheduled (@1644482893210) for 2652.4536 ms (threshold is 800.0000 ms). ...  (3.0.4+)
+  # The threshold is 80% of the token timeout. It is logged to corosync.log
+  # ('<ts> [<pid>] <host> corosync warning [MAIN  ] ...') and to syslog
+  # ('<ts> <host> corosync[<pid>]:  [MAIN  ] ...') with a syslog or RFC3339
+  # timestamp. Group 3 is the threshold.
+  expr: '^(\w{3,5}\s+\d{1,2}|\d{4}-\d{2}-\d{2})[T ](\d{2}:\d{2}:\d{2})\S* (?:.*corosync warning +|\S+ corosync\[\d+\]: +)\[MAIN +\] Corosync main process was not scheduled (?:\(@[^)]*\) )?for [\d.]+ ms \(threshold is ([\d.]+) ms\)'
+checks:
+  not_scheduled_corosync_log:
+    input: 'var/log/corosync/corosync.log'
+    search:
+      expr: $expr
+      hint: 'not scheduled'
+      constraints:
+        search-result-age-hours: 24
+  not_scheduled_syslog:
+    input: 'var/log/syslog'
+    search:
+      expr: $expr
+      hint: 'not scheduled'
+      constraints:
+        search-result-age-hours: 24
+# The same event is usually logged to both corosync.log and syslog, so syslog
+# is only used when corosync.log has none.
+conclusions:
+  corosync-main-not-scheduled:
+    priority: 2
+    decision: not_scheduled_corosync_log
+    raises:
+      type: PacemakerWarning
+      message: >-
+        Corosync logged {count} scheduling pause warning(s) in corosync.log on
+        {dates} (threshold {thresholds} ms, 80% of the token timeout). Such
+        pauses risk membership changes and resource failover. Please check CPU
+        load and steal time at those times and please review the token
+        timeout.
+      format-dict:
+        count: '@checks.not_scheduled_corosync_log.search.num_results'
+        thresholds: '@checks.not_scheduled_corosync_log.search.results_group_3:unique_comma_join'
+        dates: '@checks.not_scheduled_corosync_log.search.results_group_1:unique_comma_join'
+  corosync-main-not-scheduled-syslog:
+    priority: 1
+    decision: not_scheduled_syslog
+    raises:
+      type: PacemakerWarning
+      message: >-
+        Corosync logged {count} scheduling pause warning(s) in syslog on
+        {dates} (threshold {thresholds} ms, 80% of the token timeout). Such
+        pauses risk membership changes and resource failover. Please check CPU
+        load and steal time at those times and please review the token
+        timeout.
+      format-dict:
+        count: '@checks.not_scheduled_syslog.search.num_results'
+        thresholds: '@checks.not_scheduled_syslog.search.results_group_3:unique_comma_join'
+        dates: '@checks.not_scheduled_syslog.search.results_group_1:unique_comma_join'

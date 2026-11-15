@@ -1,0 +1,15 @@
+data-root:
+  files:
+    var/log/corosync/corosync.log: |
+      Feb 09 20:15:01 [1234] juju-04f1e3-1-lxd-5 corosync warning [MAIN  ] Corosync main process was not scheduled for 2652.4536 ms (threshold is 2400.0000 ms). Consider token timeout increase.
+      Feb 10 08:48:13.621 [1234] juju-04f1e3-1-lxd-5 corosync warning [MAIN  ] Corosync main process was not scheduled (@1644482893621) for 3203.1230 ms (threshold is 2400.0000 ms). Consider token timeout increase.
+      Feb 10 08:48:13.700 [1234] juju-04f1e3-1-lxd-5 corosync notice  [TOTEM ] Token has not been received in 2250 ms
+    var/log/syslog: |
+      2022-02-10T08:48:13.621690+00:00 juju-04f1e3-1-lxd-5 corosync[1234]:   [MAIN  ] Corosync main process was not scheduled (@1644482893621) for 3203.1230 ms (threshold is 2400.0000 ms). Consider token timeout increase.
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  PacemakerWarning: Corosync logged 2 scheduling pause warning(s) in corosync.log
+    on Feb 09, Feb 10 (threshold 2400.0000 ms, 80% of the token timeout). Such pauses
+    risk membership changes and resource failover. Please check CPU load and steal
+    time at those times and please review the token timeout.

@@ -1,0 +1,8 @@
+target-name: corosync_main_not_scheduled.yaml
+data-root:
+  files:
+    var/log/syslog: |
+      Feb  1 08:48:13 juju-04f1e3-1-lxd-5 corosync[1234]:   [MAIN  ] Corosync main process was not scheduled for 2652.4536 ms (threshold is 800.0000 ms). Consider token timeout increase.
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: null

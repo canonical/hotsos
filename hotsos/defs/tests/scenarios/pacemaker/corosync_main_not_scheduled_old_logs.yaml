@@ -1,0 +1,12 @@
+target-name: corosync_main_not_scheduled.yaml
+data-root:
+  files:
+    var/log/corosync/corosync.log: |
+      Jan 31 20:15:01 [1234] juju-04f1e3-1-lxd-5 corosync warning [MAIN  ] Corosync main process was not scheduled for 2652.4536 ms (threshold is 2400.0000 ms). Consider token timeout increase.
+      Feb 01 08:48:13.621 [1234] juju-04f1e3-1-lxd-5 corosync warning [MAIN  ] Corosync main process was not scheduled (@1644482893621) for 3203.1230 ms (threshold is 2400.0000 ms). Consider token timeout increase.
+      Feb 01 08:48:13.700 [1234] juju-04f1e3-1-lxd-5 corosync notice  [TOTEM ] Token has not been received in 2250 ms
+    var/log/syslog: |
+      2022-02-01T08:48:13.621690+00:00 juju-04f1e3-1-lxd-5 corosync[1234]:   [MAIN  ] Corosync main process was not scheduled (@1644482893621) for 3203.1230 ms (threshold is 2400.0000 ms). Consider token timeout increase.
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: null
