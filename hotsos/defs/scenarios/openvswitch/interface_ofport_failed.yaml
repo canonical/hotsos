@@ -1,0 +1,20 @@
+checks:
+  failed_interfaces:
+    input:
+      command: ovs_vsctl_list
+      options:
+        kwargs:
+          table: interface
+    search: '^ofport\s*:\s*(-1)\s*$'
+conclusions:
+  interface_configuration_failed:
+    decision: failed_interfaces
+    raises:
+      type: OpenvSwitchWarning
+      message: >-
+        The OVS Interface table reports {count} interface(s) with ofport=-1,
+        indicating failed port configuration. Affected interfaces cannot
+        forward traffic through their OpenFlow ports. Please check the
+        interface names and error fields in 'ovs-vsctl list interface'.
+      format-dict:
+        count: '@checks.failed_interfaces.search.num_results'
