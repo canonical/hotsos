@@ -4,6 +4,7 @@ from unittest import mock
 from hotsos.core.config import HotSOSConfig
 import hotsos.core.plugins.openstack as openstack_core
 from hotsos.core.plugins.openstack import sunbeam
+from hotsos.core.plugins import sosreport
 from hotsos.core.host_helpers.cli.commands import kubectl
 from hotsos.core.issues import IssuesManager
 from hotsos.plugin_extensions.openstack import agent
@@ -185,24 +186,39 @@ class TestOpenstackSunbeam(TestOpenstackSunbeamBase):
         self.assertEqual(len(log.output), 1)
         self.assertIn(f'does {cfg_path} exist?', log.output[0])
 
-    def test_summary_controller_no_kubectl_data_raises_issue(self):
+    @mock.patch.object(sosreport.SOSReportBase, 'data_root_is_sosreport',
+                       False)
+    @mock.patch.object(sunbeam.SunbeamInfo, 'is_controller', True)
+    @mock.patch.object(sunbeam, 'CLIHelper')
+    def test_summary_controller_no_kubectl_data_raises_issue(self,
+                                                             mock_helper):
         """ Test issue raised when controller has no kubernetes data. """
-        with mock.patch.object(sunbeam.SunbeamInfo, 'is_controller', True), \
-                mock.patch.object(sunbeam, 'CLIHelper') as mock_helper:
-            mock_helper.return_value.kubectl_get.return_value = {}
-            inst = sunbeam_ext.SunbeamStatus()
-            self.part_output_to_actual(inst.output)
-            issues = {'potential-issues': [{
-                        'message': ('this host is a sunbeam controller but no '
-                                    'kubernetes data was found - kubectl may '
-                                    'have failed '
-                                    f'(does {kubectl.DEFAULT_CFG_PATH} '
-                                    'exist? - if not you can try '
-                                    'setting the KUBECONFIG env var to a '
-                                    'valid path)'),
-                        'origin': 'openstack.testpart',
-                        'type': 'OpenstackWarning'}]}
-            self.assertEqual(IssuesManager().load_issues(), issues)
+        mock_helper.return_value.kubectl_get.return_value = {}
+        inst = sunbeam_ext.SunbeamStatus()
+        self.part_output_to_actual(inst.output)
+        issues = {'potential-issues': [{
+                    'message': ('this host is a sunbeam controller but no '
+                                'kubernetes data was found - kubectl may '
+                                'have failed '
+                                f'(does {kubectl.DEFAULT_CFG_PATH} '
+                                'exist? - if not you can try '
+                                'setting the KUBECONFIG env var to a '
+                                'valid path)'),
+                    'origin': 'openstack.testpart',
+                    'type': 'OpenstackWarning'}]}
+        self.assertEqual(IssuesManager().load_issues(), issues)
+
+    @mock.patch.object(sosreport.SOSReportBase, 'data_root_is_sosreport',
+                       True)
+    @mock.patch.object(sunbeam.SunbeamInfo, 'is_controller', True)
+    @mock.patch.object(sunbeam, 'CLIHelper')
+    def test_summary_controller_no_kubectl_data_raises_issue_is_sosreport(
+            self, mock_helper):
+        """ Test issue raised when controller has no kubernetes data. """
+        mock_helper.return_value.kubectl_get.return_value = {}
+        inst = sunbeam_ext.SunbeamStatus()
+        self.part_output_to_actual(inst.output)
+        self.assertEqual(IssuesManager().load_issues(), {})
 
 
 class TestOpenstackSunbeamPluginCore(TestOpenstackSunbeamBase):

@@ -183,6 +183,12 @@ class TestCLIHelper(utils.BaseTestCase):
                 # restore
                 HotSOSConfig.set(**orig_cfg)
 
+
+class TestCLIHelperKubeCTL(utils.BaseTestCase):
+    """
+    Tests for Kubectl commands.
+    """
+
     @staticmethod
     @mock.patch.object(cli_common, 'subprocess')
     def test_kubectl_get_bincmd(mock_subprocess):
@@ -236,12 +242,39 @@ class TestCLIHelper(utils.BaseTestCase):
                                                 subopts='-c neutron-server')
         self.assertEqual(out, ['SUCCESS!'])
 
+    @utils.create_data_root({'sos_commands/kubernetes/cluster-info/openstack/'
+                             'podlogs/neutron-0/snap.k8s.current.bin.kubectl_'
+                             '--namespace_openstack_logs_neutron-0_'
+                             '-c_neutron-server':
+                             'SUCCESS!'})
+    def test_kubectl_logs_filecmd_snap_k8s(self):
+        """Test kubectl logs reads snap.k8s.current.bin.kubectl variant
+        path."""
+        out = host_cli.CLIHelper().kubectl_logs(namespace='openstack',
+                                                opt='neutron-0',
+                                                subopts='-c neutron-server')
+        self.assertEqual(out, ['SUCCESS!'])
+
     @utils.create_data_root({'sos_commands/kubernetes/services/kubectl_'
                              '--kubeconfig_.etc.kubernetes.admin.conf_get_'
                              '-o_json_--namespace_'
                              'kubernetes-dashboard_services': KUBECTL_GET_OUT})
     def test_kubectl_get_filecmd(self):
         """Test kubectl get reads JSON from file data root."""
+        out = host_cli.CLIHelper().kubectl_get(
+                                     namespace='kubernetes-dashboard',
+                                     opt='services')
+        expected = {'apiVersion': 'v1', 'items': [{'apiVersion': 'v1',
+                                                   'kind': 'Service'}]}
+        self.assertEqual(out, expected)
+
+    @utils.create_data_root({'sos_commands/kubernetes/cluster-info/'
+                             'kubernetes-dashboard/snap.k8s.current.bin.'
+                             'kubectl_get_-o_json_--namespace_'
+                             'kubernetes-dashboard_services': KUBECTL_GET_OUT})
+    def test_kubectl_get_filecmd_snap_k8s(self):
+        """Test kubectl get reads snap.k8s.current.bin.kubectl variant
+        path."""
         out = host_cli.CLIHelper().kubectl_get(
                                      namespace='kubernetes-dashboard',
                                      opt='services')
