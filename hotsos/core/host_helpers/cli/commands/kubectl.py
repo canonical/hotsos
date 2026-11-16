@@ -3,7 +3,25 @@ from collections import UserList
 
 from hotsos.core.host_helpers.cli.common import BinCmd, FileCmd
 
-KUBECTL_ALIASES = ['kubectl', 'microk8s.kubectl', 'k8s kubectl']
+# See https://github.com/sosreport/sos/pull/4599 for the reason
+# why the snap path is added.
+KUBECTL_ALIASES = ['kubectl', 'k8s kubectl',
+                   '/snap/k8s/current/bin/kubectl',
+                   'microk8s kubectl']
+
+
+def sos_convert_cmd_path(cmd):
+    """
+    Apply sosreport cmd path conversion rules.
+
+    Converts a command into a file path used by sosreport to store output.
+    """
+    cmd = cmd.lstrip('/')
+    cmd = cmd.replace('.', '_')
+    cmd = cmd.replace(' ', '_')
+    cmd = cmd.replace('/', '.')
+    return cmd
+
 
 # Paths checked by sos report
 KUBE_CONFIGS = ['/etc/kubernetes/admin.conf',
@@ -80,7 +98,7 @@ class KubectlLogsCmds(UserList):
         confs = [p.replace('/', '.') for p in KUBE_CONFIGS]
         paths = []
         for cmd in KUBECTL_ALIASES:
-            cmd = cmd.replace('.', '_').replace(' ', '_')
+            cmd = sos_convert_cmd_path(cmd)
             paths.append('sos_commands/kubernetes/cluster-info/{namespace}/'
                          'podlogs/{opt}/' + cmd +
                          '_--namespace_{namespace}_logs_{opt}_{subopts}')
@@ -111,7 +129,7 @@ class KubectlGetCmds(UserList):
         confs = [p.replace('/', '.') for p in KUBE_CONFIGS]
         paths = []
         for cmd in KUBECTL_ALIASES:
-            cmd = cmd.replace('.', '_').replace(' ', '_')
+            cmd = sos_convert_cmd_path(cmd)
             paths.extend([(f'sos_commands/kubernetes/services/{cmd}'
                            f'_--kubeconfig_{conf}'
                            '_get_-o_json_--namespace_{namespace}_{opt}')

@@ -5,6 +5,7 @@ from hotsos.core.plugins.openstack.common import (
     OpenStackChecks,
 )
 from hotsos.core.plugins.openstack.sunbeam import SunbeamInfo
+from hotsos.core.plugins.sosreport import SOSReportBase
 from hotsos.core.plugintools import (
     summary_entry,
     get_min_available_entry_index,
@@ -24,7 +25,8 @@ class SunbeamStatus(OpenstackBase, OpenStackChecks):
             return {'pods': sunbeam.pods,
                     'statefulsets': sunbeam.statefulsets}
 
-        if sunbeam.is_controller:
+        if (sunbeam.is_controller and not
+                SOSReportBase().data_root_is_sosreport):
             IssuesManager().add(OpenstackWarning(
                 "this host is a sunbeam controller but no kubernetes data "
                 "was found - kubectl may have failed (does "
