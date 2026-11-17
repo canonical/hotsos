@@ -16,7 +16,7 @@ checks:
           max: '2:22'
         # antelope
         - min: '2:22.1.0-0ubuntu1~cloud0~cloud0'
-          max: '2:23'
+        # everything above is fixed
   service_tokens_enabled:
     config:
       handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
