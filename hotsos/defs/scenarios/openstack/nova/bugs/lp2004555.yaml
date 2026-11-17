@@ -22,7 +22,7 @@ checks:
               max: '3:27'
             # antelope
             - min: '3:27.1.0-0ubuntu1~cloud0'
-              max: '3:28'
+            # everything above is fixed
       - apt:
           nova-compute:
             # yoga
@@ -33,7 +33,7 @@ checks:
               max: '3:27'
             # antelope
             - min: '3:27.1.0-0ubuntu1~cloud0'
-              max: '3:28'
+            # everything above is fixed
   service_tokens_enabled:
     config:
       handler: 'hotsos.core.plugins.openstack.OpenstackConfig'
