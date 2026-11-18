@@ -1,0 +1,42 @@
+checks:
+  pkg_installed:
+    apt: python3-os-brick
+  # os-brick versions are released sequentially upstream (no per-series
+  # epoch reset like nova/cinder), so a single global threshold is safe:
+  # the fix first shipped in 6.2.3 and is present in every release since.
+  pkg_fixed:
+    apt:
+      python3-os-brick:
+        - min: '6.2.3'
+  # A LUN not being found once is normal while a device is still being
+  # scanned, but the same hctl repeatedly yielding no device indicates the
+  # addressing bug, which only affects LUN ids >= 256 e.g. hctl
+  # ('14', '0', '0', 356). The lun group below only matches integers >= 256.
+  has_2006960:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: '([\d-]+) ([\d:]+)[\.,]\d{3,6} .+Searching for a device in session \S+ and hctl \(.*, (25[6-9]|2[6-9]\d|[3-9]\d\d|\d{4,})\) yield: None'
+    constraints:
+      search-result-age-hours: 24
+      min-results: 5
+conclusions:
+  lp2006960:
+    decision:
+      - pkg_installed
+      - has_2006960
+      - not: pkg_fixed
+    raises:
+      type: LaunchpadBug
+      bug-id: 2006960
+      message: >-
+        This host has an os-brick version ({version}) affected by a known
+        bug (LP#2006960) and {num_results} log entries in the last 24 hours
+        showing a LUN (e.g. {lun}) repeatedly not found on sysfs, which
+        happens for LUN IDs greater than 255 on storage backends using
+        non-SAM addressing (e.g. Pure Storage) because os-brick does not
+        correctly translate the LUN address. Please upgrade os-brick to the
+        latest version to resolve this issue.
+      format-dict:
+        version: '@checks.pkg_fixed.requires.version'
+        num_results: '@checks.has_2006960.search.num_results'
+        lun: '@checks.has_2006960.search.results_group_3:first'

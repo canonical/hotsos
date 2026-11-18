@@ -1,0 +1,14 @@
+target-name: lp2006960.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-os-brick                6.1.2-0ubuntu1~cloud0             all          OpenStack Cinder brick library - Python 3.x
+    var/log/nova/nova-compute.log: |
+      2022-02-10 10:00:00.100 1234 DEBUG os_brick.initiator.linuxscsi [req-a] Searching for a device in session 8 and hctl ('14', '0', '0', 100) yield: None device_name_by_hctl
+      2022-02-10 10:00:04.100 1234 DEBUG os_brick.initiator.linuxscsi [req-a] Searching for a device in session 8 and hctl ('14', '0', '0', 100) yield: None device_name_by_hctl
+      2022-02-10 10:00:09.100 1234 DEBUG os_brick.initiator.linuxscsi [req-a] Searching for a device in session 8 and hctl ('14', '0', '0', 100) yield: None device_name_by_hctl
+      2022-02-10 10:00:16.100 1234 DEBUG os_brick.initiator.linuxscsi [req-a] Searching for a device in session 8 and hctl ('14', '0', '0', 100) yield: None device_name_by_hctl
+      2022-02-10 10:00:25.100 1234 DEBUG os_brick.initiator.linuxscsi [req-a] Searching for a device in session 8 and hctl ('14', '0', '0', 100) yield: None device_name_by_hctl
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
