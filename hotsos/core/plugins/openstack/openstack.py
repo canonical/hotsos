@@ -572,6 +572,7 @@ class OSTProjectCatalog():
                        'libvirt-bin',
                        r'nfs-ganesha\S*',
                        r'python3?-oslo[.-]',
+                       r'python3?-os-brick',
                        'qemu-kvm',
                        'radvd',
                        ]
