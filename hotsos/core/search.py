@@ -161,8 +161,10 @@ class ExtraSearchConstraints():
     natively supported by searchkit.
     """
 
-    @classmethod
-    def _get_datetime_from_result(cls, result):
+    def __init__(self):
+        self.ts_matcher = CommonTimestampMatcher()
+
+    def _get_datetime_from_result(self, result):
         """
         This attempts to create a datetime object from a timestamp (usually
         from a log file) extracted from a search result. If it is not able
@@ -173,16 +175,15 @@ class ExtraSearchConstraints():
         ts = result.get(1)
         ts = f"{ts} {result.get(2) or '00:00:00'}"
 
-        ts_matcher = CommonTimestampMatcher(ts)
-        if not ts_matcher.matched:
+        self.ts_matcher.match_and_save(ts)
+        if not self.ts_matcher.matched:
             log.warning("failed to parse timestamp string '%s' (num_group=%s) "
                         "- returning None", ts, len(result))
             return None
 
-        return ts_matcher.strptime
+        return self.ts_matcher.strptime
 
-    @classmethod
-    def filter_by_period(cls, results, period_hours):
+    def filter_by_period(self, results, period_hours):
         """ Return the most recent period_hours worth of results. """
         if not results:
             return results
@@ -195,7 +196,7 @@ class ExtraSearchConstraints():
 
         _results = []
         for r in results:
-            ts = cls._get_datetime_from_result(r)
+            ts = self._get_datetime_from_result(r)
             if ts:
                 _results.append((ts, r))
 
