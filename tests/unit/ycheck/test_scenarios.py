@@ -315,9 +315,11 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                              plugin_name='myplugin')
             logfile = os.path.join(dtmp, 'foo.log')
 
+            constraints = ExtraSearchConstraints()
+
             contents = ['2021-04-01 00:01:00.000 an event\n']
             results = self._create_search_results(logfile, contents)
-            result = ExtraSearchConstraints.filter_by_period(results, 24)
+            result = constraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 1)
 
             contents = ['2021-04-01 00:01:00.000 an event\n',
@@ -325,7 +327,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                         '2021-04-03 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = ExtraSearchConstraints.filter_by_period(results, 24)
+            result = constraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 1)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -335,7 +337,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                         '2021-04-02 00:01:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = ExtraSearchConstraints.filter_by_period(results, 24)
+            result = constraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 4)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -344,7 +346,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                         '2021-04-02 00:02:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = ExtraSearchConstraints.filter_by_period(results, 24)
+            result = constraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
             contents = ['2021-04-01 00:00:00.000 an event\n',
@@ -356,7 +358,7 @@ class TestYamlScenarios(utils.BaseTestCase):  # noqa, pylint: disable=too-many-p
                         '2021-04-06 01:00:00.000 an event\n',
                         ]
             results = self._create_search_results(logfile, contents)
-            result = ExtraSearchConstraints.filter_by_period(results, 24)
+            result = constraints.filter_by_period(results, 24)
             self.assertEqual(len(result), 2)
 
     @utils.init_test_scenario(test_data.YDEF_NESTED_LOGIC)
