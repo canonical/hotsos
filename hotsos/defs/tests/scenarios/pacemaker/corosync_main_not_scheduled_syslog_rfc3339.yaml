@@ -8,7 +8,10 @@ data-root:
 raised-issues:
   PacemakerWarning: Corosync logged 1 scheduling pause warning(s) in syslog on
     2022-02-10 (threshold 800.0000 ms, 80% of the token timeout), risking
-    membership changes and resource failover. Please compare log timestamps
-    with saved sysstat load and %steal using 'sar -q -u -f SYSSTAT_FILE',
-    and please check the current token timeout with 'corosync-cmapctl
-    runtime.config.totem.token'.
+    membership changes and resource failover. Please compare those log times
+    with CPU load and %steal using 'sar -t -q -u -f var/log/sysstat/saDD' (the
+    saDD or saYYYYMMDD file covering the pause) from the sosreport root, or
+    from / on the node. Please check the token timeout as
+    runtime.config.totem.token in sos_commands/corosync/corosync-cmapctl for a
+    sosreport, or with 'corosync-cmapctl -g runtime.config.totem.token' on the
+    node.
