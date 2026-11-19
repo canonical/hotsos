@@ -1,0 +1,20 @@
+target-name: meter_id_allocation_failed.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ovn-host  24.03.2-0ubuntu0.24.04.1  amd64  OVN host components
+      ii  openvswitch-switch  3.3.1-1ubuntu0.24.04.2  amd64  Open vSwitch switch implementation
+    sos_commands/openvswitch/ovs-ofctl_-OOpenFlow15_meter-features_br-int: |
+      max_meter:200000 max_bands:1 max_color:0
+      band_types: drop
+      capabilities: kbps pktps burst stats
+    var/log/ovn/ovn-controller.log: |
+      2024-09-16T20:28:49.013Z|00526|extend_table|ERR|table meter-table: out of table ids.
+raised-issues:
+  OVNWarning: >-
+    OVN could not allocate meter-table IDs on 2024-09-16. Affected rate
+    limits or ACL logging may be missing. Please check capacity with
+    `ovs-ofctl -O OpenFlow13 meter-features BRIDGE` and installed meters
+    with `ovs-ofctl -O OpenFlow13 dump-meters BRIDGE` on the affected
+    host, substituting the integration bridge name and your deployment's
+    ovs-ofctl command.
