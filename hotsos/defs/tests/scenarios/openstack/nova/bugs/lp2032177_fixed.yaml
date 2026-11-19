@@ -1,0 +1,10 @@
+target-name: lp2032177.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  python3-os-brick                6.4.0-0ubuntu1~cloud0             all          OpenStack Cinder brick library - Python 3.x
+    var/log/nova/nova-compute.log: |
+      2022-02-10 10:00:00.100 2768154 ERROR oslo_messaging.rpc.server Stderr: 'blockdev: cannot open /dev/disk/by-path/ip-10.0.79.46:3260-iscsi-iqn.2010-10.org.openstack:volume-4783ac90-8e2b-4830-a123-f4d20ba24ee6-lun-0: No such device or address\n': oslo_concurrency.processutils.ProcessExecutionError
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
