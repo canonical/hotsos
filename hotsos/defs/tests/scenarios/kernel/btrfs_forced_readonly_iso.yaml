@@ -1,0 +1,14 @@
+target-name: btrfs_forced_readonly.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      2022-02-09T16:19:18Z host kernel: BTRFS info (device sda1): forced readonly
+      <6>2022-02-09T16:19:18.000000+00:00 host kernel: [  725.797102] BTRFS info (device dm-0: state E): forced readonly
+      <6>2022-02-09T21:49:18+05:30 host kernel: BTRFS info (device nvme0n1p2 state EA): forced readonly
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  KernelError: >-
+    Btrfs forced the filesystem(s) on dm-0, nvme0n1p2, sda1 read-only after an error.
+    Please inspect preceding kernel errors and verify the current
+    filesystem state.
