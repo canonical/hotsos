@@ -1,0 +1,16 @@
+checks:
+  pool_app_not_enabled_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, POOL_APP_NOT_ENABLED]]
+conclusions:
+  pool-app-not-enabled:
+    decision: pool_app_not_enabled_reported
+    raises:
+      type: CephWarning
+      message: >-
+        Ceph health detail reports POOL_APP_NOT_ENABLED: one or more
+        pools have no application enabled. Please
+        tag them with 'ceph osd pool application enable <pool> <app>'.
+        Please see
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#pool-app-not-enabled
