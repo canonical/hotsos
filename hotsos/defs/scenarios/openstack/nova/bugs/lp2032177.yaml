@@ -1,0 +1,33 @@
+checks:
+  pkg_installed:
+    apt: python3-os-brick
+  # fix first shipped in os-brick 6.4.0 and is present in every release since.
+  pkg_fixed:
+    apt:
+      python3-os-brick:
+        - min: '6.4.0'
+  has_2032177:
+    input:
+      path: 'var/log/nova/nova-compute.log'
+    expr: '([\d-]+) ([\d:]+)[\.,]\d{3,6} .+Stderr: ''blockdev: cannot open \S+: No such device or address'
+    constraints:
+      search-result-age-hours: 24
+conclusions:
+  lp2032177:
+    decision:
+      - pkg_installed
+      - has_2032177
+      - not: pkg_fixed
+    raises:
+      type: LaunchpadBug
+      bug-id: 2032177
+      message: >-
+        This host has an os-brick version ({version}) affected by a known
+        bug (LP#2032177) where extending an attached volume on a multipath
+        deployment with one or more paths down leaves the multipath device
+        in an inconsistent state, as shown by a failed attempt in the last
+        24 hours to read the size of a path that is down ("blockdev: cannot
+        open ... No such device or address"). Please upgrade os-brick to
+        the latest version to resolve this issue.
+      format-dict:
+        version: '@checks.pkg_fixed.requires.version'
