@@ -152,6 +152,20 @@ class CephOSD(CephDaemonBase):
 
         return d
 
+    def up_in_osd_map(self, entry):
+        """
+        Return whether the given OSD map entry marks this OSD as up, or None
+        unless the entry has an up field and its uuid matches this OSD's fsid,
+        since an OSD id can be reused by a replacement OSD.
+        """
+        if not entry or 'up' not in entry:
+            return None
+
+        if not self.fsid or entry.get('uuid') != self.fsid:
+            return None
+
+        return bool(entry['up'])
+
     @cached_property
     def devtype(self):
         """ Return the device class of this OSD from the OSD tree. """

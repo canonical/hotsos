@@ -21,12 +21,12 @@ conclusions:
     raises:
       type: CephOSDWarning
       message: >-
-        ceph-osd on this host failed to start {count} time(s) on {dates}
-        after logging 'osd init failed' with error(s) {errors}, so the OSD(s)
-        logging it exited at startup. Please search the ceph-osd.*.log files
-        for 'osd init failed' to find the OSD id(s) and the lines logged
-        before the error, and please check with 'ceph osd tree' whether
-        those OSDs are up now.
+        Local ceph-osd failed to start {count} time(s) on {dates} after logging
+        'osd init failed' with error(s) {errors}, so those OSD(s) exited at
+        startup. Please search ceph-osd.*.log for 'osd init failed' for the OSD
+        id(s) and preceding lines. Please see ceph.local-osds in the storage
+        summary for each OSD's up state at collection time, where listed, and
+        please check 'ceph osd tree' for their current state.
       format-dict:
         count: '@checks.osd_init_failed.search.num_results'
         dates: '@checks.osd_init_failed.search.results_group_1:unique_comma_join'

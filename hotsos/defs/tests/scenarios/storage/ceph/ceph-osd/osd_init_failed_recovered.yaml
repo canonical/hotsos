@@ -8,8 +8,9 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 raised-issues:
   CephOSDWarning: >-
-    ceph-osd on this host failed to start 1 time(s) on 2022-02-10 after
-    logging 'osd init failed' with error(s) (13) Permission denied, so the OSD(s) logging it
-    exited at startup. Please search the ceph-osd.*.log files for 'osd init
-    failed' to find the OSD id(s) and the lines logged before the error, and
-    please check with 'ceph osd tree' whether those OSDs are up now.
+    Local ceph-osd failed to start 1 time(s) on 2022-02-10 after logging 'osd
+    init failed' with error(s) (13) Permission denied, so those OSD(s) exited
+    at startup. Please search ceph-osd.*.log for 'osd init failed' for the OSD
+    id(s) and preceding lines. Please see ceph.local-osds in the storage
+    summary for each OSD's up state at collection time, where listed, and
+    please check 'ceph osd tree' for their current state.
