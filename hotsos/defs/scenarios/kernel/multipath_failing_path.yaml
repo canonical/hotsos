@@ -20,7 +20,9 @@ conclusions:
       message: >-
         Device Mapper Multipath logged {count} path failure message(s) for
         {paths} on {dates}. Losing every path can queue or fail I/O.
-        Please run 'multipath -ll' to check whether the paths recovered.
+        Please see multipath.failed-paths in the kernel summary for paths still
+        failed or faulty at collection time, and please run 'multipath -ll' for
+        a logged path not listed there to check that it is present and ready.
       format-dict:
         count: '@checks.mpath_fail.search.num_results'
         paths: '@checks.mpath_fail.search.results_group_3:unique_comma_join'

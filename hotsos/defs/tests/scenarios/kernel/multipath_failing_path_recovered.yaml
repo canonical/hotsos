@@ -11,5 +11,7 @@ data-root:
 raised-issues:
   KernelWarning: >-
     Device Mapper Multipath logged 1 path failure message(s) for 8:16 on Feb 10.
-    Losing every path can queue or fail I/O. Please run 'multipath -ll'
-    to check whether the paths recovered.
+    Losing every path can queue or fail I/O. Please see multipath.failed-paths
+    in the kernel summary for paths still failed or faulty at collection time,
+    and please run 'multipath -ll' for a logged path not listed there to check
+    that it is present and ready.

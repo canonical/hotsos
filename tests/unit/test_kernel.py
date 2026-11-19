@@ -754,6 +754,62 @@ class TestKernelNetworkInfo(TestKernelBase):
                          "procs=[ovs-vswit/13936, qemu-syst/20986]")
 
 
+MULTIPATH_LL = """mpatha (3600508b4000156d700012000000b0000) dm-0 HP,HSV200
+size=10G features='1 queue_if_no_path' hwhandler='0' wp=rw
+|-+- policy='round-robin 0' prio=50 status=active
+| |- 0:0:0:1 sda 8:0   active ready  running
+| `- 1:0:1:1  sdc 8:32  failed ready  running
+`-+- policy='round-robin 0' prio=10 status=enabled
+  |- 0:0:1:1 sdb 8:16  active faulty running
+  `- #:#:#:# sdd 8:48  failed i/o pending running
+3600508b4000156d700012000000c0000 dm-1 HP,HSV200
+size=10G features='1 queue_if_no_path' hwhandler='0' wp=rw
+`-+- policy='service-time 0' prio=50 status=active
+  |- 0:0:0:2 sde 8:64  active ready  running
+  `- 1:0:1:2 sdf 8:80  active ready  running
+"""
+
+MULTIPATH_LL_NO_DM = """\
+/dev/mapper/control: mknod failed: Operation not permitted
+Failure to communicate with kernel device-mapper driver.
+"""
+
+
+class TestKernelMultipathInfo(TestKernelBase):
+    """ Unit tests for the kernel multipath summary. """
+    @utils.create_data_root(
+        {'sos_commands/multipath/multipath_-ll': MULTIPATH_LL})
+    def test_multipath_failed_paths(self):
+        """Test failed and faulty multipath paths are summarised."""
+        inst = summary.KernelSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['multipath'],
+                         {'maps': 2,
+                          'failed-paths': {
+                              'mpatha': ['8:32 sdc failed ready running',
+                                         '8:16 sdb active faulty running',
+                                         '8:48 sdd failed i/o pending running'
+                                         ]}})
+
+    @utils.create_data_root(
+        {'sos_commands/multipath/multipath_-ll':
+         MULTIPATH_LL.replace('failed', 'active').replace(
+             'faulty', 'ready ').replace('i/o pending', 'ready')})
+    def test_multipath_no_failed_paths(self):
+        """Test only the map count is reported when all paths are ok."""
+        inst = summary.KernelSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['multipath'], {'maps': 2})
+
+    @utils.create_data_root(
+        {'sos_commands/multipath/multipath_-ll': MULTIPATH_LL_NO_DM})
+    def test_multipath_no_maps(self):
+        """Test multipath entry absent when no maps are reported."""
+        inst = summary.KernelSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertNotIn('multipath', actual)
+
+
 @utils.load_templated_tests('scenarios/kernel')
 class TestKernelScenarios(TestKernelBase):
     """
