@@ -14,8 +14,9 @@ data-root:
     - sos_commands/date/date
 raised-issues:
   OpenstackWarning: >-
-    Historical keepalived logs record 2 time(s) that VRRP instance(s) VR_1 entered FAULT state,
-    so redundancy for their virtual IPs was reduced while they were in FAULT
-    state. Please check the interface, tracked interface and track
-    script messages logged just before the FAULT line, and which node currently
-    holds MASTER.
+    Historical keepalived logs record 2 FAULT transition(s) for VRRP
+    instance(s) VR_1, reducing virtual IP redundancy during those faults.
+    Please inspect preceding interface/script errors in /var/log/syslog*.
+    Please check which peer holds the virtual IPs from keepalived.conf using
+    'ip address' in the instance's namespace ('ip netns exec NAMESPACE ip
+    address' for Neutron routers).
