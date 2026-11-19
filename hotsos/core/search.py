@@ -141,6 +141,12 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         apache = (r'^[\d.]+[\s-]+\[(?P<day>\d{2})/(?P<month>\w{3,5})/'
                   r'(?P<year>\d{4}):(?P<hours>\d{2}):(?P<minutes>\d{2}):'
                   r'(?P<seconds>\d+)\s+\+\d+\]')
+        # Apache error logs use the default ErrorLogFormat timestamp i.e.
+        # [Thu Feb 10 06:14:46.123456 2022]
+        apache_error = (r'^\[\w{3,9}\s+(?P<month>\w{3,5})\s+'
+                        r'(?P<day>\d{1,2})\s+(?P<hours>\d{2}):'
+                        r'(?P<minutes>\d{2}):(?P<seconds>\d{2})'
+                        r'(?:\.\d+)?\s+(?P<year>\d{4})\]')
         # since they are identical we wont add but leaving in case we want to.
         # edit later.
         # juju = openstack
@@ -152,7 +158,7 @@ class CommonTimestampMatcher(TimestampMatcherBase):
         # openvswitch = ceph
         kernlog = (r'^(?P<month>\w{3,5})\s+(?P<day>\d{1,2})\s+'
                    r'(?P<hours>\d{2}):(?P<minutes>\d{2}):(?P<seconds>\d{2})')
-        return [openstack, ceph, kernlog, apache]
+        return [openstack, ceph, kernlog, apache, apache_error]
 
 
 class ExtraSearchConstraints():
