@@ -102,6 +102,10 @@ class CommandCatalog(UserDict):
             'ceph_report_json_decoded': ceph.CephReportCommands(),
             'ceph_config_dump_json_decoded': ceph.CephConfigDumpCommands(),
             'ceph_mgr_module_ls': ceph.CephMgrModuleLsCommands(),
+            'corosync_cmapctl_token':
+                [BinCmd('corosync-cmapctl -g runtime.config.totem.token'),
+                 # sos collects the full map
+                 FileCmd('sos_commands/corosync/corosync-cmapctl')],
             'date':
                 [DateBinCmd('date', singleline=True),
                  DateFileCmd('sos_commands/date/date', singleline=True),

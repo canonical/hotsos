@@ -344,6 +344,7 @@ class TestCommandAffinity(utils.BaseTestCase):
                         'docker_images',
                         'ovn_nbctl_list',
                         'pacemaker_crm_status',
+                        'corosync_cmapctl_token',
                         'rabbitmqctl_report',
                         'ceph_pg_dump_json_decoded',
                         'ovn_sbctl_show',
