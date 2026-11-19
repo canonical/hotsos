@@ -1,0 +1,14 @@
+data-root:
+  files:
+    var/log/kern.log: |
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] device-mapper: multipath: 253:3: Failing path 8:16.
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] device-mapper: multipath: 253:3: Failing path 8:32.
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] device-mapper: multipath: Failing path 8:16.
+      2022-02-10T11:02:44.123456+00:00 compute4 kernel: device-mapper: multipath: 253:4: Failing path 65:48.
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  KernelWarning: >-
+    Device Mapper Multipath logged 4 path failure message(s) for 65:48, 8:16, 8:32 on 2022-02-10, Feb 10.
+    Losing every path can queue or fail I/O. Please run 'multipath -ll'
+    to check whether the paths recovered.

@@ -1,0 +1,27 @@
+vars:
+  # 'device-mapper: multipath: [<dm>: ]Failing path <major:minor>.' from
+  # fail_path() in drivers/md/dm-mpath.c. Newer kernels (v5.15, v6.8)
+  # prefix the dm device ("253:3: "), v4.15 does not. kern.log lines start
+  # with the legacy syslog timestamp or the RFC3339 one used by rsyslog on
+  # Ubuntu 24.04 and later, where the kernel uptime may be absent. Group 1
+  # is the date, group 2 the time and group 3 the path (major:minor).
+  expr_failing_path: '(\w{3,5}\s+\d{1,2}|\d{4}-\d{2}-\d{2})[T ]([\d:]+)\S* \S+ kernel: (?:\[[^\]]*\] )?device-mapper: multipath: (?:\d+:\d+: )?Failing path (\d+:\d+)\.'
+checks:
+  mpath_fail:
+    input: var/log/kern.log
+    search:
+      expr: $expr_failing_path
+      hint: 'Failing path'
+conclusions:
+  kernel-multipath-failing-path:
+    decision: mpath_fail
+    raises:
+      type: KernelWarning
+      message: >-
+        Device Mapper Multipath logged {count} path failure message(s) for
+        {paths} on {dates}. Losing every path can queue or fail I/O.
+        Please run 'multipath -ll' to check whether the paths recovered.
+      format-dict:
+        count: '@checks.mpath_fail.search.num_results'
+        paths: '@checks.mpath_fail.search.results_group_3:unique_comma_join'
+        dates: '@checks.mpath_fail.search.results_group_1:unique_comma_join'

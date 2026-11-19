@@ -1,0 +1,10 @@
+target-name: multipath_failing_path.yaml
+data-root:
+  files:
+    # Recent multipath lines that do not report a failed path.
+    var/log/kern.log: |
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] device-mapper: multipath: 253:3: Reinstating path 8:16.
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] device-mapper: multipath round-robin: version 1.2.0 loaded
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: {}
