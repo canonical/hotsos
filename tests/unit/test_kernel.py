@@ -10,6 +10,7 @@ from hotsos.core.plugins.kernel.memory import (
     MallocInfo,
 )
 from hotsos.core.plugins.kernel.net import SockStat, NetLink, Lsof
+from hotsos.core.plugins.kernel.sysfs import CPU
 from hotsos.plugin_extensions.kernel import summary
 
 from . import utils
@@ -377,6 +378,11 @@ class TestKernelCallTraceManager(TestKernelBase):
 
 class TestKernelInfo(TestKernelBase):
     """ Unit tests for kernel info. """
+    @utils.create_data_root({'proc/cpuinfo': 'processor : 0\n'})
+    def test_cpufreq_governor_without_lscpu(self):
+        """Test governor reporting when lscpu is missing."""
+        self.assertEqual(CPU().cpufreq_scaling_governor_all, 'unknown')
+
     @utils.create_data_root({'etc/systemd/system.conf':
                              ('[Manager]\n'
                               '#CPUAffinity=1 2\n'
