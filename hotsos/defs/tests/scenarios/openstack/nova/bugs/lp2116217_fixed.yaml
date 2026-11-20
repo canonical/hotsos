@@ -1,0 +1,23 @@
+target-name: lp2116217.yaml
+data-root:
+  files:
+    sos_commands/apparmor/apparmor_status: |
+      32 profiles are in enforce mode.
+         /usr/bin/nova-compute
+    # the nova-compute charm has already applied the fix, so the rendered
+    # profile now grants access to /dev/dm-* paths.
+    etc/apparmor.d/usr.bin.nova-compute: |
+      #include <tunables/global>
+
+      profile /usr/bin/nova-compute flags=(attach_disconnected) {
+        /dev/sd* r,
+        /dev/disk/** r,
+        /dev/dm-* r,
+      }
+    # this denial is a leftover from before the charm was upgraded; it
+    # should no longer be flagged now that the profile has the fix.
+    var/log/kern.log: |
+      Feb  9 10:48:13 compute4 kernel: [60979.925144] audit: type=1400 audit(1749825553.782:110): apparmor="DENIED" operation="open" profile="/usr/bin/nova-compute" name="/dev/dm-18" pid=1065379 comm="blockdev" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
