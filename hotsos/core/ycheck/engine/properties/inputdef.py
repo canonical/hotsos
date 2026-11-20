@@ -42,26 +42,34 @@ class YPropertyInputBase(ImportHelper):
         @param paths: list of paths we want to use as input. Note that paths
                       must be relative to data_root.
         """
+        include_rotations = (HotSOSConfig.use_all_logs and not
+                             self.options['disable-all-logs'])
         _paths = []
         for path in paths:
-            # First check if a PathFinder is used
             if re.match(r'^[\w.]+:', path):
                 plugin, _, subpath = path.partition(':')
                 importpath = f'hotsos.core.plugins.{plugin}.PathFinder'
                 # NOTE: we don't bother to supply context/cache. The pathfinder
                 # itself should support affinity for paths that match.
-                path = self.get_cls(None, importpath)().resolve(subpath)
+                finder = self.get_cls(None, importpath)()
+                path = finder.resolve(subpath)
+                if include_rotations:
+                    # Preserve the selected directory if a current log exists.
+                    if path:
+                        path = f"{path}*"
+                    else:
+                        path = finder.resolve(f"{subpath}*",
+                                              cache_affinity=False)
+
                 if not path:
                     log.debug("PathFinder did not identify a path for %s",
                               subpath)
                     continue
 
-            path = os.path.join(HotSOSConfig.data_root, path)
-            if (HotSOSConfig.use_all_logs and not
-                    self.options['disable-all-logs']):
+            elif include_rotations:
                 path = f"{path}*"
 
-            _paths.append(path)
+            _paths.append(os.path.join(HotSOSConfig.data_root, path))
 
         return _paths
 
