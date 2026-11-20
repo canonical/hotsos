@@ -1,0 +1,9 @@
+target-name: juju_api_connection_failures.yaml
+data-root:
+  files:
+    sos_commands/date/date: |
+      Fri Oct 30 12:00:00 UTC 2026
+    sos_commands/kubernetes/cluster-info/model-a/podlogs/database-0/kubectl_--namespace_model-a_logs_database-0_-c_charm: |
+      2026-10-30T10:00:00.001Z [container-agent] 2026-10-30 10:00:00 ERROR juju.worker.dependency engine.go:695 "api-caller" manifold worker returned unexpected error: api connection broken unexpectedly
+      2026-10-30T10:00:01.001Z [container-agent] 2026-10-30 10:00:01 ERROR juju.worker.dependency engine.go:695 "dead-flag" manifold worker returned unexpected error: connection is shut down
+raised-issues:

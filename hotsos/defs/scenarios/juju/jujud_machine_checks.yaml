@@ -1,11 +1,15 @@
 checks:
+  local_juju_state:
+    path: var/lib/juju
   jujud_not_found:
     property:
       path: hotsos.core.plugins.juju.JujuChecks.systemd_processes
       ops: [[contains, jujud], [not_]]
 conclusions:
   jujud-not-found:
-    decision: jujud_not_found
+    decision:
+      - local_juju_state
+      - jujud_not_found
     raises:
       type: JujuWarning
       message: >-

@@ -1,7 +1,9 @@
+import glob
 import os
 from dataclasses import dataclass, field
 from functools import cached_property
 
+from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
     InstallInfoBase,
     PebbleHelper,
@@ -58,4 +60,10 @@ class JujuChecks(plugintools.PluginPartBase, JujuBase):
 
         @return: True or False
         """
-        return os.path.exists(cls.get_juju_lib_path())
+        if os.path.exists(cls.get_juju_lib_path()):
+            return True
+
+        podlogs = os.path.join(HotSOSConfig.data_root,
+                               'sos_commands/kubernetes/cluster-info/*/'
+                               'podlogs/*/*_logs_*_-c_charm')
+        return bool(glob.glob(podlogs))

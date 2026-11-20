@@ -4,8 +4,14 @@ import shutil
 import subprocess
 from unittest import mock
 
+import yaml
 from hotsos.core.config import HotSOSConfig
+from hotsos.core.issues import IssuesManager
+from hotsos.core.plugintools import PluginRunner
+from hotsos.core.plugins.juju.common import JujuChecks
 from hotsos.core.plugins.juju.resources import JujuBase
+from hotsos.core.ycheck.common import GlobalSearcher
+from hotsos.core.ycheck.scenarios import YScenarioChecker
 from hotsos.plugin_extensions.juju import summary
 
 from . import utils
@@ -16,6 +22,50 @@ class JujuTestsBase(utils.BaseTestCase):
     def setUp(self):
         super().setUp()
         HotSOSConfig.plugin_name = 'juju'
+
+
+class TestJujuChecks(JujuTestsBase):
+    """ Test the plugin entry condition, bypassed by YAML scenario tests. """
+
+    @utils.create_data_root({})
+    def test_not_runnable_without_juju(self):
+        """ An archive without Juju data does not enable the plugin. """
+        self.assertFalse(JujuChecks.is_runnable())
+        self.assertEqual(PluginRunner('juju').run(), {})
+
+    @utils.create_data_root({
+        'sos_commands/kubernetes/cluster-info/model-a/podlogs/database-0/'
+        'kubectl_--namespace_model-a_logs_database-0_-c_mysql': ''})
+    def test_not_runnable_with_other_container_logs(self):
+        """ Workload container logs alone do not enable Juju checks. """
+        self.assertFalse(JujuChecks.is_runnable())
+
+    @utils.create_data_root({})
+    def test_juju_api_podlogs_plugin_entry(self):
+        """ Charm pod logs enable the real plugin without local Juju state. """
+        fixture = pathlib.Path(utils.DEFS_TESTS_DIR,
+                               'scenarios/juju/'
+                               'juju_api_connection_failures.yaml')
+        data = yaml.safe_load(fixture.read_text(encoding='utf-8'))
+        for name, content in data['data-root']['files'].items():
+            path = pathlib.Path(HotSOSConfig.data_root, name)
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(content, encoding='utf-8')
+
+        self.assertFalse(os.path.exists(JujuChecks.get_juju_lib_path()))
+        self.assertTrue(JujuChecks.is_runnable())
+        with GlobalSearcher() as searcher:
+            checker = YScenarioChecker(searcher)
+            checker.load()
+            names = [scenario.name for scenario in checker.scenarios]
+            self.assertIn('snap_channel', names)
+            self.assertIn('unit_hook_failed', names)
+
+        runner = PluginRunner('juju')
+        runner.run()
+        self.assertEqual(runner.failed_parts, [])
+        utils.TemplatedTest.check_raised_issues(
+            self, data['raised-issues'], IssuesManager().load_issues())
 
 
 class TestJujuResources(JujuTestsBase):
