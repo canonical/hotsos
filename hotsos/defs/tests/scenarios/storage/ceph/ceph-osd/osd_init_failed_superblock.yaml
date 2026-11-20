@@ -9,8 +9,8 @@ data-root:
 raised-issues:
   CephOSDWarning: >-
     Local ceph-osd failed to start 1 time(s) on 2022-02-10 after logging 'osd
-    init failed' with error(s) (22) Invalid argument. Please search
-    ceph-osd*.log* for 'osd init failed' to find the OSD IDs and preceding
-    lines. Please see ceph.local-osds in the storage summary for the OSDs' up
-    state at collection time, where listed. Please check 'ceph osd tree' or
-    'microceph.ceph osd tree' for current state.
+    init failed' with error(s) (22) Invalid argument, so those OSD(s) exited at
+    startup. Please search ceph-osd.*.log for 'osd init failed' for the OSD
+    id(s) and preceding lines. Please see ceph.local-osds in the storage
+    summary for each OSD's up state at collection time, where listed, and
+    please check 'ceph osd tree' for their current state.

@@ -10,7 +10,6 @@ import yaml
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers.config import IniConfigBase
 from hotsos.core.issues.utils import IssuesStore
-from hotsos.core.plugins.openvswitch import PathFinder
 from hotsos.core.search import ExtraSearchConstraints
 from hotsos.core.ycheck import scenarios
 from hotsos.core.ycheck.engine import (
@@ -21,7 +20,6 @@ from hotsos.core.ycheck.engine.properties.common import (
     YPropertyBase,
     PropertyCacheRefResolver,
 )
-from hotsos.core.ycheck.engine.properties.inputdef import YPropertyInputBase
 from hotsos.core.ycheck.common import GlobalSearcher
 
 from .. import utils
@@ -450,27 +448,6 @@ class TestYamlRequiresTypeCache(utils.BaseTestCase):
 
 class TestYamlProperties(utils.BaseTestCase):
     """ Miscellaneous tests for YAML properties. """
-
-    @utils.create_data_root({
-        'var/log/ovn/ovsdb-server-sb.log.1': 'rotated',
-        'var/snap/microovn/common/logs/ovn/ovsdb-server-nb.log': 'current',
-    })
-    @mock.patch.dict(os.environ, {'HOTSOS_DISABLE_AFFINITY': 'False'})
-    @mock.patch.object(PathFinder, 'PATH_AFFINITY', None)
-    @mock.patch.object(YPropertyInputBase, 'options',
-                       {'disable-all-logs': False})
-    def test_rotated_only_input_does_not_cache_affinity(self):
-        """A rotated-only match does not hide current logs in another root."""
-        paths = YPropertyInputBase().expand_paths([
-            'openvswitch:ovn/ovsdb-server-sb.log',
-            'openvswitch:ovn/ovsdb-server-nb.log',
-        ])
-        expected = [
-            'var/log/ovn/ovsdb-server-sb.log*',
-            'var/snap/microovn/common/logs/ovn/ovsdb-server-nb.log*',
-        ]
-        self.assertEqual(paths, [os.path.join(HotSOSConfig.data_root, path)
-                                 for path in expected])
 
     def test_yaml_def_requires_grouped(self):
         """ Test grouped requires with mixed pass/fail defs. """

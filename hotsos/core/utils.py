@@ -130,8 +130,8 @@ class PathFinderBase:
         """ This must be implemented and return a list of root locations to
         use when searching for a given subpath. """
 
-    def resolve(self, subpath, *, cache_affinity=True):
-        """Resolve a subpath, optionally remembering the matched directory."""
+    def resolve(self, subpath):
+        """ Resolve a subpath to a full path using affinity. """
         if self.PATH_AFFINITY:
             log.debug("using affinity path %s", self.PATH_AFFINITY)
 
@@ -141,8 +141,7 @@ class PathFinderBase:
             for abspath in glob.glob(os.path.join(HotSOSConfig.data_root,
                                                   path)):
                 if os.path.exists(abspath):
-                    if (cache_affinity and
-                            os.environ.get('HOTSOS_DISABLE_AFFINITY') !=
+                    if (os.environ.get('HOTSOS_DISABLE_AFFINITY') !=
                             'True'):
                         self.__class__.PATH_AFFINITY = root
 

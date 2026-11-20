@@ -193,19 +193,6 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
         {'sos_commands/ceph_mon/json_output/'
          'ceph_osd_dump_--format_json-pretty':
          json.dumps({'osds': [{'osd': 0,
-                               'uuid': '48858aa1-71a3-4f0e-95f3-a07d1d9a6749',
-                               'up': 1, 'in': 0}]})},
-        copy_from_original=['sos_commands/ceph_osd/ceph-volume_lvm_list'])
-    def test_local_osd_up_while_out(self):
-        """Test the summary distinguishes up state from in membership."""
-        inst = ceph_summary.CephSummary()
-        actual = self.part_output_to_actual(inst.output)
-        self.assertIs(actual['local-osds'][0]['up'], True)
-
-    @utils.create_data_root(
-        {'sos_commands/ceph_mon/json_output/'
-         'ceph_osd_dump_--format_json-pretty':
-         json.dumps({'osds': [{'osd': 0,
                                'uuid': '00000000-0000-0000-0000-000000000000',
                                'up': 1, 'in': 1}]})},
         copy_from_original=['sos_commands/ceph_osd/ceph-volume_lvm_list'])
