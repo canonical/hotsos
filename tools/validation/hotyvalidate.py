@@ -19,7 +19,8 @@ from hotsos.core.ycheck.engine.common import (
 # alternative captures the date (and usually time) at the start of the line as
 # the first result group(s) so that ExtraSearchConstraints hands them back to
 # core.search.CommonTimestampMatcher. The alternatives below cover every format
-# in CommonTimestampMatcher.patterns: openstack/ceph/openvswitch/juju
+# in CommonTimestampMatcher.patterns: timezone-qualified ISO (optionally
+# prefixed with a syslog priority), openstack/ceph/openvswitch/juju
 # (YYYY-MM-DD[ T]HH:MM:SS), kernlog/syslog (Mon DD HH:MM:SS, string month) and
 # apache (IP - - [DD/Mon/YYYY:HH:MM:SS +ZZZZ]). Examples of expressions each
 # alternative accepts:
@@ -30,6 +31,9 @@ from hotsos.core.ycheck.engine.common import (
 #   (\w{3,5}\s+\d{1,2}\s+[\d:]+) ...     syslog/kern.log style
 #   ([\d.]+[\s-]+\[\d{2}/\w{3,5}/...)  apache access log (IP + bracketed date)
 #   (\S+) (\S+) ...                      loose date/time tokens
+# Optional '(?:<\d+>)?' prefixes are accepted for the syslog example and
+# complete timezone-qualified ISO captures using '[\d:.]+' or explicit
+# '\d{2}:\d{2}:\d{2}' times with optional fractional seconds.
 LEADING_TIMESTAMP_RE = re.compile(
     r"(?:"
     r"\(\[\\d-\]\+ \[\\d:\]"       # ([\d-]+ [\d:]   (combined date+time group)
@@ -73,6 +77,17 @@ class SearchExpressionValidator:
         if not isinstance(pattern, str):
             return False
         candidate = pattern[1:] if pattern.startswith("^") else pattern
+        priority = r'(?:<\d+>)?'
+        if candidate.startswith(priority):
+            candidate = candidate[len(priority):]
+            return candidate.startswith((
+                r'(\w{3,5}\s+\d{1,2}\s+[\d:]+)',
+                r'(\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|[+-]\d{2}:\d{2}))',
+                r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}'
+                r'(?:Z|[+-]\d{2}:\d{2}))',
+                r'(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?'
+                r'(?:Z|[+-]\d{2}:\d{2}))',
+            ))
         return bool(LEADING_TIMESTAMP_RE.match(candidate))
 
     def resolve_expr(self, expr, variables):
