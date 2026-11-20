@@ -1,0 +1,74 @@
+vars:
+  nc_aa_mode: '@hotsos.core.host_helpers.apparmor.AAProfileFactory.mode:/usr/bin/nova-compute'
+  # os-brick/nova-compute invoke these commands to discover, attach and
+  # detach iSCSI, FC, NVMe, multipath and LVM/Ceph backed volumes. AppArmor
+  # denials against the nova-compute profile for any of them typically mean
+  # the related attach/detach or disk inspection operation failed. Denials
+  # are only actually blocked (and worth raising) while the profile is in
+  # enforce mode; in complain mode or when unloaded the actions are
+  # permitted and merely logged.
+  # NOTE: kern.log lines start with the legacy syslog timestamp or the
+  #       RFC3339 one used by rsyslog on Ubuntu 24.04 and later, where the
+  #       kernel uptime may be absent, e.g.:
+  #       "Jun  8 10:48:13 compute4 kernel: [1234.5] ..."
+  #       "2022-02-10T02:15:03.123456+00:00 compute4 kernel: ..."
+  #       Group 1 is the date and group 2 the time (captured for both forms).
+  # For operation="exec" denials, comm is the *calling* task (nova-compute)
+  # and name is the path of the executable that was blocked, so these are
+  # matched on name. For denials against an already-running storage tool
+  # (e.g. it opening a device node) comm correctly identifies that tool, so
+  # those are matched on comm instead.
+  expr_storage_exec_denials: '(\w{3,5}\s+\d{1,2}|\d{4}-\d{2}-\d{2})[T ]([\d:]+)\S*\s+\S+\s+kernel:\s*(?:\[[^\]]*\]\s*)?.+apparmor="DENIED" operation="exec".+profile="/usr/bin/nova-compute".+name="(?:\S*/)?(multipath|multipathd|lsscsi|scsi_id|iscsiadm|nvme|sg_scan|blockdev|sgdisk|blkid|dmsetup|parted|lvs|pvs|vgs|qemu-img|smartctl|rbd)"'
+  expr_storage_comm_denials: '(\w{3,5}\s+\d{1,2}|\d{4}-\d{2}-\d{2})[T ]([\d:]+)\S*\s+\S+\s+kernel:\s*(?:\[[^\]]*\]\s*)?.+apparmor="DENIED".+profile="/usr/bin/nova-compute".+comm="(multipath|multipathd|lsscsi|scsi_id|iscsiadm|nvme|sg_scan|blockdev|sgdisk|blkid|dmsetup|parted|lvs|pvs|vgs|qemu-img|smartctl|rbd)"'
+checks:
+  nc_in_enforce_mode:
+    varops: [[$nc_aa_mode], [eq, enforce]]
+  nova_compute_storage_exec_denials:
+    input:
+      path: 'var/log/kern.log'
+    expr: $expr_storage_exec_denials
+    constraints:
+      search-result-age-hours: 48
+  nova_compute_storage_comm_denials:
+    input:
+      path: 'var/log/kern.log'
+    expr: $expr_storage_comm_denials
+    constraints:
+      search-result-age-hours: 48
+conclusions:
+  nova-compute-storage-exec-apparmor-denials:
+    decision:
+      - nc_in_enforce_mode
+      - nova_compute_storage_exec_denials
+    raises:
+      type: OpenstackWarning
+      message: >-
+        AppArmor has denied nova-compute permission to execute {count}
+        storage-related command(s) ({comms}) in the last 48 hours e.g. on
+        {dates}. This can prevent os-brick from managing multipath, iSCSI,
+        FC or NVMe volumes correctly and cause instance attach/detach
+        failures. Please review the denials in /var/log/kern.log and
+        update the nova-compute apparmor profile to allow executing the
+        required storage tools.
+      format-dict:
+        count: '@checks.nova_compute_storage_exec_denials.search.num_results'
+        comms: '@checks.nova_compute_storage_exec_denials.search.results_group_3:unique_comma_join'
+        dates: '@checks.nova_compute_storage_exec_denials.search.results_group_1:unique_comma_join'
+  nova-compute-storage-comm-apparmor-denials:
+    decision:
+      - nc_in_enforce_mode
+      - nova_compute_storage_comm_denials
+    raises:
+      type: OpenstackWarning
+      message: >-
+        AppArmor has denied {count} storage-related operation(s) (comm:
+        {comms}) for the nova-compute profile (/usr/bin/nova-compute) in the
+        last 48 hours e.g. on {dates}. This can prevent os-brick from
+        managing multipath, iSCSI, FC or NVMe volumes correctly and cause
+        instance attach/detach failures. Please review the denials in
+        /var/log/kern.log and update the nova-compute apparmor profile to
+        allow the required storage operations.
+      format-dict:
+        count: '@checks.nova_compute_storage_comm_denials.search.num_results'
+        comms: '@checks.nova_compute_storage_comm_denials.search.results_group_3:unique_comma_join'
+        dates: '@checks.nova_compute_storage_comm_denials.search.results_group_1:unique_comma_join'
