@@ -71,6 +71,15 @@ Checks are defined in YAML under `hotsos/defs/` using a high-level DSL evaluated
 - **Scenarios** (`defs/scenarios/`) — logical checks with conclusions and raised issues.
 - **Events** (`defs/events/`) — log/file pattern searches.
 
+### Writing Scenario Checks (practical tips)
+- Mirror an existing scenario in the same plugin dir before writing a new one; conventions (naming, `vars:`, message style) vary little across the tree.
+- `vars:` entries are resolved as **whole-value** substitution only (`expr: $my_var`). You cannot embed `$var` inside a larger literal string to interpolate a fragment — define the entire value (e.g. the whole regex) as one var instead. Also avoid YAML folded scalars (`>-`) for multi-line regexes: folding inserts a literal space at each line break and will silently corrupt the pattern. Keep regexes as a single-line quoted string.
+- When a check uses `constraints:` (e.g. `search-result-age-hours`), the search `expr` must **start** with a capture of the log line's date (and ideally time as group 2) — see `hotsos/core/search.py::CommonTimestampMatcher.patterns` for the exact formats and `tools/validation/hotyvalidate.py::LEADING_TIMESTAMP_RE` for what's accepted (matched from the very start of the expr string, no leading `.*`).
+- `format-dict` renderer `:unique_comma_join` is deterministic — it does `', '.join(sorted(set(value)))` — so expected test messages can be computed exactly (alphabetical, deduped).
+- Validate new/changed scenarios with `tox -e yamllint` and `tox -e hotyvalidate` (the latter enforces the timestamp-capture rule above) in addition to `tox -e py3`.
+- Scenario tests are YAML fixtures under `hotsos/defs/tests/scenarios/<plugin>/...` and are auto-discovered: each `tests/unit/<plugin>/test_scenarios.py` uses `@utils.load_templated_tests('scenarios/<plugin>')`, generating test methods named `test_yscenario_<relative_path_with_underscores>`. No Python test code is needed for a new scenario — just add the fixture file (use `target-name:` when the fixture filename differs from the scenario filename).
+- Each plugin's fake data root has a fixed "current time" at `tests/unit/fake_data_root/<plugin>/sos_commands/date/date` (e.g. openstack = `Thu Feb 10 16:19:17 UTC 2022`). Positive fixtures should copy it via `copy-from-original: [sos_commands/date/date]` and place log timestamps relative to it; `_old_logs` negative fixtures reuse the same date file but push log timestamps outside the constraint window.
+
 ### Data Root
 `DataRootManager` (via `HotSOSConfig`) abstracts whether hotsos is running against a live host or an unpacked sosreport directory. All file reads and command executions go through this abstraction.
 
@@ -106,6 +115,9 @@ tox -e py3-coverage,coveragereport
 tox -e pep8
 tox -e pylint
 tox -e yamllint
+
+# Validate scenario search-expression timestamp constraints
+tox -e hotyvalidate
 ```
 
 Coverage must stay above **84%**.

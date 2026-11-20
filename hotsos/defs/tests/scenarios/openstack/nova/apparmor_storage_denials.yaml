@@ -1,0 +1,28 @@
+data-root:
+  files:
+    sos_commands/apparmor/apparmor_status: |
+      32 profiles are in enforce mode.
+         /usr/bin/nova-compute
+    var/log/kern.log: |
+      Feb 10 02:15:03 compute4 kernel: [1381807.338196] audit: type=1400 audit(1646348231.139:38839): apparmor="DENIED" operation="exec" profile="/usr/bin/nova-compute" name="/sbin/multipath" pid=3178525 comm="nova-compute" requested_mask="x" denied_mask="x" fsuid=0 ouid=0
+      Feb 10 05:20:11 compute4 kernel: [1381818.448855] audit: type=1400 audit(1646348242.252:38857): apparmor="DENIED" operation="open" profile="/usr/bin/nova-compute" name="/dev/sda" pid=3181986 comm="lsscsi" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  OpenstackWarning:
+    - >-
+      AppArmor has denied nova-compute permission to execute 1
+      storage-related command(s) (multipath) in the last 48 hours e.g. on
+      Feb 10. This can prevent os-brick from managing multipath, iSCSI, FC
+      or NVMe volumes correctly and cause instance attach/detach failures.
+      Please review the denials in /var/log/kern.log and update the
+      nova-compute apparmor profile to allow executing the required
+      storage tools.
+    - >-
+      AppArmor has denied 1 storage-related operation(s) (comm:
+      lsscsi) for the nova-compute profile (/usr/bin/nova-compute) in the
+      last 48 hours e.g. on Feb 10. This can prevent os-brick from managing
+      multipath, iSCSI, FC or NVMe volumes correctly and cause instance
+      attach/detach failures. Please review the denials in /var/log/kern.log
+      and update the nova-compute apparmor profile to allow the required
+      storage operations.
