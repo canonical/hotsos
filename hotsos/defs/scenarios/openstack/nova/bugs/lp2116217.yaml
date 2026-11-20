@@ -1,0 +1,42 @@
+vars:
+  nc_aa_mode: '@hotsos.core.host_helpers.apparmor.AAProfileFactory.mode:/usr/bin/nova-compute'
+  # kern.log lines are of the form "Feb  9 10:48:13 host kernel: [12345.678]
+  # audit: type=1400 audit(...): apparmor="DENIED" operation="open"
+  # profile="/usr/bin/nova-compute" name="/dev/dm-18" pid=... comm="blockdev"".
+  # Group 1 is the date, group 2 the time, group 3 the denied device path and
+  # group 4 the command that triggered the denial.
+  expr_denied: '(\w{3,5}\s+\d{1,2})\s+([\d:]+)\s+\S+ kernel: .*apparmor="DENIED" operation="open" profile="/usr/bin/nova-compute" name="(/dev/dm-\S+)" pid=\d+ comm="(\S+)"'
+checks:
+  nc_in_enforce_mode:
+    varops: [[$nc_aa_mode], [eq, enforce]]
+  has_fix:
+    # the charm fix adds a rule allowing read access to /dev/dm-* paths to
+    # the rendered apparmor profile.
+    input:
+      path: 'etc/apparmor.d/usr.bin.nova-compute'
+    expr: '^\s*/dev/dm-\*\s+r,?'
+  has_2116217:
+    input:
+      path: 'var/log/kern.log'
+    search:
+      expr: $expr_denied
+      hint: 'apparmor="DENIED"'
+      constraints:
+        search-result-age-hours: 168  # 7 days
+conclusions:
+  lp2116217:
+    decision:
+      - nc_in_enforce_mode
+      - not: has_fix
+      - has_2116217
+    raises:
+      type: LaunchpadBug
+      bug-id: 2116217
+      message: >-
+        AppArmor is denying the nova-compute profile access to multipath
+        iSCSI device node(s) (e.g. {devices}), which blocks online Cinder
+        volume resize for backends such as PureStorage. Please upgrade the
+        nova-compute charm to the latest version to pick up the updated
+        AppArmor profile rules that fix this.
+      format-dict:
+        devices: '@checks.has_2116217.search.results_group_3:unique_comma_join'

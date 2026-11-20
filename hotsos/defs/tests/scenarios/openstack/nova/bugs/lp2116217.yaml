@@ -1,0 +1,23 @@
+data-root:
+  files:
+    sos_commands/apparmor/apparmor_status: |
+      32 profiles are in enforce mode.
+         /usr/bin/nova-compute
+    etc/apparmor.d/usr.bin.nova-compute: |
+      #include <tunables/global>
+
+      profile /usr/bin/nova-compute flags=(attach_disconnected) {
+        /dev/sd* r,
+        /dev/disk/** r,
+      }
+    var/log/kern.log: |
+      Feb  9 10:48:13 compute4 kernel: [60979.925144] audit: type=1400 audit(1749825553.782:110): apparmor="DENIED" operation="open" profile="/usr/bin/nova-compute" name="/dev/dm-18" pid=1065379 comm="blockdev" requested_mask="r" denied_mask="r" fsuid=0 ouid=0
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2116217: >-
+    AppArmor is denying the nova-compute profile access to multipath
+    iSCSI device node(s) (e.g. /dev/dm-18), which blocks online Cinder
+    volume resize for backends such as PureStorage. Please upgrade the
+    nova-compute charm to the latest version to pick up the updated
+    AppArmor profile rules that fix this.
