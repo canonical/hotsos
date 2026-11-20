@@ -163,6 +163,9 @@ class CommandCatalog(UserDict):
             'lxd_buginfo':
                 [BinCmd('lxd.buginfo'),
                  FileCmd('sos_commands/lxd/lxd.buginfo')],
+            'multipath_ll':
+                [BinCmd('multipath -ll'),
+                 FileCmd('sos_commands/multipath/multipath_-ll')],
             'numactl':
                 [BinCmd('numactl --hardware'),
                  FileCmd('sos_commands/numa/numactl_--hardware')],

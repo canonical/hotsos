@@ -4,6 +4,7 @@ from hotsos.core.host_helpers import SYSCtlFactory
 from hotsos.core.plugins.kernel.common import KernelChecks
 from hotsos.core.plugins.kernel.config import SystemdConfig
 from hotsos.core.plugins.kernel.memory import MemoryChecks
+from hotsos.core.plugins.kernel.multipath import MultipathMaps
 from hotsos.core.plugins.kernel.net import (
     NetStatTCP,
     SNMPTcp,
@@ -223,3 +224,21 @@ class KernelSummary(KernelChecks):
     def summary_network(self):
         """Return network context datapoints relevant to kernel checks."""
         return self.network_info() or None
+
+    @staticmethod
+    @summary_entry("multipath", 6)
+    def summary_multipath():
+        """
+        Return the number of multipath maps and any paths that device-mapper
+        marks failed or the path checker reports faulty. Omitted when
+        'multipath -ll' reports no maps.
+        """
+        maps = MultipathMaps()
+        if not maps.num_maps:
+            return None
+
+        info = {'maps': maps.num_maps}
+        if maps.failed_paths:
+            info['failed-paths'] = maps.failed_paths
+
+        return info
