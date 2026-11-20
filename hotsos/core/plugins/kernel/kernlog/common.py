@@ -1,5 +1,6 @@
 import abc
 import os
+from functools import cached_property
 
 from hotsos.core.config import HotSOSConfig
 from hotsos.core.host_helpers import (
@@ -97,41 +98,40 @@ class KernLogSource(CLIHelperFile):
     """
     def __init__(self):
         super().__init__(catch_exceptions=False)
-        self.path = None
-        self.attempt = 0
-        self.fs_paths = ['var/log/kern.log',
-                         'sos_commands/logs/journalctl_--no-pager']
-        self.fs_paths = [os.path.join(os.path.join(HotSOSConfig.data_root, f))
-                         for f in self.fs_paths]
 
-    def __enter__(self):
+    @cached_property
+    def journal_path(self):
         if os.path.exists(os.path.join(HotSOSConfig.data_root,
                                        'var/log/journal')):
             try:
-                self.path = self.journalctl(opts='-k')
-                log.debug("using journal as source of kernlogs")
+                return self.journalctl(opts='-k')
             except CLIExecError:
                 log.info("Failed to get kernlogs from systemd journal. "
                          "Trying fallback sources.")
+
+        log.info("systemd journal not available. Trying fallback kernlog "
+                 "sources.")
+        return None
+
+    @property
+    def kernlog_paths(self):
+        paths = []
+        if self.journal_path:
+            paths = [self.journal_path]
+
+        if HotSOSConfig.use_all_logs:
+            fs_paths = ['var/log/kern.log*']
         else:
-            log.info("systemd journal not available. Trying fallback kernlog "
-                     "sources.")
+            fs_paths = ['var/log/kern.log']
 
-        if not self.path:
-            for path in self.fs_paths:
-                if os.path.exists(path):
-                    if path.endswith('kern.log') and HotSOSConfig.use_all_logs:
-                        self.path = f"{path}*"
-                    else:
-                        self.path = path
+        fs_paths.append('sos_commands/logs/journalctl_--no-pager')
+        paths += [os.path.join(HotSOSConfig.data_root, f) for f in fs_paths]
+        for path in paths:
+            if os.path.exists(path):
+                log.debug("trying %s as source of kernlogs", path)
+                yield path
 
-                    log.debug("using %s as source of kernlogs", self.path)
-                    break
-            else:
-                paths = ', '.join(self.fs_paths)
-                log.warning("no kernlog sources found (tried %s and "
-                            "journal)", paths)
-
+    def __enter__(self):
         return self
 
 
@@ -152,13 +152,14 @@ class KernLogBase():
                         "calltrace checker: %s", exc)
             constraint = None
 
-        searcher = FileSearcher(constraint=constraint)
         with KernLogSource() as kls:
-            if kls.path is None:
-                log.info("no kernlogs found")
-                return None
+            for path in kls.kernlog_paths:
+                searcher = FileSearcher(constraint=constraint)
+                for sd in searchdefs:
+                    searcher.add(sd, path)
 
-            for sd in searchdefs:
-                searcher.add(sd, kls.path)
+                results = searcher.run()
+                if results:
+                    return results
 
-            return searcher.run()
+        return None
