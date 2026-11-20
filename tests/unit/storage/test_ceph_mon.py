@@ -763,6 +763,131 @@ class TestCephMonSummary(CephMonTestsBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertIsNone(actual.get('versions'))
 
+    def test_health_checks(self):
+        """Test health check codes and summaries appear in summary."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['health-checks'],
+                         {'AUTH_INSECURE_GLOBAL_ID_RECLAIM_ALLOWED':
+                          'mons are allowing insecure global_id reclaim'})
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_health_detail_--format_json-pretty':
+         json.dumps({'status': 'HEALTH_WARN',
+                     'checks': {
+                         'OSD_DOWN': {
+                             'severity': 'HEALTH_WARN',
+                             'summary': {'message': '1 osds down',
+                                         'count': 1},
+                             'detail': [{'message': 'osd.1 is down'}],
+                             'muted': False},
+                         'POOL_APP_NOT_ENABLED': {
+                             'severity': 'HEALTH_WARN',
+                             'summary': {
+                                 'message': ('1 pool(s) do not have an '
+                                             'application enabled'),
+                                 'count': 1},
+                             'detail': [],
+                             'muted': True}},
+                     'mutes': []})})
+    def test_health_checks_muted(self):
+        """Test muted health checks are marked and details omitted."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['health-checks'],
+                         {'OSD_DOWN': '1 osds down',
+                          'POOL_APP_NOT_ENABLED':
+                          '1 pool(s) do not have an application enabled '
+                          '(muted)'})
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_status_--format_json-pretty':
+         json.dumps({'health': {
+             'status': 'HEALTH_WARN',
+             'checks': {'OSD_DOWN': {
+                 'severity': 'HEALTH_WARN',
+                 'summary': {'message': '1 osds down', 'count': 1},
+                 'muted': False}},
+             'mutes': []}}),
+         'sos_commands/ceph_mon/json_output/'
+         'ceph_health_detail_--format_json-pretty':
+         json.dumps({'status': 'HEALTH_OK', 'checks': {}, 'mutes': []})})
+    def test_health_checks_from_status(self):
+        """Test checks come from the same ceph status as the status entry."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['status'], 'HEALTH_WARN')
+        self.assertEqual(actual['health-checks'], {'OSD_DOWN': '1 osds down'})
+
+    def test_health_checks_one_status_read(self):
+        """Test status and checks come from a single ceph status read."""
+        first = {'health': {
+            'status': 'HEALTH_WARN',
+            'checks': {'OSD_DOWN': {
+                'severity': 'HEALTH_WARN',
+                'summary': {'message': '1 osds down', 'count': 1},
+                'muted': False}}}}
+        second = {'health': {'status': 'HEALTH_OK', 'checks': {}}}
+        with mock.patch.object(cli.CLIHelper, 'ceph_status_json_decoded',
+                               create=True,
+                               side_effect=[first, second]) as decoded:
+            inst = ceph_summary.CephSummary()
+            actual = self.part_output_to_actual(inst.output)
+
+        decoded.assert_called_once_with()
+        self.assertEqual(actual['status'], 'HEALTH_WARN')
+        self.assertEqual(actual['health-checks'], {'OSD_DOWN': '1 osds down'})
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_status_--format_json-pretty':
+         json.dumps({'health': {'status': 'HEALTH_OK'}}),
+         'sos_commands/ceph_mon/json_output/'
+         'ceph_health_detail_--format_json-pretty':
+         json.dumps({'status': 'HEALTH_WARN',
+                     'checks': {'OSD_DOWN': {
+                         'severity': 'HEALTH_WARN',
+                         'summary': {'message': '1 osds down', 'count': 1},
+                         'muted': False}},
+                     'mutes': []})})
+    def test_health_checks_not_mixed(self):
+        """Test detail checks are not paired with a different status."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual['status'], 'HEALTH_OK')
+        self.assertNotIn('health-checks', actual)
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_status_--format_json-pretty':
+         json.dumps({'fsid': 'c0ffee00-0000-0000-0000-000000000000'}),
+         'sos_commands/ceph_mon/json_output/'
+         'ceph_health_detail_--format_json-pretty':
+         json.dumps({'status': 'HEALTH_WARN',
+                     'checks': {'OSD_DOWN': {
+                         'severity': 'HEALTH_WARN',
+                         'summary': {'message': '1 osds down', 'count': 1},
+                         'muted': False}},
+                     'mutes': []})})
+    def test_health_checks_status_without_health(self):
+        """Test detail checks are used when status has no health section."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertNotIn('status', actual)
+        self.assertEqual(actual['health-checks'], {'OSD_DOWN': '1 osds down'})
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_health_detail_--format_json-pretty':
+         json.dumps({'status': 'HEALTH_OK', 'checks': {}, 'mutes': []})})
+    def test_health_checks_none(self):
+        """Test health-checks key absent when there are no checks."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertNotIn('health-checks', actual)
+
 
 class TestCephMonEvents(CephMonTestsBase):
     """ Unit tests for ceph mon event checks. """

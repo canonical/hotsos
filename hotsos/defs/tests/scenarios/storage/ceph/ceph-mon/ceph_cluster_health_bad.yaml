@@ -14,5 +14,6 @@ data-root:
     - sos_commands/systemd/systemctl_list-unit-files
 raised-issues:
   CephWarning: >-
-    Ceph cluster is in 'HEALTH_WARN' state. Please check
-    'ceph health detail' for details.
+    Ceph cluster is in 'HEALTH_WARN' state. Please see ceph.health-checks in
+    the storage summary, if present, for the reported checks, and please check
+    'ceph health detail' for the affected daemons, OSDs or pools.

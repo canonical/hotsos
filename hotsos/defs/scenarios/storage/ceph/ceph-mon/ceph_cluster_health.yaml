@@ -15,7 +15,9 @@ conclusions:
     raises:
       type: CephWarning
       message: >-
-        Ceph cluster is in '{health_status}' state. Please check
-        'ceph health detail' for details.
+        Ceph cluster is in '{health_status}' state. Please see
+        ceph.health-checks in the storage summary, if present, for the reported
+        checks, and please check 'ceph health detail' for the affected daemons,
+        OSDs or pools.
       format-dict:
         health_status: '@checks.cluster_unhealthy.requires.value_actual'

@@ -83,3 +83,20 @@ class CephSummary(CephChecks):
     def summary_large_omap_pgs(self):
         """Return placement groups with large OMAP."""
         return self.cluster.large_omap_pgs or None
+
+    @summary_entry('health-checks', get_min_available_entry_index() + 9)
+    def summary_health_checks(self):
+        """
+        Return the one-line summary of each health check keyed by check
+        code. Muted checks are marked as such.
+        """
+        checks = {}
+        for code, check in self.cluster.status_health_checks.items():
+            message = (check.get('summary', {}).get('message') or
+                       check.get('severity', ''))
+            if check.get('muted', False):
+                message = f'{message} (muted)'
+
+            checks[code] = message
+
+        return sorted_dict(checks) or None

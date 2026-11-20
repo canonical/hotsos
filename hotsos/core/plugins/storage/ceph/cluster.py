@@ -101,13 +101,31 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         return limit
 
     @cached_property
+    def _ceph_status(self):
+        """ Decoded 'ceph status' output, looked up once per instance. """
+        return CLIHelper().ceph_status_json_decoded()
+
+    @cached_property
     def health_status(self):
         """ Return the cluster health status string. """
-        status = CLIHelper().ceph_status_json_decoded()
-        if status:
+        status = self._ceph_status
+        if status and 'health' in status:
             return status['health']['status']
 
         return None
+
+    @cached_property
+    def status_health_checks(self):
+        """
+        Return health checks from 'ceph status', the same snapshot as
+        health_status. 'ceph health detail' is used only when 'ceph status'
+        has no health section, so the two snapshots are never mixed.
+        """
+        status = self._ceph_status
+        if status and 'health' in status:
+            return status['health'].get('checks', {})
+
+        return self.health_checks
 
     @cached_property
     def health_checks(self):

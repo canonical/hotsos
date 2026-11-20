@@ -112,6 +112,9 @@ storage:
           - glance (2)
           - cinder-ceph (3)
           - nova (4)
+    health-checks:
+      AUTH_INSECURE_GLOBAL_ID_RECLAIM_ALLOWED: mons are allowing insecure global_id
+        reclaim
   bugs-detected:
     https://tracker.ceph.com/issues/53729: This Ceph cluster is vulnerable to a bug
       in which OSDs can consume considerable amounts of memory and eventually be OOM
@@ -136,5 +139,6 @@ storage:
         better to remove the bcache and use the OSDs directly instead. Please compare
         the IOPs of the SSD (OSDs) vs. the bcache device (SSD/NVMe) to ascertain.
     CephWarnings:
-      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph health detail'
-        for details.
+      - Ceph cluster is in 'HEALTH_WARN' state. Please see ceph.health-checks in the
+        storage summary, if present, for the reported checks, and please check 'ceph
+        health detail' for the affected daemons, OSDs or pools.
