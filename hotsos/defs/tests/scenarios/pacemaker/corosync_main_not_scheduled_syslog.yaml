@@ -1,0 +1,15 @@
+target-name: corosync_main_not_scheduled.yaml
+data-root:
+  files:
+    var/log/syslog: |
+      Feb 10 08:48:13 juju-04f1e3-1-lxd-5 corosync[1234]:   [MAIN  ] Corosync main process was not scheduled for 2652.4536 ms (threshold is 800.0000 ms). Consider token timeout increase.
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  PacemakerWarning: Corosync logged 1 scheduling pause warning(s) in syslog on
+    Feb 10 (threshold 800.0000 ms, 80% of the token timeout), risking
+    membership changes. Please compare those times with CPU load and %steal
+    using 'sar -t -q -u -f var/log/sysstat/saDD' (or saYYYYMMDD) from the
+    sosreport root or /. Please see corosync.token-timeout-ms in the pacemaker
+    summary, or please run 'corosync-cmapctl -g runtime.config.totem.token' on
+    the node.

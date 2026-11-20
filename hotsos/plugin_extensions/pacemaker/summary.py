@@ -25,3 +25,11 @@ class PacemakerSummary(PacemakerChecks):
             nodes["offline"] = self.offline_nodes
 
         return nodes or None
+
+    @summary_entry('corosync', get_min_available_entry_index() + 1)
+    def summary_corosync(self):
+        """Return the runtime Corosync token timeout."""
+        if self.corosync_token_timeout is None:
+            return None
+
+        return {'token-timeout-ms': self.corosync_token_timeout}

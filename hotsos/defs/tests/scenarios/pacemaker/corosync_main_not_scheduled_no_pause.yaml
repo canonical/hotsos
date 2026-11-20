@@ -1,0 +1,9 @@
+target-name: corosync_main_not_scheduled.yaml
+data-root:
+  files:
+    var/log/corosync/corosync.log: |
+      Feb 10 08:48:13.621 [1234] juju-04f1e3-1-lxd-5 corosync notice  [QUORUM] Members[3]: 1000 1001 1002
+      Feb 10 08:48:13.700 [1234] juju-04f1e3-1-lxd-5 corosync notice  [MAIN  ] Completed service synchronization, ready to provide service.
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues: null
