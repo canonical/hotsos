@@ -1,0 +1,33 @@
+vars:
+  # src/ceph_osd.cc: logged when OSD::init() fails, after which ceph-osd
+  # exits with status 1. The text is wrapped in TEXT_RED escape codes, so
+  # group 3 (errno and strerror) stops at the escape character. The OSD id
+  # is only in the log file name.
+  expr_init_failed: >-
+    ^([\d-]+)[T ]([\d:]+)\S+ .+ \*\* ERROR: osd init failed:
+    (\(\d+\) [^\x1b\n]+)
+checks:
+  osd_init_failed:
+    input: 'storage.ceph:ceph-osd*.log'
+    search:
+      expr: $expr_init_failed
+      hint: 'osd init failed'
+      constraints:
+        min-results: 1
+        search-result-age-hours: 24
+conclusions:
+  osd-init-failed:
+    decision: osd_init_failed
+    raises:
+      type: CephOSDWarning
+      message: >-
+        Local ceph-osd failed to start {count} time(s) on {dates} after logging
+        'osd init failed' with error(s) {errors}, so those OSD(s) exited at
+        startup. Please search ceph-osd.*.log for 'osd init failed' for the OSD
+        id(s) and preceding lines. Please see ceph.local-osds in the storage
+        summary for each OSD's up state at collection time, where listed, and
+        please check 'ceph osd tree' for their current state.
+      format-dict:
+        count: '@checks.osd_init_failed.search.num_results'
+        dates: '@checks.osd_init_failed.search.results_group_1:unique_comma_join'
+        errors: '@checks.osd_init_failed.search.results_group_3:unique_comma_join'

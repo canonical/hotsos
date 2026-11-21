@@ -67,8 +67,14 @@ class CephSummary(CephChecks):
         """Return sorted dict of locally running OSDs."""
         if self.local_osds:
             osds = {}
+            osd_map = self.cluster.osd_map_entries
             for osd in self.local_osds:
-                osds.update(osd.to_dict())
+                info = osd.to_dict()
+                up = osd.up_in_osd_map(osd_map.get(osd.id))
+                if up is not None:
+                    info[osd.id]['up'] = up
+
+                osds.update(info)
 
             return sorted_dict(osds)
 
