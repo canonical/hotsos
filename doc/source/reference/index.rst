@@ -9,4 +9,5 @@ background and concepts see :doc:`../explanation/index`.
    :maxdepth: 1
 
    plugins
+   scenario-catalog
    language/index
