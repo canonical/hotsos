@@ -56,6 +56,21 @@ class TestPacemakerSummary(TestPacemakerBase):
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(actual["nodes"]["online"], expected)
 
+    def test_corosync_token_timeout(self):
+        """Test runtime Corosync token timeout output."""
+        inst = summary.PacemakerSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertEqual(actual["corosync"], {'token-timeout-ms': 3650})
+
+    @utils.create_data_root({'sos_commands/corosync/corosync-cmapctl':
+                             'runtime.config.totem.consensus (u32) = 3600\n'},
+                            copy_from_original=['sos_commands/date/date'])
+    def test_corosync_token_timeout_missing(self):
+        """Test that the corosync entry is omitted without a token."""
+        inst = summary.PacemakerSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertNotIn("corosync", actual)
+
 
 @utils.load_templated_tests('scenarios/pacemaker')
 class TestPacemakerScenarios(TestPacemakerBase):

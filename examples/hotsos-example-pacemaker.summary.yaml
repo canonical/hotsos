@@ -44,6 +44,8 @@ pacemaker:
       - juju-04f1e3-2-lxd-6
     offline:
       - node1
+  corosync:
+    token-timeout-ms: 3650
   bugs-detected:
     https://bugs.launchpad.net/bugs/1874719: 'A node with the hostname node1 is currently
       configured and enabled on pacemaker. This is caused by a known bug and you can

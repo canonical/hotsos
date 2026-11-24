@@ -34,6 +34,20 @@ class PacemakerBase():
         return CLIHelper().pacemaker_crm_status
 
     @cached_property
+    def corosync_token_timeout(self):
+        """
+        Runtime Corosync token timeout in milliseconds, or None if the
+        corosync-cmapctl output is not available.
+        """
+        for line in CLIHelper().corosync_cmapctl_token():
+            regex_match = re.match(
+                r'runtime\.config\.totem\.token \(\w+\) = (\d+)$',
+                line.strip())
+            if regex_match:
+                return int(regex_match.group(1))
+        return None
+
+    @cached_property
     def offline_nodes(self):
         """ List of offline pacemaker nodes. """
         crm_status = self.crm_status()
