@@ -63,7 +63,7 @@ class PackageCheckItemsBase(CheckItemsBase):
     @abc.abstractmethod
     def packaging_helper(self):
         """
-        Returns and implementation of host_helpers.packaging.PackageHelperBase
+        Returns an implementation of host_helpers.packaging.PackageHelperBase
         e.g. APTPackagehelper or SnapPackageHelper.
         """
 
@@ -133,8 +133,8 @@ class OpsUtils():
         @param ops: list of tuples of operations and optional args.
         @param opinput: the value that is used as input to the first operation.
         @param normalise_value_types: if an operation has an expected value and
-                                      and this is True, the type of the input
-                                      will be cast to that of the expectced
+                                      this is True, the type of the input
+                                      will be cast to that of the expected
                                       value.
         """
         log.debug("ops=%s, input=%s", ops, opinput)
