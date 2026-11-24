@@ -13,8 +13,9 @@ potential-issues:
         better to remove the bcache and use the OSDs directly instead. Please compare
         the IOPs of the SSD (OSDs) vs. the bcache device (SSD/NVMe) to ascertain.
     CephWarnings:
-      - Ceph cluster is in 'HEALTH_WARN' state. Please check 'ceph health detail'
-        for details.
+      - Ceph cluster is in 'HEALTH_WARN' state. Please see ceph.health-checks in the
+        storage summary, if present, for the reported checks, and please check 'ceph
+        health detail' for the affected daemons, OSDs or pools.
 bugs-detected:
   storage:
     https://tracker.ceph.com/issues/53729: This Ceph cluster is vulnerable to a bug
