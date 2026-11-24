@@ -124,7 +124,7 @@ class ServiceManagerBase(abc.ABC):
         """
         Identify running processes from ps that are associated with resolved
         services. The search pattern used to identify a service is also
-        used to match the process binaryc/cmd name.
+        used to match the process binary/cmd name.
 
         Accounts for different types of process cmd path e.g.
 
@@ -206,7 +206,7 @@ def get_ps_axo_flags_available():
 class InstallInfoBase():
     """
     Provides a common way to define install information such as packages and
-    runtime services assocated with a plugin.
+    runtime services associated with a plugin.
 
     To use this class it should be re-implemented as a dataclass that
     initialises the required attributes. It can then either be inherited or
