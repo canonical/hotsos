@@ -1,0 +1,11 @@
+target-name: btrfs_forced_readonly.yaml
+data-root:
+  files:
+    var/log/kern.log: |
+      Feb 10 10:18:14 host kernel: BTRFS info (device sda1): disk space caching is enabled
+      Feb 10 10:19:14 host kernel: BTRFS info (device sda1): use no compression
+    proc/mounts: |
+      /dev/sda1 /mnt btrfs ro,relatime 0 0
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
