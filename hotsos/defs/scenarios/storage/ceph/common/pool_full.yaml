@@ -1,0 +1,15 @@
+checks:
+  pool_full_reported:
+    property:
+      path: hotsos.core.plugins.storage.ceph.CephCluster.health_checks_unmuted
+      ops: [[contains, POOL_FULL]]
+conclusions:
+  pool-full-reported:
+    decision: pool_full_reported
+    raises:
+      type: CephWarning
+      message: >-
+        Ceph reports POOL_FULL for one or more pools. Pools may be near or
+        at quota or marked full. Writes may be blocked. Please check quotas
+        with 'ceph df detail'
+        and individual OSD usage with 'ceph osd df'.

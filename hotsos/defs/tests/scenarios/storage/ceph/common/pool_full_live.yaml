@@ -1,0 +1,24 @@
+target-name: pool_full.yaml
+data-root:
+  files: {}
+mock:
+  # Stub decoded command output for this temporary data root.
+  patch.object:
+    hotsos.core.host_helpers.CLIHelper:
+      kwargs:
+        attribute: ceph_health_detail_json_decoded
+        create: true
+        return_value:
+          status: HEALTH_WARN
+          checks:
+            POOL_FULL:
+              severity: HEALTH_WARN
+              summary:
+                message: pool has reached quota
+              muted: false
+raised-issues:
+  CephWarning: >-
+    Ceph reports POOL_FULL for one or more pools. Pools may be near or
+    at quota or marked full. Writes may be blocked. Please check quotas
+    with 'ceph df detail'
+    and individual OSD usage with 'ceph osd df'.
