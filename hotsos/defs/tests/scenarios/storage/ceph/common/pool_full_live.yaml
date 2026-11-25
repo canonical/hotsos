@@ -18,7 +18,7 @@ mock:
               muted: false
 raised-issues:
   CephWarning: >-
-    Ceph reports POOL_FULL for one or more pools near or at quota, or
-    flagged full because an OSD reached its configured full threshold.
-    Writes may be blocked. Please check quotas with 'ceph df detail'
+    Ceph reports POOL_FULL for one or more pools. Pools may be near or
+    at quota or marked full. Writes may be blocked. Please check quotas
+    with 'ceph df detail'
     and individual OSD usage with 'ceph osd df'.
