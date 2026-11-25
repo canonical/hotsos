@@ -1,3 +1,4 @@
+import json
 from unittest import mock
 
 from hotsos.core.config import HotSOSConfig
@@ -182,6 +183,32 @@ class TestCephOSDSummary(StorageCephOSDTestsBase):
         inst = ceph_summary.CephSummary()
         actual = self.part_output_to_actual(inst.output)
         self.assertEqual(list(actual['local-osds'].keys()), [0])
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_osd_dump_--format_json-pretty':
+         json.dumps({'osds': [{'osd': 0,
+                               'uuid': '48858aa1-71a3-4f0e-95f3-a07d1d9a6749',
+                               'up': 0, 'in': 1}]})},
+        copy_from_original=['sos_commands/ceph_osd/ceph-volume_lvm_list'])
+    def test_local_osd_up_from_osd_dump(self):
+        """Test local OSD up state is taken from the OSD map."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertIs(actual['local-osds'][0]['up'], False)
+
+    @utils.create_data_root(
+        {'sos_commands/ceph_mon/json_output/'
+         'ceph_osd_dump_--format_json-pretty':
+         json.dumps({'osds': [{'osd': 0,
+                               'uuid': '00000000-0000-0000-0000-000000000000',
+                               'up': 1, 'in': 1}]})},
+        copy_from_original=['sos_commands/ceph_osd/ceph-volume_lvm_list'])
+    def test_local_osd_up_fsid_mismatch(self):
+        """Test up state is omitted when the OSD map fsid differs."""
+        inst = ceph_summary.CephSummary()
+        actual = self.part_output_to_actual(inst.output)
+        self.assertNotIn('up', actual['local-osds'][0])
 
     def test_local_osd_info(self):
         """Test local OSD details include dev and fsid."""

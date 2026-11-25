@@ -181,6 +181,11 @@ class CephCluster():  # pylint: disable=too-many-public-methods
         return CLIHelper().ceph_df_json_decoded() or {}
 
     @cached_property
+    def osd_map_entries(self):
+        """ Return OSD map entries from 'ceph osd dump' keyed by OSD id. """
+        return {osd['osd']: osd for osd in self._osd_dump.get('osds', [])}
+
+    @cached_property
     def osds(self):
         """ Returns a list of CephOSD objects for all osds in the cluster. """
         _osds = []
