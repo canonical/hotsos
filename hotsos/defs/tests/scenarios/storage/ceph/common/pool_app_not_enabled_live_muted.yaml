@@ -1,0 +1,14 @@
+target-name: pool_app_not_enabled.yaml
+data-root:
+  files: {}
+mock:
+  patch.object:
+    hotsos.core.plugins.storage.ceph.cluster.CephCluster:
+      args: [health_checks]
+      kwargs:
+        new:
+          MON_MSGR2_NOT_ENABLED:
+            muted: false
+          POOL_APP_NOT_ENABLED:
+            muted: true
+raised-issues: {}
