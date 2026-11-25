@@ -1,0 +1,17 @@
+target-name: multipath_failing_path.yaml
+data-root:
+  files:
+    # A path failed and was reinstated a minute later. The failure is still
+    # reported with its date so the operator can check recovery.
+    var/log/kern.log: |
+      Feb 10 10:48:13 compute4 kernel: [1694413.621694] device-mapper: multipath: 253:3: Failing path 8:16.
+      Feb 10 10:49:20 compute4 kernel: [1694480.112233] device-mapper: multipath: 253:3: Reinstating path 8:16.
+  copy-from-original:
+    - sos_commands/date/date
+raised-issues:
+  KernelWarning: >-
+    Device Mapper Multipath logged 1 path failure message(s) for 8:16 on Feb 10.
+    Losing every path can queue or fail I/O. Please see multipath.failed-paths
+    in the kernel summary for paths still failed or faulty at collection time,
+    and please run 'multipath -ll' for a logged path not listed there to check
+    that it is present and ready.
