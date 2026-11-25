@@ -1,0 +1,31 @@
+vars:
+  # CRC32C 0x6706be76 is the checksum of a zero-filled 4 KiB block in the
+  # Ceph checksum implementation, but the value is not unique to that data.
+  expr_zero_block_crc: '^([\d-]+)[T ]([\d:]+)\S+ .+ bluestore\(\S*/ceph-(\d+)\) _verify_csum bad crc32c/0x1000 checksum at blob offset 0x[0-9a-f]+, got 0x6706be76,'
+checks:
+  bluestore_zero_block_crc:
+    input: 'storage.ceph:ceph-osd*.log'
+    search:
+      expr: $expr_zero_block_crc
+      hint: '_verify_csum bad'
+      constraints:
+        search-result-age-hours: 24
+conclusions:
+  bluestore-zero-block-crc:
+    decision: bluestore_zero_block_crc
+    raises:
+      type: CephOSDWarning
+      message: >-
+        ceph-osd logged {count} BlueStore CRC32C errors for OSD {osds} on
+        {dates}, reporting got 0x6706be76 for 4 KiB. This checksum does not
+        prove the read data was zero or identify the cause. With
+        bluestore_ignore_data_csum disabled, repeated mismatches can return
+        I/O error after configured retries. Please inspect kernel, device
+        and Ceph logs. Please review BLUESTORE_SPURIOUS_READ_ERRORS in
+        'ceph health detail'. Please consult
+        https://docs.ceph.com/en/latest/rados/operations/health-checks/#bluestore-spurious-read-errors
+        for possible causes.
+      format-dict:
+        count: '@checks.bluestore_zero_block_crc.search.num_results'
+        dates: '@checks.bluestore_zero_block_crc.search.results_group_1:unique_comma_join'
+        osds: '@checks.bluestore_zero_block_crc.search.results_group_3:unique_comma_join'

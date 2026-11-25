@@ -1,0 +1,17 @@
+target-name: bluestore_zero_block_crc.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  ceph-osd  19.2.6-0ubuntu0.24.04.1  amd64
+    sos_commands/systemd/systemctl_list-unit-files: |
+      UNIT FILE STATE VENDOR PRESET
+      ceph-osd@.service enabled enabled
+    sos_commands/systemd/systemctl_list-units: |
+      UNIT LOAD ACTIVE SUB DESCRIPTION
+      ceph-osd@1.service loaded active running Ceph object storage daemon
+    sos_commands/date/date: |
+      Thu Feb 10 18:20:00 UTC 2022
+    var/log/ceph/ceph-osd.1.log: |
+      2022-02-10T18:18:32.791+0000 7faf9d3bb700 -1 bluestore(/var/lib/ceph/osd/ceph-1) _verify_csum bad crc32c/0x1000 checksum at blob offset 0x0, got 0x591a6ff2, expected 0xc939ea08, device location [0x41822f0000~1000], logical extent 0x200000~1000, object #2:4a3b1c2d:::rbd_data.1f2e3d4c5b6a.0000000000000a1b:head#
+      2022-02-10T18:19:02.001+0000 7faf9d3bb700 -1 bluestore(/var/lib/ceph/osd/ceph-1) _verify_csum bad crc32c/0x10000 checksum at blob offset 0x0, got 0x6706be76, expected 0xc939ea08, device location [0x41822f0000~10000], logical extent 0x200000~10000, object #2:4a3b1c2d:::rbd_data.1f2e3d4c5b6a.0000000000000a1b:head#
+raised-issues:
