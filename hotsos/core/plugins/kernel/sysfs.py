@@ -78,4 +78,4 @@ class CPU(SYSFSBase):
             else:
                 governors.add('unknown')
 
-        return ','.join(list(governors))
+        return ','.join(governors) or 'unknown'
