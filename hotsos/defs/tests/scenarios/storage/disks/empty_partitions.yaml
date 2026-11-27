@@ -1,0 +1,15 @@
+data-root:
+  files:
+    sos_commands/block/lsblk_-O_-P: |
+      NAME="vda" KNAME="vda" PATH="/dev/vda" TYPE="disk" SIZE="100G" RO="0" PTTYPE="gpt" PTUUID="uuid-1" FSTYPE="" MOUNTPOINT="" PKNAME=""
+      NAME="vda1" KNAME="vda1" PATH="/dev/vda1" TYPE="part" SIZE="100G" RO="0" PTTYPE="" PTUUID="" FSTYPE="ext4" MOUNTPOINT="/" PKNAME="vda"
+      NAME="vdb" KNAME="vdb" PATH="/dev/vdb" TYPE="disk" SIZE="50G" RO="0" PTTYPE="gpt" PTUUID="uuid-2" FSTYPE="" MOUNTPOINT="" PKNAME=""
+      NAME="vdb1" KNAME="vdb1" PATH="/dev/vdb1" TYPE="part" SIZE="50G" RO="0" PTTYPE="" PTUUID="" FSTYPE="" MOUNTPOINT="" PKNAME="vdb"
+  copy-from-original:
+    - sos_commands/date/date
+    - uptime
+raised-issues:
+  StorageWarning: >-
+    The following partition(s) are created but have not been used with
+    any filesystem or volume configuration: /dev/vdb1 (50G). Please format
+    and mount them, configure them for use, or remove the unused partition(s).
