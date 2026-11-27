@@ -1,0 +1,18 @@
+target-name: lp2141119.yaml
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  octavia-common                       1:14.0.0-0ubuntu1.3                           all          OpenStack Load Balancer as a Service - Common files
+    var/log/octavia/octavia-api.log: |
+      2022-01-20 06:14:46.123 19692 ERROR octavia.api.drivers.driver_factory [-] Unable to load provider driver dne due to: NoMatches: No 'octavia.api.drivers' driver found, looking for 'dne'
+      Traceback (most recent call last):
+        File "/usr/lib/python3/dist-packages/octavia/api/app.py", line 56, in setup_app
+          _init_drivers()
+        File "/usr/lib/python3/dist-packages/octavia/api/app.py", line 46, in _init_drivers
+          driver_factory.get_driver(provider)
+        File "/usr/lib/python3/dist-packages/octavia/api/drivers/driver_factory.py", line 49, in get_driver
+          raise exceptions.ProviderNotFound(prov=provider)
+      octavia.common.exceptions.ProviderNotFound: Provider 'dne' was not found.
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:

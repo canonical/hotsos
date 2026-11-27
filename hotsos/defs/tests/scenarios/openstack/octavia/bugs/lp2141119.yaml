@@ -1,0 +1,18 @@
+data-root:
+  files:
+    sos_commands/dpkg/dpkg_-l: |
+      ii  octavia-common                       1:14.0.0-0ubuntu1.3                           all          OpenStack Load Balancer as a Service - Common files
+    var/log/apache2/octavia_error.log: |
+      [Thu Feb 10 06:14:46.123456 2022] [wsgi:error] [pid 19692:tid 140252996032064] 2022-02-10 06:14:46.123 19692 ERROR octavia.api.drivers.driver_factory [-] Unable to load provider driver dne due to: NoMatches: No 'octavia.api.drivers' driver found, looking for 'dne'
+      [Thu Feb 10 06:14:46.124276 2022] [wsgi:error] [pid 19692:tid 140252996032064] mod_wsgi (pid=19692): Failed to exec Python script file '/usr/bin/octavia-wsgi'.
+      [Thu Feb 10 06:14:46.125683 2022] [wsgi:error] [pid 19692:tid 140252996032064] [remote 127.0.0.1:35370] octavia.common.exceptions.ProviderNotFound: Provider 'dne' was not found.
+  copy-from-original:
+    - sos_commands/date/date
+raised-bugs:
+  https://bugs.launchpad.net/bugs/2141119: >-
+    Octavia is unable to load one or more enabled provider drivers and, on
+    an affected version of the octavia package, this prevents the Octavia
+    API from starting, leaving it unavailable (HTTP 503). A misconfigured
+    or failing driver in enabled_provider_drivers is enough to trigger the
+    failure. Please upgrade octavia packages to the latest version for your
+    release to resolve this issue.
