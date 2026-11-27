@@ -13,8 +13,13 @@ conclusions:
       type: OpenvSwitchWarning
       message: >-
         The OVS Interface table reports {count} interface(s) with ofport=-1,
-        indicating failed port configuration. Affected interfaces cannot
-        forward traffic through their OpenFlow ports. Please check the
-        interface names and error fields in 'ovs-vsctl list interface'.
+        potentially indicating failed port configuration. Affected interfaces
+        cannot forward traffic through their OpenFlow ports. Please look for
+        ovs-vswitchd.bridge-no-such-device in the OpenvSwitch plugin output for
+        the names of affected devices reported by ovs-vswitchd. Note that
+        deleted/removed interfaces may incur a short period of time in this
+        state so it is those where the state persists that are of concern.
+        To get the current list of interfaces and their state use the
+        command 'ovs-vsctl list interface'.
       format-dict:
         count: '@checks.failed_interfaces.search.num_results'
